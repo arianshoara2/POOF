@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#111111">
+<title>POOF Mini + wort</title>
+<style>
+/* ===== POOF design system: tokens (Classic / Snowy) ===== */
+:root{--bg:#111111;--surface:#1b1814;--text:#f5f1e8;--muted:#b8b0a4;--accent:#e6b96f;--error:#ff8f87;--ok:#9fd8a8;--border:#4a4032;
+--nav-bg:rgba(27,24,20,.78);--nav-border:rgba(230,185,111,.25);--hover:rgba(230,185,111,.08);--active:rgba(230,185,111,.14);
+--shadow-nav:0 12px 32px rgba(0,0,0,.45);--shadow-card:0 10px 24px rgba(0,0,0,.18);--shadow-pop:0 18px 40px rgba(0,0,0,.5);
+--r-sm:12px;--r-md:16px;--r-lg:20px;
+--serif:ui-serif,Georgia,"Times New Roman",serif;--sans:system-ui,-apple-system,"Segoe UI","Noto Sans Arabic",Tahoma,sans-serif;color-scheme:dark}
+html[data-theme=snowy]{--bg:#081421;--surface:#10263a;--text:#f3f8fc;--muted:#b8c7d3;--accent:#f3c879;--error:#ff9d9d;--ok:#9fe0c0;--border:#294861;
+--nav-bg:rgba(11,29,45,.78);--nav-border:rgba(185,220,244,.28);--hover:rgba(185,220,244,.1);--active:rgba(243,200,121,.16);--shadow-nav:0 12px 32px rgba(0,8,16,.55);--shadow-pop:0 18px 40px rgba(0,8,16,.6)}
+/* ===== base ===== */
+*{box-sizing:border-box}[hidden]{display:none!important}
+a,button{-webkit-tap-highlight-color:transparent}
+body{margin:0;min-height:100dvh;font:16px/1.6 var(--sans);color:var(--text);background:var(--bg)}
+header{padding:calc(26px + env(safe-area-inset-top,0px)) 24px 20px;background:var(--surface);border-bottom:1px solid var(--border)}
+.brand{display:flex;align-items:center;gap:14px;max-width:720px;margin:0 auto}
+.mark{display:grid;place-items:center;width:44px;height:44px;border-radius:14px;background:var(--accent);color:var(--bg);font:700 26px/1 var(--serif)}
+h1{margin:0;font:600 22px/1.2 var(--serif);letter-spacing:.16em;color:var(--accent)}
+#hSub{color:var(--muted);font-size:14px}
+main{max-width:720px;margin:0 auto;padding:24px 20px calc(124px + env(safe-area-inset-bottom,0px))}
+h2{margin:4px 0 16px;font-size:20px;font-weight:600}
+a{color:var(--accent)}
+/* ===== surfaces ===== */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px;margin-bottom:16px;box-shadow:var(--shadow-card)}
+details>summary{cursor:pointer;color:var(--accent);font-weight:600;list-style:none}
+details>summary::-webkit-details-marker{display:none}
+/* ===== controls ===== */
+button,select,input,textarea{font:inherit;color:inherit}
+button{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 18px;border-radius:var(--r-sm);border:1px solid var(--accent);background:var(--accent);color:var(--bg);font-weight:700;cursor:pointer}
+button:hover{filter:brightness(1.06)}button:active{transform:scale(.97)}button:disabled{opacity:.55;cursor:default}
+button.ghost{background:transparent;color:var(--accent)}button.ghost:hover{background:var(--accent);color:var(--bg);filter:none}
+button.bad{background:transparent;color:var(--error);border-color:var(--error)}button.bad:hover{background:var(--error);color:var(--bg);filter:none}
+button.ok{background:transparent;color:var(--ok);border-color:var(--ok)}button.ok:hover{background:var(--ok);color:var(--bg);filter:none}
+button.full{width:100%}
+.ghost-label{display:inline-flex;align-items:center;padding:10px 18px;border:1px solid var(--accent);border-radius:var(--r-sm);color:var(--accent);font-weight:700;cursor:pointer}.ghost-label:hover{background:var(--accent);color:var(--bg)}
+button.chip{padding:3px 12px;border-radius:999px;border-color:var(--border);background:transparent;color:var(--accent);font-weight:500;font-size:15px}
+button.chip:hover{background:var(--hover);filter:none}
+button.ib{width:40px;height:40px;padding:0;border-color:var(--border);background:transparent;color:var(--muted)}
+button.ib:hover{color:var(--accent);border-color:var(--accent);background:var(--hover);filter:none}
+button.ib.danger:hover{color:var(--error);border-color:var(--error)}
+.ic{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+input,select,textarea{width:100%;padding:11px 12px;margin-bottom:8px;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:var(--r-sm)}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);outline:2px solid var(--accent);outline-offset:2px}
+input::placeholder,textarea::placeholder{color:var(--muted);opacity:.7}
+input[type=radio]{accent-color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+/* ===== layout helpers ===== */
+.de{direction:ltr;text-align:left;unicode-bidi:isolate}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.row>*{margin-bottom:0}
+.mute{color:var(--muted);font-size:14px}
+.big{font:600 30px/1.3 var(--serif);text-align:center;padding:20px 0;color:var(--accent)}
+.big2{font:600 24px/1.3 var(--serif)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(104px,1fr));gap:12px}
+/* ===== states (Loading / Empty / Error) ===== */
+.state{display:flex;align-items:center;justify-content:center;gap:10px;min-height:72px;padding:16px;color:var(--muted);text-align:center}
+.state.empty{border:1px dashed var(--border);border-radius:var(--r-md)}
+.state.error{color:var(--error)}
+.state.loading::before{content:"";width:18px;height:18px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+/* ===== reader ===== */
+#text{font:20px/2.05 var(--serif);-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+#text p{margin:0 0 14px}
+.w{cursor:pointer;border-radius:6px;padding:2px 0}
+.w:hover{background:var(--hover)}
+.w.sel{background:color-mix(in srgb,var(--accent) 28%,transparent);box-shadow:0 2px 0 var(--accent)}
+.hd{position:absolute;z-index:260;width:24px;height:24px;background:var(--accent);opacity:.95;touch-action:none;box-shadow:0 2px 8px rgba(0,0,0,.4)}
+.sense{display:flex;gap:8px;align-items:flex-start;margin:6px 0;font-size:15px;direction:ltr;text-align:left}
+.sense input{width:auto;margin:6px 0 0}
+/* ===== saved cards ===== */
+.wf{color:var(--accent);font:600 20px/1.3 var(--serif)}.wb{font-weight:700;font-size:17px}
+.ctx{margin-top:6px;padding-top:10px;border-top:1px solid var(--border);font-style:italic}
+/* ===== stats ===== */
+.stat{text-align:center}.stat b{display:block;font:600 28px/1.3 var(--serif);color:var(--accent)}
+.bars{display:flex;gap:8px;align-items:flex-end;height:76px;margin-top:8px}.bars div{flex:1;background:linear-gradient(var(--accent),color-mix(in srgb,var(--accent) 45%,transparent));border-radius:6px 6px 0 0;min-height:3px}
+.theme-options{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.theme-option{display:block;padding:16px;text-align:start;font-weight:400;color:var(--text);background:transparent;border-color:var(--border);border-radius:var(--r-md)}
+.theme-option:hover{background:var(--hover);filter:none}
+.theme-option b{display:block}.theme-option span{display:block;color:var(--muted);font-size:14px}
+.theme-option.selected{color:var(--accent);background:var(--active);border-color:var(--accent)}.theme-option.selected span{color:var(--accent)}
+/* ===== segmented control + search bar ===== */
+.seg{display:flex;gap:4px;padding:4px;margin-bottom:12px;background:var(--bg);border:1px solid var(--border);border-radius:14px}
+.seg button{flex:1;padding:8px 6px;border:0;border-radius:10px;background:transparent;color:var(--muted);font-weight:600}
+.seg button:hover{background:var(--hover);filter:none}.seg button.on{background:var(--active);color:var(--accent)}
+.searchbar{display:flex;gap:8px;align-items:center}.searchbar input{flex:1;min-width:0;margin:0}
+.searchbar .ib{width:46px;height:46px;flex:none}
+button.ib.pri{background:var(--accent);color:var(--bg);border-color:var(--accent)}button.ib.pri:hover{background:var(--accent);color:var(--bg);filter:brightness(1.08)}
+.lbl{margin:12px 0 6px;color:var(--muted);font-size:13px}
+/* ===== Leitner box ===== */
+.leit b{font-size:18px}.boxes{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:14px}
+.bx{text-align:center;padding:8px 2px;border:1px solid var(--border);border-radius:12px;background:var(--bg)}
+.bx b{display:block;font:600 20px/1.2 var(--serif);color:var(--accent)}.bx span{font-size:11px;color:var(--muted)}
+#lt{position:fixed;inset:0;z-index:200;display:flex;flex-direction:column;padding:calc(12px + env(safe-area-inset-top,0px)) 16px calc(16px + env(safe-area-inset-bottom,0px));background:var(--bg);overflow:hidden}
+.lt-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.badge{padding:3px 12px;border:1px solid var(--accent);border-radius:999px;color:var(--accent);font-size:13px}
+.lt-hints{display:flex;justify-content:space-between;padding:6px 8px 10px;font-weight:700}.lt-hints .no{color:var(--error)}.lt-hints .ok{color:var(--ok)}
+#ltStage{position:relative;flex:1;min-height:0;margin:4px auto 16px;width:100%;max-width:520px}
+.lt-card{position:absolute;inset:0;border-radius:26px;background:var(--surface);border:1px solid var(--border);box-shadow:var(--shadow-card)}
+.lt-card.back{transform:translateY(calc(var(--k)*12px)) scale(calc(1 - var(--k)*.045));opacity:.85}
+.lt-card.top{perspective:1400px;touch-action:none;cursor:grab;-webkit-user-select:none;user-select:none}
+.lt-in{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.4,0,.2,1)}.lt-in.flipped{transform:rotateY(180deg)}
+.lt-face{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:28px 22px;text-align:center;overflow:hidden;border-radius:26px;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.lt-bk{transform:rotateY(180deg)}
+.lt-word{font:600 36px/1.25 var(--serif);color:var(--accent);word-break:break-word}
+.lt-hint{position:absolute;top:18px;left:50%;transform:translateX(-50%);padding:6px 16px;border-radius:999px;border:1px solid;background:var(--surface);font-weight:700;opacity:0;pointer-events:none}
+.lt-hint.ok{color:var(--ok)}.lt-hint.no,.lt-hint.del{color:var(--error)}
+.lt-btns{display:flex;justify-content:center;gap:22px;margin-bottom:10px}.lt-btns .ib{width:58px;height:58px;border-radius:50%}
+.ib.ok-b{color:var(--ok);border-color:var(--ok)}.ib.no-b{color:var(--error);border-color:var(--error)}
+.lt-done{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center}
+#ltEntry{position:absolute;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));max-height:62vh;overflow:auto;z-index:5;margin:0}
+.lt-ctx{width:100%;font:italic 18px/1.9 var(--serif)}.lt-fa{font:16px/1.9 var(--sans);font-style:normal}
+#ed{position:fixed;inset:0;z-index:300;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+.ed-card{width:100%;max-width:560px;max-height:92dvh;overflow:auto;padding:20px 20px calc(20px + env(safe-area-inset-bottom,0px));background:var(--surface);border:1px solid var(--border);border-radius:26px 26px 0 0;box-shadow:var(--shadow-pop)}
+.ed-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}.ed-top b{font:600 20px var(--serif)}
+.ed-card label{display:block;margin:10px 0 4px;color:var(--muted);font-size:13px}
+.sr{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.sr .w{cursor:pointer}
+/* ===== quiz ===== */
+#rvModes{margin-bottom:16px}
+button.chip.on{background:var(--active);border-color:var(--accent)}
+.opt{display:block;width:100%;margin-top:10px;padding:14px 16px;text-align:start;justify-content:flex-start;background:transparent;border:1px solid var(--border);color:var(--text);font-weight:500;border-radius:var(--r-md)}
+.opt:hover{background:var(--hover);filter:none}
+.opt:disabled{opacity:.75}
+.opt.pick{border-color:var(--accent);background:var(--active)}
+.opt.right{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 16%,transparent);color:var(--ok);opacity:1}
+.opt.wrong{border-color:var(--error);background:color-mix(in srgb,var(--error) 14%,transparent);color:var(--error);opacity:1}
+.mt{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.okmsg{color:var(--ok);font-weight:700;margin:14px 0 6px}.badmsg{color:var(--error);font-weight:700;margin:14px 0 6px}
+/* ===== floating nav (مثل POOF) ===== */
+nav{position:fixed;right:16px;left:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:100;display:grid;grid-template-columns:repeat(5,1fr);padding:6px;max-width:688px;margin:0 auto;
+background:var(--nav-bg);border:1px solid var(--nav-border);box-shadow:var(--shadow-nav);border-radius:24px;-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);
+transition:transform .42s cubic-bezier(.4,0,.2,1),opacity .35s ease,background-color .3s ease}
+nav.nav-hidden{opacity:0;transform:translateY(calc(100% + 48px));pointer-events:none}
+nav:focus-within{opacity:1;transform:none;pointer-events:auto}
+nav button{flex-direction:column;gap:3px;padding:9px 2px 8px;border:0;border-radius:18px;background:transparent;color:var(--muted);font-size:12px;font-weight:500}
+nav button:hover{background:var(--hover);color:var(--accent);filter:none}
+nav button.on{background:var(--active);color:var(--accent);font-weight:700}
+nav .ic{width:22px;height:22px}
+/* ===== popover + toast ===== */
+#pop{position:fixed;z-index:270;width:min(320px,90vw);padding:12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);box-shadow:var(--shadow-pop)}
+.popT{min-height:34px;padding:6px 4px 12px;margin-bottom:8px;border-bottom:1px solid var(--border);font:19px/1.5 var(--serif);text-align:center;word-break:break-word}
+.popB{display:flex;gap:2px;justify-content:space-between;align-items:center}
+.popB button{width:42px;height:42px;padding:0;border:0;border-radius:var(--r-sm);background:transparent;color:var(--muted)}
+.popB button:hover{color:var(--accent);background:var(--hover);filter:none}
+.popB .plus{width:46px;height:46px;border-radius:50%;background:var(--accent);color:var(--bg)}.popB .plus:hover{background:var(--accent);color:var(--bg);filter:brightness(1.08)}
+.popB .plus .ic{width:24px;height:24px;stroke-width:2.25}
+#toast{position:fixed;z-index:400;left:50%;bottom:calc(100px + env(safe-area-inset-bottom,0px));transform:translate(-50%,8px);max-width:90%;padding:10px 18px;border-radius:999px;background:var(--surface);color:var(--text);border:1px solid var(--accent);box-shadow:var(--shadow-pop);opacity:0;pointer-events:none;transition:opacity .25s,transform .25s}
+#toast.show{opacity:1;transform:translate(-50%,0)}#toast.bad{border-color:var(--error);color:var(--error)}
+body,header,.card,button,input,select,textarea,.w{transition:color .3s ease,background-color .3s ease,border-color .3s ease,box-shadow .3s ease,transform .2s ease}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media (max-width:480px){main{padding-inline:16px}.card{padding:18px}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-read" viewBox="0 0 24 24"><path d="M2 5.5C4.5 4 8 4 12 6c4-2 7.5-2 10-.5V19c-2.5-1.5-6-1.5-10 .5-4-2-7.5-2-10-.5z"/><path d="M12 6v13.5"/></symbol>
+<symbol id="i-dict" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4-4"/></symbol>
+<symbol id="i-cards" viewBox="0 0 24 24"><rect x="3.5" y="8" width="17" height="11" rx="2.5"/><path d="M7 4.5h10"/></symbol>
+<symbol id="i-review" viewBox="0 0 24 24"><path d="M20 11a8 8 0 0 0-14.5-4.5L4 8"/><path d="M4 4v4h4"/><path d="M4 13a8 8 0 0 0 14.5 4.5L20 16"/><path d="M20 20v-4h-4"/></symbol>
+<symbol id="i-me" viewBox="0 0 24 24"><path d="M5 20V11"/><path d="M12 20V5"/><path d="M19 20v-6"/></symbol>
+<symbol id="i-sound" viewBox="0 0 24 24"><path d="M4 9.5v5h3.5l4.5 4v-13l-4.5 4z"/><path d="M15.5 9a4 4 0 0 1 0 6"/><path d="M18 6.5a8 8 0 0 1 0 11"/></symbol>
+<symbol id="i-expand" viewBox="0 0 24 24"><path d="M4 9V4h5"/><path d="M20 9V4h-5"/><path d="M4 15v5h5"/><path d="M20 15v5h-5"/></symbol>
+<symbol id="i-copy" viewBox="0 0 24 24"><rect x="8.5" y="8.5" width="11" height="11" rx="2.5"/><path d="M15.5 8.5V6A2.5 2.5 0 0 0 13 3.5H6A2.5 2.5 0 0 0 3.5 6v7A2.5 2.5 0 0 0 6 15.5h2.5"/></symbol>
+<symbol id="i-edit" viewBox="0 0 24 24"><path d="M4 20h4L19.5 8.5a2.8 2.8 0 0 0-4-4L4 16z"/><path d="m13.5 6.5 4 4"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+<symbol id="i-shuffle" viewBox="0 0 24 24"><path d="M3 7h3c5 0 5 10 10 10h3"/><path d="M3 17h3c1.4 0 2.5-.6 3.4-1.6"/><path d="M13.6 8.6C14.5 7.6 15.6 7 17 7h3"/><path d="m17.5 4.5 2.5 2.5-2.5 2.5"/><path d="m17.5 14.5 2.5 2.5-2.5 2.5"/></symbol>
+<symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9.5 7V4.5h5V7"/><path d="M6.5 7l.8 12a1.5 1.5 0 0 0 1.5 1.4h6.4a1.5 1.5 0 0 0 1.5-1.4L17.5 7"/></symbol>
+<symbol id="i-box" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="5" rx="1.5"/><path d="M5 9.5V18a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V9.5"/><path d="M10 13h4"/></symbol>
+<symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+</defs></svg>
+<header><div class="brand"><span class="mark" aria-hidden="true">P</span><div><h1>POOF</h1><p id="hSub">بخوان، انتخاب کن، یاد بگیر</p></div></div></header>
+<main>
+ <section id="s-read" class="tab">
+  <h2>خواندن</h2>
+  <div class="card">
+   <div class="seg" id="wlSeg"><button class="on" data-wl="de">DE</button><button data-wl="en">EN</button><button data-wl="fa">فا</button></div>
+   <div class="searchbar"><input id="wq" dir="auto" placeholder="جست‌وجو در ویکی‌پدیا…"><button class="ib pri" id="wGo" aria-label="جست‌وجو"><svg class="ic" aria-hidden="true"><use href="#i-dict"/></svg></button><button class="ib" id="wRnd" aria-label="مقاله‌ی تصادفی"><svg class="ic" aria-hidden="true"><use href="#i-shuffle"/></svg></button></div>
+   <div id="wRes"></div>
+  </div>
+  <div class="row" style="margin-bottom:12px"><select id="txtSel" style="flex:1"></select><button class="ib pri" id="addTxt" aria-label="متن جدید"><svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></button><button class="ib danger" id="delTxt" hidden aria-label="حذف متن"><svg class="ic" aria-hidden="true"><use href="#i-trash"/></svg></button></div>
+  <div class="card" id="addPanel" hidden>
+   <input id="tTitle" placeholder="عنوان (اختیاری)">
+   <div class="seg" id="tlSeg"><button class="on" data-tl="auto">خودکار</button><button data-tl="de">DE</button><button data-tl="en">EN</button><button data-tl="fa">فا</button></div>
+   <textarea id="tBody" dir="auto" rows="6" placeholder="هر متن فارسی، آلمانی یا انگلیسی را اینجا بنویسید یا بچسبانید"></textarea>
+   <div class="row"><button class="ghost" id="tPaste">چسباندن</button><button id="tAdd" style="flex:1">ذخیره و خواندن</button></div>
+  </div>
+  <div class="card de" id="text"></div>
+  <p class="mute" id="txtSrc" hidden></p>
+  <p class="mute">روی یک کلمه بزنید، یا با دسته‌ها چند کلمه را انتخاب کنید تا ترجمه بیاید.</p>
+  <div class="card" id="entry" hidden></div>
+ </section>
+
+ <section id="s-dict" class="tab" hidden>
+  <h2>دیکشنری</h2>
+  <div class="seg" id="dlSeg"><button data-dl="de">DE</button><button data-dl="en">EN</button></div>
+  <div class="searchbar"><input id="q" dir="auto" placeholder="کلمه‌ی آلمانی/انگلیسی (فارسی خودکار)"><button class="ib pri" id="qGo" aria-label="جست‌وجو"><svg class="ic" aria-hidden="true"><use href="#i-dict"/></svg></button></div>
+  <div class="row" id="recent" style="margin:8px 0"></div>
+  <div class="card" id="dentry" hidden></div>
+  <p class="mute">با کلمه‌ی آلمانی یا انگلیسی، معنی فارسی (و دیگری) می‌آید؛ با کلمه‌ی فارسی، آلمانی و انگلیسی. منابع: wort.app، Wiktionary، MyMemory و ترجمه‌ی گوگل (غیررسمی). نتایج روی دستگاه ذخیره می‌شوند.</p>
+ </section>
+
+ <section id="s-cards" class="tab" hidden>
+  <h2>کارت‌ها</h2>
+  <div class="card row"><select id="deckSel" style="flex:1"></select><button class="ghost" id="newDeck">+ دسته</button><button class="ghost" id="delDeck">حذف دسته</button></div>
+  <input id="search" placeholder="جست‌وجو در کارت‌ها…">
+  <details class="card"><summary>+ کارت جدید</summary><br>
+   <input id="nF" class="de" placeholder="کلمه (آلمانی)"><input id="nB" placeholder="معنی (فارسی)">
+   <input id="nC" class="de" placeholder="جمله‌ی نمونه (اختیاری)"><button id="nAdd">ذخیره</button></details>
+  <div id="list"></div>
+ </section>
+
+ <section id="s-review" class="tab" hidden><h2>مرور</h2>
+  <div class="card leit"><div class="row"><div style="flex:1"><b>جعبه لایتنر</b><div class="mute" id="boxSub"></div></div><button id="openBox"><svg class="ic" aria-hidden="true"><use href="#i-box"/></svg> باز کردن</button></div><div class="boxes" id="boxes"></div></div>
+  <p class="lbl">سبک‌های دیگر تمرین</p><div class="row" id="rvModes"></div><div id="rv"></div></section>
+
+ <section id="s-me" class="tab" hidden>
+  <h2>پیشرفت</h2><div id="stats"></div>
+  <h2>تنظیمات و داده</h2>
+  <div class="card">
+   <div class="theme-options" id="themeOpts"><button class="theme-option" data-th="classic"><b>Classic</b><span>گرم، تیره و طلایی</span></button><button class="theme-option" data-th="snowy"><b>Snowy</b><span>آبی شبانه و آرام</span></button></div>
+   <p class="mute" style="margin:0 0 4px">آدرس واسط برای wort.app (Cloudflare Worker). نمونه: https://NAME.workers.dev/?url={url}</p>
+   <input id="proxy" class="de" placeholder="https://…workers.dev/?url={url}"><button class="ghost full" id="proxyTest" style="margin-bottom:10px">ذخیره و آزمایش اتصال به wort.app</button>
+   <div class="row"><button class="ghost" id="exp">خروجی پشتیبان (JSON)</button>
+    <label class="ghost-label">ورود پشتیبان<input id="imp" type="file" accept=".json,application/json" hidden></label>
+    <button class="ghost" id="clrCache">پاک‌کردن کش دیکشنری</button></div>
+  </div>
+ </section>
+</main>
+<nav id="nav" aria-label="ناوبری اصلی">
+ <button data-t="read" class="on"><svg class="ic" aria-hidden="true"><use href="#i-read"/></svg><span>خواندن</span></button>
+ <button data-t="dict"><svg class="ic" aria-hidden="true"><use href="#i-dict"/></svg><span>دیکشنری</span></button>
+ <button data-t="cards"><svg class="ic" aria-hidden="true"><use href="#i-cards"/></svg><span>کارت‌ها</span></button>
+ <button data-t="review"><svg class="ic" aria-hidden="true"><use href="#i-review"/></svg><span>مرور</span></button>
+ <button data-t="me"><svg class="ic" aria-hidden="true"><use href="#i-me"/></svg><span>پیشرفت</span></button>
+</nav>
+<div class="hd" id="hs" hidden></div><div class="hd" id="he" hidden></div>
+<div id="pop" hidden><div id="popT" class="popT"></div><div class="popB">
+ <button data-p="say" aria-label="تلفظ"><svg class="ic" aria-hidden="true"><use href="#i-sound"/></svg></button><button data-p="more" aria-label="جزئیات"><svg class="ic" aria-hidden="true"><use href="#i-expand"/></svg></button><button data-p="copy" aria-label="کپی"><svg class="ic" aria-hidden="true"><use href="#i-copy"/></svg></button><button data-p="edit" aria-label="ویرایش"><svg class="ic" aria-hidden="true"><use href="#i-edit"/></svg></button><button data-p="add" class="plus" aria-label="افزودن به کارت‌ها"><svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></button></div></div>
+<div id="lt" hidden role="dialog" aria-label="جعبه لایتنر">
+ <div class="lt-top"><button class="ib" id="ltClose" aria-label="بستن"><svg class="ic" aria-hidden="true"><use href="#i-close"/></svg></button><span class="mute" id="ltCount"></span><span class="badge" id="ltBox"></span></div>
+ <div class="lt-hints" dir="ltr"><span class="no">← بلد نبودم</span><span class="ok">بلد بودم →</span></div>
+ <div id="ltStage"></div>
+ <div class="lt-btns" id="ltBtns"><button class="ib no-b" data-d="no" aria-label="بلد نبودم"><svg class="ic" aria-hidden="true"><use href="#i-close"/></svg></button><button class="ib danger" data-d="del" aria-label="حذف"><svg class="ic" aria-hidden="true"><use href="#i-trash"/></svg></button><button class="ib ok-b" data-d="ok" aria-label="بلد بودم"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></button></div>
+ <p class="mute" style="text-align:center;margin:0">روی کارت بزنید تا برگردد · روی کلمه بزنید تا ترجمه بیاید · به پایین بکشید تا حذف شود</p>
+ <div class="card" id="ltEntry" hidden></div>
+</div>
+<div id="ed" hidden role="dialog" aria-label="ویرایش کارت"><div class="ed-card">
+ <div class="ed-top"><b id="edTitle">کارت</b><button class="ib" id="edClose" aria-label="بستن"><svg class="ic" aria-hidden="true"><use href="#i-close"/></svg></button></div>
+ <label for="edF">German / English</label><input id="edF" class="de" autocomplete="off">
+ <label for="edB">معنی فارسی</label><input id="edB" dir="auto" autocomplete="off">
+ <label for="edC">جمله‌ی نمونه</label><input id="edC" class="de" autocomplete="off">
+ <label for="edCf">ترجمه‌ی جمله</label><input id="edCf" dir="auto" autocomplete="off">
+ <div class="row" style="margin-bottom:12px"><select id="edL" style="flex:1"><option value="de">آلمانی</option><option value="en">انگلیسی</option></select><select id="edD" style="flex:1"></select></div>
+ <div class="row"><button id="edSave" style="flex:1">ذخیره</button><button class="bad" id="edDel" hidden>حذف</button></div>
+</div></div>
+<div id="toast" role="status"></div>
+
+<script>
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const ic=n=>`<svg class="ic" aria-hidden="true"><use href="#i-${n}"/></svg>`;
+const SUB={read:"بخوان، انتخاب کن، یاد بگیر",dict:"دیکشنری آلمانی ⇄ فارسی",cards:"واژه‌های شخصی تو",review:"مرور هوشمند",me:"پیشرفت و تنظیمات"};
+const DAY=864e5, fmt=d=>d.toLocaleDateString("sv-SE");
+let tt;function toast(m,k){const t=$("#toast");t.textContent=m;t.className="show "+(k||"");clearTimeout(tt);tt=setTimeout(()=>t.className="",2600)}
+
+/* ===== 1) Storage v2 + Migration + Backup ===== */
+const K="poof_v2",KC="poof_dict_cache2",KB="poof_backup";
+const fresh=()=>({v:2,decks:[{id:"default",name:"پیش‌فرض"}],cards:[],active:"default",texts:[],textId:"t0",log:{},recent:[],theme:"auto",proxy:""});
+function migrate(d){
+ if(!d||typeof d!=="object"||!Array.isArray(d.cards)||!Array.isArray(d.decks))return null;
+ if(d.v>2)return null;                       // نسخه‌ی آینده: دست نزن
+ const n={...fresh(),...d,v:2};
+ if(!Array.isArray(n.texts))n.texts=[];
+ if(!n.log||typeof n.log!=="object")n.log={};
+ if(!Array.isArray(n.recent))n.recent=[];
+ if(!n.decks.some(x=>x.id==="default"))n.decks.unshift({id:"default",name:"پیش‌فرض"});
+ const ids=new Set(n.decks.map(x=>x.id));
+ n.cards=n.cards.filter(c=>c&&c.front&&c.back).map(c=>({
+  pos:"",def:"",context:"",source:"manual",created_at:Date.now(),ease:2.5,
+  interval:c.box!=null?([0,1,3,7,14][c.box]||0):0,reps:c.box||0,due:Date.now(),
+  ...c,deck_id:ids.has(c.deck_id)?c.deck_id:"default"}));
+ if(!ids.has(n.active))n.active="default";
+ return n;
+}
+function load(){
+ let r=null;try{r=localStorage.getItem(K)}catch(e){}
+ if(r){try{const d=migrate(JSON.parse(r));if(d)return d}catch(e){}
+  try{localStorage.setItem(KB,r)}catch(e){}
+  setTimeout(()=>toast("داده‌ی ذخیره‌شده خراب بود؛ یک نسخه‌ی پشتیبان نگه داشته شد","bad"),300)}
+ try{const o=localStorage.getItem("poof_demo_v1");if(o){const d=migrate(JSON.parse(o));if(d)return d}}catch(e){} // دمو‌ی قبلی
+ return fresh();
+}
+let db=load();
+const save=()=>{try{localStorage.setItem(K,JSON.stringify(db))}catch(e){toast("ذخیره‌سازی ناموفق بود","bad")}};
+
+/* ===== 2) Dictionary service: Providers + cache + local fallback ===== */
+const LOCAL={heute:["heute","امروز"],gehe:["gehen","رفتن"],ich:["ich","من"],zur:["zu","به"],schule:["Schule","مدرسه"],lese:["lesen","خواندن"],
+ buch:["Buch","کتاب"],meine:["mein","من / مال من"],freundin:["Freundin","دوست (دختر)"],trinkt:["trinken","نوشیدن"],wasser:["Wasser","آب"],
+ wir:["wir","ما"],essen:["essen","خوردن"],apfel:["Apfel","سیب"],kaffee:["Kaffee","قهوه"],rechnung:["Rechnung","صورت‌حساب"]};
+let cache={};try{cache=JSON.parse(localStorage.getItem(KC))||{}}catch(e){}
+const saveCache=()=>{try{localStorage.setItem(KC,JSON.stringify(cache))}catch(e){}};
+const norm=w=>w.trim().replace(/^[^\p{L}]+|[^\p{L}]+$/gu,"");
+const strip=h=>new DOMParser().parseFromString(h,"text/html").body.textContent.trim();
+async function getJSON(u){const r=await fetch(u);if(!r.ok)throw new Error(r.status);return r.json()}
+const Providers={
+ async wiktionary(w,l="de"){
+  for(const t of new Set([w,w[0].toUpperCase()+w.slice(1),w.toLowerCase()])){
+   try{
+    const de=(await getJSON("https://en.wiktionary.org/api/rest_v1/page/definition/"+encodeURIComponent(t)))[l];
+    if(!de)continue;
+    return de.map(s=>({pos:s.partOfSpeech,defs:s.definitions.slice(0,3).map(d=>({def:strip(d.definition),ex:strip((d.examples||[])[0]||"")})).filter(d=>d.def)})).filter(s=>s.defs.length);
+   }catch(e){if(e instanceof TypeError)throw e}   // خطای شبکه را بالا بفرست، 404 را رد کن
+  }
+  return [];
+ },
+ async mymemory(q,pair="de|fa"){
+  const j=await getJSON("https://api.mymemory.translated.net/get?langpair="+pair+"&q="+encodeURIComponent(q));
+  if(Number(j.responseStatus)!==200)throw new Error("mymemory");
+  return [...new Set([j.responseData&&j.responseData.translatedText,...(j.matches||[]).map(m=>m.translation)].filter(Boolean))].slice(0,4);
+ }
+};
+const guessLemma=ss=>{for(const s of ss)for(const d of s.defs){const m=d.def.match(/\bof\s+([\p{L}ß-]+)\W*$/u);if(m)return m[1]}return ""};
+/* ----- wort.app: استفاده‌ی شخصی، کم‌حجم و همیشه با کش ----- */
+const FA=/[\u0600-\u06FF\uFB50-\uFDFF\uFE70-\uFEFF]/, ART=/^(der|die|das)$/i, WORT="https://wort.app/fa/";
+async function fetchHTML(url){
+ try{const r=await fetch(url);if(r.status===404)return null;if(r.ok)return await r.text()}catch(e){} // معمولاً CORS مسدود می‌کند
+ const p=(db.proxy||"").trim();if(!p)throw new Error("noproxy");
+ const u=p.includes("{url}")?p.replace("{url}",encodeURIComponent(url)):p+(p.includes("?")?"&":"?")+"url="+encodeURIComponent(url);
+ const r=await fetch(u);if(r.status===404)return null;if(!r.ok)throw new Error("proxy "+r.status);return r.text();
+}
+// متن صفحه را به «خط‌های» ساده تبدیل می‌کند (مستقل از نام کلاس‌های CSS سایت)
+function wortLines(html){
+ const doc=new DOMParser().parseFromString(html,"text/html"),H=doc.querySelector("h1,h2");if(!H)return null;
+ const L=[],tw=doc.createTreeWalker(doc.body,NodeFilter.SHOW_TEXT);
+ for(let n;(n=tw.nextNode());){
+  if(/^(SCRIPT|STYLE|NOSCRIPT|TEMPLATE)$/.test(n.parentElement.tagName))continue;
+  const t=n.nodeValue.replace(/\s+/g," ").trim();if(t)L.push(t);
+ }
+ const word=H.textContent.trim(),i=L.indexOf(word);if(i<0)return null;
+ const out=[];for(const t of L.slice(ART.test(L[i-1]||"")?i-1:i)){if(/^(×|نتایج|تماس با ما)/.test(t))break;out.push(t)}
+ return {word,lines:out};
+}
+// جفت‌کردن «جمله‌ی آلمانی ↔ ترجمه‌ی فارسی» به هر ترتیبی که باشند
+function pairUp(L){
+ const out=[];let p=null;
+ for(const t of L){
+  const fa=FA.test(t);
+  if(p&&p.fa!==fa){out.push(fa?{de:p.t,fa:t}:{de:t,fa:p.t});p=null}
+  else{if(p)out.push(p.fa?{fa:p.t}:{de:p.t});p={t,fa}}
+ }
+ if(p)out.push(p.fa?{fa:p.t}:{de:p.t});
+ return out;
+}
+// صفحه‌ی دیکشنری: /woerterbuch/deutsch-persisch/Word
+function parseWortDict(html){
+ const r=wortLines(html);if(!r)return null;
+ const L=r.lines,num=/^[0-9۰-۹]+[.)]\s*(.*)$/,e={word:r.word,article:"",plural:"",senses:[]};
+ let i=1;
+ for(;i<L.length&&!num.test(L[i]);i++){
+  if(ART.test(L[i]))e.article=L[i];
+  else{const m=L[i].match(/^Plural:?\s*(.*)$/i);if(m)e.plural=m[1]||L[++i]||""}
+ }
+ let s=null,k="n";
+ for(;i<L.length;i++){
+  const t=L[i],m=t.match(num);
+  if(m){s={meaning:m[1],r:{n:[],ex:[],ph:[]}};e.senses.push(s);k="n";continue}
+  if(!s)continue;
+  if(/^مثال/.test(t))k="ex";else if(/^عبارات/.test(t))k="ph";else s.r[k].push(t);
+ }
+ e.senses=e.senses.map(s=>({meaning:s.meaning,note:s.r.n.join(" "),ex:pairUp(s.r.ex),ph:pairUp(s.r.ph)}));
+ return e.senses.length?e:null;
+}
+// صفحه‌ی جست‌وجو: /suchen?q=Word (کارت خلاصه + جمله‌های نمونه؛ صورت‌های صرف‌شده را هم به ریشه می‌رساند)
+function parseWortSearch(html){
+ const r=wortLines(html);if(!r)return null;
+ const L=r.lines,e={word:r.word,article:"",pos:"",meaning:"",plural:"",defDe:"",defFa:"",ex:[]};
+ let i=0;if(ART.test(L[0]||""))e.article=L[i++];i++;
+ const xi=L.findIndex(t=>/^نمونه/.test(t)),head=L.slice(i,xi<0?L.length:xi),fa=[];
+ for(let j=0;j<head.length;j++){
+  const t=head[j];
+  if(t==="هوش مصنوعی")continue;
+  if(/^جمع:?$/.test(t)){e.plural=head[++j]||"";continue}
+  const m=t.match(/^جمع:\s*(.+)$/);if(m){e.plural=m[1];continue}
+  if(FA.test(t)){if(!e.pos&&/^(اسم|فعل|صفت|قید|ضمیر|حرف.*|عدد|پیشوند)$/.test(t))e.pos=t;else fa.push(t)}
+  else if(!e.defDe)e.defDe=t;
+ }
+ e.meaning=fa[0]||"";e.defFa=fa[1]||"";
+ if(xi>=0)e.ex=pairUp(L.slice(xi+1));
+ return e.meaning?e:null;
+}
+Providers.wort=async w=>{
+ let card=null,dict=null,bad=0;
+ try{const h=await fetchHTML(WORT+"suchen?q="+encodeURIComponent(w));if(h)card=parseWortSearch(h)}catch(x){if(x.message==="noproxy")throw x;bad++}
+ const lem=card?card.word:w;
+ for(const t of new Set([lem,lem[0].toUpperCase()+lem.slice(1),lem.toLowerCase()])){
+  try{const h=await fetchHTML(WORT+"woerterbuch/deutsch-persisch/"+encodeURIComponent(t));dict=h&&parseWortDict(h);if(dict)break}
+  catch(x){if(x.message==="noproxy")throw x;bad++;break}
+ }
+ if(!card&&!dict&&bad)throw new Error("wort");
+ return card||dict?{card,dict}:null;
+};
+function buildFa(e){
+ const W=e.wort,k=e.word.toLowerCase(),loc=LOCAL[k],a=[];
+ if(W&&W.card)a.push(W.card.meaning);
+ if(W&&W.dict)W.dict.senses.forEach(s=>a.push(s.meaning));
+ if(loc)a.push(loc[1]);
+ return [...new Set([...a,...(e.mm||[]).filter(x=>x.toLowerCase()!==k)])].filter(Boolean).slice(0,8);
+}
+async function lookup(raw,lang){
+ const w=norm(raw);if(!w)return null;
+ if(FA.test(w))return lookupFa(w);
+ if(lang==="en")return lookupEn(w);
+ const key=w.toLowerCase(),phrase=/\s/.test(w);let e=cache[key];
+ if(e&&!(e.wortFailed&&!phrase))return e;
+ if(e){ // فقط wort را دوباره امتحان کن
+  try{e.wort=await Providers.wort(w);e.wortFailed=false;e.fa=buildFa(e);saveCache()}catch(x){}
+  return e;
+ }
+ const loc=LOCAL[key];
+ const [a,b,c,d]=await Promise.allSettled([phrase?Promise.resolve([]):Providers.wiktionary(w),Providers.mymemory(w),phrase?Promise.resolve(null):Providers.wort(w),tr(w,"de","en")]);
+ e={word:w,en:d.value||"",senses:a.status==="fulfilled"?a.value:[],mm:b.status==="fulfilled"?b.value:[],
+  wort:c.status==="fulfilled"?c.value:null,wortFailed:!phrase&&c.status==="rejected"};
+ e.fa=buildFa(e);
+ e.lemma=(e.wort&&(e.wort.card?e.wort.card.word:e.wort.dict.word))||(loc?loc[0]:guessLemma(e.senses));
+ e.src=[e.wort&&"wort.app",e.senses.length&&"Wiktionary",e.mm.length&&"MyMemory",loc&&"محلی"].filter(Boolean);
+ if(!e.senses.length&&!e.fa.length&&!e.wort){
+  if([a,b,c].every(x=>x.status==="rejected"))throw new Error("offline");
+  return {word:w,senses:[],fa:[],src:[]};
+ }
+ if([a,b,c].some(x=>x.status==="fulfilled")){cache[key]=e;saveCache()}
+ return e;
+}
+const say=(t,l)=>{if(!("speechSynthesis" in window))return toast("مرورگر از تلفظ پشتیبانی نمی‌کند","bad");speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang=FA.test(t)?"fa-IR":l==="en"?"en-US":"de-DE";u.rate=.9;speechSynthesis.speak(u)};
+
+/* ===== 3) Entry view: sense picker, lemma, listen, add to deck ===== */
+const deckOpts=sel=>db.decks.map(d=>`<option value="${d.id}" ${d.id===sel?"selected":""}>${esc(d.name)}</option>`).join("");
+async function showEntry(box,raw,ctx,src,lang){
+ if(sel){sel=null;drawSel()}
+ const t=box._t=(box._t||0)+1;box.hidden=false;
+ box.innerHTML=`<p class="state loading">در حال جست‌وجو…</p>`;
+ let e;
+ try{e=await lookup(raw,lang)}catch(err){
+  if(t!==box._t)return;
+  box.innerHTML=`<p class="state error">اتصال به دیکشنری برقرار نشد و این کلمه در کش نیست.</p><button class="ghost" id="rt">تلاش دوباره</button>`;
+  $("#rt",box).onclick=()=>showEntry(box,raw,ctx,src,lang);return;
+ }
+ if(t!==box._t)return;
+ if(!e){box.hidden=true;return}
+ if(e.dir==="fa"||e.dir==="en"){
+  const isFa=e.dir==="fa";box._l=isFa&&!e.de.length&&e.en.length?"en":isFa?"de":"en";
+  const chips=(a,l,d)=>a.map(x=>`<button class="chip ${d?"de":""}" data-a="pk" data-l="${l}">${esc(x)}</button>`).join("");
+  const flat=(e.senses||[]).flatMap(s=>s.defs.map(d=>({pos:s.pos,...d}))).slice(0,6);
+  box.innerHTML=`<div class="row"><span class="big2 ${isFa?"":"de"}" style="flex:1">${esc(e.word)}</span><button class="ib" data-a="sayv" aria-label="تلفظ">${ic("sound")}</button></div>
+  ${isFa?`${e.de.length?`<p class="lbl">آلمانی</p><div class="row">${chips(e.de,"de",1)}</div>`:""}${e.en.length?`<p class="lbl">English</p><div class="row">${chips(e.en,"en",1)}</div>`:""}
+  <input id="fa" class="de" value="${esc(e.de[0]||e.en[0]||"")}" placeholder="Deutsch / English" style="margin-top:12px">`
+  :`${e.fa.length?`<p class="lbl">فارسی</p><div class="row">${chips(e.fa,"fa",0)}</div>`:""}${e.de.length?`<p class="lbl">Deutsch</p><div class="row">${e.de.map(x=>`<button class="chip de" data-a="cp">${esc(x)}</button>`).join("")}</div>`:""}
+  <input id="fa" value="${esc(e.fa[0]||"")}" placeholder="معنی فارسی" style="margin-top:12px">`}
+  ${flat.length?`<p class="lbl">تعریف انگلیسی</p>`+flat.map((s,i)=>`<label class="sense"><input type="radio" name="sn" value="${i}" ${i?"":"checked"}><span><i>${esc(s.pos)}</i> — ${sr(s.def,"en")}</span></label>`).join(""):""}
+  ${ctx?`<div class="mute ${isFa?"":"de"}" style="margin-top:8px">${sr(ctx,isFa?"fa":"en")}</div>`:""}
+  ${!(isFa?e.de.length+e.en.length:e.fa.length+e.de.length+flat.length)?`<p class="mute">نتیجه‌ای پیدا نشد؛ معنی را دستی بنویسید.</p>`:""}
+  <div class="row" style="margin-top:10px"><select id="dk" style="flex:1">${deckOpts(db.active)}</select><button data-a="add">افزودن به کارت‌ها</button></div>
+  <p class="mute">منبع: ${e.src.join("، ")||"—"}</p>`;
+  box.onclick=ev=>{
+   const b=ev.target.closest("button");if(!b)return;const a=b.dataset.a;
+   if(a==="pk"){$("#fa",box).value=b.textContent;if(b.dataset.l==="de"||b.dataset.l==="en")box._l=b.dataset.l}
+   else if(a==="cp")copyText(b.textContent);
+   else if(a==="sayv")isFa?say($("#fa",box).value,box._l):say(e.word,"en");
+   else if(a==="add"){
+    const v=$("#fa",box).value,sn=$("input[name=sn]:checked",box),s=sn?flat[+sn.value]:null;
+    const c=isFa?{front:v,back:e.word,contextFa:ctx||"",lang:box._l}:{front:e.word,back:v,context:ctx||"",pos:s?s.pos:"",def:s?s.def:"",lang:"en"};
+    if(addCard({...c,source:src||"dictionary",deck_id:$("#dk",box).value})){b.textContent="اضافه شد ✓";b.disabled=true}
+   }
+  };
+  return;
+ }
+ const W=e.wort||{},card=W.card,dict=W.dict;
+ const art=(card&&card.article)||(dict&&dict.article)||"",plural=(card&&card.plural)||(dict&&dict.plural)||"";
+ const head=card?card.word:dict?dict.word:e.word;
+ const flat=(e.senses||[]).flatMap(s=>s.defs.map(d=>({pos:s.pos,...d})));
+ const exs=[];if(ctx)exs.push({de:ctx,fa:"",tag:"جمله‌ی متن شما"});
+ if(card)card.ex.forEach(x=>x.de&&exs.push(x));
+ if(dict)dict.senses.forEach(s=>s.ex.forEach(x=>x.de&&exs.length<12&&exs.push(x)));
+ const exHtml=x=>`<span>${sr(x.de,"de")}${x.fa?`<br>${sr(x.fa,"fa","mute")}`:""}</span>`;
+ box.innerHTML=`<div class="row"><span class="big2 de" style="flex:1">${art?`<span style="color:var(--accent)">${esc(art)}</span> `:""}${esc(head)}</span><button class="ib" data-a="say" aria-label="تلفظ">${ic("sound")}</button></div>
+ ${plural?`<div class="mute de">Plural: ${esc(plural)}</div>`:""}
+ ${e.en?`<div class="mute">English: <span class="de">${esc(e.en)}</span></div>`:""}
+ ${!W.card&&!W.dict&&e.lemma&&e.lemma.toLowerCase()!==e.word.toLowerCase()?`<div class="mute">صورت صرف‌شده‌ی <button class="chip de" data-a="lemma">${esc(e.lemma)}</button></div>`:""}
+ ${e.wortFailed?`<p class="mute">wort.app در دسترس نبود. آدرس واسط را در تب «پیشرفت» تنظیم کنید.</p>`:""}
+ <p style="margin:10px 0 4px">معنی فارسی:</p>
+ <div class="row" style="margin-bottom:6px">${(e.fa||[]).map(x=>`<button class="chip" data-a="fa">${esc(x)}</button>`).join("")}</div>
+ <input id="fa" value="${esc((e.fa||[])[0]||"")}" placeholder="معنی را بنویسید">
+ ${card&&(card.defDe||card.defFa)?`<div class="mute" style="margin-bottom:8px"><span class="de" style="display:block">${sr(card.defDe,"de")}</span>${sr(card.defFa,"fa")}</div>`:""}
+ ${exs.length?`<p style="margin:10px 0 4px">جمله‌ی نمونه برای کارت:</p>
+  <label class="sense"><input type="radio" name="ex" value="-1"><span class="mute">بدون جمله</span></label>`+exs.map((x,i)=>`<label class="sense"><input type="radio" name="ex" value="${i}" ${i?"":"checked"}>${exHtml(x)}</label>`).join(""):""}
+ ${dict?`<details style="margin-top:8px"><summary>همه‌ی معنی‌ها و عبارت‌ها (wort.app)</summary>${dict.senses.map(s=>`<p><b>${sr(s.meaning,"fa")}</b>${s.note?` <span class="mute de">${esc(s.note)}</span>`:""}`+
+  [...s.ex,...s.ph].filter(x=>x.de).map(x=>`<span class="sense">${exHtml(x)}</span>`).join("")+`</p>`).join("")}</details>`:""}
+ ${flat.length?`<p style="margin:10px 0 4px">تعریف انگلیسی (Wiktionary):</p>`+flat.map((s,i)=>`<label class="sense"><input type="radio" name="sn" value="${i}" ${i?"":"checked"}><span><i>${esc(s.pos)}</i> — ${sr(s.def,"en")}</span></label>`).join(""):""}
+ ${!flat.length&&!(e.fa||[]).length?`<p class="mute">نتیجه‌ای پیدا نشد؛ می‌توانید معنی را دستی بنویسید.</p>`:""}
+ <div class="row" style="margin-top:10px"><select id="dk" style="flex:1">${deckOpts(db.active)}</select><button data-a="add">افزودن به کارت‌ها</button></div>
+ <p class="mute">منبع: ${(e.src||[]).join("، ")||"—"}</p>`;
+ box.onclick=ev=>{
+  const b=ev.target.closest("button");if(!b)return;
+  const a=b.dataset.a;
+  if(a==="say")say(head);
+  else if(a==="lemma")showEntry(box,e.lemma,ctx,src,"de");
+  else if(a==="fa")$("#fa",box).value=b.textContent;
+  else if(a==="add"){
+   const sn=$("input[name=sn]:checked",box),s=sn?flat[+sn.value]:null;
+   const ex=$("input[name=ex]:checked",box),x=ex&&+ex.value>=0?exs[+ex.value]:null;
+   const src2=dict||card;
+   const extra=src2?{plural,senses:dict?dict.senses.map(z=>({meaning:z.meaning,ex:z.ex.filter(q=>q.de).slice(0,6),ph:z.ph.filter(q=>q.de).slice(0,6)}))
+    :[{meaning:card.meaning,ex:card.ex.filter(q=>q.de),ph:[]}]}:null;
+   if(addCard({front:(art?art+" ":"")+head,article:art,back:$("#fa",box).value,pos:s?s.pos:(card?card.pos:""),def:s?s.def:(card?card.defDe:""),
+    context:x?x.de:"",contextFa:x?x.fa:"",extra,source:src||"dictionary",deck_id:$("#dk",box).value})){b.textContent="اضافه شد ✓";b.disabled=true}
+  }
+ };
+}
+function addCard(c){
+ if(!c.front.trim()||!c.back.trim()){toast("کلمه و معنی لازم است","bad");return false}
+ db.cards.push({pos:"",def:"",context:"",source:"manual",created_at:Date.now(),ease:2.5,interval:0,reps:0,due:Date.now(),...c,id:uid(),front:c.front.trim(),back:c.back.trim()});
+ save();toast("کارت ذخیره شد");return true;
+}
+
+/* ===== 4) Reader: any text + word/phrase selection ===== */
+const BUILTIN=[
+ {id:"t0",lang:"de",title:"مدرسه (نمونه)",body:"Heute gehe ich zur Schule. Ich lese ein Buch.\n\nMeine Freundin trinkt Wasser. Wir essen einen Apfel."},
+ {id:"t2",lang:"en",title:"At the café (sample)",body:"I would like to order a coffee. The waiter brings the bill."},
+ {id:"t3",lang:"fa",title:"مدرسه (نمونه فارسی)",body:"امروز به مدرسه می‌روم. یک کتاب می‌خوانم."},
+ {id:"t1",lang:"de",title:"کافه (نمونه)",body:"Ich möchte einen Kaffee bestellen. Der Kellner bringt die Rechnung."}];
+const allTexts=()=>[...BUILTIN,...db.texts];let sents=[];
+function renderReader(){
+ const all=allTexts(),t=all.find(x=>x.id===db.textId)||all[0];db.textId=t.id;
+ $("#txtSel").innerHTML=all.map(x=>`<option value="${x.id}" ${x.id===t.id?"selected":""}>${LB[x.lang||"de"]} · ${esc(x.title)}</option>`).join("");
+ sents=[];
+ $("#text").innerHTML=t.body.split(/\n\s*\n/).map(p=>"<p>"+p.split(/(?<=[.!?؟])\s+/).map(s=>{
+  const i=sents.push(s)-1;
+  return s.split(/(?<=\s)(?=\S)/).map(w=>norm(w)?`<span class="w" tabindex="0" role="button" data-w="${esc(norm(w))}" data-i="${i}">${esc(w)}</span>`:w).join("");
+ }).join(" ")+"</p>").join("");
+ $("#delTxt").hidden=!db.texts.some(x=>x.id===t.id);$("#text").classList.toggle("de",t.lang!=="fa");sel=null;W=[];drawSel();
+ const sl=$("#txtSrc");sl.hidden=!t.wp;
+ if(t.wp)sl.innerHTML=`منبع: <a href="https://${t.lang||"de"}.wikipedia.org/wiki/${encodeURIComponent(t.wp.replace(/ /g,"_"))}" target="_blank" rel="noopener">ویکی‌پدیا</a> (مجوز CC BY-SA)`;
+}
+$("#text").onclick=e=>{const el=e.target.closest(".w");if(el)pick(el,e.shiftKey)};
+$("#text").onkeydown=e=>{if(e.key==="Enter"||e.key===" "){const el=e.target.closest(".w");if(el){e.preventDefault();pick(el)}}};
+$("#txtSel").onchange=e=>{db.textId=e.target.value;save();$("#entry").hidden=true;renderReader()};
+$("#delTxt").onclick=()=>{if(!confirm("این متن حذف شود؟"))return;db.texts=db.texts.filter(x=>x.id!==db.textId);db.textId="t0";save();renderReader()};
+
+
+
+/* ===== ترجمه‌ی چندزبانه: فارسی · آلمانی · انگلیسی (گوگل غیررسمی → MyMemory) ===== */
+async function tr(text,from,to){
+ const k=`q:${from}>${to}:`+text.toLowerCase();
+ if(cache[k])return cache[k];
+ let r="";
+ try{const j=await getJSON("https://translate.googleapis.com/translate_a/single?client=gtx&dt=t&sl="+from+"&tl="+to+"&q="+encodeURIComponent(text));
+  r=j[0].map(x=>x[0]).join("").trim()}catch(e){}
+ if(!r)try{r=(await Providers.mymemory(text,from+"|"+to))[0]||""}catch(e){}
+ if(r){cache[k]=r;saveCache()}
+ return r;
+}
+const quick=(text,lang)=>FA.test(text)?tr(text,"fa","de"):tr(text,lang==="en"?"en":"de","fa");
+const uniq=(...xs)=>[...new Set(xs.flat().filter(Boolean))].slice(0,8), val=x=>x.status==="fulfilled"?x.value:[];
+const LB={de:"DE",en:"EN",fa:"فا"};
+const curLang=()=>((allTexts().find(x=>x.id===db.textId))||{}).lang||"de";
+function detectLang(t){
+ if((t.match(/[\u0600-\u06FF]/g)||[]).length>t.length*.15)return "fa";
+ const D=new Set("der die das und ist nicht ich ein eine mit zu den von auf für auch sich dem des im wir sie er es war sind wird aber oder wie bei nach".split(" "));
+ const E=new Set("the and is of to in that it with for as on are was this be have you he she we they not but or by from at an".split(" "));
+ let d=(t.match(/[äöüß]/gi)||[]).length*2,e=0;
+ (t.toLowerCase().match(/[a-zäöüß]+/g)||[]).forEach(x=>{if(D.has(x))d++;if(E.has(x))e++});
+ return e>d?"en":"de";
+}
+/* فارسی → آلمانی + انگلیسی (wort.app آزمایشی) */
+Providers.wortFa=async w=>{
+ const h=await fetchHTML(WORT+"suchen?q="+encodeURIComponent(w)),c=h&&parseWortSearch(h);
+ return c&&!FA.test(c.word)&&c.meaning.includes(w)?[(c.article?c.article+" ":"")+c.word]:[];
+};
+async function lookupFa(w){
+ const key="fa:"+w;if(cache[key]&&cache[key].en)return cache[key];
+ const ph=/\s/.test(w);
+ const [g,m,t,ge,me]=await Promise.allSettled([tr(w,"fa","de"),Providers.mymemory(w,"fa|de"),ph?Promise.resolve([]):Providers.wortFa(w),tr(w,"fa","en"),Providers.mymemory(w,"fa|en")]);
+ const de=uniq(val(t),val(g),val(m)),en=uniq(val(ge),val(me));
+ if(!de.length&&!en.length){if([m,t,me].every(x=>x.status==="rejected"))throw new Error("offline");return {word:w,dir:"fa",de:[],en:[],src:[]}}
+ const e={word:w,dir:"fa",de,en,src:[val(t).length&&"wort.app",(val(g).length||val(ge).length)&&"Google",(val(m).length||val(me).length)&&"MyMemory"].filter(Boolean)};
+ cache[key]=e;saveCache();return e;
+}
+/* انگلیسی → فارسی + آلمانی (+ تعریف از Wiktionary) */
+async function lookupEn(w){
+ const key="en:"+w.toLowerCase();if(cache[key])return cache[key];
+ const ph=/\s/.test(w),lw=w.toLowerCase(),ne=x=>x.toLowerCase()!==lw;
+ const [s,g,m,gd,md]=await Promise.allSettled([ph?Promise.resolve([]):Providers.wiktionary(w,"en"),tr(w,"en","fa"),Providers.mymemory(w,"en|fa"),tr(w,"en","de"),Providers.mymemory(w,"en|de")]);
+ const fa=uniq(val(g),val(m)).filter(ne),de=uniq(val(gd),val(md)).filter(ne),senses=val(s);
+ if(!fa.length&&!de.length&&!senses.length){if([s,m,md].every(x=>x.status==="rejected"))throw new Error("offline");return {word:w,dir:"en",fa:[],de:[],senses:[],src:[]}}
+ const e={word:w,dir:"en",fa,de,senses,src:[senses.length&&"Wiktionary",(val(g).length||val(gd).length)&&"Google",(val(m).length||val(md).length)&&"MyMemory"].filter(Boolean)};
+ cache[key]=e;saveCache();return e;
+}
+/* پنل «متن جدید» و انتخاب زبان */
+let tl="auto";
+$("#addTxt").onclick=()=>{const p=$("#addPanel");p.hidden=!p.hidden;if(!p.hidden)$("#tBody").focus()};
+$("#tlSeg").onclick=e=>{const b=e.target.closest("[data-tl]");if(!b)return;tl=b.dataset.tl;$$("#tlSeg button").forEach(x=>x.classList.toggle("on",x===b))};
+$("#tPaste").onclick=async()=>{try{$("#tBody").value=await navigator.clipboard.readText()}catch(e){toast("چسباندن خودکار ممکن نیست؛ دستی بچسبانید","bad")}};
+$("#tAdd").onclick=()=>{
+ const b=$("#tBody").value.trim();if(!b)return toast("متن خالی است","bad");
+ const t={id:uid(),title:$("#tTitle").value.trim()||b.slice(0,24)+"…",body:b,lang:tl==="auto"?detectLang(b):tl};
+ db.texts.push(t);db.textId=t.id;save();$("#tTitle").value=$("#tBody").value="";$("#addPanel").hidden=true;renderReader();toast("متن ذخیره شد — زبان: "+LB[t.lang]);
+};
+$("#wlSeg").onclick=e=>{const b=e.target.closest("[data-wl]");if(!b)return;wl=b.dataset.wl;$$("#wlSeg button").forEach(x=>x.classList.toggle("on",x===b));const q=$("#wq").value.trim();if(q)wpSearch(q)};
+$("#dlSeg").onclick=e=>{const b=e.target.closest("[data-dl]");if(!b)return;db.dictLang=b.dataset.dl;save();renderRecent();if($("#q").value.trim())dsearch()};
+
+/* ===== پاپ‌آور کنار کلمه (مثل Deucards) ===== */
+const pop={n:0,text:"",tr:"",ctx:"",src:""};
+function placePop(r){
+ const p=$("#pop");p.hidden=false;const w=p.offsetWidth,h=p.offsetHeight,top=8;
+ let y=r.top-h-12;                                   // بالای انتخاب، مثل Deucards
+ if(y<top)y=r.bottom+40;                             // اگر جا نبود: زیر دسته‌ها
+ if(y+h>innerHeight-8)y=Math.max(top,innerHeight-h-8);
+ p.style.left=Math.min(Math.max(8,r.left+r.width/2-w/2),innerWidth-w-8)+"px";p.style.top=y+"px";
+}
+async function showPop(rect,text,ctx,src,lang){
+ const n=++pop.n;Object.assign(pop,{text,ctx,src,tr:"",lang:lang||curLang()});
+ const t=$("#popT");t.textContent="…";t.dir="auto";placePop(rect);
+ const tr=await quick(text,pop.lang);if(n!==pop.n)return;
+ pop.tr=tr;t.textContent=tr||"ترجمه پیدا نشد";t.dir=FA.test(tr)?"rtl":"ltr";placePop(rect);
+}
+function copyText(t){
+ const done=()=>toast("کپی شد");
+ const legacy=()=>{
+  const a=document.createElement("textarea");a.value=t;a.setAttribute("readonly","");
+  a.style.cssText="position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;font-size:16px";
+  document.body.appendChild(a);a.focus({preventScroll:true});a.select();a.setSelectionRange(0,t.length);
+  let ok=false;try{ok=document.execCommand("copy")}catch(e){}
+  a.remove();
+  if(ok)done();else prompt("کپی خودکار ممکن نشد. متن را نگه دارید و کپی کنید:",t);
+ };
+ if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(done,legacy);else legacy();
+}
+$("#pop").onclick=ev=>{
+ const b=ev.target.closest("button");if(!b)return;const a=b.dataset.p;
+ if(a==="say")say(pop.text,pop.lang);
+ else if(a==="copy")copyText(pop.text);
+ else if(a==="edit"){const fa=FA.test(pop.text);openEditor(null,{front:fa?pop.tr:pop.text,back:fa?pop.text:pop.tr,context:fa?"":pop.ctx,contextFa:fa?pop.ctx:"",lang:fa?"de":pop.lang})}
+ else if(a==="more"){
+  $("#pop").hidden=true;const lb=!$("#lt").hidden,dt=!$("#s-dict").hidden,bx=lb?$("#ltEntry"):dt?$("#dentry"):$("#entry");
+  showEntry(bx,pop.text,dt?"":pop.ctx,pop.src,pop.lang);
+  if(dt){$("#q").value=norm(pop.text);scrollTo({top:0,behavior:"smooth"})}else if(!lb)bx.scrollIntoView({behavior:"smooth"});
+ }
+ else if(a==="add"){
+  if(!pop.tr)return toast("ترجمه‌ای برای ذخیره نیست","bad");
+  const fa=FA.test(pop.text);
+  if(addCard({front:fa?pop.tr:pop.text,back:fa?pop.text:pop.tr,context:fa?"":pop.ctx,contextFa:fa?pop.ctx:"",lang:fa?"de":pop.lang,source:pop.src,deck_id:db.active}))$("#pop").hidden=true;
+ }
+};
+document.addEventListener("click",e=>{if(!e.target.closest("#pop,.w,.hd,.lt-card")){$("#pop").hidden=true;sel=null;drawSel()}});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){$("#pop").hidden=true;sel=null;drawSel()}});
+
+/* ===== انتخاب با دسته‌ها: از یک کلمه تا هر تعداد (مثل Deucards) ===== */
+let W=[],sel=null;
+const selText=()=>W.slice(sel.a,sel.b+1).map(x=>x.textContent.trim()).join(" ");
+function drawSel(){
+ $("#nav").classList.toggle("nav-hidden",!!sel);
+ W.forEach((x,i)=>x.classList.toggle("sel",!!sel&&i>=sel.a&&i<=sel.b));
+ const hs=$("#hs"),he=$("#he");
+ if(!sel||!W[sel.a]||!W[sel.b]){hs.hidden=he.hidden=true;return}
+ const rtl=getComputedStyle(W[sel.a]).direction==="rtl";
+ const f=W[sel.a].getClientRects()[0],l=[...W[sel.b].getClientRects()].pop();
+ hs.hidden=he.hidden=false;
+ hs.style.cssText=`left:${(rtl?f.right:f.left)+scrollX-(rtl?0:24)}px;top:${f.bottom+scrollY}px;border-radius:${rtl?"0 50% 50% 50%":"50% 0 50% 50%"}`;
+ he.style.cssText=`left:${(rtl?l.left:l.right)+scrollX-(rtl?24:0)}px;top:${l.bottom+scrollY}px;border-radius:${rtl?"50% 0 50% 50%":"0 50% 50% 50%"}`;
+}
+function setSel(a,b,withPop){
+ sel={a,b};drawSel();
+ if(!withPop)return;
+ const f=W[a].getBoundingClientRect(),l=W[b].getBoundingClientRect(),L=Math.min(f.left,l.left),R=Math.max(f.right,l.right);
+ const r=W[a].closest("[data-ctx]"),g=W[a].closest("[data-lang]");
+ showPop({top:f.top,bottom:l.bottom,left:L,width:R-L},selText(),r?r.dataset.ctx:sents[W[a].dataset.i],r?(r.dataset.src||"leitner"):"text:"+db.textId,g?g.dataset.lang:undefined);
+}
+function pick(el,shift){
+ W=[...el.closest("#text,.lt-face,.sr").querySelectorAll(".w")];const i=W.indexOf(el);if(i<0)return;
+ if(shift&&sel)setSel(Math.min(sel.a,i),Math.max(sel.b,i),true);else setSel(i,i,true);
+}
+function dragHandle(which){return e=>{
+ e.preventDefault();const el=e.currentTarget;el.setPointerCapture(e.pointerId);$("#pop").hidden=true;
+ const mv=ev=>{
+  const t=document.elementFromPoint(ev.clientX,ev.clientY-34),w=t&&t.closest&&t.closest(".w"),i=w?W.indexOf(w):-1;
+  if(i<0)return;
+  if(which==="s")sel.a=Math.min(i,sel.b);else sel.b=Math.max(i,sel.a);
+  drawSel();
+ };
+ const up=()=>{["pointermove","pointerup","pointercancel"].forEach((n,k)=>el.removeEventListener(n,[mv,up,up][k]));setSel(sel.a,sel.b,true)};
+ el.addEventListener("pointermove",mv);el.addEventListener("pointerup",up);el.addEventListener("pointercancel",up);
+}}
+$("#hs").onpointerdown=dragHandle("s");$("#he").onpointerdown=dragHandle("e");
+addEventListener("resize",drawSel);
+
+document.addEventListener("click",e=>{const w=e.target.closest(".sr .w");if(w){e.preventDefault();pick(w,e.shiftKey)}});
+
+/* ===== Wikipedia (de / fa) → خواندن ===== */
+let wl="de";
+async function wp(q){const r=await fetch("https://"+wl+".wikipedia.org/w/api.php?format=json&origin=*&"+q);if(!r.ok)throw new Error(r.status);return r.json()}
+async function wpSearch(q){
+ q=q.trim();if(!q)return;const box=$("#wRes");box.innerHTML=`<p class="state loading">در حال جست‌وجو…</p>`;
+ try{
+  const l=(await wp("action=query&list=search&srlimit=8&srsearch="+encodeURIComponent(q))).query.search;
+  box.innerHTML=l.length?l.map(x=>`<button class="chip ${wl==="fa"?"":"de"}" data-t="${esc(x.title)}" style="display:block;width:100%;text-align:start;margin-top:6px;border-radius:8px;padding:6px 10px"><b>${esc(x.title)}</b><br><span class="mute">${esc(strip(x.snippet))}…</span></button>`).join(""):`<p class="state empty">نتیجه‌ای پیدا نشد.</p>`;
+ }catch(e){box.innerHTML=`<p class="state error">اتصال به ویکی‌پدیا برقرار نشد.</p>`}
+}
+async function wpOpen(title){
+ const id=({de:"wp_",fa:"wpfa_",en:"wpen_"})[wl]+title;
+ if(!db.texts.some(x=>x.id===id)){
+  $("#wRes").innerHTML=`<p class="state loading">در حال دریافت مقاله…</p>`;
+  try{
+   const j=await wp("action=query&prop=extracts&explaintext=1&exsectionformat=plain&redirects=1&titles="+encodeURIComponent(title));
+   const pg=Object.values(j.query.pages)[0];let t=((pg&&pg.extract)||"").trim();
+   if(!t)throw new Error("empty");
+   t=t.replace(/\n{3,}/g,"\n\n");
+   if(t.length>8000){const c=t.slice(0,8000);t=c.slice(0,c.lastIndexOf("\n"))||c}
+   db.texts.push({id,title:pg.title,body:pg.title+"\n\n"+t,wp:pg.title,lang:wl});
+  }catch(e){$("#wRes").innerHTML="";return toast("دریافت مقاله ناموفق بود","bad")}
+ }
+ db.textId=id;save();$("#wRes").innerHTML="";$("#entry").hidden=true;renderReader();$("#text").scrollIntoView({behavior:"smooth"});
+}
+$("#wGo").onclick=()=>wpSearch($("#wq").value);
+$("#wq").onkeydown=e=>{if(e.key==="Enter")wpSearch(e.target.value)};
+$("#wRes").onclick=e=>{const b=e.target.closest("button[data-t]");if(b)wpOpen(b.dataset.t)};
+$("#wRnd").onclick=async()=>{try{wpOpen((await wp("action=query&list=random&rnnamespace=0&rnlimit=1")).query.random[0].title)}catch(e){toast("اتصال به ویکی‌پدیا برقرار نشد","bad")}};
+
+/* ===== 5) Dictionary tab ===== */
+function renderRecent(){$$("#dlSeg button").forEach(b=>b.classList.toggle("on",b.dataset.dl===(db.dictLang||"de")));$("#recent").innerHTML=db.recent.map(w=>`<button class="chip de">${esc(w)}</button>`).join("")}
+function dsearch(w){
+ w=norm(w||$("#q").value);if(!w)return;$("#q").value=w;
+ db.recent=[w,...db.recent.filter(x=>x!==w)].slice(0,8);save();renderRecent();showEntry($("#dentry"),w,"","dictionary",db.dictLang||"de");
+}
+$("#qGo").onclick=()=>dsearch();$("#q").onkeydown=e=>{if(e.key==="Enter")dsearch()};
+$("#recent").onclick=e=>{const b=e.target.closest("button");if(b)dsearch(b.textContent)};
+
+/* ===== 6) Cards: decks, search, edit, delete ===== */
+function renderCards(){
+ $("#deckSel").innerHTML=db.decks.map(d=>`<option value="${d.id}" ${d.id===db.active?"selected":""}>${esc(d.name)} (${db.cards.filter(c=>c.deck_id===d.id).length})</option>`).join("");
+ const q=$("#search").value.trim().toLowerCase();
+ const l=db.cards.filter(c=>c.deck_id===db.active&&(!q||(c.front+c.back).toLowerCase().includes(q))).sort((a,b)=>b.created_at-a.created_at);
+ $("#list").innerHTML=l.length?l.map(c=>`<div class="card" data-id="${c.id}">
+  <div class="row"><b class="de wf" style="flex:1">${esc(c.front)}</b><span class="wb">${esc(c.back)}</span></div>
+  ${c.def?`<div class="mute de"><i>${esc(c.pos)}</i> — ${esc(c.def)}</div>`:""}
+  ${c.context?`<div class="mute de ctx">«${esc(c.context)}»</div>`:""}
+  ${c.contextFa?`<div class="mute">${esc(c.contextFa)}</div>`:""}
+  ${c.extra&&c.extra.senses.length?`<details class="mute"><summary>معنی‌ها و مثال‌ها</summary>${c.extra.senses.map(z=>`<p><b>${esc(z.meaning)}</b>`+[...z.ex,...z.ph].map(q=>`<span class="de" style="display:block">${esc(q.de)}</span>${esc(q.fa||"")}`).join("")+`</p>`).join("")}</details>`:""}
+  <div class="row" style="margin-top:8px"><span class="mute" style="flex:1">${c.due<=Date.now()?"آماده‌ی مرور":"مرور بعدی: "+new Date(c.due).toLocaleDateString("fa-IR")}</span>
+   <button class="ib" data-a="say" aria-label="تلفظ">${ic("sound")}</button><button class="ib" data-a="edit" aria-label="ویرایش">${ic("edit")}</button><button class="ib danger" data-a="del" aria-label="حذف">${ic("trash")}</button></div></div>`).join("")
+  :`<p class="state empty">کارتی در این دسته نیست. از «خواندن» یا «دیکشنری» اضافه کنید.</p>`;
+}
+$("#list").onclick=e=>{
+ const b=e.target.closest("button");if(!b)return;
+ const c=db.cards.find(x=>x.id===b.closest(".card").dataset.id);if(!c)return;
+ if(b.dataset.a==="say")say(c.front,c.lang);
+ if(b.dataset.a==="del"&&confirm("کارت حذف شود؟")){db.cards=db.cards.filter(x=>x!==c);save();renderCards()}
+ if(b.dataset.a==="edit")openEditor(c);
+};
+$("#deckSel").onchange=e=>{db.active=e.target.value;save();renderCards()};
+$("#newDeck").onclick=()=>{const n=prompt("نام دسته‌ی جدید:");if(!n||!n.trim())return;const d={id:uid(),name:n.trim()};db.decks.push(d);db.active=d.id;save();renderCards()};
+$("#delDeck").onclick=()=>{
+ if(db.active==="default")return toast("دسته‌ی پیش‌فرض حذف نمی‌شود","bad");
+ if(db.cards.some(c=>c.deck_id===db.active))return toast("ابتدا کارت‌های این دسته را حذف کنید","bad");
+ if(!confirm("این دسته حذف شود؟"))return;
+ db.decks=db.decks.filter(d=>d.id!==db.active);db.active="default";save();renderCards();
+};
+$("#search").oninput=renderCards;
+$("#nAdd").onclick=()=>{if(addCard({front:$("#nF").value,back:$("#nB").value,context:$("#nC").value,deck_id:db.active})){$("#nF").value=$("#nB").value=$("#nC").value="";renderCards()}};
+
+/* ===== 7) Review: SM-2 lite + keyboard ===== */
+let queue=[],cur=null,shown=false;
+function startReview(){renderBoxes();renderModes();queue=db.cards.filter(c=>c.due<=Date.now()).sort((a,b)=>a.due-b.due);next()}
+function next(){
+ cur=queue.shift();shown=false;const b=$("#rv");
+ if(!cur){b.innerHTML=`<div class="card"><p>${db.cards.length?"مرور امروز تمام شد ✓":"هنوز کارتی ندارید. از تب «خواندن» یا «دیکشنری» اضافه کنید."}</p></div>`;return}
+ const m=pickMode();if(m!=="flip")return QUIZ[m]();
+ b.innerHTML=`<div class="card"><p class="mute">${queue.length+1} کارت مانده · کارت</p>
+  <div class="big de">${esc(cur.front)} <button class="ib" id="sayb" aria-label="تلفظ">${ic("sound")}</button></div>
+  ${cur.context?`<div class="mute de">«${esc(cur.context)}»</div>`:""}
+  <div id="ans" hidden><div class="big">${esc(cur.back)}</div>${cur.def?`<p class="mute de"><i>${esc(cur.pos)}</i> — ${esc(cur.def)}</p>`:""}
+   <div class="grid"><button class="bad" data-g="0">۱ دوباره</button><button class="ghost" data-g="1">۲ سخت</button><button data-g="2">۳ خوب</button><button class="ok" data-g="3">۴ آسان</button></div></div>
+  <button class="full" id="show">نمایش جواب (Space)</button></div>`;
+ $("#show").onclick=reveal;$("#sayb").onclick=()=>say(cur.front,cur.lang);
+ $$("[data-g]",b).forEach(x=>x.onclick=()=>grade(+x.dataset.g));
+}
+function reveal(){$("#ans").hidden=false;$("#show").hidden=true;shown=true}
+function grade(q,noNext){
+ const c=cur;
+ if(q===0){c.reps=0;c.interval=0;c.ease=Math.max(1.3,c.ease-.2);c.due=Date.now()+6e5;queue.push(c)}
+ else{c.reps++;c.interval=(c.reps===1?1:c.reps===2?3:Math.round(c.interval*c.ease*(q===1?.8:q===3?1.3:1)))||1;
+  c.ease=Math.max(1.3,c.ease+(q===3?.15:q===1?-.15:0));c.due=Date.now()+c.interval*DAY}
+ const k=fmt(new Date());db.log[k]=(db.log[k]||0)+1;save();if(!noNext)next();
+}
+document.addEventListener("keydown",e=>{
+ if(!$("#lt").hidden||$("#s-review").hidden||!cur||e.target.matches("input,textarea,select"))return;
+ if(!shown&&$("#show")&&(e.key===" "||e.key==="Enter")){e.preventDefault();reveal()}
+ else if(shown&&["1","2","3","4"].includes(e.key))grade(+e.key-1);
+});
+
+/* ===== سبک‌های آزمون: کارت، ۴ گزینه، تایپی، شنیداری، جای خالی، جور کردن ===== */
+const MODES={mix:"ترکیبی",flip:"کارت",mcq:"۴ گزینه",type:"تایپی",listen:"شنیداری",cloze:"جای خالی",match:"جور کردن"};
+const rnd=a=>a[Math.floor(Math.random()*a.length)], shuffle=a=>[...a].sort(()=>Math.random()-.5);
+const bare=f=>f.replace(/^(der|die|das)\s+/i,"");
+const nz=s=>bare(s.trim()).toLowerCase().replace(/ä|ae/g,"a").replace(/ö|oe/g,"o").replace(/ü|ue/g,"u").replace(/ß/g,"ss").replace(/\s+/g," ");
+const clozeRe=c=>new RegExp("(?<![\\p{L}])"+bare(c.front).replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+"(?![\\p{L}])","iu");
+const answerHtml=()=>`<div class="big2 de">${esc(cur.front)}</div><div class="wb">${esc(cur.back)}</div>${cur.context?`<div class="mute de ctx">«${esc(cur.context)}»</div>`:""}`;
+function renderModes(){
+ const m=db.quizMode||"mix";
+ $("#rvModes").innerHTML=Object.entries(MODES).map(([k,l])=>`<button class="chip ${k===m?"on":""}" data-m="${k}">${l}</button>`).join("");
+}
+$("#rvModes").onclick=e=>{const b=e.target.closest("[data-m]");if(!b)return;db.quizMode=b.dataset.m;save();startReview()};
+function pickMode(){
+ const nf=new Set(db.cards.map(c=>c.front)).size,nb=new Set(db.cards.map(c=>c.back)).size,ch=nf>=4&&nb>=4;
+ const am={flip:1,type:1,mcq:ch,listen:ch&&"speechSynthesis" in window,cloze:nf>=4&&clozeRe(cur).test(cur.context||""),match:queue.length>=2};
+ const w=db.quizMode||"mix";
+ return w==="mix"?rnd(Object.keys(am).filter(k=>am[k])):am[w]?w:"flip";
+}
+function frame(inner,label){$("#rv").innerHTML=`<div class="card"><p class="mute">${queue.length+1} کارت مانده · ${label}</p>${inner}</div>`}
+function opts(key){ // گزینه‌ی درست + حداکثر ۳ گزینه‌ی انحرافی از کارت‌های دیگر
+ const others=[...new Set(shuffle(db.cards.filter(c=>c!==cur&&c[key]!==cur[key])).map(c=>c[key]))].slice(0,3);
+ return shuffle([cur[key],...others]);
+}
+function finish(ok,fb){
+ grade(ok?2:0,true);
+ $("#fb").innerHTML=`<p class="${ok?"okmsg":"badmsg"}">${ok?"درست ✓":"نادرست"}</p>${fb}<button class="full" id="go" style="margin-top:14px">ادامه</button>`;
+ $("#go").onclick=next;$("#go").focus();
+}
+function askChoice(label,qHtml,options){
+ frame(`${qHtml}<div id="opts">${options.map((o,i)=>`<button class="opt ${o.de?"de":""}" data-i="${i}">${esc(o.t)}</button>`).join("")}</div><div id="fb"></div>`,label);
+ $("#opts").onclick=e=>{
+  const b=e.target.closest(".opt");if(!b||b.disabled)return;
+  $$("#opts .opt").forEach((x,i)=>{x.disabled=true;if(options[i].ok)x.classList.add("right")});
+  const ok=options[+b.dataset.i].ok;if(!ok)b.classList.add("wrong");
+  finish(ok,answerHtml());
+ };
+}
+function askMcq(){
+ const rev=Math.random()<.5,key=rev?"front":"back";
+ askChoice("۴ گزینه‌ای",`<div class="big ${rev?"":"de"}">${esc(rev?cur.back:cur.front)}</div>`,opts(key).map(t=>({t,ok:t===cur[key],de:rev})));
+}
+function askListen(){
+ askChoice("شنیداری",`<div style="text-align:center;padding:10px 0"><button class="ghost" id="pl">${ic("sound")} پخش</button><p class="mute" style="margin-top:10px">کلمه‌ای که شنیدید کدام است؟</p></div>`,opts("front").map(t=>({t,ok:t===cur.front,de:true})));
+ $("#pl").onclick=()=>say(cur.front,cur.lang);setTimeout(()=>say(cur.front,cur.lang),200);
+}
+function askCloze(){
+ askChoice("جای خالی",`<div class="de" style="font:20px/1.9 var(--serif);padding:8px 0">${esc(cur.context.replace(clozeRe(cur),"_____"))}</div><p class="mute">${esc(cur.back)}</p>`,
+  opts("front").map(t=>({t:bare(t),ok:t===cur.front,de:true})));
+}
+function askType(){
+ frame(`<div class="big">${esc(cur.back)}</div><p class="mute" style="text-align:center">معادل آلمانی را بنویسید</p>
+  <input id="ti" class="de" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Deutsch"><button class="full" id="tc">بررسی</button><div id="fb"></div>`,"تایپی");
+ const chk=()=>{const v=$("#ti").value;if(!v.trim())return;$("#ti").disabled=true;$("#tc").hidden=true;finish(nz(v)===nz(cur.front),answerHtml())};
+ $("#tc").onclick=chk;$("#ti").onkeydown=e=>{if(e.key==="Enter")chk()};$("#ti").focus();
+}
+function askMatch(){
+ const g=[cur,...queue.slice(0,4)];queue=queue.filter(x=>!g.includes(x));
+ const L=shuffle(g),R=shuffle(g),wrong=new Set();let pl=null,done=0;
+ frame(`<p class="mute">هر واژه را با معنی‌اش جفت کنید</p><div class="mt" id="mt"><div id="ml">${L.map((c,i)=>`<button class="opt de" data-s="l" data-i="${i}">${esc(c.front)}</button>`).join("")}</div><div id="mr">${R.map((c,i)=>`<button class="opt" data-s="r" data-i="${i}">${esc(c.back)}</button>`).join("")}</div></div><div id="fb"></div>`,"جور کردن");
+ $("#mt").onclick=e=>{
+  const b=e.target.closest(".opt");if(!b||b.disabled)return;
+  if(b.dataset.s==="l"){$$("#ml .opt").forEach(x=>x.classList.remove("pick"));b.classList.add("pick");pl=b;return}
+  if(!pl)return toast("اول یک واژه‌ی آلمانی را انتخاب کنید");
+  const lc=L[+pl.dataset.i],rc=R[+b.dataset.i];
+  if(lc===rc){
+   pl.disabled=b.disabled=true;pl.classList.remove("pick");pl.classList.add("right");b.classList.add("right");pl=null;
+   if(++done===g.length){
+    g.forEach(c=>{cur=c;grade(wrong.has(c)?0:2,true)});
+    $("#fb").innerHTML=`<p class="okmsg">آفرین ✓</p><button class="full" id="go">ادامه</button>`;$("#go").onclick=next;
+   }
+  }else{
+   wrong.add(lc);wrong.add(rc);b.classList.add("wrong");const p=pl;pl=null;p.classList.remove("pick");
+   setTimeout(()=>b.classList.remove("wrong"),450);
+  }
+ };
+}
+const QUIZ={mcq:askMcq,type:askType,listen:askListen,cloze:askCloze,match:askMatch};
+
+/* ===== جعبه لایتنر: کارت‌های قابل‌کشیدن (راست = بلد بودم، چپ = بلد نبودم، پایین = حذف) ===== */
+const LEIT=[1,2,4,8,16,32];
+let lt={pile:[],ok:0,no:0};
+const boxOf=c=>Math.min(5,(c.reps||0)+1);
+const logOne=()=>{const k=fmt(new Date());db.log[k]=(db.log[k]||0)+1};
+function renderBoxes(){
+ const due=db.cards.filter(c=>c.due<=Date.now()).length;
+ $("#boxSub").textContent=db.cards.length?`${due} کارت آماده‌ی مرور از ${db.cards.length}`:"هنوز کارتی ندارید";
+ $("#boxes").innerHTML=[1,2,3,4,5].map(n=>`<div class="bx"><b>${db.cards.filter(c=>boxOf(c)===n).length}</b><span>جعبه ${n}</span></div>`).join("");
+}
+function openBox(all){
+ const pile=db.cards.filter(c=>all||c.due<=Date.now());
+ if(!pile.length){
+  if(!db.cards.length)return toast("ابتدا چند کارت بسازید","bad");
+  if(confirm("کارتی برای امروز نمانده. همه‌ی کارت‌ها مرور شوند؟"))return openBox(true);
+  return;
+ }
+ lt={pile:shuffle(pile),ok:0,no:0};
+ $("#lt").hidden=false;document.body.style.overflow="hidden";renderLt();
+}
+function closeBox(){$("#lt").hidden=true;document.body.style.overflow="";startReview()}
+function ltHint(kind,a){const h=$("#ltHint");if(!h)return;h.className="lt-hint "+kind;h.style.opacity=a;h.textContent=({ok:"بلد بودم ✓",no:"بلد نبودم ✗",del:"حذف"})[kind]||""}
+function renderLt(){
+ const el=$("#ltStage"),c=lt.pile[0];
+ sel=null;W=[];drawSel();$("#pop").hidden=true;$("#ltEntry").hidden=true;
+ $("#ltCount").textContent=lt.pile.length?`${lt.pile.length} مانده`:"";
+ $("#ltBtns").hidden=!c;
+ if(!c){
+  $("#ltBox").textContent="";
+  el.innerHTML=`<div class="lt-done"><div class="big">آفرین</div><p>بلد بودم: ${lt.ok} · بلد نبودم: ${lt.no}</p><button id="ltEnd">بازگشت</button></div>`;
+  $("#ltEnd").onclick=closeBox;return;
+ }
+ $("#ltBox").textContent="جعبه "+boxOf(c);
+ const nxt=lt.pile.slice(1,3);
+ const L=c.lang||"de";
+ const ctxH=c.context?`<div class="de ctx lt-ctx" data-ctx="${esc(c.context)}">${wrapWords(c.context)}</div>`:"";
+ el.innerHTML=nxt.map((_,i)=>`<div class="lt-card back" style="--k:${nxt.length-i}"></div>`).join("")+
+ `<div class="lt-card top" id="ltTop"><div class="lt-in" id="ltIn">
+   <div class="lt-face" data-lang="${L}"><div class="lt-word de">${esc(c.front)}</div><button class="ib" data-a="say" aria-label="تلفظ">${ic("sound")}</button>${ctxH}<p class="mute">برای دیدن جواب بزنید</p></div>
+   <div class="lt-face lt-bk" data-lang="${L}"><div class="mute de">${esc(c.front)}</div><div class="big2" style="font-size:28px">${esc(c.back)}</div>
+    ${c.def?`<div class="mute de">${esc(c.pos?c.pos+" — ":"")}${esc(c.def)}</div>`:""}${ctxH}${c.contextFa?`<div class="mute lt-ctx lt-fa" data-ctx="${esc(c.contextFa)}">${wrapWords(c.contextFa)}</div>`:""}</div>
+  </div><div class="lt-hint" id="ltHint"></div></div>`;
+ bindDrag($("#ltTop"));
+}
+function bindDrag(card){
+ let x0=0,y0=0,dx=0,dy=0,drag=false,moved=false;
+ const down=()=>dy>Math.abs(dx)&&dy>0;
+ card.onpointerdown=e=>{if(e.target.closest("button"))return;x0=e.clientX;y0=e.clientY;dx=dy=0;drag=true;moved=false;card.setPointerCapture(e.pointerId);card.style.transition="none"};
+ card.onpointermove=e=>{
+  if(!drag)return;dx=e.clientX-x0;dy=e.clientY-y0;
+  if(Math.abs(dx)+Math.abs(dy)>8){if(!moved&&sel){sel=null;drawSel();$("#pop").hidden=true}moved=true}if(!moved)return;
+  card.style.transform=down()?`translate(0,${dy}px)`:`translate(${dx}px,${Math.min(Math.abs(dy),40)*.3}px) rotate(${dx/18}deg)`;
+  ltHint(down()?"del":dx>40?"ok":dx<-40?"no":"",Math.min(1,(down()?dy:Math.abs(dx))/110));
+ };
+ card.onpointerup=card.onpointercancel=e=>{
+  if(!drag)return;drag=false;card.style.transition="transform .25s ease";
+  if(!moved){
+   card.style.transform="";
+   const t=document.elementFromPoint(e.clientX,e.clientY),w=t&&t.closest&&t.closest(".w");
+   if(w&&e.type==="pointerup"){pick(w);return}
+   sel=null;drawSel();$("#pop").hidden=true;$("#ltIn").classList.toggle("flipped");return;
+  }
+  if(e.type==="pointerup"){
+   if(down()&&dy>110)return decide("del");
+   if(!down()&&dx>90)return decide("ok");
+   if(!down()&&dx<-90)return decide("no");
+  }
+  card.style.transform="";ltHint("",0);
+ };
+}
+function decide(kind){
+ const card=$("#ltTop"),c=lt.pile[0];if(!card||!c)return;
+ if(kind==="del"&&!confirm("این کارت برای همیشه حذف شود؟")){card.style.transition="transform .25s ease";card.style.transform="";ltHint("",0);return}
+ card.style.transition="transform .25s ease";
+ card.style.transform=kind==="ok"?"translate(130vw,40px) rotate(25deg)":kind==="no"?"translate(-130vw,40px) rotate(-25deg)":"translate(0,120vh)";
+ setTimeout(()=>{
+  lt.pile.shift();
+  if(kind==="del")db.cards=db.cards.filter(x=>x!==c);
+  else if(kind==="ok"){c.reps=(c.reps||0)+1;c.interval=LEIT[Math.min(c.reps-1,LEIT.length-1)];c.due=Date.now()+c.interval*DAY;lt.ok++;logOne()}
+  else{c.reps=0;c.interval=0;c.due=Date.now()+6e5;lt.pile.push(c);lt.no++;logOne()}
+  save();renderLt();
+ },230);
+}
+$("#openBox").onclick=()=>openBox();
+$("#ltClose").onclick=closeBox;
+$("#ltBtns").onclick=e=>{const b=e.target.closest("[data-d]");if(b)decide(b.dataset.d)};
+$("#ltStage").onclick=e=>{const b=e.target.closest("[data-a=say]"),c=lt.pile[0];if(b&&c)say(c.front,c.lang)};
+document.addEventListener("keydown",e=>{
+ if($("#lt").hidden||!$("#ed").hidden)return;
+ if(e.key==="Escape")closeBox();
+ else if(e.key==="ArrowRight")decide("ok");else if(e.key==="ArrowLeft")decide("no");else if(e.key==="ArrowDown")decide("del");
+ else if(e.key===" "){e.preventDefault();const f=$("#ltIn");if(f)f.classList.toggle("flipped")}
+});
+
+/* ===== ویرایشگر کارت (مداد در پاپ‌آور و دکمه‌ی ویرایش در لیست کارت‌ها) ===== */
+let ed={card:null};
+function openEditor(c,pre){
+ ed.card=c||null;const v=c||pre||{};
+ $("#edTitle").textContent=c?"ویرایش کارت":"کارت جدید";
+ $("#edF").value=v.front||"";$("#edB").value=v.back||"";$("#edC").value=v.context||"";$("#edCf").value=v.contextFa||"";
+ $("#edL").value=v.lang||"de";$("#edD").innerHTML=deckOpts(c?c.deck_id:(v.deck_id||db.active));
+ $("#edDel").hidden=!c;$("#ed").hidden=false;$("#pop").hidden=true;sel=null;drawSel();
+}
+function afterEdit(){renderCards();renderBoxes();if(!$("#lt").hidden)renderLt()}
+$("#edSave").onclick=()=>{
+ const f=$("#edF").value.trim(),b=$("#edB").value.trim();
+ if(!f||!b)return toast("کلمه و معنی لازم است","bad");
+ const d={front:f,back:b,context:$("#edC").value.trim(),contextFa:$("#edCf").value.trim(),lang:$("#edL").value,deck_id:$("#edD").value};
+ if(ed.card){Object.assign(ed.card,d,{updated_at:Date.now()});save();toast("ذخیره شد")}
+ else if(!addCard({...d,source:"editor"}))return;
+ $("#ed").hidden=true;afterEdit();
+};
+$("#edDel").onclick=()=>{
+ const c=ed.card;if(!c||!confirm("این کارت حذف شود؟"))return;
+ db.cards=db.cards.filter(x=>x!==c);lt.pile=lt.pile.filter(x=>x!==c);save();$("#ed").hidden=true;afterEdit();
+};
+$("#edClose").onclick=()=>{$("#ed").hidden=true};
+$("#ed").onclick=e=>{if(e.target.id==="ed")$("#ed").hidden=true};
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("#ed").hidden)$("#ed").hidden=true});
+$("#lt").addEventListener("click",e=>{if(!e.target.closest("#ltEntry,#pop,.hd,.w"))$("#ltEntry").hidden=true});
+const sr=(t,l,x)=>`<span class="sr ${x||""}" data-ctx="${esc(t)}" data-lang="${l}" data-src="dictionary">${wrapWords(t)}</span>`;
+const wrapWords=t=>t.split(/(?<=\s)(?=\S)/).map(w=>norm(w)?`<span class="w" data-w="${esc(norm(w))}">${esc(w)}</span>`:esc(w)).join("");
+
+/* ===== 8) Stats ===== */
+function streak(){let n=0,d=new Date();if(!db.log[fmt(d)])d.setDate(d.getDate()-1);while(db.log[fmt(d)]){n++;d.setDate(d.getDate()-1)}return n}
+function renderMe(){
+ const days=[...Array(7)].map((_,i)=>{const d=new Date();d.setDate(d.getDate()-6+i);return db.log[fmt(d)]||0});
+ const st=[["کارت‌ها",db.cards.length],["آماده‌ی مرور",db.cards.filter(c=>c.due<=Date.now()).length],["یادگرفته‌شده",db.cards.filter(c=>c.interval>=21).length],
+  ["مرور امروز",db.log[fmt(new Date())]||0],["روز پیاپی",streak()]];
+ $("#stats").innerHTML=`<div class="grid">${st.map(([l,v])=>`<div class="card stat"><b>${v}</b><span class="mute">${l}</span></div>`).join("")}</div>
+  <div class="card"><div class="mute">مرورهای ۷ روز اخیر</div><div class="bars">${days.map(n=>`<div title="${n}" style="height:${Math.min(60,n*4)+2}px"></div>`).join("")}</div></div>`;
+ $$("#themeOpts .theme-option").forEach(b=>b.classList.toggle("selected",b.dataset.th===(db.theme==="snowy"?"snowy":"classic")));$("#proxy").value=db.proxy||"";
+}
+
+/* ===== 9) Export / Import (با پشتیبان قبل از جایگزینی) ===== */
+$("#exp").onclick=()=>{
+ const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(db,null,1)],{type:"application/json"}));
+ a.download="poof-backup-"+fmt(new Date())+".json";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1500);
+};
+$("#imp").onchange=async e=>{
+ const f=e.target.files[0];if(!f)return;
+ try{
+  const d=migrate(JSON.parse(await f.text()));if(!d)throw 0;
+  if(!confirm(`داده‌ی فعلی (${db.cards.length} کارت) با فایل (${d.cards.length} کارت) جایگزین شود؟`))return;
+  localStorage.setItem(KB,JSON.stringify(db));db=d;save();applyTheme();renderAll();toast("وارد شد");
+ }catch(x){toast("فایل پشتیبان معتبر نیست","bad")}
+ e.target.value="";
+};
+$("#clrCache").onclick=()=>{cache={};saveCache();toast("کش پاک شد")};
+
+/* ===== 10) Theme + tabs ===== */
+function applyTheme(){const t=db.theme==="snowy"?"snowy":"classic";document.documentElement.dataset.theme=t;const m=document.querySelector("meta[name=theme-color]");if(m)m.content=t==="snowy"?"#081421":"#111111"}
+$("#proxyTest").onclick=async()=>{
+ db.proxy=$("#proxy").value.trim();save();
+ try{const h=await fetchHTML(WORT+"suchen?q=Schule"),c=h&&parseWortSearch(h);
+  toast(c?"اتصال موفق ✓ «"+c.meaning+"»":"صفحه گرفته شد ولی تحلیل نشد",c?"":"bad")}
+ catch(x){toast(x.message==="noproxy"?"ابتدا آدرس واسط را وارد کنید":"اتصال ناموفق: "+x.message,"bad")}
+};
+$("#themeOpts").onclick=e=>{const b=e.target.closest("[data-th]");if(!b)return;db.theme=b.dataset.th;save();applyTheme();renderMe()};
+function tab(t){$("#hSub").textContent=SUB[t];scrollTo(0,0);$("#nav").classList.remove("nav-hidden");$("#pop").hidden=true;sel=null;drawSel();
+ $$("#nav button").forEach(b=>b.classList.toggle("on",b.dataset.t===t));
+ $$(".tab").forEach(s=>s.hidden=s.id!=="s-"+t);
+ if(t==="cards")renderCards();if(t==="review")startReview();if(t==="me")renderMe();if(t==="dict")renderRecent();
+}
+$("#nav").onclick=e=>{const b=e.target.closest("button");if(b){b.blur();tab(b.dataset.t)}};
+function renderAll(){renderReader();renderRecent();renderCards();renderMe()}
+let lastY=scrollY;addEventListener("scroll",()=>{const y=scrollY;if(!sel)$("#nav").classList.toggle("nav-hidden",y>lastY&&y>90);lastY=y},{passive:true});
+applyTheme();renderAll();
+</script>
+</body>
+</html>
