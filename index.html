@@ -193,6 +193,7 @@ body,header,.card,button,input,select,textarea,.w{transition:color .3s ease,back
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 @media (max-width:480px){main{padding-inline:16px}.card{padding:18px}}
 </style>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
@@ -282,6 +283,10 @@ body,header,.card,button,input,select,textarea,.w{transition:color .3s ease,back
    <div class="row"><button class="ghost" id="exp">خروجی پشتیبان (JSON)</button>
     <label class="ghost-label">ورود پشتیبان<input id="imp" type="file" accept=".json,application/json" hidden></label>
     <button class="ghost" id="clrCache">پاک‌کردن کش دیکشنری</button></div>
+  </div>
+  <div class="card" style="margin-top:10px">
+   <div class="row"><div style="flex:1"><b>حساب گوگل</b><div class="mute" id="gSub">کلمات و تاریخچه روی گوگل‌درایو شما ذخیره می‌شود؛ با هر گوشی که وارد شوید سر جایش است</div></div><span id="gSync" class="mute" style="font-size:12px"></span></div>
+   <div class="row" id="gRow" style="margin-top:8px"></div>
   </div>
   <h2>پریمیوم ✨</h2>
   <div class="card" id="premium">
@@ -375,7 +380,7 @@ function load(){
  return fresh();
 }
 let db=load();
-const save=()=>{try{localStorage.setItem(K,JSON.stringify(db))}catch(e){toast("ذخیره‌سازی ناموفق بود","bad")}};
+const save=()=>{try{localStorage.setItem(K,JSON.stringify(db))}catch(e){toast("ذخیره‌سازی ناموفق بود","bad")}try{scheduleCloudSync()}catch(e){}};
 
 /* ===== 2) Dictionary service: Providers + cache + local fallback ===== */
 const LOCAL={heute:["heute","امروز"],gehe:["gehen","رفتن"],ich:["ich","من"],zur:["zu","به"],schule:["Schule","مدرسه"],lese:["lesen","خواندن"],
@@ -1517,7 +1522,95 @@ $("#nav").onclick=e=>{const b=e.target.closest("button");if(b){b.blur();tab(b.da
 function renderAll(){renderReader();renderRecent();renderCards();renderMe()}
 let lastY=scrollY;addEventListener("scroll",()=>{const y=scrollY;if(!sel)$("#nav").classList.toggle("nav-hidden",y>lastY&&y>90);lastY=y},{passive:true});
 addEventListener("pagehide",()=>{try{if(!$("#s-read").hidden)saveProgress()}catch(e){}});
-applyTheme();renderAll();
+/* ---------- ورود با گوگل + همگام‌سازی ابری (Drive appDataFolder) ---------- */
+const G_CLIENT_ID="1057286792140-oor3b3v61dpvh3vjlhekcqhnnuu047ld.apps.googleusercontent.com";
+const G_SCOPE="https://www.googleapis.com/auth/drive.appdata";
+const G_FILE="poof-backup.json";
+let gToken=null,gTokenClient=null,gSyncTimer=null,gSyncing=false;
+function gInit(){
+ if(typeof google==="undefined"||!google.accounts||!google.accounts.oauth2){setTimeout(gInit,1500);return}
+ try{
+  gTokenClient=google.accounts.oauth2.initTokenClient({client_id:G_CLIENT_ID,scope:G_SCOPE,
+   callback:r=>{
+    if(r&&r.access_token){gToken=r.access_token;onGSignIn()}
+    else{renderG();if(r&&r.error)toast("ورود با گوگل ناموفق بود","bad")}
+   }});
+ }catch(e){}
+ renderG();
+ if(db.guser){try{gTokenClient.requestAccessToken({prompt:""})}catch(e){}}
+}
+function gSignIn(){if(!gTokenClient){toast("سرویس گوگل در حال بارگذاری… کمی صبر کنید","bad");return}gTokenClient.requestAccessToken()}
+async function gSignOut(){
+ if(gToken)try{await fetch("https://oauth2.googleapis.com/revoke?token="+encodeURIComponent(gToken),{method:"POST"})}catch(e){}
+ gToken=null;db.guser="";db._cloudId="";db._cloudRev="";save();renderG();gSetStatus("");toast("از حساب گوگل خارج شدید");
+}
+function renderG(){
+ const row=$("#gRow");if(!row)return;
+ if(db.guser&&gToken){
+  row.innerHTML=`<span class="chip" dir="auto">${esc(db.guser)}</span><button class="ghost" id="gNow">همگام‌سازی اکنون</button><button class="ghost" id="gOut">خروج</button>`;
+  $("#gOut").onclick=gSignOut;$("#gNow").onclick=()=>gUpload(true);
+ }else{
+  row.innerHTML=`<button class="ghost full" id="gIn">${db.guser?"اتصال مجدد به گوگل":"ورود با گوگل"}</button>`;
+  $("#gIn").onclick=gSignIn;
+ }
+}
+function gSetStatus(t){const s=$("#gSync");if(s)s.textContent=t==="ok"?"همگام شد ✓":t==="err"?"خطای همگام‌سازی":t==="ing"?"در حال همگام‌سازی…":""}
+function scheduleCloudSync(){
+ if(!db.guser||!gToken)return;
+ clearTimeout(gSyncTimer);gSyncTimer=setTimeout(()=>gUpload(false),8000);
+}
+async function gApi(path,opts={}){
+ const r=await fetch("https://www.googleapis.com"+path,{...opts,headers:{...(opts.headers||{}),Authorization:"Bearer "+gToken}});
+ if(r.status===401){gToken=null;renderG();gSetStatus("");toast("نشست گوگل منقضی شد — «اتصال مجدد» را بزنید","bad");throw new Error("gtoken-expired")}
+ return r;
+}
+async function gFindFile(){
+ const q=encodeURIComponent("name='"+G_FILE+"' and trashed=false");
+ const r=await gApi("/drive/v3/files?q="+q+"&spaces=appDataFolder&fields=files(id,modifiedTime)&pageSize=1");
+ const j=await r.json();return (j.files&&j.files[0])||null;
+}
+async function gUpload(manual){
+ if(!gToken||gSyncing)return;gSyncing=true;if(manual)gSetStatus("ing");
+ try{
+  const body=JSON.stringify(db);
+  let f;
+  if(db._cloudId){
+   const r=await gApi("/upload/drive/v3/files/"+db._cloudId+"?uploadType=media",{method:"PATCH",headers:{"Content-Type":"application/json"},body});
+   f=await r.json();
+  }else{
+   const meta={name:G_FILE,parents:["appDataFolder"],mimeType:"application/json"};
+   const fd=new FormData();
+   fd.append("metadata",new Blob([JSON.stringify(meta)],{type:"application/json"}));
+   fd.append("file",new Blob([body],{type:"application/json"}));
+   const r=await fetch("https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart",{method:"POST",headers:{Authorization:"Bearer "+gToken},body:fd});
+   if(r.status===401){gToken=null;renderG();toast("نشست گوگل منقضی شد — «اتصال مجدد» را بزنید","bad");throw new Error("gtoken-expired")}
+   f=await r.json();if(f.id)db._cloudId=f.id;
+  }
+  if(f.modifiedTime){db._cloudRev=f.modifiedTime;try{localStorage.setItem(K,JSON.stringify(db))}catch(e){}}
+  gSetStatus("ok");
+ }catch(e){if(e.message!=="gtoken-expired")gSetStatus("err")}
+ gSyncing=false;
+}
+async function onGSignIn(){
+ renderG();
+ try{
+  const r=await gApi("/drive/v3/about?fields=user");const j=await r.json();
+  if(j.user&&j.user.emailAddress&&j.user.emailAddress!==db.guser){db.guser=j.user.emailAddress;save()}
+ }catch(e){return}
+ renderG();gSetStatus("ing");
+ try{
+  const f=await gFindFile();
+  if(f&&(!db._cloudRev||new Date(f.modifiedTime)>new Date(db._cloudRev))){
+   if(confirm("نسخه‌ی جدیدتری از داده‌ها در گوگل‌درایو پیدا شد.\nدانلود و جایگزین نسخه‌ی این دستگاه شود؟\n(نسخه‌ی فعلی به‌عنوان پشتیبان نگه داشته می‌شود)")){
+    const r=await gApi("/drive/v3/files/"+f.id+"?alt=media");const txt=await r.text();
+    try{localStorage.setItem(K+"_precloud",localStorage.getItem(K)||"")}catch(e){}
+    localStorage.setItem(K,txt);toast("دانلود شد — در حال بارگذاری مجدد…");setTimeout(()=>location.reload(),600);return;
+   }
+  }
+  toast("وارد شدید ✓");gUpload(false);
+ }catch(e){if(e.message!=="gtoken-expired")gSetStatus("err")}
+}
+applyTheme();renderAll();gInit();
 </script>
 <script>
 if ('serviceWorker' in navigator) {
