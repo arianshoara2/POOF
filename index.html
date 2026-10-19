@@ -292,7 +292,7 @@ body,header,.card,button,input,select,textarea,.w{transition:color .3s ease,back
   </div>
   <div class="card leit"><div class="row"><div style="flex:1"><b>جعبه لایتنر</b><div class="mute" id="boxSub"></div></div><button id="openBox"><svg class="ic" aria-hidden="true"><use href="#i-box"/></svg> باز کردن</button></div><div class="boxes" id="boxes"></div></div>
   <div class="row" style="margin:10px 0"><span class="mute">دسته‌ی مرور:</span><select id="rvDeck" style="flex:1"></select></div>
-  <p class="lbl">سبک‌های دیگر تمرین</p><div class="row" id="rvModes"></div><div id="rv"></div></section>
+  <div id="rv"></div></section>
 
  <section id="s-me" class="tab" hidden>
   <h2>پیشرفت</h2><div id="stats"></div>
@@ -1393,11 +1393,11 @@ function renderRvDecks(){
  $("#rvDeck").innerHTML=`<option value="all">همه‌ی دسته‌ها</option>`+db.decks.map(d=>`<option value="${d.id}" ${(db.reviewDeck||"all")===d.id?"selected":""}>${esc(d.name)} (${db.cards.filter(c=>c.deck_id===d.id&&c.due<=Date.now()).length})</option>`).join("");
 }
 $("#rvDeck").onchange=e=>{db.reviewDeck=e.target.value;save();startReview()};
-function startReview(){renderBoxes();renderModes();renderRvDecks();const rd=db.reviewDeck||"all";queue=db.cards.filter(c=>c.due<=Date.now()&&(rd==="all"||c.deck_id===rd)).sort((a,b)=>a.due-b.due);next()}
+function startReview(){renderBoxes();renderRvDecks();const rd=db.reviewDeck||"all";queue=db.cards.filter(c=>c.due<=Date.now()&&(rd==="all"||c.deck_id===rd)).sort((a,b)=>a.due-b.due);next()}
 function next(){
  cur=queue.shift();shown=false;const b=$("#rv");
  if(!cur){b.innerHTML=`<div class="card"><p>${db.cards.length?"مرور امروز تمام شد ✓":"هنوز کارتی ندارید. از تب «خواندن» یا «دیکشنری» اضافه کنید."}</p></div>`;return}
- const m=pickMode();if(m!=="flip")return QUIZ[m]();
+
  b.innerHTML=`<div class="card"><p class="mute">${queue.length+1} کارت مانده · کارت</p>
   <div class="big de">${esc(cur.front)} <button class="ib" id="sayb" aria-label="تلفظ">${ic("sound")}</button></div>
   ${cur.context?`<div class="mute de">«${esc(cur.context)}»</div>`:""}
@@ -1421,84 +1421,6 @@ document.addEventListener("keydown",e=>{
  if(!shown&&$("#show")&&(e.key===" "||e.key==="Enter")){e.preventDefault();reveal()}
  else if(shown&&["1","2","3","4"].includes(e.key))grade(+e.key-1);
 });
-
-/* ===== سبک‌های آزمون: کارت، ۴ گزینه، تایپی، شنیداری، جای خالی، جور کردن ===== */
-const MODES={mix:"ترکیبی",flip:"کارت",mcq:"۴ گزینه",type:"تایپی",listen:"شنیداری",cloze:"جای خالی",match:"جور کردن"};
-const rnd=a=>a[Math.floor(Math.random()*a.length)], shuffle=a=>[...a].sort(()=>Math.random()-.5);
-const bare=f=>f.replace(/^(der|die|das)\s+/i,"");
-const nz=s=>bare(s.trim()).toLowerCase().replace(/ä|ae/g,"a").replace(/ö|oe/g,"o").replace(/ü|ue/g,"u").replace(/ß/g,"ss").replace(/\s+/g," ");
-const clozeRe=c=>new RegExp("(?<![\\p{L}])"+bare(c.front).replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+"(?![\\p{L}])","iu");
-const answerHtml=()=>`<div class="big2 de">${esc(cur.front)}</div><div class="wb">${esc(cur.back)}</div>${cur.context?`<div class="mute de ctx">«${esc(cur.context)}»</div>`:""}`;
-function renderModes(){
- const m=db.quizMode||"mix";
- $("#rvModes").innerHTML=Object.entries(MODES).map(([k,l])=>`<button class="chip ${k===m?"on":""}" data-m="${k}">${l}</button>`).join("");
-}
-$("#rvModes").onclick=e=>{const b=e.target.closest("[data-m]");if(!b)return;db.quizMode=b.dataset.m;save();startReview()};
-function pickMode(){
- const nf=new Set(db.cards.map(c=>c.front)).size,nb=new Set(db.cards.map(c=>c.back)).size,ch=nf>=4&&nb>=4;
- const am={flip:1,type:1,mcq:ch,listen:ch&&"speechSynthesis" in window,cloze:nf>=4&&clozeRe(cur).test(cur.context||""),match:queue.length>=2};
- const w=db.quizMode||"mix";
- return w==="mix"?rnd(Object.keys(am).filter(k=>am[k])):am[w]?w:"flip";
-}
-function frame(inner,label){$("#rv").innerHTML=`<div class="card"><p class="mute">${queue.length+1} کارت مانده · ${label}</p>${inner}</div>`}
-function opts(key){ // گزینه‌ی درست + حداکثر ۳ گزینه‌ی انحرافی از کارت‌های دیگر
- const others=[...new Set(shuffle(db.cards.filter(c=>c!==cur&&c[key]!==cur[key])).map(c=>c[key]))].slice(0,3);
- return shuffle([cur[key],...others]);
-}
-function finish(ok,fb){
- grade(ok?2:0,true);
- $("#fb").innerHTML=`<p class="${ok?"okmsg":"badmsg"}">${ok?"درست ✓":"نادرست"}</p>${fb}<button class="full" id="go" style="margin-top:14px">ادامه</button>`;
- $("#go").onclick=next;$("#go").focus();
-}
-function askChoice(label,qHtml,options){
- frame(`${qHtml}<div id="opts">${options.map((o,i)=>`<button class="opt ${o.de?"de":""}" data-i="${i}">${esc(o.t)}</button>`).join("")}</div><div id="fb"></div>`,label);
- $("#opts").onclick=e=>{
-  const b=e.target.closest(".opt");if(!b||b.disabled)return;
-  $$("#opts .opt").forEach((x,i)=>{x.disabled=true;if(options[i].ok)x.classList.add("right")});
-  const ok=options[+b.dataset.i].ok;if(!ok)b.classList.add("wrong");
-  finish(ok,answerHtml());
- };
-}
-function askMcq(){
- const rev=Math.random()<.5,key=rev?"front":"back";
- askChoice("۴ گزینه‌ای",`<div class="big ${rev?"":"de"}">${esc(rev?cur.back:cur.front)}</div>`,opts(key).map(t=>({t,ok:t===cur[key],de:rev})));
-}
-function askListen(){
- askChoice("شنیداری",`<div style="text-align:center;padding:10px 0"><button class="ghost" id="pl">${ic("sound")} پخش</button><p class="mute" style="margin-top:10px">کلمه‌ای که شنیدید کدام است؟</p></div>`,opts("front").map(t=>({t,ok:t===cur.front,de:true})));
- $("#pl").onclick=()=>say(cur.front,cur.lang);setTimeout(()=>say(cur.front,cur.lang),200);
-}
-function askCloze(){
- askChoice("جای خالی",`<div class="de" style="font:20px/1.9 var(--serif);padding:8px 0">${esc(cur.context.replace(clozeRe(cur),"_____"))}</div><p class="mute">${esc(cur.back)}</p>`,
-  opts("front").map(t=>({t:bare(t),ok:t===cur.front,de:true})));
-}
-function askType(){
- frame(`<div class="big">${esc(cur.back)}</div><p class="mute" style="text-align:center">معادل آلمانی را بنویسید</p>
-  <input id="ti" class="de" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Deutsch"><button class="full" id="tc">بررسی</button><div id="fb"></div>`,"تایپی");
- const chk=()=>{const v=$("#ti").value;if(!v.trim())return;$("#ti").disabled=true;$("#tc").hidden=true;finish(nz(v)===nz(cur.front),answerHtml())};
- $("#tc").onclick=chk;$("#ti").onkeydown=e=>{if(e.key==="Enter")chk()};$("#ti").focus();
-}
-function askMatch(){
- const g=[cur,...queue.slice(0,4)];queue=queue.filter(x=>!g.includes(x));
- const L=shuffle(g),R=shuffle(g),wrong=new Set();let pl=null,done=0;
- frame(`<p class="mute">هر واژه را با معنی‌اش جفت کنید</p><div class="mt" id="mt"><div id="ml">${L.map((c,i)=>`<button class="opt de" data-s="l" data-i="${i}">${esc(c.front)}</button>`).join("")}</div><div id="mr">${R.map((c,i)=>`<button class="opt" data-s="r" data-i="${i}">${esc(c.back)}</button>`).join("")}</div></div><div id="fb"></div>`,"جور کردن");
- $("#mt").onclick=e=>{
-  const b=e.target.closest(".opt");if(!b||b.disabled)return;
-  if(b.dataset.s==="l"){$$("#ml .opt").forEach(x=>x.classList.remove("pick"));b.classList.add("pick");pl=b;return}
-  if(!pl)return toast("اول یک واژه‌ی آلمانی را انتخاب کنید");
-  const lc=L[+pl.dataset.i],rc=R[+b.dataset.i];
-  if(lc===rc){
-   pl.disabled=b.disabled=true;pl.classList.remove("pick");pl.classList.add("right");b.classList.add("right");pl=null;
-   if(++done===g.length){
-    g.forEach(c=>{cur=c;grade(wrong.has(c)?0:2,true)});
-    $("#fb").innerHTML=`<p class="okmsg">آفرین ✓</p><button class="full" id="go">ادامه</button>`;$("#go").onclick=next;
-   }
-  }else{
-   wrong.add(lc);wrong.add(rc);b.classList.add("wrong");const p=pl;pl=null;p.classList.remove("pick");
-   setTimeout(()=>b.classList.remove("wrong"),450);
-  }
- };
-}
-const QUIZ={mcq:askMcq,type:askType,listen:askListen,cloze:askCloze,match:askMatch};
 
 /* ===== جعبه لایتنر: کارت‌های قابل‌کشیدن (راست = بلد بودم، چپ = بلد نبودم، پایین = حذف) ===== */
 const LEIT=[1,2,4,8,16,32];
