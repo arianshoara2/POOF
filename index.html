@@ -260,7 +260,7 @@ body,header,.card,button,input,select,textarea,.w{transition:color .3s ease,back
   </div>
   <div class="card de" id="text"></div>
   <p class="mute" id="txtSrc" hidden></p>
-  <p class="mute">روی یک کلمه بزنید، یا با دسته‌ها چند کلمه را انتخاب کنید تا ترجمه بیاید.</p>
+  <p class="mute">روی یک کلمه بزنید، یا کلمه را لمس طولانی کنید و بکشید تا چند کلمه انتخاب شود.</p>
   <div class="card" id="entry" hidden></div>
  </section>
 
@@ -705,7 +705,7 @@ function renderReader(){
  if(t.wp)sl.innerHTML=`منبع: <a href="https://${t.lang||"de"}.wikipedia.org/wiki/${encodeURIComponent(t.wp.replace(/ /g,"_"))}" target="_blank" rel="noopener">ویکی‌پدیا</a> (مجوز CC BY-SA)`;
  lastCur=-1;setupPlayer(t);
 }
-$("#text").onclick=e=>{const el=e.target.closest(".w");if(el&&!el.closest(".sr"))pick(el,e.shiftKey)};
+$("#text").onclick=e=>{if(lpSuppress)return;const el=e.target.closest(".w");if(el&&!el.closest(".sr"))pick(el,e.shiftKey)};
 $("#text").onkeydown=e=>{if(e.key==="Enter"||e.key===" "){const el=e.target.closest(".w");if(el){e.preventDefault();pick(el)}}};
 /* ===== کتابخانه‌ی متن‌ها: تاریخچه‌ی تمیز لینک‌ها و متن‌ها ===== */
 const kindOf=t=>t.video&&t.video.id?"yt":t.video&&t.video.ig?"ig":t.wp?"wp":t.url?"web":"txt";
@@ -1033,7 +1033,76 @@ function dragHandle(which){return e=>{
 $("#hs").onpointerdown=dragHandle("s");$("#he").onpointerdown=dragHandle("e");
 addEventListener("resize",drawSel);
 
-document.addEventListener("click",e=>{const w=e.target.closest(".sr .w");if(w){e.preventDefault();pick(w,e.shiftKey)}});
+/* ===== انتخاب روان: لمس‌طولانی + درگ (موبایل) / درگ موس (دسکتاپ) ===== */
+let lpTimer=null,lpDrag=false,lpAnchor=-1,lpSX=0,lpSY=0,lpSuppress=false,lpRoot=null,lpW=null;
+let mDownW=null,mDrag=false,mAnchor=-1,mSX=0,mSY=0,mRoot=null;
+const lpRootOf=w=>w.closest("#text")||w.closest(".sr");
+function lpReset(){if(lpTimer){clearTimeout(lpTimer);lpTimer=null}if(lpRoot){lpRoot.style.touchAction="";lpRoot=null}lpDrag=false;lpAnchor=-1;lpW=null}
+document.addEventListener("touchstart",e=>{
+ if(e.touches.length>1)return;
+ const w=e.target.closest?e.target.closest("#text .w,.sr .w"):null;
+ if(!w||!lpRootOf(w))return;
+ lpSX=e.touches[0].clientX;lpSY=e.touches[0].clientY;lpW=w;
+ lpTimer=setTimeout(()=>{
+  lpTimer=null;lpDrag=true;lpSuppress=true;lpRoot=lpRootOf(lpW);
+  if(lpRoot)lpRoot.style.touchAction="none";
+  if(navigator.vibrate)try{navigator.vibrate(15)}catch(_){}
+  W=[...lpRoot.querySelectorAll(".w")];lpAnchor=W.indexOf(lpW);
+  if(lpAnchor<0){lpReset();return}
+  sel={a:lpAnchor,b:lpAnchor};$("#pop").hidden=true;drawSel();
+ },350);
+},{passive:true});
+document.addEventListener("touchmove",e=>{
+ if(lpTimer){
+  const dx=e.touches[0].clientX-lpSX,dy=e.touches[0].clientY-lpSY;
+  if(dx*dx+dy*dy>144){clearTimeout(lpTimer);lpTimer=null}
+  return;
+ }
+ if(!lpDrag)return;
+ e.preventDefault();
+ const t=document.elementFromPoint(e.touches[0].clientX,e.touches[0].clientY);
+ const w=t&&t.closest?t.closest(".w"):null;
+ if(!w||!lpRoot||!lpRoot.contains(w))return;
+ const i=W.indexOf(w);if(i<0)return;
+ sel={a:Math.min(lpAnchor,i),b:Math.max(lpAnchor,i)};drawSel();
+},{passive:false});
+document.addEventListener("touchend",()=>{
+ if(lpTimer){clearTimeout(lpTimer);lpTimer=null;return}
+ if(!lpDrag)return;
+ const a=sel.a,b=sel.b;lpReset();
+ setSel(a,b,true);
+ setTimeout(()=>{lpSuppress=false},80);
+});
+document.addEventListener("touchcancel",lpReset);
+document.addEventListener("mousedown",e=>{
+ if(e.button!==0)return;
+ const w=e.target.closest?e.target.closest("#text .w,.sr .w"):null;
+ if(!w||!lpRootOf(w))return;
+ mDownW=w;mSX=e.clientX;mSY=e.clientY;mDrag=false;mRoot=lpRootOf(w);
+});
+document.addEventListener("mousemove",e=>{
+ if(!mDownW||e.buttons!==1)return;
+ const dx=e.clientX-mSX,dy=e.clientY-mSY;
+ if(!mDrag&&dx*dx+dy*dy>36){
+  mDrag=true;lpSuppress=true;
+  W=[...mRoot.querySelectorAll(".w")];mAnchor=W.indexOf(mDownW);
+  if(mAnchor<0){mDownW=null;return}
+  sel={a:mAnchor,b:mAnchor};$("#pop").hidden=true;drawSel();
+ }
+ if(!mDrag)return;
+ const t=document.elementFromPoint(e.clientX,e.clientY);
+ const w=t&&t.closest?t.closest(".w"):null;
+ if(!w||!mRoot||!mRoot.contains(w))return;
+ const i=W.indexOf(w);if(i<0)return;
+ sel={a:Math.min(mAnchor,i),b:Math.max(mAnchor,i)};drawSel();
+});
+document.addEventListener("mouseup",()=>{
+ if(!mDownW)return;
+ const wasDrag=mDrag;mDownW=null;mDrag=false;mRoot=null;
+ if(wasDrag){if(sel)setSel(sel.a,sel.b,true);setTimeout(()=>{lpSuppress=false},80)}
+});
+
+document.addEventListener("click",e=>{if(lpSuppress)return;const w=e.target.closest(".sr .w");if(w){e.preventDefault();pick(w,e.shiftKey)}});
 
 /* ===== لینک → متن (یوتیوب با زیرنویس هم‌زمان / مقاله) ===== */
 const ytIdOf=u=>{const m=u.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?(?:.*&)?v=|shorts\/|embed\/|live\/))([\w-]{11})/);return m?m[1]:""};
