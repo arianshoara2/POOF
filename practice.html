@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#111111">
+<title>POOF · تمرین</title>
+<style>
+:root{--bg:#111111;--surface:#1b1814;--text:#f5f1e8;--muted:#b8b0a4;--accent:#e6b96f;--error:#ff8f87;--ok:#9fd8a8;--border:#4a4032;
+--r-sm:12px;--r-lg:20px;--serif:ui-serif,Georgia,"Times New Roman",serif;--sans:system-ui,-apple-system,"Segoe UI","Noto Sans Arabic",Tahoma,sans-serif;color-scheme:dark}
+html[data-theme=snowy]{--bg:#081421;--surface:#10263a;--text:#f3f8fc;--muted:#b8c7d3;--accent:#f3c879;--error:#ff9d9d;--ok:#9fe0c0;--border:#294861}
+*{box-sizing:border-box}[hidden]{display:none!important}
+body{margin:0;min-height:100dvh;font:16px/1.6 var(--sans);color:var(--text);background:var(--bg)}
+header{padding:calc(26px + env(safe-area-inset-top,0px)) 24px 20px;background:var(--surface);border-bottom:1px solid var(--border)}
+.hd{max-width:720px;margin:0 auto;display:flex;align-items:center;gap:14px}
+.mark{display:grid;place-items:center;width:44px;height:44px;border-radius:14px;background:var(--accent);color:var(--bg);font:700 26px/1 var(--serif)}
+h1{margin:0;font:600 22px/1.2 var(--serif);letter-spacing:.16em;color:var(--accent)}
+.sub{color:var(--muted);font-size:14px}
+main{max-width:720px;margin:0 auto;padding:24px 20px calc(40px + env(safe-area-inset-bottom,0px))}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px;margin-bottom:14px}
+.mute{color:var(--muted)}.sm{font-size:13px}.big{font-size:26px;font-weight:700}.big2{font-size:22px;font-weight:700}
+.de{direction:ltr;unicode-bidi:isolate}
+button{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 18px;border-radius:var(--r-sm);border:1px solid var(--accent);background:var(--accent);color:var(--bg);font-weight:700;cursor:pointer;font:inherit}
+button:active{transform:scale(.97)}button:disabled{opacity:.45}
+button.ghost{background:transparent;color:var(--accent)}
+button.full{width:100%}
+input{font:inherit;color:inherit;background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);padding:10px 14px;width:100%}
+input:focus{outline:2px solid var(--accent);outline-offset:1px}
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.mode{cursor:pointer;text-align:right;transition:transform .15s}
+.mode:active{transform:scale(.97)}
+.mode.disabled{opacity:.45;cursor:default}
+.mode .ic{font-size:28px}
+.mode b{display:block;margin:6px 0 2px}
+.bar{height:8px;background:var(--bg);border-radius:99px;overflow:hidden;margin:0 0 16px}
+.bar i{display:block;height:100%;background:var(--accent);border-radius:99px;transition:width .3s}
+.opt{display:block;width:100%;margin:8px 0;background:transparent;color:var(--text);border:1px solid var(--border);text-align:right;font-weight:400}
+.opt.right{border-color:var(--ok);background:rgba(159,216,168,.12);color:var(--ok)}
+.opt.wrong{border-color:var(--error);background:rgba(255,143,135,.12);color:var(--error)}
+.okmsg{color:var(--ok);font-weight:700}.badmsg{color:var(--error);font-weight:700}
+.mt{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.score{font-size:52px;font-weight:800;color:var(--accent);text-align:center;margin:10px 0}
+.wr{border-top:1px solid var(--border);padding:10px 0}
+.row{display:flex;gap:10px;align-items:center}
+.center{text-align:center}
+.pulse{animation:pp .4s ease}
+@keyframes pp{0%{transform:scale(1)}40%{transform:scale(1.06)}100%{transform:scale(1)}}
+</style>
+</head>
+<body>
+<header><div class="hd"><span class="mark">P</span><div style="flex:1"><h1>POOF</h1><div class="sub">تمرین</div></div>
+<button class="ghost" id="backBtn" aria-label="بازگشت" style="border:none;font-size:22px;padding:8px 12px">→</button></div></header>
+<main id="app"><div class="card center mute">در حال بارگذاری…</div></main>
+<script>
+"use strict";
+/* ---------- storage ---------- */
+const K="poof_v2";
+let db={};
+try{db=JSON.parse(localStorage.getItem(K))||{}}catch(e){db={}}
+db.cards=db.cards||[];
+document.documentElement.dataset.theme=db.theme==="snowy"?"snowy":db.theme==="classic"?"":(db.theme||"");
+$("#backBtn").onclick=()=>{if(history.length>1)history.back();else location.href="index.html"};
+function $(s){return document.querySelector(s)}
+function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+const shuffle=a=>[...a].sort(()=>Math.random()-.5);
+const bare=f=>String(f||"").replace(/^(der|die|das)\s+/i,"");
+const nz=s=>bare(String(s||"").trim()).toLowerCase().replace(/ä|ae/g,"a").replace(/ö|oe/g,"o").replace(/ü|ue/g,"u").replace(/ß/g,"ss").replace(/\s+/g," ");
+const app=$("#app");
+
+/* ---------- TTS ---------- */
+function say(t,lang){
+  try{
+    const l=/[\u0600-\u06FF]/.test(t)?"fa-IR":lang==="en"?"en-US":"de-DE";
+    speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(t);u.lang=l;u.rate=.9;
+    speechSynthesis.speak(u);
+  }catch(e){}
+}
+
+/* ---------- modes ---------- */
+const MODES=[
+ {id:"mcq",icon:"🔤",name:"۴ گزینه‌ای",desc:"کلمه رو ببین، معنیش رو حدس بزن",need:4,needMsg:"حداقل ۴ کارت لازم داره"},
+ {id:"type",icon:"⌨️",name:"تایپی",desc:"معنی رو ببین، کلمه رو بنویس",need:1,needMsg:"حداقل ۱ کارت لازم داره"},
+ {id:"listen",icon:"🔊",name:"شنیداری",desc:"گوش کن، کلمه‌ی درست رو انتخاب کن",need:4,needMsg:"حداقل ۴ کارت لازم داره"},
+ {id:"cloze",icon:"✏️",name:"جای خالی",desc:"جمله رو کامل کن",need:1,needMsg:"کارت‌هایی با جمله‌ی نمونه لازم داره",custom:c=>c.filter(x=>x.context&&x.context.length>10)},
+ {id:"match",icon:"🧩",name:"جور کردن",desc:"کلمه‌ها رو با معنی‌هاشون جفت کن",need:5,needMsg:"حداقل ۵ کارت لازم داره"},
+];
+
+/* ---------- session ---------- */
+let S=null; // {mode,cards,i,ok,wrong[]}
+function poolFor(m){
+  let p=db.cards.slice();
+  if(m.custom)p=m.custom(p);
+  return shuffle(p);
+}
+function viewHome(){
+  const n=db.cards.length;
+  app.innerHTML=`<div class="card"><div class="row"><div style="flex:1"><b>تمرین با کارت‌های خودت</b><div class="mute sm">${n?n+" کارت داری":"هنوز کارتی نداری"}</div></div></div></div>
+  <div class="modes">${MODES.map(m=>{
+    const p=poolFor(m),ok=p.length>=m.need;
+    return `<div class="card mode ${ok?"":"disabled"}" data-mode="${m.id}">
+      <div class="ic">${m.icon}</div><b>${m.name}</b>
+      <div class="mute sm">${m.desc}</div>
+      ${ok?`<div class="sm" style="color:var(--ok);margin-top:6px">شروع ←</div>`:`<div class="sm" style="color:var(--error);margin-top:6px">${m.needMsg} (داری: ${p.length})</div>`}
+    </div>`}).join("")}</div>
+  ${n?`<p class="mute sm center">از تب «خواندن» یا «دیکشنری» کارت بیشتر بساز تا حالت‌های بیشتری باز بشن</p>`:`<div class="card center"><p>هنوز کارتی نداری.</p><button class="ghost" onclick="location.href='index.html'">رفتن به اپ و ساختن کارت</button></div>`}`;
+  app.querySelectorAll(".mode:not(.disabled)").forEach(el=>el.onclick=()=>startMode(el.dataset.mode));
+}
+function startMode(id){
+  const m=MODES.find(x=>x.id===id);
+  const pool=poolFor(m).slice(0,10);
+  if(pool.length<m.need)return;
+  S={mode:m,cards:pool,i:0,ok:0,wrong:[]};
+  nextQ();
+}
+function progress(){
+  return `<div class="bar"><i style="width:${Math.round(S.i/S.cards.length*100)}%"></i></div>
+  <p class="mute sm center">سؤال ${S.i+1} از ${S.cards.length} · درست: ${S.ok}</p>`;
+}
+function cur(){return S.cards[S.i]}
+function nextQ(){
+  if(S.i>=S.cards.length)return viewResult();
+  const q=({mcq:qMcq,type:qType,listen:qListen,cloze:qCloze,match:qMatch})[S.mode.id];
+  q();
+}
+function finish(ok,html){
+  const c=cur();
+  if(ok)S.ok++;else S.wrong.push(c);
+  const el=$("#fb");
+  el.innerHTML=`<div class="${ok?"okmsg":"badmsg"}" style="margin:12px 0">${ok?"✓ آفرین!":"✗ نشد"}</div>${html||""}<button class="full" id="nx" style="margin-top:10px">بعدی ←</button>`;
+  el.querySelector("#nx").onclick=()=>{S.i++;nextQ()};
+}
+function distractors(key,n){
+  const c=cur();
+  return shuffle(db.cards.filter(x=>x!==c&&nz(x[key])!==nz(c[key]))).map(x=>x[key])
+    .filter((v,i,a)=>a.findIndex(w=>nz(w)===nz(v))===i).slice(0,n||3);
+}
+/* --- ۴ گزینه‌ای --- */
+function qMcq(){
+  const c=cur(),rev=Math.random()<.5,key=rev?"front":"back";
+  const opts=shuffle([{t:c[key],ok:true},...distractors(key).map(t=>({t,ok:false}))]);
+  app.innerHTML=`${progress()}<div class="card"><p class="mute sm center">معنی درست رو انتخاب کن</p>
+   <div class="big ${rev?"":"de"} center" style="margin:10px 0">${esc(rev?c.back:c.front)}</div>
+   ${opts.map((o,i)=>`<button class="opt ${rev?"de":""}" data-i="${i}">${esc(o.t)}</button>`).join("")}
+   <div id="fb"></div></div>`;
+  app.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{
+    const o=opts[+b.dataset.i];
+    app.querySelectorAll(".opt").forEach(x=>{x.disabled=true;if(opts[+x.dataset.i].ok)x.classList.add("right")});
+    if(!o.ok)b.classList.add("wrong");
+    finish(o.ok,`<div class="mute sm">جواب درست: <b>${esc(c[key])}</b></div>`);
+  });
+}
+/* --- تایپی --- */
+function qType(){
+  const c=cur();
+  app.innerHTML=`${progress()}<div class="card"><p class="mute sm center">معادل آلمانی/انگلیسی رو بنویس</p>
+   <div class="big center" style="margin:10px 0">${esc(c.back)}</div>
+   ${c.context?`<p class="mute sm de center">«${esc(c.context)}»</p>`:""}
+   <input id="ti" class="de" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="…">
+   <button class="full" id="tc" style="margin-top:10px">بررسی</button><div id="fb"></div></div>`;
+  const chk=()=>{
+    const v=$("#ti").value;if(!v.trim())return;
+    $("#ti").disabled=true;$("#tc").disabled=true;
+    finish(nz(v)===nz(c.front),`<div class="big2 de center">${esc(c.front)}</div>`);
+  };
+  $("#tc").onclick=chk;
+  $("#ti").onkeydown=e=>{if(e.key==="Enter")chk()};
+  setTimeout(()=>$("#ti").focus(),100);
+}
+/* --- شنیداری --- */
+function qListen(){
+  const c=cur();
+  const opts=shuffle([{t:c.front,ok:true},...distractors("front").map(t=>({t,ok:false}))]);
+  app.innerHTML=`${progress()}<div class="card center"><p class="mute sm">گوش کن — کدوم کلمه رو شنیدی؟</p>
+   <button class="ghost" id="pl" style="font-size:40px;padding:16px 28px;margin:10px 0">🔊</button>
+   <div id="opts">${opts.map((o,i)=>`<button class="opt de" data-i="${i}">${esc(o.t)}</button>`).join("")}</div>
+   <div id="fb"></div></div>`;
+  const play=()=>say(c.front,c.lang);
+  $("#pl").onclick=play;setTimeout(play,400);
+  app.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{
+    const o=opts[+b.dataset.i];
+    app.querySelectorAll(".opt").forEach(x=>{x.disabled=true;if(opts[+x.dataset.i].ok)x.classList.add("right")});
+    if(!o.ok)b.classList.add("wrong");
+    finish(o.ok,`<div class="big2 de center">${esc(c.front)}</div><div class="mute">${esc(c.back)}</div>`);
+  });
+}
+/* --- جای خالی --- */
+function qCloze(){
+  const c=cur();
+  const re=new RegExp("(?<![\\p{L}])"+bare(c.front).replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+"(?![\\p{L}])","iu");
+  const sent=c.context.replace(re,"_____");
+  const opts=shuffle([{t:bare(c.front),ok:true},...distractors("front").map(t=>({t:bare(t),ok:false}))]);
+  app.innerHTML=`${progress()}<div class="card"><p class="mute sm center">جای خالی رو پر کن</p>
+   <div class="de" style="font:20px/1.9 var(--serif);margin:10px 0">${esc(sent)}</div>
+   <p class="mute center">${esc(c.back)}</p>
+   ${opts.map((o,i)=>`<button class="opt de" data-i="${i}">${esc(o.t)}</button>`).join("")}
+   <div id="fb"></div></div>`;
+  app.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{
+    const o=opts[+b.dataset.i];
+    app.querySelectorAll(".opt").forEach(x=>{x.disabled=true;if(opts[+x.dataset.i].ok)x.classList.add("right")});
+    if(!o.ok)b.classList.add("wrong");
+    finish(o.ok,`<div class="de center" style="font-size:18px">${esc(c.context)}</div>`);
+  });
+}
+/* --- جور کردن --- */
+function qMatch(){
+  const g=S.cards.slice(S.i,S.i+5);
+  const L=shuffle(g),R=shuffle(g);
+  let pl=null,done=0;const wrong=new Set();
+  app.innerHTML=`${progress()}<div class="card"><p class="mute sm center">هر واژه رو با معنی‌ش جفت کن (${g.length} جفت)</p>
+   <div class="mt"><div>${L.map((c,i)=>`<button class="opt de" data-s="l" data-i="${i}">${esc(c.front)}</button>`).join("")}</div>
+   <div>${R.map((c,i)=>`<button class="opt" data-s="r" data-i="${i}">${esc(c.back)}</button>`).join("")}</div></div>
+   <div id="fb"></div></div>`;
+  app.querySelector("#fb").innerHTML=`<button class="full ghost" id="skip" style="margin-top:10px">رد شدن ←</button>`;
+  app.querySelector("#skip").onclick=()=>{g.forEach(c=>S.wrong.push(c));S.i+=g.length;nextQ()};
+  document.querySelector(".mt").onclick=e=>{
+    const b=e.target.closest(".opt");if(!b||b.disabled)return;
+    if(b.dataset.s==="l"){
+      document.querySelectorAll('[data-s="l"]').forEach(x=>x.style.borderColor="");
+      b.style.borderColor="var(--accent)";pl=b;return;
+    }
+    if(!pl)return;
+    const lc=L[+pl.dataset.i],rc=R[+b.dataset.i];
+    if(lc===rc){
+      pl.disabled=b.disabled=true;pl.style.borderColor="";pl.classList.add("right");b.classList.add("right");pl=null;
+      if(++done===g.length){
+        g.forEach(c=>{if(wrong.has(c))S.wrong.push(c);else S.ok++});
+        S.i+=g.length;nextQ();
+      }
+    }else{
+      wrong.add(lc);wrong.add(rc);
+      b.classList.add("wrong");const p=pl;pl=null;p.style.borderColor="";
+      setTimeout(()=>b.classList.remove("wrong"),500);
+    }
+  };
+}
+/* --- نتیجه --- */
+function viewResult(){
+  const total=S.cards.length,pct=Math.round(S.ok/total*100);
+  const msg=pct===100?"بی‌نقص! 🌟":pct>=70?"آفرین! 💪":pct>=40?"خوب پیش میری 🌱":"اشکالی نداره، تمرین یعنی همین 🌧️";
+  app.innerHTML=`<div class="card center"><div class="score">${pct}٪</div>
+   <p><b>${msg}</b></p><p class="mute">${S.ok} درست از ${total} سؤال · حالت ${S.mode.name}</p>
+   <div class="row" style="justify-content:center"><button id="again">دوباره</button><button class="ghost" id="home">حالت‌ها</button></div></div>
+   ${S.wrong.length?`<div class="card"><b>مرور اشتباه‌ها (${S.wrong.length})</b>${[...new Map(S.wrong.map(c=>[c.id,c])).values()].map(c=>`<div class="wr"><div class="de"><b>${esc(c.front)}</b></div><div class="mute sm">${esc(c.back)}</div></div>`).join("")}</div>`:""}`;
+  $("#again").onclick=()=>startMode(S.mode.id);
+  $("#home").onclick=viewHome;
+}
+viewHome();
+</script>
+</body>
+</html>

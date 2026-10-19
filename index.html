@@ -286,6 +286,10 @@ body,header,.card,button,input,select,textarea,.w{transition:color .3s ease,back
  </section>
 
  <section id="s-review" class="tab" hidden><h2>مرور</h2>
+  <div class="card" id="practiceCard" style="cursor:pointer">
+   <div class="row"><b>🎯 تمرین</b><span class="mute" id="prSub"></span></div>
+   <p class="mute" style="margin:6px 0 0">۵ حالت بازی‌وار: ۴ گزینه‌ای، تایپی، شنیداری، جای خالی، جور کردن</p>
+  </div>
   <div class="card leit"><div class="row"><div style="flex:1"><b>جعبه لایتنر</b><div class="mute" id="boxSub"></div></div><button id="openBox"><svg class="ic" aria-hidden="true"><use href="#i-box"/></svg> باز کردن</button></div><div class="boxes" id="boxes"></div></div>
   <div class="row" style="margin:10px 0"><span class="mute">دسته‌ی مرور:</span><select id="rvDeck" style="flex:1"></select></div>
   <p class="lbl">سبک‌های دیگر تمرین</p><div class="row" id="rvModes"></div><div id="rv"></div></section>
@@ -1502,6 +1506,8 @@ let lt={pile:[],ok:0,no:0};
 const boxOf=c=>Math.min(5,(c.reps||0)+1);
 const logOne=()=>{const k=fmt(new Date());db.log[k]=(db.log[k]||0)+1};
 function renderBoxes(){
+ const pc=$("#practiceCard");if(pc&&!pc.dataset.bound){pc.dataset.bound="1";pc.onclick=()=>location.href="practice.html"}
+ const ps=$("#prSub");if(ps)ps.textContent=db.cards&&db.cards.length?db.cards.length+" کارت":"";
  const due=db.cards.filter(c=>c.due<=Date.now()).length;
  $("#boxSub").textContent=db.cards.length?`${due} کارت آماده‌ی مرور از ${db.cards.length}`:"هنوز کارتی ندارید";
  $("#boxes").innerHTML=[1,2,3,4,5].map(n=>`<div class="bx"><b>${db.cards.filter(c=>boxOf(c)===n).length}</b><span>جعبه ${n}</span></div>`).join("");
