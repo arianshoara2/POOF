@@ -53,6 +53,14 @@ button.ib{width:40px;height:40px;padding:0;border-color:var(--border);background
 .vchip:active{transform:scale(.95)}
 .pbar{height:3px;background:var(--border);border-radius:99px;margin-top:6px;overflow:hidden}
 .pbar i{display:block;height:100%;background:var(--accent);border-radius:99px}
+.feat{list-style:none;margin:0 0 12px;padding:0;display:grid;gap:8px}
+.feat li{background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);padding:8px 12px;font-size:14px}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:8px}
+.plan{flex-direction:column;gap:2px;padding:12px 6px;position:relative}
+.plan b{font-size:15px}.plan span{font-size:12px;font-weight:400;opacity:.85}.plan i{font-size:10px;font-style:normal;opacity:.75}
+.plan.hot{border-width:2px;box-shadow:0 0 0 1px var(--accent)}
+.plan.on{background:var(--bg);color:var(--accent)}
+.cardnum{font:700 20px/1.6 monospace;letter-spacing:2px;text-align:center;background:var(--bg);border:1px dashed var(--accent);border-radius:var(--r-sm);padding:10px;direction:ltr}
 button.ib:hover{color:var(--accent);border-color:var(--accent);background:var(--hover);filter:none}
 button.ib.danger:hover{color:var(--error);border-color:var(--error)}
 .ic{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
@@ -259,6 +267,7 @@ body,header,.card,button,input,select,textarea,.w{transition:color .3s ease,back
 
  <section id="s-review" class="tab" hidden><h2>مرور</h2>
   <div class="card leit"><div class="row"><div style="flex:1"><b>جعبه لایتنر</b><div class="mute" id="boxSub"></div></div><button id="openBox"><svg class="ic" aria-hidden="true"><use href="#i-box"/></svg> باز کردن</button></div><div class="boxes" id="boxes"></div></div>
+  <div class="row" style="margin:10px 0"><span class="mute">دسته‌ی مرور:</span><select id="rvDeck" style="flex:1"></select></div>
   <p class="lbl">سبک‌های دیگر تمرین</p><div class="row" id="rvModes"></div><div id="rv"></div></section>
 
  <section id="s-me" class="tab" hidden>
@@ -273,6 +282,29 @@ body,header,.card,button,input,select,textarea,.w{transition:color .3s ease,back
    <div class="row"><button class="ghost" id="exp">خروجی پشتیبان (JSON)</button>
     <label class="ghost-label">ورود پشتیبان<input id="imp" type="file" accept=".json,application/json" hidden></label>
     <button class="ghost" id="clrCache">پاک‌کردن کش دیکشنری</button></div>
+  </div>
+  <h2>پریمیوم ✨</h2>
+  <div class="card" id="premium">
+   <p class="mute" style="margin-top:0">با اشتراک پریمیوم، همه‌ی قدرت POOF باز می‌شود:</p>
+   <ul class="feat">
+    <li>🎬 زیرنویس خودکار هر ویدیوی یوتیوب</li>
+    <li>🎙️ ترانسکریپت صوتی با هوش مصنوعی</li>
+    <li>📚 دیکشنری‌های تخصصی، بدون محدودیت</li>
+    <li>☁️ همگام‌سازی ابری (به‌زودی)</li>
+   </ul>
+   <div class="plans">
+    <button class="plan" data-plan="1 ماهه" data-amt="۴۹٬۰۰۰ تومان"><b>۱ ماهه</b><span>۴۹٬۰۰۰ تومان</span></button>
+    <button class="plan hot" data-plan="۳ ماهه" data-amt="۱۱۹٬۰۰۰ تومان"><b>۳ ماهه</b><span>۱۱۹٬۰۰۰ تومان</span><i>پیشنهاد ما · ٪۲۰ تخفیف</i></button>
+    <button class="plan" data-plan="۶ ماهه" data-amt="۱۹۹٬۰۰۰ تومان"><b>۶ ماهه</b><span>۱۹۹٬۰۰۰ تومان</span><i>٪۳۰ تخفیف</i></button>
+   </div>
+   <div id="payBox" hidden>
+    <p style="margin:8px 0">پلن <b id="payPlan"></b> — مبلغ <b id="payAmt"></b> را به این کارت واریز کنید:</p>
+    <div class="cardnum" dir="ltr">6104 3386 7405 4776</div>
+    <p class="mute" style="margin:6px 0">شبا: <span dir="ltr">IR04012000000009962404812</span> · بانک ملت</p>
+    <div class="row"><button class="ghost" id="copyCard">کپی شماره کارت</button><button class="ghost" id="copySheba">کپی شبا</button></div>
+    <p class="mute">پس از واریز، رسید را برای آرین ارسال کنید تا لینک اختصاصی فعال‌سازی برایتان ارسال شود.</p>
+   </div>
+   <p class="mute" style="font-size:11px;margin-bottom:0">نسخه‌ی نمایشی — پرداخت و فعال‌سازی به‌صورت دستی انجام می‌شود.</p>
   </div>
  </section>
 </main>
@@ -1018,6 +1050,18 @@ async function importArticle(u){
  db.texts.push(t);db.textId=t.id;save();$("#addPanel").hidden=true;renderReader();toast("متن دریافت شد");
 }
 $("#slSeg").onclick=e=>{const b=e.target.closest("[data-sl]");if(!b)return;$$("#slSeg button").forEach(x=>x.classList.toggle("on",x===b))};
+function goPremium(){tab("me");setTimeout(()=>{const p=$("#premium");if(p)p.scrollIntoView({behavior:"smooth",block:"start"})},150)}
+$("#premium").onclick=e=>{
+ const pl=e.target.closest(".plan");
+ if(pl){
+  $$("#premium .plan").forEach(x=>x.classList.toggle("on",x===pl));
+  $("#payPlan").textContent=pl.dataset.plan;$("#payAmt").textContent=pl.dataset.amt;
+  $("#payBox").hidden=false;$("#payBox").scrollIntoView({behavior:"smooth",block:"nearest"});
+  return;
+ }
+ if(e.target.closest("#copyCard"))copyText("6104338674054776");
+ if(e.target.closest("#copySheba"))copyText("IR04012000000009962404812");
+};
 $("#tGet").onclick=async()=>{
  const u=$("#tUrl").value.trim();if(!u)return;
  const b=$("#tGet"),ot=b.innerHTML;b.disabled=true;b.innerHTML="…";
@@ -1027,8 +1071,10 @@ $("#tGet").onclick=async()=>{
   else if(/instagram\.com/i.test(u))await importIG(u);
   else await importArticle(u);
  }catch(e){
-  toast(friendly(e),"bad");
   b.disabled=false;b.innerHTML="↻";b.setAttribute("aria-label","تلاش مجدد");
+  if(e.message==="noproxy"){
+   if(confirm("ایمپورت یوتیوب و قابلیت‌های پیشرفته، ویژه‌ی کاربران پریمیوم است.\nمشاهده‌ی اشتراک پریمیوم؟"))goPremium();
+  }else toast(friendly(e),"bad");
   return;
  }
  b.disabled=false;b.innerHTML=ot;b.setAttribute("aria-label","دریافت از لینک");
@@ -1187,7 +1233,11 @@ $("#nAdd").onclick=()=>{if(addCard({front:$("#nF").value,back:$("#nB").value,con
 
 /* ===== 7) Review: SM-2 lite + keyboard ===== */
 let queue=[],cur=null,shown=false;
-function startReview(){renderBoxes();renderModes();queue=db.cards.filter(c=>c.due<=Date.now()).sort((a,b)=>a.due-b.due);next()}
+function renderRvDecks(){
+ $("#rvDeck").innerHTML=`<option value="all">همه‌ی دسته‌ها</option>`+db.decks.map(d=>`<option value="${d.id}" ${(db.reviewDeck||"all")===d.id?"selected":""}>${esc(d.name)} (${db.cards.filter(c=>c.deck_id===d.id&&c.due<=Date.now()).length})</option>`).join("");
+}
+$("#rvDeck").onchange=e=>{db.reviewDeck=e.target.value;save();startReview()};
+function startReview(){renderBoxes();renderModes();renderRvDecks();const rd=db.reviewDeck||"all";queue=db.cards.filter(c=>c.due<=Date.now()&&(rd==="all"||c.deck_id===rd)).sort((a,b)=>a.due-b.due);next()}
 function next(){
  cur=queue.shift();shown=false;const b=$("#rv");
  if(!cur){b.innerHTML=`<div class="card"><p>${db.cards.length?"مرور امروز تمام شد ✓":"هنوز کارتی ندارید. از تب «خواندن» یا «دیکشنری» اضافه کنید."}</p></div>`;return}
