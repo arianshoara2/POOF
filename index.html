@@ -1039,7 +1039,7 @@ function openCardDetail(c){
   ${ask&&ask.tip?`<div class="ask-tip">💡 <b>نکته‌ی پووف:</b> <span dir="auto">${esc(ask.tip)}</span></div>`:""}
   ${sec("مثال‌ها",(ask&&ask.examples||[]).map(e=>`<div class="ask-ex"><div class="s" dir="auto">${esc(e.s||"")}</div><div class="t" dir="auto">${esc(e.t||"")}</div></div>`).join("")||(c.context?`<div class="ask-ex"><div class="s de">«${esc(c.context)}»</div>${c.contextFa?`<div class="t">${esc(c.contextFa)}</div>`:""}</div>`:""))}
   ${c.video?`<button class="ghost full" id="cdJump" style="margin:6px 0">▶ بازگشت به لحظه‌ی ویدیو (${mmss(c.video.t||0)})</button>`:""}
-  <div class="row" style="margin:10px 0"><span class="mute sm" style="flex:1">جعبه‌ی ${box} · ${c.reps||0} بار مرور · ${c.due<=Date.now()?"آماده‌ی مرور":"مرور بعدی: "+new Date(c.due).toLocaleDateString("fa-IR")}</span></div>
+  <div class="row" style="margin:10px 0"><span class="mute sm" style="flex:1">جعبه‌ی ${box} · ${c.reps||0} بار مرور${c.difficulty!=null?` · سختی ${Math.round(c.difficulty)}/۱۰`:""} · ${c.due<=Date.now()?"آماده‌ی مرور":"مرور بعدی: "+new Date(c.due).toLocaleDateString("fa-IR")}</span></div>
   ${!ask?`<button class="ghost full" id="cdAsk" style="margin-bottom:8px">✨ توضیح کامل از پووف</button>`:""}
   <div class="row"><button class="ghost" id="cdEdit" style="flex:1">ویرایش</button><button class="bad" id="cdDel">حذف</button></div>`;
  $("#cdetail").hidden=false;
@@ -1469,10 +1469,30 @@ function next(){
 }
 function reveal(){$("#ans").hidden=false;$("#show").hidden=true;shown=true}
 function grade(q,noNext){
- const c=cur;
- if(q===0){c.reps=0;c.interval=0;c.ease=Math.max(1.3,c.ease-.2);c.due=Date.now()+6e5;queue.push(c)}
- else{c.reps++;c.interval=(c.reps===1?1:c.reps===2?3:Math.round(c.interval*c.ease*(q===1?.8:q===3?1.3:1)))||1;
-  c.ease=Math.max(1.3,c.ease+(q===3?.15:q===1?-.15:0));c.due=Date.now()+c.interval*DAY}
+ const c=cur,now=Date.now();
+ // FSRS-lite: سختی و پایداری هر کارت جدا پیگیری می‌شود
+ if(c.difficulty==null)c.difficulty=5;
+ if(c.stability==null)c.stability=Math.max(1,c.interval||1);
+ if(q===0){
+  // بلد نبودم: سختی بیشتر، پایداری کم، برمی‌گردد توی صف
+  c.difficulty=Math.min(10,c.difficulty+1.5);
+  c.stability=Math.max(.1,c.stability*.2);
+  c.reps=0;c.interval=0;c.lapses=(c.lapses||0)+1;
+  c.due=now+6e5;queue.push(c);
+ }else{
+  // به‌روزرسانی سختی
+  c.difficulty=Math.max(1,Math.min(10,c.difficulty+(q===1?.5:q===3?-1:-.15)));
+  // رشد پایداری: کارت سخت کندتر، کارت آسان سریع‌تر
+  const df=1+(5-c.difficulty)*.12;
+  c.stability=Math.max(1,c.stability*(q===1?1.4:q===2?2.4:3.8)*df);
+  let ivl=Math.round(c.stability);
+  // فاز: جلوگیری از توده شدن مرورها در یک روز
+  if(ivl>2)ivl=Math.round(ivl*(.9+Math.random()*.2));
+  ivl=Math.min(365,Math.max(1,ivl));
+  c.reps=(c.reps||0)+1;c.interval=ivl;c.due=now+ivl*DAY;
+ }
+ // سازگاری با کد قدیمی
+ c.ease=Math.max(1.3,2.5+(5-c.difficulty)*.15);
  const k=fmt(new Date());db.log[k]=(db.log[k]||0)+1;save();if(!noNext)next();
 }
 document.addEventListener("keydown",e=>{
