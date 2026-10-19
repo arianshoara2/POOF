@@ -1537,7 +1537,9 @@ function gInit(){
    }});
  }catch(e){}
  renderG();
- if(db.guser){try{gTokenClient.requestAccessToken({prompt:""})}catch(e){}}
+ /* نکته: توکن به‌عمد موقع لود صفحه خودکار گرفته نمی‌شود؛
+    درخواست خودکار روی موبایل یه تب گوگل گیرکرده باز می‌کند.
+    کاربر با دکمه‌ی «اتصال مجدد» وصل می‌شود. */
 }
 function gSignIn(){if(!gTokenClient){toast("سرویس گوگل در حال بارگذاری… کمی صبر کنید","bad");return}gTokenClient.requestAccessToken()}
 async function gSignOut(){
