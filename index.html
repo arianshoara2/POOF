@@ -137,6 +137,11 @@ button.ib.pri{background:var(--accent);color:var(--bg);border-color:var(--accent
 .lt-ctx{width:100%;font:italic 18px/1.9 var(--serif)}.lt-fa{font:16px/1.9 var(--sans);font-style:normal}
 #ed{position:fixed;inset:0;z-index:300;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
 #ask{position:fixed;inset:0;z-index:310;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+#moviePick{position:fixed;inset:0;z-index:310;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+.movie-it{display:flex;gap:12px;align-items:center;padding:10px;border:1px solid var(--border);border-radius:var(--r-md);margin:8px 0;cursor:pointer;background:var(--bg)}
+.movie-it img{width:96px;height:54px;object-fit:cover;border-radius:8px;flex-shrink:0}
+.movie-it .t{font-weight:600}
+.movie-it .m{font-size:13px;color:var(--muted)}
 .ask-card{width:100%;max-width:560px;max-height:92dvh;overflow:auto;padding:20px 20px calc(20px + env(safe-area-inset-bottom,0px));background:var(--surface);border:1px solid var(--border);border-radius:26px 26px 0 0;box-shadow:var(--shadow-pop)}
 .ask-word{font:600 26px var(--serif);color:var(--accent);margin:4px 0}
 .ask-pos{display:inline-block;font-size:13px;color:var(--bg);background:var(--accent);border-radius:99px;padding:2px 12px;margin-bottom:10px}
@@ -238,6 +243,14 @@ body,header,.card,button,input,select,textarea,.w{transition:color .3s ease,back
    <div class="row"><b>📚 مسیر یادگیری</b><span class="mute" id="learnProg"></span></div>
    <p class="mute" style="margin:6px 0 0">درس‌های قدم‌به‌قدم آلمانی و انگلیسی با تمرین</p>
   </div>
+  <div class="card" id="movieCard" style="cursor:pointer">
+   <div class="row"><b>🎬 فیلم‌های کلاسیک</b><span class="mute">رایگان و قانونی</span></div>
+   <p class="mute" style="margin:6px 0 0">فیلم کامل با زیرنویس — کلمه‌ها رو از دیالوگ‌ها شکار کن</p>
+  </div>
+  <div id="moviePick" hidden role="dialog" aria-label="انتخاب فیلم"><div class="ask-card">
+   <div class="ed-top"><b>🎬 فیلم‌های کلاسیک</b><button class="ib" id="movieClose" aria-label="بستن"><svg class="ic" aria-hidden="true"><use href="#i-close"/></svg></button></div>
+   <div id="movieList"></div>
+  </div></div>
   <div class="card">
    <div class="seg" id="wlSeg"><button class="on" data-wl="de">DE</button><button data-wl="en">EN</button><button data-wl="fa">فا</button></div>
    <div class="searchbar"><input id="wq" dir="auto" placeholder="جست‌وجو در ویکی‌پدیا…"><button class="ib pri" id="wGo" aria-label="جست‌وجو"><svg class="ic" aria-hidden="true"><use href="#i-dict"/></svg></button><button class="ib" id="wRnd" aria-label="مقاله‌ی تصادفی"><svg class="ic" aria-hidden="true"><use href="#i-shuffle"/></svg></button></div>
@@ -378,6 +391,34 @@ body,header,.card,button,input,select,textarea,.w{transition:color .3s ease,back
 <script>
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+/* ===== فیلم‌های کلاسیک public domain ===== */
+const MOVIES=[
+ {yt:"H91BxkBXttE",title:"Night of the Living Dead",fa:"شب مردگان زنده",year:1968,genre:"ترسناک",desc:"کلاسیک زامبی جرج رومرو — دیالوگ‌های ساده و گیرا"},
+ {yt:"UzQWJNNg8DU",title:"His Girl Friday",fa:"دختر جمعه‌ی او",year:1940,genre:"کمدی",desc:"سریع‌ترین دیالوگ تاریخ سینما — عالی برای listening"},
+ {yt:"OwhfqgzsuVU",title:"House on Haunted Hill",fa:"خانه‌ی تپه‌ی جن‌زده",year:1959,genre:"ترسناک",desc:"وینسنت پرایس — تعلیق کلاسیک با دیالوگ‌های تئاتری"}
+];
+function openMovies(){
+ const L=$("#movieList");
+ L.innerHTML=MOVIES.map((m,i)=>{
+  const imported=db.texts.some(t=>t.video&&t.video.id===m.yt);
+  return `<div class="movie-it" data-i="${i}">
+   <img loading="lazy" src="https://i.ytimg.com/vi/${m.yt}/mqdefault.jpg" alt="">
+   <div><div class="t" dir="auto">${esc(m.title)} (${m.year})</div>
+   <div class="m">${esc(m.fa)} · ${esc(m.genre)}</div>
+   <div class="m">${esc(m.desc)}</div>
+   ${imported?`<div class="m" style="color:var(--accent)">✓ در کتابخانه‌ست</div>`:""}</div></div>`;
+ }).join("");
+ $("#moviePick").hidden=false;
+}
+$("#movieClose").onclick=()=>{$("#moviePick").hidden=true};
+$("#moviePick").addEventListener("click",e=>{if(e.target.id==="moviePick")$("#moviePick").hidden=true});
+$("#movieList").onclick=async e=>{
+ const it=e.target.closest(".movie-it");if(!it)return;
+ const m=MOVIES[+it.dataset.i];
+ $("#moviePick").hidden=true;
+ toast("در حال آماده‌سازی زیرنویس…");
+ try{await importYT(m.yt,"en")}catch(err){toast("خطا: "+(err.message||"نامشخص"),"bad")}
+};
 /* ===== ایموجی خودکار برای کلمات (آفلاین) ===== */
 const EMOJI={
 // افعال آلمانی
@@ -764,6 +805,7 @@ function renderLib(){
  const lp=$("#learnProg");
  if(lp){const L=db.learn||{},done=Object.values(L).filter(x=>x&&x.completedAt).length;lp.textContent=done?done+" درس تمام‌شده":"شروع یادگیری"}
  const qc=$("#learnCard");if(qc&&!qc.dataset.bound){qc.dataset.bound="1";qc.onclick=()=>location.href="learn.html"}
+ const mc=$("#movieCard");if(mc&&!mc.dataset.bound){mc.dataset.bound="1";mc.onclick=openMovies}
  const q=(($("#libQ")||{}).value||"").trim().toLowerCase();
  let all=allTexts().filter(t=>!q||(t.title||"").toLowerCase().includes(q));
  const sort=db.libSort||"recent";
