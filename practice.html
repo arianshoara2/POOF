@@ -84,7 +84,9 @@ const MODES=[
  {id:"listen",icon:"🔊",name:"شنیداری",desc:"گوش کن، کلمه‌ی درست رو انتخاب کن",need:4,needMsg:"حداقل ۴ کارت لازم داره"},
  {id:"cloze",icon:"✏️",name:"جای خالی",desc:"جمله رو کامل کن",need:1,needMsg:"کارت‌هایی با جمله‌ی نمونه لازم داره",custom:c=>c.filter(x=>x.context&&x.context.length>10)},
  {id:"match",icon:"🧩",name:"جور کردن",desc:"کلمه‌ها رو با معنی‌هاشون جفت کن",need:5,needMsg:"حداقل ۵ کارت لازم داره"},
+ {id:"speak",icon:"🎤",name:"تلفظ",desc:"کلمه رو بلند بگو، گوش میده",need:1,needMsg:"حداقل ۱ کارت لازم داره",needsMic:true},
 ];
+const micOK=()=>("SpeechRecognition" in window)||("webkitSpeechRecognition" in window);
 
 /* ---------- session ---------- */
 let S=null; // {mode,cards,i,ok,wrong[]}
@@ -97,14 +99,56 @@ function viewHome(){
   const n=db.cards.length;
   app.innerHTML=`<div class="card"><div class="row"><div style="flex:1"><b>تمرین با کارت‌های خودت</b><div class="mute sm">${n?n+" کارت داری":"هنوز کارتی نداری"}</div></div></div></div>
   <div class="modes">${MODES.map(m=>{
-    const p=poolFor(m),ok=p.length>=m.need;
+    const p=poolFor(m),ok=p.length>=m.need&&!(m.needsMic&&!micOK());
+    const why=m.needsMic&&!micOK()?"مرورگرت تشخیص گفتار نداره":m.needMsg+` (داری: ${p.length})`;
     return `<div class="card mode ${ok?"":"disabled"}" data-mode="${m.id}">
       <div class="ic">${m.icon}</div><b>${m.name}</b>
       <div class="mute sm">${m.desc}</div>
-      ${ok?`<div class="sm" style="color:var(--ok);margin-top:6px">شروع ←</div>`:`<div class="sm" style="color:var(--error);margin-top:6px">${m.needMsg} (داری: ${p.length})</div>`}
+      ${ok?`<div class="sm" style="color:var(--ok);margin-top:6px">شروع ←</div>`:`<div class="sm" style="color:var(--error);margin-top:6px">${why}</div>`}
     </div>`}).join("")}</div>
   ${n?`<p class="mute sm center">از تب «خواندن» یا «دیکشنری» کارت بیشتر بساز تا حالت‌های بیشتری باز بشن</p>`:`<div class="card center"><p>هنوز کارتی نداری.</p><button class="ghost" onclick="location.href='index.html'">رفتن به اپ و ساختن کارت</button></div>`}`;
   app.querySelectorAll(".mode:not(.disabled)").forEach(el=>el.onclick=()=>startMode(el.dataset.mode));
+}
+/* --- تلفظ --- */
+function qSpeak(){
+  const c=cur();
+  const lang=/[\u0600-\u06FF]/.test(c.front)?"fa-IR":c.lang==="en"?"en-US":"de-DE";
+  app.innerHTML=`${progress()}<div class="card center"><p class="mute sm">این کلمه رو بلند بگو</p>
+   <div class="big de" style="margin:12px 0">${esc(c.front)}</div>
+   <p class="mute">${esc(c.back)}</p>
+   <div class="row" style="justify-content:center;margin:12px 0">
+    <button class="ghost" id="hear">🔊 بشنو</button>
+    <button id="rec" style="font-size:18px;padding:14px 26px">🎤 بگو</button>
+   </div>
+   <div id="st" class="mute sm"></div>
+   <div id="fb"></div></div>`;
+  $("#hear").onclick=()=>say(c.front,c.lang);
+  let rec=null,listening=false;
+  const stop=()=>{listening=false;try{rec&&rec.stop()}catch(e){}$("#rec").innerHTML="🎤 بگو";$("#rec").disabled=false;$("#st").textContent=""};
+  $("#rec").onclick=()=>{
+    if(listening){stop();return}
+    const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+    if(!SR){$("#st").textContent="مرورگرت تشخیص گفتار نداره";return}
+    rec=new SR();rec.lang=lang;rec.interimResults=false;rec.maxAlternatives=5;
+    listening=true;$("#rec").innerHTML="⏹️ در حال گوش دادن… (بزن تا قطع شه)";$("#st").textContent="بگو…";
+    $("#rec").classList.add("pulse");
+    rec.onresult=e=>{
+      const alts=[];
+      for(let i=0;i<e.results[0].length;i++)alts.push(e.results[0][i].transcript);
+      const target=nz(c.front);
+      const hit=alts.some(a=>nz(a)===target);
+      const heard=alts[0]||"";
+      stop();$("#rec").classList.remove("pulse");
+      finish(hit,`<div class="mute sm">شنیدم: <b class="de">${esc(heard)}</b></div>${hit?"":`<div class="big2 de center" style="margin-top:8px">${esc(c.front)}</div>`}`);
+    };
+    rec.onerror=e=>{
+      stop();$("#rec").classList.remove("pulse");
+      const m={"no-speech":"چیزی نشنیدم — دوباره بگو",aborted:"قطع شد","not-allowed":"دسترسی به میکروفون داده نشد",network:"مشکل شبکه"}[e.error]||"خطا: "+e.error;
+      $("#st").innerHTML=`<span class="badmsg">${m}</span>`;
+    };
+    rec.onend=()=>{if(listening){stop();$("#rec").classList.remove("pulse")}};
+    try{rec.start()}catch(e){stop()}
+  };
 }
 function startMode(id){
   const m=MODES.find(x=>x.id===id);
@@ -120,7 +164,7 @@ function progress(){
 function cur(){return S.cards[S.i]}
 function nextQ(){
   if(S.i>=S.cards.length)return viewResult();
-  const q=({mcq:qMcq,type:qType,listen:qListen,cloze:qCloze,match:qMatch})[S.mode.id];
+  const q=({mcq:qMcq,type:qType,listen:qListen,cloze:qCloze,match:qMatch,speak:qSpeak})[S.mode.id];
   q();
 }
 function finish(ok,html){
