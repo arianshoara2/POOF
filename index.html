@@ -268,6 +268,8 @@ body,header,.card,button,input,select,textarea,.w{transition:color .3s ease,back
    <div class="theme-options" id="themeOpts"><button class="theme-option" data-th="classic"><b>Classic</b><span>گرم، تیره و طلایی</span></button><button class="theme-option" data-th="snowy"><b>Snowy</b><span>آبی شبانه و آرام</span></button></div>
    <p class="mute" style="margin:0 0 4px">آدرس واسط برای wort.app (Cloudflare Worker). نمونه: https://NAME.workers.dev/?url={url}</p>
    <input id="proxy" class="de" placeholder="https://…workers.dev/?url={url}"><button class="ghost full" id="proxyTest" style="margin-bottom:10px">ذخیره و آزمایش اتصال به wort.app</button>
+   <p class="mute" style="margin:0 0 4px">کلید امنیتی ورکر (اختیاری — اگر در ورکر Secret با نام API_KEY ساخته‌اید، همان مقدار را اینجا بگذارید)</p>
+   <input id="wkey" class="de" dir="ltr" placeholder="API_KEY (اختیاری)" autocomplete="off">
    <div class="row"><button class="ghost" id="exp">خروجی پشتیبان (JSON)</button>
     <label class="ghost-label">ورود پشتیبان<input id="imp" type="file" accept=".json,application/json" hidden></label>
     <button class="ghost" id="clrCache">پاک‌کردن کش دیکشنری</button></div>
@@ -930,11 +932,14 @@ const curText=()=>allTexts().find(x=>x.id===db.textId);
 function workerURL(params){
  const p=(db.proxy||"").trim();if(!p)throw new Error("noproxy");
  const u=new URL(p.replace("{url}","x"));u.searchParams.delete("url");
- Object.entries(params).forEach(([k,v])=>u.searchParams.set(k,v));return u.toString();
+ Object.entries(params).forEach(([k,v])=>u.searchParams.set(k,v));
+ if(db.wkey)u.searchParams.set("auth",db.wkey);
+ return u.toString();
 }
 const friendly=e=>{const m=String(e&&e.message||e);
  if(m==="noproxy")return "ابتدا آدرس Worker را در تب «پیشرفت» تنظیم کنید";
  if(/timeout|AbortError/i.test(m))return "درخواست خیلی طول کشید؛ اتصال را چک کنید و دوباره تلاش کنید";
+ if(/unauthorized/i.test(m))return "ورکر کلید می‌خواهد؛ «کلید امنیتی ورکر» را در تب پیشرفت چک کنید";
  if(/proxy 403|host not allowed/.test(m))return "برای این سایت باید KEY را در Worker بگذارید و &key=… را به آدرس Worker اضافه کنید";
  if(/no transcript|empty caption|no captions/.test(m))return "یوتیوب زیرنویس را به Worker نداد. در یوتیوب «Show transcript» را باز کنید، متن را اینجا بچسبانید (زمان‌ها حفظ می‌شود)";
  if(/instagram blocked|login wall|empty page/.test(m))return "اینستاگرام به Worker اجازه نداد؛ متن را دستی بچسبانید";
@@ -1422,7 +1427,7 @@ function renderMe(){
   ["مرور امروز",db.log[fmt(new Date())]||0],["روز پیاپی",streak()]];
  $("#stats").innerHTML=`<div class="grid">${st.map(([l,v])=>`<div class="card stat"><b>${v}</b><span class="mute">${l}</span></div>`).join("")}</div>
   <div class="card"><div class="mute">مرورهای ۷ روز اخیر</div><div class="bars">${days.map(n=>`<div title="${n}" style="height:${Math.min(60,n*4)+2}px"></div>`).join("")}</div></div>`;
- $$("#themeOpts .theme-option").forEach(b=>b.classList.toggle("selected",b.dataset.th===(db.theme==="snowy"?"snowy":"classic")));$("#proxy").value=db.proxy||"";
+ $$("#themeOpts .theme-option").forEach(b=>b.classList.toggle("selected",b.dataset.th===(db.theme==="snowy"?"snowy":"classic")));$("#proxy").value=db.proxy||"";$("#wkey").value=db.wkey||"";
 }
 
 /* ===== 9) Export / Import (با پشتیبان قبل از جایگزینی) ===== */
@@ -1444,7 +1449,7 @@ $("#clrCache").onclick=()=>{cache={};saveCache();toast("کش پاک شد")};
 /* ===== 10) Theme + tabs ===== */
 function applyTheme(){const t=db.theme==="snowy"?"snowy":"classic";document.documentElement.dataset.theme=t;const m=document.querySelector("meta[name=theme-color]");if(m)m.content=t==="snowy"?"#081421":"#111111"}
 $("#proxyTest").onclick=async()=>{
- db.proxy=$("#proxy").value.trim();save();
+ db.proxy=$("#proxy").value.trim();db.wkey=$("#wkey").value.trim();save();
  try{const h=await fetchHTML(WORT+"suchen?q=Schule"),c=h&&parseWortSearch(h);
   toast(c?"اتصال موفق ✓ «"+c.meaning+"»":"صفحه گرفته شد ولی تحلیل نشد",c?"":"bad")}
  catch(x){toast(x.message==="noproxy"?"ابتدا آدرس واسط را وارد کنید":"اتصال ناموفق: "+x.message,"bad")}
