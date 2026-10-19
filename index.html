@@ -183,7 +183,7 @@ button.chip.on{background:var(--active);border-color:var(--accent)}
 .mt{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .okmsg{color:var(--ok);font-weight:700;margin:14px 0 6px}.badmsg{color:var(--error);font-weight:700;margin:14px 0 6px}
 /* ===== floating nav (مثل POOF) ===== */
-nav{position:fixed;right:16px;left:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:100;display:grid;grid-template-columns:repeat(6,1fr);padding:6px;max-width:688px;margin:0 auto;
+nav{position:fixed;right:16px;left:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:100;display:grid;grid-template-columns:repeat(5,1fr);padding:6px;max-width:688px;margin:0 auto;
 background:var(--nav-bg);border:1px solid var(--nav-border);box-shadow:var(--shadow-nav);border-radius:24px;-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);
 transition:transform .42s cubic-bezier(.4,0,.2,1),opacity .35s ease,background-color .3s ease}
 nav.nav-hidden{opacity:0;transform:translateY(calc(100% + 48px));pointer-events:none}
@@ -232,6 +232,10 @@ body,header,.card,button,input,select,textarea,.w{transition:color .3s ease,back
 <main>
  <section id="s-read" class="tab">
   <h2>خواندن</h2>
+  <div class="card" id="learnCard" style="cursor:pointer">
+   <div class="row"><b>📚 مسیر یادگیری</b><span class="mute" id="learnProg"></span></div>
+   <p class="mute" style="margin:6px 0 0">درس‌های قدم‌به‌قدم آلمانی و انگلیسی با تمرین</p>
+  </div>
   <div class="card">
    <div class="seg" id="wlSeg"><button class="on" data-wl="de">DE</button><button data-wl="en">EN</button><button data-wl="fa">فا</button></div>
    <div class="searchbar"><input id="wq" dir="auto" placeholder="جست‌وجو در ویکی‌پدیا…"><button class="ib pri" id="wGo" aria-label="جست‌وجو"><svg class="ic" aria-hidden="true"><use href="#i-dict"/></svg></button><button class="ib" id="wRnd" aria-label="مقاله‌ی تصادفی"><svg class="ic" aria-hidden="true"><use href="#i-shuffle"/></svg></button></div>
@@ -333,7 +337,6 @@ body,header,.card,button,input,select,textarea,.w{transition:color .3s ease,back
  <button data-t="cards"><svg class="ic" aria-hidden="true"><use href="#i-cards"/></svg><span>کارت‌ها</span></button>
  <button data-t="review"><svg class="ic" aria-hidden="true"><use href="#i-review"/></svg><span>مرور</span></button>
  <button data-t="me"><svg class="ic" aria-hidden="true"><use href="#i-me"/></svg><span>پیشرفت</span></button>
- <button onclick="location.href='learn.html'" aria-label="مسیر یادگیری"><svg class="ic" aria-hidden="true"><use href="#i-expand"/></svg><span>یادگیری</span></button>
 </nav>
 <div class="hd" id="hs" hidden></div><div class="hd" id="he" hidden></div>
 <div id="pop" hidden><div id="popT" class="popT"></div><div class="popB">
@@ -721,6 +724,9 @@ function saveProgress(){
  save();
 }
 function renderLib(){
+ const lp=$("#learnProg");
+ if(lp){const L=db.learn||{},done=Object.values(L).filter(x=>x&&x.completedAt).length;lp.textContent=done?done+" درس تمام‌شده":"شروع یادگیری"}
+ const qc=$("#learnCard");if(qc&&!qc.dataset.bound){qc.dataset.bound="1";qc.onclick=()=>location.href="learn.html"}
  const q=(($("#libQ")||{}).value||"").trim().toLowerCase();
  let all=allTexts().filter(t=>!q||(t.title||"").toLowerCase().includes(q));
  const sort=db.libSort||"recent";
