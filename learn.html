@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#111111">
+<title>POOF · مسیر یادگیری</title>
+<style>
+/* ===== tokens (same as main app) ===== */
+:root{--bg:#111111;--surface:#1b1814;--text:#f5f1e8;--muted:#b8b0a4;--accent:#e6b96f;--error:#ff8f87;--ok:#9fd8a8;--border:#4a4032;
+--r-sm:12px;--r-md:16px;--r-lg:20px;
+--sans:system-ui,-apple-system,"Segoe UI","Noto Sans Arabic",Tahoma,sans-serif;--serif:ui-serif,Georgia,"Times New Roman",serif;color-scheme:dark}
+html[data-theme=snowy]{--bg:#081421;--surface:#10263a;--text:#f3f8fc;--muted:#b8c7d3;--accent:#f3c879;--error:#ff9d9d;--ok:#9fe0c0;--border:#294861}
+*{box-sizing:border-box}[hidden]{display:none!important}
+body{margin:0;min-height:100dvh;background:var(--bg);color:var(--text);font:16px/1.75 var(--sans);-webkit-tap-highlight-color:transparent}
+header{background:var(--surface);border-bottom:1px solid var(--border);padding:calc(18px + env(safe-area-inset-top,0px)) 20px 16px}
+.hd{max-width:720px;margin:0 auto;display:flex;align-items:center;gap:12px}
+.mark{width:42px;height:42px;border-radius:14px;background:var(--accent);color:var(--bg);display:grid;place-items:center;font:700 25px/1 var(--serif)}
+h1{margin:0;font:600 21px/1.2 var(--serif);letter-spacing:.16em;color:var(--accent)}.sub{color:var(--muted);font-size:14px}
+main{max-width:720px;margin:0 auto;padding:20px 16px calc(48px + env(safe-area-inset-bottom,0px))}
+h2{margin:6px 0 14px;font-size:21px;color:var(--accent)}h3{margin:0 0 10px;font-size:17px;color:var(--accent)}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:18px;margin-bottom:14px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px}.mute{color:var(--muted)}.sm{font-size:14px}
+.de{direction:ltr;unicode-bidi:isolate;font-family:var(--serif)}
+div.de{text-align:left}
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 20px;border-radius:var(--r-sm);border:1px solid var(--accent);background:var(--accent);color:var(--bg);font:700 16px var(--sans);cursor:pointer;text-decoration:none}
+.btn:active{transform:scale(.97)}.btn.ghost{background:transparent;color:var(--accent)}.btn.full{width:100%;margin-top:14px}.btn:disabled{opacity:.5}
+.ic{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.bar{height:8px;border-radius:99px;background:var(--bg);border:1px solid var(--border);overflow:hidden;margin-top:10px}.bar>i{display:block;height:100%;background:var(--accent);border-radius:99px;transition:width .4s}
+/* path */
+.lesson{display:flex;gap:14px;align-items:center;cursor:pointer;transition:border-color .2s}.lesson:hover{border-color:var(--accent)}
+.lesson.locked{opacity:.45;cursor:default}.lesson .t{flex:1;min-width:0}.lesson b{display:block;font-size:17px}
+.num{width:46px;height:46px;border-radius:14px;border:1px solid var(--border);display:grid;place-items:center;font:600 21px var(--serif);color:var(--accent);flex:none}
+.badge{display:inline-block;padding:0 10px;border:1px solid var(--accent);border-radius:99px;color:var(--accent);font-size:12px;margin-inline-end:8px}
+.st{color:var(--muted)}.st.completed{color:var(--ok)}.st.available,.st.in-progress{color:var(--accent)}
+/* lesson */
+.bub{max-width:88%;padding:10px 14px;border-radius:18px;margin:8px 0;border:1px solid var(--border)}
+.bub.a{background:var(--bg);margin-inline-end:auto;border-end-start-radius:4px}.bub.b{background:color-mix(in srgb,var(--accent) 12%,transparent);margin-inline-start:auto;border-end-end-radius:4px}
+.bub .de{font-size:18px}
+.v{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;padding:9px 0;border-bottom:1px solid var(--border)}.v:last-child{border:0}
+.v .de{font-size:18px;color:var(--accent)}
+.gb{white-space:normal;line-height:2}.gb .de{color:var(--accent);font-size:17px}
+.read .de{font-size:20px;line-height:2}
+/* exercises */
+.dots{display:flex;gap:8px;justify-content:center;margin-bottom:16px}.dot{width:12px;height:12px;border-radius:50%;border:1px solid var(--border)}
+.dot.cur{border-color:var(--accent);background:var(--accent)}.dot.ok{background:var(--ok);border-color:var(--ok)}.dot.bad{background:var(--error);border-color:var(--error)}
+.q{font-size:19px;margin-bottom:14px}.q .de{color:var(--accent)}
+.opt{display:block;width:100%;margin-top:10px;padding:14px 16px;text-align:start;border:1px solid var(--border);border-radius:var(--r-md);background:transparent;color:var(--text);font:500 17px var(--sans);cursor:pointer}
+.opt.de{text-align:left}.opt.right{border-color:var(--ok);color:var(--ok);background:color-mix(in srgb,var(--ok) 14%,transparent)}.opt.wrong{border-color:var(--error);color:var(--error);background:color-mix(in srgb,var(--error) 12%,transparent)}
+input,select{width:100%;padding:12px;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--bg);color:var(--text);font:17px var(--sans);margin-bottom:6px}
+input:focus,select:focus{outline:2px solid var(--accent);outline-offset:2px;border-color:var(--accent)}
+.gap{display:inline-block;min-width:3.2em;border-bottom:2px solid var(--accent);margin:0 4px}
+.fb{margin-top:14px;padding:12px 14px;border-radius:var(--r-md);border:1px solid}.fb.ok{border-color:var(--ok);color:var(--ok)}.fb.bad{border-color:var(--error);color:var(--error)}.fb .de{color:var(--text)}
+.score{font:600 58px/1.2 var(--serif);color:var(--accent);text-align:center}.center{text-align:center}
+/* floating add-card + sheet + toast */
+#selBtn{position:fixed;z-index:50;padding:9px 16px;border-radius:99px;border:0;background:var(--accent);color:var(--bg);font:700 15px var(--sans);box-shadow:0 8px 24px rgba(0,0,0,.5)}
+#sheet{position:fixed;inset:0;z-index:60;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.55)}
+.sc{width:100%;max-width:560px;max-height:92dvh;overflow:auto;background:var(--surface);border:1px solid var(--border);border-radius:26px 26px 0 0;padding:20px 20px calc(20px + env(safe-area-inset-bottom,0px))}
+.sc label{display:block;margin:10px 0 4px;color:var(--muted);font-size:13px}
+.x{border:0;background:none;color:var(--muted);font-size:26px;cursor:pointer;line-height:1}
+#toast{position:fixed;z-index:80;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,8px);padding:10px 18px;border-radius:99px;background:var(--surface);border:1px solid var(--accent);opacity:0;pointer-events:none;transition:.25s;max-width:90%;text-align:center}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+.spin{width:22px;height:22px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:sp .8s linear infinite;margin:40px auto}@keyframes sp{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<header><div class="hd"><span class="mark" aria-hidden="true">P</span><div style="flex:1"><h1>POOF</h1><div class="sub">مسیر یادگیری</div></div>
+ <a class="btn ghost" href="index.html" id="backApp"><svg class="ic" viewBox="0 0 24 24"><path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></svg>بازگشت به اپ</a></div></header>
+<main id="app"><div class="spin" aria-label="در حال بارگذاری"></div></main>
+
+<button id="selBtn" hidden>+ کارت</button>
+<div id="sheet" hidden><div class="sc">
+ <div class="row"><b>کارت جدید</b><button class="x" id="shX" aria-label="بستن">×</button></div>
+ <label for="cF">آلمانی</label><input id="cF" dir="ltr" autocomplete="off">
+ <label for="cB">معنی فارسی (الزامی)</label><input id="cB" dir="auto" autocomplete="off">
+ <label for="cC">جمله‌ی نمونه</label><input id="cC" dir="ltr" autocomplete="off">
+ <label for="cD">دسته</label><select id="cD"></select>
+ <button class="btn full" id="cS">ذخیره</button>
+</div></div>
+<div id="toast" role="status"></div>
+
+<script>
+/* =====================================================================
+   POOF Learn Path — standalone. Reads shared localStorage "poof_v2".
+   Writes ONLY: db.learn (progress) and db.cards (new cards from lessons).
+   ===================================================================== */
+
+/* ---------- 1) LESSON DATA (extend by appending objects) ----------
+   block types: dialog{lines:[{de,fa}]} · vocab{items:[{de,fa,note}]} · grammar{title,body} · text{de,fa}
+   exercise types: mc{q,options,answer(index),why?} · type{q,answer,accept?} · blank{text("___"),answer,accept?,hint?}
+   In Persian strings, [[German]] marks LTR German inside the sentence. */
+const LESSONS=[
+{id:"l01",order:1,level:"A1",minutes:12,title:"سلام و معرفی",titleDe:"Begrüßung und Vorstellung",blocks:[
+ {type:"dialog",lines:[
+  {de:"Guten Tag! Wie heißt du?",fa:"روز بخیر! اسمت چیه؟"},
+  {de:"Hallo! Ich heiße Arian. Und du?",fa:"سلام! اسمم آرین است. تو چی؟"},
+  {de:"Ich bin Lena. Woher kommst du?",fa:"من لنا هستم. اهل کجایی؟"},
+  {de:"Ich komme aus dem Iran. Und du?",fa:"من از ایران می‌آیم. تو چی؟"},
+  {de:"Ich komme aus Deutschland. Freut mich!",fa:"من از آلمان می‌آیم. خوشبختم!"},
+  {de:"Freut mich auch!",fa:"من هم خوشبختم!"}]},
+ {type:"vocab",items:[
+  {de:"Hallo",fa:"سلام",note:"غیررسمی"},{de:"Guten Morgen",fa:"صبح بخیر"},{de:"Guten Tag",fa:"روز بخیر"},{de:"Guten Abend",fa:"عصر بخیر"},
+  {de:"Gute Nacht",fa:"شب بخیر",note:"موقع خواب یا خداحافظی شبانه"},{de:"Tschüss",fa:"خداحافظ",note:"غیررسمی"},{de:"Auf Wiedersehen",fa:"خداحافظ",note:"رسمی"},
+  {de:"Wie heißt du?",fa:"اسمت چیست؟"},{de:"Woher kommst du?",fa:"اهل کجایی؟"},{de:"Freut mich",fa:"خوشبختم"},{de:"Danke",fa:"ممنون"},{de:"Bitte",fa:"خواهش می‌کنم / لطفاً"}]},
+ {type:"grammar",title:"فعل sein (بودن)",body:"فعل [[sein]] بی‌قاعده است و باید حفظ شود:\n[[ich bin]] = من هستم\n[[du bist]] = تو هستی\n[[er / sie / es ist]] = او هست\n[[wir sind]] = ما هستیم\n[[ihr seid]] = شما (جمع، دوستانه) هستید\n[[sie sind]] = آن‌ها هستند\n[[Sie sind]] = شما (رسمی) هستید\nفعل [[heißen]] (نام داشتن) منظم است: [[ich heiße]]، [[du heißt]]، [[er heißt]]."},
+ {type:"grammar",title:"du یا Sie؟",body:"[[du]] برای دوستان، خانواده و بچه‌هاست. [[Sie]] (همیشه با S بزرگ) برای افراد غریبه، بزرگ‌ترها و موقعیت رسمی است. فعلِ [[Sie]] مثل جمع صرف می‌شود: [[Wie heißen Sie?]] (اسم شما چیست؟)"},
+ {type:"text",de:"Hallo! Ich heiße Arian. Ich komme aus dem Iran. Ich bin Student und lerne Deutsch. Freut mich!",fa:"سلام! اسمم آرین است. اهل ایران هستم. دانشجو هستم و آلمانی یاد می‌گیرم. خوشبختم!"}],
+ exercises:[
+  {type:"mc",q:"«روز بخیر» به آلمانی چی میشه؟",options:["Guten Tag","Gute Nacht","Tschüss"],answer:0},
+  {type:"mc",q:"کدام فعل درست است؟ [[Ich ___ Lena.]]",options:["bin","bist","ist"],answer:0,why:"با [[ich]] همیشه [[bin]] می‌آید."},
+  {type:"type",q:"به آلمانی بنویس: اسمم آرین است",answer:"Ich heiße Arian",accept:["ich bin arian","ich heisse arian"]},
+  {type:"blank",text:"Woher ___ du?",answer:"kommst"},
+  {type:"blank",text:"Du ___ mein Freund.",answer:"bist"}]},
+
+{id:"l02",order:2,level:"A1",minutes:15,title:"اعداد و ساعت",titleDe:"Zahlen und Uhrzeit",blocks:[
+ {type:"vocab",items:[
+  {de:"eins",fa:"۱"},{de:"zwei",fa:"۲"},{de:"drei",fa:"۳"},{de:"vier",fa:"۴"},{de:"fünf",fa:"۵"},{de:"sechs",fa:"۶"},{de:"sieben",fa:"۷"},{de:"acht",fa:"۸"},{de:"neun",fa:"۹"},{de:"zehn",fa:"۱۰"},
+  {de:"elf",fa:"۱۱"},{de:"zwölf",fa:"۱۲"},{de:"dreizehn",fa:"۱۳"},{de:"vierzehn",fa:"۱۴"},{de:"fünfzehn",fa:"۱۵"},{de:"sechzehn",fa:"۱۶"},{de:"siebzehn",fa:"۱۷",note:"[[sieben]] → [[siebzehn]]: n حذف می‌شود"},{de:"achtzehn",fa:"۱۸"},{de:"neunzehn",fa:"۱۹"},{de:"zwanzig",fa:"۲۰"}]},
+ {type:"grammar",title:"ساعت چنده؟",body:"سؤال: [[Wie spät ist es?]] یا [[Wie viel Uhr ist es?]]\nساعت تمام: [[Es ist ein Uhr]] (۱:۰۰)، [[Es ist drei Uhr]] (۳:۰۰). فقط برای ۱ می‌گوییم [[ein]].\n[[Viertel nach drei]] = ۳:۱۵ (ربع بعد از ۳)\n[[halb vier]] = ۳:۳۰ (نیمِ ساعتِ ۴؛ یعنی نیم ساعت مانده به ۴)\n[[Viertel vor vier]] = ۳:۴۵ (ربع مانده به ۴)\n[[zehn nach drei]] = ۳:۱۰ — [[fünf vor drei]] = ۲:۵۵\nدام رایج: [[halb vier]] یعنی ۳:۳۰ نه ۴:۳۰."},
+ {type:"grammar",title:"فعل haben (داشتن)",body:"[[ich habe]] = دارم\n[[du hast]] = داری\n[[er / sie / es hat]] = دارد\n[[wir haben]] = داریم\n[[ihr habt]] = دارید (جمع)\n[[sie / Sie haben]] = دارند / دارید (رسمی)\nمثال: [[Ich habe Hunger.]] (گرسنه‌ام) — [[Wir haben Zeit.]] (وقت داریم)"},
+ {type:"dialog",lines:[
+  {de:"Wie viel Uhr ist es?",fa:"ساعت چند است؟"},
+  {de:"Es ist halb acht.",fa:"ساعت هفت و نیم است."},
+  {de:"Oh nein! Der Kurs beginnt um acht Uhr.",fa:"وای نه! کلاس ساعت هشت شروع می‌شود."},
+  {de:"Keine Sorge. Wir haben noch eine halbe Stunde.",fa:"نگران نباش. هنوز نیم ساعت وقت داریم."}]}],
+ exercises:[
+  {type:"mc",q:"عدد [[sieben]] یعنی چه؟",options:["۶","۷","۸"],answer:1},
+  {type:"mc",q:"ساعت ۳:۳۰ به آلمانی چیست؟",options:["halb drei","halb vier","Viertel nach drei"],answer:1,why:"[[halb vier]] = نیم ساعت مانده به ۴ = ۳:۳۰"},
+  {type:"type",q:"به آلمانی بنویس: من دو برادر دارم",answer:"Ich habe zwei Brüder",accept:["ich habe 2 brüder","ich habe zwei brueder"]},
+  {type:"blank",text:"Wir ___ Zeit.",answer:"haben"},
+  {type:"blank",text:"Es ist Viertel ___ vier.",answer:"vor",hint:"ساعت ۳:۴۵"}]},
+
+{id:"l03",order:3,level:"A1",minutes:15,title:"خانواده",titleDe:"Die Familie",blocks:[
+ {type:"vocab",items:[
+  {de:"der Vater",fa:"پدر"},{de:"die Mutter",fa:"مادر"},{de:"die Eltern",fa:"پدر و مادر",note:"همیشه جمع"},{de:"der Bruder",fa:"برادر"},{de:"die Schwester",fa:"خواهر"},
+  {de:"die Geschwister",fa:"خواهر و برادرها",note:"جمع"},{de:"der Sohn",fa:"پسر (فرزند)"},{de:"die Tochter",fa:"دختر (فرزند)"},{de:"die Großmutter / die Oma",fa:"مادربزرگ"},{de:"der Großvater / der Opa",fa:"پدربزرگ"},
+  {de:"der Onkel",fa:"عمو / دایی"},{de:"die Tante",fa:"عمه / خاله"},{de:"das Kind",fa:"کودک"}]},
+ {type:"grammar",title:"ضمایر ملکی: mein و dein",body:"[[mein]] = مال من، [[dein]] = مال تو. مثل [[ein]] صرف می‌شوند:\nمذکر و خنثی بدون پسوند: [[mein Vater]]، [[mein Kind]]\nمؤنث و جمع با پسوند -e: [[meine Mutter]]، [[meine Eltern]]\nهمین قاعده برای [[dein]]: [[dein Bruder]]، [[deine Schwester]]\nاو (مرد) = [[sein]]، او (زن) = [[ihr]]: [[sein Bruder]]، [[ihre Schwester]]"},
+ {type:"dialog",lines:[
+  {de:"Hast du Geschwister?",fa:"خواهر یا برادر داری؟"},
+  {de:"Ja, ich habe zwei Geschwister: Mein Bruder heißt Ali und meine Schwester heißt Sara.",fa:"بله، دو خواهر و برادر دارم: برادرم علی و خواهرم سارا نام دارد."},
+  {de:"Und deine Eltern? Wie heißen sie?",fa:"پدر و مادرت چطور؟ اسمشان چیست؟"},
+  {de:"Mein Vater heißt Reza und meine Mutter heißt Maryam.",fa:"پدرم رضا و مادرم مریم نام دارد."},
+  {de:"Wie alt ist dein Bruder?",fa:"برادرت چند ساله است؟"},
+  {de:"Er ist zwanzig Jahre alt.",fa:"او بیست ساله است."}]},
+ {type:"text",de:"Das ist meine Familie. Mein Bruder heißt Ali. Er ist zwanzig Jahre alt. Meine Schwester heißt Sara. Sie ist sechzehn.",fa:"این خانواده‌ی من است. برادرم علی نام دارد. او بیست ساله است. خواهرم سارا نام دارد. او شانزده ساله است."}],
+ exercises:[
+  {type:"mc",q:"[[___ Mutter heißt Maryam.]]",options:["Mein","Meine","Meinen"],answer:1,why:"[[Mutter]] مؤنث است، پس [[meine]]."},
+  {type:"mc",q:"«عمو یا دایی» به آلمانی؟",options:["der Onkel","die Tante","der Opa"],answer:0},
+  {type:"type",q:"به آلمانی بنویس: برادر من بیست ساله است",answer:"Mein Bruder ist zwanzig Jahre alt",accept:["mein bruder ist 20 jahre alt"]},
+  {type:"blank",text:"Das ist ___ Schwester.",answer:"deine",hint:"خواهر تو"},
+  {type:"blank",text:"Wie ___ ist dein Vater?",answer:"alt"}]},
+
+{id:"l04",order:4,level:"A2",minutes:18,title:"خرید و قیمت",titleDe:"Einkaufen und Preise",blocks:[
+ {type:"dialog",lines:[
+  {de:"Guten Tag! Was möchten Sie?",fa:"روز بخیر! چه میل دارید؟"},
+  {de:"Ich möchte ein Brot und zwei Brötchen, bitte.",fa:"یک نان و دو نان کوچک می‌خواهم، لطفاً."},
+  {de:"Sonst noch etwas?",fa:"چیز دیگری هم هست؟"},
+  {de:"Ja, ich möchte auch einen Kaffee. Was kostet das?",fa:"بله، یک قهوه هم می‌خواهم. این چقدر می‌شود؟"},
+  {de:"Das macht sechs Euro fünfzig.",fa:"می‌شود شش یورو و پنجاه سنت."},
+  {de:"Hier, bitte. Stimmt so!",fa:"بفرمایید. باقی‌اش مال شما!"},
+  {de:"Vielen Dank! Schönen Tag noch!",fa:"خیلی ممنون! روز خوبی داشته باشید!"}]},
+ {type:"vocab",items:[
+  {de:"das Brot",fa:"نان"},{de:"das Brötchen",fa:"نان کوچک"},{de:"der Kaffee",fa:"قهوه"},{de:"die Milch",fa:"شیر"},{de:"der Apfel",fa:"سیب"},{de:"das Wasser",fa:"آب"},
+  {de:"kosten",fa:"قیمت داشتن",note:"[[Was kostet das?]] = این چند است؟"},{de:"bezahlen",fa:"پرداخت کردن"},{de:"teuer",fa:"گران"},{de:"billig / günstig",fa:"ارزان"},{de:"der Euro / der Cent",fa:"یورو / سنت"}]},
+ {type:"grammar",title:"فعل مُدال möchten (می‌خواهم / میل دارم)",body:"[[ich möchte]] · [[du möchtest]] · [[er / sie / es möchte]]\n[[wir möchten]] · [[ihr möchtet]] · [[sie / Sie möchten]]\nبعد از آن یا اسم می‌آید: [[Ich möchte einen Kaffee.]]\nیا مصدر در آخر جمله: [[Ich möchte bezahlen.]]"},
+ {type:"grammar",title:"Akkusativ (مفعول) — مقدماتی",body:"فقط حرف تعریف مذکر تغییر می‌کند:\n[[der Kaffee]] → [[Ich möchte den Kaffee.]]\n[[ein Kaffee]] → [[Ich möchte einen Kaffee.]]\nبرای خنثی، مؤنث و جمع تغییری نیست: [[das Brot]] → [[Ich möchte das Brot.]] — [[die Milch]] → [[Ich möchte eine Milch.]]\nمنفی و ملکی هم همین‌طور: [[keinen]]، [[meinen]] (فقط مذکر)."}],
+ exercises:[
+  {type:"mc",q:"کدام جمله درست است؟",options:["Ich möchte ein Kaffee","Ich möchte einen Kaffee","Ich möchte einem Kaffee"],answer:1,why:"[[der Kaffee]] مذکر است و مفعول → [[einen]]."},
+  {type:"mc",q:"[[Was kostet das?]] یعنی چه؟",options:["این چند است؟","این کجاست؟","این چیست؟"],answer:0},
+  {type:"type",q:"به آلمانی بنویس: یک قهوه می‌خواهم",answer:"Ich möchte einen Kaffee",accept:["ich moechte einen kaffee"]},
+  {type:"blank",text:"Ich möchte ___ Apfel.",answer:"einen",hint:"[[der Apfel]]، نامعین، مفعول"},
+  {type:"blank",text:"Das ___ sechs Euro.",answer:"macht",accept:["kostet"]}]},
+
+{id:"l05",order:5,level:"A2",minutes:20,title:"گذشته‌ی ساده (Perfekt)",titleDe:"Das Perfekt",blocks:[
+ {type:"grammar",title:"ساختار Perfekt",body:"گذشته‌ی گفتاری = [[haben]] یا [[sein]] (صرف‌شده، جایگاه دوم) + [[Partizip II]] (آخر جمله):\n[[Ich habe Pizza gegessen.]] (پیتزا خوردم)\nمنظم: [[ge-]] + ریشه + [[-t]]: [[machen → gemacht]]، [[lernen → gelernt]]\nنامنظم: [[ge-]] + ... + [[-en]]: [[essen → gegessen]]، [[sehen → gesehen]]\nفعل‌های جداشدنی: [[einkaufen → eingekauft]]. فعل‌های پیشوندی غیرجدا، [[ge-]] نمی‌گیرند: [[besuchen → besucht]]."},
+ {type:"grammar",title:"haben یا sein؟",body:"فعل‌های حرکت و تغییر حالت با [[sein]]: [[gehen → ist gegangen]]، [[fahren → ist gefahren]]، [[kommen → ist gekommen]]، [[bleiben → ist geblieben]]، [[aufstehen → ist aufgestanden]].\nبقیه‌ی فعل‌ها با [[haben]]: [[Ich habe gearbeitet.]]، [[Ich habe geschlafen.]]"},
+ {type:"vocab",items:[
+  {de:"gestern",fa:"دیروز"},{de:"letzte Woche",fa:"هفته‌ی گذشته"},{de:"machen → gemacht",fa:"انجام دادن"},{de:"lernen → gelernt",fa:"یاد گرفتن"},{de:"essen → gegessen",fa:"خوردن"},
+  {de:"trinken → getrunken",fa:"نوشیدن"},{de:"sehen → gesehen",fa:"دیدن"},{de:"schlafen → geschlafen",fa:"خوابیدن"},{de:"arbeiten → gearbeitet",fa:"کار کردن",note:"ریشه‌ی [[t]] می‌گیرد: [[-et]]"},
+  {de:"gehen → ist gegangen",fa:"رفتن"},{de:"fahren → ist gefahren",fa:"رانندگی کردن / سفر کردن"},{de:"bleiben → ist geblieben",fa:"ماندن"}]},
+ {type:"dialog",lines:[
+  {de:"Was hast du gestern gemacht?",fa:"دیروز چه کار کردی؟"},
+  {de:"Ich habe lange geschlafen und dann Deutsch gelernt.",fa:"زیاد خوابیدم و بعد آلمانی یاد گرفتم."},
+  {de:"Bist du ins Kino gegangen?",fa:"به سینما رفتی؟"},
+  {de:"Nein, ich bin zu Hause geblieben. Ich habe Pizza gegessen und einen Film gesehen.",fa:"نه، در خانه ماندم. پیتزا خوردم و یک فیلم دیدم."}]},
+ {type:"text",de:"Letzte Woche bin ich nach Berlin gefahren. Ich habe das Brandenburger Tor gesehen und viele Fotos gemacht. Am Abend habe ich im Restaurant gegessen. Es hat mir sehr gut gefallen.",fa:"هفته‌ی گذشته به برلین رفتم. دروازه‌ی براندنبورگ را دیدم و عکس‌های زیادی گرفتم. شب در رستوران غذا خوردم. خیلی خوشم آمد."}],
+ exercises:[
+  {type:"mc",q:"[[Ich ___ gestern Pizza gegessen.]]",options:["habe","bin","hat"],answer:0,why:"[[essen]] فعل حرکتی نیست و با [[haben]] می‌آید."},
+  {type:"mc",q:"Partizip II فعل [[gehen]] کدام است؟",options:["gegeht","gegangen","gegehen"],answer:1},
+  {type:"type",q:"به آلمانی بنویس: دیروز آلمانی یاد گرفتم",answer:"Ich habe gestern Deutsch gelernt",accept:["gestern habe ich deutsch gelernt"]},
+  {type:"blank",text:"Wir sind nach Hamburg ___.",answer:"gefahren"},
+  {type:"blank",text:"Er ___ zu Hause geblieben.",answer:"ist"}]},
+
+{id:"l06",order:6,level:"B1",minutes:22,title:"آرزوها و برنامه‌ها",titleDe:"Wünsche und Pläne",blocks:[
+ {type:"grammar",title:"بیان برنامه و آینده",body:"برای برنامه‌ها اغلب همان حال ساده با قید زمان کافی است: [[Nächstes Jahr mache ich einen Kurs.]]\nآینده‌ی صریح: [[werden]] + مصدر در آخر جمله:\n[[ich werde]] · [[du wirst]] · [[er / sie / es wird]] · [[wir werden]] · [[ihr werdet]] · [[sie / Sie werden]]\n[[Ich werde nach Deutschland ziehen.]] (به آلمان نقل مکان خواهم کرد)\nآرزو: [[Ich möchte ...]] یا [[Ich würde gern ...]] (دوست دارم ...)"},
+ {type:"grammar",title:"Nebensätze با weil و dass",body:"بعد از [[weil]] (چون) و [[dass]] (که) فعل صرف‌شده می‌رود آخر جمله:\n[[Ich lerne Deutsch, weil ich in Deutschland studieren möchte.]]\n[[Ich hoffe, dass ich bald eine Wohnung finde.]]\n[[Ich weiß, dass das schwer ist.]]\nاگر جمله با [[weil]] شروع شود، فعل جمله‌ی اصلی بلافاصله بعد از ویرگول می‌آید: [[Weil ich studieren möchte, lerne ich Deutsch.]]"},
+ {type:"vocab",items:[
+  {de:"der Plan",fa:"برنامه"},{de:"der Wunsch",fa:"آرزو"},{de:"die Zukunft",fa:"آینده"},{de:"hoffen",fa:"امیدوار بودن"},{de:"planen",fa:"برنامه‌ریزی کردن"},
+  {de:"träumen von",fa:"رؤیای ... را داشتن",note:"بعدش حالت [[Dativ]]"},{de:"nächstes Jahr",fa:"سال آینده"},{de:"bald",fa:"به‌زودی"},{de:"studieren",fa:"در دانشگاه خواندن"},
+  {de:"die Wohnung",fa:"آپارتمان / خانه"},{de:"weil",fa:"چون"},{de:"dass",fa:"که"}]},
+ {type:"dialog",lines:[
+  {de:"Was sind deine Pläne für die Zukunft?",fa:"برنامه‌هایت برای آینده چیست؟"},
+  {de:"Nächstes Jahr werde ich nach Deutschland ziehen.",fa:"سال آینده به آلمان نقل مکان خواهم کرد."},
+  {de:"Warum möchtest du dorthin ziehen?",fa:"چرا می‌خواهی به آنجا بروی؟"},
+  {de:"Weil ich dort Informatik studieren möchte.",fa:"چون می‌خواهم آنجا انفورماتیک بخوانم."},
+  {de:"Ich hoffe, dass du bald eine gute Wohnung findest.",fa:"امیدوارم زود یک خانه‌ی خوب پیدا کنی."},
+  {de:"Danke! Ich hoffe es auch.",fa:"ممنون! من هم امیدوارم."}]},
+ {type:"text",de:"Mein Traum ist es, in Deutschland zu studieren. Deshalb lerne ich jeden Tag Deutsch. Ich weiß, dass das viel Zeit braucht, aber ich werde nicht aufgeben. In fünf Jahren möchte ich als Ingenieur arbeiten.",fa:"رؤیای من این است که در آلمان درس بخوانم. برای همین هر روز آلمانی یاد می‌گیرم. می‌دانم که این زمان زیادی می‌برد، اما تسلیم نخواهم شد. می‌خواهم پنج سال دیگر مهندس باشم."}],
+ exercises:[
+  {type:"mc",q:"کدام جمله درست است؟",options:["Ich lerne Deutsch, weil ich möchte in Deutschland studieren.","Ich lerne Deutsch, weil ich in Deutschland studieren möchte.","Ich lerne Deutsch, weil möchte ich in Deutschland studieren."],answer:1,why:"بعد از [[weil]] فعل صرف‌شده ([[möchte]]) آخر جمله می‌رود."},
+  {type:"mc",q:"[[Ich ___ nächstes Jahr nach Berlin fahren.]]",options:["werde","wirst","wird"],answer:0},
+  {type:"type",q:"به آلمانی بنویس: امیدوارم زود موفق شوم",answer:"Ich hoffe, dass ich bald Erfolg habe",accept:["ich hoffe, dass ich bald erfolgreich bin"]},
+  {type:"blank",text:"Ich weiß, ___ das schwer ist.",answer:"dass"},
+  {type:"blank",text:"Sie bleibt zu Hause, ___ sie krank ist.",answer:"weil"}]}
+];
+
+/* ---------- 2) STORAGE (never destroys foreign keys) ---------- */
+const K="poof_v2";let db=null;
+function readRaw(){try{const d=JSON.parse(localStorage.getItem(K));return d&&d.v===2?d:null}catch(e){return null}}
+function load(){db=readRaw();if(!db)return false;if(!db.learn||typeof db.learn!=="object")db.learn={};return true}
+// re-read fresh data, apply a mutation, write back (safe even if the main app changed data meanwhile)
+function commit(fn){
+ const d=readRaw();if(!d){toast("داده‌ی اپ اصلی پیدا نشد");return false}
+ if(!d.learn||typeof d.learn!=="object")d.learn={};if(!Array.isArray(d.cards))d.cards=[];
+ fn(d);try{localStorage.setItem(K,JSON.stringify(d));db=d;return true}catch(e){toast("ذخیره‌سازی ناموفق بود");return false}
+}
+
+/* ---------- 3) HELPERS ---------- */
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fmt=s=>esc(s).replace(/\[\[(.+?)\]\]/g,'<span class="de">$1</span>').replace(/\n/g,"<br>");
+const app=$("#app");let tt;
+function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("show");clearTimeout(tt);tt=setTimeout(()=>t.classList.remove("show"),2400)}
+const I={lock:'<path d="M7 11V8a5 5 0 0 1 10 0v3"/><rect x="5" y="11" width="14" height="9" rx="2.5"/>',play:'<path d="M8 5.5v13l11-6.5z"/>',clock:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',check:'<circle cx="12" cy="12" r="8.5"/><path d="m8 12.3 2.8 2.7L16 9.5"/>'};
+const ic=n=>`<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">${I[n]}</svg>`;
+const done=l=>!!(db.learn[l.id]&&db.learn[l.id].completedAt);
+const byId=id=>LESSONS.find(l=>l.id===id);
+/* status is DERIVED: completed > in-progress > available > locked */
+function status(l){
+ const p=db.learn[l.id]||{};if(p.completedAt)return"completed";if(p.startedAt)return"in-progress";
+ const prev=LESSONS.find(x=>x.order===l.order-1);return(l.order===1||!prev||done(prev))?"available":"locked";
+}
+const LBL={locked:"قفل",available:"آماده",["in-progress"]:"در حال یادگیری",completed:"تمام‌شده"};
+const ICN={locked:"lock",available:"play","in-progress":"clock",completed:"check"};
+const nz=s=>String(s).toLowerCase().replace(/ß/g,"ss").replace(/ä/g,"ae").replace(/ö/g,"oe").replace(/ü/g,"ue").replace(/[.,!?;:"«»]/g,"").replace(/\s+/g," ").trim();
+
+/* ---------- 4) ROUTER: #/ · #/l01 · #/l01/ex ---------- */
+function route(){
+ hideSel();
+ if(!db)return viewError();
+ const m=location.hash.match(/^#\/(l\d+)(\/ex)?$/),l=m&&byId(m[1]);
+ if(!l)return viewPath();
+ if(status(l)==="locked"){toast("اول درس قبلی را تمام کن");location.hash="#/";return}
+ if(m[2])return viewEx(l);
+ viewLesson(l);
+}
+window.addEventListener("hashchange",()=>{route();scrollTo(0,0)});
+
+/* ---------- 5) VIEWS ---------- */
+function viewError(){
+ app.innerHTML=`<div class="card center"><h3>داده‌ی اپ پیدا نشد</h3><p class="mute">اطلاعات اپ اصلی (poof_v2) روی این دستگاه نیست یا خراب است. ابتدا اپ اصلی را یک‌بار باز کنید، بعد دوباره به اینجا برگردید.</p><a class="btn" href="index.html">رفتن به اپ اصلی</a></div>`;
+}
+function viewPath(){
+ if(!LESSONS.length){app.innerHTML=`<div class="card center mute">هنوز درسی اضافه نشده.</div>`;return}
+ const n=LESSONS.filter(done).length,next=LESSONS.slice().sort((a,b)=>a.order-b.order).find(l=>["in-progress","available"].includes(status(l)));
+ app.innerHTML=`<div class="card"><div class="row"><b>پیشرفت کلی</b><span class="mute">${n} از ${LESSONS.length} درس</span></div>
+  <div class="bar"><i style="width:${n/LESSONS.length*100}%"></i></div>
+  <button class="btn full" id="cont" ${next?"":"disabled"}>${next?"ادامه‌ی یادگیری":"همه‌ی درس‌ها تمام شد"}</button></div>`+
+ LESSONS.slice().sort((a,b)=>a.order-b.order).map(l=>{
+  const s=status(l),p=db.learn[l.id]||{};
+  return `<div class="card lesson ${s==="locked"?"locked":""}" data-id="${l.id}"><div class="num">${l.order}</div>
+   <div class="t"><b>${esc(l.title)}</b><span class="de mute" style="font-size:15px">${esc(l.titleDe)}</span>
+    <div class="sm mute" style="margin-top:4px"><span class="badge">${l.level}</span>${l.minutes} دقیقه${p.score!=null?` · بهترین نمره ${p.score}٪`:""}</div>
+    ${s==="in-progress"?`<div class="bar"><i style="width:${Math.max(8,p.score||0)}%"></i></div>`:""}</div>
+   <div class="st ${s}" title="${LBL[s]}">${ic(ICN[s])}</div></div>`}).join("");
+ const go=l=>{location.hash="#/"+l.id};
+ if(next)$("#cont").onclick=()=>go(next);
+ $$(".lesson").forEach(c=>c.onclick=()=>{const l=byId(c.dataset.id);status(l)==="locked"?toast("اول درس قبلی را تمام کن"):go(l)});
+}
+function viewLesson(l){
+ if(!(db.learn[l.id]&&db.learn[l.id].startedAt))commit(d=>{d.learn[l.id]={...(d.learn[l.id]||{}),startedAt:Date.now()}});
+ const B={
+  dialog:b=>`<div class="card"><h3>گفت‌وگو</h3>${b.lines.map((x,i)=>`<div class="bub ${i%2?"b":"a"}"><div class="de">${esc(x.de)}</div><div class="mute sm">${esc(x.fa)}</div></div>`).join("")}</div>`,
+  vocab:b=>`<div class="card"><h3>واژگان</h3>${b.items.map(x=>`<div class="v"><div class="de">${esc(x.de)}</div><div>${esc(x.fa)}${x.note?`<div class="mute sm">${fmt(x.note)}</div>`:""}</div></div>`).join("")}</div>`,
+  grammar:b=>`<div class="card"><h3>${fmt(b.title)}</h3><div class="gb">${fmt(b.body)}</div></div>`,
+  text:b=>`<div class="card read"><h3>متن</h3><div class="de">${esc(b.de)}</div><p class="mute">${esc(b.fa)}</p></div>`};
+ app.innerHTML=`<a class="btn ghost" href="#/" style="margin-bottom:14px">همه‌ی درس‌ها</a>
+  <h2>${esc(l.title)}</h2><div class="de mute" style="margin:-8px 0 14px">${esc(l.titleDe)} · ${l.level}</div>
+  ${l.blocks.map(b=>(B[b.type]||(()=>""))(b)).join("")}
+  <p class="mute sm center">برای ساخت کارت، بخشی از متن آلمانی را انتخاب کنید.</p>
+  <a class="btn full" href="#/${l.id}/ex">شروع تمرین</a>`;
+}
+
+/* ---------- 6) EXERCISE ENGINE ---------- */
+let X=null; // {l,i,ok,res[]}
+const accepts=e=>[e.answer,...(e.accept||[])].map(nz);
+function viewEx(l){
+ if(!X||X.l.id!==l.id)X={l,i:0,ok:0,res:[]};
+ const E=l.exercises;if(!E||!E.length)return viewResult();
+ if(X.i>=E.length)return viewResult();
+ const e=E[X.i],dots=E.map((_,k)=>`<i class="dot ${k<X.i?(X.res[k]?"ok":"bad"):k===X.i?"cur":""}"></i>`).join("");
+ let body="";
+ if(e.type==="mc")body=`<div class="q">${fmt(e.q)}</div>${e.options.map((o,k)=>`<button class="opt ${/[A-Za-z]/.test(o)?"de":""}" data-k="${k}">${esc(o)}</button>`).join("")}`;
+ else if(e.type==="type")body=`<div class="q">${fmt(e.q)}</div><input id="ans" dir="ltr" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Deutsch"><button class="btn full" id="chk">بررسی</button>`;
+ else{const [a,b]=e.text.split("___");body=`<div class="q de" style="font-size:22px">${esc(a)}<span class="gap"></span>${esc(b||"")}</div>${e.hint?`<p class="mute sm">${fmt(e.hint)}</p>`:""}<input id="ans" dir="ltr" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Deutsch"><button class="btn full" id="chk">بررسی</button>`}
+ app.innerHTML=`<div class="dots">${dots}</div><div class="card" id="exc">${body}<div id="fb"></div></div>`;
+ const fin=(ok,correct)=>{
+  X.res[X.i]=ok;if(ok)X.ok++;const last=X.i===E.length-1;
+  $("#fb").innerHTML=`<div class="fb ${ok?"ok":"bad"}">${ok?"درست!":`پاسخ درست: <span class="de">${esc(correct)}</span>`}${e.why?`<div class="mute sm" style="margin-top:6px">${fmt(e.why)}</div>`:""}</div><button class="btn full" id="nx">${last?"پایان تمرین":"بعدی"}</button>`;
+  $("#nx").onclick=()=>{X.i++;viewEx(l);scrollTo(0,0)};$("#nx").focus();
+ };
+ if(e.type==="mc")$$(".opt").forEach(b=>b.onclick=()=>{
+  const k=+b.dataset.k;$$(".opt").forEach((x,j)=>{x.disabled=true;if(j===e.answer)x.classList.add("right")});
+  if(k!==e.answer)b.classList.add("wrong");fin(k===e.answer,e.options[e.answer]);
+ });
+ else{
+  const chk=()=>{const v=$("#ans").value;if(!v.trim())return;$("#ans").disabled=true;$("#chk").hidden=true;
+   const full=e.type==="blank"?e.text.replace("___",e.answer):e.answer;fin(accepts(e).includes(nz(v)),full)};
+  $("#chk").onclick=chk;$("#ans").onkeydown=ev=>{if(ev.key==="Enter")chk()};$("#ans").focus();
+ }
+}
+function viewResult(){
+ const l=X.l,n=l.exercises.length,pct=Math.round(X.ok/n*100),pass=pct>=60;
+ commit(d=>{const p=d.learn[l.id]||{},now=Date.now();
+  d.learn[l.id]={...p,startedAt:p.startedAt||now,score:Math.max(p.score||0,pct),...(pass?{completedAt:p.completedAt||now}:{})}});
+ const nxt=LESSONS.find(x=>x.order===l.order+1);
+ app.innerHTML=`<div class="card center"><div class="score">${pct}٪</div><p>${X.ok} از ${n} پاسخ درست</p>
+  <div class="fb ${pass?"ok":"bad"}" style="text-align:start">${pass?`آفرین! این درس تمام شد.${nxt?` درس بعدی «${esc(nxt.title)}» باز شد.`:""}`:"نمره‌ی قبولی ۶۰ است — دوباره تلاش کن."}</div>
+  <button class="btn full" id="again">تلاش مجدد</button><a class="btn ghost full" href="#/">بازگشت به مسیر</a></div>`;
+ $("#again").onclick=()=>{X=null;viewEx(l);scrollTo(0,0)};
+}
+
+/* ---------- 7) SELECTION → CARD ---------- */
+let pend=null,st;
+function hideSel(){$("#selBtn").hidden=true;pend=null}
+document.addEventListener("selectionchange",()=>{clearTimeout(st);st=setTimeout(()=>{
+ if(!$("#sheet").hidden)return;
+ const s=getSelection();if(!s||s.isCollapsed||!s.anchorNode||!/^#\/l\d+$/.test(location.hash))return hideSel();
+ const el=s.anchorNode.parentElement&&s.anchorNode.parentElement.closest(".de"),txt=s.toString().replace(/\s+/g," ").trim();
+ if(!el||!app.contains(el)||!txt||txt.length>200)return hideSel();
+ const r=s.getRangeAt(0).getBoundingClientRect(),b=$("#selBtn");
+ pend={txt,ctx:ctxFor(el,txt)};b.hidden=false;
+ b.style.top=Math.min(innerHeight-60,r.bottom+14)+"px";b.style.left=Math.max(10,Math.min(innerWidth-100,r.left+r.width/2-45))+"px"; // below selection (native toolbar sits above)
+},180)});
+function ctxFor(el,txt){const hit=el.textContent.trim().split(/(?<=[.!?])\s+/).find(x=>x.includes(txt));return hit&&hit!==txt?hit:""}
+function vocabHit(txt){
+ const l=byId((location.hash.match(/^#\/(l\d+)/)||[])[1]);if(!l)return null;const k=nz(txt.replace(/^(der|die|das)\s+/i,""));
+ for(const b of l.blocks)if(b.type==="vocab")for(const x of b.items)if(nz(x.de.replace(/^(der|die|das)\s+/i,""))===k)return x;return null;
+}
+$("#selBtn").addEventListener("pointerdown",e=>e.preventDefault());
+$("#selBtn").onclick=()=>{
+ if(!pend)return;const h=vocabHit(pend.txt);
+ $("#cF").value=pend.txt;$("#cB").value=h?h.fa:"";$("#cC").value=pend.ctx;
+ const ds=(db.decks&&db.decks.length?db.decks:[{id:"default",name:"پیش‌فرض"}]);
+ $("#cD").innerHTML=ds.map(d=>`<option value="${esc(d.id)}" ${d.id===(db.active||"default")?"selected":""}>${esc(d.name)}</option>`).join("");
+ $("#sheet").hidden=false;$("#selBtn").hidden=true;$("#cB").focus();
+};
+const closeSheet=()=>{$("#sheet").hidden=true;pend=null};
+$("#shX").onclick=closeSheet;$("#sheet").onclick=e=>{if(e.target.id==="sheet")closeSheet()};
+$("#cS").onclick=()=>{
+ const front=$("#cF").value.trim(),back=$("#cB").value.trim();
+ if(!front||!back)return toast("آلمانی و معنی فارسی لازم است");
+ const lid=(location.hash.match(/^#\/(l\d+)/)||[])[1]||"",now=Date.now(),deck=$("#cD").value||"default";
+ const card={id:now.toString(36)+Math.random().toString(36).slice(2,7),front,back,pos:"",def:"",context:$("#cC").value.trim(),
+  source:"lesson:"+lid,deck:deck,deck_id:deck,lang:"de",created_at:now,ease:2.5,interval:0,reps:0,due:now}; // deck_id = field the main app actually reads
+ if(commit(d=>d.cards.push(card))){closeSheet();toast("کارت ذخیره شد");getSelection().removeAllRanges()}
+};
+
+/* ---------- 8) INIT ---------- */
+if(load()&&db.theme==="snowy")document.documentElement.dataset.theme="snowy";
+route();
+</script>
+</body>
+</html>
