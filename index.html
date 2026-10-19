@@ -51,6 +51,8 @@ button.chip:hover{background:var(--hover);filter:none}
 button.ib{width:40px;height:40px;padding:0;border-color:var(--border);background:transparent;color:var(--muted)}
 .vchip{background:transparent;border:1px solid var(--accent);color:var(--accent);border-radius:99px;padding:5px 14px;font-size:12px;cursor:pointer;font-family:inherit;margin:6px 0 2px;opacity:.9}
 .vchip:active{transform:scale(.95)}
+.pbar{height:3px;background:var(--border);border-radius:99px;margin-top:6px;overflow:hidden}
+.pbar i{display:block;height:100%;background:var(--accent);border-radius:99px}
 button.ib:hover{color:var(--accent);border-color:var(--accent);background:var(--hover);filter:none}
 button.ib.danger:hover{color:var(--error);border-color:var(--error)}
 .ic{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
@@ -213,7 +215,7 @@ body,header,.card,button,input,select,textarea,.w{transition:color .3s ease,back
    <div class="searchbar"><input id="wq" dir="auto" placeholder="جست‌وجو در ویکی‌پدیا…"><button class="ib pri" id="wGo" aria-label="جست‌وجو"><svg class="ic" aria-hidden="true"><use href="#i-dict"/></svg></button><button class="ib" id="wRnd" aria-label="مقاله‌ی تصادفی"><svg class="ic" aria-hidden="true"><use href="#i-shuffle"/></svg></button></div>
    <div id="wRes"></div>
   </div>
-  <div class="row" style="margin-bottom:12px"><input id="libQ" placeholder="جست‌وجو در کتابخانه…" style="flex:1"><button class="ib pri" id="addTxt" aria-label="متن جدید"><svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></button></div>
+  <div class="row" style="margin-bottom:12px"><input id="libQ" placeholder="جست‌وجو در کتابخانه…" style="flex:1"><button class="ib" id="libSort" aria-label="مرتب‌سازی" title="مرتب‌سازی">⇅</button><button class="ib pri" id="addTxt" aria-label="متن جدید"><svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></button></div>
   <div id="lib"></div>
   <div class="card" id="addPanel" hidden>
    <div class="searchbar"><input id="tUrl" dir="ltr" placeholder="لینک یوتیوب یا مقاله…"><button class="ib pri" id="tGet" aria-label="دریافت از لینک"><svg class="ic" aria-hidden="true"><use href="#i-link"/></svg></button></div>
@@ -647,23 +649,53 @@ $("#text").onkeydown=e=>{if(e.key==="Enter"||e.key===" "){const el=e.target.clos
 const kindOf=t=>t.video&&t.video.id?"yt":t.video&&t.video.ig?"ig":t.wp?"wp":t.url?"web":"txt";
 const KIND_LB={yt:"یوتیوب",ig:"اینستاگرام",wp:"ویکی‌پدیا",web:"وب",txt:"متن"};
 const KIND_IC={ig:"📷",wp:"📖",web:"🌐",txt:"📝"};
+function progPct(t){
+ if(!t||!t.progress)return 0;
+ if(t.segs&&t.segs.length&&t.progress.seg>0)return Math.min(.99,t.progress.seg/t.segs.length);
+ if(!t.segs&&t.progress.y>10){const h=document.documentElement.scrollHeight-innerHeight;return h>0?Math.min(.99,t.progress.y/h):0}
+ return 0;
+}
+function saveProgress(){
+ const t=curText();if(!t)return;
+ if(t.segs)t.progress={seg:Math.max(0,lastCur)};
+ else t.progress={y:Math.round(scrollY)};
+ save();
+}
 function renderLib(){
  const q=(($("#libQ")||{}).value||"").trim().toLowerCase();
- const all=allTexts().filter(t=>!q||(t.title||"").toLowerCase().includes(q));
+ let all=allTexts().filter(t=>!q||(t.title||"").toLowerCase().includes(q));
+ const sort=db.libSort||"recent";
+ all=all.slice().sort((a,b)=>sort==="az"?(a.title||"").localeCompare(b.title||"","fa"):((b.added||0)-(a.added||0)));
  $("#lib").innerHTML=all.map(t=>{
   const k=kindOf(t),on=t.id===db.textId;
   const th=k==="yt"?`<img loading="lazy" src="https://i.ytimg.com/vi/${t.video.id}/mqdefault.jpg" alt="">`:`<div class="lib-ic">${KIND_IC[k]}</div>`;
   const words=(t.body||"").split(/\s+/).filter(Boolean).length;
   const meta=[KIND_LB[k],LB[t.lang||"de"]||"",t.segs?t.segs.length+" بخش":words?words+" کلمه":null,t.added?new Date(t.added).toLocaleDateString("fa-IR"):null].filter(Boolean).join(" · ");
   const del=db.texts.some(x=>x.id===t.id)?`<button class="lib-del" data-del="${t.id}" aria-label="حذف">×</button>`:"";
-  return `<div class="lib-card${on?" on":""}" data-id="${t.id}">${th}<div class="lib-tx"><b>${esc(t.title||"بدون عنوان")}</b><span class="mute">${meta}</span></div>${del}</div>`;
+  const pc=progPct(t);
+  return `<div class="lib-card${on?" on":""}" data-id="${t.id}">${th}<div class="lib-tx"><b>${esc(t.title||"بدون عنوان")}</b><span class="mute">${meta}</span>${pc>0?`<div class="pbar"><i style="width:${Math.round(pc*100)}%"></i></div>`:""}</div>${del}</div>`;
  }).join("")||`<p class="mute" style="text-align:center">چیزی نیست — با + یک متن اضافه کن.</p>`;
 }
 $("#lib").onclick=e=>{
  const d=e.target.closest("[data-del]");
  if(d){e.stopPropagation();if(!confirm("این متن حذف شود؟"))return;db.texts=db.texts.filter(x=>x.id!==d.dataset.del);if(db.textId===d.dataset.del)db.textId=(allTexts()[0]||{}).id;save();renderReader();return}
  const c=e.target.closest(".lib-card");
- if(c){db.textId=c.dataset.id;save();$("#entry").hidden=true;renderReader();$("#text").scrollIntoView({behavior:"smooth",block:"start"})}
+ if(c){
+  saveProgress();
+  db.textId=c.dataset.id;save();$("#entry").hidden=true;renderReader();
+  const t=allTexts().find(x=>x.id===c.dataset.id);
+  if(t&&t.progress&&t.segs&&t.progress.seg>0){
+   const el=$("#sg"+t.progress.seg);
+   if(el){el.scrollIntoView({block:"center"});toast("ادامه از بخش "+mmss(t.segs[Math.min(t.progress.seg,t.segs.length-1)].s));}
+   else $("#text").scrollIntoView({behavior:"smooth",block:"start"});
+  }
+  else if(t&&t.progress&&!t.segs&&t.progress.y>10){scrollTo(0,t.progress.y);toast("ادامه از جایی که بودید")}
+  else $("#text").scrollIntoView({behavior:"smooth",block:"start"});
+ }
+};
+$("#libSort").onclick=()=>{
+ db.libSort=db.libSort==="az"?"recent":"az";save();renderLib();
+ toast(db.libSort==="az"?"مرتب‌سازی: الفبا":"مرتب‌سازی: تازه‌ترین");
 };
 $("#libQ").oninput=renderLib;
 
@@ -1419,6 +1451,7 @@ $("#proxyTest").onclick=async()=>{
 };
 $("#themeOpts").onclick=e=>{const b=e.target.closest("[data-th]");if(!b)return;db.theme=b.dataset.th;save();applyTheme();renderMe()};
 function tab(t){$("#hSub").textContent=SUB[t];scrollTo(0,0);$("#nav").classList.remove("nav-hidden");$("#pop").hidden=true;sel=null;drawSel();
+ if(!$("#s-read").hidden&&t!=="read")saveProgress();
  $$("#nav button").forEach(b=>b.classList.toggle("on",b.dataset.t===t));
  $$(".tab").forEach(s=>s.hidden=s.id!=="s-"+t);
  if(t==="cards")renderCards();if(t==="review")startReview();if(t==="me")renderMe();if(t==="dict")renderRecent();
@@ -1426,6 +1459,7 @@ function tab(t){$("#hSub").textContent=SUB[t];scrollTo(0,0);$("#nav").classList.
 $("#nav").onclick=e=>{const b=e.target.closest("button");if(b){b.blur();tab(b.dataset.t)}};
 function renderAll(){renderReader();renderRecent();renderCards();renderMe()}
 let lastY=scrollY;addEventListener("scroll",()=>{const y=scrollY;if(!sel)$("#nav").classList.toggle("nav-hidden",y>lastY&&y>90);lastY=y},{passive:true});
+addEventListener("pagehide",()=>{try{if(!$("#s-read").hidden)saveProgress()}catch(e){}});
 applyTheme();renderAll();
 </script>
 <script>
