@@ -377,6 +377,32 @@ body,header,.card,button,input,select,textarea,.w{transition:color .3s ease,back
 <script>
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+/* ===== ایموجی خودکار برای کلمات (آفلاین) ===== */
+const EMOJI={
+// افعال آلمانی
+"gehen":"🚶","kommen":"🏃","laufen":"🏃","rennen":"🏃","fahren":"🚗","fliegen":"✈️","schwimmen":"🏊","essen":"🍽️","trinken":"🥤","schlafen":"😴","aufwachen":"⏰","aufstehen":"🛏️","arbeiten":"💼","lernen":"📚","studieren":"🎓","lesen":"📖","schreiben":"✍️","sprechen":"💬","reden":"💬","sagen":"🗣️","fragen":"❓","antworten":"💡","hören":"👂","sehen":"👀","schauen":"👀","gucken":"👀","fühlen":"🤲","denken":"🤔","glauben":"🙏","wissen":"🧠","kennen":"🤝","verstehen":"💡","lernen2":"📚","kaufen":"🛒","verkaufen":"💰","bezahlen":"💳","kosten":"💲","geben":"🎁","nehmen":"🤲","bringen":"📦","holen":"🏃","suchen":"🔍","finden":"🎯","verlieren":"😞","gewinnen":"🏆","spielen":"🎮","singen":"🎤","tanzen":"💃","lachen":"😂","weinen":"😢","lieben":"❤️","hassen":"💔","heiraten":"💒","helfen":"🤝","danken":"🙏","entschuldigen":"😔","kochen":"🍳","backen":"🍞","waschen":"🧼","putzen":"🧹","aufräumen":"🧹","reparieren":"🔧","bauen":"🏗️","öffnen":"🔓","schließen":"🔒","beginnen":"▶️","anfangen":"▶️","aufhören":"⏹️","enden":"🏁","warten":"⏳","eilen":"💨","bleiben":"🛑","wohnen":"🏠","leben":"🌱","sterben":"⚰️","gebären":"👶","wachsen":"🌱","regnen":"🌧️","schneien":"❄️","scheinen":"☀️","wehen":"💨","donnern":"⛈️",
+// افعال انگلیسی
+"go":"🚶","come":"🏃","run":"🏃","walk":"🚶","drive":"🚗","fly":"✈️","swim":"🏊","eat":"🍽️","drink":"🥤","sleep":"😴","wake":"⏰","work":"💼","learn":"📚","study":"🎓","read":"📖","write":"✍️","speak":"💬","talk":"💬","say":"🗣️","ask":"❓","answer":"💡","hear":"👂","see":"👀","look":"👀","watch":"👀","feel":"🤲","think":"🤔","believe":"🙏","know":"🧠","understand":"💡","buy":"🛒","sell":"💰","pay":"💳","give":"🎁","take":"🤲","bring":"📦","search":"🔍","find":"🎯","lose":"😞","win":"🏆","play":"🎮","sing":"🎤","dance":"💃","laugh":"😂","cry":"😢","love":"❤️","hate":"💔","help":"🤝","cook":"🍳","wash":"🧼","clean":"🧹","open":"🔓","close":"🔒","start":"▶️","begin":"▶️","stop":"⏹️","end":"🏁","wait":"⏳","stay":"🛑","live":"🌱","die":"⚰️","grow":"🌱","rain":"🌧️","snow":"❄️","shine":"☀️",
+// اسم‌های آلمانی
+"haus":"🏠","wohnung":"🏢","zimmer":"🚪","tür":"🚪","fenster":"🪟","tisch":"🪑","stuhl":"🪑","bett":"🛏️","küche":"🍳","bad":"🛁","garten":"🌳","straße":"🛣️","stadt":"🏙️","dorf":"🏘️","land":"🌍","welt":"🌍","schule":"🏫","universität":"🎓","büro":"🏢","fabrik":"🏭","krankenhaus":"🏥","arzt":"👨‍⚕️","lehrer":"👨‍🏫","student":"🎓","kind":"🧒","baby":"👶","mann":"👨","frau":"👩","junge":"👦","mädchen":"👧","familie":"👨‍👩‍👧","vater":"👨","mutter":"👩","bruder":"👦","schwester":"👧","sohn":"👦","tochter":"👧","freund":"🤝","hund":"🐕","katze":"🐈","vogel":"🐦","fisch":"🐟","pferd":"🐎","wasser":"💧","brot":"🍞","milch":"🥛","käse":"🧀","apfel":"🍎","ei":"🥚","fleisch":"🍖","gemüse":"🥬","obst":"🍎","kaffee":"☕","tee":"🍵","bier":"🍺","wein":"🍷","geld":"💰","zeit":"⏰","tag":"☀️","nacht":"🌙","morgen":"🌅","abend":"🌇","woche":"📅","monat":"📅","jahr":"📆","uhr":"🕐","sonne":"☀️","mond":"🌙","stern":"⭐","himmel":"🌌","wolke":"☁️","regen":"🌧️","schnee":"❄️","wind":"💨","meer":"🌊","fluss":"🏞️","berg":"⛰️","wald":"🌲","baum":"🌳","blume":"🌸","herz":"❤️","kopf":"🗣️","auge":"👁️","ohr":"👂","nase":"👃","mund":"👄","hand":"✋","fuß":"🦶","haar":"💇","buch":"📖","zeitung":"📰","brief":"✉️","telefon":"📱","computer":"💻","auto":"🚗","zug":"🚂","bus":"🚌","fahrrad":"🚲","flugzeug":"✈️","schiff":"🚢",
+// اسم‌های انگلیسی
+"house":"🏠","room":"🚪","door":"🚪","window":"🪟","table":"🪑","chair":"🪑","bed":"🛏️","kitchen":"🍳","bathroom":"🛁","garden":"🌳","street":"🛣️","city":"🏙️","country":"🌍","world":"🌍","school":"🏫","university":"🎓","office":"🏢","hospital":"🏥","doctor":"👨‍⚕️","teacher":"👨‍🏫","student":"🎓","child":"🧒","children":"🧒","baby":"👶","man":"👨","woman":"👩","boy":"👦","girl":"👧","family":"👨‍👩‍👧","father":"👨","mother":"👩","brother":"👦","sister":"👧","son":"👦","daughter":"👧","friend":"🤝","dog":"🐕","cat":"🐈","bird":"🐦","fish":"🐟","horse":"🐎","water":"💧","bread":"🍞","milk":"🥛","cheese":"🧀","apple":"🍎","egg":"🥚","meat":"🍖","coffee":"☕","tea":"🍵","money":"💰","time":"⏰","day":"☀️","night":"🌙","morning":"🌅","evening":"🌇","week":"📅","month":"📅","year":"📆","sun":"☀️","moon":"🌙","star":"⭐","sky":"🌌","cloud":"☁️","sea":"🌊","river":"🏞️","mountain":"⛰️","forest":"🌲","tree":"🌳","flower":"🌸","heart":"❤️","head":"🗣️","eye":"👁️","ear":"👂","nose":"👃","mouth":"👄","hand":"✋","foot":"🦶","book":"📖","newspaper":"📰","letter":"✉️","phone":"📱","computer":"💻","car":"🚗","train":"🚂","bus":"🚌","bicycle":"🚲","plane":"✈️","ship":"🚢",
+// صفات
+"groß":"📏","klein":"🤏","gut":"👍","schlecht":"👎","neu":"✨","alt":"👴","jung":"🧒","schön":"😍","hässlich":"😬","schnell":"💨","langsam":"🐢","stark":"💪","schwach":"🥀","warm":"🔥","kalt":"🥶","heiß":"🔥","teuer":"💎","billig":"🏷️","reich":"💰","arm":"🪹","glücklich":"😊","traurig":"😢","müde":"😴","hungrig":"🍽️","durstig":"🥤","krank":"🤒","gesund":"💪","wichtig":"⭐","leicht":"🪶","schwer":"🏋️",
+"big":"📏","small":"🤏","good":"👍","bad":"👎","new":"✨","old":"👴","young":"🧒","beautiful":"😍","ugly":"😬","fast":"💨","slow":"🐢","strong":"💪","weak":"🥀","warm":"🔥","cold":"🥶","hot":"🔥","expensive":"💎","cheap":"🏷️","rich":"💰","poor":"🪹","happy":"😊","sad":"😢","tired":"😴","hungry":"🍽️","thirsty":"🥤","sick":"🤒","healthy":"💪","important":"⭐","easy":"🪶","difficult":"🏋️","hard":"🏋️",
+// متفرقه
+"ja":"✅","nein":"❌","danke":"🙏","bitte":"🙏","entschuldigung":"😔","hallo":"👋","tschüss":"👋","willkommen":"🎉","prosit":"🥂","viel glück":"🍀",
+"yes":"✅","no":"❌","thanks":"🙏","thank you":"🙏","please":"🙏","sorry":"😔","hello":"👋","hi":"👋","bye":"👋","welcome":"🎉","cheers":"🥂","good luck":"🍀","good morning":"🌅","good night":"🌙","guten tag":"👋","guten morgen":"🌅","gute nacht":"🌙"
+};
+function emojiFor(word){
+  if(!word)return "";
+  const k=String(word).toLowerCase().trim().replace(/^(der|die|das|ein|eine)\s+/,"").replace(/[?!.,;:()"]/g,"");
+  if(EMOJI[k])return EMOJI[k];
+  const first=k.split(/\s+/)[0];
+  if(first!==k&&EMOJI[first])return EMOJI[first];
+  return "";
+}
+
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
 const ic=n=>`<svg class="ic" aria-hidden="true"><use href="#i-${n}"/></svg>`;
 const SUB={read:"بخوان، انتخاب کن، یاد بگیر",dict:"دیکشنری آلمانی ⇄ فارسی",cards:"واژه‌های شخصی تو",review:"مرور هوشمند",me:"پیشرفت و تنظیمات"};
@@ -1002,6 +1028,7 @@ function openCardDetail(c){
  const B=$("#cdBody");
  B.innerHTML=`
   <div class="row"><div class="ask-word" dir="auto" style="flex:1">${esc(c.front)}</div>
+   ${emojiFor(c.front)?`<span style="font-size:34px">${emojiFor(c.front)}</span>`:""}
    <button class="ib" id="cdSay" aria-label="تلفظ">${ic("sound")}</button></div>
   ${c.pos?`<span class="ask-pos">${esc(c.pos)}</span>`:""}
   <div class="ask-mean" style="font-size:19px;margin:6px 0">${esc(c.back)}</div>
@@ -1386,15 +1413,15 @@ function renderCards(){
  $("#deckSel").innerHTML=db.decks.map(d=>`<option value="${d.id}" ${d.id===db.active?"selected":""}>${esc(d.name)} (${db.cards.filter(c=>c.deck_id===d.id).length})</option>`).join("");
  const q=$("#search").value.trim().toLowerCase();
  const l=db.cards.filter(c=>c.deck_id===db.active&&(!q||(c.front+c.back).toLowerCase().includes(q))).sort((a,b)=>b.created_at-a.created_at);
- $("#list").innerHTML=l.length?l.map(c=>`<div class="card" data-id="${c.id}">
-  <div class="row"><b class="de wf" style="flex:1">${esc(c.front)}</b><span class="wb">${esc(c.back)}</span></div>
+ $("#list").innerHTML=l.length?l.map(c=>{const em=emojiFor(c.front);return `<div class="card" data-id="${c.id}">
+  <div class="row">${em?`<span style="font-size:22px">${em}</span>`:""}<b class="de wf" style="flex:1">${esc(c.front)}</b><span class="wb">${esc(c.back)}</span></div>
   ${c.def?`<div class="mute de"><i>${esc(c.pos)}</i> — ${esc(c.def)}</div>`:""}
   ${c.context?`<div class="mute de ctx">«${esc(c.context)}»</div>`:""}
   ${c.contextFa?`<div class="mute">${esc(c.contextFa)}</div>`:""}
   ${c.video?`<div><button class="vchip" data-a="jump" title="بازگشت به لحظه‌ی ویدیو">▶ ${mmss(c.video.t||0)}</button></div>`:""}
   ${c.extra&&c.extra.senses.length?`<details class="mute"><summary>معنی‌ها و مثال‌ها</summary>${c.extra.senses.map(z=>`<p><b>${esc(z.meaning)}</b>`+[...z.ex,...z.ph].map(q=>`<span class="de" style="display:block">${esc(q.de)}</span>${esc(q.fa||"")}`).join("")+`</p>`).join("")}</details>`:""}
   <div class="row" style="margin-top:8px"><span class="mute" style="flex:1">${c.due<=Date.now()?"آماده‌ی مرور":"مرور بعدی: "+new Date(c.due).toLocaleDateString("fa-IR")}</span>
-   <button class="ib" data-a="say" aria-label="تلفظ">${ic("sound")}</button><button class="ib" data-a="edit" aria-label="ویرایش">${ic("edit")}</button><button class="ib danger" data-a="del" aria-label="حذف">${ic("trash")}</button></div></div>`).join("")
+   <button class="ib" data-a="say" aria-label="تلفظ">${ic("sound")}</button><button class="ib" data-a="edit" aria-label="ویرایش">${ic("edit")}</button><button class="ib danger" data-a="del" aria-label="حذف">${ic("trash")}</button></div></div>`}).join("")
   :`<p class="state empty">کارتی در این دسته نیست. از «خواندن» یا «دیکشنری» اضافه کنید.</p>`;
 }
 $("#list").onclick=e=>{
@@ -1430,7 +1457,7 @@ function next(){
  if(!cur){b.innerHTML=`<div class="card"><p>${db.cards.length?"مرور امروز تمام شد ✓":"هنوز کارتی ندارید. از تب «خواندن» یا «دیکشنری» اضافه کنید."}</p></div>`;return}
 
  b.innerHTML=`<div class="card"><p class="mute">${queue.length+1} کارت مانده · کارت</p>
-  <div class="big de">${esc(cur.front)} <button class="ib" id="sayb" aria-label="تلفظ">${ic("sound")}</button></div>
+  <div class="big de">${emojiFor(cur.front)?`<span style="font-size:30px">${emojiFor(cur.front)}</span><br>`:""}${esc(cur.front)} <button class="ib" id="sayb" aria-label="تلفظ">${ic("sound")}</button></div>
   ${cur.context?`<div class="mute de">«${esc(cur.context)}»</div>`:""}
   ${cur.video?`<div class="mute" style="font-size:12px">▶ ${mmss(cur.video.t||0)} · از ویدیو</div>`:""}
   <div id="ans" hidden><div class="big">${esc(cur.back)}</div>${cur.def?`<p class="mute de"><i>${esc(cur.pos)}</i> — ${esc(cur.def)}</p>`:""}
