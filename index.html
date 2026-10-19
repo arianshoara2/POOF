@@ -1552,7 +1552,7 @@ function renderG(){
  const row=$("#gRow");if(!row)return;
  if(db.guser&&gToken){
   row.innerHTML=`<span class="chip" dir="auto">${esc(db.guser)}</span><button class="ghost" id="gNow">همگام‌سازی اکنون</button><button class="ghost" id="gOut">خروج</button>`;
-  $("#gOut").onclick=gSignOut;$("#gNow").onclick=()=>gUpload(true);
+  $("#gOut").onclick=gSignOut;$("#gNow").onclick=()=>gSmartSync();
  }else{
   row.innerHTML=`<button class="ghost full" id="gIn">${db.guser?"اتصال مجدد به گوگل":"ورود با گوگل"}</button>`;
   $("#gIn").onclick=gSignIn;
@@ -1570,7 +1570,7 @@ async function gApi(path,opts={}){
 }
 async function gFindFile(){
  const q=encodeURIComponent("name='"+G_FILE+"' and trashed=false");
- const r=await gApi("/drive/v3/files?q="+q+"&spaces=appDataFolder&fields=files(id,modifiedTime)&pageSize=1");
+ const r=await gApi("/drive/v3/files?q="+q+"&spaces=appDataFolder&fields=files(id,modifiedTime)&pageSize=10&orderBy=modifiedTime desc");
  const j=await r.json();return (j.files&&j.files[0])||null;
 }
 async function gUpload(manual){
@@ -1578,6 +1578,9 @@ async function gUpload(manual){
  try{
   const body=JSON.stringify(db);
   let f;
+  if(!db._cloudId){
+   try{const ex=await gFindFile();if(ex)db._cloudId=ex.id}catch(e){}
+  }
   if(db._cloudId){
    const r=await gApi("/upload/drive/v3/files/"+db._cloudId+"?uploadType=media",{method:"PATCH",headers:{"Content-Type":"application/json"},body});
    f=await r.json();
@@ -1595,6 +1598,27 @@ async function gUpload(manual){
  }catch(e){if(e.message!=="gtoken-expired")gSetStatus("err")}
  gSyncing=false;
 }
+async function gPull(){
+ const f=await gFindFile();
+ if(f&&(!db._cloudRev||new Date(f.modifiedTime)>new Date(db._cloudRev))){
+  const localEmpty=(db.cards||[]).length===0&&(db.texts||[]).length===0;
+  const take=localEmpty||confirm("نسخه‌ی جدیدتری از داده‌ها در گوگل‌درایو پیدا شد.\nدانلود و جایگزین نسخه‌ی این دستگاه شود؟\n(نسخه‌ی فعلی به‌عنوان پشتیبان نگه داشته می‌شود)");
+  if(take){
+   const r=await gApi("/drive/v3/files/"+f.id+"?alt=media");const txt=await r.text();
+   try{localStorage.setItem(K+"_precloud",localStorage.getItem(K)||"")}catch(e){}
+   db=JSON.parse(txt);db._cloudId=f.id;db._cloudRev=f.modifiedTime;save();applyTheme();renderAll();renderG();gSetStatus("ok");toast("دانلود شد ✓");return true;
+  }
+ }
+ return false;
+}
+async function gSmartSync(){
+ if(!gToken){toast("ابتدا با گوگل وارد شوید","bad");return}
+ gSetStatus("ing");
+ try{
+  if(await gPull())return;
+  await gUpload(true);
+ }catch(e){if(e.message!=="gtoken-expired")gSetStatus("err")}
+}
 async function onGSignIn(){
  renderG();
  try{
@@ -1603,14 +1627,7 @@ async function onGSignIn(){
  }catch(e){return}
  renderG();gSetStatus("ing");
  try{
-  const f=await gFindFile();
-  if(f&&(!db._cloudRev||new Date(f.modifiedTime)>new Date(db._cloudRev))){
-   if(confirm("نسخه‌ی جدیدتری از داده‌ها در گوگل‌درایو پیدا شد.\nدانلود و جایگزین نسخه‌ی این دستگاه شود؟\n(نسخه‌ی فعلی به‌عنوان پشتیبان نگه داشته می‌شود)")){
-    const r=await gApi("/drive/v3/files/"+f.id+"?alt=media");const txt=await r.text();
-    try{localStorage.setItem(K+"_precloud",localStorage.getItem(K)||"")}catch(e){}
-    db=JSON.parse(txt);save();applyTheme();renderAll();renderG();gSetStatus("ok");toast("دانلود شد ✓");return;
-   }
-  }
+  if(await gPull())return;
   toast("وارد شدید ✓");gUpload(false);
  }catch(e){if(e.message!=="gtoken-expired")gSetStatus("err")}
 }
