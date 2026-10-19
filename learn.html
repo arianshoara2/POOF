@@ -20,6 +20,8 @@ h1{margin:0;font:600 21px/1.2 var(--serif);letter-spacing:.16em;color:var(--acce
 main{max-width:720px;margin:0 auto;padding:20px 16px calc(48px + env(safe-area-inset-bottom,0px))}
 h2{margin:6px 0 14px;font-size:21px;color:var(--accent)}h3{margin:0 0 10px;font-size:17px;color:var(--accent)}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:18px;margin-bottom:14px}
+.card.tip{border:1.5px dashed var(--accent)}
+.mk{display:grid;gap:10px}.mk .wrong{color:#e08080}.mk .right{color:#9fd6a4}
 .row{display:flex;align-items:center;justify-content:space-between;gap:10px}.mute{color:var(--muted)}.sm{font-size:14px}
 .de{direction:ltr;unicode-bidi:isolate;font-family:var(--serif)}
 div.de{text-align:left}
@@ -816,7 +818,9 @@ function viewLesson(l){
   dialog:b=>`<div class="card"><h3>گفت‌وگو</h3>${b.lines.map((x,i)=>`<div class="bub ${i%2?"b":"a"}"><div class="de">${tw(x.de)}</div><div class="mute sm">${esc(x.fa)}</div></div>`).join("")}</div>`,
   vocab:b=>`<div class="card"><h3>واژگان</h3>${b.items.map(x=>`<div class="v"><div class="de">${esc(x.de)}</div><div>${esc(x.fa)}${x.note?`<div class="mute sm">${fmt(x.note)}</div>`:""}</div></div>`).join("")}</div>`,
   grammar:b=>`<div class="card"><h3>${fmt(b.title)}</h3><div class="gb">${fmt(b.body)}</div></div>`,
-  text:b=>`<div class="card read"><h3>متن</h3><div class="de">${tw(b.de)}</div><p class="mute">${esc(b.fa)}</p></div>`};
+  text:b=>`<div class="card read"><h3>متن</h3><div class="de">${tw(b.de)}</div><p class="mute">${esc(b.fa)}</p></div>`,
+  tip:b=>`<div class="card tip"><h3>💡 نکته‌ی پووف</h3><div class="gb">${fmt(b.body)}</div></div>`,
+  mistakes:b=>`<div class="card"><h3>⚠️ اشتباهات رایج</h3><div class="mk">${b.items.map(x=>`<div><div class="wrong">❌ <s>${esc(x.wrong)}</s></div><div class="right">✅ ${esc(x.right)}</div><div class="mute sm">${esc(x.fa)}</div></div>`).join("")}</div></div>`};
  app.innerHTML=`<a class="btn ghost" href="#/" style="margin-bottom:14px">همه‌ی درس‌ها</a>
   <h2>${esc(l.title)}</h2><div class="de mute" style="margin:-8px 0 14px">${esc(l.titleDe)} · ${l.level}</div>
   ${l.blocks.map(b=>(B[b.type]||(()=>""))(b)).join("")}
