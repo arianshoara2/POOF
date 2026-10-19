@@ -300,9 +300,10 @@ body,header,.card,button,input,select,textarea,.w{transition:color .3s ease,back
    <div id="payBox" hidden>
     <p style="margin:8px 0">پلن <b id="payPlan"></b> — مبلغ <b id="payAmt"></b> را به این کارت واریز کنید:</p>
     <div class="cardnum" dir="ltr">6104 3386 7405 4776</div>
-    <p class="mute" style="margin:6px 0">شبا: <span dir="ltr">IR04012000000009962404812</span> · بانک ملت</p>
+    <p class="mute" style="margin:6px 0">شبا: <span dir="ltr">IR04012000000009962404812</span> · بانک ملت · به نام آرین شعرا</p>
     <div class="row"><button class="ghost" id="copyCard">کپی شماره کارت</button><button class="ghost" id="copySheba">کپی شبا</button></div>
-    <p class="mute">پس از واریز، رسید را برای آرین ارسال کنید تا لینک اختصاصی فعال‌سازی برایتان ارسال شود.</p>
+    <p class="mute">پس از واریز، رسید را در تلگرام برای <b dir="ltr">@ariansho</b> ارسال کنید تا لینک اختصاصی فعال‌سازی برایتان ارسال شود.</p>
+    <div class="row"><button class="ghost" id="tgBtn">باز کردن تلگرام</button></div>
    </div>
    <p class="mute" style="font-size:11px;margin-bottom:0">نسخه‌ی نمایشی — پرداخت و فعال‌سازی به‌صورت دستی انجام می‌شود.</p>
   </div>
@@ -1061,6 +1062,7 @@ $("#premium").onclick=e=>{
  }
  if(e.target.closest("#copyCard"))copyText("6104338674054776");
  if(e.target.closest("#copySheba"))copyText("IR04012000000009962404812");
+ if(e.target.closest("#tgBtn"))open("https://t.me/ariansho","_blank");
 };
 $("#tGet").onclick=async()=>{
  const u=$("#tUrl").value.trim();if(!u)return;
