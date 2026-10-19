@@ -829,30 +829,26 @@ function blockLines(root){
  flush();return out;
 }
 function parseGlosbe(html){
- const d=new DOMParser().parseFromString(html,"text/html"),tr=[],ex=[],less=[],phr=[];
- const POS=/^(noun|verb|adjective|adverb|pronoun|preposition|conjunction|interjection|numeral|particle|article|proper|phrase|abbreviation|prefix|suffix)\b/i;
- const SRC=/^(\S+\.(org|com|net)\S*|en\.wiktionary\w*|HeiNER.*|\[\.\.\]|Show .*|Add .*)$/i;
- d.querySelectorAll("h3").forEach(h=>{
-  const w=h.textContent.trim(),li=h.closest("li")||h.parentElement;if(!w||!li)return;
-  const rest=blockLines(li).filter(x=>x!==w&&!SRC.test(x));
-  const pos=rest.find(x=>POS.test(x)&&x.length<30)||"";
-  const lat=rest.filter(x=>x!==pos&&/[A-Za-z]/.test(x)&&!FA.test(x)),fa=rest.filter(x=>FA.test(x));
-  let def="",en="";
-  if(lat.length>=2){def=lat[0];en=lat[1]}
-  else if(lat.length===1){if(fa.length&&lat[0].split(" ").length>=5&&!/\[\.\.\]$/.test(lat[0]))en=lat[0];else def=lat[0]}
-  tr.push({w,pos,def:def.replace(/\s*\[\.\.\]\s*$/,"")});
-  if(en&&fa[0])ex.push({en,fa:fa[0]});
+ const d=new DOMParser().parseFromString(html,"text/html"),tr=[],ex=[];
+ // بهترین ترجمه‌ها از خلاصه‌ی بالای صفحه
+ const sum=d.querySelector("#content-summary strong");
+ if(sum)sum.textContent.split(/[,،]/).map(s=>s.trim()).filter(s=>s&&s.length<40).slice(0,8).forEach(w=>tr.push({w,pos:"",def:""}));
+ // مثال‌ها: هر .translation__example یک جفت en/fa دارد
+ d.querySelectorAll(".translation__example").forEach(div=>{
+  if(ex.length>=8)return;
+  const ps=div.querySelectorAll("p");
+  if(ps.length<2)return;
+  const en=ps[0].textContent.replace(/\s+/g," ").trim(),fa=ps[1].textContent.replace(/\s+/g," ").trim();
+  if(en&&fa&&en.length<300)ex.push({en,fa});
  });
- d.querySelectorAll("li").forEach(li=>{
-  const L=blockLines(li);
-  if(/^Less frequent/i.test(L[0]||""))L.slice(1).forEach(x=>{if(x.length<=40&&!/algorithm/i.test(x)&&less.length<25)less.push(x.replace(/\s+\d+$/,""))});
+ // تعریف‌ها
+ const defs=[];
+ d.querySelectorAll(".translation__definition span[lang=en]").forEach(s=>{
+  const t=s.textContent.replace(/\s+/g," ").trim();
+  if(t&&t.length<120&&defs.length<5)defs.push(t);
  });
- const h2=[...d.querySelectorAll("h2")].find(x=>/Phrases similar/i.test(x.textContent));
- if(h2){
-  let ul=h2.nextElementSibling;while(ul&&!ul.querySelector("li"))ul=ul.nextElementSibling;
-  if(ul)ul.querySelectorAll("li").forEach(li=>{const L=blockLines(li);if(L[0]&&L[1]&&FA.test(L[1])&&phr.length<8)phr.push({en:L[0],fa:L.slice(1).join(" · ")})});
- }
- return tr.length||less.length?{tr,ex,less,phr}:null;
+ if(defs.length&&tr.length)tr[0].def=defs[0];
+ return tr.length?{tr,ex,less:[],phr:[]}:null;
 }
 Providers.glosbe=async(w,a,b)=>{const h=await fetchHTML("https://glosbe.com/"+a+"/"+b+"/"+encodeURIComponent(w));return h?parseGlosbe(h):null};
 
