@@ -306,19 +306,32 @@ html:not([data-theme=snowy]) #lib .lib-card{background:rgba(30,24,18,.5);-webkit
 html[data-theme=snowy] #learnCard b,html[data-theme=snowy] #movieCard b{text-shadow:0 1px 6px rgba(0,0,0,.9)}
 html[data-theme=snowy] #learnCard .mute,html[data-theme=snowy] #movieCard .mute{color:#dbe7f0;text-shadow:0 1px 6px rgba(0,0,0,.9)}
 /* Snowy section backgrounds: library (fixed layer) + reading (reader card) */
-#readBg{display:none;position:fixed;top:0;left:0;width:100vw;height:100dvh;height:100svh;z-index:0;pointer-events:none}
-#readBg::after{content:"";position:absolute;inset:0;background:rgba(8,20,33,.78)}
-html[data-theme=snowy] body:has(#s-read:not([hidden])) #readBg{display:block}
-html:not([data-theme=snowy]) body:has(#s-read:not([hidden])) #readBg{display:block}
+#readBg,#reviewBg,#cardsBg,#meBg{display:none;position:fixed;top:0;left:0;width:100vw;height:100dvh;height:100svh;z-index:0;pointer-events:none}
+#readBg::after,#reviewBg::after,#cardsBg::after,#meBg::after{content:"";position:absolute;inset:0;background:rgba(8,20,33,.78)}
+#reviewBg::after,#cardsBg::after,#meBg::after{background:rgba(8,20,33,.8)}
+body:has(#s-read:not([hidden])) #readBg{display:block}
+body:has(#s-review:not([hidden])) #reviewBg{display:block}
+body:has(#s-cards:not([hidden])) #cardsBg{display:block}
+body:has(#s-me:not([hidden])) #meBg{display:block}
 html:not([data-theme=snowy]) #readBg::after{background:rgba(20,16,12,.8)}
+html:not([data-theme=snowy]) #reviewBg::after,html:not([data-theme=snowy]) #cardsBg::after,html:not([data-theme=snowy]) #meBg::after{background:rgba(20,16,12,.82)}
 html[data-theme=snowy] main{position:relative;z-index:1}
 html:not([data-theme=snowy]) main{position:relative;z-index:1}
 html[data-theme=snowy] #text{box-shadow:var(--shadow-card),inset 0 0 0 2000px rgba(8,20,33,.84)}
 html:not([data-theme=snowy]) #text{box-shadow:var(--shadow-card),inset 0 0 0 2000px rgba(20,16,12,.85)}
+/* Frosted glass: review / cards / profile tabs (over their scenic fixed layers) */
+html[data-theme=snowy] #s-review .card,html[data-theme=snowy] #s-cards .card,html[data-theme=snowy] #s-me .card{background:rgba(16,38,58,.5);-webkit-backdrop-filter:blur(10px) saturate(1.25);backdrop-filter:blur(10px) saturate(1.25)}
+html:not([data-theme=snowy]) #s-review .card,html:not([data-theme=snowy]) #s-cards .card,html:not([data-theme=snowy]) #s-me .card{background:rgba(30,24,18,.52);-webkit-backdrop-filter:blur(10px) saturate(1.15);backdrop-filter:blur(10px) saturate(1.15)}
+#s-review .bx,#s-me .feat li,#s-me .cardnum{background:rgba(255,255,255,.05)}
+html[data-theme=snowy] #s-review input,html[data-theme=snowy] #s-review select,html[data-theme=snowy] #s-cards input,html[data-theme=snowy] #s-cards select,html[data-theme=snowy] #s-me input,html[data-theme=snowy] #s-me select{background:rgba(8,20,33,.45)}
+html:not([data-theme=snowy]) #s-review input,html:not([data-theme=snowy]) #s-review select,html:not([data-theme=snowy]) #s-cards input,html:not([data-theme=snowy]) #s-cards select,html:not([data-theme=snowy]) #s-me input,html:not([data-theme=snowy]) #s-me select{background:rgba(15,12,9,.5)}
 </style>
 </head>
 <body>
 <div id="readBg" class="poof-img-library-bg" aria-hidden="true"></div>
+<div id="reviewBg" class="poof-img-learn-path-bg" aria-hidden="true"></div>
+<div id="cardsBg" class="poof-img-card-bg-snowy" aria-hidden="true"></div>
+<div id="meBg" class="poof-img-header-bg" aria-hidden="true"></div>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
 <symbol id="i-read" viewBox="0 0 24 24"><path d="M2 5.5C4.5 4 8 4 12 6c4-2 7.5-2 10-.5V19c-2.5-1.5-6-1.5-10 .5-4-2-7.5-2-10-.5z"/><path d="M12 6v13.5"/></symbol>
 <symbol id="i-dict" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4-4"/></symbol>
