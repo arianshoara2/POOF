@@ -179,6 +179,7 @@ button.ib.pri{background:var(--accent);color:var(--bg);border-color:var(--accent
 .rich-ex{font-size:12.5px;line-height:1.8;opacity:.72;font-style:italic}
 .rich-ety{font-size:13.5px;line-height:1.9;margin:4px 0}
 .reg-chip{display:inline-block;font-size:10.5px;line-height:1.5;padding:0 7px;border-radius:99px;border:1px solid var(--border);color:var(--accent);vertical-align:2px}
+.lk{border-bottom:1px dotted rgba(230,185,111,.45);cursor:pointer}
 .ask-ex{background:var(--bg);border:1px solid var(--border);border-radius:var(--r-md);padding:10px 12px;margin:6px 0}
 .ask-ex .s{font-size:15px}.ask-ex .t{color:var(--muted);font-size:14px;margin-top:2px}
 .ask-tip{border:1px dashed var(--accent);border-radius:var(--r-md);padding:10px 12px;font-size:14px;margin:10px 0}
@@ -1216,10 +1217,19 @@ async function fetchRich(w,lang){
    var html=await fetchHTML("https://"+lang+".wiktionary.org/api/rest_v1/page/html/"+encodeURIComponent(t));
    if(!html)continue;
    var r=lang==="de"?parseRichDE(html):parseRichEN(html);
-   if(r&&(r.ipa.length||r.meanings.length||r.etymology))return r;
+   if(r&&(r.ipa.length||r.meanings.length||r.etymology)){r.lang=lang;return r}
   }
  }catch(e){}
  return null;
+}
+
+/* wrap word tokens of plain text in tappable .lk spans (escape-safe: tokenize the raw text, esc() every piece — tokens never contain &<>" so entities can't be corrupted) */
+function linkifyRich(text,lang){
+ var s=String(text||"");if(!s)return"";
+ var re=lang==="en"?/[A-Za-z][A-Za-z'’-]+/g:/[A-Za-zÄÖÜäöüß][A-Za-zÄÖÜäöüß'’-]+|[A-Za-zÄÖÜäöüß]/g;
+ var out="",last=0,m;
+ while((m=re.exec(s))){out+=esc(s.slice(last,m.index))+'<span class="lk" data-w="'+esc(m[0])+'">'+esc(m[0])+"</span>";last=m.index+m[0].length}
+ return out+esc(s.slice(last));
 }
 
 /* render the rich block (Livio-style) into the entry view */
@@ -1229,15 +1239,17 @@ function richHTML(r){
  var head=(r.ipa||[]).map(function(v){return /^[\/\[]/.test(v)?v:"["+v+"]"}).join("  ");
  var gram="";
  if(r.genus){gram=r.genus;if(r.plural&&r.plural!=="—")gram+=" · Plural: "+r.plural;else if(r.plural==="—"||r.keinPlural)gram+=" · kein Plural"}
+ var L=r.lang==="en"?"en":"de";
  var means=(r.meanings||[]).map(function(mn){
-  return "<li>"+(mn.label?'<span class="reg-chip" dir="auto">'+esc(regFa(mn.label)||mn.label)+"</span> ":"")+'<span dir="auto">'+esc(mn.text)+"</span>"+(mn.ex||[]).map(function(x){return '<div class="rich-ex" dir="auto">'+esc(x)+"</div>"}).join("")+"</li>";
+  return "<li>"+(mn.label?'<span class="reg-chip" dir="auto">'+esc(regFa(mn.label)||mn.label)+"</span> ":"")+'<span dir="auto">'+linkifyRich(mn.text,L)+"</span>"+(mn.ex||[]).map(function(x){return '<div class="rich-ex" dir="auto">'+linkifyRich(x,L)+"</div>"}).join("")+"</li>";
  }).join("");
  return '<div class="rich-sec">'
   +'<div class="row" style="gap:6px;align-items:center;margin-bottom:2px">'+ic("globe")+'<span class="lbl" style="margin:0">ویکی‌واژه</span></div>'
+  +(((r.meanings||[]).length||r.etymology)?'<div class="mute" style="font-size:11px">روی هر کلمه بزن تا معنیش رو ببینی</div>':"")
   +((head||gram)?'<div class="mute" dir="ltr" style="text-align:left"><span class="de">'+esc([head,gram].filter(Boolean).join("   "))+"</span></div>":"")
   +(r.syllables?'<div class="mute"><span class="de">'+esc(r.syllables)+"</span></div>":"")
   +(means?'<ol class="rich-mean">'+means+"</ol>":"")
-  +(r.etymology?'<details style="margin-top:6px"><summary>ریشه و ساخت</summary><p class="rich-ety" dir="auto">'+esc(r.etymology)+"</p></details>":"")
+  +(r.etymology?'<details style="margin-top:6px"><summary>ریشه و ساخت</summary><p class="rich-ety" dir="auto">'+linkifyRich(r.etymology,L)+"</p></details>":"")
   +((r.synonyms||[]).length?'<p class="lbl">مترادف‌ها</p><div class="row">'+chips(r.synonyms)+"</div>":"")
   +((r.antonyms||[]).length?'<p class="lbl">متضادها</p><div class="row">'+chips(r.antonyms)+"</div>":"")
   +"</div>";
@@ -1253,6 +1265,7 @@ var richBusy={};
 function fillRich(box,e,t){
  if(!e||e.dir==="fa")return;
  var slot=$("#richSlot",box);if(!slot)return;
+ box._rl=e.dir==="en"?"en":"de";
  if(e.rich!==undefined){if(e.rich)slot.innerHTML=richHTML(e.rich);return}
  var key=(e.dir==="en"?"en":"de")+":"+e.word.toLowerCase();
  if(richBusy[key])return;richBusy[key]=1;
@@ -1267,6 +1280,13 @@ const deckOpts=sel=>db.decks.map(d=>`<option value="${d.id}" ${d.id===sel?"selec
 async function showEntry(box,raw,ctx,src,lang){
  if(sel){sel=null;drawSel()}
  const t=box._t=(box._t||0)+1;box.hidden=false;
+ if(!box._lk){box._lk=1;box.addEventListener("click",ev=>{
+  if(!ev.target.closest||ev.target.closest("button, a, .ask-chip, .chip"))return;
+  const s=ev.target.closest(".lk");if(!s)return;
+  const w=(s.dataset.w||"").replace(/[.'’\-–—]+$/,"").trim();if(!w)return;
+  showEntry(box,w,"","dictionary",box._rl||"de");
+  box.scrollIntoView({behavior:"smooth",block:"start"});
+ })}
  box.innerHTML=`<p class="state loading">در حال جست‌وجو…</p>`;
  let e;
  try{e=await lookup(raw,lang)}catch(err){
