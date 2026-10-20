@@ -12,6 +12,7 @@
 --sans:system-ui,-apple-system,"Segoe UI","Noto Sans Arabic",Tahoma,sans-serif;--serif:ui-serif,Georgia,"Times New Roman",serif;color-scheme:dark}
 html[data-theme=snowy]{--bg:#081421;--surface:#10263a;--text:#f3f8fc;--muted:#b8c7d3;--accent:#f3c879;--error:#ff9d9d;--ok:#9fe0c0;--border:#294861}
 *{box-sizing:border-box}[hidden]{display:none!important}
+html{background:var(--bg)}
 body{margin:0;min-height:100dvh;background:var(--bg);color:var(--text);font:16px/1.75 var(--sans);-webkit-tap-highlight-color:transparent}
 header{background:var(--surface);border-bottom:1px solid var(--border);padding:calc(18px + env(safe-area-inset-top,0px)) 20px 16px}
 .hd{max-width:720px;margin:0 auto;display:flex;align-items:center;gap:12px}
@@ -85,10 +86,8 @@ input:focus,select:focus{outline:2px solid var(--accent);outline-offset:2px;bord
 .plab .sm{font-size:11px}
 .pnum{color:var(--accent)}
 /* Snowy learn-path background */
-#learnBg{display:none;position:fixed;top:0;left:0;width:100vw;height:100dvh;z-index:0;pointer-events:none}
-html[data-theme=snowy] #learnBg{display:block}
+#learnBg{display:block;position:fixed;top:0;left:0;width:100vw;height:100dvh;height:100svh;z-index:0;pointer-events:none}
 #learnBg::after{content:"";position:absolute;inset:0;background:rgba(8,20,33,.68)}
-html:not([data-theme=snowy]) #learnBg{display:block}
 html:not([data-theme=snowy]) #learnBg::after{background:rgba(20,16,12,.68)}
 #app{position:relative;z-index:1}
 header{position:relative;z-index:2}
