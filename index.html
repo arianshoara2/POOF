@@ -244,6 +244,9 @@ nav button.hero .ic{width:26px;height:26px}
 nav button.hero.on{background:linear-gradient(135deg,var(--accent),#caa25e);color:var(--bg);filter:brightness(1.08);box-shadow:0 0 0 3px var(--bg),0 10px 26px rgba(0,0,0,.55),0 0 20px var(--active)}
 /* ===== popover + toast ===== */
 #pop{position:fixed;z-index:270;width:min(320px,90vw);padding:12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);box-shadow:var(--shadow-pop)}
+/* ===== پیش‌نمایش سریع کلمه (Peek) — زیر #uiModal (۵۰۰) ===== */
+#peek{position:fixed;inset:0;z-index:330;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+.peek-card{width:100%;max-width:560px;max-height:72dvh;overflow:auto;padding:18px 20px calc(18px + env(safe-area-inset-bottom,0px));background:var(--surface);border:1px solid var(--border);border-bottom:0;border-radius:26px 26px 0 0;box-shadow:var(--shadow-pop);animation:umUp .28s cubic-bezier(.2,.9,.3,1)}
 .popT{min-height:34px;padding:6px 4px 12px;margin-bottom:8px;border-bottom:1px solid var(--border);font:19px/1.5 var(--serif);text-align:center;word-break:break-word}
 .popB{display:flex;gap:2px;justify-content:space-between;align-items:center}
 .popB button{width:42px;height:42px;padding:0;border:0;border-radius:var(--r-sm);background:transparent;color:var(--muted)}
@@ -576,6 +579,11 @@ html:not([data-theme=snowy]) #s-cards #list .card::after{background:linear-gradi
 <div class="hd" id="hs" hidden></div><div class="hd" id="he" hidden></div>
 <div id="pop" hidden><div id="popT" class="popT"></div><div class="popB">
  <button data-p="say" aria-label="تلفظ"><svg class="ic" aria-hidden="true"><use href="#i-sound"/></svg></button><button data-p="ask" aria-label="از پووف بپرس" style="font-size:20px">✨</button><button data-p="more" aria-label="جزئیات"><svg class="ic" aria-hidden="true"><use href="#i-expand"/></svg></button><button data-p="sent" aria-label="گسترش به جمله"><svg class="ic" aria-hidden="true"><use href="#i-sent"/></svg></button><button data-p="copy" aria-label="کپی"><svg class="ic" aria-hidden="true"><use href="#i-copy"/></svg></button><button data-p="edit" aria-label="ویرایش"><svg class="ic" aria-hidden="true"><use href="#i-edit"/></svg></button><button data-p="add" class="plus" aria-label="افزودن به کارت‌ها"><svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></button></div></div>
+<div id="peek" hidden role="dialog" aria-label="پیش‌نمایش کلمه"><div class="peek-card">
+ <div class="row" style="align-items:center"><span class="big2 de" id="peekHead" style="flex:1"></span><button class="ib" id="peekX" aria-label="بستن"><svg class="ic" aria-hidden="true"><use href="#i-close"/></svg></button></div>
+ <div id="peekBody"></div>
+ <button id="peekFull" class="full" style="margin-top:12px">مشاهده کامل ←</button>
+</div></div>
 <div id="lt" hidden role="dialog" aria-label="جعبه لایتنر">
  <div class="lt-top"><button class="ib" id="ltClose" aria-label="بستن"><svg class="ic" aria-hidden="true"><use href="#i-close"/></svg></button><span class="mute" id="ltCount"></span><span class="badge" id="ltBox"></span></div>
  <div class="lt-hints" dir="ltr"><span class="no">← بلد نبودم</span><span class="ok">بلد بودم →</span></div>
@@ -1439,17 +1447,136 @@ function fillRich(box,e,t){
  net();
 }
 
+/* ===== پیش‌نمایش سریع کلمه (Peek) + پشته‌ی ناوبری مدخل‌ها و برگشت درون‌برنامه‌ای =====
+   لمس کلمه‌ی .lk اول Peek را باز می‌کند (بدون خروج از روند خواندن)؛ «مشاهده کامل»
+   ناوبری واقعی را با push روی پشته انجام می‌دهد و دکمه‌ی «‹ برگشت» پشته را برمی‌گرداند. */
+let _rdScrollY=null;
+function pushHist(){try{history.pushState({poof:1},"")}catch(e){}}
+function entNav(box,raw,ctx,src,lang,mode){
+ try{
+  const item={word:raw,lang:lang||"de",ctx:ctx||"",src:src||""};
+  if(mode==="root"){box._stack=[];box._cur=item}
+  else{
+   if(box._cur&&String(box._cur.word).toLowerCase()!==String(raw).toLowerCase()){
+    box._stack=box._stack||[];box._stack.push(box._cur);if(box._stack.length>25)box._stack.shift();
+   }
+   box._cur=item;
+  }
+  if(box===$("#entry")&&(box.hidden||mode!=="root"))pushHist();
+ }catch(e){}
+ showEntry(box,raw,ctx,src,lang);
+}
+function entBack(box){
+ const st=box._stack||[];if(!st.length)return false;
+ const p=st.pop();box._cur=p;showEntry(box,p.word,p.ctx,p.src,p.lang);return true;
+}
+function entHead(box){
+ try{
+  const st=box._stack||[];if(!st.length)return;
+  const d=document.createElement("div");d.className="row";d.style.cssText="gap:8px;align-items:center;margin-bottom:8px";
+  d.innerHTML='<button type="button" class="ghost" data-pkback="1" style="padding:4px 14px">‹ برگشت</button><span class="mute" style="font-size:12px">'+esc(st[st.length-1].word)+"</span>";
+  box.insertBefore(d,box.firstChild);
+ }catch(e){}
+}
+function closeEntryOverlay(){
+ const eb=$("#entry");if(!eb)return;
+ eb.hidden=true;eb._stack=[];eb._cur=null;
+ if(_rdScrollY!=null){const y=_rdScrollY;_rdScrollY=null;try{scrollTo(0,y)}catch(e){}}
+}
+/* --- Peek: حل داده بدون تعویض نما: کش ← پک آفلاین ← fetchRich پس‌زمینه + ترجمه‌ی سریع --- */
+let peekN=0,peekCtx=null;
+const peekOpen=()=>{const p=$("#peek");return!!(p&&!p.hidden)};
+function closePeek(){const p=$("#peek");if(p)p.hidden=true;peekN++}
+function peekFill(head,fa,rich,loading){
+ const b=$("#peekBody"),h=$("#peekHead");if(!b||!h||!peekCtx)return;
+ h.textContent=head;
+ let s="";
+ if(rich&&((rich.ipa&&rich.ipa.length)||rich.audio)){
+  const ip=(rich.ipa||[]).map(v=>/^[\/\[]/.test(v)?v:"["+v+"]").join("  ");
+  s+='<div class="mute" dir="ltr" style="text-align:left;display:flex;align-items:center;gap:8px;margin:4px 0">'
+   +(rich.audio?'<button type="button" class="raudio" data-pkaudio="'+esc(rich.audio)+'" aria-label="پخش تلفظ واقعی">'+ic("sound")+"</button>":"")
+   +(ip?'<span class="de">'+esc(ip)+"</span>":"")+"</div>";
+ }
+ if(fa)s+='<p style="margin:6px 0;font-size:17px">'+esc(fa)+"</p>";
+ const m=rich&&rich.meanings&&rich.meanings[0];
+ if(m)s+='<p class="de" dir="auto" style="margin:6px 0;color:var(--muted);font-size:14px;line-height:1.9">'
+  +(m.label?'<span class="reg-chip" dir="auto">'+esc(regFa(m.label)||m.label)+"</span> ":"")+esc(m.text)+"</p>";
+ if(!s)s=loading?'<p class="state loading">در حال بارگذاری…</p>':'<p class="mute">پیش‌نمایشی در دسترس نیست — «مشاهده کامل» را بزنید.</p>';
+ else if(loading&&!(fa&&rich))s+='<p class="mute" style="font-size:11px;margin:2px 0">…</p>';
+ b.innerHTML=s;
+}
+function openPeek(box,word,lang,opts){
+ opts=opts||{};lang=lang||"de";word=String(word||"").trim();if(!word)return;
+ const n=++peekN;
+ peekCtx={box,word,lang,ctx:opts.ctx||"",src:opts.src||"dictionary",root:!!opts.root,dt:!!opts.dt,lb:!!opts.lb};
+ const pk=$("#peek");if(!pk)return;pk.hidden=false;pushHist();
+ $("#peekHead").textContent=word;$("#peekBody").innerHTML='<p class="state loading">در حال بارگذاری…</p>';
+ (async()=>{
+  let fa="",rich=null,head=word;
+  try{
+   const key=word.toLowerCase();
+   const e=lang==="en"?(cache["en:"+key]||cache[key]):cache[key];
+   if(e){
+    if(e.fa&&e.fa[0])fa=e.fa[0];
+    if(e.rich)rich=e.rich;
+    if(lang!=="en"&&e.wort){
+     const W=e.wort,cd=W.card,dc=W.dict,art=(cd&&cd.article)||(dc&&dc.article)||"",hw=(cd&&cd.word)||(dc&&dc.word)||"";
+     if(hw)head=(art?art+" ":"")+hw;
+    }
+   }
+  }catch(_){}
+  if(n!==peekN)return;peekFill(head,fa,rich,true);
+  if(lang==="de"&&!rich){try{rich=await packLookupDE(word)}catch(_){}}
+  if(n!==peekN)return;if(rich)peekFill(head,fa,rich,true);
+  if(!rich){try{rich=await fetchRich(word,lang)}catch(_){}}
+  if(n!==peekN)return;if(rich)peekFill(head,fa,rich,true);
+  if(!fa){try{fa=await quick(word,lang)}catch(_){}}
+  if(n!==peekN)return;
+  if(rich&&rich.genus&&head===word)head=rich.genus+" "+word;
+  peekFill(head,fa,rich,false);
+ })();
+}
+$("#peekX").onclick=()=>closePeek();
+$("#peek").addEventListener("click",e=>{if(e.target.id==="peek")closePeek()});
+$("#peekBody").addEventListener("click",e=>{const b=e.target.closest("[data-pkaudio]");if(b&&peekCtx)playRich(b.dataset.pkaudio,peekCtx.word,peekCtx.lang,b)});
+$("#peekFull").onclick=()=>{
+ const c=peekCtx;if(!c)return;closePeek();
+ if(c.root){
+  if(c.box===$("#entry")&&!c.lb)_rdScrollY=window.scrollY;
+  entNav(c.box,c.word,c.ctx,c.src,c.lang,"root");
+  if(c.dt){$("#q").value=norm(c.word);scrollTo({top:0,behavior:"smooth"})}
+  else if(!c.lb)c.box.scrollIntoView({behavior:"smooth"});
+ }else entNav(c.box,c.word,c.ctx,c.src,c.lang,"push");
+};
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&peekOpen())closePeek()});
+/* برگشت سیستمی: اول Peek، بعد پشته‌ی مدخل، بعد بستن پوشش مدخلِ مطالعه (با بازگردانی اسکرول).
+   وقتی هیچ‌کدام باز نیستند، رفتار پیش‌فرض مرورگر دست نخورده می‌ماند. */
+window.addEventListener("popstate",()=>{
+ try{
+  const busy=["#uiModal","#ask","#ed","#moviePick","#cdetail"].some(s=>{const el=$(s);return el&&!el.hidden});
+  if(busy)return;
+  if(peekOpen()){closePeek();return}
+  const eb=$("#entry");
+  if(eb&&!eb.hidden){
+   if((eb._stack||[]).length){entBack(eb);return}
+   closeEntryOverlay();return;
+  }
+  const de2=$("#dentry"),ds=$("#s-dict");
+  if(de2&&ds&&!ds.hidden&&!de2.hidden&&(de2._stack||[]).length){entBack(de2);return}
+ }catch(e){}
+});
+
 /* ===== 3) Entry view: sense picker, lemma, listen, add to deck ===== */
 const deckOpts=sel=>db.decks.map(d=>`<option value="${d.id}" ${d.id===sel?"selected":""}>${esc(d.name)}</option>`).join("");
 async function showEntry(box,raw,ctx,src,lang){
  if(sel){sel=null;drawSel()}
  const t=box._t=(box._t||0)+1;box.hidden=false;
+ if(!box._bk){box._bk=1;box.addEventListener("click",ev=>{const bb=ev.target.closest&&ev.target.closest("[data-pkback]");if(bb){ev.preventDefault();entBack(box)}})}
  if(!box._lk){box._lk=1;box.addEventListener("click",ev=>{
   if(!ev.target.closest||ev.target.closest("button, a, .ask-chip, .chip"))return;
   const s=ev.target.closest(".lk");if(!s)return;
   const w=(s.dataset.w||"").replace(/[.'’\-–—]+$/,"").trim();if(!w)return;
-  showEntry(box,w,"","dictionary",box._rl||"de");
-  box.scrollIntoView({behavior:"smooth",block:"start"});
+  openPeek(box,w,box._rl||"de",{src:"dictionary"});
  })}
  box.innerHTML=`<p class="state loading">در حال جست‌وجو…</p>`;
  let e;
@@ -1493,6 +1620,7 @@ async function showEntry(box,raw,ctx,src,lang){
     if(addCard({...c,source:src||"dictionary",deck_id:$("#dk",box).value})){b.textContent="اضافه شد ✓";b.disabled=true}
    }
   };
+  entHead(box);
   fillRich(box,e,t);
   return;
  }
@@ -1528,7 +1656,7 @@ async function showEntry(box,raw,ctx,src,lang){
   if(a==="say")say(head);
   else if(a==="raudio")playRich(b.dataset.u,head,"de",b);
   else if(a==="ask")askPOOF((art?art+" ":"")+head);
-  else if(a==="lemma")showEntry(box,e.lemma,ctx,src,"de");
+  else if(a==="lemma")entNav(box,e.lemma,ctx,src,"de","push");
   else if(a==="fa")$("#fa",box).value=b.textContent;
   else if(a==="add"){
    const sn=$("input[name=sn]:checked",box),s=sn?flat[+sn.value]:null;
@@ -1540,6 +1668,7 @@ async function showEntry(box,raw,ctx,src,lang){
     context:x?x.de:"",contextFa:x?x.fa:"",extra,...richFields(e),source:src||"dictionary",deck_id:$("#dk",box).value})){b.textContent="اضافه شد ✓";b.disabled=true}
   }
  };
+ entHead(box);
  fillRich(box,e,t);
 }
 function addCard(c){
@@ -1826,8 +1955,7 @@ $("#pop").onclick=ev=>{
  else if(a==="edit"){const fa=FA.test(pop.text);openEditor(null,{front:fa?pop.tr:pop.text,back:fa?pop.text:pop.tr,context:fa?"":pop.ctx,contextFa:fa?pop.ctx:"",lang:fa?"de":pop.lang,video:popVideo(),textId:pop.textId||undefined})}
  else if(a==="more"){
   $("#pop").hidden=true;const lb=!$("#lt").hidden,dt=!$("#s-dict").hidden,bx=lb?$("#ltEntry"):dt?$("#dentry"):$("#entry");
-  showEntry(bx,pop.text,dt?"":pop.ctx,pop.src,pop.lang);
-  if(dt){$("#q").value=norm(pop.text);scrollTo({top:0,behavior:"smooth"})}else if(!lb)bx.scrollIntoView({behavior:"smooth"});
+  openPeek(bx,pop.text,pop.lang,{ctx:dt?"":pop.ctx,src:pop.src,root:true,dt:dt,lb:lb});
  }
  else if(a==="add"){
   if(!pop.tr)return toast("ترجمه‌ای برای ذخیره نیست","bad");
@@ -2307,7 +2435,7 @@ $("#wRnd").onclick=async()=>{try{wpOpen((await wp("action=query&list=random&rnna
 function renderRecent(){$$("#dlSeg button").forEach(b=>b.classList.toggle("on",b.dataset.dl===(db.dictLang||"de")));$("#recent").innerHTML=db.recent.map(w=>`<button class="chip de">${esc(w)}</button>`).join("")}
 function dsearch(w){
  w=norm(w||$("#q").value);if(!w)return;$("#q").value=w;
- db.recent=[w,...db.recent.filter(x=>x!==w)].slice(0,8);save();renderRecent();showEntry($("#dentry"),w,"","dictionary",db.dictLang||"de");
+ db.recent=[w,...db.recent.filter(x=>x!==w)].slice(0,8);save();renderRecent();entNav($("#dentry"),w,"","dictionary",db.dictLang||"de","root");
 }
 $("#qGo").onclick=()=>dsearch();$("#q").onkeydown=e=>{if(e.key==="Enter")dsearch()};
 $("#recent").onclick=e=>{const b=e.target.closest("button");if(b)dsearch(b.textContent)};
