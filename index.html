@@ -180,6 +180,10 @@ button.ib.pri{background:var(--accent);color:var(--bg);border-color:var(--accent
 .rich-ety{font-size:13.5px;line-height:1.9;margin:4px 0}
 .reg-chip{display:inline-block;font-size:10.5px;line-height:1.5;padding:0 7px;border-radius:99px;border:1px solid var(--border);color:var(--accent);vertical-align:2px}
 .lk{border-bottom:1px dotted rgba(230,185,111,.45);cursor:pointer}
+.raudio{width:30px;height:30px;flex:none;padding:0;border-radius:50%;border:1px solid var(--border);background:rgba(230,185,111,.13);color:var(--accent)}
+.raudio .ic{width:16px;height:16px}
+.raudio.playing{animation:raPulse .9s ease-in-out infinite}
+@keyframes raPulse{0%,100%{opacity:1}50%{opacity:.4}}
 .ask-ex{background:var(--bg);border:1px solid var(--border);border-radius:var(--r-md);padding:10px 12px;margin:6px 0}
 .ask-ex .s{font-size:15px}.ask-ex .t{color:var(--muted);font-size:14px;margin-top:2px}
 .ask-tip{border:1px dashed var(--accent);border-radius:var(--r-md);padding:10px 12px;font-size:14px;margin:10px 0}
@@ -1072,8 +1076,22 @@ function regFa(l){
  if(/veraltet/i.test(l))return"قدیمی";
  return"";
 }
+/* real recorded pronunciation inside a pronunciation block: first .mp3 wins;
+   ogg-only → the canonical Wikimedia transcode URL (same md5 dirs) so iOS can play it too */
+function rAudioURL(blk){
+ if(!blk)return null;
+ var urls=[],m,re=/(?:href|src)=["'](\/\/upload\.wikimedia\.org[^"']+?\.(?:mp3|ogg))(?:\?[^"']*)?["']/gi;
+ while((m=re.exec(blk))){var u="https:"+m[1];if(urls.indexOf(u)<0)urls.push(u)}
+ if(!urls.length)return null;
+ for(var i=0;i<urls.length;i++)if(/\.mp3$/i.test(urls[i]))return urls[i];
+ var oggs=urls.filter(function(u){return /\.ogg$/i.test(u)});
+ var plain=oggs.filter(function(u){return !/-(at|ch)-/i.test(u.split("/").pop()||"")});
+ var o=(plain.length?plain:oggs)[0];if(!o)return null;
+ var mm=o.match(/^(https:\/\/upload\.wikimedia\.org\/wikipedia\/commons\/)([^/]+\/[^/]+)\/([^/]+\.ogg)$/i);
+ return mm?mm[1]+"transcoded/"+mm[2]+"/"+mm[3]+"/"+mm[3]+".mp3":o;
+}
 function parseRichDE(html){
- var seg=deSeg(html),out={ipa:[],syllables:"",genus:"",plural:"",keinPlural:false,meanings:[],etymology:"",synonyms:[],antonyms:[]};
+ var seg=deSeg(html),out={ipa:[],audio:null,syllables:"",genus:"",plural:"",keinPlural:false,meanings:[],etymology:"",synonyms:[],antonyms:[]};
  /* genus: first «Substantiv, f/m/n» h3 */
  var h3=rHeadings(seg,"h3");
  for(var i=0;i<h3.length;i++){var gm=h3[i].title.match(/Substantiv,\s*([fmn])\b/);if(gm){out.genus={f:"die",m:"der",n:"das"}[gm[1]];break}}
@@ -1111,6 +1129,7 @@ function parseRichDE(html){
   while((sm=re3.exec(ap.html))){var v=rTxt(sm[1]);if(v&&sp.indexOf(v)<0)sp.push(v)}
   if(!sp.length){var at=rTxt(ap.html),bm,re4=/\[([^\]]{2,60})\]/g;while((bm=re4.exec(at))&&sp.length<3)sp.push(bm[1])}
   out.ipa=sp.slice(0,3);
+  try{out.audio=rAudioURL(ap.html)}catch(e){}
  }
  /* Beispiele → per-sense examples (must run before meanings are capped) */
  var exMap={};
@@ -1166,12 +1185,13 @@ function enNyms(seg,kind){
  return out;
 }
 function parseRichEN(html){
- var seg=enSeg(html),out={ipa:[],meanings:[],etymology:"",synonyms:[],antonyms:[]};
+ var seg=enSeg(html),out={ipa:[],audio:null,meanings:[],etymology:"",synonyms:[],antonyms:[]};
  var pron=enH3Block(seg,"Pronunciation");
  if(pron){
   var sp=[],sm,re=/<span[^>]*class="[^"]*\bIPA\b[^"]*"[^>]*>([\s\S]*?)<\/span>/g;
   while((sm=re.exec(pron))){var v=rTxt(sm[1]);if(v&&sp.indexOf(v)<0)sp.push(v)}
   out.ipa=sp.slice(0,3);
+  try{out.audio=rAudioURL(pron)}catch(e){}
  }
  var et=enH3Block(seg,"Etymology");
  if(et){
@@ -1246,7 +1266,7 @@ function richHTML(r){
  return '<div class="rich-sec">'
   +'<div class="row" style="gap:6px;align-items:center;margin-bottom:2px">'+ic("globe")+'<span class="lbl" style="margin:0">ویکی‌واژه</span></div>'
   +(((r.meanings||[]).length||r.etymology)?'<div class="mute" style="font-size:11px">روی هر کلمه بزن تا معنیش رو ببینی</div>':"")
-  +((head||gram)?'<div class="mute" dir="ltr" style="text-align:left"><span class="de">'+esc([head,gram].filter(Boolean).join("   "))+"</span></div>":"")
+  +((head||gram||r.audio)?'<div class="mute" dir="ltr" style="text-align:left;display:flex;align-items:center;gap:8px">'+(r.audio?'<button type="button" class="raudio" data-a="raudio" data-u="'+esc(r.audio)+'" aria-label="پخش تلفظ واقعی">'+ic("sound")+"</button>":"")+'<span class="de">'+esc([head,gram].filter(Boolean).join("   "))+"</span></div>":"")
   +(r.syllables?'<div class="mute"><span class="de">'+esc(r.syllables)+"</span></div>":"")
   +(means?'<ol class="rich-mean">'+means+"</ol>":"")
   +(r.etymology?'<details style="margin-top:6px"><summary>ریشه و ساخت</summary><p class="rich-ety" dir="auto">'+linkifyRich(r.etymology,L)+"</p></details>":"")
@@ -1262,6 +1282,23 @@ function richFields(e){
  return f;
 }
 var richBusy={};
+/* real recorded pronunciation: one shared Audio; on any failure fall back to TTS silently */
+var _rAudio=null,_rAudioBtn=null;
+function playRich(url,word,lang,btn){
+ if(!url){if(word)say(word,lang);return}
+ try{
+  if(!_rAudio)_rAudio=new Audio();
+  if(_rAudioBtn&&_rAudioBtn!==btn)_rAudioBtn.classList.remove("playing");
+  _rAudioBtn=btn||null;
+  var fell=false;
+  var fall=function(){if(fell)return;fell=true;if(btn)btn.classList.remove("playing");if(word)say(word,lang)};
+  _rAudio.onerror=fall;
+  _rAudio.onended=function(){if(btn)btn.classList.remove("playing")};
+  _rAudio.src=url;
+  if(btn)btn.classList.add("playing");
+  var p=_rAudio.play();if(p&&p.catch)p.catch(fall);
+ }catch(e){if(word)say(word,lang)}
+}
 function fillRich(box,e,t){
  if(!e||e.dir==="fa")return;
  var slot=$("#richSlot",box);if(!slot)return;
@@ -1321,6 +1358,7 @@ async function showEntry(box,raw,ctx,src,lang){
    if(a==="pk"){$("#fa",box).value=b.textContent;if(b.dataset.l==="de"||b.dataset.l==="en")box._l=b.dataset.l}
    else if(a==="cp")copyText(b.textContent);
    else if(a==="sayv")isFa?say($("#fa",box).value,box._l):say(e.word,"en");
+   else if(a==="raudio")playRich(b.dataset.u,e.word,box._rl||"de",b);
    else if(a==="add"){
     const v=$("#fa",box).value,sn=$("input[name=sn]:checked",box),s=sn?flat[+sn.value]:null;
     const er=$("input[name=ex]:checked",box),x=!isFa&&er&&+er.value>=0?exs[+er.value]:null;
@@ -1361,6 +1399,7 @@ async function showEntry(box,raw,ctx,src,lang){
   const b=ev.target.closest("button");if(!b)return;
   const a=b.dataset.a;
   if(a==="say")say(head);
+  else if(a==="raudio")playRich(b.dataset.u,head,"de",b);
   else if(a==="ask")askPOOF((art?art+" ":"")+head);
   else if(a==="lemma")showEntry(box,e.lemma,ctx,src,"de");
   else if(a==="fa")$("#fa",box).value=b.textContent;
