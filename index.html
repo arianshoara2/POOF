@@ -214,6 +214,18 @@ body,header,.card,button,input,select,textarea,.w{transition:color .3s ease,back
 @media (max-width:480px){main{padding-inline:16px}.card{padding:18px}}
 </style>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
+<link rel="stylesheet" href="mascot.css">
+<style>
+/* POOF mascot animations */
+.poof-mascot{width:120px;height:120px;margin:0 auto;animation:poof-float 3s ease-in-out infinite}
+.poof-mascot.small{width:80px;height:80px}
+.poof-mascot.large{width:160px;height:160px}
+.poof-mascot.celebrate{animation:poof-bounce .8s ease infinite}
+@keyframes poof-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes poof-bounce{0%,100%{transform:translateY(0) scale(1)}30%{transform:translateY(-18px) scale(1.05)}60%{transform:translateY(0) scale(.97)}}
+.empty-wrap{text-align:center;padding:24px 12px}
+.empty-wrap .poof-mascot{margin-bottom:8px}
+</style>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
@@ -896,7 +908,7 @@ function renderLib(){
   const del=db.texts.some(x=>x.id===t.id)?`<button class="lib-del" data-del="${t.id}" aria-label="حذف">×</button>`:"";
   const pc=progPct(t);
   return `<div class="lib-card${on?" on":""}" data-id="${t.id}">${th}<div class="lib-tx"><b>${esc(t.title||"بدون عنوان")}</b><span class="mute">${meta}</span>${pc>0?`<div class="pbar"><i style="width:${Math.round(pc*100)}%"></i></div>`:""}</div>${del}</div>`;
- }).join("")||`<p class="mute" style="text-align:center">چیزی نیست — با + یک متن اضافه کن.</p>`;
+ }).join("")||`<div class="empty-wrap"><div class="poof-mascot poof-img-snowy-wave"></div><p class="mute" style="text-align:center">چیزی نیست — با + یک متن اضافه کن.</p></div>`;
 }
 $("#lib").onclick=e=>{
  const d=e.target.closest("[data-del]");
@@ -1484,7 +1496,7 @@ async function wpSearch(q){
  q=q.trim();if(!q)return;const box=$("#wRes");box.innerHTML=`<p class="state loading">در حال جست‌وجو…</p>`;
  try{
   const l=(await wp("action=query&list=search&srlimit=8&srsearch="+encodeURIComponent(q))).query.search;
-  box.innerHTML=l.length?l.map(x=>`<button class="chip ${wl==="fa"?"":"de"}" data-t="${esc(x.title)}" style="display:block;width:100%;text-align:start;margin-top:6px;border-radius:8px;padding:6px 10px"><b>${esc(x.title)}</b><br><span class="mute">${esc(strip(x.snippet))}…</span></button>`).join(""):`<p class="state empty">نتیجه‌ای پیدا نشد.</p>`;
+  box.innerHTML=l.length?l.map(x=>`<button class="chip ${wl==="fa"?"":"de"}" data-t="${esc(x.title)}" style="display:block;width:100%;text-align:start;margin-top:6px;border-radius:8px;padding:6px 10px"><b>${esc(x.title)}</b><br><span class="mute">${esc(strip(x.snippet))}…</span></button>`).join(""):`<div class="empty-wrap"><div class="poof-mascot small poof-img-snowy-think"></div><p class="state empty">نتیجه‌ای پیدا نشد.</p></div>`;
  }catch(e){box.innerHTML=`<p class="state error">اتصال به ویکی‌پدیا برقرار نشد.</p>`}
 }
 async function wpOpen(title){
@@ -1543,7 +1555,7 @@ function renderCards(){
   ${c.extra&&c.extra.senses.length?`<details class="mute"><summary>معنی‌ها و مثال‌ها</summary>${c.extra.senses.map(z=>`<p><b>${esc(z.meaning)}</b>`+[...z.ex,...z.ph].map(q=>`<span class="de" style="display:block">${esc(q.de)}</span>${esc(q.fa||"")}`).join("")+`</p>`).join("")}</details>`:""}
   <div class="row" style="margin-top:8px"><span class="mute" style="flex:1">${c.due<=Date.now()?"آماده‌ی مرور":"مرور بعدی: "+new Date(c.due).toLocaleDateString("fa-IR")}</span>
    <button class="ib" data-a="say" aria-label="تلفظ">${ic("sound")}</button><button class="ib" data-a="edit" aria-label="ویرایش">${ic("edit")}</button><button class="ib danger" data-a="del" aria-label="حذف">${ic("trash")}</button></div></div>`}).join("")
-  :`<p class="state empty">کارتی در این دسته نیست. از «خواندن» یا «دیکشنری» اضافه کنید.</p>`;
+  :`<div class="empty-wrap"><div class="poof-mascot poof-img-snowy-read"></div><p class="state empty">کارتی در این دسته نیست. از «خواندن» یا «دیکشنری» اضافه کنید.</p></div>`;
 }
 $("#list").onclick=e=>{
  const card=e.target.closest(".card");if(!card)return;
@@ -1575,7 +1587,7 @@ $("#rvDeck").onchange=e=>{db.reviewDeck=e.target.value;save();startReview()};
 function startReview(){renderBoxes();renderRvDecks();const rd=db.reviewDeck||"all";queue=db.cards.filter(c=>c.due<=Date.now()&&(rd==="all"||c.deck_id===rd)).sort((a,b)=>a.due-b.due);next()}
 function next(){
  cur=queue.shift();shown=false;const b=$("#rv");
- if(!cur){b.innerHTML=`<div class="card"><p>${db.cards.length?"مرور امروز تمام شد ✓":"هنوز کارتی ندارید. از تب «خواندن» یا «دیکشنری» اضافه کنید."}</p></div>`;return}
+ if(!cur){b.innerHTML=`<div class="card"><div class="empty-wrap"><div class="poof-mascot ${db.cards.length?"poof-img-snowy-sleep":"poof-img-snowy-wave"}"></div><p>${db.cards.length?"مرور امروز تمام شد ✓ پووف هم خوابش برد 😴":"هنوز کارتی ندارید. از تب «خواندن» یا «دیکشنری» اضافه کنید."}</p></div></div>`;return}
 
  b.innerHTML=`<div class="card"><p class="mute">${queue.length+1} کارت مانده · کارت</p>
   <div class="big de">${emojiFor(cur.front)?`<span style="font-size:30px">${emojiFor(cur.front)}</span><br>`:""}${esc(cur.front)} <button class="ib" id="sayb" aria-label="تلفظ">${ic("sound")}</button></div>
@@ -1652,7 +1664,7 @@ function renderLt(){
  $("#ltBtns").hidden=!c;
  if(!c){
   $("#ltBox").textContent="";
-  el.innerHTML=`<div class="lt-done"><div class="big">آفرین</div><p>بلد بودم: ${lt.ok} · بلد نبودم: ${lt.no}</p><button id="ltEnd">بازگشت</button></div>`;
+  el.innerHTML=`<div class="lt-done"><div class="poof-mascot celebrate poof-img-snowy-celebrate"></div><div class="big">آفرین</div><p>بلد بودم: ${lt.ok} · بلد نبودم: ${lt.no}</p><button id="ltEnd">بازگشت</button></div>`;
   $("#ltEnd").onclick=closeBox;return;
  }
  $("#ltBox").textContent="جعبه "+boxOf(c);
