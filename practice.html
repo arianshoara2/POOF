@@ -45,10 +45,14 @@ input:focus{outline:2px solid var(--accent);outline-offset:1px}
 .center{text-align:center}
 .pulse{animation:pp .4s ease}
 @keyframes pp{0%{transform:scale(1)}40%{transform:scale(1.06)}100%{transform:scale(1)}}
+@keyframes poof-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+html[data-theme=snowy] .brand-mascot{display:block!important;animation:poof-float 3s ease-in-out infinite}
+html[data-theme=snowy] .hd h1,html[data-theme=snowy] .hd .mark{display:none}
 </style>
+<link rel="stylesheet" href="mascot.css?v=5">
 </head>
 <body>
-<header><div class="hd"><span class="mark">P</span><div style="flex:1"><h1>POOF</h1><div class="sub">تمرین</div></div>
+<header><div class="hd"><span class="mark">P</span><div class="poof-mascot brand-mascot poof-img-snowy-wave" aria-hidden="true" style="display:none;width:52px;height:52px;margin:0"></div><div style="flex:1"><h1>POOF</h1><div class="sub">تمرین</div></div>
 <button class="ghost" id="backBtn" aria-label="بازگشت" style="border:none;font-size:22px;padding:8px 12px">→</button></div></header>
 <main id="app"><div class="card center mute">در حال بارگذاری…</div></main>
 <script>

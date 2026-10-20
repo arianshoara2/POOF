@@ -77,21 +77,24 @@ input:focus,select:focus{outline:2px solid var(--accent);outline-offset:2px;bord
 .pnode.available .pring,.pnode.in-progress .pring{border-color:var(--accent);box-shadow:0 0 0 4px rgba(230,185,111,.15),0 4px 14px rgba(0,0,0,.4)}
 .pnode.in-progress .pring{animation:pring-pulse 2s ease-in-out infinite}
 @keyframes pring-pulse{0%,100%{box-shadow:0 0 0 4px rgba(230,185,111,.15),0 4px 14px rgba(0,0,0,.4)}50%{box-shadow:0 0 0 10px rgba(230,185,111,.08),0 4px 14px rgba(0,0,0,.4)}}
-.plab{position:absolute;top:50%;transform:translateY(-50%);width:150px;pointer-events:none}
-.plab.right{left:76px;text-align:start}
-.plab.left{right:76px;text-align:end}
-.plab b{display:block;font-size:14px}
+.plab{position:absolute;top:50%;transform:translateY(-50%);width:128px;pointer-events:none;font-size:13px}
+.plab.right{left:74px;text-align:start}
+.plab.left{right:74px;text-align:end}
+.plab b{display:block;font-size:13px;line-height:1.35}
 .plab .badge{font-size:11px;padding:1px 8px}
+.plab .sm{font-size:11px}
 .pnum{color:var(--accent)}
 /* Snowy learn-path background */
-#learnBg{display:none;position:fixed;inset:0;z-index:-2}
+#learnBg{display:none;position:fixed;top:0;left:0;width:100vw;height:100dvh;z-index:0;pointer-events:none}
 html[data-theme=snowy] #learnBg{display:block}
-#learnBg::after{content:"";position:absolute;inset:0;background:rgba(8,20,33,.7)}
+#learnBg::after{content:"";position:absolute;inset:0;background:rgba(8,20,33,.68)}
+#app{position:relative;z-index:1}
+header{position:relative;z-index:2}
 html[data-theme=snowy] .brand-mascot{display:block!important;animation:poof-float 3s ease-in-out infinite}
 html[data-theme=snowy] .hd h1,html[data-theme=snowy] .hd .mark{display:none}
 @keyframes poof-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
 </style>
-<link rel="stylesheet" href="mascot.css">
+<link rel="stylesheet" href="mascot.css?v=5">
 </head>
 <body>
 <div id="learnBg" class="poof-img-learn-path-bg" aria-hidden="true"></div>
@@ -195,7 +198,7 @@ function viewPath(){
  // winding path geometry
  const ROW_H=150, TOP_PAD=90;
  const H=TOP_PAD+sorted.length*ROW_H+60;
- const px=i=>50+Math.sin(i*0.85)*30; // percent
+ const px=i=>50+Math.sin(i*0.7)*18; // percent — gentle sway, stays on screen
  const py=i=>TOP_PAD+i*ROW_H;
  // SVG dashed connector
  let d=`M ${px(0)} ${py(0)}`;
@@ -206,7 +209,7 @@ function viewPath(){
  const nodes=sorted.map((l,i)=>{
   const s=status(l),p=db.learn[l.id]||{};
   const x=px(i),y=py(i);
-  const labelSide=x>50?"right":"left";
+  const labelSide=x>55?"left":"right";
   return `<div class="pnode ${s}" data-id="${l.id}" style="left:${x}%;top:${y}px">
    <div class="pring">${s==="done"?'<span class="pchk">✓</span>':s==="locked"?'<span class="plock">🔒</span>':`<span class="pnum">${l.order}</span>`}</div>
    <div class="plab ${labelSide}"><b>${esc(l.title)}</b><span class="mute sm">${esc(l.titleDe)}</span>
