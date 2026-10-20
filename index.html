@@ -544,6 +544,13 @@ html:not([data-theme=snowy]) #s-cards #list .card::after{background:linear-gradi
    <div class="row"><button class="ghost" id="exp">خروجی پشتیبان (JSON)</button>
     <button class="ghost" id="expAnki">خروجی انکی (TSV)</button></div>
    <div class="row" style="margin-top:8px"><button class="ghost" id="clrCache">پاک‌کردن کش دیکشنری</button></div>
+   <div style="margin-top:12px;border-top:1px solid var(--border);padding-top:10px">
+    <p class="lbl" style="margin:0 0 4px">دیکشنری آفلاین 🇩🇪 آلمانی</p>
+    <p class="mute" id="packDeStatus" style="margin:0 0 6px">نصب نشده</p>
+    <div id="packDeBar" hidden style="height:6px;border-radius:3px;background:var(--border);overflow:hidden;margin-bottom:8px"><div id="packDeFill" style="height:100%;width:0%;background:var(--accent);transition:width .2s"></div></div>
+    <div class="row"><button class="ghost" id="packDeBtn">دانلود پک (~۷۸ مگ)</button><button class="ghost" id="packDeDel" hidden>حذف</button></div>
+    <p class="mute" style="font-size:11px;margin:6px 0 0">منبع: ویکی‌واژهٔ آلمانی (kaikki.org)، CC BY-SA 4.0</p>
+   </div>
    <details class="adv"><summary>تنظیمات پیشرفته</summary>
    <p class="mute" style="margin:0 0 4px">آدرس واسط برای wort.app (Cloudflare Worker). نمونه: https://NAME.workers.dev/?url={url}</p>
    <input id="proxy" class="de" placeholder="https://…workers.dev/?url={url}"><button class="ghost full" id="proxyTest" style="margin-bottom:10px">ذخیره و آزمایش اتصال به wort.app</button>
@@ -756,6 +763,7 @@ let tt;function toast(m,k){const t=$("#toast");t.textContent=m;t.className="show
 
 /* ===== 1) Storage v2 + Migration + Backup ===== */
 const K="poof_v2",KC="poof_dict_cache2",KB="poof_backup";
+const PACK_URL_DE="https://github.com/arianshoara2/POOF/releases/download/dict-de-v1/poof-de-dict.jsonl.gz";
 const fresh=()=>({v:2,decks:[{id:"default",name:"پیش‌فرض"}],cards:[],active:"default",texts:[],textId:"t0",log:{},recent:[],theme:"auto",proxy:""});
 function migrate(d){
  if(!d||typeof d!=="object"||!Array.isArray(d.cards)||!Array.isArray(d.decks))return null;
@@ -1264,7 +1272,7 @@ function richHTML(r){
   return "<li>"+(mn.label?'<span class="reg-chip" dir="auto">'+esc(regFa(mn.label)||mn.label)+"</span> ":"")+'<span dir="auto">'+linkifyRich(mn.text,L)+"</span>"+(mn.ex||[]).map(function(x){return '<div class="rich-ex" dir="auto">'+linkifyRich(x,L)+"</div>"}).join("")+"</li>";
  }).join("");
  return '<div class="rich-sec">'
-  +'<div class="row" style="gap:6px;align-items:center;margin-bottom:2px">'+ic("globe")+'<span class="lbl" style="margin:0">ویکی‌واژه</span></div>'
+  +'<div class="row" style="gap:6px;align-items:center;margin-bottom:2px">'+ic("globe")+'<span class="lbl" style="margin:0">ویکی‌واژه'+(r.offline?' <span style="font-weight:400">· آفلاین</span>':"")+'</span></div>'
   +(((r.meanings||[]).length||r.etymology)?'<div class="mute" style="font-size:11px">روی هر کلمه بزن تا معنیش رو ببینی</div>':"")
   +((head||gram||r.audio)?'<div class="mute" dir="ltr" style="text-align:left;display:flex;align-items:center;gap:8px">'+(r.audio?'<button type="button" class="raudio" data-a="raudio" data-u="'+esc(r.audio)+'" aria-label="پخش تلفظ واقعی">'+ic("sound")+"</button>":"")+'<span class="de">'+esc([head,gram].filter(Boolean).join("   "))+"</span></div>":"")
   +(r.syllables?'<div class="mute"><span class="de">'+esc(r.syllables)+"</span></div>":"")
@@ -1299,17 +1307,131 @@ function playRich(url,word,lang,btn){
   var p=_rAudio.play();if(p&&p.catch)p.catch(fall);
  }catch(e){if(word)say(word,lang)}
 }
+/* ===== Offline German dictionary pack (IndexedDB «poof-dict-de») =====
+   Source: German Wiktionary via kaikki.org / Wiktextract — CC BY-SA 4.0.
+   All pack code is best-effort: any failure falls back to the network flow. */
+const PACK_META_DE="poof_pack_de";
+let _packDb=null,packBusy=false;
+function packMeta(){try{return JSON.parse(localStorage.getItem(PACK_META_DE)||"null")}catch(e){return null}}
+function packInstalled(){return !!packMeta()}
+function packOpen(){
+ return new Promise((res,rej)=>{
+  if(_packDb)return res(_packDb);
+  var rq=indexedDB.open("poof-dict-de",1);
+  rq.onupgradeneeded=function(){var d=rq.result;if(!d.objectStoreNames.contains("words")){var st=d.createObjectStore("words",{autoIncrement:true});st.createIndex("w","w",{unique:false});st.createIndex("lvl","lvl",{unique:false})}};
+  rq.onsuccess=function(){_packDb=rq.result;res(_packDb)};
+  rq.onerror=function(){rej(rq.error)};
+ });
+}
+/* adapt pack record(s) → the rich object richHTML()/richFields() consume */
+function packAdapt(recs){
+ if(!recs||!recs.length)return null;
+ var order={noun:0,verb:1,adj:2,adjective:2,adv:3,adverb:3};
+ var sorted=recs.slice().sort(function(a,b){return(order[a.p]!=null?order[a.p]:9)-(order[b.p]!=null?order[b.p]:9)});
+ var main=sorted[0],out={lang:"de",offline:true,ipa:[],audio:null,meanings:[],etymology:"",synonyms:[],antonyms:[]};
+ if(main.ipa)out.ipa=[main.ipa];
+ if(main.au)out.audio=main.au;
+ if(main.hyp)out.syllables=main.hyp;
+ if(main.gen){out.genus=main.gen;if(main.pl)out.plural=main.pl;else{out.plural="—";out.keinPlural=true}}
+ var push=function(r,cap){(r.s||[]).forEach(function(s){if(out.meanings.length<cap&&s&&s.g)out.meanings.push({label:(s.tg&&s.tg[0])||"",text:String(s.g).slice(0,300),ex:(s.ex||[]).slice(0,2)})})};
+ push(main,6);
+ for(var i=1;i<sorted.length&&out.meanings.length<8;i++)push(sorted[i],8);
+ if(main.ety)out.etymology=String(main.ety).slice(0,400);
+ if(main.syn&&main.syn.length)out.synonyms=main.syn.slice(0,8);
+ if(!out.ipa.length&&!out.meanings.length&&!out.etymology)return null;
+ return out;
+}
+async function packLookupDE(word){
+ try{
+  if(!packInstalled())return null;
+  var w0=String(word||"").trim();if(!w0)return null;
+  var db=await packOpen(),tries=[w0,w0[0].toUpperCase()+w0.slice(1),w0.toLowerCase()],seen={},all=[];
+  for(var i=0;i<tries.length;i++){
+   var t=tries[i];if(!t||seen[t])continue;seen[t]=1;
+   var recs=await new Promise(function(res,rej){var rq=db.transaction("words","readonly").objectStore("words").index("w").getAll(t);rq.onsuccess=function(){res(rq.result||[])};rq.onerror=function(){rej(rq.error)}});
+   recs.forEach(function(r){all.push(r)});
+   if(all.length)break;
+  }
+  return packAdapt(all);
+ }catch(e){return null}
+}
+function renderPackDE(){
+ var st=$("#packDeStatus"),btn=$("#packDeBtn"),del=$("#packDeDel"),bar=$("#packDeBar");if(!st||!btn)return;
+ var m=packMeta();
+ if(packBusy){st.textContent="در حال دانلود و نصب…";btn.disabled=true;if(del)del.hidden=true;if(bar)bar.hidden=false;return}
+ btn.disabled=false;if(bar)bar.hidden=true;
+ if(m){st.textContent="نصب شده — "+Number(m.n||0).toLocaleString("fa-IR")+" مدخل";btn.textContent="دانلود دوباره پک";if(del)del.hidden=false}
+ else{st.textContent="نصب نشده";btn.textContent="دانلود پک (~۷۸ مگ)";if(del)del.hidden=true}
+}
+function packProgress(read,total){
+ var p=total?Math.min(100,Math.round(read/total*100)):0;
+ var f=$("#packDeFill");if(f)f.style.width=p+"%";
+ var st=$("#packDeStatus");if(st)st.textContent="در حال دانلود… "+p.toLocaleString("fa-IR")+"٪";
+}
+async function packInstallDE(){
+ if(packBusy)return;
+ if(typeof DecompressionStream==="undefined"){toast("مرورگر شما از نصب آفلاین پشتیبانی نمی‌کند","bad");return}
+ packBusy=true;renderPackDE();
+ try{
+  var resp=await fetch(PACK_URL_DE);
+  if(!resp.ok||!resp.body)throw new Error("http "+resp.status);
+  var total=+(resp.headers.get("content-length")||78422360),read=0;
+  var stream=resp.body.pipeThrough(new TransformStream({transform:function(c,ctl){read+=c.byteLength;packProgress(read,total);ctl.enqueue(c)}})).pipeThrough(new DecompressionStream("gzip")).pipeThrough(new TextDecoderStream());
+  var reader=stream.getReader(),buf="",count=0,batch=[],db=await packOpen();
+  await new Promise(function(res,rej){var tx=db.transaction("words","readwrite");tx.objectStore("words").clear();tx.oncomplete=res;tx.onerror=function(){rej(tx.error)}});
+  var flush=async function(){
+   if(!batch.length)return;var items=batch;batch=[];
+   await new Promise(function(res,rej){var tx=db.transaction("words","readwrite"),st=tx.objectStore("words");items.forEach(function(r){st.put(r)});tx.oncomplete=res;tx.onerror=function(){rej(tx.error)}});
+  };
+  var handleLine=async function(line){
+   line=line.trim();if(!line)return;
+   try{var r=JSON.parse(line);if(r&&r.w){batch.push(r);count++;if(batch.length>=1000)await flush()}}catch(e){}
+  };
+  while(true){
+   var rd=await reader.read();if(rd.done)break;
+   buf+=rd.value;var idx;
+   while((idx=buf.indexOf("\n"))>=0){var ln=buf.slice(0,idx);buf=buf.slice(idx+1);await handleLine(ln)}
+  }
+  if(buf.trim())await handleLine(buf);
+  await flush();
+  localStorage.setItem(PACK_META_DE,JSON.stringify({n:count,at:Date.now()}));
+  toast("دیکشنری آفلاین نصب شد ✓");
+ }catch(err){
+  try{localStorage.removeItem(PACK_META_DE);var db2=await packOpen();await new Promise(function(res){var tx=db2.transaction("words","readwrite");tx.objectStore("words").clear();tx.oncomplete=res;tx.onerror=res})}catch(e){}
+  toast("دانلود پک ناموفق بود","bad");
+ }
+ packBusy=false;renderPackDE();
+}
+async function packDeleteDE(){
+ try{localStorage.removeItem(PACK_META_DE);if(_packDb){_packDb.close();_packDb=null}
+  await new Promise(function(res){var rq=indexedDB.deleteDatabase("poof-dict-de");rq.onsuccess=res;rq.onerror=res;rq.onblocked=res});
+ }catch(e){}
+ renderPackDE();toast("دیکشنری آفلاین حذف شد");
+}
 function fillRich(box,e,t){
  if(!e||e.dir==="fa")return;
  var slot=$("#richSlot",box);if(!slot)return;
  box._rl=e.dir==="en"?"en":"de";
- if(e.rich!==undefined){if(e.rich)slot.innerHTML=richHTML(e.rich);return}
- var key=(e.dir==="en"?"en":"de")+":"+e.word.toLowerCase();
- if(richBusy[key])return;richBusy[key]=1;
- fetchRich(e.word,e.dir==="en"?"en":"de").then(function(r){
-  e.rich=r;saveCache();
-  if(t===box._t){var s2=$("#richSlot",box);if(s2)s2.innerHTML=richHTML(r)}
- });
+ if(e.rich){slot.innerHTML=richHTML(e.rich);return}
+ var lang=box._rl,key=lang+":"+e.word.toLowerCase();
+ if(richBusy[key])return;
+ var net=function(){
+  fetchRich(e.word,lang).then(function(r){
+   e.rich=r;saveCache();
+   if(t===box._t){var s2=$("#richSlot",box);if(s2)s2.innerHTML=richHTML(r)}
+  });
+ };
+ if(lang==="de"&&packInstalled()){
+  richBusy[key]=1;
+  packLookupDE(e.word).then(function(r){
+   if(r){e.rich=r;saveCache();if(t===box._t){var s3=$("#richSlot",box);if(s3)s3.innerHTML=richHTML(r)}}
+   else if(e.rich===undefined)net();
+  }).catch(function(){if(e.rich===undefined)net()});
+  return;
+ }
+ if(e.rich!==undefined)return;
+ richBusy[key]=1;
+ net();
 }
 
 /* ===== 3) Entry view: sense picker, lemma, listen, add to deck ===== */
@@ -2425,6 +2547,9 @@ $("#imp").onchange=async e=>{
  e.target.value="";
 };
 $("#clrCache").onclick=()=>{cache={};saveCache();toast("کش پاک شد")};
+$("#packDeBtn").onclick=()=>packInstallDE();
+$("#packDeDel").onclick=async()=>{if(await uiConfirm("دیکشنری آفلاین آلمانی حذف شود؟",{okText:"حذف",danger:true}))packDeleteDE()};
+renderPackDE();
 
 /* ===== 10) Theme + tabs ===== */
 function applyTheme(){const t=db.theme==="snowy"?"snowy":"classic";document.documentElement.dataset.theme=t;const tc=document.getElementById("themeCss");if(tc){const f="theme-"+t+".css?v=15";if(!tc.href.endsWith(f))tc.href=f}const m=document.querySelector("meta[name=theme-color]");if(m)m.content=t==="snowy"?"#081421":"#111111"}
