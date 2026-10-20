@@ -83,7 +83,7 @@ input[type=radio]{accent-color:var(--accent)}
 .state.loading::before{content:"";width:18px;height:18px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 /* ===== reader ===== */
-#text{font:20px/2.05 var(--serif);-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+#text{font:18px/1.8 var(--serif);-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 #text p{margin:0 0 14px}
 .w{cursor:pointer;border-radius:6px;padding:2px 0}
 .w.lpp{animation:lppulse .3s ease}
@@ -242,7 +242,7 @@ html[data-theme=snowy] header .brand{position:relative;z-index:1}
 .lib-banner .lib-banner-txt h2{margin:0 0 4px;color:#fff}
 .lib-banner .lib-banner-txt p{margin:0;color:#e8eef4;font-size:13px}
 /* Snowy section backgrounds: library (fixed layer) + reading (reader card) */
-#readBg{display:none;position:fixed;top:0;left:0;width:100vw;height:100dvh;z-index:0;pointer-events:none}
+#readBg{display:none;position:fixed;top:0;left:0;width:100vw;height:100dvh;height:100svh;z-index:0;pointer-events:none}
 #readBg::after{content:"";position:absolute;inset:0;background:rgba(8,20,33,.78)}
 html[data-theme=snowy] body:has(#s-read:not([hidden])) #readBg{display:block}
 html[data-theme=snowy] main{position:relative;z-index:1}
@@ -918,7 +918,7 @@ function saveProgress(){
 function renderLib(){
  const lp=$("#learnProg");
  if(lp){const L=db.learn||{},done=Object.values(L).filter(x=>x&&x.completedAt).length;lp.textContent=done?done+" درس تمام‌شده":"شروع یادگیری"}
- const qc=$("#learnCard");if(qc&&!qc.dataset.bound){qc.dataset.bound="1";qc.onclick=()=>location.href="learn.html?v=4"}
+ const qc=$("#learnCard");if(qc&&!qc.dataset.bound){qc.dataset.bound="1";qc.onclick=()=>location.href="learn.html?v=5"}
  const mc=$("#movieCard");if(mc&&!mc.dataset.bound){mc.dataset.bound="1";mc.onclick=openMovies}
  const q=(($("#libQ")||{}).value||"").trim().toLowerCase();
  let all=allTexts().filter(t=>!q||(t.title||"").toLowerCase().includes(q));
@@ -1839,7 +1839,7 @@ function tab(t){$("#hSub").textContent=SUB[t];scrollTo(0,0);$("#nav").classList.
 }
 $("#nav").onclick=e=>{const b=e.target.closest("button");if(b){b.blur();tab(b.dataset.t)}};
 function renderAll(){renderReader();renderRecent();renderCards();renderMe()}
-let lastY=scrollY;addEventListener("scroll",()=>{const y=scrollY;if(!sel)$("#nav").classList.toggle("nav-hidden",y>lastY&&y>90);lastY=y},{passive:true});
+let lastY=scrollY,lastToggleY=scrollY;addEventListener("scroll",()=>{const y=scrollY;if(!sel){const nav=$("#nav");if(y<=90){nav.classList.remove("nav-hidden");lastToggleY=y}else if(y>lastToggleY+40){nav.classList.add("nav-hidden");lastToggleY=y}else if(y<lastToggleY-40){nav.classList.remove("nav-hidden");lastToggleY=y}}lastY=y},{passive:true});
 addEventListener("pagehide",()=>{try{if(!$("#s-read").hidden)saveProgress()}catch(e){}});
 /* ---------- ورود با گوگل + همگام‌سازی ابری (Drive appDataFolder) ---------- */
 const G_CLIENT_ID="1057286792140-oor3b3v61dpvh3vjlhekcqhnnuu047ld.apps.googleusercontent.com";
