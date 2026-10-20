@@ -173,6 +173,12 @@ button.ib.pri{background:var(--accent);color:var(--bg);border-color:var(--accent
 .ask-sec{margin:14px 0}.ask-sec>h4{margin:0 0 6px;font-size:14px;color:var(--muted);font-weight:600}
 .ask-mean{font-size:17px;margin:2px 0}
 .ask-chip{display:inline-block;border:1px solid var(--border);border-radius:99px;padding:3px 12px;margin:2px 4px 2px 0;font-size:13px}
+.rich-sec{margin-top:14px;border-top:1px solid var(--border);padding-top:10px}
+.rich-mean{margin:6px 0;padding-inline-start:22px;font-size:14px;line-height:1.9}
+.rich-mean li{margin-bottom:5px}
+.rich-ex{font-size:12.5px;line-height:1.8;opacity:.72;font-style:italic}
+.rich-ety{font-size:13.5px;line-height:1.9;margin:4px 0}
+.reg-chip{display:inline-block;font-size:10.5px;line-height:1.5;padding:0 7px;border-radius:99px;border:1px solid var(--border);color:var(--accent);vertical-align:2px}
 .ask-ex{background:var(--bg);border:1px solid var(--border);border-radius:var(--r-md);padding:10px 12px;margin:6px 0}
 .ask-ex .s{font-size:15px}.ask-ex .t{color:var(--muted);font-size:14px;margin-top:2px}
 .ask-tip{border:1px dashed var(--accent);border-radius:var(--r-md);padding:10px 12px;font-size:14px;margin:10px 0}
@@ -973,6 +979,289 @@ function playGTTS(t,lang){
   }catch(e){toast("مرورگر از تلفظ پشتیبانی نمی‌کند","bad")}
 }
 
+/* ===== Rich Wiktionary (Livio-style) — pure string parsing, no DOM ===== */
+const RENT={"&amp;":"&","&lt;":"<","&gt;":">","&quot;":'"',"&apos;":"'","&nbsp;":" "};
+function rDec(s){return String(s).replace(/&#x([0-9a-fA-F]+);/g,function(_,h){return String.fromCodePoint(parseInt(h,16))}).replace(/&#(\d+);/g,function(_,d){return String.fromCodePoint(+d)}).replace(/&(amp|lt|gt|quot|apos|nbsp);/g,function(m){return RENT[m]||m})}
+function rTxt(h){
+ if(!h)return "";
+ h=String(h).replace(/\sdata-[a-z-]+='[^']*'/gi," ").replace(/\sdata-[a-z-]+="[^"]*"/gi," ");
+ h=h.replace(/<(script|style|sup)\b[^>]*>[\s\S]*?<\/\1>/gi," ");
+ h=h.replace(/<br\s*\/?>/gi," ").replace(/<[^>]+>/g," ");
+ return rDec(h).replace(/\s+/g," ").replace(/\s+([,.;:!?\)\]»“”])/g,"$1").replace(/([\(\[„“«])\s+/g,"$1").trim();
+}
+/* balanced <tag>…</tag> block at/after index `from` → {html,start,end} | null */
+function rBlock(html,tag,from){
+ var open=new RegExp("<"+tag+"\\b","gi");open.lastIndex=from||0;
+ var m=open.exec(html);if(!m)return null;
+ var re=new RegExp("<(\\/?)"+tag+"\\b[^>]*?>","gi");re.lastIndex=m.index;
+ var depth=0,x;while((x=re.exec(html))){
+  if(x[1]){depth--;if(depth===0)return{html:html.slice(m.index,re.lastIndex),start:m.index,end:re.lastIndex}}
+  else depth++;
+ }
+ return null;
+}
+/* inner HTML of the top-level <tag> items inside a list block (nested ul/ol/dl aware) */
+function rItems(listHtml,tag){
+ var m0=/^\s*<(ul|ol|dl)\b[^>]*>/i.exec(listHtml);
+ if(m0){
+  listHtml=listHtml.slice(m0[0].length);
+  var close="</"+m0[1].toLowerCase()+">",ci=listHtml.toLowerCase().lastIndexOf(close);
+  if(ci>=0)listHtml=listHtml.slice(0,ci);
+ }
+ var out=[],re=new RegExp("<(\\/?)(ul|ol|dl)\\b[^>]*?>|<(\\/?)"+tag+"\\b[^>]*?>","gi"),depth=0,start=-1,m;
+ while((m=re.exec(listHtml))){
+  if(m[2]){depth+=m[1]?-1:1;continue}
+  if(!m[3]&&depth===0)start=re.lastIndex;
+  else if(m[3]&&depth===0&&start>=0){out.push(listHtml.slice(start,m.index));start=-1}
+ }
+ return out;
+}
+/* remove all top-level ul/ol/dl blocks (examples, nyms, sub-lists) from a fragment */
+function rStripLists(html){
+ var out="",pos=0;
+ while(pos<html.length){
+  var cands=["ul","ol","dl"].map(function(t){var b=rBlock(html,t,pos);return b?{t:t,b:b}:null}).filter(Boolean);
+  if(!cands.length){out+=html.slice(pos);break}
+  cands.sort(function(a,b){return a.b.start-b.b.start});
+  var c=cands[0];out+=html.slice(pos,c.b.start);pos=c.b.end;
+ }
+ return out;
+}
+function rLinks(blk){
+ var out=[],re=/<a\b[^>]*href="([^"]*)"[^>]*>([\s\S]*?)<\/a>/gi,m;
+ var STOP={umgangssprachlich:1,bildungssprachlich:1,fachsprachlich:1,veraltet:1,salopp:1,abwertend:1,scherzhaft:1,selten:1,"ugs.":1,norddeutsch:1,süddeutsch:1,österreichisch:1,schweizerisch:1,landschaftlich:1,regional:1,ostmitteldeutsch:1,westmitteldeutsch:1,rheinisch:1,bairisch:1,alemannisch:1};
+ while((m=re.exec(blk))){
+  if(/:/.test(m[1]))continue;
+  var t=rTxt(m[2]);
+  if(t&&t.length>1&&!/^\d+$/.test(t)&&!STOP[t.toLowerCase()]&&out.indexOf(t)<0)out.push(t);
+  if(out.length>=8)break;
+ }
+ return out;
+}
+function rHeadings(html,tag){
+ var out=[],re=new RegExp("<"+tag+"\\b[^>]*>([\\s\\S]*?)<\\/"+tag+">","gi"),m;
+ while((m=re.exec(html)))out.push({title:rTxt(m[1]),index:m.index,end:re.lastIndex});
+ return out;
+}
+/* ---------- German (de.wiktionary) ---------- */
+function deSeg(html){
+ var hs=rHeadings(html,"h2");
+ for(var i=0;i<hs.length;i++)if(/\(Deutsch\)/.test(hs[i].title))
+  return html.slice(hs[i].index,i+1<hs.length?hs[i+1].index:html.length);
+ return html;
+}
+/* the <dl>/<ol>/<ul> block governed by a bold label paragraph «Name:» */
+function deLabel(seg,name){
+ var m=new RegExp(">"+name+":</p>","i").exec(seg);if(!m)return null;
+ var rest=seg.slice(m.index+m[0].length);
+ var dl=rBlock(rest,"dl",0);if(dl&&dl.start<3000)return{html:dl.html,item:"dd"};
+ var ol=rBlock(rest,"ol",0);if(ol&&ol.start<600)return{html:ol.html,item:"li"};
+ var ul=rBlock(rest,"ul",0);if(ul&&ul.start<600)return{html:ul.html,item:"li"};
+ return null;
+}
+function deLabelList(seg,name){
+ var blk=deLabel(seg,name);if(!blk)return[];
+ return rItems(blk.html,blk.item);
+}
+function regFa(l){
+ if(!l)return"";
+ if(/ugs\.|umgangssprachlich/i.test(l))return"محاوره‌ای";
+ if(/bildungsspr/i.test(l))return"رسمی/کتابی";
+ if(/fachspr/i.test(l))return"تخصصی";
+ if(/veraltet/i.test(l))return"قدیمی";
+ return"";
+}
+function parseRichDE(html){
+ var seg=deSeg(html),out={ipa:[],syllables:"",genus:"",plural:"",keinPlural:false,meanings:[],etymology:"",synonyms:[],antonyms:[]};
+ /* genus: first «Substantiv, f/m/n» h3 */
+ var h3=rHeadings(seg,"h3");
+ for(var i=0;i<h3.length;i++){var gm=h3[i].title.match(/Substantiv,\s*([fmn])\b/);if(gm){out.genus={f:"die",m:"der",n:"das"}[gm[1]];break}}
+ /* plural: Deklination table (Nominativ row × Plural column) */
+ var pos=0;
+ while(true){
+  var tb=rBlock(seg,"table",pos);if(!tb)break;pos=tb.end;
+  var tt=rTxt(tb.html);
+  if(!/Nominativ/.test(tt)||!/Singular/.test(tt)||!/Plural/.test(tt))continue;
+  var rows=tb.html.split(/<tr\b/i).slice(1),pIdx=-1,done=false;
+  for(var r=0;r<rows.length&&!done;r++){
+   var cells=[],cm,re2=/<t[hd]\b[^>]*>([\s\S]*?)<\/t[hd]>/gi;
+   while((cm=re2.exec(rows[r])))cells.push(rTxt(cm[1]));
+   if(pIdx<0){var pi=cells.indexOf("Plural");if(pi>=0)pIdx=pi;continue}
+   if(cells.length>pIdx&&/^Nominativ/.test(cells[0]||"")){
+    var v=cells[pIdx];
+    out.plural=/^[-—–]+$/.test(v)?"—":v.replace(/^(der|die|das)\s+/i,"");
+    done=true;
+   }
+  }
+  if(done)break;
+ }
+ /* Worttrennung → syllables + kein Plural */
+ var wt=deLabelList(seg,"Worttrennung");
+ if(wt.length){
+  var wtt=rTxt(wt[0]);
+  out.syllables=wtt.split(",")[0].trim();
+  if(/kein Plural/i.test(wtt))out.keinPlural=true;
+  if(out.keinPlural&&!out.plural)out.plural="—";
+ }
+ /* Aussprache → IPA spans */
+ var ap=deLabel(seg,"Aussprache");
+ if(ap){
+  var sp=[],sm,re3=/<span[^>]*class="[^"]*\bipa\b[^"]*"[^>]*>([\s\S]*?)<\/span>/gi;
+  while((sm=re3.exec(ap.html))){var v=rTxt(sm[1]);if(v&&sp.indexOf(v)<0)sp.push(v)}
+  if(!sp.length){var at=rTxt(ap.html),bm,re4=/\[([^\]]{2,60})\]/g;while((bm=re4.exec(at))&&sp.length<3)sp.push(bm[1])}
+  out.ipa=sp.slice(0,3);
+ }
+ /* Beispiele → per-sense examples (must run before meanings are capped) */
+ var exMap={};
+ deLabelList(seg,"Beispiele").forEach(function(it){
+  var t=rTxt(it),nm=t.match(/^\[(\d+(?:\s*,\s*\d+)*)\]\s*/);if(!nm)return;
+  var ex=t.slice(nm[0].length).trim();if(ex.length<3)return;ex=ex.slice(0,240);
+  nm[1].split(",").forEach(function(ns){
+   var n=+ns.trim();if(!exMap[n])exMap[n]=[];
+   if(exMap[n].length<2&&exMap[n].indexOf(ex)<0)exMap[n].push(ex);
+  });
+ });
+ /* Bedeutungen → numbered meanings + leading register/context label */
+ deLabelList(seg,"Bedeutungen").forEach(function(dd){
+  if(out.meanings.length>=6)return;
+  var inner=dd.replace(/^\s+/,""),num=out.meanings.length+1;
+  var nm=inner.match(/^\[(\d+)(?:\s*,\s*\d+)*\]\s*/);
+  if(nm){num=+nm[1];inner=inner.slice(nm[0].length)}
+  var label="",im=inner.match(/^<i\b[^>]*>([\s\S]*?)<\/i>\s*/);
+  if(im){var lt=rTxt(im[1]);if(/:$/.test(lt)&&lt.length<=70){label=lt.replace(/:\s*$/,"");inner=inner.slice(im[0].length)}}
+  var t=rTxt(inner);if(t.length<2)return;
+  out.meanings.push({n:num,label:label,text:t.slice(0,220),ex:exMap[num]||[]});
+ });
+ /* Herkunft */
+ var hk=deLabelList(seg,"Herkunft");
+ if(hk.length)out.etymology=hk.map(function(x){return rTxt(x)}).join(" ").slice(0,400);
+ /* Synonyme / Gegenwörter */
+ var sy=deLabel(seg,"Synonyme");if(sy)out.synonyms=rLinks(sy.html);
+ if(!out.synonyms.length)deLabelList(seg,"Synonyme").forEach(function(dd){
+  rTxt(dd).replace(/^\[\d+(?:\s*,\s*\d+)*\]\s*/,"").split(/[,;]/).forEach(function(x){x=x.trim();if(x.length>1&&out.synonyms.indexOf(x)<0&&out.synonyms.length<8)out.synonyms.push(x)});
+ });
+ var gw=deLabel(seg,"Gegenwörter");if(gw)out.antonyms=rLinks(gw.html);
+ return out;
+}
+/* ---------- English (en.wiktionary) ---------- */
+function enSeg(html){
+ var hs=rHeadings(html,"h2");
+ for(var i=0;i<hs.length;i++)if(hs[i].title==="English")
+  return html.slice(hs[i].index,i+1<hs.length?hs[i+1].index:html.length);
+ return html;
+}
+function enH3Block(seg,title){
+ var hs=rHeadings(seg,"h3");
+ for(var i=0;i<hs.length;i++)if(hs[i].title===title||hs[i].title===title+" 1")
+  return seg.slice(hs[i].index,i+1<hs.length?hs[i+1].index:seg.length);
+ return null;
+}
+function enNyms(seg,kind){
+ var out=[],idx=0,re=new RegExp("nyms "+kind,"g"),m;
+ while((m=re.exec(seg))&&out.length<8){
+  var win=seg.slice(m.index,m.index+900);
+  rLinks(win).forEach(function(t){if(out.indexOf(t)<0&&out.length<8)out.push(t)});
+ }
+ return out;
+}
+function parseRichEN(html){
+ var seg=enSeg(html),out={ipa:[],meanings:[],etymology:"",synonyms:[],antonyms:[]};
+ var pron=enH3Block(seg,"Pronunciation");
+ if(pron){
+  var sp=[],sm,re=/<span[^>]*class="[^"]*\bIPA\b[^"]*"[^>]*>([\s\S]*?)<\/span>/g;
+  while((sm=re.exec(pron))){var v=rTxt(sm[1]);if(v&&sp.indexOf(v)<0)sp.push(v)}
+  out.ipa=sp.slice(0,3);
+ }
+ var et=enH3Block(seg,"Etymology");
+ if(et){
+  var ps=[],pm,re2=/<p\b[^>]*>([\s\S]*?)<\/p>/g;
+  while((pm=re2.exec(et))){var t=rTxt(pm[1]);if(t.length>=50)ps.push(t)}
+  if(ps.length)out.etymology=ps[0].slice(0,400);
+ }
+ var POS=["Noun","Verb","Adjective","Adverb","Pronoun","Preposition","Interjection","Conjunction","Determiner","Proper noun","Phrase","Numeral","Particle"];
+ var hs=rHeadings(seg,"h3");
+ for(var i=0;i<hs.length&&out.meanings.length<6;i++){
+  if(POS.indexOf(hs[i].title)<0)continue;
+  var block=seg.slice(hs[i].index,i+1<hs.length?hs[i+1].index:seg.length);
+  var ol=rBlock(block,"ol",0);if(!ol)continue;
+  rItems(ol.html,"li").forEach(function(li){
+   if(out.meanings.length>=6)return;
+   var ex="",em=li.match(/<span[^>]*class="[^"]*example[^"]*"[^>]*>([\s\S]*?)<\/span>/i);
+   if(em)ex=rTxt(em[1]).slice(0,240);
+   var t=rTxt(rStripLists(li));
+   if(t.length>1)out.meanings.push({text:t.slice(0,220),ex:ex?[ex]:[]});
+  });
+ }
+ /* synonyms/antonyms: h4 sections + inline nyms spans */
+ ["Synonyms","Antonyms"].forEach(function(title){
+  var key=title.toLowerCase(),h4=rHeadings(seg,"h4");
+  for(var i=0;i<h4.length;i++){
+   if(h4[i].title!==title)continue;
+   var block=seg.slice(h4[i].index,i+1<h4.length?h4[i+1].index:seg.length);
+   rLinks(block).forEach(function(t){if(out[key].indexOf(t)<0&&out[key].length<8)out[key].push(t)});
+  }
+ });
+ enNyms(seg,"synonym").forEach(function(t){if(out.synonyms.indexOf(t)<0&&out.synonyms.length<8)out.synonyms.push(t)});
+ enNyms(seg,"antonym").forEach(function(t){if(out.antonyms.indexOf(t)<0&&out.antonyms.length<8)out.antonyms.push(t)});
+ return out;
+}
+/* fetch + parse a rich entry (best-effort, null on any failure) */
+async function fetchRich(w,lang){
+ try{
+  var w0=String(w||"").trim();if(!w0)return null;
+  var cap=w0[0].toUpperCase()+w0.slice(1),low=w0.toLowerCase();
+  var tries=lang==="de"?[w0,cap,low]:[w0,low,cap],seen={};
+  for(var i=0;i<tries.length;i++){
+   var t=tries[i];if(!t||seen[t])continue;seen[t]=1;
+   var html=await fetchHTML("https://"+lang+".wiktionary.org/api/rest_v1/page/html/"+encodeURIComponent(t));
+   if(!html)continue;
+   var r=lang==="de"?parseRichDE(html):parseRichEN(html);
+   if(r&&(r.ipa.length||r.meanings.length||r.etymology))return r;
+  }
+ }catch(e){}
+ return null;
+}
+
+/* render the rich block (Livio-style) into the entry view */
+function richHTML(r){
+ if(!r)return"";
+ var chips=function(a){return(a||[]).map(function(x){return '<span class="ask-chip" dir="auto">'+esc(x)+"</span>"}).join("")};
+ var head=(r.ipa||[]).map(function(v){return /^[\/\[]/.test(v)?v:"["+v+"]"}).join("  ");
+ var gram="";
+ if(r.genus){gram=r.genus;if(r.plural&&r.plural!=="—")gram+=" · Plural: "+r.plural;else if(r.plural==="—"||r.keinPlural)gram+=" · kein Plural"}
+ var means=(r.meanings||[]).map(function(mn){
+  return "<li>"+(mn.label?'<span class="reg-chip" dir="auto">'+esc(regFa(mn.label)||mn.label)+"</span> ":"")+'<span dir="auto">'+esc(mn.text)+"</span>"+(mn.ex||[]).map(function(x){return '<div class="rich-ex" dir="auto">'+esc(x)+"</div>"}).join("")+"</li>";
+ }).join("");
+ return '<div class="rich-sec">'
+  +'<div class="row" style="gap:6px;align-items:center;margin-bottom:2px">'+ic("globe")+'<span class="lbl" style="margin:0">ویکی‌واژه</span></div>'
+  +((head||gram)?'<div class="mute" dir="ltr" style="text-align:left"><span class="de">'+esc([head,gram].filter(Boolean).join("   "))+"</span></div>":"")
+  +(r.syllables?'<div class="mute"><span class="de">'+esc(r.syllables)+"</span></div>":"")
+  +(means?'<ol class="rich-mean">'+means+"</ol>":"")
+  +(r.etymology?'<details style="margin-top:6px"><summary>ریشه و ساخت</summary><p class="rich-ety" dir="auto">'+esc(r.etymology)+"</p></details>":"")
+  +((r.synonyms||[]).length?'<p class="lbl">مترادف‌ها</p><div class="row">'+chips(r.synonyms)+"</div>":"")
+  +((r.antonyms||[]).length?'<p class="lbl">متضادها</p><div class="row">'+chips(r.antonyms)+"</div>":"")
+  +"</div>";
+}
+function richFields(e){
+ var r=e&&e.rich;if(!r)return{};
+ var f={};
+ if(r.ipa&&r.ipa.length)f.ipa=r.ipa.join(" · ");
+ if(r.genus){var g=[r.genus];if(r.plural&&r.plural!=="—")g.push("Pl: "+r.plural);else if(r.plural==="—"||r.keinPlural)g.push("kein Plural");f.grammar=g.join(" · ")}
+ return f;
+}
+var richBusy={};
+function fillRich(box,e,t){
+ if(!e||e.dir==="fa")return;
+ var slot=$("#richSlot",box);if(!slot)return;
+ if(e.rich!==undefined){if(e.rich)slot.innerHTML=richHTML(e.rich);return}
+ var key=(e.dir==="en"?"en":"de")+":"+e.word.toLowerCase();
+ if(richBusy[key])return;richBusy[key]=1;
+ fetchRich(e.word,e.dir==="en"?"en":"de").then(function(r){
+  e.rich=r;saveCache();
+  if(t===box._t){var s2=$("#richSlot",box);if(s2)s2.innerHTML=richHTML(r)}
+ });
+}
+
 /* ===== 3) Entry view: sense picker, lemma, listen, add to deck ===== */
 const deckOpts=sel=>db.decks.map(d=>`<option value="${d.id}" ${d.id===sel?"selected":""}>${esc(d.name)}</option>`).join("");
 async function showEntry(box,raw,ctx,src,lang){
@@ -1004,6 +1293,7 @@ async function showEntry(box,raw,ctx,src,lang){
   ${!isFa&&G&&G.phr.length?`<details style="margin-top:8px"><summary>عبارت‌های مشابه (Glosbe)</summary>${G.phr.map(x=>`<div class="sense">${exh(x)}</div>`).join("")}</details>`:""}
   ${isFa&&ctx?`<div class="mute" style="margin-top:8px">${sr(ctx,"fa")}</div>`:""}
   ${!(isFa?e.de.length+e.en.length:e.fa.length+e.de.length+flat.length)?`<p class="mute">نتیجه‌ای پیدا نشد؛ معنی را دستی بنویسید.</p>`:""}
+  <div id="richSlot">${e.rich?richHTML(e.rich):""}</div>
   <div class="row" style="margin-top:10px"><select id="dk" style="flex:1">${deckOpts(db.active)}</select><button data-a="add">افزودن به کارت‌ها</button></div>
   <p class="mute">منبع: ${e.src.join("، ")||"—"}</p>`;
   box.onclick=ev=>{
@@ -1014,10 +1304,11 @@ async function showEntry(box,raw,ctx,src,lang){
    else if(a==="add"){
     const v=$("#fa",box).value,sn=$("input[name=sn]:checked",box),s=sn?flat[+sn.value]:null;
     const er=$("input[name=ex]:checked",box),x=!isFa&&er&&+er.value>=0?exs[+er.value]:null;
-    const c=isFa?{front:v,back:e.word,contextFa:ctx||"",lang:box._l}:{front:e.word,back:v,context:x?x.en:"",contextFa:x?x.fa:"",pos:s?s.pos:"",def:s?s.def:"",lang:"en"};
+    const c=isFa?{front:v,back:e.word,contextFa:ctx||"",lang:box._l}:{front:e.word,back:v,context:x?x.en:"",contextFa:x?x.fa:"",pos:s?s.pos:"",def:s?s.def:"",lang:"en",...richFields(e)};
     if(addCard({...c,source:src||"dictionary",deck_id:$("#dk",box).value})){b.textContent="اضافه شد ✓";b.disabled=true}
    }
   };
+  fillRich(box,e,t);
   return;
  }
  const W=e.wort||{},card=W.card,dict=W.dict;
@@ -1043,6 +1334,7 @@ async function showEntry(box,raw,ctx,src,lang){
   [...s.ex,...s.ph].filter(x=>x.de).map(x=>`<span class="sense">${exHtml(x)}</span>`).join("")+`</p>`).join("")}</details>`:""}
  ${flat.length?`<p style="margin:10px 0 4px">تعریف انگلیسی (Wiktionary):</p>`+flat.map((s,i)=>`<label class="sense"><input type="radio" name="sn" value="${i}" ${i?"":"checked"}><span><i>${esc(s.pos)}</i> — ${sr(s.def,"en")}</span></label>`).join(""):""}
  ${!flat.length&&!(e.fa||[]).length?`<p class="mute">نتیجه‌ای پیدا نشد؛ می‌توانید معنی را دستی بنویسید.</p>`:""}
+ <div id="richSlot">${e.rich?richHTML(e.rich):""}</div>
  <div class="row" style="margin-top:10px"><select id="dk" style="flex:1">${deckOpts(db.active)}</select><button data-a="add">افزودن به کارت‌ها</button></div>
  <p class="mute">منبع: ${(e.src||[]).join("، ")||"—"}</p>`;
  box.onclick=ev=>{
@@ -1059,9 +1351,10 @@ async function showEntry(box,raw,ctx,src,lang){
    const extra=src2?{plural,senses:dict?dict.senses.map(z=>({meaning:z.meaning,ex:z.ex.filter(q=>q.de).slice(0,6),ph:z.ph.filter(q=>q.de).slice(0,6)}))
     :[{meaning:card.meaning,ex:card.ex.filter(q=>q.de),ph:[]}]}:null;
    if(addCard({front:(art?art+" ":"")+head,article:art,back:$("#fa",box).value,pos:s?s.pos:(card?card.pos:""),def:s?s.def:(card?card.defDe:""),
-    context:x?x.de:"",contextFa:x?x.fa:"",extra,source:src||"dictionary",deck_id:$("#dk",box).value})){b.textContent="اضافه شد ✓";b.disabled=true}
+    context:x?x.de:"",contextFa:x?x.fa:"",extra,...richFields(e),source:src||"dictionary",deck_id:$("#dk",box).value})){b.textContent="اضافه شد ✓";b.disabled=true}
   }
  };
+ fillRich(box,e,t);
 }
 function addCard(c){
  if(!c.front.trim()||!c.back.trim()){toast("کلمه و معنی لازم است","bad");return false}
@@ -1385,6 +1678,7 @@ function openCardDetail(c){
    ${emojiFor(c.front)?`<span style="font-size:34px">${emojiFor(c.front)}</span>`:""}
    <button class="ib" id="cdSay" aria-label="تلفظ">${ic("sound")}</button></div>
   ${c.pos?`<span class="ask-pos">${esc(c.pos)}</span>`:""}
+  ${(c.ipa||c.grammar)?`<div class="mute sm" dir="auto">${esc([c.grammar,c.ipa].filter(Boolean).join(" · "))}</div>`:""}
   <div class="ask-mean" style="font-size:19px;margin:6px 0">${esc(c.back)}</div>
   ${c.def?`<p class="mute de"><i>${esc(c.pos||"")}</i> — ${esc(c.def)}</p>`:""}
   ${sec("مترادف‌ها",chips(ask&&ask.synonyms))}
