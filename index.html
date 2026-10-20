@@ -1706,8 +1706,17 @@ const normK=s=>(s||"").trim().toLowerCase().replace(/^[^\p{L}]+|[^\p{L}]+$/gu,""
 function knownSet(){
  const ks=new Set();
  for(const c of db.cards||[]){
-  const f=normK(c.front);if(!f)continue;ks.add(f);
-  const p=f.split(/\s+/);if(p.length>1)ks.add(p[p.length-1]);
+  const f=normK(c.front);
+  if(f){ks.add(f);const p=f.split(/\s+/);if(p.length>1)ks.add(p[p.length-1]);}
+  /* پشت کارت هم «کلمه‌ی او»ست: کلِ پشت + قطعه‌های کوتاهِ جداشده با ، و / و… (نه جمله‌ها، نه داخل پرانتز) */
+  const b=(c.back||"").replace(/\([^)]*\)/g," ");
+  const bn=normK(b);if(bn)ks.add(bn);
+  for(const seg of b.split(/[،,؛;·|\/\n]| - /)){
+   const sn=normK(seg);if(!sn)continue;
+   const tk=sn.split(/\s+/).filter(Boolean);
+   if(tk.length<1||tk.length>3)continue;
+   for(const t of tk)if((t.match(/\p{L}/gu)||[]).length>=3)ks.add(t);
+  }
  }
  return ks;
 }
