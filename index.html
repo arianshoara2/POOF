@@ -235,12 +235,26 @@ html[data-theme=snowy] header .brand{position:relative;z-index:1}
 @keyframes poof-bounce{0%,100%{transform:translateY(0) scale(1)}30%{transform:translateY(-18px) scale(1.05)}60%{transform:translateY(0) scale(.97)}}
 .empty-wrap{text-align:center;padding:24px 12px}
 .empty-wrap .poof-mascot{margin-bottom:8px}
-/* Library banner */
-.lib-banner{border-radius:var(--r-md);overflow:hidden;margin-bottom:14px;position:relative;min-height:130px;display:flex;align-items:flex-end}
+/* Library banner — hero */
+.lib-banner{border-radius:var(--r-md);overflow:hidden;margin-bottom:10px;position:relative;min-height:150px;display:flex;align-items:flex-end;background:var(--surface);border:1px solid var(--border)}
 .lib-banner .poof-img-library-banner{position:absolute;inset:0;background-size:cover}
-.lib-banner .lib-banner-txt{position:relative;padding:14px 16px;text-shadow:0 1px 8px rgba(0,0,0,.7)}
-.lib-banner .lib-banner-txt h2{margin:0 0 4px;color:#fff}
-.lib-banner .lib-banner-txt p{margin:0;color:#e8eef4;font-size:13px}
+.lib-banner::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(260deg,rgba(5,12,20,.72),rgba(5,12,20,.25) 60%,rgba(5,12,20,.05)),linear-gradient(to top,rgba(5,12,20,.45),rgba(5,12,20,0) 55%)}
+.lib-banner .lib-banner-txt{position:relative;z-index:2;padding:16px 18px}
+.lib-banner .lib-banner-txt h2{margin:0 0 4px;color:var(--accent);text-shadow:0 2px 10px rgba(0,0,0,.8)}
+.lib-banner .lib-banner-txt p{margin:0;color:#fdf6e3;font-size:13px;text-shadow:0 1px 8px rgba(0,0,0,.85)}
+/* Read tab: slimmer learn/movie cards + decluttered spacing */
+#learnCard,#movieCard{padding:14px 16px;margin-bottom:10px}
+#learnCard p,#movieCard p{margin-top:4px}
+#s-read>.card{margin-bottom:10px}
+html:not([data-theme=snowy]) .card-bg-img{display:none}
+html[data-theme=snowy] #learnCard,html[data-theme=snowy] #movieCard{position:relative;overflow:hidden}
+html[data-theme=snowy] .card-bg-img{position:absolute;inset:0;pointer-events:none}
+html[data-theme=snowy] #learnCard .card-bg-img{opacity:.5}
+html[data-theme=snowy] #movieCard .card-bg-img{opacity:.45}
+html[data-theme=snowy] .card-bg-img::after{content:"";position:absolute;inset:0;background:linear-gradient(260deg,rgba(8,20,33,.88),rgba(8,20,33,.55) 55%,rgba(8,20,33,.3))}
+html[data-theme=snowy] #learnCard .card-in,html[data-theme=snowy] #movieCard .card-in{position:relative;z-index:1}
+html[data-theme=snowy] #learnCard b,html[data-theme=snowy] #movieCard b{text-shadow:0 1px 6px rgba(0,0,0,.9)}
+html[data-theme=snowy] #learnCard .mute,html[data-theme=snowy] #movieCard .mute{color:#dbe7f0;text-shadow:0 1px 6px rgba(0,0,0,.9)}
 /* Snowy section backgrounds: library (fixed layer) + reading (reader card) */
 #readBg{display:none;position:fixed;top:0;left:0;width:100vw;height:100dvh;height:100svh;z-index:0;pointer-events:none}
 #readBg::after{content:"";position:absolute;inset:0;background:rgba(8,20,33,.78)}
@@ -276,12 +290,18 @@ html:not([data-theme=snowy]) #text.poof-img-reading-bg{background-image:none}
  <section id="s-read" class="tab">
   <div class="lib-banner"><div class="poof-img-library-banner"></div><div class="lib-banner-txt"><h2>📚 کتابخانه</h2><p>دنیای متن‌ها، ویدیوها و داستان‌ها — هر چیزی که یادگیری‌ات را زنده می‌کند.</p></div></div>
   <div class="card" id="learnCard" style="cursor:pointer">
+   <div class="card-bg-img poof-img-learn-path-bg" aria-hidden="true"></div>
+   <div class="card-in">
    <div class="row"><b>📚 مسیر یادگیری</b><span class="mute" id="learnProg"></span></div>
    <p class="mute" style="margin:6px 0 0">درس‌های قدم‌به‌قدم آلمانی و انگلیسی با تمرین</p>
+   </div>
   </div>
   <div class="card" id="movieCard" style="cursor:pointer">
+   <div class="card-bg-img poof-img-card-bg-snowy" aria-hidden="true"></div>
+   <div class="card-in">
    <div class="row"><b>🎬 ویدیوهای پیشنهادی</b><span class="mute">آلمانی · انگلیسی · فیلم</span></div>
    <p class="mute" style="margin:6px 0 0">ویدیوهای آموزشی و فیلم‌های کلاسیک — با یه ضربه وارد کتابخونه‌ت می‌شن</p>
+   </div>
   </div>
   <div id="moviePick" hidden role="dialog" aria-label="انتخاب فیلم"><div class="ask-card">
    <div class="ed-top"><b>🎬 ویدیوها</b><button class="ib" id="movieClose" aria-label="بستن"><svg class="ic" aria-hidden="true"><use href="#i-close"/></svg></button></div>
@@ -293,7 +313,8 @@ html:not([data-theme=snowy]) #text.poof-img-reading-bg{background-image:none}
    <div class="searchbar"><input id="wq" dir="auto" placeholder="جست‌وجو در ویکی‌پدیا…"><button class="ib pri" id="wGo" aria-label="جست‌وجو"><svg class="ic" aria-hidden="true"><use href="#i-dict"/></svg></button><button class="ib" id="wRnd" aria-label="مقاله‌ی تصادفی"><svg class="ic" aria-hidden="true"><use href="#i-shuffle"/></svg></button></div>
    <div id="wRes"></div>
   </div>
-  <div class="row" style="margin-bottom:12px"><input id="libQ" placeholder="جست‌وجو در کتابخانه…" style="flex:1"><button class="ib" id="libSort" aria-label="مرتب‌سازی" title="مرتب‌سازی">⇅</button><button class="ib pri" id="addTxt" aria-label="متن جدید"><svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></button></div>
+  <div class="row" style="margin-bottom:10px"><input id="libQ" placeholder="جست‌وجو در کتابخانه…" style="flex:1"><button class="ib" id="libSort" aria-label="مرتب‌سازی" title="مرتب‌سازی">⇅</button><button class="ib pri" id="addTxt" aria-label="متن جدید"><svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></button></div>
+  <div class="row" id="libFilters" style="margin-bottom:10px;gap:6px"><button class="chip lf on" data-lf="all">همه</button><button class="chip lf" data-lf="vid">🎬 ویدیو</button><button class="chip lf" data-lf="txt">📝 متن</button><button class="chip lf" data-lf="wp">📖 ویکی‌پدیا</button></div>
   <div id="lib"></div>
   <div class="card" id="addPanel" hidden>
    <div class="searchbar"><input id="tUrl" dir="ltr" placeholder="لینک یوتیوب یا مقاله…"><button class="ib pri" id="tGet" aria-label="دریافت از لینک"><svg class="ic" aria-hidden="true"><use href="#i-link"/></svg></button></div>
@@ -915,6 +936,7 @@ function saveProgress(){
  else t.progress={y:Math.round(scrollY)};
  save();
 }
+let libFilter="all";
 function renderLib(){
  const lp=$("#learnProg");
  if(lp){const L=db.learn||{},done=Object.values(L).filter(x=>x&&x.completedAt).length;lp.textContent=done?done+" درس تمام‌شده":"شروع یادگیری"}
@@ -922,6 +944,7 @@ function renderLib(){
  const mc=$("#movieCard");if(mc&&!mc.dataset.bound){mc.dataset.bound="1";mc.onclick=openMovies}
  const q=(($("#libQ")||{}).value||"").trim().toLowerCase();
  let all=allTexts().filter(t=>!q||(t.title||"").toLowerCase().includes(q));
+ if(libFilter!=="all")all=all.filter(t=>{const k=kindOf(t);return libFilter==="vid"?(k==="yt"||k==="ig"):libFilter==="txt"?k==="txt":k==="wp"});
  const sort=db.libSort||"recent";
  all=all.slice().sort((a,b)=>sort==="az"?(a.title||"").localeCompare(b.title||"","fa"):((b.added||0)-(a.added||0)));
  $("#lib").innerHTML=all.map(t=>{
@@ -932,7 +955,7 @@ function renderLib(){
   const del=db.texts.some(x=>x.id===t.id)?`<button class="lib-del" data-del="${t.id}" aria-label="حذف">×</button>`:"";
   const pc=progPct(t);
   return `<div class="lib-card${on?" on":""}" data-id="${t.id}">${th}<div class="lib-tx"><b>${esc(t.title||"بدون عنوان")}</b><span class="mute">${meta}</span>${pc>0?`<div class="pbar"><i style="width:${Math.round(pc*100)}%"></i></div>`:""}</div>${del}</div>`;
- }).join("")||`<div class="empty-wrap"><div class="poof-mascot poof-img-snowy-wave"></div><p class="mute" style="text-align:center">چیزی نیست — با + یک متن اضافه کن.</p></div>`;
+ }).join("")||(libFilter!=="all"?`<p class="mute" style="text-align:center;padding:16px 0">در این دسته چیزی نیست.</p>`:`<div class="empty-wrap"><div class="poof-mascot poof-img-snowy-wave"></div><p class="mute" style="text-align:center">چیزی نیست — با + یک متن اضافه کن.</p></div>`);
 }
 $("#lib").onclick=e=>{
  const d=e.target.closest("[data-del]");
@@ -956,6 +979,7 @@ $("#libSort").onclick=()=>{
  toast(db.libSort==="az"?"مرتب‌سازی: الفبا":"مرتب‌سازی: تازه‌ترین");
 };
 $("#libQ").oninput=renderLib;
+$("#libFilters").onclick=e=>{const b=e.target.closest("[data-lf]");if(!b)return;libFilter=b.dataset.lf;$$("#libFilters .lf").forEach(x=>x.classList.toggle("on",x===b));renderLib()};
 
 
 
