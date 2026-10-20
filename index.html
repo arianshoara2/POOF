@@ -214,7 +214,7 @@ body,header,.card,button,input,select,textarea,.w{transition:color .3s ease,back
 @media (max-width:480px){main{padding-inline:16px}.card{padding:18px}}
 </style>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
-<link rel="stylesheet" href="mascot.css?v=6">
+<link rel="stylesheet" href="mascot.css?v=7">
 <style>
 /* POOF mascot animations */
 .poof-mascot{width:120px;height:120px;margin:0 auto;animation:poof-float 3s ease-in-out infinite}
@@ -241,9 +241,17 @@ html[data-theme=snowy] header .brand{position:relative;z-index:1}
 .lib-banner .lib-banner-txt{position:relative;padding:14px 16px;text-shadow:0 1px 8px rgba(0,0,0,.7)}
 .lib-banner .lib-banner-txt h2{margin:0 0 4px;color:#fff}
 .lib-banner .lib-banner-txt p{margin:0;color:#e8eef4;font-size:13px}
+/* Snowy section backgrounds: library (fixed layer) + reading (reader card) */
+#readBg{display:none;position:fixed;top:0;left:0;width:100vw;height:100dvh;z-index:0;pointer-events:none}
+#readBg::after{content:"";position:absolute;inset:0;background:rgba(8,20,33,.78)}
+html[data-theme=snowy] body:has(#s-read:not([hidden])) #readBg{display:block}
+html[data-theme=snowy] main{position:relative;z-index:1}
+html[data-theme=snowy] #text{box-shadow:var(--shadow-card),inset 0 0 0 2000px rgba(8,20,33,.84)}
+html:not([data-theme=snowy]) #text.poof-img-reading-bg{background-image:none}
 </style>
 </head>
 <body>
+<div id="readBg" class="poof-img-library-bg" aria-hidden="true"></div>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
 <symbol id="i-read" viewBox="0 0 24 24"><path d="M2 5.5C4.5 4 8 4 12 6c4-2 7.5-2 10-.5V19c-2.5-1.5-6-1.5-10 .5-4-2-7.5-2-10-.5z"/><path d="M12 6v13.5"/></symbol>
 <symbol id="i-dict" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4-4"/></symbol>
@@ -302,7 +310,7 @@ html[data-theme=snowy] header .brand{position:relative;z-index:1}
    <div class="seg" id="vpSeg"><button data-vl="">اصلی</button><button data-vl="en">EN</button><button data-vl="de">DE</button><button data-vl="fa">فا</button></div>
    <div class="row"><button class="chip on" id="vpFollow">دنبال‌کردن زیرنویس</button><a id="vpOpen" class="chip" target="_blank" rel="noopener" style="text-decoration:none;padding:3px 12px">یوتیوب</a></div>
   </div>
-  <div class="card de" id="text"></div>
+  <div class="card de poof-img-reading-bg" id="text"></div>
   <p class="mute" id="txtSrc" hidden></p>
   <p class="mute">روی یک کلمه بزنید، یا کلمه را لمس طولانی کنید و بکشید تا چند کلمه انتخاب شود.</p>
   <div class="card" id="entry" hidden></div>
