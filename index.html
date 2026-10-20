@@ -98,7 +98,20 @@ input[type=radio]{accent-color:var(--accent)}
 .wf{color:var(--accent);font:600 20px/1.3 var(--serif)}.wb{font-weight:700;font-size:17px}
 .ctx{margin-top:6px;padding-top:10px;border-top:1px solid var(--border);font-style:italic}
 /* ===== stats ===== */
-.stat{text-align:center}.stat b{display:block;font:600 28px/1.3 var(--serif);color:var(--accent)}
+.stat{text-align:center}.stat b{display:block;font:700 20px/1.3 var(--serif);color:var(--accent)}
+#s-me .stat .mute{font-size:11px}
+#s-me .bars{height:56px;gap:6px}
+#s-me .bars div{background:var(--accent);opacity:.85;border-radius:5px}
+#s-me .pbar{height:6px;background:rgba(255,255,255,.08)}
+#s-me>.card{margin:0 0 10px}
+#s-me h2{margin:16px 0 10px}
+#s-me h2:first-child{margin-top:4px}
+#s-me #themeOpts{margin-bottom:0}
+details.adv{margin-top:12px;border-top:1px solid var(--border);padding-top:6px}
+details.adv>summary{cursor:pointer;font-weight:600;padding:8px 0;list-style:none;display:flex;align-items:center;gap:6px}
+details.adv>summary::-webkit-details-marker{display:none}
+details.adv>summary::after{content:"▾";margin-inline-start:auto;color:var(--muted);transition:transform .2s}
+details.adv[open ]>summary::after{transform:rotate(180deg)}
 .bars{display:flex;gap:8px;align-items:flex-end;height:76px;margin-top:8px}.bars div{flex:1;background:linear-gradient(var(--accent),color-mix(in srgb,var(--accent) 45%,transparent));border-radius:6px 6px 0 0;min-height:3px}
 .theme-options{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
 .theme-option{display:block;padding:16px;text-align:start;font-weight:400;color:var(--text);background:transparent;border-color:var(--border);border-radius:var(--r-md)}
@@ -217,7 +230,7 @@ body,header,.card,button,input,select,textarea,.w{transition:color .3s ease,back
 @media (max-width:480px){main{padding-inline:16px}.card{padding:14px}}
 </style>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
-<link rel="stylesheet" href="mascot.css?v=10">
+<link rel="stylesheet" href="mascot.css?v=11">
 <style>
 /* POOF mascot animations */
 .poof-mascot{width:120px;height:120px;margin:0 auto;animation:poof-float 3s ease-in-out infinite}
@@ -257,7 +270,17 @@ html:not([data-theme=snowy]) header .brand{position:relative;z-index:1}
 #learnCard,#movieCard{padding:14px 16px;margin-bottom:10px}
 #learnCard p,#movieCard p{margin-top:4px}
 #s-read>.card{margin-bottom:10px}
-html:not([data-theme=snowy]) .card-bg-img{display:none}
+html:not([data-theme=snowy]) #learnCard,html:not([data-theme=snowy]) #movieCard,html:not([data-theme=snowy]) #wikiCard,html:not([data-theme=snowy]) #libZone{position:relative;overflow:hidden}
+html:not([data-theme=snowy]) .card-bg-img{position:absolute;inset:0;pointer-events:none}
+html:not([data-theme=snowy]) #learnCard .card-bg-img{opacity:.5}
+html:not([data-theme=snowy]) #movieCard .card-bg-img{opacity:.45}
+html:not([data-theme=snowy]) #wikiCard .card-bg-img,html:not([data-theme=snowy]) #libZone .card-bg-img{opacity:.18}
+html:not([data-theme=snowy]) .card-bg-img::after{content:"";position:absolute;inset:0;background:linear-gradient(260deg,rgba(20,16,12,.88),rgba(20,16,12,.55) 55%,rgba(20,16,12,.35))}
+html:not([data-theme=snowy]) #learnCard .card-in,html:not([data-theme=snowy]) #movieCard .card-in,html:not([data-theme=snowy]) #wikiCard .card-in,html:not([data-theme=snowy]) #libZone .card-in{position:relative;z-index:1}
+html:not([data-theme=snowy]) #libZone{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:14px 12px 4px;margin-bottom:16px;box-shadow:var(--shadow-card)}
+html:not([data-theme=snowy]) #libZone #lib{margin-bottom:6px}
+html:not([data-theme=snowy]) #learnCard b,html:not([data-theme=snowy]) #movieCard b{text-shadow:0 1px 6px rgba(0,0,0,.9)}
+html:not([data-theme=snowy]) #learnCard .mute,html:not([data-theme=snowy]) #movieCard .mute{color:#ead9bd;text-shadow:0 1px 6px rgba(0,0,0,.9)}
 html[data-theme=snowy] #learnCard,html[data-theme=snowy] #movieCard,html[data-theme=snowy] #wikiCard,html[data-theme=snowy] #libZone{position:relative;overflow:hidden}
 html[data-theme=snowy] .card-bg-img{position:absolute;inset:0;pointer-events:none}
 html[data-theme=snowy] #learnCard .card-bg-img{opacity:.5}
@@ -272,16 +295,22 @@ html[data-theme=snowy] #wikiCard,html[data-theme=snowy] #libZone{background:rgba
 html[data-theme=snowy] #wikiCard input,html[data-theme=snowy] #libZone input{background:rgba(8,20,33,.45);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
 html[data-theme=snowy] #wikiCard .seg{background:rgba(8,20,33,.4)}
 html[data-theme=snowy] #lib .lib-card{background:rgba(16,38,58,.34);-webkit-backdrop-filter:blur(12px) saturate(1.3);backdrop-filter:blur(12px) saturate(1.3)}
-html:not([data-theme=snowy]) #wikiCard,html:not([data-theme=snowy]) #libZone{background:rgba(27,24,20,.72);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+html:not([data-theme=snowy]) #wikiCard,html:not([data-theme=snowy]) #libZone{background:rgba(24,19,14,.55);-webkit-backdrop-filter:blur(16px) saturate(1.2);backdrop-filter:blur(16px) saturate(1.2);border-color:rgba(255,255,255,.08)}
+html:not([data-theme=snowy]) #wikiCard input,html:not([data-theme=snowy]) #libZone input{background:rgba(15,12,9,.5);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+html:not([data-theme=snowy]) #wikiCard .seg{background:rgba(15,12,9,.45)}
+html:not([data-theme=snowy]) #lib .lib-card{background:rgba(30,24,18,.5);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
 html[data-theme=snowy] #learnCard b,html[data-theme=snowy] #movieCard b{text-shadow:0 1px 6px rgba(0,0,0,.9)}
 html[data-theme=snowy] #learnCard .mute,html[data-theme=snowy] #movieCard .mute{color:#dbe7f0;text-shadow:0 1px 6px rgba(0,0,0,.9)}
 /* Snowy section backgrounds: library (fixed layer) + reading (reader card) */
 #readBg{display:none;position:fixed;top:0;left:0;width:100vw;height:100dvh;height:100svh;z-index:0;pointer-events:none}
 #readBg::after{content:"";position:absolute;inset:0;background:rgba(8,20,33,.78)}
 html[data-theme=snowy] body:has(#s-read:not([hidden])) #readBg{display:block}
+html:not([data-theme=snowy]) body:has(#s-read:not([hidden])) #readBg{display:block}
+html:not([data-theme=snowy]) #readBg::after{background:rgba(20,16,12,.8)}
 html[data-theme=snowy] main{position:relative;z-index:1}
+html:not([data-theme=snowy]) main{position:relative;z-index:1}
 html[data-theme=snowy] #text{box-shadow:var(--shadow-card),inset 0 0 0 2000px rgba(8,20,33,.84)}
-html:not([data-theme=snowy]) #text.poof-img-reading-bg{background-image:none}
+html:not([data-theme=snowy]) #text{box-shadow:var(--shadow-card),inset 0 0 0 2000px rgba(20,16,12,.85)}
 </style>
 </head>
 <body>
@@ -401,20 +430,11 @@ html:not([data-theme=snowy]) #text.poof-img-reading-bg{background-image:none}
   <div id="rv"></div></section>
 
  <section id="s-me" class="tab" hidden>
-  <h2>پیشرفت</h2><div id="stats"></div>
-  <h2>تنظیمات و داده</h2>
+  <h2>تم</h2>
   <div class="card">
    <div class="theme-options" id="themeOpts"><button class="theme-option" data-th="classic"><b>Classic</b><span>گرم، تیره و طلایی</span></button><button class="theme-option" data-th="snowy"><b>Snowy</b><span>آبی شبانه و آرام</span></button></div>
-   <p class="mute" style="margin:0 0 4px">آدرس واسط برای wort.app (Cloudflare Worker). نمونه: https://NAME.workers.dev/?url={url}</p>
-   <input id="proxy" class="de" placeholder="https://…workers.dev/?url={url}"><button class="ghost full" id="proxyTest" style="margin-bottom:10px">ذخیره و آزمایش اتصال به wort.app</button>
-   <p class="mute" style="margin:0 0 4px">کلید امنیتی ورکر (اختیاری — اگر در ورکر Secret با نام API_KEY ساخته‌اید، همان مقدار را اینجا بگذارید)</p>
-   <input id="wkey" class="de" dir="ltr" placeholder="API_KEY (اختیاری)" autocomplete="off">
-   <div class="row"><button class="ghost" id="exp">خروجی پشتیبان (JSON)</button>
-    <button class="ghost" id="expAnki">خروجی انکی (TSV)</button></div>
-   <div class="row" style="margin-top:8px"><label class="ghost-label">ورود پشتیبان<input id="imp" type="file" accept=".json,application/json" hidden></label>
-    <button class="ghost" id="clrCache">پاک‌کردن کش دیکشنری</button></div>
   </div>
-  <div class="card" style="margin-top:10px">
+  <div class="card">
    <div class="row"><div style="flex:1"><b>حساب گوگل</b><div class="mute" id="gSub">کلمات و تاریخچه روی گوگل‌درایو شما ذخیره می‌شود؛ با هر گوشی که وارد شوید سر جایش است</div></div><span id="gSync" class="mute" style="font-size:12px"></span></div>
    <div class="row" id="gRow" style="margin-top:8px"></div>
   </div>
@@ -441,6 +461,20 @@ html:not([data-theme=snowy]) #text.poof-img-reading-bg{background-image:none}
     <div class="row"><button class="ghost" id="tgBtn">باز کردن تلگرام</button></div>
    </div>
    <p class="mute" style="font-size:11px;margin-bottom:0">نسخه‌ی نمایشی — پرداخت و فعال‌سازی به‌صورت دستی انجام می‌شود.</p>
+  </div>
+  <h2>پیشرفت</h2><div id="stats"></div>
+  <h2>تنظیمات و داده</h2>
+  <div class="card">
+   <div class="row"><button class="ghost" id="exp">خروجی پشتیبان (JSON)</button>
+    <button class="ghost" id="expAnki">خروجی انکی (TSV)</button></div>
+   <div class="row" style="margin-top:8px"><button class="ghost" id="clrCache">پاک‌کردن کش دیکشنری</button></div>
+   <details class="adv"><summary>تنظیمات پیشرفته</summary>
+   <p class="mute" style="margin:0 0 4px">آدرس واسط برای wort.app (Cloudflare Worker). نمونه: https://NAME.workers.dev/?url={url}</p>
+   <input id="proxy" class="de" placeholder="https://…workers.dev/?url={url}"><button class="ghost full" id="proxyTest" style="margin-bottom:10px">ذخیره و آزمایش اتصال به wort.app</button>
+   <p class="mute" style="margin:0 0 4px">کلید امنیتی ورکر (اختیاری — اگر در ورکر Secret با نام API_KEY ساخته‌اید، همان مقدار را اینجا بگذارید)</p>
+   <input id="wkey" class="de" dir="ltr" placeholder="API_KEY (اختیاری)" autocomplete="off">
+   <div class="row" style="margin-top:8px"><label class="ghost-label">ورود پشتیبان<input id="imp" type="file" accept=".json,application/json" hidden></label></div>
+   </details>
   </div>
  </section>
 </main>
