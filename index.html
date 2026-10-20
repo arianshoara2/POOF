@@ -675,7 +675,7 @@ $("#movieList").onclick=async e=>{
  const ytid=it.dataset.yt,lang=it.dataset.lang||"";
  $("#moviePick").hidden=true;
  toast("در حال آماده‌سازی زیرنویس…");
- try{await importYT(ytid,lang||"en")}catch(err){toast("خطا: "+(err.message||"نامشخص"),"bad")}
+ try{await importYT(ytid,lang||"en")}catch(err){toast(friendly(err),"bad")}
 };
 /* ===== ایموجی خودکار برای کلمات (آفلاین) ===== */
 const EMOJI={
@@ -876,49 +876,65 @@ async function lookup(raw,lang){
  if([a,b,c].some(x=>x.status==="fulfilled")){cache[key]=e;saveCache()}
  return e;
 }
-let _vR=null;
+/* صداها هر بار تازه خوانده می‌شوند (کشِ خالیِ صدا روی اندروید یعنی سکوت همیشگی)؛
+   اگر هنوز خالی بودند، حداکثر ~۷۰۰ms منتظر voiceschanged می‌مانیم */
 function voicesReady(){
-  if(_vR)return _vR;
-  _vR=new Promise(function(res){
+  return new Promise(function(res){
     if(!("speechSynthesis" in window))return res([]);
-    var v=speechSynthesis.getVoices();
-    if(v&&v.length)return res(v);
+    var v=[];try{v=speechSynthesis.getVoices()||[]}catch(e){}
+    if(v.length)return res(v);
     var done=false;
-    var to=setTimeout(function(){if(!done){done=true;try{res(speechSynthesis.getVoices()||[])}catch(e){res([])}}},1200);
-    try{
-      speechSynthesis.onvoiceschanged=function(){
-        if(done)return;done=true;clearTimeout(to);
-        try{res(speechSynthesis.getVoices()||[])}catch(e){res([])}
-      };
-    }catch(e){if(!done){done=true;clearTimeout(to);res([])}}
+    var to=setTimeout(function(){if(!done){done=true;try{res(speechSynthesis.getVoices()||[])}catch(e){res([])}}},700);
+    var h=function(){
+      if(done)return;done=true;clearTimeout(to);
+      try{speechSynthesis.removeEventListener("voiceschanged",h)}catch(e){}
+      try{res(speechSynthesis.getVoices()||[])}catch(e){res([])}
+    };
+    try{speechSynthesis.addEventListener("voiceschanged",h)}
+    catch(e){try{speechSynthesis.onvoiceschanged=h}catch(x){}}
   });
-  return _vR;
+}
+let _saySeq=0;
+function speakUtt(t,lang,vs,seq,retry){
+  if(seq!==_saySeq)return;
+  try{speechSynthesis.cancel();speechSynthesis.resume()}catch(e){}
+  var u=new SpeechSynthesisUtterance(t);u.lang=lang;u.rate=.9;
+  if(!retry&&vs&&vs.length){
+    var lc=lang.split("-")[0].toLowerCase();
+    for(var k=0;k<vs.length;k++){if(vs[k].lang&&vs[k].lang.toLowerCase().indexOf(lc)===0){u.voice=vs[k];break}}
+  }
+  u.onerror=function(){
+    if(seq!==_saySeq)return;
+    if(!retry)speakUtt(t,lang,null,seq,true);
+    else toast("صدا روی این دستگاه پخش نشد","bad");
+  };
+  try{speechSynthesis.speak(u)}catch(e){
+    if(seq!==_saySeq)return;
+    if(!retry)speakUtt(t,lang,null,seq,true);
+    else toast("صدا روی این دستگاه پخش نشد","bad");
+  }
 }
 // تلفظ: اول Web Speech API (اگر صدا داشته باشد)، وگرنه صوت گوگل — در WebView اندروید
 async function say(t,l){
-  var lang=FA.test(t)?"fa-IR":l==="en"?"en-US":"de-DE";
+  var lang=FA.test(t)?"fa-IR":l==="fa"?"fa-IR":l==="en"?"en-US":"de-DE";
+  var seq=++_saySeq;
   try{
     var vs=await voicesReady();
-    if(vs.length){
-      speechSynthesis.cancel();
-      var u=new SpeechSynthesisUtterance(t);u.lang=lang;u.rate=.9;
-      var lc=lang.split("-")[0].toLowerCase(),v=null;
-      for(var k=0;k<vs.length;k++){if(vs[k].lang&&vs[k].lang.toLowerCase().indexOf(lc)===0){v=vs[k];break}}
-      if(v)u.voice=v;
-      speechSynthesis.speak(u);return;
-    }
+    if(seq!==_saySeq)return;
+    if(vs.length){speakUtt(t,lang,vs,seq,false);return}
   }catch(e){}
   playGTTS(t,lang);
 }
 function playGTTS(t,lang){
   try{
     var tl=(lang||"de-DE").split("-")[0];
-    var chs=String(t).match(/[^.!?\u061F\n]{1,180}/g)||[t],i=0;
+    var chs=String(t).match(/[^.!?\u061F\n]{1,180}/g)||[t],i=0,failed=false;
+    var fail=function(){if(!failed){failed=true;toast("صدا روی این دستگاه پخش نشد","bad")}};
     (function nx(){
       if(i>=chs.length)return;
       var a=new Audio("https://translate.google.com/translate_tts?ie=UTF-8&tl="+encodeURIComponent(tl)+"&client=tw-ob&q="+encodeURIComponent(chs[i++].trim()));
-      a.onended=nx;a.onerror=function(){toast("پخش صدا ناموفق بود","bad")};
-      var pr=a.play();if(pr&&pr.catch)pr.catch(function(){toast("پخش صدا ناموفق بود","bad")});
+      a.onended=nx;a.onerror=fail;
+      var pr=a.play();if(pr&&pr.catch)pr.catch(fail);
     })();
   }catch(e){toast("مرورگر از تلفظ پشتیبانی نمی‌کند","bad")}
 }
@@ -1031,7 +1047,7 @@ function renderReader(){
  sents=[];
  if(t.segs){
   const igv=t.video&&t.video.ig;
-  $("#text").innerHTML=t.segs.map((g,k)=>`<div class="tline" id="sg${k}">${igv?`<span class="ts">${mmss(g.s)}</span>`:`<button class="ts" data-ts="${g.s}">${mmss(g.s)}</button>`}${sr(g.t,t.lang,"",igv?("ig:"+t.video.ig+"@"+Math.floor(g.s)):("video:"+t.video.id+"@"+Math.floor(g.s)))}</div>`).join("");
+  $("#text").innerHTML=t.video&&t.video.id&&!t.segs.length?`<div class="empty-wrap"><p class="state empty">${YT_BOT_MSG}</p></div>`:t.segs.map((g,k)=>`<div class="tline" id="sg${k}">${igv?`<span class="ts">${mmss(g.s)}</span>`:`<button class="ts" data-ts="${g.s}">${mmss(g.s)}</button>`}${sr(g.t,t.lang,"",igv?("ig:"+t.video.ig+"@"+Math.floor(g.s)):("video:"+t.video.id+"@"+Math.floor(g.s)))}</div>`).join("");
  }else $("#text").innerHTML=t.body.split(/\n\s*\n/).map(p=>"<p>"+p.split(/(?<=[.!?؟])\s+/).map(s=>{
   const i=sents.push(s)-1;
   return s.split(/(?<=\s)(?=\S)/).map(w=>norm(w)?`<span class="w" tabindex="0" role="button" data-w="${esc(norm(w))}" data-i="${i}">${esc(w)}</span>`:w).join("");
@@ -1483,12 +1499,14 @@ function workerURL(params){
  if(db.wkey)u.searchParams.set("auth",db.wkey);
  return u.toString();
 }
+const YT_BOT_MSG="یوتیوب فعلاً سرور ما رو بات تشخیص داده و زیرنویس رو نداد 🤖 ویدیو ذخیره شد — می‌تونی پخشش کنی؛ برای متنش بعداً دوباره تلاش کن یا زیرنویس رو دستی وارد کن.";
 const friendly=e=>{const m=String(e&&e.message||e);
  if(m==="noproxy")return "ابتدا آدرس Worker را در تب «پیشرفت» تنظیم کنید";
+ if(/not a bot|sign in to confirm/i.test(m))return YT_BOT_MSG;
  if(/timeout|AbortError/i.test(m))return "درخواست خیلی طول کشید؛ اتصال را چک کنید و دوباره تلاش کنید";
  if(/unauthorized/i.test(m))return "ورکر کلید می‌خواهد؛ «کلید امنیتی ورکر» را در تب پیشرفت چک کنید";
  if(/proxy 403|host not allowed/.test(m))return "برای این سایت باید KEY را در Worker بگذارید و &key=… را به آدرس Worker اضافه کنید";
- if(/no transcript|empty caption|no captions/.test(m))return "یوتیوب زیرنویس را به Worker نداد. در یوتیوب «Show transcript» را باز کنید، متن را اینجا بچسبانید (زمان‌ها حفظ می‌شود)";
+ if(/no transcript|empty caption|no captions/i.test(m))return "یوتیوب زیرنویس را به Worker نداد. در یوتیوب «Show transcript» را باز کنید، متن را اینجا بچسبانید (زمان‌ها حفظ می‌شود)";
  if(/instagram blocked|login wall|empty page/.test(m))return "اینستاگرام به Worker اجازه نداد؛ متن را دستی بچسبانید";
  if(/no speech detected/.test(m))return "صحبتی در ویدیو پیدا نشد";
  if(/Workers AI binding/.test(m))return "binding هوش مصنوعی (AI) در تنظیمات Worker اضافه نشده است";
@@ -1508,15 +1526,65 @@ function parseTimed(body){
  }
  return segs.filter(g=>g.t);
 }
+/* مسیر پشتیبان زیرنویس: timedtext یوتیوب از راه پروکسی عمومی (همان سازوکار fetchHTML) */
+async function proxyText(url,ms){
+ const p=(db.proxy||"").trim();if(!p)throw new Error("noproxy");
+ const u=p.includes("{url}")?p.replace("{url}",encodeURIComponent(url)):p+(p.includes("?")?"&":"?")+"url="+encodeURIComponent(url);
+ const r=await fetchT(u,ms||20000);
+ if(!r.ok)throw new Error("proxy "+r.status);
+ return r.text();
+}
+function ytKnown(id){
+ let title="",lang="";
+ const m=[...(typeof MOVIES!=="undefined"?MOVIES:[]),...(typeof VIDEOS_DE!=="undefined"?VIDEOS_DE:[]),...(typeof VIDEOS_EN!=="undefined"?VIDEOS_EN:[])].find(x=>x.yt===id);
+ if(m){title=m.title||"";lang=m.lang||""}
+ if(!lang){if(typeof VIDEOS_DE!=="undefined"&&VIDEOS_DE.some(x=>x.yt===id))lang="de";else if(typeof VIDEOS_EN!=="undefined"&&VIDEOS_EN.some(x=>x.yt===id))lang="en"}
+ return {title,lang};
+}
+async function ytTimedText(id,want){
+ const base="https://www.youtube.com/api/timedtext?v="+encodeURIComponent(id);
+ const listXml=await proxyText(base+"&type=list");
+ const tracks=[...new DOMParser().parseFromString(listXml,"text/xml").querySelectorAll("track")].map(tr=>({lang:tr.getAttribute("lang_code")||"",asr:tr.getAttribute("kind")==="asr"})).filter(x=>x.lang);
+ if(!tracks.length)throw new Error("no caption tracks");
+ const pref=[want,ytKnown(id).lang].filter(Boolean),man=tracks.filter(x=>!x.asr),asr=tracks.filter(x=>x.asr);
+ const pick=man.find(x=>pref.includes(x.lang))||man[0]||asr.find(x=>pref.includes(x.lang))||asr[0];
+ const j=JSON.parse(await proxyText(base+"&lang="+encodeURIComponent(pick.lang)+"&kind="+(pick.asr?"asr":"")+"&fmt=json3"));
+ const segs=(j.events||[]).filter(ev=>ev.segs).map(ev=>({s:(ev.tStartMs||0)/1000,t:ev.segs.map(s=>s.utf8||"").join("").replace(/\s+/g," ").trim()})).filter(x=>x.t);
+ if(!segs.length)throw new Error("empty caption");
+ return {segments:segs,lang:pick.lang,title:ytKnown(id).title};
+}
+const isNetErr=e=>!!e&&(e.name==="AbortError"||e instanceof TypeError||/timeout|failed to fetch|network/i.test(String(e.message||e)));
 async function importYT(id,want){
  const sid="yt_"+id+"_"+(want||"auto");
  let t=db.texts.find(x=>x.id===sid);
- if(t){db.textId=t.id;save();$("#addPanel").hidden=true;renderReader();toast("این ویدیو قبلاً اضافه شده بود — باز شد");return}
- const r=await fetchT(workerURL({yt:id,lang:want||""})),j=await r.json();
- if(!r.ok||j.error)throw new Error(j.error||"HTTP "+r.status);
- t={id:sid,added:Date.now(),title:"YouTube · "+j.title,lang:j.lang,want:want||"",body:j.segments.map(x=>x.t).join("\n"),video:{id},segs:j.segments.map(x=>({s:x.s,t:x.t}))};
- db.texts.push(t);
- db.textId=t.id;save();$("#addPanel").hidden=true;renderReader();toast("زیرنویس آماده شد");
+ if(t&&t.segs&&t.segs.length){db.textId=t.id;save();$("#addPanel").hidden=true;renderReader();toast("این ویدیو قبلاً اضافه شده بود — باز شد");return}
+ let data=null,err=null,fbErr=null;
+ try{
+  const r=await fetchT(workerURL({yt:id,lang:want||""})),j=await r.json();
+  if(!r.ok||j.error)throw new Error(j.error||"HTTP "+r.status);
+  if(!j.segments||!j.segments.length)throw new Error("no transcript");
+  data={segments:j.segments,title:j.title,lang:j.lang};
+ }catch(e){err=e}
+ if(!data){
+  if(err&&err.message==="noproxy")throw err;   // گیت پریمیوم، مثل قبل
+  try{data=await ytTimedText(id,want)}catch(e){fbErr=e}
+ }
+ if(data){
+  const segs=data.segments.map(x=>({s:x.s,t:x.t})),body=segs.map(x=>x.t).join("\n");
+  if(t){t.segs=segs;t.body=body;if(data.title)t.title="YouTube · "+data.title;if(data.lang)t.lang=data.lang}
+  else{t={id:sid,added:Date.now(),title:"YouTube · "+(data.title||id),lang:data.lang||want||"en",want:want||"",body,video:{id},segs};db.texts.push(t)}
+  db.textId=t.id;save();$("#addPanel").hidden=true;renderReader();toast("زیرنویس آماده شد");
+  return;
+ }
+ if(isNetErr(err)&&isNetErr(fbErr))throw err;   // مشکل واقعی اتصال: همان پیام‌های قبلی friendly
+ // هر دو مسیر شکست خورد (معمولاً بات‌بلاک یوتیوب): ویدیو بدون متن ذخیره می‌شود تا پخش شود و بعداً برای متنش دوباره تلاش شود
+ if(!t){
+  const kn=ytKnown(id);
+  t={id:sid,added:Date.now(),title:"YouTube · "+(kn.title||id),lang:(want&&want!=="auto")?want:(kn.lang||"en"),want:want||"",body:"",video:{id},segs:[]};
+  db.texts.push(t);
+ }
+ db.textId=t.id;save();$("#addPanel").hidden=true;renderReader();
+ toast(YT_BOT_MSG,"bad");
 }
 function extractArticle(html){
  const d=new DOMParser().parseFromString(html,"text/html");
