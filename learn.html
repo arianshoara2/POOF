@@ -66,6 +66,23 @@ input:focus,select:focus{outline:2px solid var(--accent);outline-offset:2px;bord
 #toast{position:fixed;z-index:80;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,8px);padding:10px 18px;border-radius:99px;background:var(--surface);border:1px solid var(--accent);opacity:0;pointer-events:none;transition:.25s;max-width:90%;text-align:center}
 #toast.show{opacity:1;transform:translate(-50%,0)}
 .spin{width:22px;height:22px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:sp .8s linear infinite;margin:40px auto}@keyframes sp{to{transform:rotate(360deg)}}
+/* Winding lesson path */
+.pnode{position:absolute;transform:translate(-50%,-50%);cursor:pointer;z-index:2}
+.pring{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:700 22px var(--sans);background:var(--surface);border:2px solid var(--border);color:var(--text);box-shadow:0 4px 14px rgba(0,0,0,.4);transition:transform .2s}
+.pnode:active .pring{transform:scale(.92)}
+.pnode.done .pring{border-color:var(--ok);background:rgba(159,224,192,.12)}
+.pnode.done .pchk{color:var(--ok);font-size:26px}
+.pnode.locked{opacity:.45;cursor:not-allowed}
+.pnode.locked .pring{border-style:dashed}
+.pnode.available .pring,.pnode.in-progress .pring{border-color:var(--accent);box-shadow:0 0 0 4px rgba(230,185,111,.15),0 4px 14px rgba(0,0,0,.4)}
+.pnode.in-progress .pring{animation:pring-pulse 2s ease-in-out infinite}
+@keyframes pring-pulse{0%,100%{box-shadow:0 0 0 4px rgba(230,185,111,.15),0 4px 14px rgba(0,0,0,.4)}50%{box-shadow:0 0 0 10px rgba(230,185,111,.08),0 4px 14px rgba(0,0,0,.4)}}
+.plab{position:absolute;top:50%;transform:translateY(-50%);width:150px;pointer-events:none}
+.plab.right{left:76px;text-align:start}
+.plab.left{right:76px;text-align:end}
+.plab b{display:block;font-size:14px}
+.plab .badge{font-size:11px;padding:1px 8px}
+.pnum{color:var(--accent)}
 /* Snowy learn-path background */
 #learnBg{display:none;position:fixed;inset:0;z-index:-2}
 html[data-theme=snowy] #learnBg{display:block}
@@ -170,25 +187,43 @@ function viewError(){
 }
 function viewPath(){
  if(!LESSONS.length){app.innerHTML=`<div class="card center mute">هنوز درسی اضافه نشده.</div>`;return}
- const n=LESSONS.filter(done).length,next=LESSONS.slice().sort((a,b)=>a.order-b.order).find(l=>["in-progress","available"].includes(status(l)));
+ const sorted=LESSONS.slice().sort((a,b)=>a.order-b.order);
+ const n=sorted.filter(done).length,next=sorted.find(l=>["in-progress","available"].includes(status(l)));
  const tabs=`<div class="row" style="margin-bottom:14px;gap:8px">
   <button class="btn ${TRACK==="en"?"":"ghost"}" style="flex:1" id="tabEn">🇬🇧 انگلیسی</button>
   <button class="btn ${TRACK==="de"?"":"ghost"}" style="flex:1" id="tabDe">🇩🇪 آلمانی پیشرفته</button></div>`;
- app.innerHTML=tabs+`<div class="card"><div class="row"><b>پیشرفت کلی · ${trackName()}</b><span class="mute">${n} از ${LESSONS.length} درس</span></div>
-  <div class="bar"><i style="width:${n/LESSONS.length*100}%"></i></div>
-  <button class="btn full" id="cont" ${next?"":"disabled"}>${next?"ادامه‌ی یادگیری":"همه‌ی درس‌ها تمام شد"}</button></div>`+
- LESSONS.slice().sort((a,b)=>a.order-b.order).map(l=>{
+ // winding path geometry
+ const ROW_H=150, TOP_PAD=90;
+ const H=TOP_PAD+sorted.length*ROW_H+60;
+ const px=i=>50+Math.sin(i*0.85)*30; // percent
+ const py=i=>TOP_PAD+i*ROW_H;
+ // SVG dashed connector
+ let d=`M ${px(0)} ${py(0)}`;
+ for(let i=1;i<sorted.length;i++){
+  const x0=px(i-1),y0=py(i-1),x1=px(i),y1=py(i),my=(y0+y1)/2;
+  d+=` C ${x0} ${my}, ${x1} ${my}, ${x1} ${y1}`;
+ }
+ const nodes=sorted.map((l,i)=>{
   const s=status(l),p=db.learn[l.id]||{};
-  return `<div class="card lesson ${s==="locked"?"locked":""}" data-id="${l.id}"><div class="num">${l.order}</div>
-   <div class="t"><b>${esc(l.title)}</b><span class="de mute" style="font-size:15px">${esc(l.titleDe)}</span>
-    <div class="sm mute" style="margin-top:4px"><span class="badge">${l.level}</span>${l.minutes} دقیقه${p.score!=null?` · بهترین نمره ${p.score}٪`:""}</div>
-    ${s==="in-progress"?`<div class="bar"><i style="width:${Math.max(8,p.score||0)}%"></i></div>`:""}</div>
-   <div class="st ${s}" title="${LBL[s]}">${ic(ICN[s])}</div></div>`}).join("");
+  const x=px(i),y=py(i);
+  const labelSide=x>50?"right":"left";
+  return `<div class="pnode ${s}" data-id="${l.id}" style="left:${x}%;top:${y}px">
+   <div class="pring">${s==="done"?'<span class="pchk">✓</span>':s==="locked"?'<span class="plock">🔒</span>':`<span class="pnum">${l.order}</span>`}</div>
+   <div class="plab ${labelSide}"><b>${esc(l.title)}</b><span class="mute sm">${esc(l.titleDe)}</span>
+    <div class="sm mute"><span class="badge">${l.level}</span>${l.minutes} دقیقه${p.score!=null?` · ${p.score}٪`:""}</div></div>
+  </div>`}).join("");
+ app.innerHTML=tabs+`<div class="card"><div class="row"><b>پیشرفت کلی · ${trackName()}</b><span class="mute">${n} از ${sorted.length} درس</span></div>
+  <div class="bar"><i style="width:${n/sorted.length*100}%"></i></div>
+  <button class="btn full" id="cont" ${next?"":"disabled"}>${next?"ادامه‌ی یادگیری":"همه‌ی درس‌ها تمام شد"}</button></div>`+
+ `<div id="pathWrap" style="position:relative;height:${H}px;margin-top:6px">
+   <div class="poof-mascot poof-img-snowy-read" style="position:absolute;left:50%;top:0;transform:translateX(-50%);width:84px;height:84px"></div>
+   <svg style="position:absolute;inset:0;width:100%;height:100%" viewBox="0 0 100 ${H}" preserveAspectRatio="none"><path d="${d}" fill="none" stroke="var(--accent)" stroke-width="1.2" stroke-dasharray="4 5" opacity="0.45" vector-effect="non-scaling-stroke"/></svg>
+   ${nodes}</div>`;
  const go=l=>{location.hash="#/"+l.id};
  if(next)$("#cont").onclick=()=>go(next);
  $("#tabEn").onclick=()=>setTrack("en");
  $("#tabDe").onclick=()=>setTrack("de");
- $$(".lesson").forEach(c=>c.onclick=()=>{const l=byId(c.dataset.id);status(l)==="locked"?toast("اول درس قبلی را تمام کن"):go(l)});
+ $$(".pnode").forEach(el=>el.onclick=()=>{const l=byId(el.dataset.id);status(l)==="locked"?toast("اول درس قبلی را تمام کن"):go(l)});
 }
 function viewLesson(l){
  if(!(db.learn[l.id]&&db.learn[l.id].startedAt))commit(d=>{d.learn[l.id]={...(d.learn[l.id]||{}),startedAt:Date.now()}});

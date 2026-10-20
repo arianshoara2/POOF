@@ -904,7 +904,7 @@ function saveProgress(){
 function renderLib(){
  const lp=$("#learnProg");
  if(lp){const L=db.learn||{},done=Object.values(L).filter(x=>x&&x.completedAt).length;lp.textContent=done?done+" درس تمام‌شده":"شروع یادگیری"}
- const qc=$("#learnCard");if(qc&&!qc.dataset.bound){qc.dataset.bound="1";qc.onclick=()=>location.href="learn.html"}
+ const qc=$("#learnCard");if(qc&&!qc.dataset.bound){qc.dataset.bound="1";qc.onclick=()=>location.href="learn.html?v=4"}
  const mc=$("#movieCard");if(mc&&!mc.dataset.bound){mc.dataset.bound="1";mc.onclick=openMovies}
  const q=(($("#libQ")||{}).value||"").trim().toLowerCase();
  let all=allTexts().filter(t=>!q||(t.title||"").toLowerCase().includes(q));
