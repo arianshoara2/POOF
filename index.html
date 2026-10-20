@@ -234,7 +234,7 @@ body,header,.card,button,input,select,textarea,.w{transition:color .3s ease,back
 @media (max-width:480px){main{padding-inline:16px}.card{padding:14px}}
 </style>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
-<link rel="stylesheet" href="mascot.css?v=14">
+<script>try{var _t=(JSON.parse(localStorage.getItem('poof_v2')||'{}').theme==='snowy')?'snowy':'classic';document.write('<link rel="stylesheet" id="themeCss" href="theme-'+_t+'.css?v=15">')}catch(e){document.write('<link rel="stylesheet" id="themeCss" href="theme-classic.css?v=15">')}</script>
 <style>
 /* POOF mascot animations */
 .poof-mascot{width:120px;height:120px;margin:0 auto;animation:poof-float 3s ease-in-out infinite}
@@ -1935,7 +1935,7 @@ $("#imp").onchange=async e=>{
 $("#clrCache").onclick=()=>{cache={};saveCache();toast("کش پاک شد")};
 
 /* ===== 10) Theme + tabs ===== */
-function applyTheme(){const t=db.theme==="snowy"?"snowy":"classic";document.documentElement.dataset.theme=t;const m=document.querySelector("meta[name=theme-color]");if(m)m.content=t==="snowy"?"#081421":"#111111"}
+function applyTheme(){const t=db.theme==="snowy"?"snowy":"classic";document.documentElement.dataset.theme=t;const tc=document.getElementById("themeCss");if(tc){const f="theme-"+t+".css?v=15";if(!tc.href.endsWith(f))tc.href=f}const m=document.querySelector("meta[name=theme-color]");if(m)m.content=t==="snowy"?"#081421":"#111111"}
 $("#proxyTest").onclick=async()=>{
  db.proxy=$("#proxy").value.trim();db.wkey=$("#wkey").value.trim();save();
  try{const h=await fetchHTML(WORT+"suchen?q=Schule"),c=h&&parseWortSearch(h);
