@@ -97,7 +97,7 @@ html[data-theme=snowy] .hd h1,html[data-theme=snowy] .hd .mark{display:none}
 html:not([data-theme=snowy]) .brand-mascot{display:block!important;animation:poof-float 3s ease-in-out infinite}
 html:not([data-theme=snowy]) .hd h1,html:not([data-theme=snowy]) .hd .mark{display:none}
 @keyframes poof-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-.path-mascot{animation:poof-float 3s ease-in-out infinite}
+.path-mascot{animation:poof-float 3s ease-in-out infinite;filter:drop-shadow(0 6px 14px rgba(0,0,0,.45))}
 </style>
 <link rel="stylesheet" href="mascot.css?v=14">
 </head>
@@ -225,7 +225,7 @@ function viewPath(){
   <div class="bar"><i style="width:${n/sorted.length*100}%"></i></div>
   <button class="btn full" id="cont" ${next?"":"disabled"}>${next?"ادامه‌ی یادگیری":"همه‌ی درس‌ها تمام شد"}</button></div>`+
  `<div id="pathWrap" style="position:relative;height:${H}px;margin-top:6px">
-   <div style="position:absolute;left:${px(midx)}%;top:${py(midx)-88}px;transform:translateX(-50%);z-index:3;pointer-events:none"><div class="poof-mascot poof-img-snowy-read path-mascot" style="width:84px;height:84px"></div></div>
+   <div style="position:absolute;left:${px(midx)}%;top:${Math.max(4,py(midx)-126)}px;transform:translateX(-50%);z-index:3;pointer-events:none"><div class="poof-mascot poof-img-snowy-read path-mascot" style="width:120px;height:120px"></div></div>
    <svg style="position:absolute;inset:0;width:100%;height:100%" viewBox="0 0 100 ${H}" preserveAspectRatio="none"><path d="${d}" fill="none" stroke="var(--accent)" stroke-width="1.2" stroke-dasharray="4 5" opacity="0.45" vector-effect="non-scaling-stroke"/></svg>
    ${nodes}</div>`;
  const go=l=>{location.hash="#/"+l.id};
