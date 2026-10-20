@@ -24,29 +24,29 @@ html[data-theme=snowy]{--bg:#081421;--surface:#10263a;--text:#f3f8fc;--muted:#b8
 /* ===== base ===== */
 *{box-sizing:border-box}[hidden]{display:none!important}
 a,button{-webkit-tap-highlight-color:transparent}
-body{margin:0;min-height:100dvh;font:16px/1.6 var(--sans);color:var(--text);background:var(--bg)}
-header{padding:calc(26px + env(safe-area-inset-top,0px)) 24px 20px;background:var(--surface);border-bottom:1px solid var(--border)}
+body{margin:0;min-height:100dvh;font:15px/1.6 var(--sans);color:var(--text);background:var(--bg)}
+header{padding:calc(20px + env(safe-area-inset-top,0px)) 24px 14px;background:var(--surface);border-bottom:1px solid var(--border)}
 .brand{display:flex;align-items:center;gap:14px;max-width:720px;margin:0 auto}
 .mark{display:grid;place-items:center;width:44px;height:44px;border-radius:14px;background:var(--accent);color:var(--bg);font:700 26px/1 var(--serif)}
 h1{margin:0;font:600 22px/1.2 var(--serif);letter-spacing:.16em;color:var(--accent)}
 #hSub{color:var(--muted);font-size:14px}
 main{max-width:720px;margin:0 auto;padding:24px 20px calc(124px + env(safe-area-inset-bottom,0px))}
-h2{margin:4px 0 16px;font-size:20px;font-weight:600}
+h2{margin:4px 0 16px;font-size:18px;font-weight:600}
 a{color:var(--accent)}
 /* ===== surfaces ===== */
-.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px;margin-bottom:16px;box-shadow:var(--shadow-card)}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:16px;margin-bottom:16px;box-shadow:var(--shadow-card)}
 details>summary{cursor:pointer;color:var(--accent);font-weight:600;list-style:none}
 details>summary::-webkit-details-marker{display:none}
 /* ===== controls ===== */
 button,select,input,textarea{font:inherit;color:inherit}
-button{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 18px;border-radius:var(--r-sm);border:1px solid var(--accent);background:var(--accent);color:var(--bg);font-weight:700;cursor:pointer}
+button{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:8px 18px;border-radius:var(--r-sm);border:1px solid var(--accent);background:var(--accent);color:var(--bg);font-weight:700;cursor:pointer}
 button:hover{filter:brightness(1.06)}button:active{transform:scale(.97)}button:disabled{opacity:.55;cursor:default}
 button.ghost{background:transparent;color:var(--accent)}button.ghost:hover{background:var(--accent);color:var(--bg);filter:none}
 button.bad{background:transparent;color:var(--error);border-color:var(--error)}button.bad:hover{background:var(--error);color:var(--bg);filter:none}
 button.ok{background:transparent;color:var(--ok);border-color:var(--ok)}button.ok:hover{background:var(--ok);color:var(--bg);filter:none}
 button.full{width:100%}
-.ghost-label{display:inline-flex;align-items:center;padding:10px 18px;border:1px solid var(--accent);border-radius:var(--r-sm);color:var(--accent);font-weight:700;cursor:pointer}.ghost-label:hover{background:var(--accent);color:var(--bg)}
-button.chip{padding:3px 12px;border-radius:999px;border-color:var(--border);background:transparent;color:var(--accent);font-weight:500;font-size:15px}
+.ghost-label{display:inline-flex;align-items:center;padding:8px 18px;border:1px solid var(--accent);border-radius:var(--r-sm);color:var(--accent);font-weight:700;cursor:pointer}.ghost-label:hover{background:var(--accent);color:var(--bg)}
+button.chip{padding:6px 12px;border-radius:999px;border-color:var(--border);background:transparent;color:var(--accent);font-weight:500;font-size:13px}
 button.chip:hover{background:var(--hover);filter:none}
 button.ib{width:40px;height:40px;padding:0;border-color:var(--border);background:transparent;color:var(--muted)}
 .vchip{background:transparent;border:1px solid var(--accent);color:var(--accent);border-radius:99px;padding:5px 14px;font-size:12px;cursor:pointer;font-family:inherit;margin:6px 0 2px;opacity:.9}
@@ -64,7 +64,8 @@ button.ib{width:40px;height:40px;padding:0;border-color:var(--border);background
 button.ib:hover{color:var(--accent);border-color:var(--accent);background:var(--hover);filter:none}
 button.ib.danger:hover{color:var(--error);border-color:var(--error)}
 .ic{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
-input,select,textarea{width:100%;padding:11px 12px;margin-bottom:8px;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:var(--r-sm)}
+.ic-inline{width:17px;height:17px;vertical-align:-3px}
+input,select,textarea{width:100%;padding:11px 12px;margin-bottom:8px;font-size:16px;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:var(--r-sm)}
 input:focus,select:focus,textarea:focus{border-color:var(--accent);outline:2px solid var(--accent);outline-offset:2px}
 input::placeholder,textarea::placeholder{color:var(--muted);opacity:.7}
 input[type=radio]{accent-color:var(--accent)}
@@ -113,7 +114,7 @@ input[type=radio]{accent-color:var(--accent)}
 button.ib.pri{background:var(--accent);color:var(--bg);border-color:var(--accent)}button.ib.pri:hover{background:var(--accent);color:var(--bg);filter:brightness(1.08)}
 .lbl{margin:12px 0 6px;color:var(--muted);font-size:13px}
 /* ===== Leitner box ===== */
-.leit b{font-size:18px}.boxes{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:14px}
+.leit b{font-size:16px}.boxes{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:14px}
 .bx{text-align:center;padding:8px 2px;border:1px solid var(--border);border-radius:12px;background:var(--bg)}
 .bx b{display:block;font:600 20px/1.2 var(--serif);color:var(--accent)}.bx span{font-size:11px;color:var(--muted)}
 #lt{position:fixed;inset:0;z-index:200;display:flex;flex-direction:column;padding:calc(12px + env(safe-area-inset-top,0px)) 16px calc(16px + env(safe-area-inset-bottom,0px));background:var(--bg);overflow:hidden}
@@ -147,7 +148,7 @@ button.ib.pri{background:var(--accent);color:var(--bg);border-color:var(--accent
 .ask-pos{display:inline-block;font-size:13px;color:var(--bg);background:var(--accent);border-radius:99px;padding:2px 12px;margin-bottom:10px}
 .ask-sec{margin:14px 0}.ask-sec>h4{margin:0 0 6px;font-size:14px;color:var(--muted);font-weight:600}
 .ask-mean{font-size:17px;margin:2px 0}
-.ask-chip{display:inline-block;border:1px solid var(--border);border-radius:99px;padding:3px 12px;margin:2px 4px 2px 0;font-size:14px}
+.ask-chip{display:inline-block;border:1px solid var(--border);border-radius:99px;padding:3px 12px;margin:2px 4px 2px 0;font-size:13px}
 .ask-ex{background:var(--bg);border:1px solid var(--border);border-radius:var(--r-md);padding:10px 12px;margin:6px 0}
 .ask-ex .s{font-size:15px}.ask-ex .t{color:var(--muted);font-size:14px;margin-top:2px}
 .ask-tip{border:1px dashed var(--accent);border-radius:var(--r-md);padding:10px 12px;font-size:14px;margin:10px 0}
@@ -174,6 +175,8 @@ button.ib.pri{background:var(--accent);color:var(--bg);border-color:var(--accent
 .lib-ic{width:96px;height:54px;flex:none;display:flex;align-items:center;justify-content:center;font-size:28px;background:color-mix(in srgb,var(--accent) 12%,transparent);border-radius:10px}
 .lib-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
 .lib-tx b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:15px}
+.lib-tx .mute{font-size:12px}
+.lib-ic .ic{width:26px;height:26px;color:var(--muted)}
 .lib-del{flex:none;width:32px;height:32px;border-radius:50%;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:18px;line-height:1;cursor:pointer}
 .lib-del:hover{color:#e5484d;border-color:#e5484d}
 button.ts{padding:2px 9px;font:600 12px var(--sans);background:transparent;color:var(--accent);border:1px solid var(--border);border-radius:999px;flex:none}
@@ -195,7 +198,7 @@ background:var(--nav-bg);border:1px solid var(--nav-border);box-shadow:var(--sha
 transition:transform .42s cubic-bezier(.4,0,.2,1),opacity .35s ease,background-color .3s ease}
 nav.nav-hidden{opacity:0;transform:translateY(calc(100% + 48px));pointer-events:none}
 nav:focus-within{opacity:1;transform:none;pointer-events:auto}
-nav button{flex-direction:column;gap:3px;padding:9px 2px 8px;border:0;border-radius:18px;background:transparent;color:var(--muted);font-size:12px;font-weight:500}
+nav button{flex-direction:column;gap:3px;padding:9px 2px 8px;border:0;border-radius:18px;background:transparent;color:var(--muted);font-size:11px;font-weight:500}
 nav button:hover{background:var(--hover);color:var(--accent);filter:none}
 nav button.on{background:var(--active);color:var(--accent);font-weight:700}
 nav .ic{width:22px;height:22px}
@@ -211,7 +214,7 @@ nav .ic{width:22px;height:22px}
 #toast.show{opacity:1;transform:translate(-50%,0)}#toast.bad{border-color:var(--error);color:var(--error)}
 body,header,.card,button,input,select,textarea,.w{transition:color .3s ease,background-color .3s ease,border-color .3s ease,box-shadow .3s ease,transform .2s ease}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
-@media (max-width:480px){main{padding-inline:16px}.card{padding:18px}}
+@media (max-width:480px){main{padding-inline:16px}.card{padding:14px}}
 </style>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <link rel="stylesheet" href="mascot.css?v=7">
@@ -247,12 +250,15 @@ html[data-theme=snowy] header .brand{position:relative;z-index:1}
 #learnCard p,#movieCard p{margin-top:4px}
 #s-read>.card{margin-bottom:10px}
 html:not([data-theme=snowy]) .card-bg-img{display:none}
-html[data-theme=snowy] #learnCard,html[data-theme=snowy] #movieCard{position:relative;overflow:hidden}
+html[data-theme=snowy] #learnCard,html[data-theme=snowy] #movieCard,html[data-theme=snowy] #wikiCard,html[data-theme=snowy] #libZone{position:relative;overflow:hidden}
 html[data-theme=snowy] .card-bg-img{position:absolute;inset:0;pointer-events:none}
 html[data-theme=snowy] #learnCard .card-bg-img{opacity:.5}
 html[data-theme=snowy] #movieCard .card-bg-img{opacity:.45}
+html[data-theme=snowy] #wikiCard .card-bg-img,html[data-theme=snowy] #libZone .card-bg-img{opacity:.3}
 html[data-theme=snowy] .card-bg-img::after{content:"";position:absolute;inset:0;background:linear-gradient(260deg,rgba(8,20,33,.88),rgba(8,20,33,.55) 55%,rgba(8,20,33,.3))}
-html[data-theme=snowy] #learnCard .card-in,html[data-theme=snowy] #movieCard .card-in{position:relative;z-index:1}
+html[data-theme=snowy] #learnCard .card-in,html[data-theme=snowy] #movieCard .card-in,html[data-theme=snowy] #wikiCard .card-in,html[data-theme=snowy] #libZone .card-in{position:relative;z-index:1}
+html[data-theme=snowy] #libZone{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:14px 12px 4px;margin-bottom:16px;box-shadow:var(--shadow-card)}
+html[data-theme=snowy] #libZone #lib{margin-bottom:6px}
 html[data-theme=snowy] #learnCard b,html[data-theme=snowy] #movieCard b{text-shadow:0 1px 6px rgba(0,0,0,.9)}
 html[data-theme=snowy] #learnCard .mute,html[data-theme=snowy] #movieCard .mute{color:#dbe7f0;text-shadow:0 1px 6px rgba(0,0,0,.9)}
 /* Snowy section backgrounds: library (fixed layer) + reading (reader card) */
@@ -284,22 +290,25 @@ html:not([data-theme=snowy]) #text.poof-img-reading-bg{background-image:none}
 <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
 <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
 <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></symbol>
+<symbol id="i-film" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="14" rx="3"/><path d="m10.5 9.8 4.8 2.2-4.8 2.2z"/></symbol>
+<symbol id="i-doc" viewBox="0 0 24 24"><path d="M6.5 3.5H14l4.5 4.5v11a1.5 1.5 0 0 1-1.5 1.5H6.5A1.5 1.5 0 0 1 5 19V5a1.5 1.5 0 0 1 1.5-1.5z"/><path d="M14 3.5V8h4.5"/><path d="M8.5 12.5h7M8.5 16h7"/></symbol>
+<symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17"/><path d="M12 3.5c2.7 2.3 4 5.2 4 8.5s-1.3 6.2-4 8.5c-2.7-2.3-4-5.2-4-8.5s1.3-6.2 4-8.5z"/></symbol>
 </defs></svg>
 <header><div class="poof-img-header-bg" aria-hidden="true" style="position:absolute;inset:0;z-index:0"></div><div class="brand"><span class="mark" aria-hidden="true">P</span><div class="poof-mascot brand-mascot poof-img-snowy-wave" aria-hidden="true"></div><div><h1>POOF</h1><p id="hSub">بخوان، انتخاب کن، یاد بگیر</p></div></div></header>
 <main>
  <section id="s-read" class="tab">
-  <div class="lib-banner"><div class="poof-img-library-banner"></div><div class="lib-banner-txt"><h2>📚 کتابخانه</h2><p>دنیای متن‌ها، ویدیوها و داستان‌ها — هر چیزی که یادگیری‌ات را زنده می‌کند.</p></div></div>
+  <div class="lib-banner"><div class="poof-img-library-banner"></div><div class="lib-banner-txt"><h2><svg class="ic ic-inline" aria-hidden="true"><use href="#i-doc"/></svg> کتابخانه</h2><p>دنیای متن‌ها، ویدیوها و داستان‌ها — هر چیزی که یادگیری‌ات را زنده می‌کند.</p></div></div>
   <div class="card" id="learnCard" style="cursor:pointer">
    <div class="card-bg-img poof-img-learn-path-bg" aria-hidden="true"></div>
    <div class="card-in">
-   <div class="row"><b>📚 مسیر یادگیری</b><span class="mute" id="learnProg"></span></div>
+   <div class="row"><b><svg class="ic ic-inline" aria-hidden="true"><use href="#i-doc"/></svg> مسیر یادگیری</b><span class="mute" id="learnProg"></span></div>
    <p class="mute" style="margin:6px 0 0">درس‌های قدم‌به‌قدم آلمانی و انگلیسی با تمرین</p>
    </div>
   </div>
   <div class="card" id="movieCard" style="cursor:pointer">
    <div class="card-bg-img poof-img-card-bg-snowy" aria-hidden="true"></div>
    <div class="card-in">
-   <div class="row"><b>🎬 ویدیوهای پیشنهادی</b><span class="mute">آلمانی · انگلیسی · فیلم</span></div>
+   <div class="row"><b><svg class="ic ic-inline" aria-hidden="true"><use href="#i-film"/></svg> ویدیوهای پیشنهادی</b><span class="mute">آلمانی · انگلیسی · فیلم</span></div>
    <p class="mute" style="margin:6px 0 0">ویدیوهای آموزشی و فیلم‌های کلاسیک — با یه ضربه وارد کتابخونه‌ت می‌شن</p>
    </div>
   </div>
@@ -308,14 +317,22 @@ html:not([data-theme=snowy]) #text.poof-img-reading-bg{background-image:none}
    <div class="seg" id="movieTabs" style="margin-bottom:8px"><button class="on" data-mt="movies">🎬 فیلم</button><button data-mt="de">🇩🇪 آلمانی</button><button data-mt="en">🇬🇧 انگلیسی</button></div>
    <div id="movieList"></div>
   </div></div>
-  <div class="card">
+  <div class="card" id="wikiCard">
+   <div class="card-bg-img poof-img-reading-bg" aria-hidden="true"></div>
+   <div class="card-in">
    <div class="seg" id="wlSeg"><button class="on" data-wl="de">DE</button><button data-wl="en">EN</button><button data-wl="fa">فا</button></div>
    <div class="searchbar"><input id="wq" dir="auto" placeholder="جست‌وجو در ویکی‌پدیا…"><button class="ib pri" id="wGo" aria-label="جست‌وجو"><svg class="ic" aria-hidden="true"><use href="#i-dict"/></svg></button><button class="ib" id="wRnd" aria-label="مقاله‌ی تصادفی"><svg class="ic" aria-hidden="true"><use href="#i-shuffle"/></svg></button></div>
    <div id="wRes"></div>
+   </div>
   </div>
+  <div id="libZone">
+   <div class="card-bg-img poof-img-reading-bg" aria-hidden="true"></div>
+   <div class="card-in">
   <div class="row" style="margin-bottom:10px"><input id="libQ" placeholder="جست‌وجو در کتابخانه…" style="flex:1"><button class="ib" id="libSort" aria-label="مرتب‌سازی" title="مرتب‌سازی">⇅</button><button class="ib pri" id="addTxt" aria-label="متن جدید"><svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></button></div>
-  <div class="row" id="libFilters" style="margin-bottom:10px;gap:6px"><button class="chip lf on" data-lf="all">همه</button><button class="chip lf" data-lf="vid">🎬 ویدیو</button><button class="chip lf" data-lf="txt">📝 متن</button><button class="chip lf" data-lf="wp">📖 ویکی‌پدیا</button></div>
+  <div class="row" id="libFilters" style="margin-bottom:10px;gap:6px"><button class="chip lf on" data-lf="all">همه</button><button class="chip lf" data-lf="vid"><svg class="ic ic-inline" aria-hidden="true"><use href="#i-film"/></svg> ویدیو</button><button class="chip lf" data-lf="txt"><svg class="ic ic-inline" aria-hidden="true"><use href="#i-doc"/></svg> متن</button><button class="chip lf" data-lf="wp"><svg class="ic ic-inline" aria-hidden="true"><use href="#i-globe"/></svg> ویکی‌پدیا</button></div>
   <div id="lib"></div>
+   </div>
+  </div>
   <div class="card" id="addPanel" hidden>
    <div class="searchbar"><input id="tUrl" dir="ltr" placeholder="لینک یوتیوب یا مقاله…"><button class="ib pri" id="tGet" aria-label="دریافت از لینک"><svg class="ic" aria-hidden="true"><use href="#i-link"/></svg></button></div>
    <div class="seg" id="slSeg" style="margin-top:10px"><button class="on" data-sl="">زیرنویس اصلی</button><button data-sl="en">EN</button><button data-sl="de">DE</button><button data-sl="fa">فا</button></div>
@@ -923,7 +940,7 @@ $("#text").onkeydown=e=>{if(e.key==="Enter"||e.key===" "){const el=e.target.clos
 /* ===== کتابخانه‌ی متن‌ها: تاریخچه‌ی تمیز لینک‌ها و متن‌ها ===== */
 const kindOf=t=>t.video&&t.video.id?"yt":t.video&&t.video.ig?"ig":t.wp?"wp":t.url?"web":"txt";
 const KIND_LB={yt:"یوتیوب",ig:"اینستاگرام",wp:"ویکی‌پدیا",web:"وب",txt:"متن"};
-const KIND_IC={ig:"📷",wp:"📖",web:"🌐",txt:"📝"};
+const KIND_IC={ig:"film",wp:"globe",web:"doc",txt:"doc"};
 function progPct(t){
  if(!t||!t.progress)return 0;
  if(t.segs&&t.segs.length&&t.progress.seg>0)return Math.min(.99,t.progress.seg/t.segs.length);
@@ -949,7 +966,7 @@ function renderLib(){
  all=all.slice().sort((a,b)=>sort==="az"?(a.title||"").localeCompare(b.title||"","fa"):((b.added||0)-(a.added||0)));
  $("#lib").innerHTML=all.map(t=>{
   const k=kindOf(t),on=t.id===db.textId;
-  const th=k==="yt"?`<img loading="lazy" src="https://i.ytimg.com/vi/${t.video.id}/mqdefault.jpg" alt="">`:`<div class="lib-ic">${KIND_IC[k]}</div>`;
+  const th=k==="yt"?`<img loading="lazy" src="https://i.ytimg.com/vi/${t.video.id}/mqdefault.jpg" alt="">`:`<div class="lib-ic">${ic(KIND_IC[k])}</div>`;
   const words=(t.body||"").split(/\s+/).filter(Boolean).length;
   const meta=[KIND_LB[k],LB[t.lang||"de"]||"",t.segs?t.segs.length+" بخش":words?words+" کلمه":null,t.added?new Date(t.added).toLocaleDateString("fa-IR"):null].filter(Boolean).join(" · ");
   const del=db.texts.some(x=>x.id===t.id)?`<button class="lib-del" data-del="${t.id}" aria-label="حذف">×</button>`:"";
