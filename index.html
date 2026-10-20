@@ -273,6 +273,10 @@ html:not([data-theme=snowy]) header .brand{position:relative;z-index:1}
 /* Read tab: slimmer learn/movie cards + decluttered spacing */
 #learnCard,#movieCard{padding:14px 16px;margin-bottom:10px}
 #learnCard p,#movieCard p{margin-top:4px}
+/* Review tab: round mascot portraits on learn/practice cards */
+.round-ico{width:76px;height:76px;border-radius:50%;background-size:cover;background-position:center;background-repeat:no-repeat;flex:0 0 auto;border:2px solid rgba(230,185,111,.55);box-shadow:0 4px 14px rgba(0,0,0,.35)}
+#learnCard .card-in,#practiceCard .card-in{display:flex;align-items:center;gap:14px}
+#learnCard .rc-txt,#practiceCard .rc-txt{flex:1;min-width:0}
 #s-read>.card{margin-bottom:10px}
 html:not([data-theme=snowy]) #learnCard,html:not([data-theme=snowy]) #movieCard,html:not([data-theme=snowy]) #wikiCard,html:not([data-theme=snowy]) #libZone{position:relative;overflow:hidden}
 html:not([data-theme=snowy]) .card-bg-img{position:absolute;inset:0;pointer-events:none}
@@ -446,13 +450,21 @@ html:not([data-theme=snowy]) #s-cards #list .card::after{background:linear-gradi
   <div class="card" id="learnCard" style="cursor:pointer">
    <div class="card-bg-img poof-img-learn-path-bg" aria-hidden="true"></div>
    <div class="card-in">
+   <div class="round-ico poof-img-snowy-read" aria-hidden="true"></div>
+   <div class="rc-txt">
    <div class="row"><b><svg class="ic ic-inline" aria-hidden="true"><use href="#i-doc"/></svg> مسیر یادگیری</b><span class="mute" id="learnProg"></span></div>
    <p class="mute" style="margin:6px 0 0">درس‌های قدم‌به‌قدم آلمانی و انگلیسی با تمرین</p>
    </div>
+   </div>
   </div>
   <div class="card" id="practiceCard" style="cursor:pointer">
+   <div class="card-in">
+   <div class="round-ico poof-img-snowy-celebrate" aria-hidden="true"></div>
+   <div class="rc-txt">
    <div class="row"><b><svg class="ic ic-inline" aria-hidden="true"><use href="#i-target"/></svg> تمرین</b><span class="mute" id="prSub"></span></div>
    <p class="mute" style="margin:6px 0 0">۶ حالت بازی‌وار: ۴ گزینه‌ای، تایپی، شنیداری، جای خالی، جور کردن، تلفظ</p>
+   </div>
+   </div>
   </div>
   <div class="card leit"><div class="row"><div style="flex:1"><b>جعبه لایتنر</b><div class="mute" id="boxSub"></div></div><button id="openBox"><svg class="ic" aria-hidden="true"><use href="#i-box"/></svg> باز کردن</button></div><div class="boxes" id="boxes"></div></div>
   <div class="row" style="margin:10px 0"><span class="mute">دسته‌ی مرور:</span><select id="rvDeck" style="flex:1"></select></div>
