@@ -221,10 +221,20 @@ body,header,.card,button,input,select,textarea,.w{transition:color .3s ease,back
 .poof-mascot.small{width:80px;height:80px}
 .poof-mascot.large{width:160px;height:160px}
 .poof-mascot.celebrate{animation:poof-bounce .8s ease infinite}
+.brand-mascot{display:none;width:56px;height:56px;margin:0;animation:poof-float 3s ease-in-out infinite}
+html[data-theme=snowy] .brand-mascot{display:block}
+html[data-theme=snowy] .brand h1{display:none}
+html[data-theme=snowy] .brand .mark{display:none}
 @keyframes poof-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
 @keyframes poof-bounce{0%,100%{transform:translateY(0) scale(1)}30%{transform:translateY(-18px) scale(1.05)}60%{transform:translateY(0) scale(.97)}}
 .empty-wrap{text-align:center;padding:24px 12px}
 .empty-wrap .poof-mascot{margin-bottom:8px}
+/* Library banner */
+.lib-banner{border-radius:var(--r-md);overflow:hidden;margin-bottom:14px;position:relative;min-height:130px;display:flex;align-items:flex-end}
+.lib-banner .poof-img-library-banner{position:absolute;inset:0;background-size:cover}
+.lib-banner .lib-banner-txt{position:relative;padding:14px 16px;text-shadow:0 1px 8px rgba(0,0,0,.7)}
+.lib-banner .lib-banner-txt h2{margin:0 0 4px;color:#fff}
+.lib-banner .lib-banner-txt p{margin:0;color:#e8eef4;font-size:13px}
 </style>
 </head>
 <body>
@@ -247,10 +257,10 @@ body,header,.card,button,input,select,textarea,.w{transition:color .3s ease,back
 <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
 <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></symbol>
 </defs></svg>
-<header><div class="brand"><span class="mark" aria-hidden="true">P</span><div><h1>POOF</h1><p id="hSub">بخوان، انتخاب کن، یاد بگیر</p></div></div></header>
+<header><div class="brand"><span class="mark" aria-hidden="true">P</span><div class="poof-mascot brand-mascot poof-img-snowy-wave" aria-hidden="true"></div><div><h1>POOF</h1><p id="hSub">بخوان، انتخاب کن، یاد بگیر</p></div></div></header>
 <main>
  <section id="s-read" class="tab">
-  <h2>خواندن</h2>
+  <div class="lib-banner"><div class="poof-img-library-banner"></div><div class="lib-banner-txt"><h2>📚 کتابخانه</h2><p>دنیای متن‌ها، ویدیوها و داستان‌ها — هر چیزی که یادگیری‌ات را زنده می‌کند.</p></div></div>
   <div class="card" id="learnCard" style="cursor:pointer">
    <div class="row"><b>📚 مسیر یادگیری</b><span class="mute" id="learnProg"></span></div>
    <p class="mute" style="margin:6px 0 0">درس‌های قدم‌به‌قدم آلمانی و انگلیسی با تمرین</p>
@@ -1645,6 +1655,7 @@ function renderBoxes(){
  $("#boxSub").textContent=db.cards.length?`${due} کارت آماده‌ی مرور از ${db.cards.length}`:"هنوز کارتی ندارید";
  $("#boxes").innerHTML=[1,2,3,4,5].map(n=>`<div class="bx"><b>${db.cards.filter(c=>boxOf(c)===n).length}</b><span>جعبه ${n}</span></div>`).join("");
 }
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function openBox(all){
  const pile=db.cards.filter(c=>all||c.due<=Date.now());
  if(!pile.length){
