@@ -277,6 +277,17 @@ html:not([data-theme=snowy]) header .brand{position:relative;z-index:1}
 .round-ico{width:76px;height:76px;border-radius:50%;background-size:cover;background-position:center;background-repeat:no-repeat;flex:0 0 auto;border:2px solid rgba(230,185,111,.55);box-shadow:0 4px 14px rgba(0,0,0,.35)}
 #learnCard .card-in,#practiceCard .card-in{display:flex;align-items:center;gap:14px}
 #learnCard .rc-txt,#practiceCard .rc-txt{flex:1;min-width:0}
+/* Review tab: learn/practice as big round portals */
+.portal-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+#learnCard,#practiceCard{background:transparent!important;border-color:transparent;box-shadow:none;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;padding:8px 4px;margin-bottom:0;cursor:pointer}
+#learnCard .card-bg-img,#practiceCard .card-bg-img{display:none}
+#learnCard .card-in,#practiceCard .card-in{flex-direction:column;align-items:center;text-align:center;gap:10px}
+#learnCard .round-ico,#practiceCard .round-ico{width:148px;height:148px;border-width:3px;box-shadow:0 10px 26px rgba(0,0,0,.45),0 0 0 6px rgba(230,185,111,.08);transition:transform .15s ease}
+#learnCard:active .round-ico,#practiceCard:active .round-ico{transform:scale(.96)}
+#learnCard .rc-txt,#practiceCard .rc-txt{text-align:center}
+#learnCard .rc-txt .row,#practiceCard .rc-txt .row{justify-content:center}
+#learnCard .rc-txt b,#practiceCard .rc-txt b{font-size:17px}
+#learnCard .rc-txt p,#practiceCard .rc-txt p{font-size:12.5px}
 #s-read>.card{margin-bottom:10px}
 html:not([data-theme=snowy]) #learnCard,html:not([data-theme=snowy]) #movieCard,html:not([data-theme=snowy]) #wikiCard,html:not([data-theme=snowy]) #libZone{position:relative;overflow:hidden}
 html:not([data-theme=snowy]) .card-bg-img{position:absolute;inset:0;pointer-events:none}
@@ -447,6 +458,7 @@ html:not([data-theme=snowy]) #s-cards #list .card::after{background:linear-gradi
  </section>
 
  <section id="s-review" class="tab" hidden><h2>مرور و یادگیری</h2>
+  <div class="portal-row">
   <div class="card" id="learnCard" style="cursor:pointer">
    <div class="card-bg-img poof-img-learn-path-bg" aria-hidden="true"></div>
    <div class="card-in">
@@ -465,6 +477,7 @@ html:not([data-theme=snowy]) #s-cards #list .card::after{background:linear-gradi
    <p class="mute" style="margin:6px 0 0">۶ حالت بازی‌وار: ۴ گزینه‌ای، تایپی، شنیداری، جای خالی، جور کردن، تلفظ</p>
    </div>
    </div>
+  </div>
   </div>
   <div class="card leit"><div class="row"><div style="flex:1"><b>جعبه لایتنر</b><div class="mute" id="boxSub"></div></div><button id="openBox"><svg class="ic" aria-hidden="true"><use href="#i-box"/></svg> باز کردن</button></div><div class="boxes" id="boxes"></div></div>
   <div class="row" style="margin:10px 0"><span class="mute">دسته‌ی مرور:</span><select id="rvDeck" style="flex:1"></select></div>
