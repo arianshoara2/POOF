@@ -244,11 +244,12 @@ body,header,.card,button,input,select,textarea,.w{transition:color .3s ease,back
    <p class="mute" style="margin:6px 0 0">درس‌های قدم‌به‌قدم آلمانی و انگلیسی با تمرین</p>
   </div>
   <div class="card" id="movieCard" style="cursor:pointer">
-   <div class="row"><b>🎬 فیلم‌های کلاسیک</b><span class="mute">رایگان و قانونی</span></div>
-   <p class="mute" style="margin:6px 0 0">فیلم کامل با زیرنویس — کلمه‌ها رو از دیالوگ‌ها شکار کن</p>
+   <div class="row"><b>🎬 ویدیوهای پیشنهادی</b><span class="mute">آلمانی · انگلیسی · فیلم</span></div>
+   <p class="mute" style="margin:6px 0 0">ویدیوهای آموزشی و فیلم‌های کلاسیک — با یه ضربه وارد کتابخونه‌ت می‌شن</p>
   </div>
   <div id="moviePick" hidden role="dialog" aria-label="انتخاب فیلم"><div class="ask-card">
-   <div class="ed-top"><b>🎬 فیلم‌های کلاسیک</b><button class="ib" id="movieClose" aria-label="بستن"><svg class="ic" aria-hidden="true"><use href="#i-close"/></svg></button></div>
+   <div class="ed-top"><b>🎬 ویدیوها</b><button class="ib" id="movieClose" aria-label="بستن"><svg class="ic" aria-hidden="true"><use href="#i-close"/></svg></button></div>
+   <div class="seg" id="movieTabs" style="margin-bottom:8px"><button class="on" data-mt="movies">🎬 فیلم</button><button data-mt="de">🇩🇪 آلمانی</button><button data-mt="en">🇬🇧 انگلیسی</button></div>
    <div id="movieList"></div>
   </div></div>
   <div class="card">
@@ -397,27 +398,55 @@ const MOVIES=[
  {yt:"UzQWJNNg8DU",title:"His Girl Friday",fa:"دختر جمعه‌ی او",year:1940,genre:"کمدی",desc:"سریع‌ترین دیالوگ تاریخ سینما — عالی برای listening"},
  {yt:"OwhfqgzsuVU",title:"House on Haunted Hill",fa:"خانه‌ی تپه‌ی جن‌زده",year:1959,genre:"ترسناک",desc:"وینسنت پرایس — تعلیق کلاسیک با دیالوگ‌های تئاتری"}
 ];
+/* ===== ویدیوهای آموزشی پیشنهادی ===== */
+const VIDEOS_DE=[
+ {yt:"BXv8NUSOZko",title:"Do People Learn German Everywhere?",fa:"مصاحبه خیابانی",level:"medium",cat:"Easy German",desc:"آلمانی واقعی خیابان با زیرنویس"},
+ {yt:"t4Yrifx9zy4",title:"Visiting Freiburg | Easy German 313",fa:"سفر به فرایبورگ",level:"medium",cat:"Easy German",desc:"گشت‌وگذار و گفت‌وگو"},
+ {yt:"bwojT8luT84",title:"Sprich ohne Angst",fa:"بدون ترس حرف بزن",level:"easy",cat:"Easy German",desc:"پادکست برای اعتمادبه‌نفس"},
+ {yt:"NVtIlDoAzSw",title:"German A1 Complete Course",fa:"دوره کامل A1",level:"easy",cat:"LangAdvance",desc:"۶ ساعت آموزش تصویری"},
+ {yt:"yi_K5pFcdAQ",title:"40 German Sentences A1-A2",fa:"۴۰ جمله روزمره",level:"easy",cat:"آموزشی",desc:"جملات کاربردی زندگی"}
+];
+const VIDEOS_EN=[
+ {yt:"9_neHUXeQQw",title:"27 Grammar Challenges",fa:"چالش گرامر",level:"medium",cat:"English with Lucy",desc:"تست سطح گرامر"},
+ {yt:"5qiYEKVZAIM",title:"600 English Words",fa:"۶۰۰ کلمه روزمره",level:"easy",cat:"English with Lucy",desc:"دایره لغت ضروری"},
+ {yt:"SG8IfDQh-u0",title:"12 Confusing Phrasal Verbs",fa:"افعال عبارتی گیج‌کننده",level:"hard",cat:"English with Lucy",desc:"۱۲ جفت پرتکرار"},
+ {yt:"X627czLUsGY",title:"100 Daily Words British Accent",fa:"۱۰۰ کلمه با لهجه بریتیش",level:"easy",cat:"English with Lucy",desc:"تلفظ بریتانیایی"},
+ {yt:"GB2kGiThc5w",title:"50 Common Phrases",fa:"۵۰ عبارت مکالمه",level:"easy",cat:"English with Lucy",desc:"عبارات روزمره"},
+ {yt:"R3KeD06ti6c",title:"50 Advanced Adjectives",fa:"۵۰ صفت پیشرفته",level:"hard",cat:"English with Lucy",desc:"توصیف شخصیت"}
+];
 function openMovies(){
- const L=$("#movieList");
- L.innerHTML=MOVIES.map((m,i)=>{
-  const imported=db.texts.some(t=>t.video&&t.video.id===m.yt);
-  return `<div class="movie-it" data-i="${i}">
-   <img loading="lazy" src="https://i.ytimg.com/vi/${m.yt}/mqdefault.jpg" alt="">
-   <div><div class="t" dir="auto">${esc(m.title)} (${m.year})</div>
-   <div class="m">${esc(m.fa)} · ${esc(m.genre)}</div>
-   <div class="m">${esc(m.desc)}</div>
-   ${imported?`<div class="m" style="color:var(--accent)">✓ در کتابخانه‌ست</div>`:""}</div></div>`;
- }).join("");
+ renderMovieTab("movies");
  $("#moviePick").hidden=false;
+}
+const LVL_FA={easy:"آسان",medium:"متوسط",hard:"سخت"};
+const LVL_C={easy:"#4caf50",medium:"#ff9800",hard:"#f44336"};
+function movieItem(m){
+ const imported=db.texts.some(t=>t.video&&t.video.id===m.yt);
+ const badge=m.level?`<span style="background:${LVL_C[m.level]};color:#fff;font-size:11px;border-radius:99px;padding:2px 10px">${LVL_FA[m.level]}</span>`:`<span class="mute" style="font-size:11px">${esc(m.year||"")}</span>`;
+ return `<div class="movie-it" data-yt="${m.yt}" data-lang="${m.lang||""}">
+  <img loading="lazy" src="https://i.ytimg.com/vi/${m.yt}/mqdefault.jpg" alt="">
+  <div style="flex:1"><div class="t" dir="auto">${esc(m.title)}</div>
+  <div class="m">${esc(m.fa)}${m.cat?" · "+esc(m.cat):""}${m.genre?" · "+esc(m.genre):""}</div>
+  <div class="m">${esc(m.desc||"")}</div>
+  ${imported?`<div class="m" style="color:var(--accent)">✓ در کتابخانه‌ست</div>`:""}</div>
+  <div>${badge}</div></div>`;
+}
+function renderMovieTab(tab){
+ const L=$("#movieList");
+ $$("#movieTabs button").forEach(b=>b.classList.toggle("on",b.dataset.mt===tab));
+ if(tab==="movies")L.innerHTML=MOVIES.map(movieItem).join("");
+ else if(tab==="de")L.innerHTML=VIDEOS_DE.map(m=>movieItem({...m,lang:"de"})).join("");
+ else L.innerHTML=VIDEOS_EN.map(m=>movieItem({...m,lang:"en"})).join("");
 }
 $("#movieClose").onclick=()=>{$("#moviePick").hidden=true};
 $("#moviePick").addEventListener("click",e=>{if(e.target.id==="moviePick")$("#moviePick").hidden=true});
+$("#movieTabs").onclick=e=>{const b=e.target.closest("button");if(b)renderMovieTab(b.dataset.mt)};
 $("#movieList").onclick=async e=>{
  const it=e.target.closest(".movie-it");if(!it)return;
- const m=MOVIES[+it.dataset.i];
+ const ytid=it.dataset.yt,lang=it.dataset.lang||"";
  $("#moviePick").hidden=true;
  toast("در حال آماده‌سازی زیرنویس…");
- try{await importYT(m.yt,"en")}catch(err){toast("خطا: "+(err.message||"نامشخص"),"bad")}
+ try{await importYT(ytid,lang||"en")}catch(err){toast("خطا: "+(err.message||"نامشخص"),"bad")}
 };
 /* ===== ایموجی خودکار برای کلمات (آفلاین) ===== */
 const EMOJI={
