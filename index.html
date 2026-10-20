@@ -88,6 +88,7 @@ input[type=radio]{accent-color:var(--accent)}
 #text{font:18px/1.8 var(--serif);-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 #text p{margin:0 0 14px}
 .w{cursor:pointer;border-radius:6px;padding:2px 0}
+.w.kw{background:rgba(230,185,111,.14)}
 .w.lpp{animation:lppulse .3s ease}
 @keyframes lppulse{0%{transform:scale(1)}40%{transform:scale(1.3);background:var(--accent);color:#111}100%{transform:scale(1)}}
 .w:hover{background:var(--hover)}
@@ -453,6 +454,10 @@ html:not([data-theme=snowy]) #s-cards #list .card::after{background:linear-gradi
    <p class="mute" id="vpNote" hidden></p>
    <div class="seg" id="vpSeg"><button data-vl="">اصلی</button><button data-vl="en">EN</button><button data-vl="de">DE</button><button data-vl="fa">فا</button></div>
    <div class="row"><button class="chip on" id="vpFollow">دنبال‌کردن زیرنویس</button><a id="vpOpen" class="chip" target="_blank" rel="noopener" style="text-decoration:none;padding:3px 12px">یوتیوب</a></div>
+  </div>
+  <div class="row" id="hlBar" style="gap:8px;align-items:center;margin:0 0 8px">
+   <button class="chip" id="hlTog">هایلایت بلدها</button>
+   <span class="mute" id="hlStat" style="font-size:12px"></span>
   </div>
   <div class="card de poof-img-reading-bg" id="text"></div>
   <p class="mute" id="txtSrc" hidden></p>
@@ -1561,10 +1566,41 @@ function renderReader(){
   return s.split(/(?<=\s)(?=\S)/).map(w=>norm(w)?`<span class="w" tabindex="0" role="button" data-w="${esc(norm(w))}" data-i="${i}">${esc(w)}</span>`:w).join("");
  }).join(" ")+"</p>").join("");
  $("#text").classList.toggle("de",t.lang!=="fa");sel=null;W=[];drawSel();renderLib();
+ hlApply(t);
  const sl=$("#txtSrc");sl.hidden=!t.wp;
  if(t.wp)sl.innerHTML=`منبع: <a href="https://${t.lang||"de"}.wikipedia.org/wiki/${encodeURIComponent(t.wp.replace(/ /g,"_"))}" target="_blank" rel="noopener">ویکی‌پدیا</a> (مجوز CC BY-SA)`;
  lastCur=-1;setupPlayer(t);
 }
+/* ===== هایلایت کلمه‌های ذخیره‌شده در متن + درصد بلدیت ===== */
+const hlOn=()=>{try{return localStorage.getItem("poof_hl")!=="0"}catch(_){return true}};
+const normK=s=>(s||"").trim().toLowerCase().replace(/^[^\p{L}]+|[^\p{L}]+$/gu,"");
+function knownSet(){
+ const ks=new Set();
+ for(const c of db.cards||[]){
+  const f=normK(c.front);if(!f)continue;ks.add(f);
+  const p=f.split(/\s+/);if(p.length>1)ks.add(p[p.length-1]);
+ }
+ return ks;
+}
+function hlApply(){
+ const stat=$("#hlStat"),tog=$("#hlTog"),box=$("#text");
+ if(tog)tog.classList.toggle("on",hlOn());
+ if(stat)stat.textContent="";
+ if(!box)return;
+ if(!hlOn()){box.querySelectorAll(".w.kw").forEach(el=>el.classList.remove("kw"));return}
+ const ks=knownSet();if(!ks.size)return;
+ const seen=new Set();let hit=0;
+ box.querySelectorAll(".w").forEach(el=>{
+  const w=normK(el.dataset.w||"");if(!w)return;
+  const isK=ks.has(w);if(isK)el.classList.add("kw");
+  if(w.length>=2&&/\p{L}/u.test(w)&&!seen.has(w)){seen.add(w);if(isK)hit++}
+ });
+ if(!seen.size||!stat)return;
+ const faN=n=>n.toLocaleString("fa-IR");
+ stat.textContent=`بلدیت این متن: ${faN(Math.round(hit/seen.size*100))}٪ · ${faN(hit)} از ${faN(seen.size)} کلمه`;
+}
+const hlTogEl=$("#hlTog");
+if(hlTogEl)hlTogEl.onclick=()=>{try{localStorage.setItem("poof_hl",hlOn()?"0":"1")}catch(_){ } hlApply()};
 $("#text").onclick=e=>{if(lpSuppress)return;const el=e.target.closest(".w");if(el&&!el.closest(".sr"))pick(el,e.shiftKey)};
 $("#text").onkeydown=e=>{if(e.key==="Enter"||e.key===" "){const el=e.target.closest(".w");if(el){e.preventDefault();pick(el)}}};
 /* ===== کتابخانه‌ی متن‌ها: تاریخچه‌ی تمیز لینک‌ها و متن‌ها ===== */
