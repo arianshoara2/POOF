@@ -92,10 +92,12 @@ html[data-theme=snowy] #learnBg{display:block}
 header{position:relative;z-index:2}
 html[data-theme=snowy] .brand-mascot{display:block!important;animation:poof-float 3s ease-in-out infinite}
 html[data-theme=snowy] .hd h1,html[data-theme=snowy] .hd .mark{display:none}
+html:not([data-theme=snowy]) .brand-mascot{display:block!important;animation:poof-float 3s ease-in-out infinite}
+html:not([data-theme=snowy]) .hd h1,html:not([data-theme=snowy]) .hd .mark{display:none}
 @keyframes poof-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
 .path-mascot{animation:poof-float 3s ease-in-out infinite}
 </style>
-<link rel="stylesheet" href="mascot.css?v=7">
+<link rel="stylesheet" href="mascot.css?v=8">
 </head>
 <body>
 <div id="learnBg" class="poof-img-learn-path-bg" aria-hidden="true"></div>

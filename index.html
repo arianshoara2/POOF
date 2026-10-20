@@ -217,7 +217,7 @@ body,header,.card,button,input,select,textarea,.w{transition:color .3s ease,back
 @media (max-width:480px){main{padding-inline:16px}.card{padding:14px}}
 </style>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
-<link rel="stylesheet" href="mascot.css?v=7">
+<link rel="stylesheet" href="mascot.css?v=8">
 <style>
 /* POOF mascot animations */
 .poof-mascot{width:120px;height:120px;margin:0 auto;animation:poof-float 3s ease-in-out infinite}
@@ -228,6 +228,9 @@ body,header,.card,button,input,select,textarea,.w{transition:color .3s ease,back
 html[data-theme=snowy] .brand-mascot{display:block}
 html[data-theme=snowy] .brand h1{display:none}
 html[data-theme=snowy] .brand .mark{display:none}
+html:not([data-theme=snowy]) .brand-mascot{display:block}
+html:not([data-theme=snowy]) .brand h1{display:none}
+html:not([data-theme=snowy]) .brand .mark{display:none}
 /* Snowy header background */
 html[data-theme=snowy] header{position:relative;overflow:hidden}
 header .poof-img-header-bg{display:none}
@@ -957,7 +960,7 @@ let libFilter="all";
 function renderLib(){
  const lp=$("#learnProg");
  if(lp){const L=db.learn||{},done=Object.values(L).filter(x=>x&&x.completedAt).length;lp.textContent=done?done+" درس تمام‌شده":"شروع یادگیری"}
- const qc=$("#learnCard");if(qc&&!qc.dataset.bound){qc.dataset.bound="1";qc.onclick=()=>location.href="learn.html?v=5"}
+ const qc=$("#learnCard");if(qc&&!qc.dataset.bound){qc.dataset.bound="1";qc.onclick=()=>location.href="learn.html?v=6"}
  const mc=$("#movieCard");if(mc&&!mc.dataset.bound){mc.dataset.bound="1";mc.onclick=openMovies}
  const q=(($("#libQ")||{}).value||"").trim().toLowerCase();
  let all=allTexts().filter(t=>!q||(t.title||"").toLowerCase().includes(q));
