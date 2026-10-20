@@ -214,7 +214,7 @@ body,header,.card,button,input,select,textarea,.w{transition:color .3s ease,back
 @media (max-width:480px){main{padding-inline:16px}.card{padding:18px}}
 </style>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
-<link rel="stylesheet" href="mascot.css?v=5">
+<link rel="stylesheet" href="mascot.css?v=6">
 <style>
 /* POOF mascot animations */
 .poof-mascot{width:120px;height:120px;margin:0 auto;animation:poof-float 3s ease-in-out infinite}
@@ -225,6 +225,12 @@ body,header,.card,button,input,select,textarea,.w{transition:color .3s ease,back
 html[data-theme=snowy] .brand-mascot{display:block}
 html[data-theme=snowy] .brand h1{display:none}
 html[data-theme=snowy] .brand .mark{display:none}
+/* Snowy header background */
+html[data-theme=snowy] header{position:relative;overflow:hidden}
+header .poof-img-header-bg{display:none}
+html[data-theme=snowy] header .poof-img-header-bg{display:block}
+html[data-theme=snowy] header::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(8,20,33,.2),rgba(8,20,33,.65));z-index:0;pointer-events:none}
+html[data-theme=snowy] header .brand{position:relative;z-index:1}
 @keyframes poof-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
 @keyframes poof-bounce{0%,100%{transform:translateY(0) scale(1)}30%{transform:translateY(-18px) scale(1.05)}60%{transform:translateY(0) scale(.97)}}
 .empty-wrap{text-align:center;padding:24px 12px}
@@ -257,7 +263,7 @@ html[data-theme=snowy] .brand .mark{display:none}
 <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
 <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></symbol>
 </defs></svg>
-<header><div class="brand"><span class="mark" aria-hidden="true">P</span><div class="poof-mascot brand-mascot poof-img-snowy-wave" aria-hidden="true"></div><div><h1>POOF</h1><p id="hSub">بخوان، انتخاب کن، یاد بگیر</p></div></div></header>
+<header><div class="poof-img-header-bg" aria-hidden="true" style="position:absolute;inset:0;z-index:0"></div><div class="brand"><span class="mark" aria-hidden="true">P</span><div class="poof-mascot brand-mascot poof-img-snowy-wave" aria-hidden="true"></div><div><h1>POOF</h1><p id="hSub">بخوان، انتخاب کن، یاد بگیر</p></div></div></header>
 <main>
  <section id="s-read" class="tab">
   <div class="lib-banner"><div class="poof-img-library-banner"></div><div class="lib-banner-txt"><h2>📚 کتابخانه</h2><p>دنیای متن‌ها، ویدیوها و داستان‌ها — هر چیزی که یادگیری‌ات را زنده می‌کند.</p></div></div>
