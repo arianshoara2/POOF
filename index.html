@@ -257,11 +257,15 @@ html[data-theme=snowy] #learnCard,html[data-theme=snowy] #movieCard,html[data-th
 html[data-theme=snowy] .card-bg-img{position:absolute;inset:0;pointer-events:none}
 html[data-theme=snowy] #learnCard .card-bg-img{opacity:.5}
 html[data-theme=snowy] #movieCard .card-bg-img{opacity:.45}
-html[data-theme=snowy] #wikiCard .card-bg-img,html[data-theme=snowy] #libZone .card-bg-img{opacity:.3}
+html[data-theme=snowy] #wikiCard .card-bg-img,html[data-theme=snowy] #libZone .card-bg-img{opacity:.18}
 html[data-theme=snowy] .card-bg-img::after{content:"";position:absolute;inset:0;background:linear-gradient(260deg,rgba(8,20,33,.88),rgba(8,20,33,.55) 55%,rgba(8,20,33,.3))}
 html[data-theme=snowy] #learnCard .card-in,html[data-theme=snowy] #movieCard .card-in,html[data-theme=snowy] #wikiCard .card-in,html[data-theme=snowy] #libZone .card-in{position:relative;z-index:1}
 html[data-theme=snowy] #libZone{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:14px 12px 4px;margin-bottom:16px;box-shadow:var(--shadow-card)}
 html[data-theme=snowy] #libZone #lib{margin-bottom:6px}
+/* Frosted glass: search zones + library items */
+html[data-theme=snowy] #wikiCard,html[data-theme=snowy] #libZone{background:rgba(13,30,46,.55);-webkit-backdrop-filter:blur(14px) saturate(1.25);backdrop-filter:blur(14px) saturate(1.25)}
+html[data-theme=snowy] #lib .lib-card{background:rgba(16,38,58,.5);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+html:not([data-theme=snowy]) #wikiCard,html:not([data-theme=snowy]) #libZone{background:rgba(27,24,20,.72);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
 html[data-theme=snowy] #learnCard b,html[data-theme=snowy] #movieCard b{text-shadow:0 1px 6px rgba(0,0,0,.9)}
 html[data-theme=snowy] #learnCard .mute,html[data-theme=snowy] #movieCard .mute{color:#dbe7f0;text-shadow:0 1px 6px rgba(0,0,0,.9)}
 /* Snowy section backgrounds: library (fixed layer) + reading (reader card) */
@@ -296,6 +300,10 @@ html:not([data-theme=snowy]) #text.poof-img-reading-bg{background-image:none}
 <symbol id="i-film" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="14" rx="3"/><path d="m10.5 9.8 4.8 2.2-4.8 2.2z"/></symbol>
 <symbol id="i-doc" viewBox="0 0 24 24"><path d="M6.5 3.5H14l4.5 4.5v11a1.5 1.5 0 0 1-1.5 1.5H6.5A1.5 1.5 0 0 1 5 19V5a1.5 1.5 0 0 1 1.5-1.5z"/><path d="M14 3.5V8h4.5"/><path d="M8.5 12.5h7M8.5 16h7"/></symbol>
 <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17"/><path d="M12 3.5c2.7 2.3 4 5.2 4 8.5s-1.3 6.2-4 8.5c-2.7-2.3-4-5.2-4-8.5s1.3-6.2 4-8.5z"/></symbol>
+<symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5.25"/><circle cx="12" cy="12" r="1.4"/></symbol>
+<symbol id="i-crown" viewBox="0 0 24 24"><path d="M3 8l5 3.5L12 5.5l4 6L21 8l-1.5 9h-15z"/><path d="M5 20.5h14"/></symbol>
+<symbol id="i-mic" viewBox="0 0 24 24"><path d="M12 2.5a3 3 0 0 0-3 3v6.5a3 3 0 0 0 6 0V5.5a3 3 0 0 0-3-3z"/><path d="M18.5 10.5v1.5a6.5 6.5 0 0 1-13 0v-1.5"/><path d="M12 18.5V21"/><path d="M8.5 21h7"/></symbol>
+<symbol id="i-cloud" viewBox="0 0 24 24"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></symbol>
 </defs></svg>
 <header><div class="poof-img-header-bg" aria-hidden="true" style="position:absolute;inset:0;z-index:0"></div><div class="brand"><span class="mark" aria-hidden="true">P</span><div class="poof-mascot brand-mascot poof-img-snowy-wave" aria-hidden="true"></div><div><h1>POOF</h1><p id="hSub">بخوان، انتخاب کن، یاد بگیر</p></div></div></header>
 <main>
@@ -378,7 +386,7 @@ html:not([data-theme=snowy]) #text.poof-img-reading-bg{background-image:none}
 
  <section id="s-review" class="tab" hidden><h2>مرور</h2>
   <div class="card" id="practiceCard" style="cursor:pointer">
-   <div class="row"><b>🎯 تمرین</b><span class="mute" id="prSub"></span></div>
+   <div class="row"><b><svg class="ic ic-inline" aria-hidden="true"><use href="#i-target"/></svg> تمرین</b><span class="mute" id="prSub"></span></div>
    <p class="mute" style="margin:6px 0 0">۶ حالت بازی‌وار: ۴ گزینه‌ای، تایپی، شنیداری، جای خالی، جور کردن، تلفظ</p>
   </div>
   <div class="card leit"><div class="row"><div style="flex:1"><b>جعبه لایتنر</b><div class="mute" id="boxSub"></div></div><button id="openBox"><svg class="ic" aria-hidden="true"><use href="#i-box"/></svg> باز کردن</button></div><div class="boxes" id="boxes"></div></div>
@@ -403,14 +411,14 @@ html:not([data-theme=snowy]) #text.poof-img-reading-bg{background-image:none}
    <div class="row"><div style="flex:1"><b>حساب گوگل</b><div class="mute" id="gSub">کلمات و تاریخچه روی گوگل‌درایو شما ذخیره می‌شود؛ با هر گوشی که وارد شوید سر جایش است</div></div><span id="gSync" class="mute" style="font-size:12px"></span></div>
    <div class="row" id="gRow" style="margin-top:8px"></div>
   </div>
-  <h2>پریمیوم ✨</h2>
+  <h2><svg class="ic ic-inline" aria-hidden="true"><use href="#i-crown"/></svg> پریمیوم</h2>
   <div class="card" id="premium">
    <p class="mute" style="margin-top:0">با اشتراک پریمیوم، همه‌ی قدرت POOF باز می‌شود:</p>
    <ul class="feat">
-    <li>🎬 زیرنویس خودکار هر ویدیوی یوتیوب</li>
-    <li>🎙️ ترانسکریپت صوتی با هوش مصنوعی</li>
-    <li>📚 دیکشنری‌های تخصصی، بدون محدودیت</li>
-    <li>☁️ همگام‌سازی ابری — کلماتت روی گوگل‌درایو خودت، روی هر گوشی که وارد شوی</li>
+    <li><svg class="ic ic-inline" aria-hidden="true"><use href="#i-film"/></svg> زیرنویس خودکار هر ویدیوی یوتیوب</li>
+    <li><svg class="ic ic-inline" aria-hidden="true"><use href="#i-mic"/></svg> ترانسکریپت صوتی با هوش مصنوعی</li>
+    <li><svg class="ic ic-inline" aria-hidden="true"><use href="#i-dict"/></svg> دیکشنری‌های تخصصی، بدون محدودیت</li>
+    <li><svg class="ic ic-inline" aria-hidden="true"><use href="#i-cloud"/></svg> همگام‌سازی ابری — کلماتت روی گوگل‌درایو خودت، روی هر گوشی که وارد شوی</li>
    </ul>
    <div class="plans">
     <button class="plan" data-plan="1 ماهه" data-amt="۴۹٬۰۰۰ تومان"><b>۱ ماهه</b><span>۴۹٬۰۰۰ تومان</span></button>
@@ -1660,7 +1668,7 @@ function next(){
  b.innerHTML=`<div class="card"><p class="mute">${queue.length+1} کارت مانده · کارت</p>
   <div class="big de">${emojiFor(cur.front)?`<span style="font-size:30px">${emojiFor(cur.front)}</span><br>`:""}${esc(cur.front)} <button class="ib" id="sayb" aria-label="تلفظ">${ic("sound")}</button></div>
   ${cur.context?`<div class="mute de">«${esc(cur.context)}»</div>`:""}
-  ${cur.video?`<div class="mute" style="font-size:12px">▶ ${mmss(cur.video.t||0)} · از ویدیو</div>`:""}
+  ${cur.video?`<div class="mute" style="font-size:12px"><svg class="ic" style="width:14px;height:14px;vertical-align:-2px" aria-hidden="true"><use href="#i-film"/></svg> ${mmss(cur.video.t||0)} · از ویدیو</div>`:""}
   <div id="ans" hidden><div class="big">${esc(cur.back)}</div>${cur.def?`<p class="mute de"><i>${esc(cur.pos)}</i> — ${esc(cur.def)}</p>`:""}
    <div class="grid"><button class="bad" data-g="0">۱ دوباره</button><button class="ghost" data-g="1">۲ سخت</button><button data-g="2">۳ خوب</button><button class="ok" data-g="3">۴ آسان</button></div></div>
   <button class="full" id="show">نمایش جواب (Space)</button></div>`;
