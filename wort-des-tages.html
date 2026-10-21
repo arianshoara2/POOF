@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Wort des Tages — کلمه‌ی روز</title>
+<style>
+:root{--bg:#111111;--gold:#e6b96f;--gold2:#c99a4e;--ink:#f5f1e8;--mute:#b8b0a4;--glass:#1b1814;--edge:rgba(230,185,111,.28);color-scheme:dark}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{background:var(--bg)}
+body{margin:0;min-height:100vh;color:var(--ink);font-family:Vazirmatn,Tahoma,system-ui,sans-serif;line-height:1.8;padding:calc(env(safe-area-inset-top) + 14px) 14px calc(env(safe-area-inset-bottom) + 28px);position:relative;overflow-x:hidden;background:radial-gradient(60% 40% at 85% 5%,rgba(230,185,111,.20),transparent 70%),radial-gradient(50% 35% at 5% 75%,rgba(201,154,78,.22),transparent 70%),var(--bg)}
+main{max-width:480px;margin:0 auto}
+.glass{background:var(--glass);border:1px solid var(--edge);border-radius:24px;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:0 10px 40px rgba(0,0,0,.45)}
+.poster{padding:26px 20px 20px;text-align:center}
+.date{color:var(--mute);font-size:.85rem}
+.art{font-family:Georgia,"Times New Roman",serif;font-style:italic;color:var(--gold);font-size:1.3rem;direction:ltr;margin-top:14px;min-height:1.6em}
+.word{font-family:Georgia,"Iowan Old Style","Times New Roman",serif;font-size:clamp(2.2rem,12vw,3.4rem);font-weight:400;direction:ltr;letter-spacing:.01em;line-height:1.15;word-break:break-word;margin:0;background:linear-gradient(180deg,#f7e3ac,var(--gold) 60%,var(--gold2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.ipa,.pl{direction:ltr;color:var(--mute);font-size:.95rem}
+.rule{width:56px;height:1px;background:var(--gold);margin:16px auto;opacity:.7}
+.fa{font-size:1.45rem;font-weight:700}
+.blk{text-align:right;margin-top:16px;padding-top:14px;border-top:1px solid var(--edge)}
+.blk h3{margin:0 0 4px;font-size:.88rem;color:var(--gold);font-weight:700}
+.de{direction:ltr;text-align:left;unicode-bidi:isolate}
+.exde{font-family:Georgia,serif;font-size:1.02rem}
+.exfa{color:var(--mute);font-size:.88rem;margin-bottom:8px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{direction:ltr;border:1px solid var(--edge);border-radius:20px;padding:1px 12px;font-size:.9rem;background:var(--glass)}
+.chip.ant{border-color:rgba(230,120,100,.5)}
+.row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+button{font:inherit;cursor:pointer;color:var(--ink)}
+.btn{padding:11px 6px;border-radius:14px;border:1px solid var(--edge);background:var(--glass);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.btn.gold{background:linear-gradient(180deg,var(--gold),var(--gold2));color:#1a1307;font-weight:700;border-color:transparent}
+.btn:disabled{opacity:.35}
+.cal{margin-top:14px;padding:14px}
+.ch{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.ch b{font-size:.95rem}.ch button{background:none;border:0;font-size:1.3rem;padding:0 10px;color:var(--gold)}
+.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
+.grid span{color:var(--mute);font-size:.75rem}
+.grid button{aspect-ratio:1;border-radius:10px;border:1px solid transparent;background:transparent;font-size:.85rem}
+.grid button.past{background:rgba(230,185,111,.12)}
+.grid button.today{border-color:var(--gold)}
+.grid button.sel{background:var(--gold);color:#1a1307;font-weight:700}
+.grid button:disabled{color:rgba(241,234,217,.22)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+#toast{position:fixed;inset-inline:0;bottom:calc(env(safe-area-inset-bottom) + 22px);margin:auto;width:max-content;max-width:90%;background:var(--gold);color:#1a1307;padding:8px 18px;border-radius:20px;font-weight:700;opacity:0;transition:opacity .25s;pointer-events:none}
+#toast.on{opacity:1}
+@media (prefers-reduced-motion:no-preference){.poster{animation:rise .6s ease both}@keyframes rise{from{opacity:0;transform:translateY(12px)}}}
+
+.ic{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.poof-back{max-width:480px;margin:0 auto 12px}.poof-back a{display:inline-flex;align-items:center;gap:6px;color:var(--gold);text-decoration:none;font-weight:700;font-size:.9rem}.poof-back a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+<div class="poof-back"><a href="./">← بازگشت به POOF</a></div>
+<main>
+<article class="glass poster" id="poster"></article>
+<div class="row">
+  <button class="btn gold" id="say"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5v5h3.5l4.5 4v-13l-4.5 4z"/><path d="M15.5 9a4 4 0 0 1 0 6"/><path d="M18 6.5a8 8 0 0 1 0 11"/></svg> تلفظ</button>
+  <button class="btn" id="rnd"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="3.5"/><circle cx="8.5" cy="8.5" r="1.1" fill="currentColor" stroke="none"/><circle cx="15.5" cy="8.5" r="1.1" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.1" fill="currentColor" stroke="none"/><circle cx="8.5" cy="15.5" r="1.1" fill="currentColor" stroke="none"/><circle cx="15.5" cy="15.5" r="1.1" fill="currentColor" stroke="none"/></svg> تصادفی</button>
+  <button class="btn" id="cp"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="8.5" y="8.5" width="11" height="11" rx="2.5"/><path d="M15.5 8.5V6A2.5 2.5 0 0 0 13 3.5H6A2.5 2.5 0 0 0 3.5 6v7A2.5 2.5 0 0 0 6 15.5h2.5"/></svg> کپی کارت</button>
+  <button class="btn" id="prev">‹ قبلی</button>
+  <button class="btn" id="tod">امروز</button>
+  <button class="btn" id="next">بعدی ›</button>
+</div>
+<section class="glass cal">
+  <div class="ch"><button id="mp" aria-label="ماه قبل">›</button><b id="mt"></b><button id="mn" aria-label="ماه بعد">‹</button></div>
+  <div class="grid" id="grid"></div>
+</section>
+</main>
+<div id="toast"></div>
+<script>
+// فرمت: کلمه|مقاله|جمع|IPA|معنی|ریشه و ساخت|مثال۱|ترجمه۱|مثال۲|ترجمه۲|هم‌معنی‌ها (با ویرگول)|متضاد
+const RAW=`Fernweh|das|—|/ˈfɛʁnˌveː/|اشتیاق به سفر به جاهای دور|fern (دور) + Weh (درد، دلتنگی) — عکس Heimweh|Im Winter habe ich oft Fernweh.|در زمستان اغلب اشتیاق سفر دارم.|Sein Fernweh wurde immer stärker.|اشتیاق او به سفر بیشتر و بیشتر شد.|Reiselust,Wanderlust|Heimweh
+Gelegenheit|die|Gelegenheiten|/ɡəˈleːɡn̩haɪ̯t/|فرصت، موقعیت|ge- + liegen (قرار داشتن) + پسوند اسم‌ساز ‎-heit|Das ist eine gute Gelegenheit.|این فرصت خوبی است.|Bei Gelegenheit rufe ich dich an.|در فرصتی با تو تماس می‌گیرم.|Chance,Möglichkeit|Hindernis
+Erfahrung|die|Erfahrungen|/ɛɐ̯ˈfaːʁʊŋ/|تجربه|er- + fahren (رفتن، سفر کردن) + پسوند ‎-ung|Ich habe viel Erfahrung im Verkauf.|من تجربه‌ی زیادی در فروش دارم.|Aus Erfahrung wird man klug.|با تجربه آدم عاقل می‌شود.|Praxis,Routine|Unerfahrenheit
+Verantwortung|die|(معمولاً مفرد)|/fɛɐ̯ˈʔantvɔʁtʊŋ/|مسئولیت|ver- + antworten (پاسخ دادن) + پسوند ‎-ung|Er übernimmt die Verantwortung für das Projekt.|او مسئولیت پروژه را می‌پذیرد.|Das ist eine große Verantwortung.|این مسئولیت بزرگی است.|Pflicht,Zuständigkeit|Gleichgültigkeit
+Entscheidung|die|Entscheidungen|/ɛntˈʃaɪ̯dʊŋ/|تصمیم|ent- + scheiden (جدا کردن) + پسوند ‎-ung|Die Entscheidung fiel mir schwer.|تصمیم‌گیری برایم سخت بود.|Wir treffen die Entscheidung morgen.|ما فردا تصمیم را می‌گیریم.|Beschluss,Wahl|Zweifel
+Zusammenhang|der|Zusammenhänge|/tsuˈzamənhaŋ/|ارتباط، پیوند|zusammen (با هم) + Hang (از hängen، آویختن)|Es gibt keinen Zusammenhang zwischen beiden Fällen.|بین این دو مورد ارتباطی نیست.|Das ergibt im Zusammenhang Sinn.|در بافت کلی معنا پیدا می‌کند.|Verbindung,Beziehung|Widerspruch
+Eindruck|der|Eindrücke|/ˈaɪ̯nˌdʁʊk/|تأثیر، برداشت|ein (به داخل) + Druck (فشار)|Sie hat einen guten Eindruck gemacht.|او تأثیر خوبی گذاشت.|Mein erster Eindruck war positiv.|برداشت اولیه‌ی من مثبت بود.|Gefühl,Wirkung|Tatsache
+Absicht|die|Absichten|/ˈapˌzɪçt/|قصد، نیت|ab (دور از) + Sicht (دید، نظر)|Das war nicht meine Absicht.|این قصد من نبود.|Er hat die Absicht, umzuziehen.|او قصد دارد اسباب‌کشی کند.|Vorsatz,Plan|Zufall
+Vorschlag|der|Vorschläge|/ˈfoːɐ̯ˌʃlaːk/|پیشنهاد|vor (پیش) + schlagen (زدن، مطرح کردن)|Hast du einen Vorschlag?|پیشنهادی داری؟|Ihr Vorschlag klingt vernünftig.|پیشنهاد شما منطقی به نظر می‌رسد.|Angebot,Idee|Ablehnung
+Heimat|die|—|/ˈhaɪ̯mat/|وطن، زادگاه|Heim (خانه) + پسوند ‎-at|Meine Heimat ist weit weg.|وطنم دور است.|Er vermisst seine Heimat.|او دلتنگ وطنش است.|Herkunft,Vaterland|Fremde
+Gedächtnis|das|Gedächtnisse|/ɡəˈdɛçtnɪs/|حافظه|ge- + denken (فکر کردن) + پسوند ‎-nis|Mein Gedächtnis ist schlecht.|حافظه‌ی من ضعیف است.|Sie hat ein gutes Gedächtnis für Namen.|او حافظه‌ی خوبی برای اسم‌ها دارد.|Erinnerung,Merkfähigkeit|Vergessen
+Beziehung|die|Beziehungen|/bəˈtsiːʊŋ/|رابطه|be- + ziehen (کشیدن) + پسوند ‎-ung|Sie haben eine enge Beziehung.|آن‌ها رابطه‌ی نزدیکی دارند.|Die Beziehung zwischen beiden Ländern ist gut.|رابطه‌ی دو کشور خوب است.|Verbindung,Kontakt|Trennung
+Vorteil|der|Vorteile|/ˈfoːɐ̯ˌtaɪ̯l/|مزیت|vor (پیش) + Teil (سهم)|Das hat einen großen Vorteil.|این مزیت بزرگی دارد.|Er nutzt jeden Vorteil.|او از هر مزیتی استفاده می‌کند.|Nutzen,Pluspunkt|Nachteil
+Anfang|der|Anfänge|/ˈanˌfaŋ/|آغاز، شروع|an (به) + fangen (گرفتن)|Am Anfang war alles schwierig.|در آغاز همه‌چیز سخت بود.|Der Anfang ist immer schwer.|شروع همیشه سخت است.|Beginn,Start|Ende
+Ergebnis|das|Ergebnisse|/ɛɐ̯ˈɡeːpnɪs/|نتیجه|er- + geben (دادن) + پسوند ‎-nis|Das Ergebnis überrascht mich.|نتیجه مرا شگفت‌زده می‌کند.|Wir warten auf das Ergebnis der Prüfung.|منتظر نتیجه‌ی امتحان هستیم.|Resultat,Folge|Ursache
+Mut|der|—|/muːt/|شجاعت، جرئت|ریشه‌ی ژرمنی کهن، بدون پیشوند؛ مشتق: mutig (شجاع)، Übermut|Es braucht Mut, neu anzufangen.|برای شروع دوباره شجاعت لازم است.|Er zeigte großen Mut.|او شجاعت زیادی نشان داد.|Tapferkeit,Courage|Angst
+Geduld|die|—|/ɡəˈdʊlt/|صبر، شکیبایی|ge- + dulden (تحمل کردن)|Hab bitte etwas Geduld.|لطفاً کمی صبر کن.|Sie verliert nie die Geduld.|او هرگز صبرش را از دست نمی‌دهد.|Ausdauer,Gelassenheit|Ungeduld
+Zufall|der|Zufälle|/ˈtsuːˌfal/|تصادف، اتفاق|zu (به سوی) + Fall (افتادن)|Das war kein Zufall.|این اتفاقی نبود.|Wir haben uns durch Zufall getroffen.|ما اتفاقی همدیگر را دیدیم.|Fügung,Glück|Absicht
+Aufmerksamkeit|die|—|/ˈaʊ̯fmɛʁkzaːmkaɪ̯t/|توجه، دقت|auf + merken (توجه کردن) + ‎-sam + ‎-keit|Danke für Ihre Aufmerksamkeit.|از توجه شما سپاسگزارم.|Das Kind braucht viel Aufmerksamkeit.|کودک به توجه زیادی نیاز دارد.|Konzentration,Achtsamkeit|Ablenkung
+Gelassenheit|die|—|/ɡəˈlasn̩haɪ̯t/|آرامش، خونسردی|ge- + lassen (رها کردن) + ‎-heit|Sie sieht Probleme mit Gelassenheit.|او با خونسردی به مشکلات نگاه می‌کند.|Gelassenheit hilft im Stress.|آرامش در استرس کمک می‌کند.|Ruhe,Gleichmut|Aufregung`;
+const W=RAW.split('\n').map(l=>{const p=l.split('|');return{de:p[0],art:p[1],pl:p[2],ipa:p[3],fa:p[4],root:p[5],ex:[[p[6],p[7]],[p[8],p[9]]],syn:p[10].split(','),ant:p[11]}});
+const $=id=>document.getElementById(id);
+const today=new Date();today.setHours(0,0,0,0);
+let view=new Date(today),cm=view.getMonth(),cy=view.getFullYear(),ov=null;
+const dayIdx=d=>Math.floor(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())/864e5)%W.length;
+const same=(a,b)=>a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()&&a.getDate()===b.getDate();
+const cur=()=>W[ov!==null?ov:dayIdx(view)];
+function fmt(d,o){try{return d.toLocaleDateString('fa-IR',Object.assign({calendar:'gregory'},o))}catch(e){return d.toDateString()}}
+
+function render(){
+  const w=cur();
+  $('poster').innerHTML=`<div class="date">${ov!==null?'کلمه‌ی تصادفی':fmt(view,{weekday:'long',day:'numeric',month:'long',year:'numeric'})}</div>
+  <div class="art">${w.art==='—'?'':w.art}</div><h1 class="word">${w.de}</h1>
+  <div class="ipa">${w.ipa}</div><div class="rule"></div>
+  <div class="fa">${w.fa}</div>
+  <div class="pl">${w.pl==='—'?'(بدون جمع)':'Plural: die '+w.pl}</div>
+  <div class="blk"><h3>ریشه و ساخت کلمه</h3><div>${w.root}</div></div>
+  <div class="blk"><h3>مثال‌ها</h3>${w.ex.map(e=>`<div class="de exde">${e[0]}</div><div class="exfa">${e[1]}</div>`).join('')}</div>
+  <div class="blk"><h3>هم‌معنی</h3><div class="chips">${w.syn.map(s=>`<span class="chip">${s}</span>`).join('')}</div>
+  <h3 style="margin-top:10px">متضاد</h3><div class="chips"><span class="chip ant">${w.ant}</span></div></div>`;
+  $('next').disabled=same(view,today)||ov!==null&&false;
+  $('mt').textContent=fmt(new Date(cy,cm,1),{month:'long',year:'numeric'});
+  const g=$('grid');g.innerHTML='د س چ پ ج ش ی'.split(' ').map(x=>`<span>${x}</span>`).join('');
+  const off=(new Date(cy,cm,1).getDay()+6)%7,n=new Date(cy,cm+1,0).getDate();
+  for(let i=0;i<off;i++)g.appendChild(document.createElement('i'));
+  for(let d=1;d<=n;d++){const dt=new Date(cy,cm,d),b=document.createElement('button');b.textContent=d;
+    if(dt>today)b.disabled=true;else b.classList.add('past');
+    if(same(dt,today))b.classList.add('today');if(ov===null&&same(dt,view))b.classList.add('sel');
+    b.onclick=()=>go(dt);g.appendChild(b)}
+}
+function go(d){view=new Date(d);ov=null;cm=view.getMonth();cy=view.getFullYear();render()}
+function toast(t){const e=$('toast');e.textContent=t;e.classList.add('on');setTimeout(()=>e.classList.remove('on'),1800)}
+$('prev').onclick=()=>{const d=new Date(view);d.setDate(d.getDate()-1);go(d)};
+$('next').onclick=()=>{if(same(view,today)&&ov===null)return;const d=new Date(view);d.setDate(d.getDate()+1);if(d<=today)go(d);else go(today)};
+$('tod').onclick=()=>go(today);
+$('rnd').onclick=()=>{let i,c=ov!==null?ov:dayIdx(view);do{i=Math.floor(Math.random()*W.length)}while(W.length>1&&i===c);ov=i;render()};
+$('mp').onclick=()=>{cm--;if(cm<0){cm=11;cy--}render()};
+$('mn').onclick=()=>{cm++;if(cm>11){cm=0;cy++}render()};
+$('say').onclick=()=>{
+  if(!('speechSynthesis' in window)){toast('مرورگر شما از تلفظ پشتیبانی نمی‌کند');return}
+  try{const w=cur();speechSynthesis.cancel();const u=new SpeechSynthesisUtterance((w.art==='—'?'':w.art+' ')+w.de);u.lang='de-DE';u.rate=.85;
+  const v=speechSynthesis.getVoices().find(v=>/^de/i.test(v.lang));if(v)u.voice=v;speechSynthesis.speak(u)}catch(e){}
+};
+$('cp').onclick=()=>{
+  const w=cur(),j=JSON.stringify({front:w.de,back:(w.art==='—'?'':w.art+' ')+w.de+' — '+w.fa,context:w.ex[0][0]+' — '+w.ex[0][1]},null,2);
+  const fb=()=>{const t=document.createElement('textarea');t.value=j;document.body.appendChild(t);t.select();let ok=false;try{ok=document.execCommand('copy')}catch(e){}t.remove();toast(ok?'کارت کپی شد ✓':'کپی ناموفق بود')};
+  try{navigator.clipboard.writeText(j).then(()=>toast('کارت کپی شد ✓'),fb)}catch(e){fb()}
+};
+if('speechSynthesis' in window)speechSynthesis.getVoices();
+render();
+</script>
+</body>
+</html>
