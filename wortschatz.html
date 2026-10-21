@@ -51,7 +51,7 @@ main{padding:16px 16px 24px}
 .sub-item:last-child{border-bottom:0}.count{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;background:#e6b96f;color:#1a1307;font-weight:800;font-size:1.1rem}.sub-body h3{margin:0 0 6px;font-size:1.25rem}.sub-body .de{display:block;direction:ltr;color:var(--muted)}.sub-body .meta{display:block;margin-top:5px;color:#b8b0a4;font-size:.88rem}.iconbox{justify-self:end;width:76px;height:76px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);display:grid;place-items:center;font-size:2rem;color:var(--gold)}
 .bottom-sheet{position:fixed;inset:0;z-index:90;background:rgba(0,0,0,.65);display:none;align-items:flex-end;justify-content:center;padding:14px}.bottom-sheet.show{display:flex}.sheet{width:min(760px,100%);max-height:90dvh;overflow:auto;background:#1b1814;color:#f5f1e8;border-radius:30px 30px 20px 20px;box-shadow:0 -10px 36px rgba(0,0,0,.35)}
 .sheet-head{position:sticky;top:0;background:#1b1814;padding:14px 16px 10px;border-bottom:1px solid #4a4032;z-index:2}.grab{width:68px;height:7px;border-radius:99px;background:#4a4032;margin:0 auto 12px}.sheet-top{display:flex;gap:12px;align-items:flex-start}.sheet-icon{width:80px;height:80px;border-radius:22px;background:#242019;border:1px solid #4a4032;display:grid;place-items:center;font-size:2rem;color:#e6b96f;box-shadow:0 4px 16px rgba(0,0,0,.08)}.sheet-top h3{margin:0;font-size:1.85rem}.sheet-top .de{display:block;direction:ltr;color:#b8b0a4;margin-top:4px;font-size:1.05rem}.sheet-top .sheet-meta{margin-top:8px;color:#b8b0a4;line-height:1.9}
-.sheet-actions{display:grid;grid-template-columns:1fr auto;gap:14px;padding:16px}.step-card{display:flex;align-items:center;justify-content:space-between;gap:12px;background:#242019;border:1px solid #4a4032;border-radius:999px;padding:16px 18px;box-shadow:0 3px 12px rgba(0,0,0,.05)}.step-card b{font-size:1rem}.step-card span{color:#b8b0a4}.step-ico{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:1.4rem;font-weight:900}.sc-blue{background:#3090ee}.sc-teal{background:#2cb3b0}.sc-red{background:#e77070}
+.sheet-actions{display:grid;grid-template-columns:1fr auto;gap:14px;padding:16px}.step-card{display:flex;align-items:center;justify-content:space-between;gap:12px;background:#242019;border:1px solid #4a4032;border-radius:999px;padding:12px 16px;box-shadow:0 3px 12px rgba(0,0,0,.05)}.step-card b{font-size:1rem}.step-card span{color:#b8b0a4}.step-ico{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:1.4rem;font-weight:900}.sc-blue{background:#3090ee}.sc-teal{background:#2cb3b0}.sc-red{background:#e77070}
 .exercise-box{margin:0 16px 18px;background:#242019;border:1px dashed #4a4032;border-radius:24px;padding:14px}.exercise-box h4{margin:4px 0 12px;color:#e6b96f}.exercise-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.exercise-grid button{border:1px solid #4a4032;background:#1b1814;border-radius:999px;padding:13px 14px;text-align:right;color:#e6b96f}
 .reader{display:none;padding:0 0 90px}.reader.on{display:block}.reader-card{background:linear-gradient(180deg,#3a2f1a,#242019);border-radius:0 0 26px 26px;padding:22px 18px 18px;margin:-16px -16px 18px;color:#f5f1e8;box-shadow:var(--shadow)}.progbar{height:6px;background:rgba(255,255,255,.25);border-radius:99px;overflow:hidden;margin:14px 0 6px}.progbar i{display:block;height:100%;background:#fff;border-radius:99px;width:0}.top-nums{display:flex;justify-content:space-between;font-size:1.05rem;opacity:.9}
 .word-big{font-size:3.3rem;text-align:center;margin:22px 0 0;direction:ltr;font-weight:500}
@@ -96,6 +96,7 @@ button{color:inherit}
 .practice-row button.sel{border-color:#e6b96f!important;color:#e6b96f!important}
 .tool-btn.in-box{border-color:#e6b96f!important;color:#e6b96f!important}
 #readerLeitner{color:#b8b0a4;font-size:13px;margin-top:8px}
+.reader-nav{display:flex;gap:10px;margin:14px 0 4px}.reader-nav .nav-btn{flex:1;padding:12px;border-radius:999px;border:1px solid #4a4032;background:#242019;color:#f5f1e8;font-size:15px}.reader-nav .nav-btn.gold{background:#e6b96f;color:#1a1307;border-color:#e6b96f;font-weight:700}
 </style>
 </head>
 <body>
@@ -105,7 +106,6 @@ button{color:inherit}
     <button class="iconbtn" id="backBtn" hidden aria-label="بازگشت">←</button>
     <div class="title-wrap">
       <h1 class="title" id="headTitle">واژه‌آموزی</h1>
-      <p class="subtitle" id="headSub">تسک ۲، ۳ و ۴ کامل — سطحی ۲۰۰۰ کلمه + کتابی ۱۹۲ کلمه + ۴۰ موضوع (۱۲۰۰ مدخل موضوعی، نما بر بانک سطحی)</p>
     </div>
     <button class="iconbtn" id="homeBtn" aria-label="خانه"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10.5V20h13v-9.5"/><path d="M9.5 20v-5h5v5"/></svg></button>
   </header>
@@ -138,11 +138,8 @@ button{color:inherit}
       <div class="shelf">
         <div class="shelf-head"><h2>پرکاربردترین واژه‌ها</h2><span class="seeall">همه</span></div>
         <div class="row-scroll">
-          <button class="home-card topic" data-target="freq500">
-            <div class="art">500</div><div class="foot"><span class="fa">500 واژهٔ پرکاربرد</span><span class="de">Top 500 Words</span><small>در تسک‌های بعدی تکمیل می‌شود</small></div>
-          </button>
           <button class="home-card topic" data-target="freqcat">
-            <div class="art">A–Z</div><div class="foot"><span class="fa">واژگان پرکاربرد دسته‌بندی‌شده</span><span class="de">Categorized Core Vocabulary</span><small>نمونهٔ فعال در تسک ۱</small></div>
+            <div class="art">A–Z</div><div class="foot"><span class="fa">واژگان پرکاربرد دسته‌بندی‌شده</span><span class="de">Categorized Core Vocabulary</span><small>۲۰ واژهٔ نمونه</small></div>
           </button>
           <button class="home-card topic" data-target="starter">
             <div class="art">A1</div><div class="foot"><span class="fa">واژگان ابتدایی</span><span class="de">Beginner Vocabulary</span><small>موضوع نمونه: احوالپرسی</small></div>
@@ -153,11 +150,11 @@ button{color:inherit}
       <div class="shelf">
         <div class="shelf-head"><h2>واژه‌آموزی سطحی</h2><span class="seeall">همه</span></div>
         <div class="row-scroll">
-          <button class="home-card level-a1" data-target="lvlA1"><div class="art">A1</div><div class="foot"><span class="fa">سطح مبتدی</span><span class="de">Beginner</span><small>نمونهٔ فعال</small></div></button>
-          <button class="home-card level-a2" data-target="lvlA2"><div class="art">A2</div><div class="foot"><span class="fa">سطح اولیه</span><span class="de">Elementary</span><small>در تسک ۲</small></div></button>
-          <button class="home-card level-b1" data-target="lvlB1"><div class="art">B1</div><div class="foot"><span class="fa">سطح متوسط</span><span class="de">Intermediate</span><small>در تسک ۲</small></div></button>
-          <button class="home-card level-b2" data-target="lvlB2"><div class="art">B2</div><div class="foot"><span class="fa">سطح فوق متوسط</span><span class="de">Upper Intermediate</span><small>در تسک ۲</small></div></button>
-          <button class="home-card level-c1" data-target="lvlC1"><div class="art">C1</div><div class="foot"><span class="fa">سطح پیشرفته</span><span class="de">Advanced</span><small>در تسک ۲</small></div></button>
+          <button class="home-card level-a1" data-target="lvlA1"><div class="art">A1</div><div class="foot"><span class="fa">سطح مبتدی</span><span class="de">Beginner</span><small>۴۰۰ واژه</small></div></button>
+          <button class="home-card level-a2" data-target="lvlA2"><div class="art">A2</div><div class="foot"><span class="fa">سطح اولیه</span><span class="de">Elementary</span><small>۴۰۰ واژه</small></div></button>
+          <button class="home-card level-b1" data-target="lvlB1"><div class="art">B1</div><div class="foot"><span class="fa">سطح متوسط</span><span class="de">Intermediate</span><small>۵۰۰ واژه</small></div></button>
+          <button class="home-card level-b2" data-target="lvlB2"><div class="art">B2</div><div class="foot"><span class="fa">سطح فوق متوسط</span><span class="de">Upper Intermediate</span><small>۴۰۰ واژه</small></div></button>
+          <button class="home-card level-c1" data-target="lvlC1"><div class="art">C1</div><div class="foot"><span class="fa">سطح پیشرفته</span><span class="de">Advanced</span><small>۳۰۰ واژه</small></div></button>
         </div>
       </div>
 
@@ -196,7 +193,7 @@ button{color:inherit}
       <div class="section-hero">
         <h2 id="sectionFa">واژگان ابتدایی</h2>
         <span class="de" id="sectionDe">Starter Vocabulary</span>
-        <p id="sectionDesc">در این مرحله، معماری صفحهٔ دسته و لیست زیرموضوع‌ها پیاده‌سازی شده است. تعداد واژه‌ها از روی داده حساب می‌شود.</p>
+        <p id="sectionDesc"></p>
       </div>
       <div class="sub-list" id="subList"></div>
     </section>
@@ -227,6 +224,7 @@ button{color:inherit}
         </div>
       </div>
       <div class="note">پیشرفتت فقط در همین دستگاه ذخیره می‌شود؛ با دکمهٔ لایتنر هر مورد را وارد جعبهٔ مرور کن.</div>
+      <div class="reader-nav"><button class="nav-btn" id="prevWordBtn">کلمهٔ قبلی →</button><button class="nav-btn gold" id="nextWordBtn">← کلمهٔ بعدی</button></div>
     </section>
 
     <section id="flashView" class="flash-wrap">
@@ -239,7 +237,7 @@ button{color:inherit}
         <button class="yes" id="knowBtn">بلدم</button>
         <button class="no" id="dontBtn">بلد نیستم</button>
       </div>
-      <div class="note">منطق لایتنر کامل و ذخیرهٔ پیشرفت در تسک ۷ نهایی می‌شود.</div>
+      
     </section>
 
     <section id="quizView" class="quiz-wrap">
@@ -272,8 +270,8 @@ button{color:inherit}
         </div>
       </div>
       <div class="sheet-actions">
-        <button class="step-card" id="openReview"><div><b>گام اول: مرور لغات</b><br><span>فهرست ورق‌زدنی کلمات</span></div><div class="step-ico sc-blue">1</div></button>
-        <button class="step-card" id="openFlash"><div><b>گام دوم: فلش‌کارت</b><br><span>بلدم / بلد نیستم</span></div><div class="step-ico sc-teal">2</div></button>
+        <button class="step-card" id="openReview"><div><b>گام اول: مرور لغات</b><br><span>فهرست ورق‌زدنی کلمات</span></div></button>
+        <button class="step-card" id="openFlash"><div><b>گام دوم: فلش‌کارت</b><br><span>بلدم / بلد نیستم</span></div></button>
       </div>
       <div class="exercise-box">
         <h4>تمرین‌ها</h4>
@@ -316,25 +314,19 @@ const subtopics = [
     {w:'Sprache', art:'die', pl:'Sprachen', ipa:'/ˈʃpʁaːxə/', fa:'زبان', ex:'Deutsch ist eine schöne Sprache.', exfa:'آلمانی زبان زیبایی است.', ex2:'Welche Sprache sprichst du?', exfa2:'چه زبانی صحبت می‌کنی؟', lvl:'A1', topic:'starter', tag:'اسم', opp:''},
     {w:'Zeit', art:'die', pl:'Zeiten', ipa:'/tsaɪ̯t/', fa:'زمان / وقت', ex:'Ich habe keine Zeit.', exfa:'من وقت ندارم.', ex2:'Hast du Zeit?', exfa2:'وقت داری؟', lvl:'A1', topic:'starter', tag:'اسم', opp:''}
   ]},
-  {id:'numbers', fa:'اعداد', de:'Zahlen', icon:'#', shelf:'starter', desc:'در تسک ۲ کامل می‌شود.', words:[]},
-  {id:'colors', fa:'رنگ‌ها', de:'Farben', icon:'<svg viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true"><circle cx="6" cy="12" r="2.6"/><circle cx="12" cy="12" r="2.6"/><circle cx="18" cy="12" r="2.6"/></svg>', shelf:'starter', desc:'در تسک ۲ کامل می‌شود.', words:[]},
-  {id:'time', fa:'زمان', de:'Zeit', icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>', shelf:'starter', desc:'در تسک ۲ کامل می‌شود.', words:[]},
-  {id:'months', fa:'ماه‌ها و فصل‌ها', de:'Monate und Jahreszeiten', icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8"/></svg>', shelf:'starter', desc:'در تسک ۲ کامل می‌شود.', words:[]},
-  {id:'dailyverbs', fa:'افعال فعالیت‌های روزمره', de:'Verben alltäglicher Aktivitäten', icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.3-5.6"/><path d="M20 3v4h-4"/></svg>', shelf:'starter', desc:'در تسک ۲ کامل می‌شود.', words:[]}
 ];
 
 const sections = {
-  starter:{fa:'واژگان ابتدایی',de:'Beginner Vocabulary',desc:'این دسته نمایی از ساختار مرجع را با دادهٔ نمونهٔ قابل آزمایش نشان می‌دهد.', ids:['greet','numbers','colors','time','months','dailyverbs']},
-  lvlA1:{fa:'سطح A1',de:'A1 Vocabulary',desc:'نمونهٔ سطح‌بندی‌شده — فعلاً فقط یک زیرموضوع فعال است.', ids:['greet','numbers','colors']},
+  starter:{fa:'واژگان ابتدایی',de:'Beginner Vocabulary',desc:'موضوع نمونه: احوالپرسی و واژگان ابتدایی — ۲۰ واژه.', ids:['greet']},
+  lvlA1:{fa:'سطح A1',de:'A1 Vocabulary',desc:'بانک تکمیل شده است.', ids:['greet']},
   freqcat:{fa:'واژگان پرکاربرد دسته‌بندی‌شده',de:'Categorized Core Vocabulary',desc:'معماری قفسهٔ مرجع برای واژگان هسته‌ای.', ids:['greet']},
-  freq500:{fa:'500 واژهٔ پرکاربرد',de:'Top 500 Words',desc:'در تسک‌های بعدی تکمیل می‌شود.', ids:['greet']},
-  lvlA2:{fa:'سطح A2',de:'A2 Vocabulary',desc:'در تسک ۲ کامل می‌شود.', ids:['numbers']},
-  lvlB1:{fa:'سطح B1',de:'B1 Vocabulary',desc:'در تسک ۲ کامل می‌شود.', ids:['colors']},
-  lvlB2:{fa:'سطح B2',de:'B2 Vocabulary',desc:'در تسک ۲ کامل می‌شود.', ids:['time']},
-  lvlC1:{fa:'سطح C1',de:'C1 Vocabulary',desc:'در تسک ۲ کامل می‌شود.', ids:['months']},
-  human:{fa:'انسان',de:'Human',desc:'در تسک ۳ کامل می‌شود.', ids:['greet']},
-  actions:{fa:'اعمال و فعالیت‌ها',de:'Actions and Activities',desc:'در تسک ۳ کامل می‌شود.', ids:['dailyverbs']},
-  lang:{fa:'زبان و دلایل صحبت کردن',de:'Speech and Language',desc:'در تسک ۳ کامل می‌شود.', ids:['greet']}
+  lvlA2:{fa:'سطح A2',de:'A2 Vocabulary',desc:'بانک تکمیل شده است.', ids:['greet']},
+  lvlB1:{fa:'سطح B1',de:'B1 Vocabulary',desc:'بانک تکمیل شده است.', ids:['greet']},
+  lvlB2:{fa:'سطح B2',de:'B2 Vocabulary',desc:'بانک تکمیل شده است.', ids:['greet']},
+  lvlC1:{fa:'سطح C1',de:'C1 Vocabulary',desc:'بانک تکمیل شده است.', ids:['greet']},
+  human:{fa:'انسان',de:'Human',desc:'بانک تکمیل شده است.', ids:['greet']},
+  actions:{fa:'اعمال و فعالیت‌ها',de:'Actions and Activities',desc:'بانک تکمیل شده است.', ids:['greet']},
+  lang:{fa:'زبان و دلایل صحبت کردن',de:'Speech and Language',desc:'بانک تکمیل شده است.', ids:['greet']}
 };
 
 /* ===== TASK 2 PART 1: LEVEL BANK (merged into POOF-styled shell) ===== */
@@ -368,7 +360,7 @@ function buildLevelSections(){
    ids.push(id);
   }
   const done=words.length>=LEVEL_TARGETS[lv];
-  sections['lvl'+lv]={fa:'سطح '+lv,de:lv+' Vocabulary',desc:done?'بانک '+lv+' با '+words.length+' مدخل تکمیل شده است.':'این سطح در ادامهٔ تسک ۲ تکمیل می‌شود: '+words.length+' از '+LEVEL_TARGETS[lv]+' واژهٔ هدف.',ids};
+  sections['lvl'+lv]={fa:'سطح '+lv,de:lv+' Vocabulary',desc:done?'بانک '+lv+' با '+words.length+' مدخل تکمیل شده است.':words.length+' از '+LEVEL_TARGETS[lv]+' واژه.',ids};
  }
 }
 buildLevelSections();
@@ -465,7 +457,8 @@ let currentSection='starter', currentTopic='greet', currentIndex=0, flashFlipped
 function toFaNum(n){return String(n).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d])}
 function topicById(id){return subtopics.find(x=>x.id===id)}
 function currentWords(){return topicById(currentTopic)?.words||[]}
-function updateHeader(title, sub, canBack){$('#headTitle').textContent=title; $('#headSub').textContent=sub; $('#backBtn').hidden=!canBack}
+function updateHeader(title, sub, canBack){$('#headTitle').textContent=title; $('#backBtn').hidden=!canBack}
+function toTop(){window.scrollTo(0,0);const sh=document.querySelector('.sheet');if(sh)sh.scrollTop=0;}
 
 
 /* ===== TASK 5: situational phrase bank, 30 situations x 20 phrases ===== */
@@ -495,7 +488,7 @@ sections.phraseAll = {fa:'تمام عبارات کاربردی',de:'Alle Alltags
   el.innerHTML = allCard + hubCards;
 })();
 
-function renderSection(id){
+function renderSection(id){toTop();
   currentSection=id;
   const sec=sections[id]||sections.starter;
   $('#homeView').classList.remove('on'); $('#readerView').classList.remove('on'); $('#flashView').classList.remove('on'); $('#quizView').classList.remove('on');
@@ -503,29 +496,29 @@ function renderSection(id){
   $('#sectionFa').textContent=sec.fa; $('#sectionDe').textContent=sec.de; $('#sectionDesc').textContent=sec.desc;
   $('#subList').innerHTML=sec.ids.map(tid=>{
     const t=topicById(tid), count=t.words.length;
-    return `<button class="sub-item" data-topic="${t.id}"><div class="count">${toFaNum(count)}</div><div class="sub-body"><h3>${t.fa}</h3><span class="de">${t.de}</span><span class="meta">${count?`${toFaNum(count)} ${t.kind==='phrase'?'عبارت':(t.kind==='idiom'?'اصطلاح':(t.kind==='proverb'?'ضرب‌المثل':'کلمه'))}`:'به‌زودی تکمیل می‌شود'}${(()=>{const _d=dueCount(t.words);const _s=P.tests[t.id];return (_d?` · ${toFaNum(_d)} در انتظار مرور`:'')+(_s?` · آزمون اخیر ${toFaNum(_s.pct)}٪`:'');})()}</span></div><div class="iconbox">${t.icon}</div></button>`;
+    return `<button class="sub-item" data-topic="${t.id}"><div class="count">${toFaNum(count)}</div><div class="sub-body"><h3>${t.fa}</h3><span class="de">${t.de}</span><span class="meta">${count?`${toFaNum(count)} ${t.kind==='phrase'?'عبارت':(t.kind==='idiom'?'اصطلاح':(t.kind==='proverb'?'ضرب‌المثل':'کلمه'))}`:'بدون واژه'}${(()=>{const _d=dueCount(t.words);const _s=P.tests[t.id];return (_d?` · ${toFaNum(_d)} در انتظار مرور`:'')+(_s?` · آزمون اخیر ${toFaNum(_s.pct)}٪`:'');})()}</span></div><div class="iconbox">${t.icon}</div></button>`;
   }).join('');
   updateHeader(sec.fa, sec.de, true);
 }
 
-function openHome(){
+function openHome(){toTop();
   $$('.section-view').forEach(v=>v.classList.remove('on')); $('#homeView').classList.add('on');
   $('#readerView').classList.remove('on'); $('#flashView').classList.remove('on'); $('#quizView').classList.remove('on');
-  updateHeader('واژه‌آموزی','سیستم واژه‌آموزی کامل شد — ۷ تسک · سطحی ۲۰۰۰ · کتابی ۱۹۲ · موضوعی ۴۰ موضوع · عبارات ۶۰۰ · اصطلاحات ۲۰۰',false);
+  updateHeader('واژه‌آموزی','',false);
   refreshDashboardCounts();
 }
 
-function openSheet(topicId){
+function openSheet(topicId){toTop();
   currentTopic=topicId;
   const t=topicById(topicId); if(!t) return;
   $('#sheetFa').textContent=t.fa; $('#sheetDe').textContent=t.de; $('#sheetCount').textContent=toFaNum(t.words.length); const sl=$('#sheetCountLbl'); if(sl) sl.textContent=t.kind==='phrase'?'تعداد عبارت‌ها':(t.kind==='idiom'?'تعداد اصطلاح':(t.kind==='proverb'?'تعداد ضرب‌المثل':'تعداد کلمات')); $('#sheetDue').textContent=toFaNum(dueCount(t.words)); const _st=$('#sheetTestScore'); if(_st){const _s=P.tests[t.id]; _st.textContent=_s?('آخرین آزمون: '+toFaNum(_s.pct)+'٪'):'هنوز آزمونی ثبت نشده';} $('#sheetIcon').innerHTML=t.icon;
   $('#sheetWrap').classList.add('show');
 }
-function closeSheet(){ $('#sheetWrap').classList.remove('show'); }
+function closeSheet(){ $('#sheetWrap').classList.remove('show'); toTop(); }
 
 function renderReader(){
   const words=currentWords();
-  if(!words.length){ alert('این بخش در تسک‌های بعدی تکمیل می‌شود.'); return; }
+  if(!words.length){ alert('این بخش واژه‌ای ندارد.'); return; }
   const w=words[currentIndex]; const head=w.id||w.ph||w.w;
   $('#sectionView').classList.remove('on'); $('#readerView').classList.add('on'); $('#flashView').classList.remove('on'); $('#quizView').classList.remove('on');
   updateHeader(topicById(currentTopic).fa, topicById(currentTopic).de, true);
@@ -545,9 +538,10 @@ function renderReader(){
 }
 
 function nextWord(){ if(currentIndex<currentWords().length-1){ currentIndex++; renderReader(); } else { currentIndex=0; renderReader(); }}
+function prevWord(){ const n=currentWords().length; if(!n) return; currentIndex=(currentIndex-1+n)%n; renderReader(); }
 
 function renderFlash(){
-  const words=currentWords(); if(!words.length){ alert('این بخش در تسک‌های بعدی تکمیل می‌شود.'); return; }
+  const words=currentWords(); if(!words.length){ alert('این بخش واژه‌ای ندارد.'); return; }
   const w=words[currentIndex];
   $('#sectionView').classList.remove('on'); $('#readerView').classList.remove('on'); $('#quizView').classList.remove('on'); $('#flashView').classList.add('on');
   updateHeader('فلش‌کارت','نمونهٔ گام دوم',true);
@@ -597,7 +591,7 @@ function refreshDashboardCounts(){
 }
 function openFound(w){const ids=WORDS_BY_TOPIC.get(keyOf(w))||[];const best=ids.find(id=>(topicById(id)?.words||[]).length>0);if(!best){toast('دسته‌ای برای این واژه پیدا نشد.');return;}
   currentTopic=best;const list=currentWords();currentIndex=list.findIndex(x=>keyOf(x)===keyOf(w));if(currentIndex<0)currentIndex=0;
-  const parent=Object.entries(sections).find(([,v])=>v.ids.includes(best));currentSection=parent?.[0]||'starter';renderReader();}
+  const parent=Object.entries(sections).find(([,v])=>v.ids.includes(best));currentSection=parent?.[0]||'starter';toTop();renderReader();}
 function renderSearch(){const inp=$('#searchInput');const box=$('#searchResults');if(!box)return;
   const q=normalize(inp?inp.value:'');
   if(!q){box.innerHTML='<p class="mini">نام آلمانی یا معنی فارسی را تایپ کن.</p>';return;}
@@ -670,7 +664,7 @@ function renderPractice(){const a=exerciseState;if(!a)return;
   const li=$('#practiceListen');if(li)li.onclick=()=>speak(labelOf(w));
   const su=$('#practiceSubmit');if(su)su.onclick=submitPractice;
   const nx2=$('#practiceNext');if(nx2)nx2.onclick=()=>{a.i++;renderPractice();};
-  const inp=$('#practiceAnswer');if(inp){inp.focus();inp.onkeydown=e=>{if(e.key==='Enter')submitPractice();};}
+  const inp=$('#practiceAnswer');if(inp){try{inp.focus({preventScroll:true})}catch(e){inp.focus();}inp.onkeydown=e=>{if(e.key==='Enter')submitPractice();};}
   if(a.kind==='spelling')speak(labelOf(w));}
 function submitPractice(){const a=exerciseState;if(!a||a.answered)return;const w=a.list[a.i];
   const expected=a.kind==='gender'?w.art:(a.kind==='reverse'&&['der','die','das'].includes(w.art)?w.art+' '+labelOf(w):labelOf(w));
@@ -708,8 +702,10 @@ const si=$('#searchInput');if(si){si.addEventListener('input',renderSearch);si.a
 const eb=$('#exportBackup');if(eb)eb.onclick=saveBackup;
 const ib=$('#importBackup');if(ib)ib.onclick=()=>{const f=$('#importFile');if(f)f.click();};
 const imf=$('#importFile');if(imf)imf.addEventListener('change',()=>{importBackup(imf.files[0]);imf.value='';});
-document.addEventListener('keydown',e=>{ if(e.key==='ArrowLeft') nextWord(); if(e.key===' ') { if($('#readerView').classList.contains('on')) { e.preventDefault(); speak(currentWords()[currentIndex].ph||currentWords()[currentIndex].w);} } });
+document.addEventListener('keydown',e=>{ if(e.key==='ArrowLeft') nextWord(); if(e.key==='ArrowRight') prevWord(); if(e.key===' ') { if($('#readerView').classList.contains('on')) { e.preventDefault(); speak(currentWords()[currentIndex].ph||currentWords()[currentIndex].w);} } });
 
+$('#prevWordBtn').onclick=prevWord; $('#nextWordBtn').onclick=nextWord;
+(function(){const rv=$('#readerView');let sx=0,sy=0;rv.addEventListener('touchstart',e=>{const tt=e.changedTouches[0];sx=tt.clientX;sy=tt.clientY;},{passive:true});rv.addEventListener('touchend',e=>{const tt=e.changedTouches[0];const dx=tt.clientX-sx,dy=tt.clientY-sy;if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)){if(dx<0)nextWord();else prevWord();}},{passive:true});})();
 // initial
 refreshDashboardCounts();
 openHome();
