@@ -51,10 +51,22 @@ html[data-theme=snowy] .brand-mascot{display:block!important;animation:poof-floa
 html[data-theme=snowy] .hd h1,html[data-theme=snowy] .hd .mark{display:none}
 html:not([data-theme=snowy]) .brand-mascot{display:block!important;animation:poof-float 3s ease-in-out infinite}
 html:not([data-theme=snowy]) .hd h1,html:not([data-theme=snowy]) .hd .mark{display:none}
+.mode .ic svg{width:28px;height:28px;fill:none;stroke:var(--accent);stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+.ic-svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;vertical-align:-3px}
+.ddd-badge{display:inline-flex;align-items:center;justify-content:center;padding:7px 12px;border:1.5px solid var(--accent);border-radius:99px;color:var(--accent);font-size:13px;font-weight:800;letter-spacing:.2px;white-space:nowrap}
 </style>
 <script>try{var _t=(JSON.parse(localStorage.getItem('poof_v2')||'{}').theme==='snowy')?'snowy':'classic';document.write('<link rel="stylesheet" id="themeCss" href="theme-'+_t+'.css?v=15">')}catch(e){document.write('<link rel="stylesheet" id="themeCss" href="theme-classic.css?v=15">')}</script>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-mic" viewBox="0 0 24 24"><path d="M12 2.5a3 3 0 0 0-3 3v6.5a3 3 0 0 0 6 0V5.5a3 3 0 0 0-3-3z"/><path d="M18.5 10.5v1.5a6.5 6.5 0 0 1-13 0v-1.5"/><path d="M12 18.5V21"/><path d="M8.5 21h7"/></symbol>
+<symbol id="i-sound" viewBox="0 0 24 24"><path d="M4 9.5v5h3.5l4.5 4v-13l-4.5 4z"/><path d="M15.5 9a4 4 0 0 1 0 6"/><path d="M18 6.5a8 8 0 0 1 0 11"/></symbol>
+<symbol id="i-key" viewBox="0 0 24 24"><rect x="3" y="6.5" width="18" height="11" rx="2.5"/><path d="M7.5 10.5h.01M12 10.5h.01M16.5 10.5h.01M7.5 14h.01M12 14h.01M16.5 14h.01"/></symbol>
+<symbol id="i-pencil" viewBox="0 0 24 24"><path d="M14.5 4.5 19.5 9.5 8.5 20.5H3.5v-5z"/><path d="M13 6l5 5"/></symbol>
+<symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></symbol>
+<symbol id="i-choice" viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11"/><circle cx="5" cy="6" r="1.3"/><circle cx="5" cy="12" r="1.3"/><path d="M3.5 18l1 1 2-2"/></symbol>
+<symbol id="i-stop" viewBox="0 0 24 24"><rect x="6.5" y="6.5" width="11" height="11" rx="2"/></symbol>
+</defs></svg>
 <header><div class="hd"><span class="mark">P</span><div class="poof-mascot brand-mascot poof-img-snowy-wave" aria-hidden="true" style="display:none;width:52px;height:52px;margin:0"></div><div style="flex:1"><h1>POOF</h1><div class="sub">تمرین</div></div>
 <button class="ghost" id="backBtn" aria-label="بازگشت" style="border:none;font-size:22px;padding:8px 12px">→</button></div></header>
 <main id="app"><div class="card center mute">در حال بارگذاری…</div></main>
@@ -86,12 +98,12 @@ function say(t,lang){
 
 /* ---------- modes ---------- */
 const MODES=[
- {id:"mcq",icon:"🔤",name:"۴ گزینه‌ای",desc:"کلمه رو ببین، معنیش رو حدس بزن",need:4,needMsg:"حداقل ۴ کارت لازم داره"},
- {id:"type",icon:"⌨️",name:"تایپی",desc:"معنی رو ببین، کلمه رو بنویس",need:1,needMsg:"حداقل ۱ کارت لازم داره"},
- {id:"listen",icon:"🔊",name:"شنیداری",desc:"گوش کن، کلمه‌ی درست رو انتخاب کن",need:4,needMsg:"حداقل ۴ کارت لازم داره"},
- {id:"cloze",icon:"✏️",name:"جای خالی",desc:"جمله رو کامل کن",need:1,needMsg:"کارت‌هایی با جمله‌ی نمونه لازم داره",custom:c=>c.filter(x=>x.context&&x.context.length>10)},
- {id:"match",icon:"🧩",name:"جور کردن",desc:"کلمه‌ها رو با معنی‌هاشون جفت کن",need:5,needMsg:"حداقل ۵ کارت لازم داره"},
- {id:"speak",icon:"🎤",name:"تلفظ",desc:"کلمه رو بلند بگو، گوش میده",need:1,needMsg:"حداقل ۱ کارت لازم داره",needsMic:true},
+ {id:"mcq",icon:"i-choice",name:"۴ گزینه‌ای",desc:"کلمه رو ببین، معنیش رو حدس بزن",need:4,needMsg:"حداقل ۴ کارت لازم داره"},
+ {id:"type",icon:"i-key",name:"تایپی",desc:"معنی رو ببین، کلمه رو بنویس",need:1,needMsg:"حداقل ۱ کارت لازم داره"},
+ {id:"listen",icon:"i-sound",name:"شنیداری",desc:"گوش کن، کلمه‌ی درست رو انتخاب کن",need:4,needMsg:"حداقل ۴ کارت لازم داره"},
+ {id:"cloze",icon:"i-pencil",name:"جای خالی",desc:"جمله رو کامل کن",need:1,needMsg:"کارت‌هایی با جمله‌ی نمونه لازم داره",custom:c=>c.filter(x=>x.context&&x.context.length>10)},
+ {id:"match",icon:"i-link",name:"جور کردن",desc:"کلمه‌ها رو با معنی‌هاشون جفت کن",need:5,needMsg:"حداقل ۵ کارت لازم داره"},
+ {id:"speak",icon:"i-mic",name:"تلفظ",desc:"کلمه رو بلند بگو، گوش میده",need:1,needMsg:"حداقل ۱ کارت لازم داره",needsMic:true},
 ];
 const micOK=()=>("SpeechRecognition" in window)||("webkitSpeechRecognition" in window);
 
@@ -109,12 +121,12 @@ function viewHome(){
     const p=poolFor(m),ok=p.length>=m.need&&!(m.needsMic&&!micOK());
     const why=m.needsMic&&!micOK()?"مرورگرت تشخیص گفتار نداره":m.needMsg+` (داری: ${p.length})`;
     return `<div class="card mode ${ok?"":"disabled"}" data-mode="${m.id}">
-      <div class="ic">${m.icon}</div><b>${m.name}</b>
+      <div class="ic"><svg><use href="#${m.icon}"/></svg></div><b>${m.name}</b>
       <div class="mute sm">${m.desc}</div>
       ${ok?`<div class="sm" style="color:var(--ok);margin-top:6px">شروع ←</div>`:`<div class="sm" style="color:var(--error);margin-top:6px">${why}</div>`}
     </div>`}).join("")}</div>
   <div class="card mode" onclick="location.href='der-die-das.html'">
-      <div class="ic">🇩🇪</div><b>بازی مقاله‌ها der / die / das</b>
+      <div class="ic"><span class="ddd-badge" dir="ltr">der · die · das</span></div><b>بازی مقاله‌ها der / die / das</b>
       <div class="mute sm">۷۵۰ کلمه‌ی آلمانی با مقاله، لایتنر و آمار — در صفحه‌ی جدا</div>
       <div class="sm" style="color:var(--ok);margin-top:6px">بازی کن ←</div>
     </div>
@@ -129,20 +141,20 @@ function qSpeak(){
    <div class="big de" style="margin:12px 0">${esc(c.front)}</div>
    <p class="mute">${esc(c.back)}</p>
    <div class="row" style="justify-content:center;margin:12px 0">
-    <button class="ghost" id="hear">🔊 بشنو</button>
-    <button id="rec" style="font-size:18px;padding:14px 26px">🎤 بگو</button>
+    <button class="ghost" id="hear"><svg class="ic-svg" aria-hidden="true"><use href="#i-sound"/></svg> بشنو</button>
+    <button id="rec" style="font-size:18px;padding:14px 26px"><svg class="ic-svg" aria-hidden="true"><use href="#i-mic"/></svg> بگو</button>
    </div>
    <div id="st" class="mute sm"></div>
    <div id="fb"></div></div>`;
   $("#hear").onclick=()=>say(c.front,c.lang);
   let rec=null,listening=false;
-  const stop=()=>{listening=false;try{rec&&rec.stop()}catch(e){}$("#rec").innerHTML="🎤 بگو";$("#rec").disabled=false;$("#st").textContent=""};
+  const stop=()=>{listening=false;try{rec&&rec.stop()}catch(e){}$("#rec").innerHTML='<svg class="ic-svg" aria-hidden="true"><use href="#i-mic"/></svg> بگو';$("#rec").disabled=false;$("#st").textContent=""};
   $("#rec").onclick=()=>{
     if(listening){stop();return}
     const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
     if(!SR){$("#st").textContent="مرورگرت تشخیص گفتار نداره";return}
     rec=new SR();rec.lang=lang;rec.interimResults=false;rec.maxAlternatives=5;
-    listening=true;$("#rec").innerHTML="⏹️ در حال گوش دادن… (بزن تا قطع شه)";$("#st").textContent="بگو…";
+    listening=true;$("#rec").innerHTML='<svg class="ic-svg" aria-hidden="true"><use href="#i-stop"/></svg> در حال گوش دادن… (بزن تا قطع شه)';$("#st").textContent="بگو…";
     $("#rec").classList.add("pulse");
     rec.onresult=e=>{
       const alts=[];
@@ -228,7 +240,7 @@ function qListen(){
   const c=cur();
   const opts=shuffle([{t:c.front,ok:true},...distractors("front").map(t=>({t,ok:false}))]);
   app.innerHTML=`${progress()}<div class="card center"><p class="mute sm">گوش کن — کدوم کلمه رو شنیدی؟</p>
-   <button class="ghost" id="pl" style="font-size:40px;padding:16px 28px;margin:10px 0">🔊</button>
+   <button class="ghost" id="pl" style="padding:16px 28px;margin:10px 0"><svg class="ic-svg" style="width:40px;height:40px" aria-hidden="true"><use href="#i-sound"/></svg></button>
    <div id="opts">${opts.map((o,i)=>`<button class="opt de" data-i="${i}">${esc(o.t)}</button>`).join("")}</div>
    <div id="fb"></div></div>`;
   const play=()=>say(c.front,c.lang);
@@ -293,7 +305,7 @@ function qMatch(){
 /* --- نتیجه --- */
 function viewResult(){
   const total=S.cards.length,pct=Math.round(S.ok/total*100);
-  const msg=pct===100?"بی‌نقص! 🌟":pct>=70?"آفرین! 💪":pct>=40?"خوب پیش میری 🌱":"اشکالی نداره، تمرین یعنی همین 🌧️";
+  const msg=pct===100?"بی‌نقص!":pct>=70?"آفرین!":pct>=40?"خوب پیش میری":"اشکالی نداره، تمرین یعنی همین";
   app.innerHTML=`<div class="card center"><div class="score">${pct}٪</div>
    <p><b>${msg}</b></p><p class="mute">${S.ok} درست از ${total} سؤال · حالت ${S.mode.name}</p>
    <div class="row" style="justify-content:center"><button id="again">دوباره</button><button class="ghost" id="home">حالت‌ها</button></div></div>

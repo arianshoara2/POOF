@@ -442,7 +442,7 @@ html:not([data-theme=snowy]) #s-cards #list .card::after{background:linear-gradi
    <div id="movieList"></div>
   </div></div>
   <div id="podPick" hidden role="dialog" aria-label="پادکست‌ها"><div class="ask-card">
-   <div class="ed-top"><b>🎙️ پادکست‌ها</b><button class="ib" id="podClose" aria-label="بستن"><svg class="ic" aria-hidden="true"><use href="#i-close"/></svg></button></div>
+   <div class="ed-top"><b><svg class="ic ic-inline" aria-hidden="true"><use href="#i-mic"/></svg> پادکست‌ها</b><button class="ib" id="podClose" aria-label="بستن"><svg class="ic" aria-hidden="true"><use href="#i-close"/></svg></button></div>
    <div class="seg" id="podSeg" style="margin-bottom:8px"><button class="on" data-pl="de">🇩🇪 آلمانی</button><button data-pl="en">🇬🇧 انگلیسی</button></div>
    <div class="searchbar"><input id="podQ" dir="auto" placeholder="جست‌وجوی پادکست…"><button class="ib pri" id="podGo" aria-label="جست‌وجو"><svg class="ic" aria-hidden="true"><use href="#i-dict"/></svg></button></div>
    <div id="podRes"></div>
@@ -459,7 +459,7 @@ html:not([data-theme=snowy]) #s-cards #list .card::after{background:linear-gradi
    <div class="card-bg-img poof-img-reading-bg" aria-hidden="true"></div>
    <div class="card-in">
   <div class="row" style="margin-bottom:10px"><input id="libQ" placeholder="جست‌وجو در کتابخانه…" style="flex:1"><button class="ib" id="libSort" aria-label="مرتب‌سازی" title="مرتب‌سازی">⇅</button><button class="ib pri" id="addTxt" aria-label="متن جدید"><svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></button></div>
-  <div class="row" id="libFilters" style="margin-bottom:10px;gap:6px"><button class="chip lf on" data-lf="all">همه</button><button class="chip lf" data-lf="vid"><svg class="ic ic-inline" aria-hidden="true"><use href="#i-film"/></svg> ویدیو</button><button class="chip lf" data-lf="txt"><svg class="ic ic-inline" aria-hidden="true"><use href="#i-doc"/></svg> متن</button><button class="chip lf" data-lf="wp"><svg class="ic ic-inline" aria-hidden="true"><use href="#i-globe"/></svg> ویکی‌پدیا</button><button class="chip lf" data-lf="pod">🎙️ پادکست</button></div>
+  <div class="row" id="libFilters" style="margin-bottom:10px;gap:6px"><button class="chip lf on" data-lf="all">همه</button><button class="chip lf" data-lf="vid"><svg class="ic ic-inline" aria-hidden="true"><use href="#i-film"/></svg> ویدیو</button><button class="chip lf" data-lf="txt"><svg class="ic ic-inline" aria-hidden="true"><use href="#i-doc"/></svg> متن</button><button class="chip lf" data-lf="wp"><svg class="ic ic-inline" aria-hidden="true"><use href="#i-globe"/></svg> ویکی‌پدیا</button><button class="chip lf" data-lf="pod"><svg class="ic ic-inline" aria-hidden="true"><use href="#i-mic"/></svg> پادکست</button></div>
   <div id="lib"></div>
    </div>
   </div>
@@ -480,7 +480,7 @@ html:not([data-theme=snowy]) #s-cards #list .card::after{background:linear-gradi
   </div>
   <div class="card" id="ap" hidden>
    <div class="row" style="margin-bottom:6px;align-items:center">
-    <span id="apArtBox" style="width:72px;height:72px;flex:none;border-radius:14px;overflow:hidden;background:rgba(230,185,111,.15);display:flex;align-items:center;justify-content:center;font-size:30px">🎙️</span>
+    <span id="apArtBox" style="width:72px;height:72px;flex:none;border-radius:14px;overflow:hidden;background:rgba(230,185,111,.15);display:flex;align-items:center;justify-content:center"><svg class="ic" style="width:34px;height:34px;color:var(--accent)" aria-hidden="true"><use href="#i-mic"/></svg></span>
     <div style="flex:1;min-width:0">
      <b style="display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" dir="auto"><span id="apTitle" dir="auto"></span></b>
      <span class="mute" id="apShow" dir="auto" style="display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></span>
@@ -931,7 +931,7 @@ function setupAudio(t){
  ap.hidden=false;$("#apTitle").textContent=t.title||"";
  const ab=$("#apArtBox");
  if(t.pod.art){ab.innerHTML='<img src="'+esc(t.pod.art)+'" alt="" style="width:100%;height:100%;object-fit:cover" loading="lazy">'}
- else ab.textContent="🎙️";
+ else ab.innerHTML='<svg class="ic" style="width:34px;height:34px;color:var(--accent)" aria-hidden="true"><use href="#i-mic"/></svg>';
  $("#apShow").textContent=t.pod.show||"";
  $("#apFollow").classList.toggle("on",follow);
  if(audFor!==t.id){
@@ -1973,7 +1973,7 @@ $("#text").onclick=e=>{if(lpSuppress)return;const el=e.target.closest(".w");if(e
 $("#text").onkeydown=e=>{if(e.key==="Enter"||e.key===" "){const el=e.target.closest(".w");if(el){e.preventDefault();pick(el)}}};
 /* ===== کتابخانه‌ی متن‌ها: تاریخچه‌ی تمیز لینک‌ها و متن‌ها ===== */
 const kindOf=t=>t.pod?"pod":t.video&&t.video.id?"yt":t.video&&t.video.ig?"ig":t.wp?"wp":t.url?"web":"txt";
-const KIND_LB={yt:"یوتیوب",ig:"اینستاگرام",wp:"ویکی‌پدیا",web:"وب",txt:"متن",pod:"🎙️ پادکست"};
+const KIND_LB={yt:"یوتیوب",ig:"اینستاگرام",wp:"ویکی‌پدیا",web:"وب",txt:"متن",pod:"پادکست"};
 const KIND_IC={ig:"film",wp:"globe",web:"doc",txt:"doc",pod:"mic"};
 function progPct(t){
  if(!t||!t.progress)return 0;
