@@ -135,6 +135,11 @@ function viewHome(){
       <div class="mute sm">C-Test، درک مطلب، گرامر و ریاضی T-Kurs با زمان و تاریخچه — در صفحه‌ی جدا</div>
       <div class="sm" style="color:var(--ok);margin-top:6px">شروع تمرین ←</div>
     </div>
+  <div class="card mode" onclick="location.href='placement-test.html'">
+      <div class="ic"><span class="ddd-badge" dir="ltr">Placement</span></div><b>آزمون تعیین سطح آلمانی</b>
+      <div class="mute sm">۱۰ خرده‌سطح از A1.1 تا C1.2 · ۶ مهارت · تطبیقی — در صفحه‌ی جدا</div>
+      <div class="sm" style="color:var(--ok);margin-top:6px">شروع آزمون ←</div>
+    </div>
   ${n?`<p class="mute sm center">از تب «خواندن» یا «دیکشنری» کارت بیشتر بساز تا حالت‌های بیشتری باز بشن</p>`:`<div class="card center"><p>هنوز کارتی نداری.</p><button class="ghost" onclick="location.href='index.html'">رفتن به اپ و ساختن کارت</button></div>`}`;
   app.querySelectorAll(".mode[data-mode]:not(.disabled)").forEach(el=>el.onclick=()=>startMode(el.dataset.mode));
 }
