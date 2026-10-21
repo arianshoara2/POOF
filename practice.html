@@ -119,7 +119,7 @@ function viewHome(){
       <div class="sm" style="color:var(--ok);margin-top:6px">بازی کن ←</div>
     </div>
   ${n?`<p class="mute sm center">از تب «خواندن» یا «دیکشنری» کارت بیشتر بساز تا حالت‌های بیشتری باز بشن</p>`:`<div class="card center"><p>هنوز کارتی نداری.</p><button class="ghost" onclick="location.href='index.html'">رفتن به اپ و ساختن کارت</button></div>`}`;
-  app.querySelectorAll(".mode:not(.disabled)").forEach(el=>el.onclick=()=>startMode(el.dataset.mode));
+  app.querySelectorAll(".mode[data-mode]:not(.disabled)").forEach(el=>el.onclick=()=>startMode(el.dataset.mode));
 }
 /* --- تلفظ --- */
 function qSpeak(){
