@@ -596,6 +596,7 @@ html:not([data-theme=snowy]) #s-cards #list .card::after{background:linear-gradi
    <p class="mute" style="margin:0 0 4px">کلید امنیتی ورکر (اختیاری — اگر در ورکر Secret با نام API_KEY ساخته‌اید، همان مقدار را اینجا بگذارید)</p>
    <input id="wkey" class="de" dir="ltr" placeholder="API_KEY (اختیاری)" autocomplete="off">
    <div class="row" style="margin-top:8px"><label class="ghost-label">ورود پشتیبان<input id="imp" type="file" accept=".json,application/json" hidden></label></div>
+   <div class="row" style="margin-top:8px"><label class="ghost-label">ورود کارت‌ها (افزودن به کارت‌های فعلی)<input id="impCards" type="file" accept=".json,application/json" hidden></label></div>
    </details>
   </div>
  </section>
@@ -3081,6 +3082,30 @@ $("#imp").onchange=async e=>{
  e.target.value="";
 };
 $("#clrCache").onclick=()=>{cache={};saveCache();toast("کش پاک شد")};
+/* ورود کارت‌ها: فقط افزودن به کارت‌های فعلی، هرگز جایگزینی (مسیر #imp دست نخورده) */
+$("#impCards").onchange=async e=>{
+ const f=e.target.files[0];if(!f)return;
+ try{
+  const d=JSON.parse(await f.text());
+  let list=Array.isArray(d)?d:(d&&Array.isArray(d.cards)?d.cards:(d&&typeof d.front==="string"?[d]:null));
+  if(!list)throw 0;
+  const norm=s=>String(s||"").trim().toLowerCase();
+  const seen=new Set(db.cards.map(c=>norm(c.front)+"|"+norm(c.back)));
+  let added=0,skipped=0;
+  for(const it of list){
+   if(!it||typeof it.front!=="string"||typeof it.back!=="string"||!it.front.trim()||!it.back.trim()){skipped++;continue}
+   const key=norm(it.front)+"|"+norm(it.back);
+   if(seen.has(key)){skipped++;continue}
+   seen.add(key);
+   const nc={pos:"",def:"",context:typeof it.context==="string"?it.context:"",contextFa:typeof it.contextFa==="string"?it.contextFa:"",source:"import",created_at:Date.now(),ease:2.5,interval:0,reps:0,due:Date.now(),lang:typeof it.lang==="string"&&it.lang?it.lang:"de",id:uid(),front:it.front.trim(),back:it.back.trim()};
+   if(typeof it.deck_id==="string"&&it.deck_id)nc.deck_id=it.deck_id;
+   db.cards.push(nc);added++;
+  }
+  save();renderAll();
+  toast(added+" کارت اضافه شد"+(skipped?" ("+skipped+" تکراری رد شد)":""));
+ }catch(x){toast("فایل معتبر نیست","bad")}
+ e.target.value="";
+};
 $("#packDeBtn").onclick=()=>packInstallDE();
 $("#packDeDel").onclick=async()=>{if(await uiConfirm("دیکشنری آفلاین آلمانی حذف شود؟",{okText:"حذف",danger:true}))packDeleteDE()};
 renderPackDE();

@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#111111">
+<meta name="description" content="بازی مستقل و آفلاین یادگیری der، die و das با ۷۵۰ واژه و مرور هوشمند">
+<title>der · die · das | تمرین هوشمند آلمانی</title>
+<style>
+:root{color-scheme:dark;--bg:#111111;--card:#1b1814;--ink:#f5efe3;--muted:#b0a48e;--border:#38301f;--primary:#e6b96f;--primary-on:#1b1814;--soft:#262019;--success:#7cc98a;--danger:#e07a7a;--okbg:#1d2b20;--badbg:#33201f;--shadow:0 14px 34px rgba(0,0,0,.45);--font-size:clamp(2.5rem,11vw,3.75rem)}
+html[data-theme="light"]{color-scheme:light;--bg:#f6f1e7;--card:#fffdf6;--ink:#2a2118;--muted:#7a6f5c;--border:#e0d5bd;--primary:#a87e2e;--primary-on:#fffdf6;--soft:#efe7d2;--success:#2e7d46;--danger:#c23b3b;--okbg:#e2f2e4;--badbg:#fbe4e4;--shadow:0 12px 30px rgba(42,33,24,.12)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100svh;background:var(--bg);color:var(--ink);font:16px/1.7 system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;padding:env(safe-area-inset-top) 12px calc(20px + env(safe-area-inset-bottom))}button,select,textarea,input{font:inherit}button{cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}button:focus-visible,select:focus-visible,textarea:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--primary);outline-offset:3px}main{width:min(100%,660px);margin:auto;padding-top:16px}header{text-align:center;margin-bottom:15px}h1{font-size:1.3rem;line-height:1.35;margin:0 0 5px}h1 span,.latin{direction:ltr;unicode-bidi:isolate;display:inline-block}header p{font-size:.85rem;color:var(--muted);margin:0}.pane{background:var(--card);border:1px solid var(--border);border-radius:20px;box-shadow:var(--shadow)}.toolbar{padding:12px;margin-bottom:12px}.levels{display:flex;gap:7px;overflow:auto;scrollbar-width:thin;padding-bottom:3px;scroll-snap-type:x proximity}.pill{border:1px solid var(--border);background:transparent;color:var(--ink);padding:8px 14px;border-radius:999px;white-space:nowrap;flex:none;scroll-snap-align:start;font-weight:700}.pill.active{background:var(--primary);color:var(--primary-on);border-color:var(--primary)}.filterrow,.modebar,.settingrow{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-top:12px}.filterrow label{font-size:.85rem;color:var(--muted)}select{min-width:0;max-width:100%;border:1px solid var(--border);border-radius:12px;padding:10px;background:var(--card);color:var(--ink);flex:1}.modebar{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}.modebar button,.util{padding:9px 7px;border-radius:12px;border:1px solid var(--border);background:var(--card);color:var(--ink);font-weight:600}.modebar button.active{border-color:var(--primary);background:var(--soft);color:var(--primary)}.daily{padding:12px 16px;margin-bottom:12px}.dailytop{display:flex;justify-content:space-between;gap:10px;font-size:.85rem}.dailytop strong{font-size:.9rem}.bar{height:9px;border-radius:999px;background:var(--soft);overflow:hidden;margin-top:9px}.bar i{display:block;width:0;height:100%;background:var(--primary);border-radius:inherit;transition:width .25s}.goalrow{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:9px}.goalrow label{font-size:.8rem;color:var(--muted)}.goalrow input{width:70px;padding:5px 8px;border-radius:9px;background:var(--card);color:var(--ink);border:1px solid var(--border);text-align:center}.history{display:grid;grid-template-columns:repeat(14,minmax(0,1fr));gap:4px;margin-top:12px}.history span{display:block;aspect-ratio:1;border-radius:6px;background:var(--soft);border:1px solid var(--border)}.history span.done{background:var(--success);border-color:var(--success)}.history span.today{outline:2px solid var(--primary);outline-offset:1px}.historylabel{font-size:.73rem;color:var(--muted);margin-top:6px}.stats-mini{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:12px}.stat{padding:9px 5px;text-align:center}.stat b{display:block;font-size:1.3rem;font-variant-numeric:tabular-nums}.stat small{font-size:.74rem;color:var(--muted)}.questioncard{padding:24px 18px 18px;text-align:center;overflow:hidden}.eyebrow{font-size:.82rem;color:var(--muted)}.word{font-family:Georgia,"Times New Roman",serif;font-size:var(--font-size);font-weight:700;line-height:1.3;direction:ltr;unicode-bidi:isolate;overflow-wrap:anywhere;margin:18px 0 8px}.meaning{font-size:.92rem;color:var(--muted);min-height:27px}.sayrow{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:10px 0 19px}.sayrow button{border:1px solid var(--border);background:transparent;color:var(--ink);border-radius:99px;padding:7px 14px;font-size:.86rem}.arts{direction:ltr;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.art{min-height:76px;border:2px solid var(--border);border-radius:18px;background:var(--card);color:var(--ink);font-weight:800;font-size:1.48rem}.art.ok{border-color:var(--success);background:var(--okbg);color:var(--success)}.art.bad{border-color:var(--danger);background:var(--badbg);color:var(--danger)}.feedback{min-height:28px;font-weight:700;margin-top:14px}.feedback.ok{color:var(--success)}.feedback.bad{color:var(--danger)}.info{border-top:1px dashed var(--border);margin-top:11px;padding-top:12px;text-align:start;display:grid;gap:8px}.info .de{font-weight:700;direction:ltr;unicode-bidi:isolate;display:inline-block;text-align:left}.rule{border-radius:13px;padding:10px 12px;background:var(--soft);font-size:.86rem;line-height:1.8}.next{border:0;border-radius:13px;background:var(--primary);color:var(--primary-on);font-weight:700;width:100%;padding:13px;margin-top:15px}.statusline{min-height:25px;color:var(--muted);font-size:.85rem;margin:0 0 9px}.sessionline{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:.87rem;font-weight:700;margin-bottom:10px}.sessionline .timer{color:var(--danger);font-variant-numeric:tabular-nums}.result{padding:22px 16px;text-align:center}.result h2{margin:0 0 10px}.result .score{font-size:2.8rem;font-weight:800;color:var(--primary)}.result p{margin:8px 0}.result ul{text-align:right;padding-inline-start:22px;line-height:2}.tools{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:12px}.tools button,.sectionbtn{border:1px solid var(--border);border-radius:12px;background:var(--card);color:var(--ink);padding:11px 7px;font-size:.85rem}.sectionbtn{width:100%;margin-top:12px;font-weight:700}.dashboard,.data-panel{padding:16px;margin-top:12px}.dashboard h2,.data-panel h2{margin:0 0 10px;font-size:1.1rem}.metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-bottom:15px}.metric{padding:12px;background:var(--soft);border-radius:12px}.metric b{display:block;font-size:1.3rem}.metric small{color:var(--muted)}.breakdown{display:grid;gap:8px;margin:12px 0 18px}.breakrow{display:grid;grid-template-columns:minmax(105px,1.3fr) 2fr auto;align-items:center;gap:7px;font-size:.82rem}.breakrow .bar{margin:0;height:8px}.breakrow .bar i{background:var(--success)}.chart{height:105px;display:grid;grid-template-columns:repeat(14,minmax(0,1fr));align-items:end;gap:5px;border-bottom:1px solid var(--border);margin-bottom:6px}.chart .col{min-height:3px;background:var(--primary);border-radius:5px 5px 0 0}.chartdays{display:flex;justify-content:space-between;font-size:.77rem;color:var(--muted)}.data-panel textarea{display:block;width:100%;min-height:125px;resize:vertical;padding:12px;margin:9px 0;border:1px solid var(--border);border-radius:12px;color:var(--ink);background:var(--bg);font:13px/1.7 ui-monospace,monospace;direction:ltr;text-align:left}.row{display:flex;flex-wrap:wrap;gap:8px}.row button{flex:1;min-width:110px;border:1px solid var(--border);border-radius:11px;padding:9px;background:var(--card);color:var(--ink)}.hint{font-size:.82rem;color:var(--muted);line-height:1.8}.notice{border-radius:12px;background:var(--soft);padding:10px;margin:8px 0;font-size:.85rem}.alert{color:var(--danger)}#toast{position:fixed;bottom:calc(17px + env(safe-area-inset-bottom));inset-inline:16px;margin:auto;max-width:480px;background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:13px;box-shadow:var(--shadow);text-align:center;z-index:10;font-size:.9rem}#toast[hidden],[hidden]{display:none!important}.art:disabled{opacity:1}.art:not(:disabled):active{transform:scale(.97)}.tiny{font-size:.8rem;color:var(--muted)}.foot{text-align:center;margin-top:15px;color:var(--muted);font-size:.78rem}.progress-count{color:var(--muted);font-size:.82rem}
+@media(min-width:540px){body{padding-inline:22px}.questioncard{padding:31px 30px 24px}.word{margin-block:22px}.art{min-height:84px}.toolbar{padding:16px}}
+@media(prefers-reduced-motion:no-preference){.art,.next,.pill{transition:background-color .16s,border-color .16s,transform .16s}.questioncard.shake{animation:shake .28s ease}@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}.questioncard.good{animation:pulse .22s ease}@keyframes pulse{50%{transform:scale(1.012)}}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+.ic{width:20px;height:20px;flex:none;vertical-align:-4px;color:var(--primary)}.sayrow button,.tools button{display:inline-flex;align-items:center;justify-content:center;gap:6px}.dailytop strong{display:flex;align-items:center;gap:6px}.themebtn{display:inline-flex;align-items:center;gap:6px;margin-top:10px;border:1px solid var(--border);background:transparent;color:var(--ink);border-radius:999px;padding:6px 14px;font-size:.85rem;font-weight:700}.themebtn .th-ic{display:inline-flex}.themebtn .th-moon{display:none}html[data-theme="light"] .themebtn .th-sun{display:none}html[data-theme="light"] .themebtn .th-moon{display:inline-flex}</style>
+</head>
+<body>
+<div style="padding:14px 16px 0"><a href="./" style="color:#e6b96f;text-decoration:none;font-size:14px">← بازگشت به POOF</a></div>
+<main>
+<header><h1>تمرین <span>der · die · das</span></h1><p>۷۵۰ واژه · ۴ سطح · ۱۰ دسته · کاملاً آفلاین</p><button type="button" id="themeToggle" class="themebtn" aria-label="تغییر تم روشن و تیره"><span class="th-ic th-sun"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></span><span class="th-ic th-moon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 13A8 8 0 0 1 11 4a8 8 0 1 0 9 9z"/></svg></span><span>تم</span></button></header>
+<section class="toolbar pane" aria-label="فیلتر و حالت تمرین">
+ <div class="levels" id="levels" role="group" aria-label="سطح یادگیری">
+ <button type="button" class="pill active" data-lv="A1" aria-pressed="true">A1</button>
+ <button type="button" class="pill" data-lv="A2">A2</button>
+ <button type="button" class="pill" data-lv="B1">B1</button>
+ <button type="button" class="pill" data-lv="B2">B2</button>
+ <button type="button" class="pill" data-lv="MY">کلمات من</button>
+ <button type="button" class="pill" data-lv="REV">مرور هوشمند</button>
+ </div>
+ <div class="filterrow"><label for="cat">موضوع</label><select id="cat"><option value="ALL">همهٔ دسته‌ها</option></select><span class="progress-count" id="poolCount"></span></div>
+ <div class="modebar" id="gameModes"><button type="button" data-game="normal" class="active">تمرین عادی</button><button type="button" data-game="exam">آزمون ۲۰ سؤالی</button><button type="button" data-game="quick">چالش ۶۰ ثانیه</button></div>
+</section>
+<section class="daily pane" aria-label="هدف روزانه"><div class="dailytop"><strong><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/></svg> هدف روزانه</strong><span id="dailyCounter">۰ از ۲۰</span></div><div class="bar"><i id="dailyBar"></i></div><div class="goalrow"><label for="dailyGoal">هدف (پاسخ در روز)</label><input id="dailyGoal" type="number" min="1" max="300" inputmode="numeric" value="20"></div><div class="history" id="miniHistory" aria-label="فعالیت در ۱۴ روز گذشته"></div><div class="historylabel">۱۴ روز گذشته؛ خانه‌های پررنگ یعنی روزهای تمرین</div></section>
+<section class="stats-mini" id="statsMini" aria-label="آمار سریع"><div class="stat pane"><b id="sStreak">۰</b><small>زنجیره</small></div><div class="stat pane"><b id="sBest">۰</b><small>بهترین رکورد</small></div><div class="stat pane"><b id="sPct">—</b><small>درصد موفقیت</small></div></section>
+<section id="gameArea" aria-label="بازی">
+ <div class="statusline" id="modeStatus" aria-live="polite"></div>
+ <div class="sessionline" id="sessionLine" hidden><span id="sessionProgress"></span><span class="timer" id="timer"></span></div>
+ <section class="questioncard pane" id="card" aria-label="کلمهٔ جاری">
+ <div class="eyebrow" id="questionLabel">مقالهٔ درست این کلمه چیست؟</div>
+ <div class="word" id="word" lang="de"></div>
+ <div class="meaning" id="meaning">ابتدا مقاله را انتخاب کن</div>
+ <div class="sayrow"><button type="button" id="say" aria-label="شنیدن تلفظ آلمانی"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6.5 9H3v6h3.5L11 19V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18 6a8.5 8.5 0 0 1 0 12"/></svg> تلفظ</button><button type="button" id="mute" aria-pressed="false"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6.5 9H3v6h3.5L11 19V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/></svg> صدای خودکار: روشن</button><select id="speechRate" aria-label="سرعت تلفظ"><option value="0.75">آهسته</option><option value="1">عادی</option></select></div>
+ <div class="arts" id="arts" role="group" aria-label="انتخاب حرف تعریف"><button type="button" class="art" data-a="der" aria-label="۱، der">der</button><button type="button" class="art" data-a="die" aria-label="۲، die">die</button><button type="button" class="art" data-a="das" aria-label="۳، das">das</button></div>
+ <div class="feedback" id="fb" aria-live="polite"></div>
+ <div class="info" id="info" hidden></div>
+ <button type="button" class="next" id="next" hidden>کلمهٔ بعدی ←</button>
+ </section>
+ <section id="result" class="result pane" hidden aria-live="polite"></section>
+</section>
+<div class="tools"><button type="button" id="openStats"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16"/><path d="M8 20v-7"/><path d="M13 20V9"/><path d="M18 20v-5"/></svg> آمار من</button><button type="button" id="openData"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"/></svg> ورود و خروج واژه‌ها</button></div>
+<section id="dashboard" class="dashboard pane" hidden aria-label="آمار من"><h2>آمار من</h2><div id="dashboardBody"></div></section>
+<section id="dataPanel" class="data-panel pane" hidden aria-label="ورود و خروج داده"><h2>خروجی اشتباه‌ها</h2><p class="hint">فرمت <span class="latin">{front, back, context}</span> با نسخهٔ قبلی سازگار است.</p><textarea id="exportArea" readonly aria-label="متن JSON خروجی"></textarea><div class="row"><button id="expShow" type="button">نمایش JSON</button><button id="expCopy" type="button">کپی</button><button id="expDownload" type="button">دانلود JSON</button></div><hr style="border:0;border-top:1px solid var(--border);margin:18px 0"><h2>افزودن واژهٔ شخصی</h2><p class="hint">هر خط: <span class="latin">Wort|der/die/das|معنی|جمع|Beispielsatz.|ترجمه</span>؛ برای واژهٔ بی‌جمع، «—» بنویس.</p><label class="hint" for="importCat">دستهٔ واژه‌های ورودی</label><select id="importCat"></select><textarea id="importArea" aria-label="ورودی واژه‌ها" placeholder="Begriff|der|مفهوم|Begriffe|Der Begriff ist wichtig.|این مفهوم مهم است."></textarea><div class="row"><button id="importBtn" type="button">افزودن به «کلمات من»</button><button id="sampleBtn" type="button">نمونهٔ فرمت</button></div><p class="notice" id="importResult" aria-live="polite"></p><hr style="border:0;border-top:1px solid var(--border);margin:18px 0"><h2>تنظیمات</h2><div class="settingrow"><label for="fontScale">اندازهٔ واژه</label><select id="fontScale"><option value="small">کوچک</option><option value="normal">معمولی</option><option value="large">بزرگ</option></select></div><button type="button" id="rst" class="sectionbtn">پاک‌کردن آمار و پیشرفت (با تأیید)</button><p class="hint">با پاک‌کردن آمار، واژه‌های شخصی حذف نمی‌شوند. اطلاعات فقط روی همین دستگاه نگه‌داری می‌شوند.</p></section>
+<div class="foot">۱ = der · ۲ = die · ۳ = das · Enter = بعدی</div>
+<div id="toast" hidden role="status"></div>
+</main>
+<script>
+"use strict";
+/* ===== DATA_START ===== */
+const RAW={A1:`Haus|das|خانه|Häuser|Das Haus ist groß.|خانه بزرگ است.
+Mann|der|مرد|Männer|Der Mann arbeitet.|مرد کار می‌کند.
+Frau|die|زن|Frauen|Die Frau liest.|زن می‌خواند.
+Kind|das|کودک|Kinder|Das Kind spielt.|کودک بازی می‌کند.
+Tisch|der|میز|Tische|Der Tisch ist neu.|میز نو است.
+Stuhl|der|صندلی|Stühle|Der Stuhl ist klein.|صندلی کوچک است.
+Buch|das|کتاب|Bücher|Ich lese ein Buch.|من کتاب می‌خوانم.
+Wasser|das|آب|—|Ich trinke Wasser.|من آب می‌نوشم.
+Brot|das|نان|Brote|Das Brot ist frisch.|نان تازه است.
+Milch|die|شیر|—|Die Milch ist kalt.|شیر سرد است.
+Apfel|der|سیب|Äpfel|Der Apfel ist rot.|سیب قرمز است.
+Auto|das|ماشین|Autos|Das Auto ist schnell.|ماشین سریع است.
+Hund|der|سگ|Hunde|Der Hund schläft.|سگ می‌خوابد.
+Katze|die|گربه|Katzen|Die Katze ist süß.|گربه بامزه است.
+Tag|der|روز|Tage|Guten Tag!|روز بخیر!
+Nacht|die|شب|Nächte|Die Nacht ist dunkel.|شب تاریک است.
+Name|der|نام|Namen|Mein Name ist Ali.|نام من علی است.
+Freund|der|دوست (آقا)|Freunde|Er ist mein Freund.|او دوست من است.
+Schule|die|مدرسه|Schulen|Die Schule beginnt um acht.|مدرسه ساعت هشت شروع می‌شود.
+Zimmer|das|اتاق|Zimmer|Das Zimmer ist hell.|اتاق روشن است.
+Tür|die|در|Türen|Die Tür ist offen.|در باز است.
+Fenster|das|پنجره|Fenster|Das Fenster ist zu.|پنجره بسته است.
+Stadt|die|شهر|Städte|Die Stadt ist schön.|شهر زیبا است.
+Land|das|کشور|Länder|Mein Land ist weit weg.|کشور من دور است.
+Straße|die|خیابان|Straßen|Die Straße ist lang.|خیابان طولانی است.
+Arbeit|die|کار|—|Die Arbeit macht Spaß.|کار لذت‌بخش است.
+Geld|das|پول|—|Ich habe kein Geld.|من پول ندارم.
+Uhr|die|ساعت|Uhren|Wie viel Uhr ist es?|ساعت چند است؟
+Vater|der|پدر|Väter|Mein Vater kocht.|پدرم آشپزی می‌کند.
+Mutter|die|مادر|Mütter|Meine Mutter ist nett.|مادرم مهربان است.
+Bruder|der|برادر|Brüder|Mein Bruder wohnt hier.|برادرم اینجا زندگی می‌کند.
+Schwester|die|خواهر|Schwestern|Meine Schwester studiert.|خواهرم درس می‌خواند.`,
+A2:`Bahnhof|der|ایستگاه قطار|Bahnhöfe|Der Bahnhof ist weit.|ایستگاه دور است.
+Flughafen|der|فرودگاه|Flughäfen|Der Flughafen ist groß.|فرودگاه بزرگ است.
+Krankenhaus|das|بیمارستان|Krankenhäuser|Er ist im Krankenhaus.|او در بیمارستان است.
+Arzt|der|پزشک|Ärzte|Der Arzt hilft mir.|پزشک به من کمک می‌کند.
+Apotheke|die|داروخانه|Apotheken|Die Apotheke ist neben der Bank.|داروخانه کنار بانک است.
+Wohnung|die|آپارتمان|Wohnungen|Die Wohnung ist teuer.|آپارتمان گران است.
+Küche|die|آشپزخانه|Küchen|Die Küche ist klein.|آشپزخانه کوچک است.
+Schlüssel|der|کلید|Schlüssel|Wo ist mein Schlüssel?|کلید من کجاست؟
+Reise|die|سفر|Reisen|Die Reise war lang.|سفر طولانی بود.
+Urlaub|der|تعطیلات|Urlaube|Wir machen Urlaub.|ما تعطیلات می‌رویم.
+Wetter|das|هوا|—|Das Wetter ist schlecht.|هوا بد است.
+Regen|der|باران|—|Der Regen hört auf.|باران بند می‌آید.
+Sonne|die|خورشید|—|Die Sonne scheint.|خورشید می‌تابد.
+Termin|der|قرار ملاقات|Termine|Ich habe einen Termin.|من قرار ملاقات دارم.
+Gruppe|die|گروه|Gruppen|Die Gruppe ist nett.|گروه خوب است.
+Preis|der|قیمت|Preise|Der Preis ist hoch.|قیمت بالاست.
+Geschäft|das|مغازه|Geschäfte|Das Geschäft ist zu.|مغازه بسته است.
+Tasche|die|کیف|Taschen|Die Tasche ist schwer.|کیف سنگین است.
+Brille|die|عینک|Brillen|Ich brauche eine Brille.|من عینک لازم دارم.
+Kleid|das|لباس زنانه|Kleider|Das Kleid ist blau.|لباس آبی است.
+Hose|die|شلوار|Hosen|Die Hose ist zu eng.|شلوار تنگ است.
+Schuh|der|کفش|Schuhe|Der Schuh passt nicht.|کفش اندازه نیست.
+Garten|der|باغ|Gärten|Der Garten ist grün.|باغ سبز است.
+Baum|der|درخت|Bäume|Der Baum ist alt.|درخت کهنه است.
+Blume|die|گل|Blumen|Die Blume riecht gut.|گل بوی خوبی دارد.
+Fisch|der|ماهی|Fische|Der Fisch ist frisch.|ماهی تازه است.
+Käse|der|پنیر|—|Ich mag Käse.|من پنیر دوست دارم.
+Zeitung|die|روزنامه|Zeitungen|Er liest die Zeitung.|او روزنامه می‌خواند.
+Computer|der|کامپیوتر|Computer|Der Computer ist kaputt.|کامپیوتر خراب است.
+Handy|das|گوشی موبایل|Handys|Das Handy klingelt.|گوشی زنگ می‌زند.
+Frage|die|سؤال|Fragen|Ich habe eine Frage.|من یک سؤال دارم.`,
+B1:`Erfahrung|die|تجربه|Erfahrungen|Ich habe viel Erfahrung.|من تجربه‌ی زیادی دارم.
+Gesellschaft|die|جامعه|Gesellschaften|Die Gesellschaft verändert sich.|جامعه تغییر می‌کند.
+Umwelt|die|محیط زیست|—|Wir schützen die Umwelt.|ما از محیط زیست محافظت می‌کنیم.
+Meinung|die|نظر|Meinungen|Was ist deine Meinung?|نظر تو چیست؟
+Entscheidung|die|تصمیم|Entscheidungen|Das war eine schwere Entscheidung.|این تصمیم سختی بود.
+Ergebnis|das|نتیجه|Ergebnisse|Das Ergebnis ist gut.|نتیجه خوب است.
+Verhältnis|das|رابطه|Verhältnisse|Wir haben ein gutes Verhältnis.|ما رابطه‌ی خوبی داریم.
+Bewerbung|die|درخواست شغل|Bewerbungen|Ich schreibe eine Bewerbung.|من درخواست شغل می‌نویسم.
+Lebenslauf|der|رزومه|Lebensläufe|Der Lebenslauf ist fertig.|رزومه آماده است.
+Vorteil|der|مزیت|Vorteile|Das hat viele Vorteile.|این مزایای زیادی دارد.
+Nachteil|der|عیب|Nachteile|Ein Nachteil ist der Preis.|یک عیب، قیمت است.
+Unterschied|der|تفاوت|Unterschiede|Es gibt einen Unterschied.|تفاوتی وجود دارد.
+Gefühl|das|احساس|Gefühle|Ich habe ein gutes Gefühl.|من احساس خوبی دارم.
+Beispiel|das|مثال|Beispiele|Das ist ein gutes Beispiel.|این مثال خوبی است.
+Problem|das|مشکل|Probleme|Wir lösen das Problem.|ما مشکل را حل می‌کنیم.
+Lösung|die|راه‌حل|Lösungen|Die Lösung ist einfach.|راه‌حل ساده است.
+Ziel|das|هدف|Ziele|Mein Ziel ist klar.|هدف من روشن است.
+Wunsch|der|آرزو|Wünsche|Das ist mein Wunsch.|این آرزوی من است.
+Absicht|die|قصد|Absichten|Das war keine Absicht.|این عمدی نبود.
+Zukunft|die|آینده|—|Die Zukunft ist offen.|آینده باز است.
+Vergangenheit|die|گذشته|—|Die Vergangenheit ist vorbei.|گذشته تمام شده است.
+Verkehr|der|ترافیک|—|Der Verkehr ist stark.|ترافیک سنگین است.
+Gesundheit|die|سلامتی|—|Gesundheit ist wichtig.|سلامتی مهم است.
+Ausbildung|die|آموزش حرفه‌ای|Ausbildungen|Sie macht eine Ausbildung.|او آموزش حرفه‌ای می‌بیند.
+Prüfung|die|امتحان|Prüfungen|Die Prüfung ist morgen.|امتحان فردا است.
+Fremdsprache|die|زبان خارجی|Fremdsprachen|Deutsch ist eine Fremdsprache.|آلمانی یک زبان خارجی است.
+Kenntnis|die|دانش|Kenntnisse|Ich habe gute Kenntnisse.|من دانش خوبی دارم.
+Vertrag|der|قرارداد|Verträge|Ich unterschreibe den Vertrag.|من قرارداد را امضا می‌کنم.
+Gehalt|das|حقوق|Gehälter|Das Gehalt ist fair.|حقوق منصفانه است.
+Angebot|das|پیشنهاد|Angebote|Das Angebot ist gut.|پیشنهاد خوب است.`};
+const CATEGORIES={"F":"خانواده و آدم‌ها","H":"خانه و وسایل","FO":"غذا و آشپزی","HE":"بدن و سلامتی","CT":"شهر و سفر","W":"شغل و تحصیل","N":"طبیعت و حیوانات","T":"زمان و آب‌وهوا","S":"ورزش و تفریح","TE":"تکنولوژی"};
+const ORIGINAL_CATEGORIES={"Mann":"F","Frau":"F","Kind":"F","Name":"F","Freund":"F","Vater":"F","Mutter":"F","Bruder":"F","Schwester":"F","Buch":"H","Haus":"H","Tisch":"H","Stuhl":"H","Zimmer":"H","Tür":"H","Fenster":"H","Wohnung":"H","Küche":"H","Schlüssel":"H","Tasche":"H","Brille":"H","Kleid":"H","Hose":"H","Schuh":"H","Wasser":"FO","Brot":"FO","Milch":"FO","Apfel":"FO","Fisch":"FO","Käse":"FO","Krankenhaus":"HE","Arzt":"HE","Apotheke":"HE","Gesundheit":"HE","Auto":"CT","Stadt":"CT","Land":"CT","Straße":"CT","Bahnhof":"CT","Flughafen":"CT","Reise":"CT","Urlaub":"CT","Garten":"CT","Baum":"CT","Blume":"CT","Verkehr":"CT","Schule":"W","Arbeit":"W","Geld":"W","Computer":"W","Zeitung":"W","Frage":"W","Termin":"W","Gruppe":"W","Preis":"W","Geschäft":"W","Gefühl":"W","Erfahrung":"W","Gesellschaft":"W","Meinung":"W","Entscheidung":"W","Ergebnis":"W","Verhältnis":"W","Bewerbung":"W","Lebenslauf":"W","Vorteil":"W","Nachteil":"W","Unterschied":"W","Beispiel":"W","Problem":"W","Lösung":"W","Ziel":"W","Wunsch":"W","Absicht":"W","Ausbildung":"W","Prüfung":"W","Fremdsprache":"W","Kenntnis":"W","Vertrag":"W","Gehalt":"W","Angebot":"W","Hund":"N","Katze":"N","Umwelt":"N","Tag":"T","Nacht":"T","Uhr":"T","Wetter":"T","Regen":"T","Sonne":"T","Zukunft":"T","Vergangenheit":"T","Handy":"TE"};
+const ADDITIONS={"A1":{"F":`Familie|die|خانواده|Familien|Die Familie wohnt zusammen.|خانواده با هم زندگی می‌کنند.
+Eltern|die|پدر و مادر|—|Meine Eltern sind zu Hause.|پدر و مادرم در خانه هستند.
+Sohn|der|پسر (فرزند)|Söhne|Wo ist der Sohn?|پسر (فرزند) کجاست؟
+Tochter|die|دختر (فرزند)|Töchter|Ich kenne die Tochter.|من دختر (فرزند) را می‌شناسم.
+Baby|das|نوزاد|Babys|Das Baby schläft gerade.|نوزاد الان خواب است.
+Junge|der|پسر بچه|Jungen|Der Junge spielt draußen.|پسر بچه بیرون بازی می‌کند.
+Mädchen|das|دختر بچه|Mädchen|Ich kenne das Mädchen.|من دختر بچه را می‌شناسم.
+Person|die|شخص|Personen|Die Person wartet draußen.|آن شخص بیرون منتظر است.
+Mensch|der|انسان|Menschen|Der Mensch braucht Wasser.|انسان به آب نیاز دارد.
+Lehrer|der|معلم مرد|Lehrer|Ich kenne den Lehrer.|من معلم مرد را می‌شناسم.
+Lehrerin|die|معلم زن|Lehrerinnen|Wo ist die Lehrerin?|معلم زن کجاست؟
+Student|der|دانشجوی مرد|Studenten|Der Student lernt für die Prüfung.|دانشجو برای امتحان درس می‌خواند.
+Studentin|die|دانشجوی زن|Studentinnen|Wo ist die Studentin?|دانشجوی زن کجاست؟
+Nachbar|der|همسایه مرد|Nachbarn|Der Nachbar wohnt nebenan.|همسایه در خانه بغلی زندگی می‌کند.
+Nachbarin|die|همسایه زن|Nachbarinnen|Wo ist die Nachbarin?|همسایه زن کجاست؟
+Oma|die|مادربزرگ|Omas|Ich kenne die Oma.|من مادربزرگ را می‌شناسم.
+Opa|der|پدربزرگ|Opas|Wo ist der Opa?|پدربزرگ کجاست؟
+Gast|der|مهمان|Gäste|Wo ist der Gast?|مهمان کجاست؟
+Tante|die|عمه یا خاله|Tanten|Wo ist die Tante?|عمه یا خاله کجاست؟
+Onkel|der|عمو یا دایی|Onkel|Ich kenne den Onkel.|من عمو یا دایی را می‌شناسم.
+Großmutter|die|مادربزرگ|Großmütter|Wo ist die Großmutter?|مادربزرگ کجاست؟
+Großvater|der|پدربزرگ|Großväter|Wo ist der Großvater?|پدربزرگ کجاست؟
+Familienmitglied|das|عضو خانواده|Familienmitglieder|Ich kenne das Familienmitglied.|من عضو خانواده را می‌شناسم.
+Spielkamerad|der|هم‌بازی مرد|Spielkameraden|Der Spielkamerad kommt heute.|هم‌بازی امروز می‌آید.
+Bekannte|die|زن آشنا|Bekannten|Ich kenne die Bekannte.|من زن آشنا را می‌شناسم.
+Helfer|der|کمک‌کننده مرد|Helfer|Ich kenne den Helfer.|من کمک‌کننده مرد را می‌شناسم.
+Helferin|die|کمک‌کننده زن|Helferinnen|Wo ist die Helferin?|کمک‌کننده زن کجاست؟`,"H":`Bett|das|تخت|Betten|Wo ist das Bett?|تخت کجاست؟
+Sofa|das|مبل|Sofas|Hier ist das Sofa.|مبل اینجاست.
+Lampe|die|چراغ|Lampen|Wo ist die Lampe?|چراغ کجاست؟
+Schrank|der|کمد|Schränke|Hier ist der Schrank.|کمد اینجاست.
+Regal|das|قفسه|Regale|Hier ist das Regal.|قفسه اینجاست.
+Teppich|der|فرش|Teppiche|Hier ist der Teppich.|فرش اینجاست.
+Spiegel|der|آینه|Spiegel|Hier ist der Spiegel.|آینه اینجاست.
+Bild|das|تصویر|Bilder|Hier ist das Bild.|تصویر اینجاست.
+Wand|die|دیوار|Wände|Hier ist die Wand.|دیوار اینجاست.
+Boden|der|کف اتاق|Böden|Hier ist der Boden.|کف اتاق اینجاست.
+Decke|die|سقف یا پتو|Decken|Hier ist die Decke.|سقف یا پتو اینجاست.
+Kissen|das|بالش|Kissen|Hier ist das Kissen.|بالش اینجاست.
+Handtuch|das|حوله|Handtücher|Wo ist das Handtuch?|حوله کجاست؟
+Seife|die|صابون|Seifen|Hier ist die Seife.|صابون اینجاست.
+Bad|das|حمام|Bäder|Hier ist das Bad.|حمام اینجاست.
+Toilette|die|توالت|Toiletten|Hier ist die Toilette.|توالت اینجاست.
+Kühlschrank|der|یخچال|Kühlschränke|Wo ist der Kühlschrank?|یخچال کجاست؟`,"FO":`Ei|das|تخم‌مرغ|Eier|Wir brauchen das Ei.|ما به تخم‌مرغ نیاز داریم.
+Banane|die|موز|Bananen|Wir brauchen die Banane.|ما به موز نیاز داریم.
+Orange|die|پرتقال|Orangen|Wir brauchen die Orange.|ما به پرتقال نیاز داریم.
+Kartoffel|die|سیب‌زمینی|Kartoffeln|Wir brauchen die Kartoffel.|ما به سیب‌زمینی نیاز داریم.
+Tomate|die|گوجه‌فرنگی|Tomaten|Wo finde ich die Tomate?|گوجه‌فرنگی را کجا پیدا کنم؟
+Gurke|die|خیار|Gurken|Wir brauchen die Gurke.|ما به خیار نیاز داریم.
+Zwiebel|die|پیاز|Zwiebeln|Wir brauchen die Zwiebel.|ما به پیاز نیاز داریم.
+Salat|der|سالاد|Salate|Wo finde ich den Salat?|سالاد را کجا پیدا کنم؟
+Suppe|die|سوپ|Suppen|Wir brauchen die Suppe.|ما به سوپ نیاز داریم.
+Reis|der|برنج|—|Wo finde ich den Reis?|برنج را کجا پیدا کنم؟
+Fleisch|das|گوشت|—|Wo finde ich das Fleisch?|گوشت را کجا پیدا کنم؟
+Hähnchen|das|مرغ (خوراک)|Hähnchen|Wo finde ich das Hähnchen?|مرغ (خوراک) را کجا پیدا کنم؟
+Kuchen|der|کیک|Kuchen|Wo finde ich den Kuchen?|کیک را کجا پیدا کنم؟
+Schokolade|die|شکلات|Schokoladen|Wo finde ich die Schokolade?|شکلات را کجا پیدا کنم؟
+Saft|der|آب‌میوه|Säfte|Wo finde ich den Saft?|آب‌میوه را کجا پیدا کنم؟
+Tee|der|چای|Tees|Wo finde ich den Tee?|چای را کجا پیدا کنم؟
+Kaffee|der|قهوه|Kaffees|Wir brauchen den Kaffee.|ما به قهوه نیاز داریم.
+Zucker|der|شکر|—|Wo finde ich den Zucker?|شکر را کجا پیدا کنم؟`,"HE":`Kopf|der|سر|Köpfe|Hier siehst du den Kopf.|اینجا سر را می‌بینی.
+Auge|das|چشم|Augen|Hier siehst du das Auge.|اینجا چشم را می‌بینی.
+Ohr|das|گوش|Ohren|Zeig mir das Ohr.|گوش را به من نشان بده.
+Nase|die|بینی|Nasen|Hier siehst du die Nase.|اینجا بینی را می‌بینی.
+Mund|der|دهان|Münder|Hier siehst du den Mund.|اینجا دهان را می‌بینی.
+Hand|die|دست|Hände|Hier siehst du die Hand.|اینجا دست را می‌بینی.
+Arm|der|بازو|Arme|Hier siehst du den Arm.|اینجا بازو را می‌بینی.
+Bein|das|پا|Beine|Zeig mir das Bein.|پا را به من نشان بده.
+Fuß|der|پا (از مچ به پایین)|Füße|Hier siehst du den Fuß.|اینجا پا (از مچ به پایین) را می‌بینی.
+Finger|der|انگشت دست|Finger|Hier siehst du den Finger.|اینجا انگشت دست را می‌بینی.
+Haar|das|مو|Haare|Das Haar ist sehr lang.|این مو خیلی بلند است.
+Gesicht|das|صورت|Gesichter|Zeig mir das Gesicht.|صورت را به من نشان بده.
+Bauch|der|شکم|Bäuche|Der Bauch tut mir weh.|شکمم درد می‌کند.
+Rücken|der|پشت|Rücken|Zeig mir den Rücken.|پشت را به من نشان بده.
+Zahn|der|دندان|Zähne|Zeig mir den Zahn.|دندان را به من نشان بده.
+Körper|der|بدن|Körper|Der Körper braucht Bewegung.|بدن به حرکت نیاز دارد.`,"CT":`Bus|der|اتوبوس|Busse|Ich suche den Bus.|دنبال اتوبوس می‌گردم.
+Zug|der|قطار|Züge|Ich suche den Zug.|دنبال قطار می‌گردم.
+Taxi|das|تاکسی|Taxis|Ich suche das Taxi.|دنبال تاکسی می‌گردم.
+Fahrrad|das|دوچرخه|Fahrräder|Wo ist das Fahrrad?|دوچرخه کجاست؟
+Bahnhofshalle|die|سالن ایستگاه قطار|Bahnhofshallen|Wo ist die Bahnhofshalle?|سالن ایستگاه قطار کجاست؟
+Haltestelle|die|ایستگاه اتوبوس|Haltestellen|Wo ist die Haltestelle?|ایستگاه اتوبوس کجاست؟
+Park|der|پارک|Parks|Ich suche den Park.|دنبال پارک می‌گردم.
+Platz|der|میدان|Plätze|Wo ist der Platz?|میدان کجاست؟
+Brücke|die|پل|Brücken|Ich suche die Brücke.|دنبال پل می‌گردم.
+Weg|der|راه|Wege|Ich suche den Weg.|دنبال راه می‌گردم.
+Ecke|die|گوشه|Ecken|Wo ist die Ecke?|گوشه کجاست؟
+Laden|der|فروشگاه|Läden|Ich suche den Laden.|دنبال فروشگاه می‌گردم.
+Supermarkt|der|سوپرمارکت|Supermärkte|Wo ist der Supermarkt?|سوپرمارکت کجاست؟
+Markt|der|بازار|Märkte|Ich suche den Markt.|دنبال بازار می‌گردم.
+Restaurant|das|رستوران|Restaurants|Wo ist das Restaurant?|رستوران کجاست؟
+Hotel|das|هتل|Hotels|Wo ist das Hotel?|هتل کجاست؟
+Bank|die|بانک|Banken|Ich suche die Bank.|دنبال بانک می‌گردم.
+Post|die|اداره پست|—|Die Post ist heute geschlossen.|اداره پست امروز بسته است.`,"W":`Chef|der|رئیس مرد|Chefs|Wo ist der Chef?|رئیس مرد کجاست؟
+Chefin|die|رئیس زن|Chefinnen|Ich kenne die Chefin.|من رئیس زن را می‌شناسم.
+Kollege|der|همکار مرد|Kollegen|Ich kenne den Kollege.|من همکار مرد را می‌شناسم.
+Kollegin|die|همکار زن|Kolleginnen|Ich kenne die Kollegin.|من همکار زن را می‌شناسم.
+Büro|das|دفتر کار|Büros|Wo ist das Büro?|دفتر کار کجاست؟
+Firma|die|شرکت|Firmen|Ich kenne die Firma.|من شرکت را می‌شناسم.
+Beruf|der|شغل|Berufe|Wo ist der Beruf?|شغل کجاست؟
+Job|der|کار|Jobs|Ich kenne den Job.|من کار را می‌شناسم.
+Kurs|der|دوره آموزشی|Kurse|Ich kenne den Kurs.|من دوره آموزشی را می‌شناسم.
+Klasse|die|کلاس|Klassen|Wo ist die Klasse?|کلاس کجاست؟
+Heft|das|دفترچه|Hefte|Ich kenne das Heft.|من دفترچه را می‌شناسم.
+Stift|der|قلم|Stifte|Wo ist der Stift?|قلم کجاست؟
+Bleistift|der|مداد|Bleistifte|Ich kenne den Bleistift.|من مداد را می‌شناسم.
+Papier|das|کاغذ|Papiere|Ich kenne das Papier.|من کاغذ را می‌شناسم.
+Brief|der|نامه|Briefe|Wo ist der Brief?|نامه کجاست؟
+E-Mail|die|رایانامه|E-Mails|Die E-Mail ist angekommen.|ایمیل رسیده است.
+Pause|die|استراحت|Pausen|Die Pause beginnt um zwölf.|استراحت ساعت دوازده شروع می‌شود.`,"N":`Pferd|das|اسب|Pferde|Hier ist das Pferd.|اسب اینجاست.
+Vogel|der|پرنده|Vögel|Ich sehe den Vogel.|من پرنده را می‌بینم.
+Maus|die|موش|Mäuse|Hier ist die Maus.|موش اینجاست.
+Kuh|die|گاو|Kühe|Hier ist die Kuh.|گاو اینجاست.
+Schaf|das|گوسفند|Schafe|Ich sehe das Schaf.|من گوسفند را می‌بینم.
+Huhn|das|مرغ (حیوان)|Hühner|Hier ist das Huhn.|مرغ (حیوان) اینجاست.
+Ente|die|اردک|Enten|Ich sehe die Ente.|من اردک را می‌بینم.
+Biene|die|زنبور عسل|Bienen|Hier ist die Biene.|زنبور عسل اینجاست.
+Fluss|der|رودخانه|Flüsse|Ich sehe den Fluss.|من رودخانه را می‌بینم.
+See|der|دریاچه|Seen|Ich sehe den See.|من دریاچه را می‌بینم.
+Meer|das|دریا|Meere|Ich sehe das Meer.|من دریا را می‌بینم.
+Berg|der|کوه|Berge|Hier ist der Berg.|کوه اینجاست.
+Wald|der|جنگل|Wälder|Hier ist der Wald.|جنگل اینجاست.
+Gras|das|چمن|Gräser|Ich sehe das Gras.|من چمن را می‌بینم.
+Erde|die|زمین یا خاک|—|Die Erde ist unser Planet.|زمین سیارهٔ ماست.`,"T":`Morgen|der|صبح|Morgen|Ich mag den Morgen.|من صبح را دوست دارم.
+Mittag|der|ظهر|Mittage|Heute sprechen wir über den Mittag.|امروز دربارهٔ ظهر صحبت می‌کنیم.
+Abend|der|عصر یا شب|Abende|Ich mag den Abend.|من عصر یا شب را دوست دارم.
+Woche|die|هفته|Wochen|Ich mag die Woche.|من هفته را دوست دارم.
+Monat|der|ماه|Monate|Heute sprechen wir über den Monat.|امروز دربارهٔ ماه صحبت می‌کنیم.
+Jahr|das|سال|Jahre|Ich mag das Jahr.|من سال را دوست دارم.
+Stunde|die|ساعت (مدت)|Stunden|Heute sprechen wir über die Stunde.|امروز دربارهٔ ساعت (مدت) صحبت می‌کنیم.
+Minute|die|دقیقه|Minuten|Heute sprechen wir über die Minute.|امروز دربارهٔ دقیقه صحبت می‌کنیم.
+Sekunde|die|ثانیه|Sekunden|Heute sprechen wir über die Sekunde.|امروز دربارهٔ ثانیه صحبت می‌کنیم.
+Frühling|der|بهار|Frühlinge|Ich mag den Frühling.|من بهار را دوست دارم.
+Sommer|der|تابستان|Sommer|Heute sprechen wir über den Sommer.|امروز دربارهٔ تابستان صحبت می‌کنیم.
+Herbst|der|پاییز|Herbste|Ich mag den Herbst.|من پاییز را دوست دارم.
+Winter|der|زمستان|Winter|Ich mag den Winter.|من زمستان را دوست دارم.
+Schnee|der|برف|—|Heute sprechen wir über den Schnee.|امروز دربارهٔ برف صحبت می‌کنیم.
+Wind|der|باد|Winde|Ich mag den Wind.|من باد را دوست دارم.
+Wolke|die|ابر|Wolken|Heute sprechen wir über die Wolke.|امروز دربارهٔ ابر صحبت می‌کنیم.`,"S":`Ball|der|توپ|Bälle|Ich mag den Ball.|من توپ را دوست دارم.
+Spiel|das|بازی|Spiele|Ich mag das Spiel.|من بازی را دوست دارم.
+Fußball|der|فوتبال|—|Der Fußball verbindet Menschen.|فوتبال آدم‌ها را به هم نزدیک می‌کند.
+Tennis|das|تنیس|—|Das Tennis macht ihr Spaß.|تنیس برای او لذت‌بخش است.
+Musik|die|موسیقی|—|Die Musik ist schön.|موسیقی زیباست.
+Lied|das|آهنگ|Lieder|Heute sprechen wir über das Lied.|امروز دربارهٔ آهنگ صحبت می‌کنیم.
+Film|der|فیلم|Filme|Heute sprechen wir über den Film.|امروز دربارهٔ فیلم صحبت می‌کنیم.
+Kino|das|سینما|Kinos|Heute sprechen wir über das Kino.|امروز دربارهٔ سینما صحبت می‌کنیم.
+Party|die|مهمانی|Partys|Heute sprechen wir über die Party.|امروز دربارهٔ مهمانی صحبت می‌کنیم.
+Fest|das|جشن|Feste|Heute sprechen wir über das Fest.|امروز دربارهٔ جشن صحبت می‌کنیم.
+Sport|der|ورزش|—|Ich mag den Sport.|من ورزش را دوست دارم.
+Schwimmbad|das|استخر|Schwimmbäder|Ich mag das Schwimmbad.|من استخر را دوست دارم.`,"TE":`Telefon|das|تلفن|Telefone|Wo ist das Telefon?|تلفن کجاست؟
+Bildschirm|der|صفحه نمایش|Bildschirme|Ich benutze den Bildschirm.|من از صفحه نمایش استفاده می‌کنم.
+Tastatur|die|صفحه کلید|Tastaturen|Ich benutze die Tastatur.|من از صفحه کلید استفاده می‌کنم.
+Mikrofon|das|میکروفون|Mikrofone|Wo ist das Mikrofon?|میکروفون کجاست؟
+Kamera|die|دوربین|Kameras|Ich benutze die Kamera.|من از دوربین استفاده می‌کنم.
+Foto|das|عکس|Fotos|Wo ist das Foto?|عکس کجاست؟
+Internet|das|اینترنت|—|Das Internet funktioniert wieder.|اینترنت دوباره کار می‌کند.
+Nachricht|die|پیام یا خبر|Nachrichten|Die Nachricht ist angekommen.|پیام رسیده است.
+Datei|die|فایل|Dateien|Wo ist die Datei?|فایل کجاست؟
+Passwort|das|گذرواژه|Passwörter|Wo ist das Passwort?|گذرواژه کجاست؟
+Ladegerät|das|شارژر|Ladegeräte|Ich benutze das Ladegerät.|من از شارژر استفاده می‌کنم.
+Kopfhörer|der|هدفون|Kopfhörer|Wo ist der Kopfhörer?|هدفون کجاست؟`},"A2":{"F":`Kunde|der|مشتری مرد|Kunden|Der Kunde bezahlt an der Kasse.|مشتری در صندوق پرداخت می‌کند.
+Kundin|die|مشتری زن|Kundinnen|Ich habe eine Frage zu der Kundin.|دربارهٔ مشتری زن یک سؤال دارم.
+Ehemann|der|شوهر|Ehemänner|Im Kurs diskutieren wir über den Ehemann.|در کلاس دربارهٔ شوهر بحث می‌کنیم.
+Ehefrau|die|همسر زن|Ehefrauen|Ich habe eine Frage zu der Ehefrau.|دربارهٔ همسر زن یک سؤال دارم.
+Partner|der|شریک یا همسر مرد|Partner|Wir sprechen über den Partner.|ما دربارهٔ شریک یا همسر مرد صحبت می‌کنیم.
+Partnerin|die|شریک یا همسر زن|Partnerinnen|Im Kurs diskutieren wir über die Partnerin.|در کلاس دربارهٔ شریک یا همسر زن بحث می‌کنیم.
+Enkel|der|نوه پسر|Enkel|Ich habe eine Frage zu dem Enkel.|دربارهٔ نوه پسر یک سؤال دارم.
+Enkelin|die|نوه دختر|Enkelinnen|Ich habe eine Frage zu der Enkelin.|دربارهٔ نوه دختر یک سؤال دارم.
+Cousin|der|پسرعمو یا پسردایی|Cousins|Heute geht es um den Cousin.|امروز موضوع بحث پسرعمو یا پسردایی است.
+Cousine|die|دخترعمو یا دختردایی|Cousinen|Wir sprechen über die Cousine.|ما دربارهٔ دخترعمو یا دختردایی صحبت می‌کنیم.
+Verwandte|der|خویشاوند مرد|Verwandten|Im Kurs diskutieren wir über den Verwandte.|در کلاس دربارهٔ خویشاوند مرد بحث می‌کنیم.
+Pate|der|حامی مرد یا پدرخوانده|Paten|Der Pate unterstützt das Kind.|حامی از کودک پشتیبانی می‌کند.
+Mitbewohner|der|هم‌خانه مرد|Mitbewohner|Im Kurs diskutieren wir über den Mitbewohner.|در کلاس دربارهٔ هم‌خانه مرد بحث می‌کنیم.
+Mitbewohnerin|die|هم‌خانه زن|Mitbewohnerinnen|Im Kurs diskutieren wir über die Mitbewohnerin.|در کلاس دربارهٔ هم‌خانه زن بحث می‌کنیم.
+Besucher|der|بازدیدکننده مرد|Besucher|Wir sprechen über den Besucher.|ما دربارهٔ بازدیدکننده مرد صحبت می‌کنیم.
+Besucherin|die|بازدیدکننده زن|Besucherinnen|Im Kurs diskutieren wir über die Besucherin.|در کلاس دربارهٔ بازدیدکننده زن بحث می‌کنیم.`,"H":`Möbelstück|das|وسیله مبلمان|Möbelstücke|Ich habe eine Frage zu dem Möbelstück.|دربارهٔ وسیله مبلمان یک سؤال دارم.
+Schreibtisch|der|میز تحریر|Schreibtische|Ich habe eine Frage zu dem Schreibtisch.|دربارهٔ میز تحریر یک سؤال دارم.
+Schublade|die|کشو|Schubladen|Heute sprechen wir über die Schublade.|امروز دربارهٔ کشو صحبت می‌کنیم.
+Kommode|die|دراور|Kommoden|Ich habe eine Frage zu der Kommode.|دربارهٔ دراور یک سؤال دارم.
+Vorhang|der|پرده|Vorhänge|Heute sprechen wir über den Vorhang.|امروز دربارهٔ پرده صحبت می‌کنیم.
+Steckdose|die|پریز برق|Steckdosen|Heute sprechen wir über die Steckdose.|امروز دربارهٔ پریز برق صحبت می‌کنیم.
+Stecker|der|دوشاخه|Stecker|Ich habe eine Frage zu dem Stecker.|دربارهٔ دوشاخه یک سؤال دارم.
+Schalter|der|کلید برق|Schalter|Wo finde ich den Schalter?|کلید برق را کجا پیدا کنم؟
+Heizung|die|شوفاژ یا سیستم گرمایش|Heizungen|Wo finde ich die Heizung?|شوفاژ یا سیستم گرمایش را کجا پیدا کنم؟
+Waschmaschine|die|ماشین لباسشویی|Waschmaschinen|Ich habe eine Frage zu der Waschmaschine.|دربارهٔ ماشین لباسشویی یک سؤال دارم.
+Geschirrspüler|der|ماشین ظرفشویی|Geschirrspüler|Ich habe eine Frage zu dem Geschirrspüler.|دربارهٔ ماشین ظرفشویی یک سؤال دارم.
+Staubsauger|der|جاروبرقی|Staubsauger|Ich habe eine Frage zu dem Staubsauger.|دربارهٔ جاروبرقی یک سؤال دارم.
+Besen|der|جارو|Besen|Heute sprechen wir über den Besen.|امروز دربارهٔ جارو صحبت می‌کنیم.
+Müll|der|زباله|—|Der Müll muss getrennt werden.|زباله باید تفکیک شود.
+Mülleimer|der|سطل زباله|Mülleimer|Wo finde ich den Mülleimer?|سطل زباله را کجا پیدا کنم؟
+Balkon|der|بالکن|Balkone|Ich habe eine Frage zu dem Balkon.|دربارهٔ بالکن یک سؤال دارم.
+Keller|der|زیرزمین|Keller|Wo finde ich den Keller?|زیرزمین را کجا پیدا کنم؟
+Pfanne|die|تابه|Pfannen|Wo finde ich die Pfanne?|تابه را کجا پیدا کنم؟
+Fahrstuhl|der|آسانسور|Fahrstühle|Ich habe eine Frage zu dem Fahrstuhl.|دربارهٔ آسانسور یک سؤال دارم.`,"FO":`Obst|das|میوه|—|Heute sprechen wir über das Obst.|امروز دربارهٔ میوه صحبت می‌کنیم.
+Gemüse|das|سبزیجات|—|Wo finde ich das Gemüse?|سبزیجات را کجا پیدا کنم؟
+Paprika|die|فلفل دلمه‌ای|Paprikas|Ich habe eine Frage zu der Paprika.|دربارهٔ فلفل دلمه‌ای یک سؤال دارم.
+Karotte|die|هویج|Karotten|Heute sprechen wir über die Karotte.|امروز دربارهٔ هویج صحبت می‌کنیم.
+Pilz|der|قارچ|Pilze|Heute sprechen wir über den Pilz.|امروز دربارهٔ قارچ صحبت می‌کنیم.
+Bohne|die|لوبیا|Bohnen|Wo finde ich die Bohne?|لوبیا را کجا پیدا کنم؟
+Erbse|die|نخودفرنگی|Erbsen|Heute sprechen wir über die Erbse.|امروز دربارهٔ نخودفرنگی صحبت می‌کنیم.
+Mehl|das|آرد|—|Ich habe eine Frage zu dem Mehl.|دربارهٔ آرد یک سؤال دارم.
+Öl|das|روغن|Öle|Wo finde ich das Öl?|روغن را کجا پیدا کنم؟
+Essig|der|سرکه|—|Ich habe eine Frage zu dem Essig.|دربارهٔ سرکه یک سؤال دارم.
+Salz|das|نمک|—|Wo finde ich das Salz?|نمک را کجا پیدا کنم؟
+Pfeffer|der|فلفل سیاه|—|Ich habe eine Frage zu dem Pfeffer.|دربارهٔ فلفل سیاه یک سؤال دارم.
+Butter|die|کره|—|Ich habe eine Frage zu der Butter.|دربارهٔ کره یک سؤال دارم.
+Joghurt|der|ماست|Joghurts|Ich habe eine Frage zu dem Joghurt.|دربارهٔ ماست یک سؤال دارم.
+Honig|der|عسل|—|Ich habe eine Frage zu dem Honig.|دربارهٔ عسل یک سؤال دارم.
+Marmelade|die|مربا|Marmeladen|Heute sprechen wir über die Marmelade.|امروز دربارهٔ مربا صحبت می‌کنیم.
+Nudel|die|رشته یا ماکارونی|Nudeln|Wo finde ich die Nudel?|رشته یا ماکارونی را کجا پیدا کنم؟
+Gewürz|das|ادویه|Gewürze|Ich habe eine Frage zu dem Gewürz.|دربارهٔ ادویه یک سؤال دارم.`,"HE":`Knie|das|زانو|Knie|Heute sprechen wir über das Knie.|امروز دربارهٔ زانو صحبت می‌کنیم.
+Schulter|die|شانه|Schultern|Ich habe eine Frage zu der Schulter.|دربارهٔ شانه یک سؤال دارم.
+Hals|der|گلو یا گردن|Hälse|Heute sprechen wir über den Hals.|امروز دربارهٔ گلو یا گردن صحبت می‌کنیم.
+Herz|das|قلب|Herzen|Heute sprechen wir über das Herz.|امروز دربارهٔ قلب صحبت می‌کنیم.
+Magen|der|معده|Mägen|Wo finde ich den Magen?|معده را کجا پیدا کنم؟
+Haut|die|پوست|—|Die Haut ist empfindlich.|پوست حساس است.
+Blut|das|خون|—|Heute sprechen wir über das Blut.|امروز دربارهٔ خون صحبت می‌کنیم.
+Fieber|das|تب|—|Heute sprechen wir über das Fieber.|امروز دربارهٔ تب صحبت می‌کنیم.
+Husten|der|سرفه|—|Heute sprechen wir über den Husten.|امروز دربارهٔ سرفه صحبت می‌کنیم.
+Schnupfen|der|آبریزش بینی|—|Der Schnupfen wird besser.|آبریزش بینی رو به بهبود است.
+Schmerz|der|درد|Schmerzen|Der Schmerz ist stark.|درد شدید است.
+Medikament|das|دارو|Medikamente|Ich habe eine Frage zu dem Medikament.|دربارهٔ دارو یک سؤال دارم.
+Tablette|die|قرص|Tabletten|Heute sprechen wir über die Tablette.|امروز دربارهٔ قرص صحبت می‌کنیم.
+Rezept|das|نسخه پزشک|Rezepte|Das Rezept liegt in meiner Tasche.|نسخه در کیف من است.
+Patient|der|بیمار مرد|Patienten|Wo finde ich den Patienten?|بیمار مرد را کجا پیدا کنم؟
+Patientin|die|بیمار زن|Patientinnen|Wo finde ich die Patientin?|بیمار زن را کجا پیدا کنم؟`,"CT":`Fahrkarte|die|بلیت حمل‌ونقل|Fahrkarten|Wo finde ich die Fahrkarte?|بلیت حمل‌ونقل را کجا پیدا کنم؟
+Ticket|das|بلیت|Tickets|Wo finde ich das Ticket?|بلیت را کجا پیدا کنم؟
+Fahrplan|der|جدول حرکت|Fahrpläne|Ich habe eine Frage zu dem Fahrplan.|دربارهٔ جدول حرکت یک سؤال دارم.
+Verspätung|die|تأخیر|Verspätungen|Heute sprechen wir über die Verspätung.|امروز دربارهٔ تأخیر صحبت می‌کنیم.
+Ankunft|die|ورود|Ankünfte|Heute sprechen wir über die Ankunft.|امروز دربارهٔ ورود صحبت می‌کنیم.
+Abfahrt|die|حرکت وسیله نقلیه|Abfahrten|Wo finde ich die Abfahrt?|حرکت وسیله نقلیه را کجا پیدا کنم؟
+Gleis|das|سکوی قطار|Gleise|Ich habe eine Frage zu dem Gleis.|دربارهٔ سکوی قطار یک سؤال دارم.
+Bahnsteig|der|سکوی ایستگاه|Bahnsteige|Ich habe eine Frage zu dem Bahnsteig.|دربارهٔ سکوی ایستگاه یک سؤال دارم.
+Kreuzung|die|تقاطع|Kreuzungen|Wo finde ich die Kreuzung?|تقاطع را کجا پیدا کنم؟
+Ampel|die|چراغ راهنمایی|Ampeln|Ich habe eine Frage zu der Ampel.|دربارهٔ چراغ راهنمایی یک سؤال دارم.
+Fußgänger|der|عابر پیاده|Fußgänger|Heute sprechen wir über den Fußgänger.|امروز دربارهٔ عابر پیاده صحبت می‌کنیم.
+Fahrer|der|راننده مرد|Fahrer|Wo finde ich den Fahrer?|راننده مرد را کجا پیدا کنم؟
+Fahrerin|die|راننده زن|Fahrerinnen|Ich habe eine Frage zu der Fahrerin.|دربارهٔ راننده زن یک سؤال دارم.
+Koffer|der|چمدان|Koffer|Heute sprechen wir über den Koffer.|امروز دربارهٔ چمدان صحبت می‌کنیم.
+Gepäck|das|بار سفر|—|Ich habe eine Frage zu dem Gepäck.|دربارهٔ بار سفر یک سؤال دارم.
+Reisepass|der|گذرنامه|Reisepässe|Heute sprechen wir über den Reisepass.|امروز دربارهٔ گذرنامه صحبت می‌کنیم.
+Ausweis|der|کارت شناسایی|Ausweise|Wo finde ich den Ausweis?|کارت شناسایی را کجا پیدا کنم؟
+Grenze|die|مرز|Grenzen|Heute sprechen wir über die Grenze.|امروز دربارهٔ مرز صحبت می‌کنیم.
+Geldautomat|der|دستگاه خودپرداز|Geldautomaten|Ich habe eine Frage zu dem Geldautomat.|دربارهٔ دستگاه خودپرداز یک سؤال دارم.`,"W":`Stelle|die|موقعیت شغلی|Stellen|Im Kurs diskutieren wir über die Stelle.|در کلاس دربارهٔ موقعیت شغلی بحث می‌کنیم.
+Arbeitsplatz|der|محل کار|Arbeitsplätze|Wir sprechen über den Arbeitsplatz.|ما دربارهٔ محل کار صحبت می‌کنیم.
+Arbeitszeit|die|ساعت کاری|Arbeitszeiten|Heute geht es um die Arbeitszeit.|امروز موضوع بحث ساعت کاری است.
+Schicht|die|شیفت|Schichten|Ich habe eine Frage zu der Schicht.|دربارهٔ شیفت یک سؤال دارم.
+Aufgabe|die|وظیفه|Aufgaben|Heute geht es um die Aufgabe.|امروز موضوع بحث وظیفه است.
+Besprechung|die|جلسه کاری|Besprechungen|Heute geht es um die Besprechung.|امروز موضوع بحث جلسه کاری است.
+Unterricht|der|درس یا کلاس|—|Ich habe eine Frage zu dem Unterricht.|دربارهٔ درس یا کلاس یک سؤال دارم.
+Hausaufgabe|die|تکلیف درسی|Hausaufgaben|Wir sprechen über die Hausaufgabe.|ما دربارهٔ تکلیف درسی صحبت می‌کنیم.
+Lehrbuch|das|کتاب درسی|Lehrbücher|Heute geht es um das Lehrbuch.|امروز موضوع بحث کتاب درسی است.
+Notiz|die|یادداشت|Notizen|Ich habe eine Frage zu der Notiz.|دربارهٔ یادداشت یک سؤال دارم.
+Zeugnis|das|کارنامه یا گواهی|Zeugnisse|Im Kurs diskutieren wir über das Zeugnis.|در کلاس دربارهٔ کارنامه یا گواهی بحث می‌کنیم.
+Note|die|نمره|Noten|Im Kurs diskutieren wir über die Note.|در کلاس دربارهٔ نمره بحث می‌کنیم.
+Semester|das|نیم‌سال تحصیلی|Semester|Heute geht es um das Semester.|امروز موضوع بحث نیم‌سال تحصیلی است.
+Vorlesung|die|کلاس نظری دانشگاه|Vorlesungen|Die Vorlesung beginnt um neun.|کلاس نظری دانشگاه ساعت نه شروع می‌شود.
+Bibliothek|die|کتابخانه|Bibliotheken|Ich habe eine Frage zu der Bibliothek.|دربارهٔ کتابخانه یک سؤال دارم.
+Labor|das|آزمایشگاه|Labore|Heute geht es um das Labor.|امروز موضوع بحث آزمایشگاه است.
+Praktikum|das|دوره کارآموزی|Praktika|Im Kurs diskutieren wir über das Praktikum.|در کلاس دربارهٔ دوره کارآموزی بحث می‌کنیم.`,"N":`Löwe|der|شیر (حیوان)|Löwen|Wo finde ich den Löwen?|شیر (حیوان) را کجا پیدا کنم؟
+Tiger|der|ببر|Tiger|Wo finde ich den Tiger?|ببر را کجا پیدا کنم؟
+Elefant|der|فیل|Elefanten|Heute sprechen wir über den Elefanten.|امروز دربارهٔ فیل صحبت می‌کنیم.
+Affe|der|میمون|Affen|Ich habe eine Frage zu dem Affen.|دربارهٔ میمون یک سؤال دارم.
+Fuchs|der|روباه|Füchse|Wo finde ich den Fuchs?|روباه را کجا پیدا کنم؟
+Wolf|der|گرگ|Wölfe|Wo finde ich den Wolf?|گرگ را کجا پیدا کنم؟
+Hase|der|خرگوش صحرایی|Hasen|Ich habe eine Frage zu dem Hasen.|دربارهٔ خرگوش صحرایی یک سؤال دارم.
+Schmetterling|der|پروانه|Schmetterlinge|Heute sprechen wir über den Schmetterling.|امروز دربارهٔ پروانه صحبت می‌کنیم.
+Insekt|das|حشره|Insekten|Ich habe eine Frage zu dem Insekt.|دربارهٔ حشره یک سؤال دارم.
+Strand|der|ساحل شنی|Strände|Ich habe eine Frage zu dem Strand.|دربارهٔ ساحل شنی یک سؤال دارم.
+Insel|die|جزیره|Inseln|Wo finde ich die Insel?|جزیره را کجا پیدا کنم؟
+Tal|das|دره|Täler|Wo finde ich das Tal?|دره را کجا پیدا کنم؟
+Wiese|die|چمنزار|Wiesen|Ich habe eine Frage zu der Wiese.|دربارهٔ چمنزار یک سؤال دارم.
+Pflanze|die|گیاه|Pflanzen|Ich habe eine Frage zu der Pflanze.|دربارهٔ گیاه یک سؤال دارم.
+Blatt|das|برگ|Blätter|Wo finde ich das Blatt?|برگ را کجا پیدا کنم؟
+Wurzel|die|ریشه|Wurzeln|Heute sprechen wir über die Wurzel.|امروز دربارهٔ ریشه صحبت می‌کنیم.`,"T":`Kalender|der|تقویم|Kalender|Heute geht es um den Kalender.|امروز موضوع بحث تقویم است.
+Datum|das|تاریخ|Daten|Heute geht es um das Datum.|امروز موضوع بحث تاریخ است.
+Jahreszeit|die|فصل سال|Jahreszeiten|Ich habe eine Frage zu der Jahreszeit.|دربارهٔ فصل سال یک سؤال دارم.
+Feiertag|der|تعطیلی رسمی|Feiertage|Im Kurs diskutieren wir über den Feiertag.|در کلاس دربارهٔ تعطیلی رسمی بحث می‌کنیم.
+Wochenende|das|آخر هفته|Wochenenden|Heute geht es um das Wochenende.|امروز موضوع بحث آخر هفته است.
+Ferien|die|تعطیلات مدرسه|—|Die Ferien beginnen morgen.|تعطیلات مدرسه فردا آغاز می‌شود.
+Geburtstag|der|روز تولد|Geburtstage|Ich habe eine Frage zu dem Geburtstag.|دربارهٔ روز تولد یک سؤال دارم.
+Jahrestag|der|سالگرد|Jahrestage|Wir sprechen über den Jahrestag.|ما دربارهٔ سالگرد صحبت می‌کنیم.
+Gewitter|das|رعدوبرق و طوفان|Gewitter|Im Kurs diskutieren wir über das Gewitter.|در کلاس دربارهٔ رعدوبرق و طوفان بحث می‌کنیم.
+Sturm|der|طوفان|Stürme|Ich habe eine Frage zu dem Sturm.|دربارهٔ طوفان یک سؤال دارم.
+Nebel|der|مه|—|Der Nebel ist sehr dicht.|مه خیلی غلیظ است.
+Temperatur|die|دما|Temperaturen|Im Kurs diskutieren wir über die Temperatur.|در کلاس دربارهٔ دما بحث می‌کنیم.
+Grad|der|درجه|Grade|Im Kurs diskutieren wir über den Grad.|در کلاس دربارهٔ درجه بحث می‌کنیم.
+Hitze|die|گرمای شدید|—|Heute geht es um die Hitze.|امروز موضوع بحث گرمای شدید است.
+Kälte|die|سرما|—|Heute geht es um die Kälte.|امروز موضوع بحث سرما است.
+Schatten|der|سایه|Schatten|Wir sprechen über den Schatten.|ما دربارهٔ سایه صحبت می‌کنیم.`,"S":`Hobby|das|سرگرمی|Hobbys|Wo finde ich das Hobby?|سرگرمی را کجا پیدا کنم؟
+Verein|der|باشگاه یا انجمن|Vereine|Wo finde ich den Verein?|باشگاه یا انجمن را کجا پیدا کنم؟
+Mannschaft|die|تیم|Mannschaften|Wo finde ich die Mannschaft?|تیم را کجا پیدا کنم؟
+Spieler|der|بازیکن مرد|Spieler|Wo finde ich den Spieler?|بازیکن مرد را کجا پیدا کنم؟
+Spielerin|die|بازیکن زن|Spielerinnen|Heute sprechen wir über die Spielerin.|امروز دربارهٔ بازیکن زن صحبت می‌کنیم.
+Trainer|der|مربی مرد|Trainer|Ich habe eine Frage zu dem Trainer.|دربارهٔ مربی مرد یک سؤال دارم.
+Training|das|تمرین ورزشی|Trainings|Ich habe eine Frage zu dem Training.|دربارهٔ تمرین ورزشی یک سؤال دارم.
+Wettkampf|der|مسابقه ورزشی|Wettkämpfe|Heute sprechen wir über den Wettkampf.|امروز دربارهٔ مسابقه ورزشی صحبت می‌کنیم.
+Turnier|das|تورنمنت|Turniere|Ich habe eine Frage zu dem Turnier.|دربارهٔ تورنمنت یک سؤال دارم.
+Eintrittskarte|die|بلیت ورودی|Eintrittskarten|Heute sprechen wir über die Eintrittskarte.|امروز دربارهٔ بلیت ورودی صحبت می‌کنیم.
+Ausflug|der|گردش کوتاه|Ausflüge|Heute sprechen wir über den Ausflug.|امروز دربارهٔ گردش کوتاه صحبت می‌کنیم.
+Museum|das|موزه|Museen|Ich habe eine Frage zu dem Museum.|دربارهٔ موزه یک سؤال دارم.
+Theater|das|تئاتر|Theater|Wo finde ich das Theater?|تئاتر را کجا پیدا کنم؟
+Konzert|das|کنسرت|Konzerte|Heute sprechen wir über das Konzert.|امروز دربارهٔ کنسرت صحبت می‌کنیم.
+Instrument|das|ساز موسیقی|Instrumente|Wo finde ich das Instrument?|ساز موسیقی را کجا پیدا کنم؟
+Gitarre|die|گیتار|Gitarren|Heute sprechen wir über die Gitarre.|امروز دربارهٔ گیتار صحبت می‌کنیم.`,"TE":`Laptop|der|لپ‌تاپ|Laptops|Ich habe eine Frage zu dem Laptop.|دربارهٔ لپ‌تاپ یک سؤال دارم.
+Tablet|das|تبلت|Tablets|Heute sprechen wir über das Tablet.|امروز دربارهٔ تبلت صحبت می‌کنیم.
+Drucker|der|چاپگر|Drucker|Wo finde ich den Drucker?|چاپگر را کجا پیدا کنم؟
+Mauspad|das|پد موس|Mauspads|Heute sprechen wir über das Mauspad.|امروز دربارهٔ پد موس صحبت می‌کنیم.
+Lautsprecher|der|بلندگو|Lautsprecher|Heute sprechen wir über den Lautsprecher.|امروز دربارهٔ بلندگو صحبت می‌کنیم.
+Akku|der|باتری شارژی|Akkus|Ich habe eine Frage zu dem Akku.|دربارهٔ باتری شارژی یک سؤال دارم.
+Batterie|die|باتری|Batterien|Ich habe eine Frage zu der Batterie.|دربارهٔ باتری یک سؤال دارم.
+Kabel|das|کابل|Kabel|Ich habe eine Frage zu dem Kabel.|دربارهٔ کابل یک سؤال دارم.
+Anwendung|die|برنامه کاربردی|Anwendungen|Wo finde ich die Anwendung?|برنامه کاربردی را کجا پیدا کنم؟
+Programm|das|برنامه رایانه‌ای|Programme|Heute sprechen wir über das Programm.|امروز دربارهٔ برنامه رایانه‌ای صحبت می‌کنیم.
+Website|die|وب‌سایت|Websites|Ich habe eine Frage zu der Website.|دربارهٔ وب‌سایت یک سؤال دارم.
+Eingabe|die|ورودی داده|Eingaben|Heute sprechen wir über die Eingabe.|امروز دربارهٔ ورودی داده صحبت می‌کنیم.
+Suchmaschine|die|موتور جست‌وجو|Suchmaschinen|Ich habe eine Frage zu der Suchmaschine.|دربارهٔ موتور جست‌وجو یک سؤال دارم.
+Verbindung|die|اتصال|Verbindungen|Heute sprechen wir über die Verbindung.|امروز دربارهٔ اتصال صحبت می‌کنیم.
+Netzwerk|das|شبکه|Netzwerke|Heute sprechen wir über das Netzwerk.|امروز دربارهٔ شبکه صحبت می‌کنیم.
+Speicher|der|حافظه یا فضای ذخیره|Speicher|Wo finde ich den Speicher?|حافظه یا فضای ذخیره را کجا پیدا کنم؟`},"B1":{"F":`Beziehung|die|رابطه عاطفی یا اجتماعی|Beziehungen|Heute geht es um die Beziehung.|امروز موضوع بحث رابطه عاطفی یا اجتماعی است.
+Freundschaft|die|دوستی|Freundschaften|Im Kurs diskutieren wir über die Freundschaft.|در کلاس دربارهٔ دوستی بحث می‌کنیم.
+Ehe|die|ازدواج|Ehen|Ich habe eine Frage zu der Ehe.|دربارهٔ ازدواج یک سؤال دارم.
+Hochzeit|die|عروسی|Hochzeiten|Ich habe eine Frage zu der Hochzeit.|دربارهٔ عروسی یک سؤال دارم.
+Verlobung|die|نامزدی|Verlobungen|Heute geht es um die Verlobung.|امروز موضوع بحث نامزدی است.
+Trennung|die|جدایی|Trennungen|Ich habe eine Frage zu der Trennung.|دربارهٔ جدایی یک سؤال دارم.
+Streit|der|دعوا|—|Wir sprechen über den Streit.|ما دربارهٔ دعوا صحبت می‌کنیم.
+Vertrauen|das|اعتماد|—|Heute geht es um das Vertrauen.|امروز موضوع بحث اعتماد است.
+Respekt|der|احترام|—|Heute geht es um den Respekt.|امروز موضوع بحث احترام است.
+Verantwortung|die|مسئولیت|Verantwortungen|Wir sprechen über die Verantwortung.|ما دربارهٔ مسئولیت صحبت می‌کنیم.
+Jugend|die|دوران جوانی|—|Heute geht es um die Jugend.|امروز موضوع بحث دوران جوانی است.
+Kindheit|die|دوران کودکی|—|Heute geht es um die Kindheit.|امروز موضوع بحث دوران کودکی است.
+Erwachsene|der|بزرگسال مرد|Erwachsenen|Der Erwachsene wartet im Flur.|فرد بزرگسال در راهرو منتظر است.
+Generation|die|نسل|Generationen|Heute geht es um die Generation.|امروز موضوع بحث نسل است.
+Erziehung|die|تربیت|Erziehungen|Heute geht es um die Erziehung.|امروز موضوع بحث تربیت است.
+Gemeinschaft|die|اجتماع|Gemeinschaften|Wir sprechen über die Gemeinschaft.|ما دربارهٔ اجتماع صحبت می‌کنیم.
+Menschenrecht|das|حق بشر|Menschenrechte|Heute geht es um das Menschenrecht.|امروز موضوع بحث حق بشر است.
+Teilnahme|die|مشارکت|Teilnahmen|Im Kurs diskutieren wir über die Teilnahme.|در کلاس دربارهٔ مشارکت بحث می‌کنیم.`,"H":`Haushalt|der|امور خانه|Haushalte|Wir sprechen über den Haushalt.|ما دربارهٔ امور خانه صحبت می‌کنیم.
+Miete|die|اجاره‌بها|Mieten|Ich habe eine Frage zu der Miete.|دربارهٔ اجاره‌بها یک سؤال دارم.
+Mieter|der|مستأجر مرد|Mieter|Heute geht es um den Mieter.|امروز موضوع بحث مستأجر مرد است.
+Vermieter|der|موجر مرد|Vermieter|Heute geht es um den Vermieter.|امروز موضوع بحث موجر مرد است.
+Mietvertrag|der|قرارداد اجاره|Mietverträge|Wir sprechen über den Mietvertrag.|ما دربارهٔ قرارداد اجاره صحبت می‌کنیم.
+Nebenkosten|die|هزینه‌های جانبی مسکن|—|Die Nebenkosten sind gestiegen.|هزینه‌های جانبی مسکن افزایش یافته‌اند.
+Einrichtung|die|وسایل یا چیدمان خانه|Einrichtungen|Ich habe eine Frage zu der Einrichtung.|دربارهٔ وسایل یا چیدمان خانه یک سؤال دارم.
+Umzug|der|اسباب‌کشی|Umzüge|Heute geht es um den Umzug.|امروز موضوع بحث اسباب‌کشی است.
+Renovierung|die|بازسازی|Renovierungen|Heute geht es um die Renovierung.|امروز موضوع بحث بازسازی است.
+Reparatur|die|تعمیر|Reparaturen|Heute geht es um die Reparatur.|امروز موضوع بحث تعمیر است.
+Werkzeug|das|ابزار|Werkzeuge|Ich habe eine Frage zu dem Werkzeug.|دربارهٔ ابزار یک سؤال دارم.
+Leitung|die|لوله یا سیم‌کشی|Leitungen|Im Kurs diskutieren wir über die Leitung.|در کلاس دربارهٔ لوله یا سیم‌کشی بحث می‌کنیم.
+Wasserhahn|der|شیر آب|Wasserhähne|Im Kurs diskutieren wir über den Wasserhahn.|در کلاس دربارهٔ شیر آب بحث می‌کنیم.
+Abfluss|der|راه آب|Abflüsse|Im Kurs diskutieren wir über den Abfluss.|در کلاس دربارهٔ راه آب بحث می‌کنیم.
+Schaden|der|خسارت|Schäden|Im Kurs diskutieren wir über den Schaden.|در کلاس دربارهٔ خسارت بحث می‌کنیم.
+Versicherung|die|بیمه|Versicherungen|Ich habe eine Frage zu der Versicherung.|دربارهٔ بیمه یک سؤال دارم.
+Nachbarschaft|die|محله یا همسایگی|Nachbarschaften|Im Kurs diskutieren wir über die Nachbarschaft.|در کلاس دربارهٔ محله یا همسایگی بحث می‌کنیم.`,"FO":`Ernährung|die|تغذیه|—|Wir sprechen über die Ernährung.|ما دربارهٔ تغذیه صحبت می‌کنیم.
+Mahlzeit|die|وعده غذایی|Mahlzeiten|Wir sprechen über die Mahlzeit.|ما دربارهٔ وعده غذایی صحبت می‌کنیم.
+Zutat|die|ماده اولیه غذا|Zutaten|Ich habe eine Frage zu der Zutat.|دربارهٔ ماده اولیه غذا یک سؤال دارم.
+Portion|die|پرس غذا|Portionen|Ich habe eine Frage zu der Portion.|دربارهٔ پرس غذا یک سؤال دارم.
+Gericht|das|غذا (خوراک)|Gerichte|Heute geht es um das Gericht.|امروز موضوع بحث غذا (خوراک) است.
+Speisekarte|die|منوی غذا|Speisekarten|Wir sprechen über die Speisekarte.|ما دربارهٔ منوی غذا صحبت می‌کنیم.
+Bestellung|die|سفارش|Bestellungen|Heute geht es um die Bestellung.|امروز موضوع بحث سفارش است.
+Lieferung|die|تحویل کالا|Lieferungen|Heute geht es um die Lieferung.|امروز موضوع بحث تحویل کالا است.
+Verpackung|die|بسته‌بندی|Verpackungen|Heute geht es um die Verpackung.|امروز موضوع بحث بسته‌بندی است.
+Haltbarkeit|die|مدت ماندگاری|—|Wir sprechen über die Haltbarkeit.|ما دربارهٔ مدت ماندگاری صحبت می‌کنیم.
+Allergie|die|حساسیت|Allergien|Wir sprechen über die Allergie.|ما دربارهٔ حساسیت صحبت می‌کنیم.
+Unverträglichkeit|die|ناسازگاری غذایی|Unverträglichkeiten|Wir sprechen über die Unverträglichkeit.|ما دربارهٔ ناسازگاری غذایی صحبت می‌کنیم.
+Eiweiß|das|پروتئین|Eiweiße|Im Kurs diskutieren wir über das Eiweiß.|در کلاس دربارهٔ پروتئین بحث می‌کنیم.
+Kohlenhydrat|das|کربوهیدرات|Kohlenhydrate|Wir sprechen über das Kohlenhydrat.|ما دربارهٔ کربوهیدرات صحبت می‌کنیم.
+Vitamin|das|ویتامین|Vitamine|Ich habe eine Frage zu dem Vitamin.|دربارهٔ ویتامین یک سؤال دارم.
+Mineralstoff|der|ماده معدنی|Mineralstoffe|Im Kurs diskutieren wir über den Mineralstoff.|در کلاس دربارهٔ ماده معدنی بحث می‌کنیم.
+Kalorie|die|کالری|Kalorien|Ich habe eine Frage zu der Kalorie.|دربارهٔ کالری یک سؤال دارم.`,"HE":`Behandlung|die|درمان|Behandlungen|Heute geht es um die Behandlung.|امروز موضوع بحث درمان است.
+Untersuchung|die|معاینه یا بررسی|Untersuchungen|Im Kurs diskutieren wir über die Untersuchung.|در کلاس دربارهٔ معاینه یا بررسی بحث می‌کنیم.
+Diagnose|die|تشخیص پزشکی|Diagnosen|Ich habe eine Frage zu der Diagnose.|دربارهٔ تشخیص پزشکی یک سؤال دارم.
+Symptom|das|نشانه بیماری|Symptome|Ich habe eine Frage zu dem Symptom.|دربارهٔ نشانه بیماری یک سؤال دارم.
+Erkrankung|die|بیماری|Erkrankungen|Heute geht es um die Erkrankung.|امروز موضوع بحث بیماری است.
+Infektion|die|عفونت|Infektionen|Wir sprechen über die Infektion.|ما دربارهٔ عفونت صحبت می‌کنیم.
+Entzündung|die|التهاب|Entzündungen|Wir sprechen über die Entzündung.|ما دربارهٔ التهاب صحبت می‌کنیم.
+Wunde|die|زخم|Wunden|Ich habe eine Frage zu der Wunde.|دربارهٔ زخم یک سؤال دارم.
+Verletzung|die|آسیب‌دیدگی|Verletzungen|Ich habe eine Frage zu der Verletzung.|دربارهٔ آسیب‌دیدگی یک سؤال دارم.
+Impfung|die|واکسیناسیون|Impfungen|Wir sprechen über die Impfung.|ما دربارهٔ واکسیناسیون صحبت می‌کنیم.
+Nebenwirkung|die|عارضه جانبی|Nebenwirkungen|Ich habe eine Frage zu der Nebenwirkung.|دربارهٔ عارضه جانبی یک سؤال دارم.
+Arzneimittel|das|دارو|Arzneimittel|Heute geht es um das Arzneimittel.|امروز موضوع بحث دارو است.
+Notfall|der|وضعیت اضطراری|Notfälle|Wir sprechen über den Notfall.|ما دربارهٔ وضعیت اضطراری صحبت می‌کنیم.
+Rettungsdienst|der|اورژانس امدادی|Rettungsdienste|Ich habe eine Frage zu dem Rettungsdienst.|دربارهٔ اورژانس امدادی یک سؤال دارم.
+Praxis|die|مطب|Praxen|Heute geht es um die Praxis.|امروز موضوع بحث مطب است.
+Überweisung|die|معرفی‌نامه پزشک|Überweisungen|Im Kurs diskutieren wir über die Überweisung.|در کلاس دربارهٔ معرفی‌نامه پزشک بحث می‌کنیم.`,"CT":`Verkehrsmittel|das|وسیله حمل‌ونقل|Verkehrsmittel|Im Kurs diskutieren wir über das Verkehrsmittel.|در کلاس دربارهٔ وسیله حمل‌ونقل بحث می‌کنیم.
+Verkehrsregel|die|قانون راهنمایی|Verkehrsregeln|Im Kurs diskutieren wir über die Verkehrsregel.|در کلاس دربارهٔ قانون راهنمایی بحث می‌کنیم.
+Verkehrszeichen|das|تابلوی راهنمایی|Verkehrszeichen|Ich habe eine Frage zu dem Verkehrszeichen.|دربارهٔ تابلوی راهنمایی یک سؤال دارم.
+Führerschein|der|گواهینامه رانندگی|Führerscheine|Wir sprechen über den Führerschein.|ما دربارهٔ گواهینامه رانندگی صحبت می‌کنیم.
+Fahrzeug|das|وسیله نقلیه|Fahrzeuge|Im Kurs diskutieren wir über das Fahrzeug.|در کلاس دربارهٔ وسیله نقلیه بحث می‌کنیم.
+Stau|der|ترافیک سنگین یا صف خودرو|Staus|Heute geht es um den Stau.|امروز موضوع بحث ترافیک سنگین یا صف خودرو است.
+Baustelle|die|کارگاه ساختمانی|Baustellen|Heute geht es um die Baustelle.|امروز موضوع بحث کارگاه ساختمانی است.
+Umleitung|die|مسیر انحرافی|Umleitungen|Heute geht es um die Umleitung.|امروز موضوع بحث مسیر انحرافی است.
+Strecke|die|مسیر|Strecken|Ich habe eine Frage zu der Strecke.|دربارهٔ مسیر یک سؤال دارم.
+Entfernung|die|فاصله|Entfernungen|Im Kurs diskutieren wir über die Entfernung.|در کلاس دربارهٔ فاصله بحث می‌کنیم.
+Richtung|die|جهت|Richtungen|Im Kurs diskutieren wir über die Richtung.|در کلاس دربارهٔ جهت بحث می‌کنیم.
+Abzweigung|die|دوراهی|Abzweigungen|Heute geht es um die Abzweigung.|امروز موضوع بحث دوراهی است.
+Unterkunft|die|محل اقامت|Unterkünfte|Heute geht es um die Unterkunft.|امروز موضوع بحث محل اقامت است.
+Reservierung|die|رزرو|Reservierungen|Im Kurs diskutieren wir über die Reservierung.|در کلاس دربارهٔ رزرو بحث می‌کنیم.
+Aufenthalt|der|اقامت|Aufenthalte|Im Kurs diskutieren wir über den Aufenthalt.|در کلاس دربارهٔ اقامت بحث می‌کنیم.
+Sehenswürdigkeit|die|جاذبه گردشگری|Sehenswürdigkeiten|Ich habe eine Frage zu der Sehenswürdigkeit.|دربارهٔ جاذبه گردشگری یک سؤال دارم.`,"W":`Arbeitsvertrag|der|قرارداد کار|Arbeitsverträge|Wir sprechen über den Arbeitsvertrag.|ما دربارهٔ قرارداد کار صحبت می‌کنیم.
+Arbeitgeber|der|کارفرما|Arbeitgeber|Heute geht es um den Arbeitgeber.|امروز موضوع بحث کارفرما است.
+Arbeitnehmer|der|کارمند یا کارگر|Arbeitnehmer|Heute geht es um den Arbeitnehmer.|امروز موضوع بحث کارمند یا کارگر است.
+Arbeitslosigkeit|die|بیکاری|—|Heute geht es um die Arbeitslosigkeit.|امروز موضوع بحث بیکاری است.
+Qualifikation|die|صلاحیت حرفه‌ای|Qualifikationen|Ich habe eine Frage zu der Qualifikation.|دربارهٔ صلاحیت حرفه‌ای یک سؤال دارم.
+Fähigkeit|die|توانایی|Fähigkeiten|Heute geht es um die Fähigkeit.|امروز موضوع بحث توانایی است.
+Kompetenz|die|شایستگی|Kompetenzen|Wir sprechen über die Kompetenz.|ما دربارهٔ شایستگی صحبت می‌کنیم.
+Karriere|die|مسیر شغلی|Karrieren|Im Kurs diskutieren wir über die Karriere.|در کلاس دربارهٔ مسیر شغلی بحث می‌کنیم.
+Weiterbildung|die|آموزش تکمیلی|Weiterbildungen|Heute geht es um die Weiterbildung.|امروز موضوع بحث آموزش تکمیلی است.
+Fortbildung|die|آموزش ضمن خدمت|Fortbildungen|Im Kurs diskutieren wir über die Fortbildung.|در کلاس دربارهٔ آموزش ضمن خدمت بحث می‌کنیم.
+Studiengang|der|رشته دانشگاهی|Studiengänge|Ich habe eine Frage zu dem Studiengang.|دربارهٔ رشته دانشگاهی یک سؤال دارم.
+Abschluss|der|مدرک پایان تحصیل|Abschlüsse|Wir sprechen über den Abschluss.|ما دربارهٔ مدرک پایان تحصیل صحبت می‌کنیم.
+Fachbereich|der|گروه آموزشی|Fachbereiche|Ich habe eine Frage zu dem Fachbereich.|دربارهٔ گروه آموزشی یک سؤال دارم.
+Forschung|die|پژوهش|Forschungen|Heute geht es um die Forschung.|امروز موضوع بحث پژوهش است.
+Wissenschaft|die|علم|Wissenschaften|Heute geht es um die Wissenschaft.|امروز موضوع بحث علم است.
+Vortrag|der|سخنرانی|Vorträge|Im Kurs diskutieren wir über den Vortrag.|در کلاس دربارهٔ سخنرانی بحث می‌کنیم.
+Kriterium|das|معیار|Kriterien|Ich habe eine Frage zu dem Kriterium.|دربارهٔ معیار یک سؤال دارم.
+Anforderung|die|الزام یا نیازمندی|Anforderungen|Wir sprechen über die Anforderung.|ما دربارهٔ الزام یا نیازمندی صحبت می‌کنیم.
+Schwierigkeit|die|دشواری|Schwierigkeiten|Ich habe eine Frage zu der Schwierigkeit.|دربارهٔ دشواری یک سؤال دارم.
+Einfluss|der|تأثیر|Einflüsse|Wir sprechen über den Einfluss.|ما دربارهٔ تأثیر صحبت می‌کنیم.
+Auswirkung|die|پیامد|Auswirkungen|Ich habe eine Frage zu der Auswirkung.|دربارهٔ پیامد یک سؤال دارم.
+Vergleich|der|مقایسه|Vergleiche|Wir sprechen über den Vergleich.|ما دربارهٔ مقایسه صحبت می‌کنیم.`,"N":`Klimawandel|der|تغییر اقلیم|—|Der Klimawandel betrifft alle.|تغییر اقلیم بر همه اثر می‌گذارد.
+Klimaschutz|der|حفاظت از اقلیم|—|Ich habe eine Frage zu dem Klimaschutz.|دربارهٔ حفاظت از اقلیم یک سؤال دارم.
+Verschmutzung|die|آلودگی|Verschmutzungen|Heute geht es um die Verschmutzung.|امروز موضوع بحث آلودگی است.
+Abfall|der|پسماند|Abfälle|Heute geht es um den Abfall.|امروز موضوع بحث پسماند است.
+Mülltrennung|die|تفکیک زباله|—|Wir sprechen über die Mülltrennung.|ما دربارهٔ تفکیک زباله صحبت می‌کنیم.
+Recycling|das|بازیافت|—|Das Recycling spart Ressourcen.|بازیافت در مصرف منابع صرفه‌جویی می‌کند.
+Rohstoff|der|ماده خام|Rohstoffe|Im Kurs diskutieren wir über den Rohstoff.|در کلاس دربارهٔ ماده خام بحث می‌کنیم.
+Energie|die|انرژی|Energien|Ich habe eine Frage zu der Energie.|دربارهٔ انرژی یک سؤال دارم.
+Strom|der|برق|—|Heute geht es um den Strom.|امروز موضوع بحث برق است.
+Kraftwerk|das|نیروگاه|Kraftwerke|Wir sprechen über das Kraftwerk.|ما دربارهٔ نیروگاه صحبت می‌کنیم.
+Landschaft|die|منظره طبیعی|Landschaften|Wir sprechen über die Landschaft.|ما دربارهٔ منظره طبیعی صحبت می‌کنیم.
+Lebensraum|der|زیستگاه|Lebensräume|Ich habe eine Frage zu dem Lebensraum.|دربارهٔ زیستگاه یک سؤال دارم.
+Tierart|die|گونه جانوری|Tierarten|Wir sprechen über die Tierart.|ما دربارهٔ گونه جانوری صحبت می‌کنیم.
+Pflanzenart|die|گونه گیاهی|Pflanzenarten|Wir sprechen über die Pflanzenart.|ما دربارهٔ گونه گیاهی صحبت می‌کنیم.
+Artenvielfalt|die|تنوع زیستی|—|Heute geht es um die Artenvielfalt.|امروز موضوع بحث تنوع زیستی است.
+Naturschutz|der|حفاظت از طبیعت|—|Heute geht es um den Naturschutz.|امروز موضوع بحث حفاظت از طبیعت است.`,"T":`Zeitraum|der|بازه زمانی|Zeiträume|Im Kurs diskutieren wir über den Zeitraum.|در کلاس دربارهٔ بازه زمانی بحث می‌کنیم.
+Zeitpunkt|der|مقطع زمانی|Zeitpunkte|Ich habe eine Frage zu dem Zeitpunkt.|دربارهٔ مقطع زمانی یک سؤال دارم.
+Frist|die|مهلت|Fristen|Im Kurs diskutieren wir über die Frist.|در کلاس دربارهٔ مهلت بحث می‌کنیم.
+Deadline|die|ضرب‌الاجل|Deadlines|Im Kurs diskutieren wir über die Deadline.|در کلاس دربارهٔ ضرب‌الاجل بحث می‌کنیم.
+Dauer|die|مدت|—|Heute geht es um die Dauer.|امروز موضوع بحث مدت است.
+Zeitalter|das|دوره تاریخی|Zeitalter|Heute geht es um das Zeitalter.|امروز موضوع بحث دوره تاریخی است.
+Jahrzehnt|das|دهه|Jahrzehnte|Wir sprechen über das Jahrzehnt.|ما دربارهٔ دهه صحبت می‌کنیم.
+Jahrhundert|das|قرن|Jahrhunderte|Heute geht es um das Jahrhundert.|امروز موضوع بحث قرن است.
+Gegenwart|die|زمان حال|—|Ich habe eine Frage zu der Gegenwart.|دربارهٔ زمان حال یک سؤال دارم.
+Ereignis|das|رویداد|Ereignisse|Heute geht es um das Ereignis.|امروز موضوع بحث رویداد است.
+Gelegenheit|die|فرصت|Gelegenheiten|Im Kurs diskutieren wir über die Gelegenheit.|در کلاس دربارهٔ فرصت بحث می‌کنیم.
+Zufall|der|اتفاق یا تصادف|Zufälle|Wir sprechen über den Zufall.|ما دربارهٔ اتفاق یا تصادف صحبت می‌کنیم.
+Regelmäßigkeit|die|نظم یا تکرار|Regelmäßigkeiten|Im Kurs diskutieren wir über die Regelmäßigkeit.|در کلاس دربارهٔ نظم یا تکرار بحث می‌کنیم.
+Vorhersage|die|پیش‌بینی|Vorhersagen|Wir sprechen über die Vorhersage.|ما دربارهٔ پیش‌بینی صحبت می‌کنیم.
+Unwetter|das|هوای بسیار نامساعد|Unwetter|Heute geht es um das Unwetter.|امروز موضوع بحث هوای بسیار نامساعد است.
+Niederschlag|der|بارش|Niederschläge|Im Kurs diskutieren wir über den Niederschlag.|در کلاس دربارهٔ بارش بحث می‌کنیم.`,"S":`Freizeit|die|وقت آزاد|—|Wir sprechen über die Freizeit.|ما دربارهٔ وقت آزاد صحبت می‌کنیم.
+Erholung|die|استراحت و بازیابی|—|Wir sprechen über die Erholung.|ما دربارهٔ استراحت و بازیابی صحبت می‌کنیم.
+Entspannung|die|آرامش|—|Wir sprechen über die Entspannung.|ما دربارهٔ آرامش صحبت می‌کنیم.
+Leistung|die|عملکرد|Leistungen|Wir sprechen über die Leistung.|ما دربارهٔ عملکرد صحبت می‌کنیم.
+Erfolg|der|موفقیت|Erfolge|Heute geht es um den Erfolg.|امروز موضوع بحث موفقیت است.
+Niederlage|die|شکست|Niederlagen|Wir sprechen über die Niederlage.|ما دربارهٔ شکست صحبت می‌کنیم.
+Sieg|der|پیروزی|Siege|Im Kurs diskutieren wir über den Sieg.|در کلاس دربارهٔ پیروزی بحث می‌کنیم.
+Bewegung|die|حرکت|Bewegungen|Im Kurs diskutieren wir über die Bewegung.|در کلاس دربارهٔ حرکت بحث می‌کنیم.
+Ausdauer|die|استقامت|—|Heute geht es um die Ausdauer.|امروز موضوع بحث استقامت است.
+Kraft|die|نیرو|Kräfte|Wir sprechen über die Kraft.|ما دربارهٔ نیرو صحبت می‌کنیم.
+Geschwindigkeit|die|سرعت|Geschwindigkeiten|Ich habe eine Frage zu der Geschwindigkeit.|دربارهٔ سرعت یک سؤال دارم.
+Wettbewerb|der|رقابت|Wettbewerbe|Heute geht es um den Wettbewerb.|امروز موضوع بحث رقابت است.
+Zuschauer|der|تماشاگر|Zuschauer|Heute geht es um den Zuschauer.|امروز موضوع بحث تماشاگر است.
+Publikum|das|تماشاگران یا مخاطبان|—|Wir sprechen über das Publikum.|ما دربارهٔ تماشاگران یا مخاطبان صحبت می‌کنیم.
+Veranstaltung|die|رویداد برگزارشده|Veranstaltungen|Wir sprechen über die Veranstaltung.|ما دربارهٔ رویداد برگزارشده صحبت می‌کنیم.
+Unterhaltung|die|سرگرمی|—|Im Kurs diskutieren wir über die Unterhaltung.|در کلاس دربارهٔ سرگرمی بحث می‌کنیم.`,"TE":`Technik|die|فناوری یا فن|Techniken|Heute geht es um die Technik.|امروز موضوع بحث فناوری یا فن است.
+Technologie|die|فناوری|Technologien|Heute geht es um die Technologie.|امروز موضوع بحث فناوری است.
+Gerät|das|دستگاه|Geräte|Im Kurs diskutieren wir über das Gerät.|در کلاس دربارهٔ دستگاه بحث می‌کنیم.
+Software|die|نرم‌افزار|—|Heute geht es um die Software.|امروز موضوع بحث نرم‌افزار است.
+Hardware|die|سخت‌افزار|—|Wir sprechen über die Hardware.|ما دربارهٔ سخت‌افزار صحبت می‌کنیم.
+Betriebssystem|das|سیستم‌عامل|Betriebssysteme|Heute geht es um das Betriebssystem.|امروز موضوع بحث سیستم‌عامل است.
+Benutzer|der|کاربر مرد|Benutzer|Heute geht es um den Benutzer.|امروز موضوع بحث کاربر مرد است.
+Benutzerin|die|کاربر زن|Benutzerinnen|Heute geht es um die Benutzerin.|امروز موضوع بحث کاربر زن است.
+Einstellung|die|تنظیم|Einstellungen|Heute geht es um die Einstellung.|امروز موضوع بحث تنظیم است.
+Aktualisierung|die|به‌روزرسانی|Aktualisierungen|Wir sprechen über die Aktualisierung.|ما دربارهٔ به‌روزرسانی صحبت می‌کنیم.
+Datenschutz|der|حفاظت از داده‌ها|—|Ich habe eine Frage zu dem Datenschutz.|دربارهٔ حفاظت از داده‌ها یک سؤال دارم.
+Datensicherheit|die|امنیت داده|—|Heute geht es um die Datensicherheit.|امروز موضوع بحث امنیت داده است.
+Sicherheitslücke|die|آسیب‌پذیری امنیتی|Sicherheitslücken|Ich habe eine Frage zu der Sicherheitslücke.|دربارهٔ آسیب‌پذیری امنیتی یک سؤال دارم.
+Zugriff|der|دسترسی|Zugriffe|Wir sprechen über den Zugriff.|ما دربارهٔ دسترسی صحبت می‌کنیم.
+Datenbank|die|پایگاه داده|Datenbanken|Die Datenbank ist wieder erreichbar.|پایگاه داده دوباره در دسترس است.
+Schnittstelle|die|رابط نرم‌افزاری|Schnittstellen|Wir sprechen über die Schnittstelle.|ما دربارهٔ رابط نرم‌افزاری صحبت می‌کنیم.`},"B2":{"F":`Zusammenhalt|der|همبستگی|—|Wir sprechen über den Zusammenhalt.|ما دربارهٔ همبستگی صحبت می‌کنیم.
+Solidarität|die|همبستگی اجتماعی|—|Wir sprechen über die Solidarität.|ما دربارهٔ همبستگی اجتماعی صحبت می‌کنیم.
+Gleichberechtigung|die|برابری حقوق|—|Heute geht es um die Gleichberechtigung.|امروز موضوع بحث برابری حقوق است.
+Diskriminierung|die|تبعیض|Diskriminierungen|Im Kurs diskutieren wir über die Diskriminierung.|در کلاس دربارهٔ تبعیض بحث می‌کنیم.
+Vorurteil|das|پیش‌داوری|Vorurteile|Heute geht es um das Vorurteil.|امروز موضوع بحث پیش‌داوری است.
+Identität|die|هویت|Identitäten|Heute geht es um die Identität.|امروز موضوع بحث هویت است.
+Zugehörigkeit|die|احساس تعلق|—|Heute geht es um die Zugehörigkeit.|امروز موضوع بحث احساس تعلق است.
+Anerkennung|die|به‌رسمیت‌شناختن|Anerkennungen|Wir sprechen über die Anerkennung.|ما دربارهٔ به‌رسمیت‌شناختن صحبت می‌کنیم.
+Integration|die|ادغام اجتماعی|—|Ich habe eine Frage zu der Integration.|دربارهٔ ادغام اجتماعی یک سؤال دارم.
+Migration|die|مهاجرت|Migrationen|Heute geht es um die Migration.|امروز موضوع بحث مهاجرت است.
+Herkunft|die|خاستگاه|—|Heute geht es um die Herkunft.|امروز موضوع بحث خاستگاه است.
+Minderheit|die|اقلیت|Minderheiten|Ich habe eine Frage zu der Minderheit.|دربارهٔ اقلیت یک سؤال دارم.
+Mehrheit|die|اکثریت|Mehrheiten|Wir sprechen über die Mehrheit.|ما دربارهٔ اکثریت صحبت می‌کنیم.
+Empathie|die|همدلی|—|Ich habe eine Frage zu der Empathie.|دربارهٔ همدلی یک سؤال دارم.
+Selbstbewusstsein|das|اعتمادبه‌نفس یا خودآگاهی|—|Heute geht es um das Selbstbewusstsein.|امروز موضوع بحث اعتمادبه‌نفس یا خودآگاهی است.`,"H":`Wohnungsmarkt|der|بازار مسکن|Wohnungsmärkte|Heute geht es um den Wohnungsmarkt.|امروز موضوع بحث بازار مسکن است.
+Wohnraum|der|فضای مسکونی|Wohnräume|Ich habe eine Frage zu dem Wohnraum.|دربارهٔ فضای مسکونی یک سؤال دارم.
+Eigentum|das|مالکیت|—|Im Kurs diskutieren wir über das Eigentum.|در کلاس دربارهٔ مالکیت بحث می‌کنیم.
+Immobilie|die|ملک|Immobilien|Ich habe eine Frage zu der Immobilie.|دربارهٔ ملک یک سؤال دارم.
+Kaution|die|ودیعه اجاره|Kautionen|Ich habe eine Frage zu der Kaution.|دربارهٔ ودیعه اجاره یک سؤال دارم.
+Kündigungsfrist|die|مهلت اعلام فسخ|Kündigungsfristen|Im Kurs diskutieren wir über die Kündigungsfrist.|در کلاس دربارهٔ مهلت اعلام فسخ بحث می‌کنیم.
+Mietminderung|die|کاهش قانونی اجاره|Mietminderungen|Im Kurs diskutieren wir über die Mietminderung.|در کلاس دربارهٔ کاهش قانونی اجاره بحث می‌کنیم.
+Hausverwaltung|die|مدیریت ساختمان|Hausverwaltungen|Im Kurs diskutieren wir über die Hausverwaltung.|در کلاس دربارهٔ مدیریت ساختمان بحث می‌کنیم.
+Nebenkostenabrechnung|die|صورت‌حساب هزینه‌های جانبی|Nebenkostenabrechnungen|Ich habe eine Frage zu der Nebenkostenabrechnung.|دربارهٔ صورت‌حساب هزینه‌های جانبی یک سؤال دارم.
+Energieverbrauch|der|مصرف انرژی|—|Heute geht es um den Energieverbrauch.|امروز موضوع بحث مصرف انرژی است.
+Wärmedämmung|die|عایق حرارتی|—|Im Kurs diskutieren wir über die Wärmedämmung.|در کلاس دربارهٔ عایق حرارتی بحث می‌کنیم.
+Wohnfläche|die|مساحت مسکونی|Wohnflächen|Heute geht es um die Wohnfläche.|امروز موضوع بحث مساحت مسکونی است.
+Instandhaltung|die|نگهداری فنی|—|Wir sprechen über die Instandhaltung.|ما دربارهٔ نگهداری فنی صحبت می‌کنیم.
+Brandschutz|der|حفاظت در برابر آتش|—|Heute geht es um den Brandschutz.|امروز موضوع بحث حفاظت در برابر آتش است.
+Barrierefreiheit|die|دسترس‌پذیری بدون مانع|—|Wir sprechen über die Barrierefreiheit.|ما دربارهٔ دسترس‌پذیری بدون مانع صحبت می‌کنیم.`,"FO":`Lebensmittelverschwendung|die|هدررفت مواد غذایی|—|Heute geht es um die Lebensmittelverschwendung.|امروز موضوع بحث هدررفت مواد غذایی است.
+Nachhaltigkeit|die|پایداری محیطی|—|Im Kurs diskutieren wir über die Nachhaltigkeit.|در کلاس دربارهٔ پایداری محیطی بحث می‌کنیم.
+Lieferkette|die|زنجیره تأمین|Lieferketten|Im Kurs diskutieren wir über die Lieferkette.|در کلاس دربارهٔ زنجیره تأمین بحث می‌کنیم.
+Produktionskosten|die|هزینه‌های تولید|—|Die Produktionskosten sind hoch.|هزینه‌های تولید بالاست.
+Qualitätskontrolle|die|کنترل کیفیت|Qualitätskontrollen|Im Kurs diskutieren wir über die Qualitätskontrolle.|در کلاس دربارهٔ کنترل کیفیت بحث می‌کنیم.
+Hygienevorschrift|die|مقررات بهداشتی|Hygienevorschriften|Wir sprechen über die Hygienevorschrift.|ما دربارهٔ مقررات بهداشتی صحبت می‌کنیم.
+Mindesthaltbarkeitsdatum|das|تاریخ حداقل ماندگاری|Mindesthaltbarkeitsdaten|Wir sprechen über das Mindesthaltbarkeitsdatum.|ما دربارهٔ تاریخ حداقل ماندگاری صحبت می‌کنیم.
+Zusatzstoff|der|ماده افزودنی|Zusatzstoffe|Heute geht es um den Zusatzstoff.|امروز موضوع بحث ماده افزودنی است.
+Konservierung|die|نگهداری مواد غذایی|—|Ich habe eine Frage zu der Konservierung.|دربارهٔ نگهداری مواد غذایی یک سؤال دارم.
+Nährstoff|der|ماده مغذی|Nährstoffe|Wir sprechen über den Nährstoff.|ما دربارهٔ ماده مغذی صحبت می‌کنیم.
+Ballaststoff|der|فیبر غذایی|Ballaststoffe|Ich habe eine Frage zu dem Ballaststoff.|دربارهٔ فیبر غذایی یک سؤال دارم.
+Fettgehalt|der|میزان چربی|Fettgehalte|Ich habe eine Frage zu dem Fettgehalt.|دربارهٔ میزان چربی یک سؤال دارم.
+Zuckergehalt|der|میزان قند|Zuckergehalte|Im Kurs diskutieren wir über den Zuckergehalt.|در کلاس دربارهٔ میزان قند بحث می‌کنیم.
+Lebensmittelallergie|die|آلرژی غذایی|Lebensmittelallergien|Heute geht es um die Lebensmittelallergie.|امروز موضوع بحث آلرژی غذایی است.
+Ernährungsweise|die|شیوه تغذیه|Ernährungsweisen|Ich habe eine Frage zu der Ernährungsweise.|دربارهٔ شیوه تغذیه یک سؤال دارم.`,"HE":`Gesundheitswesen|das|نظام سلامت|—|Im Kurs diskutieren wir über das Gesundheitswesen.|در کلاس دربارهٔ نظام سلامت بحث می‌کنیم.
+Krankenversicherung|die|بیمه درمانی|Krankenversicherungen|Wir sprechen über die Krankenversicherung.|ما دربارهٔ بیمه درمانی صحبت می‌کنیم.
+Pflegeversicherung|die|بیمه مراقبت|Pflegeversicherungen|Im Kurs diskutieren wir über die Pflegeversicherung.|در کلاس دربارهٔ بیمه مراقبت بحث می‌کنیم.
+Gesundheitsversorgung|die|خدمات سلامت|—|Im Kurs diskutieren wir über die Gesundheitsversorgung.|در کلاس دربارهٔ خدمات سلامت بحث می‌کنیم.
+Vorsorgeuntersuchung|die|معاینه پیشگیرانه|Vorsorgeuntersuchungen|Ich habe eine Frage zu der Vorsorgeuntersuchung.|دربارهٔ معاینه پیشگیرانه یک سؤال دارم.
+Behandlungsplan|der|برنامه درمان|Behandlungspläne|Wir sprechen über den Behandlungsplan.|ما دربارهٔ برنامه درمان صحبت می‌کنیم.
+Krankheitsverlauf|der|روند بیماری|Krankheitsverläufe|Heute geht es um den Krankheitsverlauf.|امروز موضوع بحث روند بیماری است.
+Genesung|die|بهبودی|—|Ich habe eine Frage zu der Genesung.|دربارهٔ بهبودی یک سؤال دارم.
+Risikofaktor|der|عامل خطر|Risikofaktoren|Heute geht es um den Risikofaktor.|امروز موضوع بحث عامل خطر است.
+Prävention|die|پیشگیری|—|Wir sprechen über die Prävention.|ما دربارهٔ پیشگیری صحبت می‌کنیم.
+Lebensqualität|die|کیفیت زندگی|—|Heute geht es um die Lebensqualität.|امروز موضوع بحث کیفیت زندگی است.
+Belastung|die|فشار یا بار جسمی‌روانی|Belastungen|Im Kurs diskutieren wir über die Belastung.|در کلاس دربارهٔ فشار یا بار جسمی‌روانی بحث می‌کنیم.
+Überforderung|die|فشار فراتر از توان|Überforderungen|Ich habe eine Frage zu der Überforderung.|دربارهٔ فشار فراتر از توان یک سؤال دارم.
+Psychotherapie|die|روان‌درمانی|Psychotherapien|Ich habe eine Frage zu der Psychotherapie.|دربارهٔ روان‌درمانی یک سؤال دارم.
+Wohlbefinden|das|احساس سلامتی و آسایش|—|Heute geht es um das Wohlbefinden.|امروز موضوع بحث احساس سلامتی و آسایش است.`,"CT":`Infrastruktur|die|زیرساخت|Infrastrukturen|Heute geht es um die Infrastruktur.|امروز موضوع بحث زیرساخت است.
+Nahverkehr|der|حمل‌ونقل محلی|—|Wir sprechen über den Nahverkehr.|ما دربارهٔ حمل‌ونقل محلی صحبت می‌کنیم.
+Fernverkehr|der|حمل‌ونقل بین‌شهری|—|Im Kurs diskutieren wir über den Fernverkehr.|در کلاس دربارهٔ حمل‌ونقل بین‌شهری بحث می‌کنیم.
+Verkehrsanbindung|die|دسترسی حمل‌ونقل|Verkehrsanbindungen|Heute geht es um die Verkehrsanbindung.|امروز موضوع بحث دسترسی حمل‌ونقل است.
+Mobilität|die|تحرک‌پذیری|—|Wir sprechen über die Mobilität.|ما دربارهٔ تحرک‌پذیری صحبت می‌کنیم.
+Pendler|der|مسافر رفت‌وآمد روزانه|Pendler|Wir sprechen über den Pendler.|ما دربارهٔ مسافر رفت‌وآمد روزانه صحبت می‌کنیم.
+Fahrgemeinschaft|die|هم‌سفری با خودرو|Fahrgemeinschaften|Heute geht es um die Fahrgemeinschaft.|امروز موضوع بحث هم‌سفری با خودرو است.
+Fahrgast|der|مسافر وسیله نقلیه|Fahrgäste|Der Fahrgast steigt in den Bus ein.|مسافر سوار اتوبوس می‌شود.
+Verkehrsaufkommen|das|حجم ترافیک|—|Ich habe eine Frage zu dem Verkehrsaufkommen.|دربارهٔ حجم ترافیک یک سؤال دارم.
+Sperrung|die|مسدودسازی مسیر|Sperrungen|Im Kurs diskutieren wir über die Sperrung.|در کلاس دربارهٔ مسدودسازی مسیر بحث می‌کنیم.
+Zugausfall|der|لغو حرکت قطار|Zugausfälle|Wir sprechen über den Zugausfall.|ما دربارهٔ لغو حرکت قطار صحبت می‌کنیم.
+Ersatzverkehr|der|حمل‌ونقل جایگزین|—|Im Kurs diskutieren wir über den Ersatzverkehr.|در کلاس دربارهٔ حمل‌ونقل جایگزین بحث می‌کنیم.
+Grenzkontrolle|die|کنترل مرزی|Grenzkontrollen|Ich habe eine Frage zu der Grenzkontrolle.|دربارهٔ کنترل مرزی یک سؤال دارم.
+Aufenthaltstitel|der|مجوز اقامت|Aufenthaltstitel|Im Kurs diskutieren wir über den Aufenthaltstitel.|در کلاس دربارهٔ مجوز اقامت بحث می‌کنیم.
+Meldebescheinigung|die|گواهی ثبت نشانی|Meldebescheinigungen|Im Kurs diskutieren wir über die Meldebescheinigung.|در کلاس دربارهٔ گواهی ثبت نشانی بحث می‌کنیم.`,"W":`Arbeitsbedingungen|die|شرایط کار|—|Die Arbeitsbedingungen sind wichtig.|شرایط کار مهم‌اند.
+Tarifvertrag|der|قرارداد دسته‌جمعی کار|Tarifverträge|Ich habe eine Frage zu dem Tarifvertrag.|دربارهٔ قرارداد دسته‌جمعی کار یک سؤال دارم.
+Mindestlohn|der|حداقل دستمزد|Mindestlöhne|Der Mindestlohn wurde erhöht.|حداقل دستمزد افزایش یافت.
+Arbeitsbelastung|die|فشار کاری|Arbeitsbelastungen|Wir sprechen über die Arbeitsbelastung.|ما دربارهٔ فشار کاری صحبت می‌کنیم.
+Arbeitsschutz|der|حفاظت شغلی|—|Wir sprechen über den Arbeitsschutz.|ما دربارهٔ حفاظت شغلی صحبت می‌کنیم.
+Kündigungsschutz|der|حمایت در برابر اخراج|—|Ich habe eine Frage zu dem Kündigungsschutz.|دربارهٔ حمایت در برابر اخراج یک سؤال دارم.
+Betriebsrat|der|شورای کارکنان|Betriebsräte|Wir sprechen über den Betriebsrat.|ما دربارهٔ شورای کارکنان صحبت می‌کنیم.
+Beförderung|die|ارتقای شغلی|Beförderungen|Heute geht es um die Beförderung.|امروز موضوع بحث ارتقای شغلی است.
+Gehaltsverhandlung|die|مذاکره حقوق|Gehaltsverhandlungen|Ich habe eine Frage zu der Gehaltsverhandlung.|دربارهٔ مذاکره حقوق یک سؤال دارم.
+Bewerbungsverfahren|das|فرایند درخواست شغل|Bewerbungsverfahren|Ich habe eine Frage zu dem Bewerbungsverfahren.|دربارهٔ فرایند درخواست شغل یک سؤال دارم.
+Leistungsbewertung|die|ارزیابی عملکرد|Leistungsbewertungen|Ich habe eine Frage zu der Leistungsbewertung.|دربارهٔ ارزیابی عملکرد یک سؤال دارم.
+Studienleistung|die|عملکرد درسی|Studienleistungen|Ich habe eine Frage zu der Studienleistung.|دربارهٔ عملکرد درسی یک سؤال دارم.
+Forschungsprojekt|das|پروژه پژوهشی|Forschungsprojekte|Im Kurs diskutieren wir über das Forschungsprojekt.|در کلاس دربارهٔ پروژه پژوهشی بحث می‌کنیم.
+Fördermittel|das|بودجه حمایتی|Fördermittel|Die Fördermittel reichen nicht aus.|بودجه حمایتی کافی نیست.
+Wissenschaftler|der|پژوهشگر مرد|Wissenschaftler|Heute geht es um den Wissenschaftler.|امروز موضوع بحث پژوهشگر مرد است.`,"N":`Treibhausgas|das|گاز گلخانه‌ای|Treibhausgase|Ich habe eine Frage zu dem Treibhausgas.|دربارهٔ گاز گلخانه‌ای یک سؤال دارم.
+Treibhauswirkung|die|اثر گلخانه‌ای|Treibhauswirkungen|Wir sprechen über die Treibhauswirkung.|ما دربارهٔ اثر گلخانه‌ای صحبت می‌کنیم.
+Erderwärmung|die|گرمایش زمین|—|Im Kurs diskutieren wir über die Erderwärmung.|در کلاس دربارهٔ گرمایش زمین بحث می‌کنیم.
+Kohlenstoffdioxid|das|دی‌اکسید کربن|—|Das Kohlenstoffdioxid entsteht bei der Verbrennung.|دی‌اکسید کربن در اثر سوختن ایجاد می‌شود.
+Ausstoß|der|انتشار آلاینده|Ausstöße|Ich habe eine Frage zu dem Ausstoß.|دربارهٔ انتشار آلاینده یک سؤال دارم.
+Emission|die|انتشار آلاینده|Emissionen|Im Kurs diskutieren wir über die Emission.|در کلاس دربارهٔ انتشار آلاینده بحث می‌کنیم.
+Ökosystem|das|زیست‌بوم|Ökosysteme|Heute geht es um das Ökosystem.|امروز موضوع بحث زیست‌بوم است.
+Biodiversität|die|تنوع زیستی|—|Heute geht es um die Biodiversität.|امروز موضوع بحث تنوع زیستی است.
+Ressource|die|منبع|Ressourcen|Wir sprechen über die Ressource.|ما دربارهٔ منبع صحبت می‌کنیم.
+Wasserknappheit|die|کمبود آب|—|Im Kurs diskutieren wir über die Wasserknappheit.|در کلاس دربارهٔ کمبود آب بحث می‌کنیم.
+Dürre|die|خشکسالی|Dürren|Ich habe eine Frage zu der Dürre.|دربارهٔ خشکسالی یک سؤال دارم.
+Überschwemmung|die|سیل|Überschwemmungen|Wir sprechen über die Überschwemmung.|ما دربارهٔ سیل صحبت می‌کنیم.
+Artenschutz|der|حفاظت از گونه‌ها|—|Wir sprechen über den Artenschutz.|ما دربارهٔ حفاظت از گونه‌ها صحبت می‌کنیم.
+Energiewende|die|گذار انرژی|—|Heute geht es um die Energiewende.|امروز موضوع بحث گذار انرژی است.
+Kreislaufwirtschaft|die|اقتصاد چرخشی|—|Wir sprechen über die Kreislaufwirtschaft.|ما دربارهٔ اقتصاد چرخشی صحبت می‌کنیم.`,"T":`Wettervorhersage|die|پیش‌بینی هوا|Wettervorhersagen|Die Wettervorhersage zeigt Regen.|پیش‌بینی هوا باران را نشان می‌دهد.
+Langzeitprognose|die|پیش‌بینی بلندمدت|Langzeitprognosen|Im Kurs diskutieren wir über die Langzeitprognose.|در کلاس دربارهٔ پیش‌بینی بلندمدت بحث می‌کنیم.
+Zeitverschiebung|die|اختلاف ساعت|Zeitverschiebungen|Im Kurs diskutieren wir über die Zeitverschiebung.|در کلاس دربارهٔ اختلاف ساعت بحث می‌کنیم.
+Übergangszeit|die|دوره گذار|Übergangszeiten|Ich habe eine Frage zu der Übergangszeit.|دربارهٔ دوره گذار یک سؤال دارم.
+Beschleunigung|die|شتاب|Beschleunigungen|Heute geht es um die Beschleunigung.|امروز موضوع بحث شتاب است.
+Verzögerung|die|تأخیر یا کندشدن|Verzögerungen|Im Kurs diskutieren wir über die Verzögerung.|در کلاس دربارهٔ تأخیر یا کندشدن بحث می‌کنیم.
+Entwicklung|die|توسعه یا تحول|Entwicklungen|Heute geht es um die Entwicklung.|امروز موضوع بحث توسعه یا تحول است.
+Veränderungsprozess|der|فرایند تغییر|Veränderungsprozesse|Im Kurs diskutieren wir über den Veränderungsprozess.|در کلاس دربارهٔ فرایند تغییر بحث می‌کنیم.
+Trend|der|روند|Trends|Wir sprechen über den Trend.|ما دربارهٔ روند صحبت می‌کنیم.
+Schwankung|die|نوسان|Schwankungen|Heute geht es um die Schwankung.|امروز موضوع بحث نوسان است.
+Zeitmanagement|das|مدیریت زمان|—|Das Zeitmanagement fällt mir schwer.|مدیریت زمان برایم سخت است.
+Priorität|die|اولویت|Prioritäten|Heute geht es um die Priorität.|امروز موضوع بحث اولویت است.
+Planungssicherheit|die|اطمینان در برنامه‌ریزی|—|Wir sprechen über die Planungssicherheit.|ما دربارهٔ اطمینان در برنامه‌ریزی صحبت می‌کنیم.
+Dringlichkeit|die|فوریت|—|Heute geht es um die Dringlichkeit.|امروز موضوع بحث فوریت است.
+Beständigkeit|die|پایداری|—|Im Kurs diskutieren wir über die Beständigkeit.|در کلاس دربارهٔ پایداری بحث می‌کنیم.`,"S":`Motivation|die|انگیزه|Motivationen|Ich habe eine Frage zu der Motivation.|دربارهٔ انگیزه یک سؤال دارم.
+Kreativität|die|خلاقیت|—|Wir sprechen über die Kreativität.|ما دربارهٔ خلاقیت صحبت می‌کنیم.
+Disziplin|die|انضباط|—|Heute geht es um die Disziplin.|امروز موضوع بحث انضباط است.
+Herausforderung|die|چالش|Herausforderungen|Heute geht es um die Herausforderung.|امروز موضوع بحث چالش است.
+Anstrengung|die|تلاش شدید|Anstrengungen|Wir sprechen über die Anstrengung.|ما دربارهٔ تلاش شدید صحبت می‌کنیم.
+Ehrgeiz|der|بلندپروازی|—|Im Kurs diskutieren wir über den Ehrgeiz.|در کلاس دربارهٔ بلندپروازی بحث می‌کنیم.
+Selbstvertrauen|das|اعتمادبه‌نفس|—|Ich habe eine Frage zu dem Selbstvertrauen.|دربارهٔ اعتمادبه‌نفس یک سؤال دارم.
+Wettbewerbsfähigkeit|die|توان رقابت|—|Im Kurs diskutieren wir über die Wettbewerbsfähigkeit.|در کلاس دربارهٔ توان رقابت بحث می‌کنیم.
+Trainingsplan|der|برنامه تمرین|Trainingspläne|Im Kurs diskutieren wir über den Trainingsplan.|در کلاس دربارهٔ برنامه تمرین بحث می‌کنیم.
+Trainingsmethode|die|روش تمرین|Trainingsmethoden|Ich habe eine Frage zu der Trainingsmethode.|دربارهٔ روش تمرین یک سؤال دارم.
+Regeneration|die|بازسازی توان بدن|—|Im Kurs diskutieren wir über die Regeneration.|در کلاس دربارهٔ بازسازی توان بدن بحث می‌کنیم.
+Verletzungsrisiko|das|احتمال آسیب‌دیدگی|Verletzungsrisiken|Heute geht es um das Verletzungsrisiko.|امروز موضوع بحث احتمال آسیب‌دیدگی است.
+Teamgeist|der|روحیه تیمی|—|Im Kurs diskutieren wir über den Teamgeist.|در کلاس دربارهٔ روحیه تیمی بحث می‌کنیم.
+Zusammenarbeit|die|همکاری|—|Im Kurs diskutieren wir über die Zusammenarbeit.|در کلاس دربارهٔ همکاری بحث می‌کنیم.
+Sportveranstaltung|die|رویداد ورزشی|Sportveranstaltungen|Im Kurs diskutieren wir über die Sportveranstaltung.|در کلاس دربارهٔ رویداد ورزشی بحث می‌کنیم.`,"TE":`Künstliche Intelligenz|die|هوش مصنوعی|—|Die Künstliche Intelligenz verändert viele Berufe.|هوش مصنوعی بسیاری از شغل‌ها را تغییر می‌دهد.
+Algorithmus|der|الگوریتم|Algorithmen|Im Kurs diskutieren wir über den Algorithmus.|در کلاس دربارهٔ الگوریتم بحث می‌کنیم.
+Automatisierung|die|خودکارسازی|Automatisierungen|Wir sprechen über die Automatisierung.|ما دربارهٔ خودکارسازی صحبت می‌کنیم.
+Digitalisierung|die|دیجیتالی‌شدن|—|Heute geht es um die Digitalisierung.|امروز موضوع بحث دیجیتالی‌شدن است.
+Datenverarbeitung|die|پردازش داده|—|Heute geht es um die Datenverarbeitung.|امروز موضوع بحث پردازش داده است.
+Datenübertragung|die|انتقال داده|Datenübertragungen|Wir sprechen über die Datenübertragung.|ما دربارهٔ انتقال داده صحبت می‌کنیم.
+Verschlüsselung|die|رمزگذاری|Verschlüsselungen|Im Kurs diskutieren wir über die Verschlüsselung.|در کلاس دربارهٔ رمزگذاری بحث می‌کنیم.
+Zuverlässigkeit|die|قابلیت اطمینان|—|Im Kurs diskutieren wir über die Zuverlässigkeit.|در کلاس دربارهٔ قابلیت اطمینان بحث می‌کنیم.
+Fehlerquelle|die|منبع خطا|Fehlerquellen|Wir sprechen über die Fehlerquelle.|ما دربارهٔ منبع خطا صحبت می‌کنیم.
+Rechenleistung|die|توان پردازشی|—|Ich habe eine Frage zu der Rechenleistung.|دربارهٔ توان پردازشی یک سؤال دارم.
+Benutzeroberfläche|die|رابط کاربری|Benutzeroberflächen|Wir sprechen über die Benutzeroberfläche.|ما دربارهٔ رابط کاربری صحبت می‌کنیم.
+Quellcode|der|کد منبع|Quellcodes|Im Kurs diskutieren wir über den Quellcode.|در کلاس دربارهٔ کد منبع بحث می‌کنیم.
+Speicherkapazität|die|ظرفیت ذخیره‌سازی|Speicherkapazitäten|Ich habe eine Frage zu der Speicherkapazität.|دربارهٔ ظرفیت ذخیره‌سازی یک سؤال دارم.
+Netzwerksicherheit|die|امنیت شبکه|—|Wir sprechen über die Netzwerksicherheit.|ما دربارهٔ امنیت شبکه صحبت می‌کنیم.
+Datensicherung|die|پشتیبان‌گیری از داده|Datensicherungen|Im Kurs diskutieren wir über die Datensicherung.|در کلاس دربارهٔ پشتیبان‌گیری از داده بحث می‌کنیم.`}};
+
+/* ===== DATA_END ===== */
+/* ===== APP_START ===== */
+/* داده‌های اولیه به همان ترتیب و با همان شش فیلد نسخهٔ اصلی حفظ شده‌اند. */
+const KEY='derdiedas.v1';
+const $=id=>document.getElementById(id);
+const faN=n=>Number(n).toLocaleString('fa-IR');
+const pct=(o,t)=>t?faN(Math.round(o*100/t))+'٪':'—';
+const dateKey=d=>[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');
+const today=()=>dateKey(new Date());
+const safe=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const DEFAULT=()=>({streak:0,best:0,ok:0,total:0,wrong:{},leitner:{},byLevel:{},byCategory:{},byArticle:{},daily:{},quickBest:0,dailyGoal:20,prefs:{sound:true,rate:.75,font:'normal'},custom:[],celebrated:{}});
+let saveWarned=false;
+function load(){
+ let stored={};try{stored=JSON.parse(localStorage.getItem(KEY))||{}}catch(e){}
+ if(!stored||typeof stored!=='object'||Array.isArray(stored))stored={};
+ const d=DEFAULT();Object.assign(d,stored);
+ for(const k of ['wrong','leitner','byLevel','byCategory','byArticle','daily','prefs','celebrated'])if(!d[k]||typeof d[k]!=='object'||Array.isArray(d[k]))d[k]={};
+ if(!Array.isArray(d.custom))d.custom=[];
+ d.prefs={...DEFAULT().prefs,...d.prefs};
+ for(const k of ['streak','best','ok','total','quickBest'])if(!Number.isFinite(d[k])||d[k]<0)d[k]=0;
+ d.dailyGoal=Number.isFinite(+d.dailyGoal)?Math.min(300,Math.max(1,Math.trunc(+d.dailyGoal))):20;
+ // اطلاعات نسخهٔ قبل را نگه می‌داریم؛ اشتباه‌های قبلی در مرور جدید هم وارد می‌شوند.
+ for(const [w,n] of Object.entries(d.wrong))if(Number(n)>0&&!d.leitner[w])d.leitner[w]={box:1,due:0,seen:0};
+ return d;
+}
+let S=load();
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){if(!saveWarned){notify('ذخیره‌سازی مرورگر در دسترس نیست؛ از فایل پشتیبان بگیرید.');saveWarned=true;}}}
+const ARTICLES=new Set(['der','die','das']);
+const BASE=[];const UNIQUE=new Set();
+function pushWord(p,lv,cat,target=BASE){
+ if(p.length!==6||!p.every(x=>String(x).trim())||!ARTICLES.has(p[1]))return false;
+ const w=p[0].trim(),key=w.toLocaleLowerCase('de-DE');
+ if(UNIQUE.has(key))return false;
+ UNIQUE.add(key);
+ target.push({w,a:p[1],fa:p[2],pl:p[3],ex:p[4],exfa:p[5],lv,cat});
+ return true;
+}
+for(const [lv,str] of Object.entries(RAW))for(const line of str.split('\n')){
+ const p=line.split('|');if(p.length!==6||!pushWord(p,lv,ORIGINAL_CATEGORIES[p[0]]))throw Error('دادهٔ اصلی معتبر نیست: '+line);
+}
+for(const [lv,cats] of Object.entries(ADDITIONS))for(const [cat,chunk] of Object.entries(cats))for(const line of chunk.split('\n')){
+ if(!pushWord(line.split('|'),lv,cat))throw Error('واژهٔ جدید نامعتبر یا تکراری: '+line);
+}
+const CORE_COUNTS=Object.fromEntries(['A1','A2','B1','B2'].map(l=>[l,BASE.filter(x=>x.lv===l).length]));
+if(JSON.stringify(Object.values(CORE_COUNTS))!==JSON.stringify([200,200,200,150]))throw Error('تعداد واژه‌ها مطابق انتظار نیست');
+const ALL=[...BASE];
+for(const x of S.custom){
+ if(!x||!x.w||!x.a||!x.fa||!x.pl||!x.ex||!x.exfa||!CATEGORIES[x.cat])continue;
+ pushWord([x.w,x.a,x.fa,x.pl,x.ex,x.exfa],'MY',x.cat,ALL);
+}
+let lv='A1',category='ALL',game='normal',session=null,cur=null,last=null,answered=false,questionNo=0,tickId=null,nextTick=null,toastTimer=null;
+function notify(message){const t=$('toast');t.textContent=message;t.hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.hidden=true,3100);}
+function getCounter(key,dimension){const val=S[dimension]?.[key];return val&&typeof val==='object'?val:{ok:0,total:0};}
+function addToCounter(dimension,key,right){if(!S[dimension][key]||typeof S[dimension][key]!=='object')S[dimension][key]={ok:0,total:0};S[dimension][key].total++;if(right)S[dimension][key].ok++;}
+function updateStats(){
+ $('sStreak').textContent=faN(S.streak);$('sBest').textContent=faN(S.best);$('sPct').textContent=pct(S.ok,S.total);
+ $('statsMini').hidden=game==='exam'&&session&&!session.finished;
+ const n=S.daily[today()]?.total||0,goal=S.dailyGoal;
+ $('dailyCounter').textContent=faN(n)+' از '+faN(goal);
+ $('dailyBar').style.width=Math.min(100,n*100/goal)+'%';$('dailyGoal').value=goal;
+ const days=last14();$('miniHistory').innerHTML=days.map((d,i)=>{
+ const count=S.daily[d]?.total||0;return `<span class="${count?'done ':''}${i===13?'today':''}" title="${safe(d)}: ${faN(count)} پاسخ" aria-label="${safe(d)}، ${faN(count)} پاسخ"></span>`;
+ }).join('');
+}
+function last14(){const out=[];const d=new Date();d.setHours(12,0,0,0);for(let i=13;i>=0;i--){let x=new Date(d);x.setDate(x.getDate()-i);out.push(dateKey(x));}return out;}
+function currentPool(){
+ return ALL.filter(x=>category==='ALL'||x.cat===category).filter(x=>{
+  if(lv==='REV'){
+   const z=S.leitner[x.w];const wrong=(S.wrong[x.w]||0)>0;
+   return wrong||Boolean(z&&z.box&&((z.due||0)<=Date.now()||z.box<=2));
+  }
+  return x.lv===lv;
+ });
+}
+function redrawPool(){const p=currentPool();$('poolCount').textContent=faN(p.length)+' واژه';}
+function selectRandom(pool){
+ if(!pool.length)return null;
+ const candidates=pool.length>1?pool.filter(x=>x.w!==last):pool;
+ const weighted=candidates.map(x=>{const b=S.leitner[x.w]?.box||0;return {x,w:b===0?2:b===1?3:b===2?2:1};});
+ let at=Math.random()*weighted.reduce((s,v)=>s+v.w,0);
+ for(const p of weighted){at-=p.w;if(at<0)return p.x;}
+ return weighted[weighted.length-1].x;
+}
+function setActiveTabs(){
+ document.querySelectorAll('#levels button').forEach(b=>{const on=b.dataset.lv===lv;b.classList.toggle('active',on);b.setAttribute('aria-pressed',String(on));});
+ document.querySelectorAll('#gameModes button').forEach(b=>b.classList.toggle('active',b.dataset.game===game));
+ redrawPool();
+}
+function clearSessionTimers(){clearInterval(tickId);clearTimeout(nextTick);tickId=null;nextTick=null;}
+function start(g='normal'){
+ clearSessionTimers();game=g;session=null;cur=null;last=null;answered=false;questionNo=0;
+ const pool=currentPool();
+ $('result').hidden=true;$('card').hidden=false;$('sessionLine').hidden=true;$('statsMini').hidden=false;
+ if(g==='exam'){
+  if(pool.length<20){notify('آزمون ۲۰ سؤالی به حداقل ۲۰ واژه در این فیلتر نیاز دارد.');game='normal';}
+  else session={type:'exam',queue:shuffle(pool).slice(0,20),started:Date.now(),correct:0,errors:[],attempted:0,finished:false};
+ }
+ if(game==='quick'){
+  if(!pool.length){notify('در این فیلتر واژه‌ای وجود ندارد.');game='normal';}
+  else{
+   session={type:'quick',started:Date.now(),ends:Date.now()+60000,correct:0,attempted:0,errors:[],finished:false};
+   tickId=setInterval(()=>{if(!session||session.type!=='quick')return;const remain=Math.max(0,Math.ceil((session.ends-Date.now())/1000));$('timer').textContent=faN(remain)+' ثانیه';if(remain===0)finish();},200);
+  }
+ }
+ setActiveTabs();updateStats();nextQuestion();
+}
+function shuffle(a){const q=a.slice();for(let i=q.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[q[i],q[j]]=[q[j],q[i]];}return q;}
+function resetQuestion(){
+ answered=false;$('fb').textContent='';$('fb').className='feedback';$('info').hidden=true;$('info').innerHTML='';$('next').hidden=true;
+ document.querySelectorAll('.art').forEach(b=>{b.disabled=false;b.className='art';b.textContent=b.dataset.a;});
+ $('card').classList.remove('good','shake');$('meaning').textContent='ابتدا مقاله را انتخاب کن';
+}
+function nextQuestion(){
+ clearTimeout(nextTick);
+ if(session?.type==='quick'&&Date.now()>=session.ends){finish();return;}
+ if(session?.type==='exam'&&session.attempted>=session.queue.length){finish();return;}
+ resetQuestion();redrawPool();
+ const pool=currentPool();
+ cur=session?.type==='exam'?session.queue[session.attempted]:selectRandom(pool);
+ if(!cur){$('word').textContent='—';$('meaning').textContent=lv==='REV'?'فعلاً واژه‌ای برای مرور هوشمند ندارید.':'این فیلتر واژه‌ای ندارد.';$('arts').querySelectorAll('button').forEach(b=>b.disabled=true);$('say').disabled=true;}
+ else{$('word').textContent=cur.w;$('say').disabled=false;last=cur.w;}
+ if(session){
+  $('sessionLine').hidden=false;
+  $('sessionProgress').textContent=session.type==='exam'?`سؤال ${faN(session.attempted+1)} از ${faN(20)}`:`پاسخ درست: ${faN(session.correct)} از ${faN(session.attempted)}`;
+  $('timer').textContent=session.type==='quick'?faN(Math.max(0,Math.ceil((session.ends-Date.now())/1000)))+' ثانیه':'';
+ }else $('sessionLine').hidden=true;
+ $('modeStatus').textContent=session?.type==='exam'?'آزمون: پاسخ‌ها ثبت می‌شوند، نتیجه در پایان نمایش داده می‌شود.':session?.type==='quick'?'چالش یک‌دقیقه‌ای: تا جایی که می‌توانی درست جواب بده.':'هر بار مقاله را حدس بزن، بعد معنی و مثال را ببین.';
+ updateStats();
+}
+function ruleFor(x){
+ const w=x.w.toLocaleLowerCase('de-DE'),a=x.a;
+ if(/(chen|lein)$/.test(w)&&a==='das')return 'اسم‌های پایان‌یافته به ‎-chen یا ‎-lein (کوچک‌ساز) همیشه «das» می‌گیرند.';
+ if(/(ung|heit|keit|schaft|ion|tät|ei)$/.test(w)&&a==='die')return 'پسوند این واژه یکی از نشانه‌های قویِ «die» است؛ ‎-ung، ‎-heit، ‎-keit، ‎-schaft، ‎-ion، ‎-tät و ‎-ei عموماً مؤنث‌اند.';
+ if(w.endsWith('ismus')&&a==='der')return 'اسم‌های دارای پسوند ‎-ismus معمولاً «der» دارند.';
+ if(w.endsWith('ment')&&a==='das')return 'بسیاری از اسم‌های با پسوند ‎-ment خنثی و «das» هستند؛ استثناها را جدا یاد بگیر.';
+ if(w.endsWith('ling')&&a==='der')return 'اسم‌هایی با پسوند ‎-ling اغلب مذکر و «der» هستند.';
+ if(/(erin|studentin|kollegin|chefin|nachbarin|kundin|enkelin|partnerin|lehrerin|besucherin|fahrerin|spielerin)$/.test(w)&&a==='die')return 'عنوان‌های شغلی و نقش‌های زنانه با پسوند ‎-in معمولاً «die» می‌گیرند.';
+ if(['montag','dienstag','mittwoch','donnerstag','freitag','samstag','sonntag','januar','februar','märz','april','mai','juni','juli','august','september','oktober','november','dezember','frühling','sommer','herbst','winter'].includes(w)&&a==='der')return 'روزهای هفته، ماه‌ها و فصل‌های سال در آلمانی «der» می‌گیرند.';
+ const notes={F:'برای اسم اشخاص، جنسیت دستوری را با نقش و شکل خود واژه مقایسه کن؛ همیشه از روی معنی نمی‌شود حدس زد.',H:'برای وسایل خانه، مقاله را از ابتدا همراه اسم حفظ کن؛ این گروه استثناهای زیادی دارد.',FO:'برای خوراکی‌ها مقالهٔ واحدی وجود ندارد؛ آن را همراه اسم در جمله به خاطر بسپار.',HE:'بخش‌های بدن جنسیت دستوری یکسانی ندارند؛ مقالهٔ هر اسم را جدا یاد بگیر.',CT:'اسم‌های مکان و وسیلهٔ نقلیه الگوی قطعی مشترکی ندارند.',W:'عنوان‌های افراد ممکن است با پسوند مشخص شوند؛ برای بقیه، مقاله را همراه واژه حفظ کن.',N:'نام جانوران و عناصر طبیعت از روی معنا همیشه قابل حدس نیست.',T:'پسوند و نوع زمان را بررسی کن؛ با وجود الگوها، بعضی واژه‌ها استثنا هستند.',S:'برای تفریح و ورزش، جنسیت دستوری الزاماً از مفهوم ورزش معلوم نمی‌شود.',TE:'واژه‌های فنی و وام‌واژه‌ها گاهی بر اساس پسوند یا واژهٔ پایه مقاله می‌گیرند.'};
+ return notes[x.cat]||'مقاله را همراه اسم در یک جملهٔ کوتاه تمرین کن.';
+}
+const UNCOUNTABLE_PLURAL_ONLY=new Set(['Eltern','Ferien','Nebenkosten','Arbeitsbedingungen','Produktionskosten','Fördermittel']);
+function pluralDisplay(x){return x.pl==='—'?(UNCOUNTABLE_PLURAL_ONLY.has(x.w)?'فقط به شکل جمع به‌کار می‌رود':'جمع رایج ندارد'):('die '+x.pl);}
+const INTERVALS=[0,5*60000,86400000,3*86400000,7*86400000,14*86400000];
+function answer(a){
+ if(!cur||answered||!ARTICLES.has(a))return;
+ if(session?.type==='quick'&&Date.now()>=session.ends){finish();return;}
+ answered=true;const right=a===cur.a;const w=cur.w;
+ S.total++;if(right){S.ok++;S.streak++;S.best=Math.max(S.best,S.streak);if(S.wrong[w]){S.wrong[w]--;if(S.wrong[w]<=0)delete S.wrong[w];}}
+ else{S.streak=0;S.wrong[w]=(S.wrong[w]||0)+1;}
+ addToCounter('byLevel',cur.lv,right);addToCounter('byCategory',cur.cat,right);addToCounter('byArticle',cur.a,right);
+ const d=today();if(!S.daily[d]||typeof S.daily[d]!=='object')S.daily[d]={total:0,ok:0};S.daily[d].total++;if(right)S.daily[d].ok++;
+ const prev=S.leitner[w]||{box:0,due:0,seen:0};const box=right?Math.min(5,(prev.box||0)+1):1;
+ S.leitner[w]={box,due:Date.now()+INTERVALS[box],seen:(prev.seen||0)+1};
+ if(session){session.attempted++;if(right)session.correct++;else session.errors.push(cur);}
+ save();updateStats();redrawPool();
+ document.querySelectorAll('.art').forEach(b=>{b.disabled=true;if(b.dataset.a===cur.a){b.classList.add('ok');b.textContent=b.dataset.a+' ✓';}else if(b.dataset.a===a){b.classList.add('bad');b.textContent=b.dataset.a+' ✕';}});
+ $('fb').textContent=right?'✓ آفرین، درست بود!':'✕ درستش: '+cur.a+' '+cur.w;$('fb').className='feedback '+(right?'ok':'bad');
+ $('card').classList.remove('good','shake');void $('card').offsetWidth;$('card').classList.add(right?'good':'shake');
+ $('word').textContent=cur.a+' '+cur.w;$('meaning').textContent=cur.fa;
+ $('info').innerHTML=`<div>جمع: <span class="de" lang="de">${safe(pluralDisplay(cur))}</span></div><div>مثال: <span class="de" lang="de">${safe(cur.ex)}</span></div><div>${safe(cur.exfa)}</div><div class="rule"><strong><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 22h4"/><path d="M12 3a6 6 0 0 0-3.4 10.9c.6.5.9 1.1.9 2.1h5c0-1 .3-1.6.9-2.1A6 6 0 0 0 12 3z"/></svg> نکتهٔ قاعده:</strong> ${safe(ruleFor(cur))}<div class="tiny">خانهٔ لایتنر: ${faN(box)} از ۵</div></div>`;
+ $('info').hidden=false;$('next').hidden=false;
+ $('next').textContent=session?.type==='exam'&&session.attempted===20?'مشاهدهٔ نتیجه ←':'کلمهٔ بعدی ←';
+ if(S.prefs.sound)speak(cur.a+' '+cur.w);
+ if(S.daily[d].total>=S.dailyGoal&&!S.celebrated[d]){S.celebrated[d]=true;save();notify('✓ هدف امروزت کامل شد!');}
+ if(session?.type==='quick'){
+  $('sessionProgress').textContent=`پاسخ درست: ${faN(session.correct)} از ${faN(session.attempted)}`;
+  nextTick=setTimeout(()=>{if(session?.type==='quick')nextQuestion();},650);
+ }
+}
+function speak(t){
+ if(!('speechSynthesis' in window)){notify('مرورگر این دستگاه از تلفظ پشتیبانی نمی‌کند.');return;}
+ try{speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(t);u.lang='de-DE';u.rate=Number(S.prefs.rate)||.75;
+  const v=speechSynthesis.getVoices().find(x=>/^de/i.test(x.lang));if(v)u.voice=v;speechSynthesis.speak(u);
+ }catch(e){notify('پخش تلفظ در این مرورگر ممکن نشد.');}
+}
+function finish(){
+ if(!session||session.finished)return;
+ session.finished=true;clearSessionTimers();answered=true;
+ $('statsMini').hidden=false;$('sessionLine').hidden=true;
+ const sec=session,elapsed=Math.max(1,Math.floor((Date.now()-sec.started)/1000)),accuracy=pct(sec.correct,sec.attempted);
+ const resultLabel=sec.type==='exam'?'کارنامهٔ آزمون ۲۰ سؤالی':'نتیجهٔ چالش ۶۰ ثانیه‌ای';
+ if(sec.type==='quick'){S.quickBest=Math.max(S.quickBest,sec.correct);save();}
+ const message=sec.type==='exam'?(sec.correct>=18?'عالی؛ تسلطت در این بخش بالاست.':sec.correct>=14?'خوبه؛ روی واژه‌های اشتباه تمرکز کن.':sec.correct>=10?'جای پیشرفت هست؛ مرور کوتاه روزانه کمک می‌کند.':'بهتره این سطح رو با تمرین عادی مرور کنی.'):'بهترین رکورد ثبت‌شده: '+faN(S.quickBest)+' پاسخ درست';
+ $('card').hidden=true;$('result').hidden=false;
+ $('result').innerHTML=`<h2>${resultLabel}</h2><div class="score">${sec.type==='exam'?faN(sec.correct)+' / ۲۰':faN(sec.correct)}</div><p>دقت: ${accuracy} · زمان: ${faN(elapsed)} ثانیه</p><p>${safe(message)}</p>${sec.errors.length?`<h3 style="text-align:right;font-size:1rem">واژه‌های اشتباه</h3><ul>${sec.errors.map(x=>`<li><span class="latin" lang="de">${safe(x.a+' '+x.w)}</span> — ${safe(x.fa)}</li>`).join('')}</ul>`:'<p>هیچ پاسخ غلطی نداشتی ✓</p>'}<button id="again" type="button" class="next" style="display:block">شروع دوباره</button>`;
+ $('again').onclick=()=>start(game);
+ updateStats();
+}
+function viewDashboard(){
+ const mastered=ALL.filter(x=>S.leitner[x.w]?.box===5).length;
+ const articles=Object.entries(S.byArticle).filter(([,v])=>v.total>0&&v.ok<v.total).sort((a,b)=>((a[1].ok/a[1].total)-(b[1].ok/b[1].total)));
+ const weak=articles.length?articles[0][0]:'هنوز مشخص نیست';
+ const metric=(label,value)=>`<div class="metric"><b>${safe(value)}</b><small>${safe(label)}</small></div>`;
+ const breakdown=(pairs)=>pairs.map(([label,key,dimension])=>{
+  const c=getCounter(key,dimension);const v=c.total?Math.round(c.ok/c.total*100):0;
+  return `<div class="breakrow"><span>${safe(label)}</span><div class="bar" aria-label="دقت ${safe(label)} ${faN(v)} درصد"><i style="width:${v}%"></i></div><span>${pct(c.ok,c.total)} <span class="tiny">(${faN(c.total)})</span></span></div>`;
+ }).join('');
+ const days=last14();const max=Math.max(1,...days.map(d=>S.daily[d]?.total||0));
+ $('dashboardBody').innerHTML=`<div class="metrics">${metric('دقت کلی',pct(S.ok,S.total))}${metric('واژه‌های خانهٔ پنجم',faN(mastered))}${metric('ضعیف‌ترین مقاله',weak)}${metric('رکورد چالش ۶۰ثانیه‌ای',faN(S.quickBest))}</div><h3>دقت به‌تفکیک سطح</h3><div class="breakdown">${breakdown([['A1','A1','byLevel'],['A2','A2','byLevel'],['B1','B1','byLevel'],['B2','B2','byLevel'],['کلمات من','MY','byLevel']])}</div><h3>دقت به‌تفکیک دسته</h3><div class="breakdown">${breakdown(Object.entries(CATEGORIES).map(([k,l])=>[l,k,'byCategory']))}</div><h3>پاسخ‌ها در ۱۴ روز اخیر</h3><div class="chart" role="img" aria-label="نمودار ۱۴ روز گذشته">${days.map(d=>{let v=S.daily[d]?.total||0;return `<div class="col" title="${safe(d)}: ${faN(v)} پاسخ" style="height:${v?(Math.max(4,v/max*100)):2}%"></div>`}).join('')}</div><div class="chartdays"><span>۱۳ روز پیش</span><span>امروز</span></div><p class="hint">آمار جزئیِ سطح، دسته و مقاله از زمان استفاده از این نسخه ثبت می‌شود؛ آمار کلی نسخهٔ قبلی حفظ شده است.</p>`;
+}
+function wrongJSON(){const out=ALL.filter(x=>Number(S.wrong[x.w])>0).map(x=>({front:x.w,back:`${x.a} ${x.w} — ${x.fa} (جمع: ${x.pl==='—'?'ندارد':x.pl})`,context:x.ex+' — '+x.exfa}));return JSON.stringify(out,null,2);}
+function showExport(){const txt=wrongJSON();$('exportArea').value=txt;notify(JSON.parse(txt).length?'خروجی آماده است.':'هنوز واژهٔ اشتباهی برای خروجی نداری.');return txt;}
+async function copyExport(){const j=showExport();try{if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(j);notify('JSON کپی شد.');return;}}catch(e){}
+ const ta=$('exportArea');ta.focus();ta.select();try{if(document.execCommand('copy'))notify('JSON کپی شد.');else notify('متن انتخاب شد؛ خودت کپی کن.');}catch(e){notify('متن انتخاب شد؛ خودت کپی کن.');}}
+function downloadExport(){const j=showExport();const blob=new Blob([j],{type:'application/json;charset=utf-8'});const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='wrong-words.json';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1200);}
+function importWords(){
+ const txt=$('importArea').value.trim();if(!txt){notify('ابتدا چند واژه در کادر بنویس.');return;}
+ const cat=$('importCat').value;let added=0,dups=[],invalid=[];
+ for(const [i,line] of txt.split(/\r?\n/).entries()){
+  if(!line.trim())continue;
+  const p=line.split('|').map(x=>x.trim());
+  if(p.length!==6||!p.every(Boolean)||!ARTICLES.has(p[1])){invalid.push(i+1);continue;}
+  if(UNIQUE.has(p[0].toLocaleLowerCase('de-DE'))){dups.push(p[0]);continue;}
+  const word={w:p[0],a:p[1],fa:p[2],pl:p[3],ex:p[4],exfa:p[5],lv:'MY',cat};
+  ALL.push(word);UNIQUE.add(word.w.toLocaleLowerCase('de-DE'));S.custom.push(word);added++;
+ }
+ if(added){save();$('importArea').value='';if(lv==='MY'&&game==='normal')nextQuestion();redrawPool();}
+ const result=`${faN(added)} واژه اضافه شد؛ ${faN(dups.length)} تکراری و ${faN(invalid.length)} خط نامعتبر رد شد.`;
+ $('importResult').textContent=result;notify(result);
+ if(dups.length)$('importResult').textContent+=' تکراری: '+dups.slice(0,5).join('، ');
+}
+function applyPrefs(){
+ $('mute').innerHTML=S.prefs.sound?'<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6.5 9H3v6h3.5L11 19V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/></svg> صدای خودکار: روشن':'<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6.5 9H3v6h3.5L11 19V5z"/><path d="M16 9l6 6M22 9l-6 6"/></svg> صدای خودکار: خاموش';
+ $('mute').setAttribute('aria-pressed',String(!S.prefs.sound));
+ $('speechRate').value=String(S.prefs.rate||.75);$('fontScale').value=S.prefs.font||'normal';
+ document.documentElement.style.setProperty('--font-size',S.prefs.font==='small'?'clamp(2rem,9vw,3rem)':S.prefs.font==='large'?'clamp(3rem,12vw,4.65rem)':'clamp(2.5rem,11vw,3.75rem)');
+}
+$('cat').innerHTML='<option value="ALL">همهٔ دسته‌ها</option>'+Object.entries(CATEGORIES).map(([c,n])=>`<option value="${c}">${safe(n)}</option>`).join('');
+$('importCat').innerHTML=Object.entries(CATEGORIES).map(([c,n])=>`<option value="${c}">${safe(n)}</option>`).join('');
+$('levels').addEventListener('click',e=>{const b=e.target.closest('button[data-lv]');if(!b||b.dataset.lv===lv)return;lv=b.dataset.lv;start('normal');});
+$('cat').onchange=e=>{category=e.target.value;start('normal');};
+$('gameModes').onclick=e=>{const b=e.target.closest('button[data-game]');if(b&&b.dataset.game!==game)start(b.dataset.game);};
+$('arts').onclick=e=>{const b=e.target.closest('.art');if(b&&!b.disabled)answer(b.dataset.a);};
+$('next').onclick=nextQuestion;
+$('say').onclick=()=>cur&&speak(answered?cur.a+' '+cur.w:cur.w);
+$('mute').onclick=()=>{S.prefs.sound=!S.prefs.sound;save();applyPrefs();};
+$('speechRate').onchange=e=>{S.prefs.rate=Number(e.target.value);save();applyPrefs();};
+$('fontScale').onchange=e=>{S.prefs.font=e.target.value;save();applyPrefs();};
+$('dailyGoal').onchange=e=>{S.dailyGoal=Math.min(300,Math.max(1,Math.trunc(Number(e.target.value)||20)));save();updateStats();};
+$('openStats').onclick=()=>{const open=!$('dashboard').hidden;$('dashboard').hidden=open;if(!open){viewDashboard();$('dashboard').scrollIntoView({behavior:'smooth',block:'start'});}};
+$('openData').onclick=()=>{const open=!$('dataPanel').hidden;$('dataPanel').hidden=open;if(!open)$('dataPanel').scrollIntoView({behavior:'smooth',block:'start'});};
+$('expShow').onclick=showExport;$('expCopy').onclick=copyExport;$('expDownload').onclick=downloadExport;
+$('importBtn').onclick=importWords;
+$('sampleBtn').onclick=()=>{$('importArea').value='Begriff|der|مفهوم|Begriffe|Der Begriff ist wichtig.|این مفهوم مهم است.';};
+$('rst').onclick=()=>{
+ if(!confirm('آیا آمار، رکوردها و برنامهٔ مرور پاک شوند؟ کلمات شخصی حفظ می‌شوند.'))return;
+ const custom=S.custom,prefs=S.prefs,goal=S.dailyGoal;S=DEFAULT();S.custom=custom;S.prefs=prefs;S.dailyGoal=goal;
+ save();clearSessionTimers();start('normal');$('dashboard').hidden=true;notify('پیشرفت پاک شد؛ کلمات شخصی حفظ شدند.');
+};
+window.addEventListener('keydown',e=>{
+ if(e.altKey||e.ctrlKey||e.metaKey||e.repeat||e.target?.closest?.('input, textarea, select, [contenteditable]'))return;
+ if(!cur||$('card').hidden)return;
+ const a={'1':'der','2':'die','3':'das','Digit1':'der','Digit2':'die','Digit3':'das'}[e.key]||{'Digit1':'der','Digit2':'die','Digit3':'das'}[e.code];
+ if(a&&!answered){e.preventDefault();answer(a);return;}
+ if(e.key==='Enter'&&answered&&!e.target?.closest?.('button')){e.preventDefault();nextQuestion();}
+});
+window.addEventListener('visibilitychange',()=>{if(!document.hidden&&session?.type==='quick'&&Date.now()>=session.ends)finish();});
+applyPrefs();updateStats();start('normal');
+/*
+ SELF-CHECK: قطعهٔ زیر را برای بررسی بانک اصلی در Console اجرا کن:
+ console.table(Object.fromEntries(['A1','A2','B1','B2'].map(l => [l, BASE.filter(x=>x.lv===l).length])));
+ console.log('مجموع:', BASE.length, 'تکراری:', BASE.length - new Set(BASE.map(x=>x.w.toLocaleLowerCase('de-DE'))).size);
+ // انتظار: A1=200, A2=200, B1=200, B2=150, مجموع=750، تکراری=0
+*/
+
+/* ===== APP_END ===== */
+</script>
+<script>(function(){try{var k='ddd_theme';if(localStorage.getItem(k)==='light'){document.documentElement.setAttribute('data-theme','light');}var b=document.getElementById('themeToggle');if(b){b.addEventListener('click',function(){var light=document.documentElement.getAttribute('data-theme')==='light';if(light){document.documentElement.removeAttribute('data-theme');localStorage.setItem(k,'dark');}else{document.documentElement.setAttribute('data-theme','light');localStorage.setItem(k,'light');}});}}catch(e){}})();</script>
+</body></html>

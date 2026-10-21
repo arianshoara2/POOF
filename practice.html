@@ -113,6 +113,11 @@ function viewHome(){
       <div class="mute sm">${m.desc}</div>
       ${ok?`<div class="sm" style="color:var(--ok);margin-top:6px">شروع ←</div>`:`<div class="sm" style="color:var(--error);margin-top:6px">${why}</div>`}
     </div>`}).join("")}</div>
+  <div class="card mode" onclick="location.href='der-die-das.html'">
+      <div class="ic">🇩🇪</div><b>بازی مقاله‌ها der / die / das</b>
+      <div class="mute sm">۷۵۰ کلمه‌ی آلمانی با مقاله، لایتنر و آمار — در صفحه‌ی جدا</div>
+      <div class="sm" style="color:var(--ok);margin-top:6px">بازی کن ←</div>
+    </div>
   ${n?`<p class="mute sm center">از تب «خواندن» یا «دیکشنری» کارت بیشتر بساز تا حالت‌های بیشتری باز بشن</p>`:`<div class="card center"><p>هنوز کارتی نداری.</p><button class="ghost" onclick="location.href='index.html'">رفتن به اپ و ساختن کارت</button></div>`}`;
   app.querySelectorAll(".mode:not(.disabled)").forEach(el=>el.onclick=()=>startMode(el.dataset.mode));
 }
