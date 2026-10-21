@@ -153,9 +153,12 @@ button.ib.pri{background:var(--accent);color:var(--bg);border-color:var(--accent
 .lt-ctx{width:100%;font:italic 18px/1.9 var(--serif)}.lt-fa{font:16px/1.9 var(--sans);font-style:normal}
 #ed{position:fixed;inset:0;z-index:300;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
 #ask{position:fixed;inset:0;z-index:310;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
-#moviePick{position:fixed;inset:0;z-index:310;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+#moviePick,#podPick{position:fixed;inset:0;z-index:310;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
 .movie-it{display:flex;gap:12px;align-items:center;padding:10px;border:1px solid var(--border);border-radius:var(--r-md);margin:8px 0;cursor:pointer;background:var(--bg)}
 .movie-it img{width:96px;height:54px;object-fit:cover;border-radius:8px;flex-shrink:0}
+.movie-it img.sq{width:54px;height:54px;border-radius:10px}
+#ap{position:sticky;top:8px;z-index:20}
+#ap audio{width:100%;margin-top:4px}
 .movie-it .t{font-weight:600}
 .movie-it .m{font-size:13px;color:var(--muted)}
 .ask-card{width:100%;max-width:560px;max-height:92dvh;overflow:auto;padding:20px 20px calc(20px + env(safe-area-inset-bottom,0px));background:var(--surface);border:1px solid var(--border);border-radius:26px 26px 0 0;box-shadow:var(--shadow-pop)}
@@ -425,10 +428,22 @@ html:not([data-theme=snowy]) #s-cards #list .card::after{background:linear-gradi
    <p class="mute" style="margin:6px 0 0">ویدیوهای آموزشی و فیلم‌های کلاسیک — با یه ضربه وارد کتابخونه‌ت می‌شن</p>
    </div>
   </div>
+  <div class="card" id="podCard" style="cursor:pointer">
+   <div class="card-in">
+   <div class="row"><b><svg class="ic ic-inline" aria-hidden="true"><use href="#i-mic"/></svg> پادکست‌ها</b><span class="mute">آلمانی · انگلیسی</span></div>
+   <p class="mute" style="margin:6px 0 0">پادکست‌های آموزشی با متن هم‌زمان — گوش کن و هم‌زمان بخوان</p>
+   </div>
+  </div>
   <div id="moviePick" hidden role="dialog" aria-label="انتخاب فیلم"><div class="ask-card">
    <div class="ed-top"><b>🎬 ویدیوها</b><button class="ib" id="movieClose" aria-label="بستن"><svg class="ic" aria-hidden="true"><use href="#i-close"/></svg></button></div>
    <div class="seg" id="movieTabs" style="margin-bottom:8px"><button class="on" data-mt="movies">🎬 فیلم</button><button data-mt="de">🇩🇪 آلمانی</button><button data-mt="en">🇬🇧 انگلیسی</button></div>
    <div id="movieList"></div>
+  </div></div>
+  <div id="podPick" hidden role="dialog" aria-label="پادکست‌ها"><div class="ask-card">
+   <div class="ed-top"><b>🎙️ پادکست‌ها</b><button class="ib" id="podClose" aria-label="بستن"><svg class="ic" aria-hidden="true"><use href="#i-close"/></svg></button></div>
+   <div class="seg" id="podSeg" style="margin-bottom:8px"><button class="on" data-pl="de">🇩🇪 آلمانی</button><button data-pl="en">🇬🇧 انگلیسی</button></div>
+   <div class="searchbar"><input id="podQ" dir="auto" placeholder="جست‌وجوی پادکست…"><button class="ib pri" id="podGo" aria-label="جست‌وجو"><svg class="ic" aria-hidden="true"><use href="#i-dict"/></svg></button></div>
+   <div id="podRes"></div>
   </div></div>
   <div class="card" id="wikiCard">
    <div class="card-bg-img poof-img-reading-bg" aria-hidden="true"></div>
@@ -442,7 +457,7 @@ html:not([data-theme=snowy]) #s-cards #list .card::after{background:linear-gradi
    <div class="card-bg-img poof-img-reading-bg" aria-hidden="true"></div>
    <div class="card-in">
   <div class="row" style="margin-bottom:10px"><input id="libQ" placeholder="جست‌وجو در کتابخانه…" style="flex:1"><button class="ib" id="libSort" aria-label="مرتب‌سازی" title="مرتب‌سازی">⇅</button><button class="ib pri" id="addTxt" aria-label="متن جدید"><svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></button></div>
-  <div class="row" id="libFilters" style="margin-bottom:10px;gap:6px"><button class="chip lf on" data-lf="all">همه</button><button class="chip lf" data-lf="vid"><svg class="ic ic-inline" aria-hidden="true"><use href="#i-film"/></svg> ویدیو</button><button class="chip lf" data-lf="txt"><svg class="ic ic-inline" aria-hidden="true"><use href="#i-doc"/></svg> متن</button><button class="chip lf" data-lf="wp"><svg class="ic ic-inline" aria-hidden="true"><use href="#i-globe"/></svg> ویکی‌پدیا</button></div>
+  <div class="row" id="libFilters" style="margin-bottom:10px;gap:6px"><button class="chip lf on" data-lf="all">همه</button><button class="chip lf" data-lf="vid"><svg class="ic ic-inline" aria-hidden="true"><use href="#i-film"/></svg> ویدیو</button><button class="chip lf" data-lf="txt"><svg class="ic ic-inline" aria-hidden="true"><use href="#i-doc"/></svg> متن</button><button class="chip lf" data-lf="wp"><svg class="ic ic-inline" aria-hidden="true"><use href="#i-globe"/></svg> ویکی‌پدیا</button><button class="chip lf" data-lf="pod">🎙️ پادکست</button></div>
   <div id="lib"></div>
    </div>
   </div>
@@ -460,6 +475,10 @@ html:not([data-theme=snowy]) #s-cards #list .card::after{background:linear-gradi
    <p class="mute" id="vpNote" hidden></p>
    <div class="seg" id="vpSeg"><button data-vl="">اصلی</button><button data-vl="en">EN</button><button data-vl="de">DE</button><button data-vl="fa">فا</button></div>
    <div class="row"><button class="chip on" id="vpFollow">دنبال‌کردن زیرنویس</button><a id="vpOpen" class="chip" target="_blank" rel="noopener" style="text-decoration:none;padding:3px 12px">یوتیوب</a></div>
+  </div>
+  <div class="card" id="ap" hidden>
+   <div class="row" style="margin-bottom:4px"><b style="flex:1">🎙️ <span id="apTitle" dir="auto"></span></b><button class="chip on" id="apFollow">دنبال‌کردن متن</button></div>
+   <audio id="au" controls preload="metadata"></audio>
   </div>
   <div class="row" id="hlBar" style="gap:8px;align-items:center;margin:0 0 8px">
    <button class="chip" id="hlTog">هایلایت بلدها</button>
@@ -745,6 +764,191 @@ $("#movieList").onclick=async e=>{
  toast("در حال آماده‌سازی زیرنویس…");
  try{await importYT(ytid,lang||"en")}catch(err){toast(friendly(err),"bad")}
 };
+/* ===== پادکست‌ها: جست‌وجو (iTunes)، قسمت‌ها (RSS)، پخش صوت هم‌زمان با متن ===== */
+// قفسه‌ی پیشنهادی — در زمان ساخت با iTunes Lookup راستی‌آزمایی شده‌اند (نام + فید + آرت‌ورک)
+const PODCASTS_DE=[
+ {name:"Slow German",by:"Annik Rubens",feed:"https://slowgerman.com/feed/podcast/?redirect=no",art:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts123/v4/19/f6/0b/19f60bbe-3bb3-ce26-b346-e60dfbb3518c/mza_3134750145267089852.jpg/600x600bb.jpg"},
+ {name:"Easy German",by:"Cari & Manuel",feed:"https://proxyfeed.svmaudio.com/feeds/easygerman/feed.xml",art:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts211/v4/4f/48/89/4f488920-28f6-b522-d107-9dd047055e9b/mza_11652693665754415823.jpg/600x600bb.jpg"},
+ {name:"Coffee Break German",by:"Coffee Break Languages",feed:"https://feeds.acast.com/public/shows/0c3c53a1-180f-435a-9453-cec3883b4ada",art:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts125/v4/77/eb/5e/77eb5ef8-2cf0-457f-f063-696c855e299b/mza_4060652957614734358.jpg/600x600bb.jpg"},
+ {name:"News in Slow German",by:"Linguistica 360",feed:"https://rss.libsyn.com/shows/85667/destinations/412792.xml",art:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts113/v4/af/ea/33/afea332a-296f-0740-b17e-d08d428043f5/mza_17896985029114668010.png/600x600bb.jpg"},
+ {name:"Auf Deutsch gesagt!",by:"Robin Meinert",feed:"https://feeds.acast.com/public/shows/63cfc6d668877900110ea42a",art:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts211/v4/35/57/c3/3557c381-1733-b417-86c4-7a4b776318db/mza_2538361760308803451.jpeg/600x600bb.jpg"}
+];
+const PODCASTS_EN=[
+ {name:"6 Minute English",by:"BBC Radio",feed:"https://podcasts.files.bbci.co.uk/p02pc9tn.rss",art:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts211/v4/ba/98/35/ba9835eb-1ef3-60e4-bf05-3d141b8d1c7a/mza_3844641997714022659.jpg/600x600bb.jpg"},
+ {name:"The English We Speak",by:"BBC Radio",feed:"https://podcasts.files.bbci.co.uk/p02pc9zn.rss",art:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts211/v4/9d/9f/9a/9d9f9ac2-18ed-fef1-6b5a-2370cb2d2eca/mza_16678796634995991769.jpg/600x600bb.jpg"},
+ {name:"Coffee Break English",by:"Coffee Break Languages",feed:"https://feeds.acast.com/public/shows/183d2cc4-50d2-420f-a306-40dae4a0bfa7",art:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts125/v4/ef/35/4c/ef354ce2-936f-e47a-29c7-949cc20d7a2c/mza_6534557935427567336.jpg/600x600bb.jpg"},
+ {name:"Luke's English Podcast",by:"Luke Thompson",feed:"https://feeds.acast.com/public/shows/62b0ada25c7ea10012f541cb",art:"https://is1-ssl.mzstatic.com/image/thumb/Podcasts112/v4/07/8c/30/078c3053-2fdf-bd8b-7065-0eb490e27029/mza_8948714377807896144.jpeg/600x600bb.jpg"}
+];
+let podLang="de",podShow=null,podEps=[];
+const podHash=s=>{let h=5381;for(let i=0;i<s.length;i++)h=((h<<5)+h+s.charCodeAt(i))>>>0;return h.toString(36)};
+function podShelfHTML(){
+ const L=podLang==="de"?PODCASTS_DE:PODCASTS_EN;
+ return `<p class="mute" style="margin:4px 0 2px">پیشنهادهای ${podLang==="de"?"آلمانی":"انگلیسی"}:</p>`+L.map((p,i)=>`<div class="movie-it" data-shelf="${i}"><img class="sq" loading="lazy" src="${esc(p.art)}" alt=""><div style="flex:1"><div class="t" dir="auto">${esc(p.name)}</div><div class="m" dir="auto">${esc(p.by)}</div></div></div>`).join("");
+}
+function openPodcasts(){$("#podRes").innerHTML=podShelfHTML();$("#podPick").hidden=false}
+async function podSearch(){
+ const q=$("#podQ").value.trim();if(!q)return;
+ const box=$("#podRes");box.innerHTML=`<p class="state loading">در حال جست‌وجو…</p>`;
+ const url="https://itunes.apple.com/search?media=podcast&limit=25&term="+encodeURIComponent(q);
+ let j=null;
+ try{const r=await fetchT(url,20000);j=await r.json()}catch(e){try{j=JSON.parse(await proxyText(url,20000))}catch(e2){}}
+ if(!j||!j.results){box.innerHTML=`<p class="state error">جست‌وجو ناموفق بود؛ اتصال یا Worker را چک کنید.</p>`;return}
+ const res=j.results.filter(x=>x.feedUrl);
+ box._res=res;
+ box.innerHTML=res.length?res.map((x,i)=>`<div class="movie-it" data-res="${i}"><img class="sq" loading="lazy" src="${esc((x.artworkUrl100||"").replace("100x100bb.jpg","600x600bb.jpg"))}" alt=""><div style="flex:1"><div class="t" dir="auto">${esc(x.collectionName||"")}</div><div class="m" dir="auto">${esc(x.artistName||"")}</div></div></div>`).join(""):`<p class="state empty">نتیجه‌ای پیدا نشد.</p>`;
+}
+const durSec=v=>{v=String(v||"").trim();if(!v)return 0;if(/^\d+(\.\d+)?$/.test(v))return Math.round(+v);const p=v.split(":").map(Number);if(p.some(isNaN))return 0;return p.reduce((a,n)=>a*60+n,0)};
+function podTrOf(it){
+ const els=it.getElementsByTagName("podcast:transcript");if(!els.length)return null;
+ let best=null;
+ for(const el of els){
+  const u=el.getAttribute("url");if(!u)continue;
+  const ty=(el.getAttribute("type")||"").toLowerCase(),hay=ty+" "+u.toLowerCase();
+  const sc=/srt/.test(hay)?3:/vtt/.test(hay)?2:/json/.test(hay)?1:0;
+  if(!best||sc>best.sc)best={url:u,type:ty,sc};
+ }
+ return best;
+}
+async function podOpenShow(show){
+ podShow={...show,lang:podLang};const box=$("#podRes");
+ box.innerHTML=`<p class="state loading">در حال دریافت قسمت‌های «${esc(show.name)}»…</p>`;
+ let xml;
+ try{xml=await proxyText(show.feed,60000)}catch(e){box.innerHTML=`<p class="state error">${esc(friendly(e))}</p>`;return}
+ const d=new DOMParser().parseFromString(xml,"text/xml");
+ if(d.querySelector("parsererror")||!d.querySelector("channel")){box.innerHTML=`<p class="state error">فید پادکست خوانا نبود.</p>`;return}
+ const ch=d.querySelector("channel");
+ const title=((ch.querySelector("title")||{}).textContent||show.name).trim();
+ let art=show.art;
+ const im=ch.getElementsByTagName("itunes:image")[0];
+ if(im&&im.getAttribute("href"))art=im.getAttribute("href");
+ podShow={...podShow,name:title,art};
+ podEps=[...d.querySelectorAll("item")].slice(0,60).map(it=>{
+  const gt=tag=>(it.querySelector(tag)||{}).textContent||"";
+  const durEl=it.getElementsByTagName("itunes:duration")[0];
+  const enc=it.querySelector("enclosure");
+  const tr=podTrOf(it);
+  return {title:gt("title").trim()||"بدون عنوان",date:gt("pubDate"),dur:durSec(durEl?durEl.textContent:""),audio:enc?enc.getAttribute("url"):"",len:enc?+(enc.getAttribute("length")||0):0,desc:strip(gt("description")||"").replace(/\s+/g," ").slice(0,6000),tr:tr?tr.url:"",trType:tr?tr.type:""};
+ }).filter(e=>e.audio);
+ box.innerHTML=`<div class="row" style="margin:6px 0"><button class="chip" id="podBack">‹ برگشت</button><b dir="auto" style="flex:1">${esc(podShow.name)}</b></div>`+
+  (podEps.length?podEps.map((e,i)=>`<div class="movie-it" data-ep="${i}"><img class="sq" loading="lazy" src="${esc(podShow.art)}" alt=""><div style="flex:1"><div class="t" dir="auto">${esc(e.title)}</div><div class="m">${e.date?new Date(e.date).toLocaleDateString("fa-IR"):""}${e.dur?" · ⏱ "+mmss(e.dur):""}${e.tr?" · 📝 متن دارد":""}</div></div></div>`).join(""):`<p class="state empty">قسمتی پیدا نشد.</p>`);
+ $("#podBack").onclick=()=>{$("#podRes").innerHTML=podShelfHTML()};
+}
+/* --- پارس متن‌های زمان‌دار (SRT / VTT / JSON) --- */
+const tsToSec=ts=>{const m=String(ts).trim().match(/(?:(\d+):)?(\d{1,2}):(\d{2})[.,](\d{1,3})/);if(!m)return 0;return (+m[1]||0)*3600+ +m[2]*60+ +m[3]+ +m[4]/1000};
+function parseCues(txt){
+ const segs=[];
+ for(const block of String(txt||"").replace(/\r/g,"").split(/\n\s*\n/)){
+  const lines=block.split("\n").filter(l=>l.trim());
+  const ti=lines.findIndex(l=>l.includes("-->"));if(ti<0)continue;
+  const s=tsToSec(lines[ti].split("-->")[0]);
+  const t=lines.slice(ti+1).join(" ").replace(/<[^>]+>/g,"").trim();
+  if(t)segs.push({s:Math.round(s*10)/10,t});
+ }
+ return segs;
+}
+function parseJSONSegs(txt){
+ let j;try{j=JSON.parse(txt)}catch(e){return[]}
+ const arr=Array.isArray(j)?j:(j.segments||j.results||j.transcript||[]);
+ if(!Array.isArray(arr))return[];
+ const out=[];
+ for(const x of arr){
+  if(!x)continue;
+  const sv=x.start??x.startTime??x.s??x.offset,tx=x.text??x.body??x.t??x.utterance;
+  if(tx==null||sv==null)continue;
+  const t=String(tx).replace(/<[^>]+>/g,"").trim();if(!t)continue;
+  let s=+sv;if(isNaN(s))continue;if(s>10000)s=s/1000;
+  out.push({s:Math.round(s*10)/10,t});
+ }
+ return out;
+}
+async function podImport(ep,btn){
+ if(!podShow)return;
+ const sid="pod_"+podHash(podShow.feed+"|"+ep.audio);
+ const old=db.texts.find(x=>x.id===sid);
+ if(old){$("#podPick").hidden=true;db.textId=old.id;save();$("#entry").hidden=true;renderReader();$("#text").scrollIntoView({behavior:"smooth"});return}
+ if(btn){btn.style.opacity=.5;btn.style.pointerEvents="none"}
+ toast("در حال آماده‌سازی اپیزود…");
+ const item={id:sid,added:Date.now(),title:podShow.name+" · "+ep.title,lang:podShow.lang||podLang,pod:{feed:podShow.feed,show:podShow.name,audio:ep.audio,art:podShow.art,dur:ep.dur||0,len:ep.len||0}};
+ let segs=null;
+ if(ep.tr){
+  try{
+   const txt=await proxyText(ep.tr,30000),hay=(ep.trType||"")+" "+ep.tr;
+   segs=/srt/i.test(hay)?parseCues(txt):/json/i.test(hay)?parseJSONSegs(txt):parseCues(txt);
+   if(!segs.length)segs=null;
+  }catch(e){segs=null}
+ }
+ if(!segs&&(!ep.len||ep.len<=25*1024*1024)){
+  try{
+   const r=await fetchT(workerURL({podtr:ep.audio}),300000),j=await r.json();
+   if(!r.ok||j.error)throw new Error(j.error||"HTTP "+r.status);
+   if(j.segments&&j.segments.length){segs=j.segments.map(x=>({s:x.s,t:x.t}));if(j.lang){const lg=String(j.lang).slice(0,2);if(lg==="de"||lg==="en")item.lang=lg}}
+  }catch(e){toast("ترنسکریپت خودکار بعد از آپدیت ورکر فعال می‌شود")}
+ }
+ if(segs&&segs.length){item.segs=segs;item.body=segs.map(x=>x.t).join("\n")}
+ else item.body=ep.desc||podShow.name;
+ db.texts.push(item);db.textId=item.id;save();$("#podPick").hidden=true;$("#entry").hidden=true;renderReader();
+ toast(segs?"اپیزود با متن اضافه شد":"اپیزود اضافه شد (فقط صوت)");
+ if(btn){btn.style.opacity="";btn.style.pointerEvents=""}
+}
+$("#podCard").onclick=()=>openPodcasts();
+$("#podClose").onclick=()=>{$("#podPick").hidden=true};
+$("#podPick").addEventListener("click",e=>{if(e.target.id==="podPick")$("#podPick").hidden=true});
+$("#podSeg").onclick=e=>{const b=e.target.closest("[data-pl]");if(!b)return;podLang=b.dataset.pl;$$("#podSeg button").forEach(x=>x.classList.toggle("on",x===b));$("#podRes").innerHTML=podShelfHTML()};
+$("#podGo").onclick=()=>podSearch();
+$("#podQ").onkeydown=e=>{if(e.key==="Enter")podSearch()};
+$("#podRes").onclick=e=>{
+ const sh=e.target.closest("[data-shelf]");
+ if(sh){podOpenShow({...(podLang==="de"?PODCASTS_DE:PODCASTS_EN)[+sh.dataset.shelf]});return}
+ const rs=e.target.closest("[data-res]");
+ if(rs){const x=($("#podRes")._res||[])[+rs.dataset.res];if(x)podOpenShow({name:x.collectionName||"",by:x.artistName||"",feed:x.feedUrl,art:(x.artworkUrl100||"").replace("100x100bb.jpg","600x600bb.jpg")});return}
+ const ep=e.target.closest("[data-ep]");
+ if(ep)podImport(podEps[+ep.dataset.ep],ep);
+};
+/* --- پخش‌کننده‌ی صوتی پادکست: هم‌زمان با متن، ذخیره‌ی جای پخش، ادامه --- */
+let audEl=null,audFor="",audSaveAt=0;
+function audSavePos(t){
+ if(!t)return;const p=t.progress||{};
+ if(t.segs&&lastCur>=0)p.seg=Math.max(0,lastCur);
+ if(audEl&&audFor===t.id){
+  if(isFinite(audEl.currentTime))p.pos=Math.floor(audEl.currentTime);
+  if(isFinite(audEl.duration)&&audEl.duration>0)p.dur=Math.floor(audEl.duration);
+ }
+ t.progress=p;save();
+}
+function setupAudio(t){
+ const ap=$("#ap");if(!ap)return;audEl=$("#au");if(!audEl)return;
+ if(!t||!t.pod){ap.hidden=true;if(!audEl.paused)audEl.pause();return}
+ ap.hidden=false;$("#apTitle").textContent=t.title||"";
+ $("#apFollow").classList.toggle("on",follow);
+ if(audFor!==t.id){
+  audFor=t.id;audEl.src=t.pod.audio;
+  audEl.onloadedmetadata=()=>{
+   const p=t.progress||{};let at=p.pos||0;
+   if(!at&&t.segs&&p.seg>0&&t.segs[p.seg])at=t.segs[p.seg].s;
+   if(at>5&&audEl.duration&&at<audEl.duration-3){audEl.currentTime=at;toast("ادامه از "+mmss(at))}
+  };
+ }
+}
+{const _au=$("#au");
+ if(_au){
+  _au.addEventListener("pause",()=>{const t=db.texts.find(x=>x.id===audFor);if(t)audSavePos(t)});
+  _au.addEventListener("ended",()=>{const t=db.texts.find(x=>x.id===audFor);if(t)audSavePos(t)});
+ }}
+$("#apFollow").onclick=e=>{follow=!follow;e.currentTarget.classList.toggle("on",follow);const vf=$("#vpFollow");if(vf)vf.classList.toggle("on",follow)};
+setInterval(()=>{
+ const t=curText();if(!t||!t.pod||!audEl||$("#s-read").hidden)return;
+ const c=audEl.currentTime;if(!isFinite(c))return;
+ if(t.segs){
+  let i=-1;for(let k=0;k<t.segs.length;k++){if(t.segs[k].s<=c+.2)i=k;else break}
+  if(i!==lastCur){
+   lastCur=i;$$("#text .tline.cur").forEach(x=>x.classList.remove("cur"));
+   const el=$("#sg"+i);
+   if(el){el.classList.add("cur");if(follow&&!sel&&!audEl.paused){const r=el.getBoundingClientRect();if(r.top<280||r.bottom>innerHeight-120)scrollBy({top:r.top-300,behavior:"smooth"})}}
+  }
+ }
+ if(!audEl.paused&&Date.now()-audSaveAt>5000){audSaveAt=Date.now();audSavePos(t)}
+},500);
+
 /* ===== ایموجی خودکار برای کلمات (آفلاین) ===== */
 const EMOJI={
 // افعال آلمانی
@@ -1556,7 +1760,7 @@ document.addEventListener("keydown",e=>{if(e.key==="Escape"&&peekOpen())closePee
    وقتی هیچ‌کدام باز نیستند، رفتار پیش‌فرض مرورگر دست نخورده می‌ماند. */
 window.addEventListener("popstate",()=>{
  try{
-  const busy=["#uiModal","#ask","#ed","#moviePick","#cdetail"].some(s=>{const el=$(s);return el&&!el.hidden});
+  const busy=["#uiModal","#ask","#ed","#moviePick","#podPick","#cdetail"].some(s=>{const el=$(s);return el&&!el.hidden});
   if(busy)return;
   if(peekOpen()){closePeek();return}
   const eb=$("#entry");
@@ -1697,8 +1901,10 @@ function renderReader(){
  sents=[];
  if(t.segs){
   const igv=t.video&&t.video.ig;
-  $("#text").innerHTML=t.video&&t.video.id&&!t.segs.length?`<div class="empty-wrap"><p class="state empty">${YT_BOT_MSG}</p></div>`:t.segs.map((g,k)=>`<div class="tline" id="sg${k}">${igv?`<span class="ts">${mmss(g.s)}</span>`:`<button class="ts" data-ts="${g.s}">${mmss(g.s)}</button>`}${sr(g.t,t.lang,"",igv?("ig:"+t.video.ig+"@"+Math.floor(g.s)):("video:"+t.video.id+"@"+Math.floor(g.s)))}</div>`).join("");
- }else $("#text").innerHTML=t.body.split(/\n\s*\n/).map(p=>"<p>"+p.split(/(?<=[.!?؟])\s+/).map(s=>{
+  const srcOf=g=>t.pod?("podcast:"+t.id+"@"+Math.floor(g.s)):igv?("ig:"+t.video.ig+"@"+Math.floor(g.s)):("video:"+t.video.id+"@"+Math.floor(g.s));
+  $("#text").innerHTML=t.video&&t.video.id&&!t.segs.length?`<div class="empty-wrap"><p class="state empty">${YT_BOT_MSG}</p></div>`:t.segs.map((g,k)=>`<div class="tline" id="sg${k}">${igv?`<span class="ts">${mmss(g.s)}</span>`:`<button class="ts" data-ts="${g.s}">${mmss(g.s)}</button>`}${sr(g.t,t.lang,"",srcOf(g))}</div>`).join("");
+ }else if(t.pod)$("#text").innerHTML=(t.body||"").split(/\n\s*\n/).map(p=>"<p>"+esc(p).replace(/\n/g,"<br>")+"</p>").join("")||`<p class="state empty">بدون متن — فقط صوت.</p>`;
+ else $("#text").innerHTML=t.body.split(/\n\s*\n/).map(p=>"<p>"+p.split(/(?<=[.!?؟])\s+/).map(s=>{
   const i=sents.push(s)-1;
   return s.split(/(?<=\s)(?=\S)/).map(w=>norm(w)?`<span class="w" tabindex="0" role="button" data-w="${esc(norm(w))}" data-i="${i}">${esc(w)}</span>`:w).join("");
  }).join(" ")+"</p>").join("");
@@ -1750,17 +1956,19 @@ if(hlTogEl)hlTogEl.onclick=()=>{try{localStorage.setItem("poof_hl",hlOn()?"0":"1
 $("#text").onclick=e=>{if(lpSuppress)return;const el=e.target.closest(".w");if(el&&!el.closest(".sr"))pick(el,e.shiftKey)};
 $("#text").onkeydown=e=>{if(e.key==="Enter"||e.key===" "){const el=e.target.closest(".w");if(el){e.preventDefault();pick(el)}}};
 /* ===== کتابخانه‌ی متن‌ها: تاریخچه‌ی تمیز لینک‌ها و متن‌ها ===== */
-const kindOf=t=>t.video&&t.video.id?"yt":t.video&&t.video.ig?"ig":t.wp?"wp":t.url?"web":"txt";
-const KIND_LB={yt:"یوتیوب",ig:"اینستاگرام",wp:"ویکی‌پدیا",web:"وب",txt:"متن"};
-const KIND_IC={ig:"film",wp:"globe",web:"doc",txt:"doc"};
+const kindOf=t=>t.pod?"pod":t.video&&t.video.id?"yt":t.video&&t.video.ig?"ig":t.wp?"wp":t.url?"web":"txt";
+const KIND_LB={yt:"یوتیوب",ig:"اینستاگرام",wp:"ویکی‌پدیا",web:"وب",txt:"متن",pod:"🎙️ پادکست"};
+const KIND_IC={ig:"film",wp:"globe",web:"doc",txt:"doc",pod:"mic"};
 function progPct(t){
  if(!t||!t.progress)return 0;
+ if(t.pod&&t.progress.dur>0)return Math.min(.99,(t.progress.pos||0)/t.progress.dur);
  if(t.segs&&t.segs.length&&t.progress.seg>0)return Math.min(.99,t.progress.seg/t.segs.length);
  if(!t.segs&&t.progress.y>10){const h=document.documentElement.scrollHeight-innerHeight;return h>0?Math.min(.99,t.progress.y/h):0}
  return 0;
 }
 function saveProgress(){
  const t=curText();if(!t)return;
+ if(t.pod){audSavePos(t);return}
  if(t.segs)t.progress={seg:Math.max(0,lastCur)};
  else t.progress={y:Math.round(scrollY)};
  save();
@@ -1773,12 +1981,12 @@ function renderLib(){
  const mc=$("#movieCard");if(mc&&!mc.dataset.bound){mc.dataset.bound="1";mc.onclick=openMovies}
  const q=(($("#libQ")||{}).value||"").trim().toLowerCase();
  let all=allTexts().filter(t=>!q||(t.title||"").toLowerCase().includes(q));
- if(libFilter!=="all")all=all.filter(t=>{const k=kindOf(t);return libFilter==="vid"?(k==="yt"||k==="ig"):libFilter==="txt"?k==="txt":k==="wp"});
+ if(libFilter!=="all")all=all.filter(t=>{const k=kindOf(t);return libFilter==="vid"?(k==="yt"||k==="ig"):libFilter==="txt"?k==="txt":libFilter==="pod"?k==="pod":k==="wp"});
  const sort=db.libSort||"recent";
  all=all.slice().sort((a,b)=>sort==="az"?(a.title||"").localeCompare(b.title||"","fa"):((b.added||0)-(a.added||0)));
  $("#lib").innerHTML=all.map(t=>{
   const k=kindOf(t),on=t.id===db.textId;
-  const th=k==="yt"?`<img loading="lazy" src="https://i.ytimg.com/vi/${t.video.id}/mqdefault.jpg" alt="">`:`<div class="lib-ic">${ic(KIND_IC[k])}</div>`;
+  const th=k==="yt"?`<img loading="lazy" src="https://i.ytimg.com/vi/${t.video.id}/mqdefault.jpg" alt="">`:k==="pod"&&t.pod.art?`<img loading="lazy" src="${esc(t.pod.art)}" alt="" style="width:54px;height:54px">`:`<div class="lib-ic">${ic(KIND_IC[k])}</div>`;
   const words=(t.body||"").split(/\s+/).filter(Boolean).length;
   const meta=[KIND_LB[k],LB[t.lang||"de"]||"",t.segs?t.segs.length+" بخش":words?words+" کلمه":null,t.added?new Date(t.added).toLocaleDateString("fa-IR"):null].filter(Boolean).join(" · ");
   const del=db.texts.some(x=>x.id===t.id)?`<button class="lib-del" data-del="${t.id}" aria-label="حذف">×</button>`:"";
@@ -2473,6 +2681,7 @@ function loadYT(){
  }));
 }
 async function setupPlayer(t){
+ setupAudio(t);
  const vp=$("#vp");vp.hidden=!(t&&t.video);
  if(!t||!t.video){if(ytp&&ytp.pauseVideo)try{ytp.pauseVideo()}catch(e){}return}
  const note=$("#vpNote"),web=/^https?:$/.test(location.protocol);
@@ -2505,7 +2714,7 @@ async function setupPlayer(t){
  }catch(e){ytp=null;note.hidden=false;note.textContent="ساخت پخش‌کننده ممکن نشد؛ با دکمه‌ی «یوتیوب» باز کنید."}
 }
 setInterval(()=>{
- const t=curText();if(!t||!t.segs||!ytp||!ytp.getCurrentTime||$("#s-read").hidden)return;
+ const t=curText();if(!t||!t.segs||!t.video||!t.video.id||!ytp||!ytp.getCurrentTime||$("#s-read").hidden)return;
  let c;try{c=ytp.getCurrentTime()}catch(e){return}
  let i=-1;for(let k=0;k<t.segs.length;k++){if(t.segs[k].s<=c+.2)i=k;else break}
  if(i===lastCur)return;lastCur=i;
@@ -2516,6 +2725,7 @@ setInterval(()=>{
 $("#text").addEventListener("click",e=>{
  const b=e.target.closest("[data-ts]");if(!b)return;
  const s=+b.dataset.ts,t=curText();
+ if(t&&t.pod&&audEl){audEl.currentTime=s;const pr=audEl.play();if(pr&&pr.catch)pr.catch(()=>{});return}
  if(ytp&&ytp.seekTo){ytp.seekTo(s,true);ytp.playVideo()}
  else if(t&&t.video&&t.video.id)open("https://youtu.be/"+t.video.id+"?t="+Math.floor(s),"_blank");
 });
