@@ -142,8 +142,8 @@ function viewHome(){
     </div>
   <div class="card mode" onclick="location.href='wortschatz.html'">
       <div class="ic"><span class="ddd-badge" dir="ltr">Wortschatz</span></div><b>واژه‌آموزی دسته‌بندی‌شده</b>
-      <div class="mute sm">سطحی · موضوعی · عبارات · اصطلاحات — تسک ۲ از ۷ (کامل)</div>
-      <div class="sm" style="color:var(--ok);margin-top:6px">بانک سطحی: ۲۰۰۰ کلمه — A1 تا C1 کامل ←</div>
+      <div class="mute sm">سطحی · کتابی · موضوعی · عبارات · اصطلاحات — تسک ۲ و ۴ کامل، تسک ۳ در راه</div>
+      <div class="sm" style="color:var(--ok);margin-top:6px">بانک سطحی ۲۰۰۰ کلمه + بانک کتابی ۱۹۲ کلمه — تسک ۳ (موضوعی) هنوز در راه ←</div>
     </div>
   ${n?`<p class="mute sm center">از تب «خواندن» یا «دیکشنری» کارت بیشتر بساز تا حالت‌های بیشتری باز بشن</p>`:`<div class="card center"><p>هنوز کارتی نداری.</p><button class="ghost" onclick="location.href='index.html'">رفتن به اپ و ساختن کارت</button></div>`}`;
   app.querySelectorAll(".mode[data-mode]:not(.disabled)").forEach(el=>el.onclick=()=>startMode(el.dataset.mode));
