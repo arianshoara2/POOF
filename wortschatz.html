@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#111111">
-<title>POOF واژگان دسته‌بندی‌شده — تسک ۲، ۳، ۴، ۵ و ۶ کامل</title>
+<title>واژه‌آموزی کامل — ۷ تسک</title>
 <style>
 :root{
   --bg:#111111;--panel:#1b1814;--panel-2:#242019;--card:#242019;--soft:#2a2416;--line:#4a4032;
@@ -73,6 +73,29 @@ button{color:inherit}
 .home-card .fa{color:var(--text)}
 :root{color-scheme:dark}
 .search input::placeholder{color:var(--muted)}
+
+.app-toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(20px);background:#1b1814;border:1px solid #4a4032;color:#f5f1e8;padding:10px 16px;border-radius:12px;z-index:999;opacity:0;pointer-events:none;transition:.25s;max-width:90vw;text-align:center}
+.app-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.app-toast.bad{border-color:#e07a7a;color:#ffb3b0}
+.search-results{display:grid;gap:8px;margin:4px 0 14px}
+.search-meta{color:#b8b0a4;font-size:13px}
+.search-result{display:flex;justify-content:space-between;gap:12px;background:#1b1814;border:1px solid #4a4032;border-radius:12px;padding:10px 14px;color:#f5f1e8;text-align:left}
+.search-result b{color:#e6b96f}
+.search-result span{color:#b8b0a4}
+.stat-card{background:#1b1814;border:1px solid #4a4032;border-radius:16px;padding:14px;margin:0 0 16px}
+.stat-card h3{margin:0 0 10px;color:#f5f1e8}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;text-align:center}
+.stat-grid b{display:block;color:#e6b96f;font-size:18px}
+.stat-grid span{color:#b8b0a4;font-size:12px}
+.quiz-opts button.is-correct{border-color:#7cc98a!important;color:#8ef5b7!important}
+.quiz-opts button.is-wrong{border-color:#e07a7a!important;color:#ff9b9a!important}
+.quiz-wrap .progbar{height:6px;background:#2a2416;border-radius:3px;overflow:hidden;margin:12px 0}
+.quiz-wrap .progbar i{display:block;height:100%;background:#e6b96f;width:0%}
+.practice-row{display:flex;gap:8px;flex-wrap:wrap}
+.practice-row input{flex:1;background:#111;border:1px solid #4a4032;color:#f5f1e8;border-radius:10px;padding:10px 12px;min-width:160px}
+.practice-row button.sel{border-color:#e6b96f!important;color:#e6b96f!important}
+.tool-btn.in-box{border-color:#e6b96f!important;color:#e6b96f!important}
+#readerLeitner{color:#b8b0a4;font-size:13px;margin-top:8px}
 </style>
 </head>
 <body>
@@ -88,11 +111,28 @@ button{color:inherit}
   </header>
   <main>
     <section id="homeView" class="section-view on">
-      <div class="search"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span><input id="searchInput" placeholder="جست‌وجوی نمایشی — در تسک ۷ کامل می‌شود"></div>
+      <div class="search"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span><input id="searchInput" placeholder="جست‌وجوی آلمانی یا فارسی…"></div>
+      <div id="searchResults" class="search-results"></div>
       <div class="kpi">
         <div class="box"><b id="kWords">20</b><span>واژهٔ نمونه</span></div>
         <div class="box"><b id="kTopics">1</b><span>موضوع فعال</span></div>
-        <div class="box"><b>7</b><span>گام تا نسخهٔ کامل</span></div>
+        <div class="box"><b id="kDue">۰</b><span>در انتظار مرور</span></div>
+      </div>
+
+      <div class="stat-card" id="statCard">
+        <h3>پیشرفت من</h3>
+        <div class="stat-grid">
+          <div><b id="statLearned">۰</b><span>مطالعه‌شده</span></div>
+          <div><b id="statMastered">۰</b><span>خانهٔ پنجم</span></div>
+          <div><b id="statDue">۰</b><span>در انتظار مرور</span></div>
+          <div><b id="statTests">۰</b><span>دستهٔ آزمون‌داده</span></div>
+        </div>
+        <div class="practice-row" style="margin-top:12px">
+          <button class="dict-btn" id="exportBackup">خروجی پشتیبان</button>
+          <button class="dict-btn" id="importBackup">بازیابی پشتیبان</button>
+          <input type="file" id="importFile" accept="application/json" hidden>
+        </div>
+        <p class="mini" style="margin-top:8px">پیشرفت فقط در همین دستگاه ذخیره می‌شود.</p>
       </div>
 
       <div class="shelf">
@@ -174,6 +214,7 @@ button{color:inherit}
           <button class="tool-btn" id="addBox" aria-label="لایتنر"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5 12 4l9 4.5v7L12 20l-9-4.5v-7Z"/><path d="M3 8.5 12 13l9-4.5"/><path d="M12 13v7"/></svg></button>
           <a class="tool-btn" id="goDict" href="./?dict=hallo" aria-label="نمایش در دیکشنری">A↔</a>
         </div>
+        <div class="mini" id="readerLeitner">هنوز به لایتنر اضافه نشده</div>
       </div>
       <div class="word-panel">
         <h4 id="rArtWord">hallo</h4>
@@ -185,7 +226,7 @@ button{color:inherit}
           <a class="dict-btn" id="dictBtn" href="./?dict=hallo">نمایش در دیکشنری</a>
         </div>
       </div>
-      <div class="note">در تسک ۱ فقط گام اول به‌صورت کامل و نمونه‌ای فعال شده است.</div>
+      <div class="note">پیشرفتت فقط در همین دستگاه ذخیره می‌شود؛ با دکمهٔ لایتنر هر مورد را وارد جعبهٔ مرور کن.</div>
     </section>
 
     <section id="flashView" class="flash-wrap">
@@ -205,11 +246,14 @@ button{color:inherit}
       <div class="quiz-card">
         <div class="quiz-q" id="quizQ">معنی «hallo» چیست؟</div>
         <div class="quiz-opts" id="quizOpts"></div>
+        <div class="progbar"><i id="quizProgress"></i></div>
+        <button class="dict-btn" id="quizNext" hidden>سؤال بعد</button>
       </div>
-      <div class="note" id="quizNote">نمونهٔ آزمون برای اعتبارسنجی معماری</div>
+      <div class="note" id="quizNote">آزمون هر دسته با ذخیرهٔ پیشرفت</div>
     </section>
   </main>
 
+  <div class="app-toast" id="appToast"></div>
   <div class="bottom-sheet" id="sheetWrap" aria-hidden="true">
     <div class="sheet">
       <div class="sheet-head">
@@ -222,6 +266,7 @@ button{color:inherit}
             <div class="sheet-meta">
               <div><span id="sheetCountLbl">تعداد کلمات</span>: <b id="sheetCount">20</b></div>
               <div>در انتظار مرور: <b id="sheetDue">5</b></div>
+              <div>آخرین آزمون: <b id="sheetTestScore">—</b></div>
             </div>
           </div>
         </div>
@@ -233,9 +278,9 @@ button{color:inherit}
       <div class="exercise-box">
         <h4>تمرین‌ها</h4>
         <div class="exercise-grid">
-          <button>ترجمهٔ معکوس</button>
-          <button>تمرین املا</button>
-          <button>تمرین جنسیت</button>
+          <button id="exReverse">ترجمهٔ معکوس</button>
+          <button id="exSpelling">تمرین املا</button>
+          <button id="exGender">تمرین جنسیت</button>
           <button id="openQuiz">گام سوم: آزمون</button>
         </div>
       </div>
@@ -458,7 +503,7 @@ function renderSection(id){
   $('#sectionFa').textContent=sec.fa; $('#sectionDe').textContent=sec.de; $('#sectionDesc').textContent=sec.desc;
   $('#subList').innerHTML=sec.ids.map(tid=>{
     const t=topicById(tid), count=t.words.length;
-    return `<button class="sub-item" data-topic="${t.id}"><div class="count">${toFaNum(count)}</div><div class="sub-body"><h3>${t.fa}</h3><span class="de">${t.de}</span><span class="meta">${count?`${toFaNum(count)} ${t.kind==='phrase'?'عبارت':(t.kind==='idiom'?'اصطلاح':(t.kind==='proverb'?'ضرب‌المثل':'کلمه'))}`:'به‌زودی تکمیل می‌شود'}</span></div><div class="iconbox">${t.icon}</div></button>`;
+    return `<button class="sub-item" data-topic="${t.id}"><div class="count">${toFaNum(count)}</div><div class="sub-body"><h3>${t.fa}</h3><span class="de">${t.de}</span><span class="meta">${count?`${toFaNum(count)} ${t.kind==='phrase'?'عبارت':(t.kind==='idiom'?'اصطلاح':(t.kind==='proverb'?'ضرب‌المثل':'کلمه'))}`:'به‌زودی تکمیل می‌شود'}${(()=>{const _d=dueCount(t.words);const _s=P.tests[t.id];return (_d?` · ${toFaNum(_d)} در انتظار مرور`:'')+(_s?` · آزمون اخیر ${toFaNum(_s.pct)}٪`:'');})()}</span></div><div class="iconbox">${t.icon}</div></button>`;
   }).join('');
   updateHeader(sec.fa, sec.de, true);
 }
@@ -466,13 +511,14 @@ function renderSection(id){
 function openHome(){
   $$('.section-view').forEach(v=>v.classList.remove('on')); $('#homeView').classList.add('on');
   $('#readerView').classList.remove('on'); $('#flashView').classList.remove('on'); $('#quizView').classList.remove('on');
-  updateHeader('واژه‌آموزی','تسک ۲، ۳، ۴ و ۵ کامل — سطحی ۲۰۰۰ کلمه · موضوعی ۴۰ موضوع · کتابی ۱۹۲ کلمه · عبارات ۶۰۰ در ۳۰ موقعیت',false);
+  updateHeader('واژه‌آموزی','سیستم واژه‌آموزی کامل شد — ۷ تسک · سطحی ۲۰۰۰ · کتابی ۱۹۲ · موضوعی ۴۰ موضوع · عبارات ۶۰۰ · اصطلاحات ۲۰۰',false);
+  refreshDashboardCounts();
 }
 
 function openSheet(topicId){
   currentTopic=topicId;
   const t=topicById(topicId); if(!t) return;
-  $('#sheetFa').textContent=t.fa; $('#sheetDe').textContent=t.de; $('#sheetCount').textContent=toFaNum(t.words.length); const sl=$('#sheetCountLbl'); if(sl) sl.textContent=t.kind==='phrase'?'تعداد عبارت‌ها':(t.kind==='idiom'?'تعداد اصطلاح':(t.kind==='proverb'?'تعداد ضرب‌المثل':'تعداد کلمات')); $('#sheetDue').textContent=toFaNum(Math.min(5,t.words.length||0)); $('#sheetIcon').innerHTML=t.icon;
+  $('#sheetFa').textContent=t.fa; $('#sheetDe').textContent=t.de; $('#sheetCount').textContent=toFaNum(t.words.length); const sl=$('#sheetCountLbl'); if(sl) sl.textContent=t.kind==='phrase'?'تعداد عبارت‌ها':(t.kind==='idiom'?'تعداد اصطلاح':(t.kind==='proverb'?'تعداد ضرب‌المثل':'تعداد کلمات')); $('#sheetDue').textContent=toFaNum(dueCount(t.words)); const _st=$('#sheetTestScore'); if(_st){const _s=P.tests[t.id]; _st.textContent=_s?('آخرین آزمون: '+toFaNum(_s.pct)+'٪'):'هنوز آزمونی ثبت نشده';} $('#sheetIcon').innerHTML=t.icon;
   $('#sheetWrap').classList.add('show');
 }
 function closeSheet(){ $('#sheetWrap').classList.remove('show'); }
@@ -493,6 +539,9 @@ function renderReader(){
   if(w.ph||w.id){ $('#goDict').style.display='none'; $('#dictBtn').style.display='none'; } else { $('#goDict').style.display=''; $('#dictBtn').style.display=''; $('#goDict').href='./?dict='+encodeURIComponent(head); $('#dictBtn').href='./?dict='+encodeURIComponent(head); }
   $('#oppChip').style.display=w.opp?'inline-flex':'none'; $('#oppChip').textContent=w.opp?`متضاد: ${w.opp}`:'';
   $('#examples').innerHTML=[{de:w.ex,fa:w.exfa},{de:w.ex2,fa:w.exfa2}].filter(x=>x.de).map((x,i)=>`<div class="example"><div class="de">${x.de}</div><span class="fa">${x.fa}</span><div style="margin-top:10px"><button class="dict-btn ex-speak" data-i="${i}" style="padding:8px 14px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10v4h4l5 5V5L8 10H4Z"/><path d="M16 9a4 4 0 0 1 0 6"/><path d="M18.5 6.5a8 8 0 0 1 0 11"/></svg> تلفظ مثال</button></div></div>`).join('');
+  const _pw=currentWords()[currentIndex], _pp=_pw?progressFor(_pw):null;
+  const _ab=$('#addBox'); if(_ab){_ab.classList.toggle('in-box',!!_pp); _ab.title=_pp?('در خانهٔ '+toFaNum(_pp.box)+' از ۵'):'افزودن به جعبهٔ لایتنر';}
+  const _rl=$('#readerLeitner'); if(_rl)_rl.textContent=_pp?('خانهٔ '+toFaNum(_pp.box)+' از ۵ · '+(_pp.due&&_pp.due>Date.now()?'مرور بعدی: بعداً':'مرور: اکنون')):'هنوز به لایتنر اضافه نشده';
 }
 
 function nextWord(){ if(currentIndex<currentWords().length-1){ currentIndex++; renderReader(); } else { currentIndex=0; renderReader(); }}
@@ -507,38 +556,164 @@ function renderFlash(){
 
 function speak(text){ try{ const u=new SpeechSynthesisUtterance(text); u.lang='de-DE'; u.rate=.95; speechSynthesis.cancel(); speechSynthesis.speak(u);}catch(e){} }
 
-function buildQuiz(){
-  const words=currentWords(); if(words.length<4){ alert('برای آزمون به دادهٔ بیشتر نیاز است.'); return; }
-  $('#sectionView').classList.remove('on'); $('#readerView').classList.remove('on'); $('#flashView').classList.remove('on'); $('#quizView').classList.add('on');
-  updateHeader('آزمون نمونه','گام سوم',true);
-  const correct=words[currentIndex];
-  const pool=[correct, ...words.filter(x=>x!==correct).sort(()=>Math.random()-.5).slice(0,3)].sort(()=>Math.random()-.5);
-  $('#quizQ').textContent=`معنی «${correct.id||correct.ph||correct.w}» چیست؟`;
-  $('#quizOpts').innerHTML=pool.map(x=>`<button data-ok="${x===correct}">${x.fig||x.fa}</button>`).join('');
-  $('#quizNote').textContent='در تسک ۷ انواع سؤال‌ها و ذخیرهٔ پیشرفت نهایی می‌شود.';
+
+/* ===== TASK 7: Learning engine (Leitner + quiz + practice + search + progress) ===== */
+const normalize=s=>String(s||'').trim().toLocaleLowerCase('de-DE').normalize('NFC').replace(/[\s\u200c]+/g,' ');
+const answerNormalize=s=>normalize(s).replace(/^["'„“]+|["'„“!?.,:;]+$/g,'').replace(/\s+/g,' ');
+const labelOf=w=>w?.id||w?.ph||w?.w||'';
+const meaningOf=w=>w?.fig||w?.fa||'';
+const keyOf=w=>(w?.id?'i:':w?.ph?'p:':'w:')+normalize(labelOf(w));
+const uniqueItems=xs=>{const set=new Set();return xs.filter(w=>{const k=keyOf(w);if(set.has(k))return false;set.add(k);return true;});};
+const shuffle=a=>{const c=a.slice();for(let i=c.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[c[i],c[j]]=[c[j],c[i]];}return c;};
+const escapeHtml=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const intervals=[0,10*60*1000,24*60*60*1000,3*86400000,7*86400000,21*86400000];
+const STORAGE_KEY='poof_vocab_progress_v1';
+function safeLoad(){let raw=null;try{raw=JSON.parse(localStorage.getItem(STORAGE_KEY)||'null');}catch(e){}
+  if(!raw||typeof raw!=='object'||Array.isArray(raw))return {version:1,cards:{},tests:{},days:{}};
+  return {version:1,cards:raw.cards&&typeof raw.cards==='object'&&!Array.isArray(raw.cards)?raw.cards:{},tests:raw.tests&&typeof raw.tests==='object'?raw.tests:{},days:raw.days&&typeof raw.days==='object'?raw.days:{}};}
+let P=safeLoad();
+function toast(msg,type=''){const el=$('#appToast');if(!el){alert(msg);return;}el.textContent=msg;el.className='app-toast show '+type;clearTimeout(toast._t);toast._t=setTimeout(()=>el.classList.remove('show'),2600);}
+function saveProgress(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(P));}catch(e){toast('فضای ذخیره‌سازی کافی نیست؛ خروجی پشتیبان بگیر.','bad');}}
+const dayKey=d=>{const x=new Date(d);return [x.getFullYear(),String(x.getMonth()+1).padStart(2,'0'),String(x.getDate()).padStart(2,'0')].join('-');};
+function recordActivity(){const d=dayKey(Date.now());P.days[d]=(P.days[d]||0)+1;}
+const progressFor=w=>P.cards[keyOf(w)]||null;
+function dueItem(w){const p=progressFor(w);return !!(p&&p.box>=1&&Number(p.due||0)<=Date.now());}
+const dueCount=words=>uniqueItems(words).filter(dueItem).length;
+function lowLevel(w){const p=progressFor(w);return !!(p&&p.box>0&&p.box<=2);}
+function markProgress(w,correct){const k=keyOf(w),old=P.cards[k]||{box:0,hits:0,misses:0};
+  const box=correct?Math.min(5,Math.max(1,(old.box||0)+1)):1;
+  P.cards[k]={box,hits:(old.hits||0)+(correct?1:0),misses:(old.misses||0)+(correct?0:1),last:Date.now(),due:Date.now()+intervals[box]};
+  recordActivity();saveProgress();refreshDashboardCounts();return P.cards[k];}
+function addToLeitner(w){const k=keyOf(w);if(!P.cards[k]){P.cards[k]={box:1,hits:0,misses:0,last:0,due:Date.now()};saveProgress();refreshDashboardCounts();return true;}return false;}
+function scoreTest(topic,correct,total){P.tests[topic]={pct:total?Math.round(100*correct/total):0,correct,total,date:Date.now()};saveProgress();}
+const allKnownItems=uniqueItems(subtopics.flatMap(t=>t.words||[]));
+const WORDS_BY_TOPIC=new Map();
+for(const t of subtopics)for(const w of(t.words||[])){const k=keyOf(w);if(!WORDS_BY_TOPIC.has(k))WORDS_BY_TOPIC.set(k,[]);WORDS_BY_TOPIC.get(k).push(t.id);}
+function refreshDashboardCounts(){
+  const kd=$('#kDue');if(kd)kd.textContent=toFaNum(allKnownItems.filter(dueItem).length);
+  const learned=Object.values(P.cards).filter(c=>c&&c.box>=1).length, mastered=Object.values(P.cards).filter(c=>c&&c.box===5).length;
+  const set=(sel,v)=>{const el=$(sel);if(el)el.textContent=toFaNum(v);};
+  set('#statLearned',learned);set('#statMastered',mastered);set('#statDue',allKnownItems.filter(dueItem).length);set('#statTests',Object.keys(P.tests).length);
 }
+function openFound(w){const ids=WORDS_BY_TOPIC.get(keyOf(w))||[];const best=ids.find(id=>(topicById(id)?.words||[]).length>0);if(!best){toast('دسته‌ای برای این واژه پیدا نشد.');return;}
+  currentTopic=best;const list=currentWords();currentIndex=list.findIndex(x=>keyOf(x)===keyOf(w));if(currentIndex<0)currentIndex=0;
+  const parent=Object.entries(sections).find(([,v])=>v.ids.includes(best));currentSection=parent?.[0]||'starter';renderReader();}
+function renderSearch(){const inp=$('#searchInput');const box=$('#searchResults');if(!box)return;
+  const q=normalize(inp?inp.value:'');
+  if(!q){box.innerHTML='<p class="mini">نام آلمانی یا معنی فارسی را تایپ کن.</p>';return;}
+  const results=allKnownItems.filter(w=>normalize(labelOf(w)).includes(q)||normalize(meaningOf(w)).includes(q)).slice(0,100);
+  if(!results.length){box.innerHTML='<p class="mini">چیزی پیدا نشد. املای کلمه را بررسی کن.</p>';return;}
+  box.innerHTML=`<div class="search-meta">${toFaNum(results.length)} نتیجه</div>`+results.map((w,i)=>`<button class="search-result" data-i="${i}"><b dir="ltr">${escapeHtml(labelOf(w))}</b><span>${escapeHtml(meaningOf(w))}</span></button>`).join('');
+  box.querySelectorAll('.search-result').forEach(b=>b.onclick=()=>{openFound(results[+b.dataset.i]);});}
+function saveBackup(){const data=JSON.stringify({app:'POOF vocab',schema:1,exportedAt:new Date().toISOString(),progress:P},null,2);const blob=new Blob([data],{type:'application/json;charset=utf-8'});const u=URL.createObjectURL(blob);const a=document.createElement('a');a.href=u;a.download='poof-vocab-progress.json';a.click();URL.revokeObjectURL(u);toast('پشتیبان دانلود شد.');}
+function importBackup(file){if(!file)return;file.text().then(txt=>{let data;try{data=JSON.parse(txt);}catch(e){throw new Error('فرمت JSON نامعتبر است.');}
+  if(data.app!=='POOF vocab'||!data.progress||typeof data.progress.cards!=='object')throw new Error('این فایل پشتیبان POOF نیست.');
+  if(!confirm('پیشرفت فعلی با فایل پشتیبان جایگزین شود؟'))return;
+  P={version:1,cards:data.progress.cards||{},tests:data.progress.tests||{},days:data.progress.days||{}};saveProgress();refreshDashboardCounts();toast('پیشرفت بازیابی شد.');}).catch(e=>toast(e.message,'bad'));}
+/* ---- quiz ---- */
+function possibleTypes(w){const res=['de-fa','fa-de'];if(['der','die','das'].includes(w.art))res.push('gender');if(w.ex&&normalize(w.ex).includes(normalize(labelOf(w)))&&labelOf(w).length<35)res.push('cloze');return res;}
+function qDistractors(target,type){const tt=currentWords();const others=uniqueItems(tt.concat(allKnownItems.filter(x=>!!x.id===!!target.id&&!!x.ph===!!target.ph&&!!x.w===!!target.w))).filter(x=>keyOf(x)!==keyOf(target));
+  const fn=type==='de-fa'?meaningOf:x=>labelOf(x);const vals=[fn(target)];for(const w of shuffle(others)){const v=fn(w);if(v&&!vals.includes(v))vals.push(v);if(vals.length===4)break;}return shuffle(vals);}
+function makeQuestion(w){const types=possibleTypes(w);let type=types[Math.floor(Math.random()*types.length)];if(quizState.index===0)type='de-fa';if(quizState.index===1)type='fa-de';
+  let question,answer,options;
+  if(type==='gender'){question=`مقالهٔ «${labelOf(w)}» کدام است؟`;answer=w.art;options=shuffle(['der','die','das']);}
+  else if(type==='cloze'){const ex=w.ex;const pos=normalize(ex).indexOf(normalize(labelOf(w)));if(pos<0){type='de-fa';}else{question=`جای خالی را کامل کن: ${ex.slice(0,pos)}______${ex.slice(pos+labelOf(w).length)}`;answer=labelOf(w);options=qDistractors(w,'fa-de');}}
+  if(type==='de-fa'){question=`معنی «${labelOf(w)}» چیست؟`;answer=meaningOf(w);options=qDistractors(w,'de-fa');}
+  if(type==='fa-de'){question=`معادل آلمانی «${meaningOf(w)}» چیست؟`;answer=labelOf(w);options=qDistractors(w,'fa-de');}
+  return {type,question,answer,options,w};}
+function beginQuiz(){const words=currentWords();if(words.length<4){alert('برای آزمون به دادهٔ بیشتری نیاز است.');return;}
+  quizState={list:shuffle(words).slice(0,Math.min(20,words.length)),index:0,correct:0,wrong:[],questions:[],answered:false,started:Date.now()};
+  const nx=$('#quizNext');if(nx){nx.textContent='سؤال بعد';nx.onclick=()=>{if(quizState&&quizState.index<quizState.list.length){quizState.index++;renderQuiz();}};}
+  renderQuiz();}
+function renderQuiz(){const q=quizState;if(!q)return;
+  $('#sectionView').classList.remove('on');$('#readerView').classList.remove('on');$('#flashView').classList.remove('on');$('#quizView').classList.add('on');
+  updateHeader('آزمون',topicById(currentTopic)?.fa||'',true);
+  if(q.index>=q.list.length)return finishQuiz();
+  if(!q.questions[q.index])q.questions[q.index]=makeQuestion(q.list[q.index]);
+  const item=q.questions[q.index];q.answered=false;
+  $('#quizQ').textContent=`${toFaNum(q.index+1)} / ${toFaNum(q.list.length)} · ${item.question}`;
+  $('#quizOpts').innerHTML=item.options.map((v,i)=>`<button data-idx="${i}">${escapeHtml(v)}</button>`).join('');
+  $('#quizNote').textContent='برای هر سؤال یک پاسخ انتخاب کن.';
+  const nx=$('#quizNext');if(nx)nx.hidden=true;
+  const pr=$('#quizProgress');if(pr)pr.style.width=(q.index/q.list.length*100)+'%';}
+function answerQuiz(idx){const q=quizState;if(!q||q.answered)return;const item=q.questions[q.index],picked=item.options[idx],correct=picked===item.answer;q.answered=true;
+  if(correct)q.correct++;else q.wrong.push({de:labelOf(item.w),fa:meaningOf(item.w),answer:item.answer});
+  markProgress(item.w,correct);
+  $$('#quizOpts button').forEach((b,i)=>{b.disabled=true;if(item.options[i]===item.answer)b.classList.add('is-correct');if(i===idx&&!correct)b.classList.add('is-wrong');});
+  $('#quizNote').textContent=correct?'✓ پاسخ درست است.':'✗ پاسخ درست: '+item.answer;
+  const nx=$('#quizNext');if(nx)nx.hidden=false;}
+function finishQuiz(){const q=quizState;if(!q)return;scoreTest(currentTopic,q.correct,q.list.length);
+  const seconds=Math.max(0,Math.round((Date.now()-q.started)/1000)),mm=Math.floor(seconds/60),ss=seconds%60;
+  $('#quizQ').textContent='کارنامهٔ آزمون';
+  const pr=$('#quizProgress');if(pr)pr.style.width='100%';
+  $('#quizOpts').innerHTML=`<div class="quiz-summary"><div class="big-score">${toFaNum(q.correct)} / ${toFaNum(q.list.length)}</div><div>دقت: ${toFaNum(Math.round(q.correct/q.list.length*100))}٪ · زمان: ${toFaNum(mm)}:${toFaNum(String(ss).padStart(2,'0'))}</div>${q.wrong.length?`<div class="mini">نیازمند مرور: ${escapeHtml(q.wrong.map(x=>x.de).join(' · '))}</div>`:''}</div>`;
+  $('#quizNote').textContent='کارنامهٔ این دسته روی دستگاه ذخیره شد.';
+  const nx=$('#quizNext');if(nx){nx.hidden=false;nx.textContent='آزمون دوباره';nx.onclick=()=>{nx.textContent='سؤال بعد';beginQuiz();};}
+  refreshDashboardCounts();}
+/* ---- practice (renders inside quizView) ---- */
+let exerciseState=null;
+function beginPractice(kind){const words=currentWords().filter(w=>kind!=='gender'||['der','die','das'].includes(w.art));if(!words.length){toast('این نوع تمرین برای دستهٔ فعلی قابل‌انجام نیست.');return;}
+  exerciseState={kind,list:shuffle(words).slice(0,Math.min(10,words.length)),i:0,correct:0,wrong:[],answered:false};renderPractice();}
+function renderPractice(){const a=exerciseState;if(!a)return;
+  $('#sectionView').classList.remove('on');$('#readerView').classList.remove('on');$('#flashView').classList.remove('on');$('#quizView').classList.add('on');
+  const qn=$('#quizNext');if(qn)qn.hidden=true;
+  if(a.i>=a.list.length)return finishPractice();
+  updateHeader('تمرین '+({reverse:'ترجمهٔ معکوس',spelling:'املا و شنیدن',gender:'جنسیت اسم'}[a.kind]),topicById(currentTopic)?.fa||'',true);
+  a.answered=false;const w=a.list[a.i];
+  $('#quizQ').textContent=a.kind==='reverse'?('به آلمانی بنویس: '+meaningOf(w)):a.kind==='spelling'?'به تلفظ گوش بده و بنویس.':('مقالهٔ اسم «'+labelOf(w)+'» چیست؟');
+  const spk='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10v4h4l5 5V5L8 10H4Z"/><path d="M16 9a4 4 0 0 1 0 6"/></svg>';
+  $('#quizOpts').innerHTML=(a.kind==='gender'
+    ?`<div class="practice-row"><button class="dict-btn" data-g="der">der</button><button class="dict-btn" data-g="die">die</button><button class="dict-btn" data-g="das">das</button></div>`
+    :`<div class="practice-row"><input id="practiceAnswer" placeholder="${a.kind==='spelling'?'آنچه می‌شنوی را بنویس':'عبارت آلمانی را بنویس'}" autocomplete="off"><button class="dict-btn" id="practiceListen">${spk} شنیدن</button></div>`)+`<div class="practice-row" style="margin-top:8px"><button class="dict-btn" id="practiceSubmit">ثبت پاسخ</button><button class="dict-btn" id="practiceNext" hidden>مورد بعد</button></div><div class="mini" id="practiceFeedback"></div>`;
+  $('#quizNote').textContent=`${toFaNum(a.i+1)} از ${toFaNum(a.list.length)}`;
+  $$('#quizOpts [data-g]').forEach(b=>b.onclick=()=>{$$('#quizOpts [data-g]').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');});
+  const li=$('#practiceListen');if(li)li.onclick=()=>speak(labelOf(w));
+  const su=$('#practiceSubmit');if(su)su.onclick=submitPractice;
+  const nx2=$('#practiceNext');if(nx2)nx2.onclick=()=>{a.i++;renderPractice();};
+  const inp=$('#practiceAnswer');if(inp){inp.focus();inp.onkeydown=e=>{if(e.key==='Enter')submitPractice();};}
+  if(a.kind==='spelling')speak(labelOf(w));}
+function submitPractice(){const a=exerciseState;if(!a||a.answered)return;const w=a.list[a.i];
+  const expected=a.kind==='gender'?w.art:(a.kind==='reverse'&&['der','die','das'].includes(w.art)?w.art+' '+labelOf(w):labelOf(w));
+  let typed='';if(a.kind==='gender'){const sel=document.querySelector('#quizOpts [data-g].sel');typed=sel?sel.dataset.g:'';}else{typed=$('#practiceAnswer')?.value||'';}
+  if(!typed.trim()){toast('ابتدا یک پاسخ وارد کن.');return;}
+  const ok=answerNormalize(typed)===answerNormalize(expected);a.answered=true;if(ok)a.correct++;else a.wrong.push({label:labelOf(w),expected});
+  markProgress(w,ok);
+  const fb=$('#practiceFeedback');if(fb)fb.textContent=ok?'✓ درست است!':'✗ پاسخ صحیح: '+expected;
+  const s=$('#practiceSubmit');if(s)s.hidden=true;const n=$('#practiceNext');if(n)n.hidden=false;}
+function finishPractice(){const a=exerciseState;if(!a)return;
+  $('#quizQ').textContent='نتیجهٔ تمرین';
+  $('#quizOpts').innerHTML=`<div class="quiz-summary"><div class="big-score">${toFaNum(a.correct)} / ${toFaNum(a.list.length)}</div>${a.wrong.length?`<div class="mini">موارد نیازمند مرور: ${escapeHtml(a.wrong.map(x=>x.expected).join(' · '))}</div>`:'<div class="mini">تمام پاسخ‌ها درست بودند ✓</div>'}</div>`;
+  $('#quizNote').textContent='تمرین این دسته به پایان رسید.';}
 
 $$('.home-card').forEach(b=>b.addEventListener('click',()=>renderSection(b.dataset.target)));
 $('#subList').addEventListener('click',e=>{const b=e.target.closest('.sub-item'); if(b) openSheet(b.dataset.topic);});
 $('#closeSheet').onclick=closeSheet; $('#sheetWrap').addEventListener('click',e=>{if(e.target===e.currentTarget) closeSheet();});
 $('#openReview').onclick=()=>{closeSheet(); currentIndex=0; renderReader();};
 $('#openFlash').onclick=()=>{closeSheet(); currentIndex=0; renderFlash();};
-$('#openQuiz').onclick=()=>{closeSheet(); currentIndex=0; buildQuiz();};
+$('#openQuiz').onclick=()=>{closeSheet(); currentIndex=0; beginQuiz();};
+const exR=$('#exReverse');if(exR)exR.onclick=()=>{closeSheet(); currentIndex=0; beginPractice('reverse');};
+const exS=$('#exSpelling');if(exS)exS.onclick=()=>{closeSheet(); currentIndex=0; beginPractice('spelling');};
+const exG=$('#exGender');if(exG)exG.onclick=()=>{closeSheet(); currentIndex=0; beginPractice('gender');};
 $('#backBtn').onclick=()=>{ if($('#readerView').classList.contains('on')||$('#flashView').classList.contains('on')||$('#quizView').classList.contains('on')) renderSection(currentSection); else openHome(); };
 $('#homeBtn').onclick=openHome;
 $('#speakWord').onclick=()=>{const cw=currentWords()[currentIndex]; speak(cw.id||cw.ph||cw.w);};
-$('#addBox').onclick=()=>alert('دکمهٔ جعبهٔ لایتنر در تسک ۷ به منطق کامل وصل می‌شود.');
+$('#addBox').onclick=()=>{const w=currentWords()[currentIndex]; if(!w) return; const added=addToLeitner(w); renderReader(); toast(added?'به جعبهٔ لایتنر اضافه شد.':'این مورد از قبل در لایتنر است.');};
 $('#examples').addEventListener('click',e=>{const b=e.target.closest('.ex-speak'); if(!b) return; const w=currentWords()[currentIndex]; const arr=[w.ex,w.ex2]; speak(arr[+b.dataset.i]||w.id||w.ph||w.w);});
 $('#flashCard').onclick=()=>{flashFlipped=!flashFlipped; $('#flashBack').hidden=!flashFlipped;};
 $('#flipBtn').onclick=()=>$('#flashCard').click();
-$('#knowBtn').onclick=()=>{currentIndex=(currentIndex+1)%currentWords().length; renderFlash();};
-$('#dontBtn').onclick=()=>{flashFlipped=true; $('#flashBack').hidden=false;};
-$('#quizOpts').addEventListener('click',e=>{const b=e.target.closest('button'); if(!b) return; const ok=b.dataset.ok==='true'; $('#quizNote').textContent=ok?'درست بود ✓':'نادرست ✗'; b.style.borderColor=ok?'#36b37e':'#f25f5c'; b.style.color=ok?'#8ef5b7':'#ff9b9a';});
-
+$('#knowBtn').onclick=()=>{const w=currentWords()[currentIndex]; if(w) markProgress(w,true); currentIndex=(currentIndex+1)%currentWords().length; renderFlash();};
+$('#dontBtn').onclick=()=>{const w=currentWords()[currentIndex]; if(w) markProgress(w,false); flashFlipped=true; $('#flashBack').hidden=false;};
+$('#quizOpts').addEventListener('click',e=>{const b=e.target.closest('button[data-idx]'); if(!b) return; answerQuiz(+b.dataset.idx);});
+const si=$('#searchInput');if(si){si.addEventListener('input',renderSearch);si.addEventListener('focus',()=>{if(si.value.trim())renderSearch();});}
+const eb=$('#exportBackup');if(eb)eb.onclick=saveBackup;
+const ib=$('#importBackup');if(ib)ib.onclick=()=>{const f=$('#importFile');if(f)f.click();};
+const imf=$('#importFile');if(imf)imf.addEventListener('change',()=>{importBackup(imf.files[0]);imf.value='';});
 document.addEventListener('keydown',e=>{ if(e.key==='ArrowLeft') nextWord(); if(e.key===' ') { if($('#readerView').classList.contains('on')) { e.preventDefault(); speak(currentWords()[currentIndex].ph||currentWords()[currentIndex].w);} } });
 
 // initial
+refreshDashboardCounts();
 openHome();
+
 </script>
 <!--
 تسک ۱ از ۷ — تحویل:
