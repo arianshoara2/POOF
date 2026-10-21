@@ -356,25 +356,26 @@ html:not([data-theme=snowy]) #lib .lib-card{background:rgba(30,24,18,.5);-webkit
 html[data-theme=snowy] #learnCard b,html[data-theme=snowy] #movieCard b{text-shadow:0 1px 6px rgba(0,0,0,.9)}
 html[data-theme=snowy] #learnCard .mute,html[data-theme=snowy] #movieCard .mute{color:#dbe7f0;text-shadow:0 1px 6px rgba(0,0,0,.9)}
 /* Snowy section backgrounds: library (fixed layer) + reading (reader card) */
-#readBg,#reviewBg,#cardsBg,#meBg{display:none;position:fixed;top:0;left:0;width:100vw;height:100dvh;height:100svh;z-index:0;pointer-events:none}
-#readBg::after,#reviewBg::after,#cardsBg::after,#meBg::after{content:"";position:absolute;inset:0;background:rgba(8,20,33,.78)}
-#reviewBg::after,#cardsBg::after,#meBg::after{background:rgba(8,20,33,.8)}
+#readBg,#reviewBg,#cardsBg,#meBg,#dictBg{display:none;position:fixed;top:0;left:0;width:100vw;height:100dvh;height:100svh;z-index:0;pointer-events:none}
+#readBg::after,#reviewBg::after,#cardsBg::after,#meBg::after,#dictBg::after{content:"";position:absolute;inset:0;background:rgba(8,20,33,.78)}
+#reviewBg::after,#cardsBg::after,#meBg::after,#dictBg::after{background:rgba(8,20,33,.8)}
 body:has(#s-read:not([hidden])) #readBg{display:block}
 body:has(#s-review:not([hidden])) #reviewBg{display:block}
 body:has(#s-cards:not([hidden])) #cardsBg{display:block}
 body:has(#s-me:not([hidden])) #meBg{display:block}
+body:has(#s-dict:not([hidden])) #dictBg{display:block}
 html:not([data-theme=snowy]) #readBg::after{background:rgba(20,16,12,.8)}
-html:not([data-theme=snowy]) #reviewBg::after,html:not([data-theme=snowy]) #cardsBg::after,html:not([data-theme=snowy]) #meBg::after{background:rgba(20,16,12,.82)}
+html:not([data-theme=snowy]) #reviewBg::after,html:not([data-theme=snowy]) #cardsBg::after,html:not([data-theme=snowy]) #meBg::after,html:not([data-theme=snowy]) #dictBg::after{background:rgba(20,16,12,.82)}
 html[data-theme=snowy] main{position:relative;z-index:1}
 html:not([data-theme=snowy]) main{position:relative;z-index:1}
 html[data-theme=snowy] #text{box-shadow:var(--shadow-card),inset 0 0 0 2000px rgba(8,20,33,.84)}
 html:not([data-theme=snowy]) #text{box-shadow:var(--shadow-card),inset 0 0 0 2000px rgba(20,16,12,.85)}
 /* Frosted glass: review / cards / profile tabs (over their scenic fixed layers) */
-html[data-theme=snowy] #s-review .card,html[data-theme=snowy] #s-cards .card,html[data-theme=snowy] #s-me .card{background:rgba(16,38,58,.5);-webkit-backdrop-filter:blur(10px) saturate(1.25);backdrop-filter:blur(10px) saturate(1.25)}
-html:not([data-theme=snowy]) #s-review .card,html:not([data-theme=snowy]) #s-cards .card,html:not([data-theme=snowy]) #s-me .card{background:rgba(30,24,18,.52);-webkit-backdrop-filter:blur(10px) saturate(1.15);backdrop-filter:blur(10px) saturate(1.15)}
+html[data-theme=snowy] #s-review .card,html[data-theme=snowy] #s-cards .card,html[data-theme=snowy] #s-me .card,html[data-theme=snowy] #s-dict .card{background:rgba(16,38,58,.5);-webkit-backdrop-filter:blur(10px) saturate(1.25);backdrop-filter:blur(10px) saturate(1.25)}
+html:not([data-theme=snowy]) #s-review .card,html:not([data-theme=snowy]) #s-cards .card,html:not([data-theme=snowy]) #s-me .card,html:not([data-theme=snowy]) #s-dict .card{background:rgba(30,24,18,.52);-webkit-backdrop-filter:blur(10px) saturate(1.15);backdrop-filter:blur(10px) saturate(1.15)}
 #s-review .bx,#s-me .feat li,#s-me .cardnum{background:rgba(255,255,255,.05)}
-html[data-theme=snowy] #s-review input,html[data-theme=snowy] #s-review select,html[data-theme=snowy] #s-cards input,html[data-theme=snowy] #s-cards select,html[data-theme=snowy] #s-me input,html[data-theme=snowy] #s-me select{background:rgba(8,20,33,.45)}
-html:not([data-theme=snowy]) #s-review input,html:not([data-theme=snowy]) #s-review select,html:not([data-theme=snowy]) #s-cards input,html:not([data-theme=snowy]) #s-cards select,html:not([data-theme=snowy]) #s-me input,html:not([data-theme=snowy]) #s-me select{background:rgba(15,12,9,.5)}
+html[data-theme=snowy] #s-review input,html[data-theme=snowy] #s-review select,html[data-theme=snowy] #s-cards input,html[data-theme=snowy] #s-cards select,html[data-theme=snowy] #s-me input,html[data-theme=snowy] #s-me select,html[data-theme=snowy] #s-dict input{background:rgba(8,20,33,.45)}
+html:not([data-theme=snowy]) #s-review input,html:not([data-theme=snowy]) #s-review select,html:not([data-theme=snowy]) #s-cards input,html:not([data-theme=snowy]) #s-cards select,html:not([data-theme=snowy]) #s-me input,html:not([data-theme=snowy]) #s-me select,html:not([data-theme=snowy]) #s-dict input{background:rgba(15,12,9,.5)}
 /* Soft scenic background on vocabulary cards (rendered list only; mirrors learn/movie card pattern) */
 #s-cards #list .card{position:relative;overflow:hidden}
 #s-cards #list .card-bg-img{position:absolute;inset:0;opacity:.38;background-size:cover;background-position:center;pointer-events:none}
@@ -389,6 +390,7 @@ html:not([data-theme=snowy]) #s-cards #list .card::after{background:linear-gradi
 <div id="reviewBg" class="poof-img-learn-path-bg" aria-hidden="true"></div>
 <div id="cardsBg" class="poof-img-card-bg-snowy" aria-hidden="true"></div>
 <div id="meBg" class="poof-img-header-bg" aria-hidden="true"></div>
+<div id="dictBg" class="poof-img-library-bg" aria-hidden="true"></div>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
 <symbol id="i-read" viewBox="0 0 24 24"><path d="M2 5.5C4.5 4 8 4 12 6c4-2 7.5-2 10-.5V19c-2.5-1.5-6-1.5-10 .5-4-2-7.5-2-10-.5z"/><path d="M12 6v13.5"/></symbol>
 <symbol id="i-dict" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4-4"/></symbol>
@@ -477,7 +479,14 @@ html:not([data-theme=snowy]) #s-cards #list .card::after{background:linear-gradi
    <div class="row"><button class="chip on" id="vpFollow">دنبال‌کردن زیرنویس</button><a id="vpOpen" class="chip" target="_blank" rel="noopener" style="text-decoration:none;padding:3px 12px">یوتیوب</a></div>
   </div>
   <div class="card" id="ap" hidden>
-   <div class="row" style="margin-bottom:4px"><b style="flex:1">🎙️ <span id="apTitle" dir="auto"></span></b><button class="chip on" id="apFollow">دنبال‌کردن متن</button></div>
+   <div class="row" style="margin-bottom:6px;align-items:center">
+    <span id="apArtBox" style="width:72px;height:72px;flex:none;border-radius:14px;overflow:hidden;background:rgba(230,185,111,.15);display:flex;align-items:center;justify-content:center;font-size:30px">🎙️</span>
+    <div style="flex:1;min-width:0">
+     <b style="display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" dir="auto"><span id="apTitle" dir="auto"></span></b>
+     <span class="mute" id="apShow" dir="auto" style="display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></span>
+    </div>
+    <button class="chip on" id="apFollow">دنبال‌کردن متن</button>
+   </div>
    <audio id="au" controls preload="metadata"></audio>
   </div>
   <div class="row" id="hlBar" style="gap:8px;align-items:center;margin:0 0 8px">
@@ -919,6 +928,10 @@ function setupAudio(t){
  const ap=$("#ap");if(!ap)return;audEl=$("#au");if(!audEl)return;
  if(!t||!t.pod){ap.hidden=true;if(!audEl.paused)audEl.pause();return}
  ap.hidden=false;$("#apTitle").textContent=t.title||"";
+ const ab=$("#apArtBox");
+ if(t.pod.art){ab.innerHTML='<img src="'+esc(t.pod.art)+'" alt="" style="width:100%;height:100%;object-fit:cover" loading="lazy">'}
+ else ab.textContent="🎙️";
+ $("#apShow").textContent=t.pod.show||"";
  $("#apFollow").classList.toggle("on",follow);
  if(audFor!==t.id){
   audFor=t.id;audEl.src=t.pod.audio;
@@ -2814,10 +2827,11 @@ function renderCards(){
  $("#deckSel").innerHTML=db.decks.map(d=>`<option value="${d.id}" ${d.id===db.active?"selected":""}>${esc(d.name)} (${db.cards.filter(c=>c.deck_id===d.id).length})</option>`).join("");
  const q=$("#search").value.trim().toLowerCase();
  const l=db.cards.filter(c=>c.deck_id===db.active&&(!q||(c.front+c.back).toLowerCase().includes(q))).sort((a,b)=>b.created_at-a.created_at);
- $("#list").innerHTML=l.length?l.map(c=>{const em=emojiFor(c.front);return `<div class="card" data-id="${c.id}">
+ $("#list").innerHTML=l.length?l.map(c=>{const em=emojiFor(c.front);const dn=(db.decks.find(d=>d.id===c.deck_id)||{}).name||"";let hh=0;for(const ch of String(c.deck_id||""))hh=(hh*31+ch.charCodeAt(0))>>>0;const dcol=["#e6b96f","#7fd4c1","#e58bb1","#9db8ff","#a8d08d","#d8a0e8"][hh%6];const mst=(c.reps||0)===0?["جدید","#9aa7b4"]:((c.interval||0)>=21?["تسلط‌یافته","#e6b96f"]:((c.interval||0)>=7?["قوی","#7fd4c1"]:["در حال یادگیری","#f0a35e"]));return `<div class="card" data-id="${c.id}">
   <div class="card-bg-img poof-img-card-bg-snowy" aria-hidden="true"></div>
   <div class="card-in">
   <div class="row">${em?`<span style="font-size:22px">${em}</span>`:""}<b class="de wf" style="flex:1">${esc(c.front)}</b><span class="wb">${esc(c.back)}</span></div>
+  <div class="row" style="gap:8px;margin-top:2px">${dn?`<span class="mute" style="display:inline-flex;align-items:center;gap:5px"><span style="width:8px;height:8px;border-radius:50%;background:${dcol};display:inline-block"></span>${esc(dn)}</span>`:""}<span class="mute" style="display:inline-flex;align-items:center;gap:5px"><span style="width:8px;height:8px;border-radius:50%;background:${mst[1]};display:inline-block"></span>${mst[0]}</span></div>
   ${c.def?`<div class="mute de"><i>${esc(c.pos)}</i> — ${esc(c.def)}</div>`:""}
   ${c.context?`<div class="mute de ctx">«${esc(c.context)}»</div>`:""}
   ${c.contextFa?`<div class="mute">${esc(c.contextFa)}</div>`:""}
