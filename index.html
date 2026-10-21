@@ -1778,7 +1778,7 @@ $("#peekFull").onclick=()=>{
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&peekOpen())closePeek()});
 /* برگشت سیستمی: اول Peek، بعد پشته‌ی مدخل، بعد بستن پوشش مدخلِ مطالعه (با بازگردانی اسکرول).
    وقتی هیچ‌کدام باز نیستند، رفتار پیش‌فرض مرورگر دست نخورده می‌ماند. */
-window.addEventListener("popstate",()=>{
+window.addEventListener("popstate",(e)=>{
  try{
   const busy=["#uiModal","#ask","#ed","#moviePick","#podPick","#cdetail"].some(s=>{const el=$(s);return el&&!el.hidden});
   if(busy)return;
@@ -1790,6 +1790,21 @@ window.addEventListener("popstate",()=>{
   }
   const de2=$("#dentry"),ds=$("#s-dict");
   if(de2&&ds&&!ds.hidden&&!de2.hidden&&(de2._stack||[]).length){entBack(de2);return}
+  const ns=e&&e.state;
+  if(ns&&ns.poof==="nav"){
+    try{
+      if(ns.tab)tab(ns.tab);
+      if(ns.tab==="read"&&ns.textId){
+        const t=allTexts().find(x=>x.id===ns.textId);
+        if(t){db.textId=t.id;save();renderReader();
+          let sy=ns.scrollY||0;
+          try{const ls=JSON.parse(localStorage.getItem(LS_STATE)||"null");if(ls&&ls.textId===t.id&&ls.scrollY)sy=ls.scrollY}catch(err){}
+          if(sy)requestAnimationFrame(()=>scrollTo(0,sy));
+        }
+      }
+    }catch(err){}
+    return;
+  }
  }catch(e){}
 });
 
@@ -2031,6 +2046,7 @@ $("#lib").onclick=async e=>{
   }
   else if(t&&t.progress&&!t.segs&&t.progress.y>10){scrollTo(0,t.progress.y);toast("ادامه از جایی که بودید")}
   else $("#text").scrollIntoView({behavior:"smooth",block:"start"});
+  saveState();pushNavState();
  }
 };
 $("#libSort").onclick=()=>{
@@ -2808,7 +2824,7 @@ async function wpOpen(title){
    db.texts.push({id,added:Date.now(),title:pg.title,body:pg.title+"\n\n"+t,wp:pg.title,lang:wl});
   }catch(e){$("#wRes").innerHTML="";return toast("دریافت مقاله ناموفق بود","bad")}
  }
- db.textId=id;save();$("#wRes").innerHTML="";$("#entry").hidden=true;renderReader();$("#text").scrollIntoView({behavior:"smooth"});
+ db.textId=id;save();$("#wRes").innerHTML="";$("#entry").hidden=true;renderReader();$("#text").scrollIntoView({behavior:"smooth"});saveState();pushNavState();
 }
 $("#wGo").onclick=()=>wpSearch($("#wq").value);
 $("#wq").onkeydown=e=>{if(e.key==="Enter")wpSearch(e.target.value)};
@@ -2819,7 +2835,7 @@ $("#wRnd").onclick=async()=>{try{wpOpen((await wp("action=query&list=random&rnna
 function renderRecent(){$$("#dlSeg button").forEach(b=>b.classList.toggle("on",b.dataset.dl===(db.dictLang||"de")));$("#recent").innerHTML=db.recent.map(w=>`<button class="chip de">${esc(w)}</button>`).join("")}
 function dsearch(w){
  w=norm(w||$("#q").value);if(!w)return;$("#q").value=w;
- db.recent=[w,...db.recent.filter(x=>x!==w)].slice(0,8);save();renderRecent();entNav($("#dentry"),w,"","dictionary",db.dictLang||"de","root");
+ db.recent=[w,...db.recent.filter(x=>x!==w)].slice(0,8);save();renderRecent();entNav($("#dentry"),w,"","dictionary",db.dictLang||"de","root");saveState();
 }
 $("#qGo").onclick=()=>dsearch();$("#q").onkeydown=e=>{if(e.key==="Enter")dsearch()};
 $("#recent").onclick=e=>{const b=e.target.closest("button");if(b)dsearch(b.textContent)};
@@ -2829,7 +2845,7 @@ function jumpToVideo(c){
  if(!c||!c.video||!c.textId)return;
  const t=allTexts().find(x=>x.id===c.textId);
  if(!t||!t.video)return toast("متن اصلی این کارت پیدا نشد","bad");
- db.textId=t.id;save();tab("read");renderReader();
+ db.textId=t.id;save();tab("read");renderReader();saveState();pushNavState();
  if(c.video.ig||c.video.t==null)return;
  let n=12;
  const trySeek=()=>{
@@ -3139,7 +3155,29 @@ function tab(t){$("#hSub").textContent=SUB[t];scrollTo(0,0);$("#nav").classList.
  $$(".tab").forEach(s=>s.hidden=s.id!=="s-"+t);
  if(t==="cards")renderCards();if(t==="review")startReview();if(t==="me")renderMe();if(t==="dict")renderRecent();
 }
-$("#nav").onclick=e=>{const b=e.target.closest("button");if(b){b.blur();tab(b.dataset.t)}};
+$("#nav").onclick=e=>{const b=e.target.closest("button");if(b){b.blur();tab(b.dataset.t);saveState();pushNavState()}};
+/* ===== ثبت وضعیت + بازگشت سیستمی بین تب‌ها/متن‌ها (کلید جدا، بدون دست‌کاری poof_v2) ===== */
+const LS_STATE="poof_last_state";
+function curTab(){const v=[...document.querySelectorAll(".tab")].find(s=>!s.hidden);return v?v.id.replace(/^s-/,""):"read"}
+let _lastStateJson="";
+function saveState(){
+  try{
+    const qEl=$("#q");
+    const s={tab:curTab(),textId:db.textId||null,scrollY:Math.round(scrollY)||0,dictQ:qEl?qEl.value:""};
+    const j=JSON.stringify(s);if(j===_lastStateJson)return;_lastStateJson=j;
+    localStorage.setItem(LS_STATE,j);
+  }catch(e){}
+}
+function pushNavState(){
+  try{
+    const st={poof:"nav",tab:curTab(),textId:db.textId||null,scrollY:Math.round(scrollY)||0};
+    const h=history.state;
+    if(h&&h.poof==="nav"&&h.tab===st.tab&&h.textId===st.textId)return;
+    history.pushState(st,"");
+  }catch(e){}
+}
+let _scT=null;
+addEventListener("scroll",()=>{if(_scT)return;_scT=setTimeout(()=>{_scT=null;try{if(curTab()==="read"&&$("#entry").hidden&&!peekOpen())saveState()}catch(e){}},500)},{passive:true});
 function renderAll(){renderReader();renderRecent();renderCards();renderMe()}
 let lastY=scrollY,lastToggleY=scrollY;addEventListener("scroll",()=>{const y=scrollY;if(!sel){const nav=$("#nav");if(y<=90){nav.classList.remove("nav-hidden");document.body.classList.remove("nav-down");lastToggleY=y}else if(y>lastToggleY+40){nav.classList.add("nav-hidden");document.body.classList.add("nav-down");lastToggleY=y}else if(y<lastToggleY-40){nav.classList.remove("nav-hidden");document.body.classList.remove("nav-down");lastToggleY=y}}lastY=y},{passive:true});
 addEventListener("pagehide",()=>{try{if(!$("#s-read").hidden)saveProgress()}catch(e){}});
@@ -3252,7 +3290,27 @@ async function onGSignIn(){
   toast("وارد شدید ✓");gUpload(false);
  }catch(e){if(e.message!=="gtoken-expired")gSetStatus("err")}
 }
-applyTheme();renderAll();gInit();
+applyTheme();
+try{history.replaceState({poof:"nav",tab:curTab(),textId:db.textId||null,scrollY:0},"")}catch(e){}
+/* بازیابی وضعیت قبلی + لینک عمیق دیکشنری (?dict=) */
+let _bootDict=null,_bootState=null;
+try{_bootState=JSON.parse(localStorage.getItem(LS_STATE)||"null")}catch(e){}
+try{const _u=new URLSearchParams(location.search);const _d=_u.get("dict");if(_d)_bootDict=_d}catch(e){}
+if(_bootState&&_bootState.textId&&allTexts().some(x=>x.id===_bootState.textId))db.textId=_bootState.textId;
+renderAll();
+if(_bootDict){
+  tab("dict");dsearch(_bootDict);
+  try{history.replaceState(history.state,"",location.pathname)}catch(e){}
+}else if(_bootState){
+  const _vt=["read","dict","cards","review","me"].includes(_bootState.tab)?_bootState.tab:"read";
+  if(_vt!=="read")tab(_vt);
+  if(_vt==="dict"&&_bootState.dictQ)dsearch(_bootState.dictQ);
+  if(_vt==="read"&&_bootState.scrollY){
+    const _sy=_bootState.scrollY;
+    requestAnimationFrame(()=>scrollTo(0,_sy));setTimeout(()=>scrollTo(0,_sy),350);
+  }
+}
+gInit();
 </script>
 <script>
 if ('serviceWorker' in navigator) {
