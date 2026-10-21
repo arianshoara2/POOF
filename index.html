@@ -183,7 +183,7 @@ button.ib.pri{background:var(--accent);color:var(--bg);border-color:var(--accent
 .rich-ex{font-size:12.5px;line-height:1.8;opacity:.72;font-style:italic}
 .rich-ety{font-size:13.5px;line-height:1.9;margin:4px 0}
 .reg-chip{display:inline-block;font-size:10.5px;line-height:1.5;padding:0 7px;border-radius:99px;border:1px solid var(--border);color:var(--accent);vertical-align:2px}
-.lk{border-bottom:1px dotted rgba(230,185,111,.45);cursor:pointer}
+.lk{border-bottom:1px dotted rgba(230,185,111,.45);cursor:pointer;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 .lk.esel{background:color-mix(in srgb,var(--accent) 28%,transparent);box-shadow:0 2px 0 var(--accent);border-bottom-color:transparent;border-radius:3px}
 .lk.lpp{animation:lppulse .3s ease}
 .pk-chip{cursor:pointer}
@@ -1782,11 +1782,13 @@ async function showEntry(box,raw,ctx,src,lang){
  if(!box._lk){box._lk=1;box.addEventListener("click",ev=>{
   if(!ev.target.closest||ev.target.closest("button, a, .ask-chip, .chip"))return;
   const s=ev.target.closest(".lk");if(!s)return;
+  if(!eTapOK())return;
   const w=(s.dataset.w||"").replace(/[.'’\-–—]+$/,"").trim();if(!w)return;
   openPeek(box,w,box._rl||"de",{src:"dictionary"});
  })}
  if(!box._pkc){box._pkc=1;box.addEventListener("click",ev=>{
   const c=ev.target.closest&&ev.target.closest(".pk-chip");if(!c)return;
+  if(!eTapOK())return;
   const w=(c.dataset.w||"").trim();if(!w)return;
   openPeek(box,w,box._rl||"de",{src:"dictionary"});
  })}
@@ -2394,11 +2396,24 @@ document.addEventListener("mouseup",()=>{
    ضربه‌ی ساده روی .lk همچنان Peek است (بدون تغییر). لمس‌طولانی (۳۵۰ms) + درگ، عبارت
    چندکلمه‌ای می‌سازد و همان #pop مطالعه را باز می‌کند: ترجمه‌ی درخط، ✨ با جمله‌ی
    بافت، + کارت با همان جمله به‌عنوان context، و «جزئیات» = جست‌وجوی کامل عبارت
-   با push روی پشته‌ی مدخل. انتخاب از مرز پاراگراف (معنی/مثال/ریشه) رد نمی‌شود. */
-let eT=null,eDrag=false,eSup=false,eSpans=null,eAnchor=-1,eBox=null,eBlock=null,eSX=0,eSY=0,eHi=null,eMLk=null,eMDown=false,eMDrag=false;
+   با push روی پشته‌ی مدخل. انتخاب از مرز پاراگراف (معنی/مثال/ریشه) رد نمی‌شود.
+   هم‌زیستی دو ژست (رفع تداخل روی دستگاه واقعی): حرکت تا ۲۴px تایمر ۳۵۰ms را
+   نمی‌کشد — فشار+درگِ سریع هم اگر انگشت در ۳۵۰ms هنوز پایین باشد از کلمه‌ی اول
+   فعال و تا کلمه‌ی جاری کشیده می‌شود؛ و Peek فقط با «ضربه‌ی تمیز» باز می‌شود
+   (نگه‌دار eTapOK: رهاکردن زیر ۲۵۰ms با جابه‌جایی زیر ۱۰px). هر دو ژست می‌مانند. */
+let eT=null,eDrag=false,eSup=false,eSpans=null,eAnchor=-1,eBox=null,eBlock=null,eSX=0,eSY=0,eHi=null,eMLk=null,eMDown=false,eMDrag=false,eG=null,eLX=0,eLY=0;
 const eLkOf=t=>t&&t.closest?t.closest(".lk"):null;
 const eScope=lk=>{if(!lk||!lk.closest(".rich-sec"))return null;return lk.closest("#dentry,#entry,#ltEntry")};
 const eBlockOf=lk=>lk.closest(".rich-ex,.rich-ety")||lk.parentElement;
+/* وضعیت آخرین فشار لمسی روی .lk (eG): {t0, m2=بیشینه‌ی مجذور جابه‌جایی, dur}.
+   Peek فقط وقتی باز می‌شود که این فشار «ضربه‌ی تمیز» بوده باشد؛ کلیکی که از یک
+   فشارِ درگ‌شده/طولانی/لغوشده بیاید رد می‌شود. نبودِ سابقه‌ی لمس (موس/کیبورد) آزاد است. */
+function eTapOK(){
+ if(!eG)return true;
+ const g=eG;eG=null;
+ const dur=g.dur!=null?g.dur:(Date.now()-g.t0);
+ return dur<250&&g.m2<100;
+}
 function eDraw(){if(!eSpans||!eHi)return;eSpans.forEach((s,i)=>s.classList.toggle("esel",i>=eHi.a&&i<=eHi.b))}
 function eClearHi(){if(eSpans)eSpans.forEach(s=>{try{s.classList.remove("esel")}catch(_){}});eHi=null;eSpans=null}
 function ePhrase(){
@@ -2428,27 +2443,32 @@ function eExtend(lk){
 document.addEventListener("touchstart",e=>{
  if(e.touches.length>1)return;
  const lk=eLkOf(e.target);if(!lk||!eScope(lk))return;
- eSX=e.touches[0].clientX;eSY=e.touches[0].clientY;
+ eSX=e.touches[0].clientX;eSY=e.touches[0].clientY;eLX=eSX;eLY=eSY;
+ eG={t0:Date.now(),m2:0,dur:null};
  eT=setTimeout(()=>{
   eT=null;eDrag=true;eSup=true;
   if(navigator.vibrate)try{navigator.vibrate(15)}catch(_){}
   try{lk.classList.add("lpp");setTimeout(()=>{try{lk.classList.remove("lpp")}catch(_){}},350)}catch(_){}
-  if(eBegin(lk)){eBox.style.touchAction="none";$("#pop").hidden=true}
+  if(eBegin(lk)){eBox.style.touchAction="none";$("#pop").hidden=true;
+   const cur=eLkOf(document.elementFromPoint(eLX,eLY));if(cur)eExtend(cur)}
   else{eDrag=false;eSup=false}
  },350);
 },{passive:true});
 document.addEventListener("touchmove",e=>{
+ const cx=e.touches[0].clientX,cy=e.touches[0].clientY;
+ if(eG){const gx=cx-eSX,gy=cy-eSY,g2=gx*gx+gy*gy;if(g2>eG.m2)eG.m2=g2;eLX=cx;eLY=cy}
  if(eT){
-  const dx=e.touches[0].clientX-eSX,dy=e.touches[0].clientY-eSY;
-  if(dx*dx+dy*dy>144){clearTimeout(eT);eT=null}
+  const dx=cx-eSX,dy=cy-eSY;
+  if(dx*dx+dy*dy>576){clearTimeout(eT);eT=null}
   return;
  }
  if(!eDrag)return;
  e.preventDefault();
- const t=document.elementFromPoint(e.touches[0].clientX,e.touches[0].clientY);
+ const t=document.elementFromPoint(cx,cy);
  eExtend(eLkOf(t));
 },{passive:false});
 document.addEventListener("touchend",()=>{
+ if(eG&&eG.dur==null){eG.dur=Date.now()-eG.t0;const g=eG;setTimeout(()=>{if(eG===g)eG=null},600)}
  if(eT){clearTimeout(eT);eT=null;return}
  if(!eDrag)return;
  eDrag=false;if(eBox)eBox.style.touchAction="";
@@ -2457,6 +2477,7 @@ document.addEventListener("touchend",()=>{
 });
 document.addEventListener("touchcancel",()=>{
  if(eT){clearTimeout(eT);eT=null}
+ if(eG){eG.m2=Infinity;eG.dur=9999;const g=eG;setTimeout(()=>{if(eG===g)eG=null},600)}
  if(eDrag){eDrag=false;if(eBox)eBox.style.touchAction="";eClearHi()}
  eSup=false;
 });
