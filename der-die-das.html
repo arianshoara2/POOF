@@ -27,9 +27,6 @@ header::after{content:"";position:absolute;inset:0;background:linear-gradient(to
 .poof-mascot{width:56px;height:56px;flex:none;background-size:cover;background-repeat:no-repeat;background-position:center;animation:poof-float 3s ease-in-out infinite}
 @keyframes poof-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
 @keyframes lppulse{0%{transform:scale(1)}50%{transform:scale(1.12)}100%{transform:scale(1)}}
-.themetoggle{display:inline-flex;gap:6px;margin-top:10px;padding:4px;border:1px solid var(--border);border-radius:999px;background:var(--glass)}
-.themetoggle button{border:0;background:transparent;color:var(--ink);border-radius:999px;padding:6px 14px;font-size:.85rem;font-weight:700}
-.themetoggle button.active{background:var(--primary);color:var(--primary-on)}
 .lk{border-bottom:1px dotted rgba(230,185,111,.55);cursor:pointer;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 .lk.esel{background:color-mix(in srgb,var(--primary) 28%,transparent);box-shadow:0 2px 0 var(--primary);border-bottom-color:transparent;border-radius:3px}
 .lk.lpp{animation:lppulse .3s ease}
@@ -92,7 +89,7 @@ select{padding:9px}
 <div class="poof-img-card-bg-snowy" id="dddScenic" aria-hidden="true"></div>
 <div style="padding:14px 16px 0"><a href="./" style="color:#e6b96f;text-decoration:none;font-size:14px">← بازگشت به POOF</a></div>
 <main>
-<header><div class="poof-img-header-bg" style="position:absolute;inset:0;z-index:0" aria-hidden="true"></div><div class="ddd-head"><div class="poof-mascot poof-img-snowy-wave" style="width:56px;height:56px" aria-hidden="true"></div><h1>تمرین <span>der · die · das</span></h1><p>۷۵۰ واژه · ۴ سطح · ۱۰ دسته · کاملاً آفلاین</p><div class="themetoggle" role="group" aria-label="تم POOF"><button type="button" data-th="snowy">برفی</button><button type="button" data-th="classic">کلاسیک</button></div></div></header>
+<header><div class="poof-img-header-bg" style="position:absolute;inset:0;z-index:0" aria-hidden="true"></div><div class="ddd-head"><div class="poof-mascot poof-img-snowy-wave" style="width:56px;height:56px" aria-hidden="true"></div><h1>تمرین <span>der · die · das</span></h1><p>۷۵۰ واژه · ۴ سطح · ۱۰ دسته · کاملاً آفلاین</p></div></header>
 <section class="toolbar pane" aria-label="فیلتر و حالت تمرین">
  <div class="levels" id="levels" role="group" aria-label="سطح یادگیری">
  <button type="button" class="pill active" data-lv="A1" aria-pressed="true">A1</button>
@@ -1364,7 +1361,6 @@ if(!dddTryResume()){lv='A1';category='ALL';game='normal';$('cat').value='ALL';st
     var css=document.getElementById('themeCss');
     if(css){var f='theme-'+t+'.css?v=15';if(css.getAttribute('href')!==f)css.setAttribute('href',f);}
     var m=document.querySelector('meta[name="theme-color"]');if(m)m.content=(t==='snowy')?'#081421':'#111111';
-    document.querySelectorAll('[data-th]').forEach(function(b){var on=b.getAttribute('data-th')===t;b.classList.toggle('active',on);b.setAttribute('aria-pressed',String(on));});
     return t;
   }
   function saveTheme(t){var v=readPoof();v.theme=t;try{localStorage.setItem('poof_v2',JSON.stringify(v));}catch(e){}return applyTheme(t);}
@@ -1376,7 +1372,6 @@ if(!dddTryResume()){lv='A1';category='ALL';game='normal';$('cat').value='ALL';st
       if(old==='light'||old==='dark'){cur=saveTheme(old==='light'?'snowy':'classic');}
       else{cur=saveTheme('classic');}
     }else{applyTheme(cur);}
-    document.querySelectorAll('[data-th]').forEach(function(b){b.addEventListener('click',function(){saveTheme(b.getAttribute('data-th'));});});
   }catch(e){}
 })();</script>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>

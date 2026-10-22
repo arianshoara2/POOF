@@ -31,10 +31,6 @@ html[data-theme="classic"] .mast::after,html:not([data-theme]) .mast::after{back
 .poof-mascot{flex:none;background-size:cover;background-repeat:no-repeat;background-position:center;animation:poof-float 3s ease-in-out infinite}
 @keyframes poof-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
 @media(prefers-reduced-motion:reduce){.poof-mascot{animation:none}}
-/* Small theme toggle */
-.theme-toggle{display:flex;gap:6px;flex-wrap:wrap}
-.theme-toggle button{padding:5px 9px;min-height:40px;border-radius:30px;border:1px solid var(--line);background:transparent;color:var(--ink);font-size:.75rem;font-weight:700}
-.theme-toggle button.on{background:var(--brand);border-color:transparent;color:#1a1307}
 /* POOF scenic background layer (trainer): the theme files' own learn-path scene; class names identical in both files, so the theme CSS swap swaps the scene */
 .poof-scenic{position:fixed;inset:0;z-index:0;pointer-events:none;background-size:cover;background-position:center;background-repeat:no-repeat}
 .poof-scenic::after{content:"";position:absolute;inset:0}
@@ -79,14 +75,13 @@ html[data-theme="snowy"] .poof-scenic::after{background:linear-gradient(rgba(8,2
 <body>
 <div class="poof-scenic poof-img-learn-path-bg" aria-hidden="true"></div>
 <div class="poof-back"><a href="./">← بازگشت به POOF</a></div>
-<header class="mast"><div class="poof-img-header-bg" style="position:absolute;inset:0;z-index:0"></div><div class="inner"><div class="mastrow"><div class="poof-mascot poof-img-snowy-wave" style="width:56px;height:56px"></div><div><div class="brand">STK <span>TRAINER</span> <span style="font-weight:400;font-size:.8rem">· Aufnahmeprüfung</span></div><p class="subtitle">سامانهٔ آفلاین تمرین ورودی کالج‌های آلمان · نسخهٔ پژوهش‌محور</p></div><span class="pill">B2 · T-Kurs</span><div class="theme-toggle"><button type="button" data-th="snowy">برفی</button><button type="button" data-th="classic">کلاسیک</button></div></div></div></header>
+<header class="mast"><div class="poof-img-header-bg" style="position:absolute;inset:0;z-index:0"></div><div class="inner"><div class="mastrow"><div class="poof-mascot poof-img-snowy-wave" style="width:56px;height:56px"></div><div><div class="brand">STK <span>TRAINER</span> <span style="font-weight:400;font-size:.8rem">· Aufnahmeprüfung</span></div><p class="subtitle">سامانهٔ آفلاین تمرین ورودی کالج‌های آلمان · نسخهٔ پژوهش‌محور</p></div><span class="pill">B2 · T-Kurs</span></div></div></header>
 <main id="app" class="wrap" aria-live="polite"></main>
 <script>
-/* POOF theme switcher: mirrors the main app's applyTheme; writes the same poof_v2.theme key. */
-(function(){function poofApplyTheme(t){t=(t==='snowy')?'snowy':'classic';document.documentElement.dataset.theme=t;var tc=document.getElementById('themeCss');if(tc)tc.href='theme-'+t+'.css?v=15';var m=document.querySelector('meta[name="theme-color"]');if(m)m.content=(t==='snowy')?'#081421':'#111111';var btns=document.querySelectorAll('[data-th]');for(var i=0;i<btns.length;i++){var on=btns[i].dataset.th===t;btns[i].classList.toggle('on',on);btns[i].setAttribute('aria-pressed',on?'true':'false');}}
+/* POOF theme inheritance: mirrors the main app's applyTheme; reads poof_v2.theme only (no toggle on this page). */
+(function(){function poofApplyTheme(t){t=(t==='snowy')?'snowy':'classic';document.documentElement.dataset.theme=t;var tc=document.getElementById('themeCss');if(tc)tc.href='theme-'+t+'.css?v=15';var m=document.querySelector('meta[name="theme-color"]');if(m)m.content=(t==='snowy')?'#081421':'#111111';}
 function poofReadTheme(){try{return (JSON.parse(localStorage.getItem('poof_v2')||'{}').theme==='snowy')?'snowy':'classic';}catch(e){return 'classic';}}
 poofApplyTheme(poofReadTheme());
-document.addEventListener('click',function(e){var b=e.target&&e.target.closest?e.target.closest('[data-th]'):null;if(!b)return;try{var d=JSON.parse(localStorage.getItem('poof_v2')||'{}');d.theme=b.dataset.th;localStorage.setItem('poof_v2',JSON.stringify(d));}catch(err){}poofApplyTheme(b.dataset.th);});
 })();
 </script>
 <script>

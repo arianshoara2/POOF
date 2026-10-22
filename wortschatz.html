@@ -22,9 +22,9 @@ button,input{font:inherit}
 button{cursor:pointer}
 [hidden]{display:none !important}
 .app{min-height:100dvh;max-width:760px;margin:0 auto;background:transparent}
-.topbar{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:10px;padding:calc(env(safe-area-inset-top) + 10px) 16px 10px;background:var(--glass);-webkit-backdrop-filter:blur(10px) saturate(1.25);backdrop-filter:blur(10px) saturate(1.25);border-bottom:1px solid rgba(255,255,255,.06)}
+.topbar{position:sticky;top:0;z-index:30;display:flex;flex-direction:column;align-items:stretch;gap:8px;padding:calc(env(safe-area-inset-top) + 10px) 16px 12px;background:var(--glass);-webkit-backdrop-filter:blur(10px) saturate(1.25);backdrop-filter:blur(10px) saturate(1.25);border-bottom:1px solid rgba(255,255,255,.06)}
 .iconbtn{width:40px;height:40px;border:1px solid var(--line);border-radius:14px;background:var(--panel);color:var(--muted);display:grid;place-items:center;flex:none}
-.title-wrap{flex:1;min-width:0}.title{font-size:1.7rem;font-weight:800;color:var(--gold);margin:0}.subtitle{margin:4px 0 0;color:var(--muted);font-size:.92rem}
+.title{font-size:1.7rem;font-weight:800;color:var(--gold);margin:0}.subtitle{margin:4px 0 0;color:var(--muted);font-size:.92rem}
 main{padding:14px 14px calc(120px + env(safe-area-inset-bottom,0px))}
 .search{display:flex;gap:10px;background:var(--panel);border:1px solid var(--line);padding:10px 12px;border-radius:18px;margin-bottom:16px;box-shadow:var(--shadow)}
 .search input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:var(--text);font-size:1rem}
@@ -114,14 +114,9 @@ html[data-theme=snowy] #scenicBg::after{background:linear-gradient(180deg,rgba(8
 .topbar>*{position:relative;z-index:1}
 .topbar .poof-img-header-bg{background-size:cover;background-position:center;background-repeat:no-repeat}
 .topbar::after{content:"";position:absolute;inset:0;z-index:0;background:linear-gradient(180deg,rgba(0,0,0,.15),rgba(0,0,0,.45));pointer-events:none}
-.title-wrap{display:flex;align-items:center;gap:10px}
+.topbar-row{display:flex;align-items:center;gap:10px}.topbar-row #homeBtn{margin-inline-start:auto}.topbar .title{font-size:1.55rem;line-height:1.7;overflow-wrap:anywhere;min-width:0}
 .poof-mascot{background-size:contain;background-repeat:no-repeat;background-position:center;flex:none;animation:poof-float 3s ease-in-out infinite}
 @keyframes poof-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
-/* small header theme toggle (text only, no emojis) */
-.theme-toggle{display:flex;gap:4px;flex:none;background:var(--glass);border:1px solid var(--line);border-radius:999px;padding:3px}
-.theme-toggle button{border:0;background:transparent;color:var(--muted);border-radius:999px;padding:6px 10px;font-size:.85rem}
-.theme-toggle button.on{background:var(--gold);color:#1a1307;font-weight:700}
-html[data-theme=snowy] .theme-toggle button.on{color:#081421}
 /* POOF Select: tappable words (main app .lk idiom) */
 .lk{border-bottom:1px dotted rgba(230,185,111,.45);cursor:pointer;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 html[data-theme=snowy] .lk{border-bottom-color:rgba(243,200,121,.5)}
@@ -166,16 +161,12 @@ html[data-theme=snowy] .lk.esel{background:rgba(243,200,121,.30)}
 <div class="app">
   <header class="topbar">
     <div class="poof-img-header-bg" style="position:absolute;inset:0;z-index:0" aria-hidden="true"></div>
-    <button class="iconbtn" id="backBtn" hidden aria-label="بازگشت">←</button>
-    <div class="title-wrap">
-      <div class="poof-mascot poof-img-snowy-wave" style="width:56px;height:56px" aria-hidden="true"></div>
-      <h1 class="title" id="headTitle">واژه‌آموزی</h1>
+    <div class="topbar-row">
+      <button class="iconbtn" id="backBtn" hidden aria-label="بازگشت">←</button>
+      <div class="poof-mascot poof-img-snowy-wave" style="width:34px;height:34px" aria-hidden="true"></div>
+      <button class="iconbtn" id="homeBtn" aria-label="خانه"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10.5V20h13v-9.5"/><path d="M9.5 20v-5h5v5"/></svg></button>
     </div>
-    <div class="theme-toggle" role="group" aria-label="تم">
-      <button data-th="snowy" aria-pressed="false">برفی</button>
-      <button data-th="classic" aria-pressed="false">کلاسیک</button>
-    </div>
-    <button class="iconbtn" id="homeBtn" aria-label="خانه"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10.5V20h13v-9.5"/><path d="M9.5 20v-5h5v5"/></svg></button>
+    <h1 class="title" id="headTitle">واژه‌آموزی</h1>
   </header>
   <main>
     <section id="homeView" class="section-view on">
@@ -401,15 +392,8 @@ html[data-theme=snowy] .lk.esel{background:rgba(243,200,121,.30)}
   </div>
 <script>
 /* ===== POOF theme (shared key with the main app: poof_v2.theme) ===== */
-function applyPoofTheme(){var t='classic';try{t=(JSON.parse(localStorage.getItem('poof_v2')||'{}').theme==='snowy')?'snowy':'classic';}catch(e){}document.documentElement.dataset.theme=t;var tc=document.getElementById('themeCss');if(tc){var f='theme-'+t+'.css?v=15';if(tc.href&&!tc.href.endsWith(f))tc.href=f;}var m=document.querySelector('meta[name=theme-color]');if(m)m.content=(t==='snowy')?'#081421':'#111111';document.querySelectorAll('[data-th]').forEach(function(b){var on=b.dataset.th===t;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on?'true':'false');});}
-/* Theme toggle writes the SAME shared key as the main app (poof_v2.theme).
-   Cold-start guard: the main app's migrate() only accepts a poof_v2 that has
-   cards+decks arrays, otherwise it falls back to fresh() and the chosen theme
-   would be lost. So when the stored db is absent/invalid, write a fresh-shaped
-   main db carrying the chosen theme instead of a bare {theme} object. When a
-   valid main db exists, only its theme field is touched (parse-modify-write). */
-function freshMainDbWithTheme(th){return {v:2,decks:[{id:'default',name:'پیش‌فرض'}],cards:[],active:'default',texts:[],textId:null,log:{},recent:[],theme:th,proxy:''};}
-document.addEventListener('click',function(e){var b=e.target.closest?e.target.closest('[data-th]'):null;if(!b)return;try{var cur=JSON.parse(localStorage.getItem('poof_v2')||'{}');if(!cur||typeof cur!=='object'||Array.isArray(cur)||!Array.isArray(cur.cards)||!Array.isArray(cur.decks)){cur=freshMainDbWithTheme(b.dataset.th);}else{cur.theme=b.dataset.th;}localStorage.setItem('poof_v2',JSON.stringify(cur));}catch(err){try{localStorage.setItem('poof_v2',JSON.stringify(freshMainDbWithTheme(b.dataset.th)));}catch(e2){}}applyPoofTheme();});
+function applyPoofTheme(){var t='classic';try{t=(JSON.parse(localStorage.getItem('poof_v2')||'{}').theme==='snowy')?'snowy':'classic';}catch(e){}document.documentElement.dataset.theme=t;var tc=document.getElementById('themeCss');if(tc){var f='theme-'+t+'.css?v=15';if(tc.href&&!tc.href.endsWith(f))tc.href=f;}var m=document.querySelector('meta[name=theme-color]');if(m)m.content=(t==='snowy')?'#081421':'#111111';}
+/* Theme is inherited from the main app (poof_v2.theme, chosen once in its Profile tab); this page has no theme toggle. */
 window.addEventListener('storage',function(e){if(e.key==='poof_v2')applyPoofTheme();});
 applyPoofTheme();
 const subtopics = [

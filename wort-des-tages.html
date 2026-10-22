@@ -72,9 +72,6 @@ button{font:inherit;cursor:pointer;color:var(--ink)}
 .whd .brand-mascot{width:56px;height:56px;flex:none;background-size:contain;background-repeat:no-repeat;background-position:center;animation:poof-float 3s ease-in-out infinite}
 @keyframes poof-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 .whd h2{margin:0;font-size:1.15rem;color:var(--gold);line-height:1.4}.whd .wsub{color:var(--mute);font-size:.8rem;direction:ltr;text-align:left}
-.theme-toggle{display:flex;gap:6px;margin-inline-start:auto}
-.theme-toggle button{background:transparent;color:var(--gold);border:1px solid var(--edge);border-radius:20px;padding:5px 12px;font-size:13px;font-family:inherit;cursor:pointer}
-.theme-toggle button.on{background:var(--gold);color:#1a1307;border-color:transparent;font-weight:700}
 nav.poof-nav{position:fixed;right:16px;left:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:100;display:grid;grid-template-columns:repeat(5,1fr);align-items:center;padding:6px;max-width:688px;margin:0 auto;overflow:visible;background:rgba(27,24,20,.78);border:1px solid rgba(230,185,111,.25);box-shadow:0 12px 32px rgba(0,0,0,.45);border-radius:24px;-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);transition:transform .42s cubic-bezier(.4,0,.2,1),opacity .35s ease}
 nav.poof-nav.nav-hidden{opacity:0;transform:translateY(calc(100% + 48px));pointer-events:none}
 nav.poof-nav:focus-within{opacity:1;transform:none;pointer-events:auto}
@@ -97,7 +94,7 @@ nav.poof-nav button.hero .ic{width:26px;height:26px}
 <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M5.2 20a7 7 0 0 1 13.6 0"/></symbol>
 </defs></svg>
 <div class="poof-img-library-bg" id="scenicBg" aria-hidden="true"></div>
-<header class="whd"><div class="poof-mascot brand-mascot poof-img-snowy-wave" aria-hidden="true"></div><div style="flex:1"><h2>کلمه‌ی روز</h2><div class="wsub">Wort des Tages</div></div><div class="theme-toggle"><button type="button" data-th="snowy">برفی</button><button type="button" data-th="classic">کلاسیک</button></div></header>
+<header class="whd"><div class="poof-mascot brand-mascot poof-img-snowy-wave" aria-hidden="true"></div><div style="flex:1"><h2>کلمه‌ی روز</h2><div class="wsub">Wort des Tages</div></div></header>
 <div class="poof-back"><a href="./">← بازگشت به POOF</a></div>
 <main>
 <article class="glass poster" id="poster"></article>
@@ -148,9 +145,8 @@ const W=RAW.split('\n').map(l=>{const p=l.split('|');return{de:p[0],art:p[1],pl:
 const $=id=>document.getElementById(id);
 /* تم مشترک با اپ اصلی: فقط poof_v2.theme (برفی فقط وقتی دقیقاً 'snowy' باشد) */
 let dbW={};try{dbW=JSON.parse(localStorage.getItem('poof_v2')||'{}')}catch(e){dbW={}}
-function applyThemeW(){var t=dbW.theme==='snowy'?'snowy':'classic';document.documentElement.dataset.theme=t;var tc=document.getElementById('themeCss');if(tc)tc.href='theme-'+t+'.css?v=15';var m=document.querySelector('meta[name=theme-color]');if(m)m.content=t==='snowy'?'#081421':'#111111';document.querySelectorAll('[data-th]').forEach(function(b){var on=b.dataset.th===t;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on?'true':'false')})}
+function applyThemeW(){var t=dbW.theme==='snowy'?'snowy':'classic';document.documentElement.dataset.theme=t;var tc=document.getElementById('themeCss');if(tc)tc.href='theme-'+t+'.css?v=15';var m=document.querySelector('meta[name=theme-color]');if(m)m.content=t==='snowy'?'#081421':'#111111';}
 applyThemeW();
-document.querySelectorAll('[data-th]').forEach(function(b){b.onclick=function(){dbW.theme=b.dataset.th;try{localStorage.setItem('poof_v2',JSON.stringify(dbW))}catch(e){}applyThemeW()}});
 /* ناوبری پایین: مثل صفحه‌های یکپارچه — تب را در poof_last_state می‌نویسد و به اپ اصلی می‌رود */
 document.querySelectorAll('#poofNav [data-tab]').forEach(function(b){b.addEventListener('click',function(){
   var tab=b.dataset.tab;var st={tab:tab,scrollY:0,dictQ:'',textId:null};

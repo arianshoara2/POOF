@@ -90,9 +90,6 @@ html[data-theme="classic"] .poof-head::after,html:not([data-theme]) .poof-head::
 .poof-head-top{display:flex;justify-content:space-between;align-items:center;gap:8px;position:relative;z-index:1}
 .poof-head-title{display:flex;align-items:center;gap:8px}
 .poof-mascot{flex:none;background-size:cover;background-repeat:no-repeat;background-position:center}
-.poof-theme{display:flex;gap:6px;margin-top:10px;position:relative;z-index:1}
-.poof-theme button{font:inherit;font-size:.8rem;padding:3px 10px;border:1px solid var(--bd);background:var(--glass-soft);color:var(--tx);border-radius:99px}
-.poof-theme button.on{background:var(--ac);color:#1a1307;border-color:var(--ac)}
 .card{background:var(--glass);-webkit-backdrop-filter:blur(10px) saturate(1.25);backdrop-filter:blur(10px) saturate(1.25)}
 .passage,.note,.chip,.curr,.rubric,.mistake{background:var(--glass-soft);-webkit-backdrop-filter:blur(8px) saturate(1.2);backdrop-filter:blur(8px) saturate(1.2)}
 .opt{background:var(--glass-soft)}
@@ -131,7 +128,7 @@ nav#poofNav:focus-within{opacity:1;transform:none;pointer-events:auto}
 <body>
 <div class="poof-scenic poof-img-learn-path-bg" aria-hidden="true"></div>
 <div class="poof-back"><a href="./">← بازگشت به POOF</a></div>
-<main><header class="poof-head"><div class="poof-img-header-bg" style="position:absolute;inset:0;z-index:0"></div><div class="poof-head-top"><div class="poof-head-title"><div class="poof-mascot poof-img-snowy-wave" style="width:56px;height:56px"></div><h1>آزمون تعیین سطح</h1></div><div class="tr" role="group" aria-label="انتخاب زبان آزمون"><button id="trackDE" class="on" type="button" aria-pressed="true">آلمانی</button><button id="trackEN" type="button" aria-pressed="false">انگلیسی</button></div></div><div class="poof-theme" role="group" aria-label="انتخاب تم"><button type="button" data-th="snowy" aria-pressed="false">برفی</button><button type="button" data-th="classic" aria-pressed="true">کلاسیک</button></div></header><div id="app"></div></main>
+<main><header class="poof-head"><div class="poof-img-header-bg" style="position:absolute;inset:0;z-index:0"></div><div class="poof-head-top"><div class="poof-head-title"><div class="poof-mascot poof-img-snowy-wave" style="width:56px;height:56px"></div><h1>آزمون تعیین سطح</h1></div><div class="tr" role="group" aria-label="انتخاب زبان آزمون"><button id="trackDE" class="on" type="button" aria-pressed="true">آلمانی</button><button id="trackEN" type="button" aria-pressed="false">انگلیسی</button></div></div></header><div id="app"></div></main>
 <div id="poofSelectBackdrop" class="poof-sheet-backdrop hide" aria-hidden="true"></div>
 <div id="poofSelectSheet" class="poof-sheet hide" role="dialog" aria-label="معنی واژه">
 <div class="poof-sheet-head"><b id="poofSelectWord" dir="ltr"></b><button id="poofSelectClose" type="button" aria-label="بستن">✕</button></div>
@@ -594,8 +591,7 @@ function boot(){const saved=read(activeKeys().session,null);if(saved?.track===TR
 function switchTrack(to){if(to!=='de'&&to!=='en')return;stopAudio();clearInterval(ticker);S=null;TRACK=to;byId=Object.fromEntries(Object.values(BANKS[TRACK]).flat().map(x=>[x.id,x]));$('trackDE').classList.toggle('on',TRACK==='de');$('trackEN').classList.toggle('on',TRACK==='en');$('trackDE').setAttribute('aria-pressed',String(TRACK==='de'));$('trackEN').setAttribute('aria-pressed',String(TRACK==='en'));refreshVoices();boot()}
 $('trackDE').onclick=()=>switchTrack('de');
 $('trackEN').onclick=()=>switchTrack('en');
-function applyTheme(){let t;try{t=JSON.parse(localStorage.getItem('poof_v2')||'{}').theme==='snowy'?'snowy':'classic'}catch(e){t='classic'}document.documentElement.dataset.theme=t;const tc=document.getElementById('themeCss');if(tc){const f='theme-'+t+'.css?v=15';if(!tc.href.endsWith(f))tc.href=f}const m=document.querySelector('meta[name=theme-color]');if(m)m.content=t==='snowy'?'#081421':'#111111';document.querySelectorAll('[data-th]').forEach(b=>{b.classList.toggle('on',b.dataset.th===t);b.setAttribute('aria-pressed',String(b.dataset.th===t))})}
-document.querySelectorAll('[data-th]').forEach(b=>{b.onclick=()=>{try{const cur=JSON.parse(localStorage.getItem('poof_v2')||'{}');cur.theme=b.dataset.th;localStorage.setItem('poof_v2',JSON.stringify(cur))}catch(e){localStorage.setItem('poof_v2',JSON.stringify({theme:b.dataset.th}))}applyTheme()}});
+function applyTheme(){let t;try{t=JSON.parse(localStorage.getItem('poof_v2')||'{}').theme==='snowy'?'snowy':'classic'}catch(e){t='classic'}document.documentElement.dataset.theme=t;const tc=document.getElementById('themeCss');if(tc){const f='theme-'+t+'.css?v=15';if(!tc.href.endsWith(f))tc.href=f}const m=document.querySelector('meta[name=theme-color]');if(m)m.content=t==='snowy'?'#081421':'#111111';}
 applyTheme();
 var __ptResumeMatched=false,__ptResumeState=null;
 try{var __ptMarker=JSON.parse(window.localStorage.getItem('poof_practice_resume')||'null');if(__ptMarker&&__ptMarker.page==='placement-test.html'){__ptResumeMatched=true;__ptResumeState=(__ptMarker&&__ptMarker.state)?__ptMarker.state:null;}}catch(e){}

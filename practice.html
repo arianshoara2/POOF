@@ -22,9 +22,6 @@ header::after{content:"";position:absolute;inset:0;z-index:0;pointer-events:none
 html[data-theme=snowy] header::after{background:linear-gradient(to bottom,rgba(8,20,33,.2),rgba(8,20,33,.65))}
 html[data-theme=classic] header::after{background:linear-gradient(to bottom,rgba(20,16,12,.25),rgba(20,16,12,.7))}
 .hd{position:relative;z-index:1;max-width:720px;margin:0 auto;display:flex;align-items:center;gap:10px}
-.theme-toggle{position:relative;z-index:1;max-width:720px;margin:10px auto 0;display:flex;gap:6px}
-.theme-toggle button{background:transparent;color:var(--accent);padding:5px 12px;font-size:13px}
-.theme-toggle button.on{background:var(--accent);color:var(--bg)}
 .mark{display:grid;place-items:center;width:36px;height:36px;border-radius:12px;background:var(--accent);color:var(--bg);font:700 20px/1 var(--serif)}
 h1{margin:0;font:600 22px/1.2 var(--serif);letter-spacing:.16em;color:var(--accent)}
 .sub{color:var(--muted);font-size:14px}
@@ -104,7 +101,7 @@ nav.poof-nav button.hero.on{background:linear-gradient(135deg,var(--accent),#caa
 </defs></svg>
 <div class="poof-img-library-bg" id="scenicBg" aria-hidden="true"></div>
 <header><div class="poof-img-header-bg" aria-hidden="true" style="position:absolute;inset:0;z-index:0"></div><div class="hd"><span class="mark">P</span><div class="poof-mascot brand-mascot poof-img-snowy-wave" aria-hidden="true" style="display:none;width:56px;height:56px;margin:0"></div><div style="flex:1"><h1>POOF</h1><div class="sub">تمرین</div></div>
-<button class="ghost" id="backBtn" aria-label="بازگشت" style="border:none;font-size:18px;padding:8px 12px">→</button></div><div class="theme-toggle"><button type="button" class="ghost" data-th="snowy">برفی</button><button type="button" class="ghost" data-th="classic">کلاسیک</button></div></header>
+<button class="ghost" id="backBtn" aria-label="بازگشت" style="border:none;font-size:18px;padding:8px 12px">→</button></div></header>
 <main id="app"><div class="card center mute">در حال بارگذاری…</div></main>
 <nav class="poof-nav" id="poofNav" aria-label="ناوبری اصلی">
  <button type="button" data-tab="cards" aria-label="کارت‌ها" title="کارت‌ها"><svg class="ic" aria-hidden="true"><use href="#i-cards"/></svg></button>
@@ -120,9 +117,8 @@ const K="poof_v2";
 let db={};
 try{db=JSON.parse(localStorage.getItem(K))||{}}catch(e){db={}}
 db.cards=db.cards||[];
-function applyTheme(){var t=db.theme==="snowy"?"snowy":"classic";document.documentElement.dataset.theme=t;var tc=document.getElementById("themeCss");if(tc)tc.href="theme-"+t+".css?v=15";var m=document.querySelector("meta[name=theme-color]");if(m)m.content=t==="snowy"?"#081421":"#111111";document.querySelectorAll("[data-th]").forEach(function(b){var on=b.dataset.th===t;b.classList.toggle("on",on);b.setAttribute("aria-pressed",on?"true":"false")})}
+function applyTheme(){var t=db.theme==="snowy"?"snowy":"classic";document.documentElement.dataset.theme=t;var tc=document.getElementById("themeCss");if(tc)tc.href="theme-"+t+".css?v=15";var m=document.querySelector("meta[name=theme-color]");if(m)m.content=t==="snowy"?"#081421":"#111111";}
 applyTheme();
-document.querySelectorAll("[data-th]").forEach(function(b){b.onclick=function(){db.theme=b.dataset.th;try{localStorage.setItem(K,JSON.stringify(db))}catch(e){}applyTheme()}});
 $("#backBtn").onclick=()=>{savePracticeResume();if(history.length>1)history.back();else location.href="index.html"};
 function $(s){return document.querySelector(s)}
 function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
