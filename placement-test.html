@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-<script>try{var _t=(JSON.parse(localStorage.getItem('poof_v2')||'{}').theme==='snowy')?'snowy':'classic';document.write('<link rel="stylesheet" id="themeCss" href="theme-'+_t+'.css?v=15">')}catch(e){document.write('<link rel="stylesheet" id="themeCss" href="theme-classic.css?v=15">')}</script>
+<script>try{var _t=(JSON.parse(localStorage.getItem('poof_v2')||'{}').theme==='snowy')?'snowy':'classic';document.write('<link rel="stylesheet" id="themeCss" href="theme-'+_t+'.css?v=16">')}catch(e){document.write('<link rel="stylesheet" id="themeCss" href="theme-classic.css?v=16">')}</script>
+<script src="poof-core.js"></script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>آزمون تعیین سطح آلمانی و انگلیسی | شش مهارت</title>
@@ -591,7 +592,7 @@ function boot(){const saved=read(activeKeys().session,null);if(saved?.track===TR
 function switchTrack(to){if(to!=='de'&&to!=='en')return;stopAudio();clearInterval(ticker);S=null;TRACK=to;byId=Object.fromEntries(Object.values(BANKS[TRACK]).flat().map(x=>[x.id,x]));$('trackDE').classList.toggle('on',TRACK==='de');$('trackEN').classList.toggle('on',TRACK==='en');$('trackDE').setAttribute('aria-pressed',String(TRACK==='de'));$('trackEN').setAttribute('aria-pressed',String(TRACK==='en'));refreshVoices();boot()}
 $('trackDE').onclick=()=>switchTrack('de');
 $('trackEN').onclick=()=>switchTrack('en');
-function applyTheme(){let t;try{t=JSON.parse(localStorage.getItem('poof_v2')||'{}').theme==='snowy'?'snowy':'classic'}catch(e){t='classic'}document.documentElement.dataset.theme=t;const tc=document.getElementById('themeCss');if(tc){const f='theme-'+t+'.css?v=15';if(!tc.href.endsWith(f))tc.href=f}const m=document.querySelector('meta[name=theme-color]');if(m)m.content=t==='snowy'?'#081421':'#111111';}
+function applyTheme(){let t;try{t=JSON.parse(localStorage.getItem('poof_v2')||'{}').theme==='snowy'?'snowy':'classic'}catch(e){t='classic'}document.documentElement.dataset.theme=t;const tc=document.getElementById('themeCss');if(tc){const f='theme-'+t+'.css?v=16';if(!tc.href.endsWith(f))tc.href=f}const m=document.querySelector('meta[name=theme-color]');if(m)m.content=t==='snowy'?'#081421':'#111111';}
 applyTheme();
 var __ptResumeMatched=false,__ptResumeState=null;
 try{var __ptMarker=JSON.parse(window.localStorage.getItem('poof_practice_resume')||'null');if(__ptMarker&&__ptMarker.page==='placement-test.html'){__ptResumeMatched=true;__ptResumeState=(__ptMarker&&__ptMarker.state)?__ptMarker.state:null;}}catch(e){}
@@ -603,4 +604,128 @@ if(!__ptRestored)boot();
 }else boot();
 
 </script>
+
+<script>
+/* POOF position wiring (Part B): restores track/section/skill/itemId via PoofPos.
+   cat=track ('de'/'en'), anchor=item id, view=skill, section=intro/test/result.
+   Marker priority: window.__ptResumeMatched is the page's own pre-existing
+   global, set when a poof_practice_resume marker for this page is found at
+   boot; if set, apply() is a NO-OP. Track switches inside apply() deliberately
+   do NOT call switchTrack() (which calls boot() and would show the session
+   resume card over the restored item); they rebuild byId + buttons directly,
+   mirroring ptRestoreResume. A fresh session is started only when the saved
+   item is not the live session's item, so adaptive state (used/log) is kept
+   whenever the snapshot and the session agree. */
+(function(){
+  if(!window.PoofPos) return;
+  var PAGE='placement-test.html';
+  var markerConsumed=!!window.__ptResumeMatched;
+  var SKILLS=['g','v','r','h','w','s'], SECTIONS=['intro','test','result'];
+  function y(){ try{ return Math.round(window.scrollY||0); }catch(e){ return 0; } }
+  function curItem(){ try{ return (S && S.index) ? S.index : ''; }catch(e){ return ''; } }
+  function curSection(){
+    try{ if(!S) return 'intro'; if(S.finished) return 'result'; return 'test'; }
+    catch(e){ return 'intro'; }
+  }
+  function curSkill(){
+    try{ var id=curItem(); return (id && byId[id]) ? (byId[id].skill||'') : ''; }
+    catch(e){ return ''; }
+  }
+  function curPos(){
+    try{
+      var id=curItem(), lastLog='';
+      try{ if(S && Array.isArray(S.log) && S.log.length) lastLog=S.log[S.log.length-1].id||''; }catch(e){}
+      return window.PoofPos.make(PAGE, curSection(), {
+        cat: TRACK, anchor: id, view: curSkill(), seen: lastLog||id, scrollY: y()
+      });
+    }catch(e){ return null; }
+  }
+  function restoreScroll(pos){
+    try{ if(typeof ptRestoreScrollY==='function'){ ptRestoreScrollY(pos.scrollY||0); return; } }catch(e){}
+    try{ window.scrollTo(0, pos.scrollY||0); }catch(e){}
+  }
+  function switchTrackState(to){
+    TRACK=to;
+    try{ byId=Object.fromEntries(Object.values(BANKS[TRACK]).flat().map(function(x){ return [x.id,x]; })); }catch(e){}
+    try{
+      var de=document.getElementById('trackDE'), en=document.getElementById('trackEN');
+      if(de){ de.classList.toggle('on', TRACK==='de'); de.setAttribute('aria-pressed', String(TRACK==='de')); }
+      if(en){ en.classList.toggle('on', TRACK==='en'); en.setAttribute('aria-pressed', String(TRACK==='en')); }
+      if(typeof refreshVoices==='function') refreshVoices();
+    }catch(e){}
+  }
+  function itemIn(track, id){
+    try{ return Object.values(BANKS[track]).flat().some(function(x){ return x.id===id; }); }
+    catch(e){ return false; }
+  }
+  function itemSkill(track, id){
+    try{
+      var arr=Object.values(BANKS[track]).flat();
+      for(var i=0;i<arr.length;i++){ if(arr[i].id===id) return arr[i].skill||''; }
+    }catch(e){}
+    return '';
+  }
+  window.PoofPos.registerValidator(PAGE, function(pos){
+    try{
+      if(pos.cat!=='de' && pos.cat!=='en') pos.cat='de';
+      if(SECTIONS.indexOf(pos.section)<0) pos.section='intro';
+      if(pos.anchor && !itemIn(pos.cat, pos.anchor)){
+        pos.anchor=''; if(pos.section==='test') pos.section='intro';
+      }
+      if(pos.anchor){ if(SKILLS.indexOf(pos.view)<0) pos.view=itemSkill(pos.cat, pos.anchor); }
+      else if(SKILLS.indexOf(pos.view)<0) pos.view='';
+      return pos;
+    }catch(e){ return null; }
+  });
+  window.PoofPos.init({ page: PAGE, apply: function(pos){
+    if(markerConsumed) return;
+    try{
+      if(pos.cat!==TRACK) switchTrackState(pos.cat);
+      if(pos.section==='result' && S && S.finished){
+        if(typeof result==='function') result(true);
+        restoreScroll(pos); return;
+      }
+      if(pos.section==='intro'){
+        if(S && !S.finished) render(); else intro();
+        restoreScroll(pos); return;
+      }
+      if(S && S.track===TRACK && S.index===pos.anchor && !S.finished){
+        render(); restoreScroll(pos); return;
+      }
+      if(pos.anchor){
+        start();
+        S.index=pos.anchor;
+        if(Array.isArray(S.used) && S.used.indexOf(pos.anchor)<0) S.used.push(pos.anchor);
+        try{ if(typeof persist==='function') persist(); }catch(e){}
+        render();
+      } else if(S && !S.finished) render(); else intro();
+      restoreScroll(pos);
+    }catch(e){}
+  }});
+  window.addEventListener('scroll', function(){ var p=curPos(); if(p) window.PoofPos.saveSoon(p); }, {passive:true});
+  var navEl=document.getElementById('poofNav');
+  if(navEl) navEl.addEventListener('click', function(){ var p=curPos(); if(p) window.PoofPos.saveNow(p); });
+  var backLink=document.querySelector('.poof-back a');
+  if(backLink) backLink.addEventListener('click', function(){ var p=curPos(); if(p) window.PoofPos.saveNow(p); });
+  ['trackDE','trackEN'].forEach(function(id){
+    var b=document.getElementById(id);
+    if(b) b.addEventListener('click', function(){ setTimeout(function(){ var p=curPos(); if(p) window.PoofPos.go(p); }, 0); });
+  });
+  var appEl=document.getElementById('app');
+  if(appEl) appEl.addEventListener('click', function(e){
+    var a=e.target && e.target.closest ? e.target.closest('a[href]') : null;
+    if(a){ var p=curPos(); if(p) window.PoofPos.saveNow(p); return; }
+    var before=curSection();
+    setTimeout(function(){
+      var p=curPos(); if(!p) return;
+      if(p.section!==before) window.PoofPos.go(p); else window.PoofPos.track(p);
+    }, 0);
+  });
+  document.addEventListener('click', function(e){
+    var a=e.target && e.target.closest ? e.target.closest('a[href]') : null;
+    if(a){ var p=curPos(); if(p) window.PoofPos.saveNow(p); }
+  });
+})();
+</script>
+
 </body></html>
