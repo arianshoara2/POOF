@@ -3271,26 +3271,33 @@ addEventListener("pagehide",()=>{try{if(!$("#s-read").hidden)saveProgress()}catc
 const G_CLIENT_ID="1057286792140-oor3b3v61dpvh3vjlhekcqhnnuu047ld.apps.googleusercontent.com";
 const G_SCOPE="https://www.googleapis.com/auth/drive.appdata";
 const G_FILE="poof-backup.json";
-let gToken=null,gTokenClient=null,gSyncTimer=null,gSyncing=false;
+let gToken=null,gTokenClient=null,gSyncTimer=null,gSyncing=false,gSilentMode=false,gSilentTried=false;
 function gInit(){
  if(typeof google==="undefined"||!google.accounts||!google.accounts.oauth2){setTimeout(gInit,1500);return}
  try{
   gTokenClient=google.accounts.oauth2.initTokenClient({client_id:G_CLIENT_ID,scope:G_SCOPE,
    callback:r=>{
-    if(r&&r.access_token){gToken=r.access_token;try{sessionStorage.setItem("gtoken",gToken)}catch(e){}onGSignIn()}
-    else{renderG();if(r&&r.error)toast("ورود با گوگل ناموفق بود","bad")}
+    const wasSilent=gSilentMode;gSilentMode=false;
+    if(r&&r.access_token){gToken=r.access_token;try{localStorage.setItem("gtoken",gToken)}catch(e){}if(wasSilent)renderG();else onGSignIn()}
+    else{renderG();if(r&&r.error&&!wasSilent)toast("ورود با گوگل ناموفق بود","bad")}
    }});
  }catch(e){}
- try{if(db.guser){const t=sessionStorage.getItem("gtoken");if(t)gToken=t}}catch(e){}
+ try{if(db.guser){let t=null;try{t=localStorage.getItem("gtoken")}catch(e){}if(!t){try{t=sessionStorage.getItem("gtoken")}catch(e){}}if(t){gToken=t;try{localStorage.setItem("gtoken",t);sessionStorage.removeItem("gtoken")}catch(e){}}}}catch(e){}
  renderG();
- /* نکته: توکن به‌عمد موقع لود صفحه خودکار گرفته نمی‌شود؛
-    درخواست خودکار روی موبایل یه تب گوگل گیرکرده باز می‌کند.
-    کاربر با دکمه‌ی «اتصال مجدد» وصل می‌شود. */
+ if(db.guser&&!gToken)gSilentRefresh();
+ /* تمدید بی‌صدا: فقط وقتی قبلاً وارد شده و توکنی نیست، با prompt:'none' توکن تازه گرفته می‌شود؛
+    هیچ پنجره‌ای باز نمی‌کند و اگر نشد، دکمه‌ی «اتصال مجدد» می‌ماند. */
+}
+function gSilentRefresh(){
+ if(!gTokenClient||!db.guser||gToken||gSilentTried)return;
+ gSilentTried=true;gSilentMode=true;
+ try{gTokenClient.requestAccessToken({prompt:"none"})}catch(e){gSilentMode=false}
+}
 }
 function gSignIn(){if(!gTokenClient){toast("سرویس گوگل در حال بارگذاری… کمی صبر کنید","bad");return}gTokenClient.requestAccessToken()}
 async function gSignOut(){
  if(gToken)try{await fetch("https://oauth2.googleapis.com/revoke?token="+encodeURIComponent(gToken),{method:"POST"})}catch(e){}
- gToken=null;try{sessionStorage.removeItem("gtoken")}catch(e){}
+ gToken=null;try{localStorage.removeItem("gtoken");sessionStorage.removeItem("gtoken")}catch(e){}
  db.guser="";db._cloudId="";db._cloudRev="";save();renderG();gSetStatus("");toast("از حساب گوگل خارج شدید");
 }
 function renderG(){
@@ -3310,7 +3317,7 @@ function scheduleCloudSync(){
 }
 async function gApi(path,opts={}){
  const r=await fetch("https://www.googleapis.com"+path,{...opts,headers:{...(opts.headers||{}),Authorization:"Bearer "+gToken}});
- if(r.status===401){gToken=null;try{sessionStorage.removeItem("gtoken")}catch(e){}renderG();gSetStatus("");toast("نشست گوگل منقضی شد — «اتصال مجدد» را بزنید","bad");throw new Error("gtoken-expired")}
+ if(r.status===401){gToken=null;try{localStorage.removeItem("gtoken")}catch(e){}renderG();gSetStatus("");toast("نشست گوگل منقضی شد — «اتصال مجدد» را بزنید","bad");throw new Error("gtoken-expired")}
  return r;
 }
 async function gFindFile(){
@@ -3335,7 +3342,7 @@ async function gUpload(manual){
    fd.append("metadata",new Blob([JSON.stringify(meta)],{type:"application/json"}));
    fd.append("file",new Blob([body],{type:"application/json"}));
    const r=await fetch("https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart",{method:"POST",headers:{Authorization:"Bearer "+gToken},body:fd});
-   if(r.status===401){gToken=null;try{sessionStorage.removeItem("gtoken")}catch(e){}renderG();toast("نشست گوگل منقضی شد — «اتصال مجدد» را بزنید","bad");throw new Error("gtoken-expired")}
+   if(r.status===401){gToken=null;try{localStorage.removeItem("gtoken")}catch(e){}renderG();toast("نشست گوگل منقضی شد — «اتصال مجدد» را بزنید","bad");throw new Error("gtoken-expired")}
    f=await r.json();if(f.id)db._cloudId=f.id;
   }
   if(f.modifiedTime){db._cloudRev=f.modifiedTime;try{localStorage.setItem(K,JSON.stringify(db))}catch(e){}}
