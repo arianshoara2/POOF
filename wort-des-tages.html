@@ -4,11 +4,19 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Wort des Tages — کلمه‌ی روز</title>
+<meta name="theme-color" content="#111111">
+<link rel="icon" type="image/svg+xml" href="icon.svg">
 <style>
 :root{--bg:#111111;--gold:#e6b96f;--gold2:#c99a4e;--ink:#f5f1e8;--mute:#b8b0a4;--glass:#1b1814;--edge:rgba(230,185,111,.28);color-scheme:dark}
+html[data-theme=snowy]{--bg:#081421;--gold:#f3c879;--gold2:#d9ab5e;--ink:#f3f8fc;--mute:#b8c7d3;--glass:#10263a;--edge:rgba(185,220,244,.28)}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{background:var(--bg)}
-body{margin:0;min-height:100vh;color:var(--ink);font-family:Vazirmatn,Tahoma,system-ui,sans-serif;line-height:1.8;padding:calc(env(safe-area-inset-top) + 14px) 14px calc(env(safe-area-inset-bottom) + 28px);position:relative;overflow-x:hidden;background:radial-gradient(60% 40% at 85% 5%,rgba(230,185,111,.20),transparent 70%),radial-gradient(50% 35% at 5% 75%,rgba(201,154,78,.22),transparent 70%),var(--bg)}
+body{margin:0;min-height:100vh;color:var(--ink);font-family:Vazirmatn,Tahoma,system-ui,sans-serif;line-height:1.8;padding:calc(env(safe-area-inset-top) + 14px) 14px calc(env(safe-area-inset-bottom) + 118px);position:relative;overflow-x:hidden;background:var(--bg)}
+#scenicBg{position:fixed;inset:0;z-index:0;pointer-events:none}
+#scenicBg::after{content:"";position:absolute;inset:0}
+html[data-theme=snowy] #scenicBg::after{background:linear-gradient(to bottom,rgba(8,20,33,.55),rgba(8,20,33,.82))}
+html[data-theme=classic] #scenicBg::after,html:not([data-theme]) #scenicBg::after{background:linear-gradient(to bottom,rgba(17,17,17,.55),rgba(17,17,17,.82))}
+main,.poof-back,.whd{position:relative;z-index:1}
 main{max-width:480px;margin:0 auto}
 .glass{background:var(--glass);border:1px solid var(--edge);border-radius:24px;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:0 10px 40px rgba(0,0,0,.45)}
 .poster{padding:26px 20px 20px;text-align:center}
@@ -26,10 +34,14 @@ main{max-width:480px;margin:0 auto}
 .chips{display:flex;flex-wrap:wrap;gap:6px}
 .chip{direction:ltr;border:1px solid var(--edge);border-radius:20px;padding:1px 12px;font-size:.9rem;background:var(--glass)}
 .chip.ant{border-color:rgba(230,120,100,.5)}
-.chip[data-w],.wlk{cursor:pointer}
-.wlk{border-bottom:1px dotted rgba(230,185,111,.55)}
+.chip[data-w],.ptok{cursor:pointer}
+.ptok{border-bottom:1px dotted rgba(230,185,111,.55);-webkit-touch-callout:none;user-select:none}
+.ptok.sel{background:rgba(230,185,111,.28);border-radius:4px}
 #wsheet{position:fixed;inset-inline:12px;bottom:calc(env(safe-area-inset-bottom) + 14px);z-index:60;background:var(--glass);border:1px solid var(--edge);border-radius:20px;padding:18px 16px;box-shadow:0 16px 50px rgba(0,0,0,.55);max-height:72vh;overflow:auto;text-align:right}
 #wsheet[hidden]{display:none}
+#wphrase{position:fixed;inset-inline:12px;bottom:calc(env(safe-area-inset-bottom) + 14px);z-index:61;background:var(--glass);border:1px solid var(--edge);border-radius:20px;padding:18px 16px;box-shadow:0 16px 50px rgba(0,0,0,.55);max-height:72vh;overflow:auto;text-align:right}
+#wphrase[hidden]{display:none}
+#wphrase .wp-word{font-family:Georgia,serif;font-size:1.3rem;direction:ltr;text-align:left}
 #wsheet .ws-word{font-family:Georgia,serif;font-size:1.6rem;direction:ltr}
 #wsheet .ws-art{font-family:Georgia,serif;font-style:italic;color:var(--gold);font-size:1.1rem;direction:ltr}
 .row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
@@ -55,9 +67,34 @@ button{font:inherit;cursor:pointer;color:var(--ink)}
 .ic{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px}
 .poof-back{max-width:480px;margin:0 auto 12px}.poof-back a{display:inline-flex;align-items:center;gap:6px;color:var(--gold);text-decoration:none;font-weight:700;font-size:.9rem}.poof-back a:hover{text-decoration:underline}
+.whd{max-width:480px;margin:0 auto 10px;display:flex;align-items:center;gap:10px}
+.whd .brand-mascot{width:56px;height:56px;flex:none;background-size:contain;background-repeat:no-repeat;background-position:center;animation:poof-float 3s ease-in-out infinite}
+@keyframes poof-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.whd h2{margin:0;font-size:1.15rem;color:var(--gold);line-height:1.4}.whd .wsub{color:var(--mute);font-size:.8rem;direction:ltr;text-align:left}
+.theme-toggle{display:flex;gap:6px;margin-inline-start:auto}
+.theme-toggle button{background:transparent;color:var(--gold);border:1px solid var(--edge);border-radius:20px;padding:5px 12px;font-size:13px;font-family:inherit;cursor:pointer}
+.theme-toggle button.on{background:var(--gold);color:#1a1307;border-color:transparent;font-weight:700}
+nav.poof-nav{position:fixed;right:16px;left:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:100;display:grid;grid-template-columns:repeat(5,1fr);align-items:center;padding:6px;max-width:688px;margin:0 auto;overflow:visible;background:rgba(27,24,20,.78);border:1px solid rgba(230,185,111,.25);box-shadow:0 12px 32px rgba(0,0,0,.45);border-radius:24px;-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px)}
+html[data-theme=snowy] nav.poof-nav{background:rgba(11,29,45,.78);border-color:rgba(185,220,244,.28);box-shadow:0 12px 32px rgba(0,8,16,.55)}
+nav.poof-nav button{padding:10px 2px;border:0;border-radius:16px;background:transparent;color:var(--mute);box-shadow:none}
+nav.poof-nav button.on{background:rgba(230,185,111,.14);color:var(--gold)}
+html[data-theme=snowy] nav.poof-nav button.on{background:rgba(243,200,121,.16)}
+nav.poof-nav .ic{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+nav.poof-nav button.hero{width:54px;height:54px;margin:0 auto;border-radius:50%;background:linear-gradient(180deg,var(--gold),var(--gold2));color:#1a1307;box-shadow:0 8px 22px rgba(0,0,0,.45);display:grid;place-items:center}
+nav.poof-nav button.hero .ic{width:26px;height:26px}
 </style>
+<script>try{var _t=(JSON.parse(localStorage.getItem('poof_v2')||'{}').theme==='snowy')?'snowy':'classic';document.write('<link rel="stylesheet" id="themeCss" href="theme-'+_t+'.css?v=15">')}catch(e){document.write('<link rel="stylesheet" id="themeCss" href="theme-classic.css?v=15">')}</script>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-cards" viewBox="0 0 24 24"><rect x="3.5" y="8" width="17" height="11" rx="2.5"/><path d="M7 4.5h10"/></symbol>
+<symbol id="i-dict" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4-4"/></symbol>
+<symbol id="i-read" viewBox="0 0 24 24"><path d="M2 5.5C4.5 4 8 4 12 6c4-2 7.5-2 10-.5V19c-2.5-1.5-6-1.5-10 .5-4-2-7.5-2-10-.5z"/><path d="M12 6v13.5"/></symbol>
+<symbol id="i-route" viewBox="0 0 24 24"><circle cx="6.5" cy="17.5" r="2.5"/><circle cx="17.5" cy="6.5" r="2.5"/><path d="M9 17.5h6.5a3 3 0 0 0 0-6h-4a3 3 0 0 1-3-3V9"/></symbol>
+<symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M5.2 20a7 7 0 0 1 13.6 0"/></symbol>
+</defs></svg>
+<div class="poof-img-library-bg" id="scenicBg" aria-hidden="true"></div>
+<header class="whd"><div class="poof-mascot brand-mascot poof-img-snowy-wave" aria-hidden="true"></div><div style="flex:1"><h2>کلمه‌ی روز</h2><div class="wsub">Wort des Tages</div></div><div class="theme-toggle"><button type="button" data-th="snowy">برفی</button><button type="button" data-th="classic">کلاسیک</button></div></header>
 <div class="poof-back"><a href="./">← بازگشت به POOF</a></div>
 <main>
 <article class="glass poster" id="poster"></article>
@@ -75,6 +112,13 @@ button{font:inherit;cursor:pointer;color:var(--ink)}
 </section>
 </main>
 <div id="toast"></div>
+<nav class="poof-nav" id="poofNav" aria-label="ناوبری اصلی">
+ <button type="button" data-tab="cards" aria-label="کارت‌ها" title="کارت‌ها"><svg class="ic" aria-hidden="true"><use href="#i-cards"/></svg></button>
+ <button type="button" data-tab="dict" aria-label="دیکشنری" title="دیکشنری"><svg class="ic" aria-hidden="true"><use href="#i-dict"/></svg></button>
+ <button type="button" data-tab="read" class="hero" aria-label="خواندنی" title="خواندنی"><svg class="ic" aria-hidden="true"><use href="#i-read"/></svg></button>
+ <button type="button" data-tab="review" class="on" aria-label="مرور و یادگیری" title="مرور و یادگیری"><svg class="ic" aria-hidden="true"><use href="#i-route"/></svg></button>
+ <button type="button" data-tab="me" aria-label="پروفایل" title="پروفایل"><svg class="ic" aria-hidden="true"><use href="#i-user"/></svg></button>
+</nav>
 <script>
 // فرمت: کلمه|مقاله|جمع|IPA|معنی|ریشه و ساخت|مثال۱|ترجمه۱|مثال۲|ترجمه۲|هم‌معنی‌ها (با ویرگول)|متضاد
 const RAW=`Fernweh|das|—|/ˈfɛʁnˌveː/|اشتیاق به سفر به جاهای دور|fern (دور) + Weh (درد، دلتنگی) — عکس Heimweh|Im Winter habe ich oft Fernweh.|در زمستان اغلب اشتیاق سفر دارم.|Sein Fernweh wurde immer stärker.|اشتیاق او به سفر بیشتر و بیشتر شد.|Reiselust,Wanderlust|Heimweh
@@ -99,6 +143,18 @@ Aufmerksamkeit|die|—|/ˈaʊ̯fmɛʁkzaːmkaɪ̯t/|توجه، دقت|auf + merk
 Gelassenheit|die|—|/ɡəˈlasn̩haɪ̯t/|آرامش، خونسردی|ge- + lassen (رها کردن) + ‎-heit|Sie sieht Probleme mit Gelassenheit.|او با خونسردی به مشکلات نگاه می‌کند.|Gelassenheit hilft im Stress.|آرامش در استرس کمک می‌کند.|Ruhe,Gleichmut|Aufregung`;
 const W=RAW.split('\n').map(l=>{const p=l.split('|');return{de:p[0],art:p[1],pl:p[2],ipa:p[3],fa:p[4],root:p[5],ex:[[p[6],p[7]],[p[8],p[9]]],syn:p[10].split(','),ant:p[11]}});
 const $=id=>document.getElementById(id);
+/* تم مشترک با اپ اصلی: فقط poof_v2.theme (برفی فقط وقتی دقیقاً 'snowy' باشد) */
+let dbW={};try{dbW=JSON.parse(localStorage.getItem('poof_v2')||'{}')}catch(e){dbW={}}
+function applyThemeW(){var t=dbW.theme==='snowy'?'snowy':'classic';document.documentElement.dataset.theme=t;var tc=document.getElementById('themeCss');if(tc)tc.href='theme-'+t+'.css?v=15';var m=document.querySelector('meta[name=theme-color]');if(m)m.content=t==='snowy'?'#081421':'#111111';document.querySelectorAll('[data-th]').forEach(function(b){var on=b.dataset.th===t;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on?'true':'false')})}
+applyThemeW();
+document.querySelectorAll('[data-th]').forEach(function(b){b.onclick=function(){dbW.theme=b.dataset.th;try{localStorage.setItem('poof_v2',JSON.stringify(dbW))}catch(e){}applyThemeW()}});
+/* ناوبری پایین: مثل صفحه‌های یکپارچه — تب را در poof_last_state می‌نویسد و به اپ اصلی می‌رود */
+document.querySelectorAll('#poofNav [data-tab]').forEach(function(b){b.addEventListener('click',function(){
+  var tab=b.dataset.tab;var st={tab:tab,scrollY:0,dictQ:'',textId:null};
+  if(tab==='read'){try{var prev=JSON.parse(localStorage.getItem('poof_last_state')||'null');if(prev&&prev.textId)st.textId=prev.textId}catch(e){}}
+  try{localStorage.setItem('poof_last_state',JSON.stringify(st))}catch(e){}
+  location.href='./';
+})});
 const today=new Date();today.setHours(0,0,0,0);
 let view=new Date(today),cm=view.getMonth(),cy=view.getFullYear(),ov=null;
 const dayIdx=d=>Math.floor(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())/864e5)%W.length;
@@ -109,14 +165,14 @@ function fmt(d,o){try{return d.toLocaleDateString('fa-IR',Object.assign({calenda
 function render(){
   const w=cur();
   $('poster').innerHTML=`<div class="date">${ov!==null?'کلمه‌ی تصادفی':fmt(view,{weekday:'long',day:'numeric',month:'long',year:'numeric'})}</div>
-  <div class="art">${w.art==='—'?'':w.art}</div><h1 class="word">${w.de}</h1>
+  <div class="art">${w.art==='—'?'':w.art}</div><h1 class="word"><span class="ptok" data-w="${escA(normW(w.de))}">${w.de}</span></h1>
   <div class="ipa">${w.ipa}</div><div class="rule"></div>
   <div class="fa">${w.fa}</div>
   <div class="pl">${w.pl==='—'?'(بدون جمع)':'Plural: die '+w.pl}</div>
-  <div class="blk"><h3>ریشه و ساخت کلمه</h3><div>${w.root}</div></div>
-  <div class="blk"><h3>مثال‌ها</h3>${w.ex.map(e=>`<div class="de exde">${wlkHTML(e[0])}</div><div class="exfa">${e[1]}</div>`).join('')}</div>
-  <div class="blk"><h3>هم‌معنی</h3><div class="chips">${w.syn.map(s=>`<span class="chip" data-w="${escA(normW(s))}">${s}</span>`).join('')}</div>
-  <h3 style="margin-top:10px">متضاد</h3><div class="chips"><span class="chip ant" data-w="${escA(normW(w.ant))}">${w.ant}</span></div></div>`;
+  <div class="blk"><h3>ریشه و ساخت کلمه</h3><div class="rootline">${tokRoot(w.root)}</div></div>
+  <div class="blk"><h3>مثال‌ها</h3>${w.ex.map(e=>`<div class="de exde">${ptokHTML(e[0])}</div><div class="exfa">${e[1]}</div>`).join('')}</div>
+  <div class="blk"><h3>هم‌معنی</h3><div class="chips">${w.syn.map(s=>`<span class="chip ptok" data-w="${escA(normW(s))}">${s}</span>`).join('')}</div>
+  <h3 style="margin-top:10px">متضاد</h3><div class="chips"><span class="chip ant ptok" data-w="${escA(normW(w.ant))}">${w.ant}</span></div></div>`;
   $('next').disabled=same(view,today)||ov!==null&&false;
   $('mt').textContent=fmt(new Date(cy,cm,1),{month:'long',year:'numeric'});
   const g=$('grid');g.innerHTML='د س چ پ ج ش ی'.split(' ').map(x=>`<span>${x}</span>`).join('');
@@ -145,30 +201,85 @@ $('cp').onclick=()=>{
   const fb=()=>{const t=document.createElement('textarea');t.value=j;document.body.appendChild(t);t.select();let ok=false;try{ok=document.execCommand('copy')}catch(e){}t.remove();toast(ok?'کارت کپی شد ✓':'کپی ناموفق بود')};
   try{navigator.clipboard.writeText(j).then(()=>toast('کارت کپی شد ✓'),fb)}catch(e){fb()}
 };
-/* کلمات ضربه‌پذیر: چیپ‌های هم‌معنی/متضاد + کلماتِ مثال‌ها → ورق پایین + لینک دیکشنری */
+/* POOF Select: عین بخش دیکشنری — تک‌ضرب = ورق معنی، نگه‌داشتن + کشیدن = انتخاب عبارت */
 const normW=s=>(s||'').trim().toLowerCase().replace(/^[^\p{L}]+|[^\p{L}]+$/gu,'');
 const escA=s=>String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;');
-const wlkHTML=s=>s.split(/(\s+)/).map(p=>/\s/.test(p)?p:(normW(p)?`<span class="wlk" data-w="${escA(normW(p))}">${p}</span>`:p)).join('');
+const ptokHTML=s=>s.split(/(\s+)/).map(p=>/\s/.test(p)?p:(normW(p)?`<span class="ptok" data-w="${escA(normW(p))}">${p}</span>`:p)).join('');
+/* ریشه: فقط ردیف‌های لاتین (کلمات آلمانی) ضربه‌پذیر می‌شوند، متن فارسی دست نمی‌خورد */
+const tokRoot=s=>String(s).replace(/[A-Za-zÄÖÜäöüß]+(?:-[A-Za-zÄÖÜäöüß]+)*/g,m=>`<span class="ptok" data-w="${escA(normW(m))}">${m}</span>`);
 const findBank=w=>W.find(x=>normW(x.de)===w);
 const _ws=document.createElement('div');_ws.id='wsheet';_ws.hidden=true;
 _ws.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><b id="wsTitle" dir="ltr" style="font-family:Georgia,serif;font-size:1.2rem"></b><button class="btn" id="wsClose" style="padding:6px 12px">✕ بستن</button></div><div id="wsBody" style="margin-top:10px"></div><a id="wsDict" class="btn gold" href="#" style="display:block;text-align:center;margin-top:14px;text-decoration:none">دیدن در دیکشنری POOF ←</a>`;
 document.body.appendChild(_ws);
-let wsPushed=false;
+const _wp=document.createElement('div');_wp.id='wphrase';_wp.hidden=true;
+_wp.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><b dir="ltr" style="font-family:Georgia,serif;font-size:1rem">عبارت انتخاب‌شده</b><button class="btn" id="wpClose" style="padding:6px 12px">✕ بستن</button></div><div id="wpWord" class="wp-word" style="margin-top:10px"></div><p style="color:var(--mute);font-size:.9rem;margin:8px 0 0">معنی کامل عبارت را در دیکشنری POOF ببین.</p><a id="wpDict" class="btn gold" href="#" style="display:block;text-align:center;margin-top:14px;text-decoration:none">دیدن در دیکشنری POOF ←</a>`;
+document.body.appendChild(_wp);
+let wsPushed=false,wpPushed=false;
 function openSheet(word){
   const w=normW(word);if(!w)return;
   const b=findBank(w),sh=$('wsheet');
   $('wsTitle').textContent=word;
-  $('wsBody').innerHTML=b?`<div class="ws-art">${b.art==='—'?'':b.art}</div><div class="ws-word">${b.de}</div><div class="ipa" dir="ltr">${b.ipa}</div><div style="font-weight:700">${b.fa}</div><div class="pl" dir="ltr">${b.pl==='—'?'(بدون جمع)':'Plural: die '+b.pl}</div><div class="blk"><h3>ریشه و ساخت کلمه</h3><div>${b.root}</div></div><div class="blk"><h3>مثال‌ها</h3>${b.ex.map(e=>`<div class="de exde">${wlkHTML(e[0])}</div><div class="exfa">${e[1]}</div>`).join('')}</div><div class="blk"><h3>هم‌معنی</h3><div class="chips">${b.syn.map(s=>`<span class="chip" data-w="${escA(normW(s))}">${s}</span>`).join('')}</div><h3 style="margin-top:10px">متضاد</h3><div class="chips"><span class="chip ant" data-w="${escA(normW(b.ant))}">${b.ant}</span></div></div>`
+  $('wsBody').innerHTML=b?`<div class="ws-art">${b.art==='—'?'':b.art}</div><div class="ws-word">${b.de}</div><div class="ipa" dir="ltr">${b.ipa}</div><div style="font-weight:700">${b.fa}</div><div class="pl" dir="ltr">${b.pl==='—'?'(بدون جمع)':'Plural: die '+b.pl}</div><div class="blk"><h3>ریشه و ساخت کلمه</h3><div class="rootline">${tokRoot(b.root)}</div></div><div class="blk"><h3>مثال‌ها</h3>${b.ex.map(e=>`<div class="de exde">${ptokHTML(e[0])}</div><div class="exfa">${e[1]}</div>`).join('')}</div><div class="blk"><h3>هم‌معنی</h3><div class="chips">${b.syn.map(s=>`<span class="chip ptok" data-w="${escA(normW(s))}">${s}</span>`).join('')}</div><h3 style="margin-top:10px">متضاد</h3><div class="chips"><span class="chip ant ptok" data-w="${escA(normW(b.ant))}">${b.ant}</span></div></div>`
   :`<p style="color:var(--mute)">این کلمه در بانک کلمه‌ی روز نیست؛ معنی کاملش را در دیکشنری POOF ببین.</p>`;
   $('wsDict').href='./?dict='+encodeURIComponent(word);
   const wasHidden=sh.hidden;sh.hidden=false;
   if(wasHidden){try{history.pushState({wort:1},'');wsPushed=true}catch(e){wsPushed=false}}
 }
 function closeSheet(){const sh=$('wsheet');if(!sh.hidden)sh.hidden=true;wsPushed=false}
+function openPhrase(phrase){
+  $('wpWord').textContent=phrase;
+  $('wpDict').href='./?dict='+encodeURIComponent(phrase);
+  const wasHidden=$('wphrase').hidden;$('wphrase').hidden=false;
+  if(wasHidden){try{history.pushState({wphrase:1},'');wpPushed=true}catch(e){wpPushed=false}}
+}
+function closePhrase(){const el=$('wphrase');if(!el.hidden)el.hidden=true;wpPushed=false}
 $('wsClose').onclick=()=>{if(wsPushed){wsPushed=false;history.back()}else closeSheet()};
-window.addEventListener('popstate',()=>{const sh=$('wsheet');if(sh&&!sh.hidden){sh.hidden=true;wsPushed=false}});
-$('poster').addEventListener('click',e=>{const t=e.target.closest('[data-w]');if(t)openSheet(t.dataset.w)});
-$('wsheet').addEventListener('click',e=>{const t=e.target.closest('[data-w]');if(t)openSheet(t.dataset.w)});
+$('wpClose').onclick=()=>{if(wpPushed){wpPushed=false;history.back()}else closePhrase()};
+window.addEventListener('popstate',()=>{const wp=$('wphrase');if(wp&&!wp.hidden){wp.hidden=true;wpPushed=false;return}const sh=$('wsheet');if(sh&&!sh.hidden){sh.hidden=true;wsPushed=false}});
+/* موتور ژست‌ها — پارامترها عین دیکشنری: ضرب تمیز زیر ۲۵۰ms و جابه‌جایی زیر ۱۰px = ورق؛ نگه‌داشتن ~۳۵۰ms با تحمل ۲۴px = انتخاب عبارت */
+let gt=null,lastTouchEl=null,lastTouchAt=0;
+function gtReset(){if(gt&&gt.timer)clearTimeout(gt.timer);if(gt&&gt.spans)gt.spans.forEach(s=>s.classList.remove('sel'));gt=null}
+function gtContainer(el){return el.closest('.exde,.rootline,.chips')}
+document.addEventListener('touchstart',e=>{
+  const t=e.target.closest('.ptok');if(!t)return;
+  gt={el:t,x0:e.touches[0].clientX,y0:e.touches[0].clientY,t0:Date.now(),moved:false,armed:false,spans:null,anchor:null,cont:gtContainer(t)};
+  if(gt.cont){const all=[...gt.cont.querySelectorAll('.ptok')];if(all.length>1){gt.all=all;gt.anchor=all.indexOf(t);
+    gt.timer=setTimeout(()=>{if(!gt||gt.moved)return;gt.armed=true;gt.spans=[t];t.classList.add('sel')},350)}}
+},{passive:true});
+document.addEventListener('touchmove',e=>{
+  if(!gt)return;const x=e.touches[0].clientX,y=e.touches[0].clientY;
+  const dx=x-gt.x0,dy=y-gt.y0,dist=Math.hypot(dx,dy);
+  if(!gt.armed&&dist>24){gt.moved=true;if(gt.timer)clearTimeout(gt.timer)}
+  if(gt.armed&&gt.all){const u=document.elementFromPoint(x,y);const s=u&&u.closest?u.closest('.ptok'):null;
+    if(s&&gt.cont.contains(s)){const j=gt.all.indexOf(s);if(j>=0){const a=Math.min(gt.anchor,j),b=Math.max(gt.anchor,j);
+      gt.all.forEach(el=>el.classList.remove('sel'));gt.spans=gt.all.slice(a,b+1);gt.spans.forEach(el=>el.classList.add('sel'))}}}
+},{passive:true});
+function gtEnd(e){
+  if(!gt)return;const g=gt;const dt=Date.now()-g.t0;
+  const moved=g.moved||(e.changedTouches&&Math.hypot(e.changedTouches[0].clientX-g.x0,e.changedTouches[0].clientY-g.y0)>10);
+  lastTouchEl=g.el;lastTouchAt=Date.now();
+  if(g.armed&&g.spans&&g.spans.length>1){const phrase=g.spans.map(s=>s.textContent).join(' ');gtReset();openPhrase(phrase);return}
+  gtReset();
+  if(!moved&&dt<250){const w=g.el.dataset.w;if(w)openSheet(w)}
+}
+document.addEventListener('touchend',gtEnd,{passive:true});
+document.addEventListener('touchcancel',gtReset,{passive:true});
+document.addEventListener('click',e=>{
+  const t=e.target.closest('.ptok');if(!t)return;
+  if(lastTouchEl&&t===lastTouchEl&&Date.now()-lastTouchAt<700)return; /* کلیک مصنوعی بعد از لمس */
+  const w=t.dataset.w;if(w)openSheet(w);
+});
+/* سوایپ روی پوستر: چپ = بعدی، راست = قبلی (چیدمان راست‌به‌چپ)؛ مثل دکمه‌ها در امروز قفل می‌شود، به عقب نامحدود است */
+let sw=null;
+$('poster').addEventListener('touchstart',e=>{
+  if(e.target.closest('.ptok'))return;sw={x0:e.touches[0].clientX,y0:e.touches[0].clientY};
+},{passive:true});
+$('poster').addEventListener('touchend',e=>{
+  if(!sw)return;const s=sw;sw=null;
+  if(!$('wsheet').hidden||!$('wphrase').hidden)return;
+  const dx=e.changedTouches[0].clientX-s.x0,dy=e.changedTouches[0].clientY-s.y0;
+  if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)*1.5){if(dx<0)$('next').click();else $('prev').click()}
+},{passive:true});
 if('speechSynthesis' in window)speechSynthesis.getVoices();
 render();
 </script>

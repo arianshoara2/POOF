@@ -154,6 +154,9 @@ button.ib.pri{background:var(--accent);color:var(--bg);border-color:var(--accent
 #ed{position:fixed;inset:0;z-index:300;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
 #ask{position:fixed;inset:0;z-index:310;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
 #moviePick,#podPick{position:fixed;inset:0;z-index:310;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+#podPick .pod-scenic{position:absolute;inset:0;z-index:0;background-size:cover;background-position:center;pointer-events:none}
+#podPick .pod-scenic::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.30),rgba(0,0,0,.55))}
+#podPick .ask-card{position:relative;z-index:1;background:color-mix(in srgb, var(--surface) 82%, transparent)}
 .movie-it{display:flex;gap:12px;align-items:center;padding:10px;border:1px solid var(--border);border-radius:var(--r-md);margin:8px 0;cursor:pointer;background:var(--bg)}
 .movie-it img{width:96px;height:54px;object-fit:cover;border-radius:8px;flex-shrink:0}
 .movie-it img.sq{width:54px;height:54px;border-radius:10px}
@@ -447,7 +450,7 @@ html:not([data-theme=snowy]) #s-cards #list .card::after{background:linear-gradi
    <div class="seg" id="movieTabs" style="margin-bottom:8px"><button class="on" data-mt="movies">🎬 فیلم</button><button data-mt="de">🇩🇪 آلمانی</button><button data-mt="en">🇬🇧 انگلیسی</button></div>
    <div id="movieList"></div>
   </div></div>
-  <div id="podPick" hidden role="dialog" aria-label="پادکست‌ها"><div class="ask-card">
+  <div id="podPick" hidden role="dialog" aria-label="پادکست‌ها"><div class="pod-scenic poof-img-reading-bg" aria-hidden="true"></div><div class="ask-card">
    <div class="ed-top"><b><svg class="ic ic-inline" aria-hidden="true"><use href="#i-mic"/></svg> پادکست‌ها</b><button class="ib" id="podClose" aria-label="بستن"><svg class="ic" aria-hidden="true"><use href="#i-close"/></svg></button></div>
    <div class="seg" id="podSeg" style="margin-bottom:8px"><button class="on" data-pl="de">🇩🇪 آلمانی</button><button data-pl="en">🇬🇧 انگلیسی</button></div>
    <div class="searchbar"><input id="podQ" dir="auto" placeholder="جست‌وجوی پادکست…"><button class="ib pri" id="podGo" aria-label="جست‌وجو"><svg class="ic" aria-hidden="true"><use href="#i-dict"/></svg></button></div>
