@@ -3293,7 +3293,6 @@ function gSilentRefresh(){
  gSilentTried=true;gSilentMode=true;
  try{gTokenClient.requestAccessToken({prompt:"none"})}catch(e){gSilentMode=false}
 }
-}
 function gSignIn(){if(!gTokenClient){toast("سرویس گوگل در حال بارگذاری… کمی صبر کنید","bad");return}gTokenClient.requestAccessToken()}
 async function gSignOut(){
  if(gToken)try{await fetch("https://oauth2.googleapis.com/revoke?token="+encodeURIComponent(gToken),{method:"POST"})}catch(e){}
