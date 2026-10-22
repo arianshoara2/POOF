@@ -48,7 +48,7 @@ html[data-theme=snowy] .home-card .art{background:rgba(243,248,252,.82);color:#0
 .sub-list{background:linear-gradient(180deg,var(--panel),var(--panel-2));border:1px solid var(--line);border-radius:24px;overflow:hidden;box-shadow:var(--shadow)}
 .sub-item{display:grid;grid-template-columns:56px 1fr 60px;gap:12px;align-items:center;padding:13px 14px;border-bottom:1px solid rgba(255,255,255,.06);background:transparent;border-inline:0;border-top:0;border-bottom:1px solid rgba(255,255,255,.06);width:100%;color:inherit;text-align:initial}
 .sub-item:last-child{border-bottom:0}.count{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:var(--gold);color:#1a1307;font-weight:800;font-size:1rem}.sub-body h3{margin:0 0 6px;font-size:1.25rem}.sub-body .de{display:block;direction:ltr;color:var(--muted)}.sub-body .meta{display:block;margin-top:5px;color:var(--muted);font-size:.88rem}.iconbox{justify-self:end;width:60px;height:60px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);display:grid;place-items:center;font-size:2rem;color:var(--gold)}
-.bottom-sheet{position:fixed;inset:0;z-index:90;background:rgba(0,0,0,.65);display:none;align-items:flex-end;justify-content:center;padding:14px}.bottom-sheet.show{display:flex}.sheet{width:min(760px,100%);max-height:90dvh;overflow:auto;background:var(--panel);color:var(--text);border-radius:30px 30px 20px 20px;box-shadow:0 -10px 36px rgba(0,0,0,.35)}
+.bottom-sheet{position:fixed;inset:0;z-index:90;background:rgba(0,0,0,.65);display:none;align-items:flex-end;justify-content:center;padding:14px 14px calc(110px + env(safe-area-inset-bottom,0px))}.bottom-sheet.show{display:flex}.sheet{width:min(760px,100%);max-height:90dvh;overflow:auto;background:var(--panel);color:var(--text);border-radius:30px 30px 20px 20px;box-shadow:0 -10px 36px rgba(0,0,0,.35)}
 .sheet-head{position:sticky;top:0;background:var(--panel);padding:14px 16px 10px;border-bottom:1px solid var(--line);z-index:2}.grab{width:68px;height:7px;border-radius:99px;background:var(--line);margin:0 auto 12px}.sheet-top{display:flex;gap:12px;align-items:flex-start}.sheet-icon{width:56px;height:56px;border-radius:22px;background:var(--panel-2);border:1px solid var(--line);display:grid;place-items:center;font-size:2rem;color:var(--gold);box-shadow:0 4px 16px rgba(0,0,0,.08)}.sheet-top h3{margin:0;font-size:1.85rem}.sheet-top .de{display:block;direction:ltr;color:var(--muted);margin-top:4px;font-size:1.05rem}.sheet-top .sheet-meta{margin-top:8px;color:var(--muted);line-height:1.9}
 .sheet-actions{display:grid;grid-template-columns:1fr auto;gap:14px;padding:14px}.step-card{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--panel-2);border:1px solid var(--line);border-radius:999px;padding:12px 16px;box-shadow:0 3px 12px rgba(0,0,0,.05)}.step-card b{font-size:1rem}.step-card span{color:var(--muted)}.step-ico{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:1.2rem;font-weight:900}.sc-blue{background:#4f7ab8}.sc-teal{background:#3d8f8d}.sc-red{background:#c96a63}
 .exercise-box{margin:0 16px 18px;background:var(--panel-2);border:1px dashed var(--line);border-radius:24px;padding:14px}.exercise-box h4{margin:4px 0 12px;color:var(--gold)}.exercise-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.exercise-grid button{border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:13px 14px;text-align:right;color:var(--gold)}
@@ -135,7 +135,7 @@ html[data-theme=snowy] .lk.esel{background:rgba(243,200,121,.30)}
 .sel-ipa{color:var(--muted);direction:ltr;margin-top:4px}
 .sel-mean{font-size:1.15rem;line-height:1.9;margin-top:10px}
 #selectBody .example{margin:14px 0 0}
-#selectDictBtn{display:block;text-align:center}
+#selectDictBtn{display:block;text-align:center;padding:15px 22px;font-size:1.05rem}
 
 /* RTL anchoring for category screens (explicit right alignment, not inherited start) */
 .sub-item{text-align:right}
@@ -147,7 +147,9 @@ html[data-theme=snowy] .lk.esel{background:rgba(243,200,121,.30)}
 .recent-card .art svg{width:28px;height:28px}
 .bridge-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:10px}
 .bridge-row .mini{color:var(--gold)}
-.poof-nav{position:fixed;right:16px;left:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:50;display:grid;grid-template-columns:repeat(5,1fr);align-items:center;padding:6px;max-width:688px;margin:0 auto;overflow:visible;background:var(--glass);border:1px solid var(--line);border-radius:24px;-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);box-shadow:0 8px 20px rgba(0,0,0,.35)}
+.poof-nav{position:fixed;right:16px;left:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:50;display:grid;grid-template-columns:repeat(5,1fr);align-items:center;padding:6px;max-width:688px;margin:0 auto;overflow:visible;background:var(--glass);border:1px solid var(--line);border-radius:24px;-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);box-shadow:0 8px 20px rgba(0,0,0,.35);transition:transform .42s cubic-bezier(.4,0,.2,1),opacity .35s ease}
+.poof-nav.nav-hidden{opacity:0;transform:translateY(calc(100% + 48px));pointer-events:none}
+.poof-nav:focus-within{opacity:1;transform:none;pointer-events:auto}
 .poof-nav button{padding:10px 2px;border:0;border-radius:16px;background:transparent;color:var(--muted)}
 .poof-nav button.on{background:rgba(230,185,111,.18);color:var(--gold)}
 .poof-nav .ic{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
@@ -324,6 +326,22 @@ html[data-theme=snowy] .lk.esel{background:rgba(243,200,121,.30)}
   </main>
 
   <div class="app-toast" id="appToast"></div>
+</div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-cards" viewBox="0 0 24 24"><rect x="3.5" y="8" width="17" height="11" rx="2.5"/><path d="M7 4.5h10"/></symbol>
+<symbol id="i-dict" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4-4"/></symbol>
+<symbol id="i-read" viewBox="0 0 24 24"><path d="M2 5.5C4.5 4 8 4 12 6c4-2 7.5-2 10-.5V19c-2.5-1.5-6-1.5-10 .5-4-2-7.5-2-10-.5z"/><path d="M12 6v13.5"/></symbol>
+<symbol id="i-route" viewBox="0 0 24 24"><circle cx="6.5" cy="17.5" r="2.5"/><circle cx="17.5" cy="6.5" r="2.5"/><path d="M9 17.5h6.5a3 3 0 0 0 0-6h-4a3 3 0 0 1-3-3V9"/></symbol>
+<symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M5.2 20a7 7 0 0 1 13.6 0"/></symbol>
+</defs></svg>
+<nav class="poof-nav" aria-label="ناوبری اصلی">
+  <button data-tab="cards" aria-label="کارت‌ها" title="کارت‌ها"><svg class="ic" aria-hidden="true"><use href="#i-cards"/></svg></button>
+  <button data-tab="dict" aria-label="دیکشنری" title="دیکشنری"><svg class="ic" aria-hidden="true"><use href="#i-dict"/></svg></button>
+  <button data-tab="read" class="hero" aria-label="خواندنی" title="خواندنی"><svg class="ic" aria-hidden="true"><use href="#i-read"/></svg></button>
+  <button data-tab="review" class="on" aria-label="مرور و یادگیری" title="مرور و یادگیری"><svg class="ic" aria-hidden="true"><use href="#i-route"/></svg></button>
+  <button data-tab="me" aria-label="پروفایل" title="پروفایل"><svg class="ic" aria-hidden="true"><use href="#i-user"/></svg></button>
+</nav>
+<!-- BUG 1a: bottom sheets live here as direct <body> children AFTER <nav>, so their z-index:90 is no longer trapped inside .app (position:relative;z-index:1) beneath the nav (z-index:50). Inner markup below is byte-identical to the original. -->
   <div class="bottom-sheet" id="sheetWrap" aria-hidden="true">
     <div class="sheet">
       <div class="sheet-head">
@@ -372,24 +390,9 @@ html[data-theme=snowy] .lk.esel{background:rgba(243,200,121,.30)}
         </div>
       </div>
       <div id="selectBody" style="padding:16px"></div>
-      <div style="padding:0 16px 18px"><a class="dict-btn" id="selectDictBtn" href="./">دیدن در دیکشنری POOF</a></div>
+      <div style="padding:0 16px 18px"><a class="dict-btn" id="selectDictBtn" href="./">دیدن معنی کامل در دیکشنری POOF</a></div>
     </div>
   </div>
-</div>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
-<symbol id="i-cards" viewBox="0 0 24 24"><rect x="3.5" y="8" width="17" height="11" rx="2.5"/><path d="M7 4.5h10"/></symbol>
-<symbol id="i-dict" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4-4"/></symbol>
-<symbol id="i-read" viewBox="0 0 24 24"><path d="M2 5.5C4.5 4 8 4 12 6c4-2 7.5-2 10-.5V19c-2.5-1.5-6-1.5-10 .5-4-2-7.5-2-10-.5z"/><path d="M12 6v13.5"/></symbol>
-<symbol id="i-route" viewBox="0 0 24 24"><circle cx="6.5" cy="17.5" r="2.5"/><circle cx="17.5" cy="6.5" r="2.5"/><path d="M9 17.5h6.5a3 3 0 0 0 0-6h-4a3 3 0 0 1-3-3V9"/></symbol>
-<symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M5.2 20a7 7 0 0 1 13.6 0"/></symbol>
-</defs></svg>
-<nav class="poof-nav" aria-label="ناوبری اصلی">
-  <button data-tab="cards" aria-label="کارت‌ها" title="کارت‌ها"><svg class="ic" aria-hidden="true"><use href="#i-cards"/></svg></button>
-  <button data-tab="dict" aria-label="دیکشنری" title="دیکشنری"><svg class="ic" aria-hidden="true"><use href="#i-dict"/></svg></button>
-  <button data-tab="read" class="hero" aria-label="خواندنی" title="خواندنی"><svg class="ic" aria-hidden="true"><use href="#i-read"/></svg></button>
-  <button data-tab="review" class="on" aria-label="مرور و یادگیری" title="مرور و یادگیری"><svg class="ic" aria-hidden="true"><use href="#i-route"/></svg></button>
-  <button data-tab="me" aria-label="پروفایل" title="پروفایل"><svg class="ic" aria-hidden="true"><use href="#i-user"/></svg></button>
-</nav>
 <script>
 /* ===== POOF theme (shared key with the main app: poof_v2.theme) ===== */
 function applyPoofTheme(){var t='classic';try{t=(JSON.parse(localStorage.getItem('poof_v2')||'{}').theme==='snowy')?'snowy':'classic';}catch(e){}document.documentElement.dataset.theme=t;var tc=document.getElementById('themeCss');if(tc){var f='theme-'+t+'.css?v=15';if(tc.href&&!tc.href.endsWith(f))tc.href=f;}var m=document.querySelector('meta[name=theme-color]');if(m)m.content=(t==='snowy')?'#081421':'#111111';document.querySelectorAll('[data-th]').forEach(function(b){var on=b.dataset.th===t;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on?'true':'false');});}
@@ -654,7 +657,11 @@ function isInMain(w){const db=readMainDb();if(!db||!Array.isArray(db.cards))retu
 function addToMainReview(w){if(!w)return false;const db=readMainDb();if(!db){toast('اپ اصلی هنوز ساخته نشده؛ ابتدا POOF را باز کن.','bad');return false;}if(!Array.isArray(db.cards))db.cards=[];const front=mainFrontOf(w),f=normalize(front),s=normalize(stripArticle(front));if(db.cards.some(c=>{const cf=normalize(String(c.front||''));return cf===f||cf===s||normalize(stripArticle(String(c.front||'')))===s;}))return false;const card={pos:'',def:'',context:w.ex||'',contextFa:w.exfa||'',source:'wortschatz',created_at:Date.now(),ease:2.5,interval:0,reps:0,due:Date.now(),lang:'de',id:uidMain(),front:front,back:meaningOf(w)};if(typeof db.active==='string'&&db.active)card.deck_id=db.active;db.cards.push(card);try{localStorage.setItem('poof_v2',JSON.stringify(db));}catch(e){toast('فضای ذخیره‌سازی کافی نیست.','bad');return false;}return true;}
 function refreshMainMarker(){const w=currentWords()[currentIndex];if(!w)return;const inMain=isInMain(w);const m=$('#mainMarker');if(m)m.textContent=inMain?'در مرور اصلی':'';const fm=$('#flashMainMarker');if(fm)fm.textContent=inMain?'در مرور اصلی':'';}
 function goMainReview(){try{localStorage.setItem('poof_last_state',JSON.stringify({tab:'review',textId:null,scrollY:0,dictQ:''}));}catch(e){}location.href='./';}
-function goMainTab(tab){try{let prev=null;try{prev=JSON.parse(localStorage.getItem('poof_last_state')||'null');}catch(e){}localStorage.setItem('poof_last_state',JSON.stringify({tab:tab,textId:tab==='read'?(prev&&prev.textId?prev.textId:null):null,scrollY:0,dictQ:''}));}catch(e){}location.href='./';}
+function goMainTab(tab){try{let prev=null;try{prev=JSON.parse(localStorage.getItem('poof_last_state')||'null');}catch(e){}localStorage.setItem('poof_last_state',JSON.stringify({tab:tab,textId:tab==='read'?(prev&&prev.textId?prev.textId:null):null,scrollY:0,dictQ:''}));}catch(e){}savePracticeResume();location.href='./';}
+/* BUG 3 — practice resume marker (practice-page side ONLY; nothing in index.html). Saved before leaving to ./, consumed on the next wortschatz load. */
+function savePracticeResume(){try{var snap=captureHomeReturn();localStorage.setItem('poof_practice_resume',JSON.stringify({page:'wortschatz.html',state:{view:snap.view,section:snap.section,topic:snap.topic,index:snap.index,scrollY:snap.scroll,sheetOpen:!!snap.sheet,quiz:snap.quiz||null,exercise:snap.exercise||null},ts:Date.now()}));}catch(e){}}
+function tryRestorePracticeResume(){var raw=null;try{raw=localStorage.getItem('poof_practice_resume');}catch(e){}if(!raw)return;var marker=null;try{marker=JSON.parse(raw);}catch(e){return;}if(!marker||marker.page!=='wortschatz.html')return;var st=marker.state||{};try{localStorage.removeItem('poof_practice_resume');}catch(e){}var snap={view:st.view||'home',section:st.section||'starter',topic:st.topic||'greet',index:(typeof st.index==='number'?st.index:0),scroll:(typeof st.scrollY==='number'?st.scrollY:0),quiz:st.quiz||null,exercise:st.exercise||null,sheet:!!st.sheetOpen};var t=topicById(snap.topic);if(!t){openHome();return;}var _ws=t.words||[];if(_ws.length){if(snap.index<0)snap.index=0;if(snap.index>=_ws.length)snap.index=_ws.length-1;}if(snap.view==='home'){openHome();}else{restoreHomeReturn(snap);}var y=snap.scroll||0;requestAnimationFrame(function(){window.scrollTo(0,y);});setTimeout(function(){window.scrollTo(0,y);},350);}
+
 
 function renderReader(){
   const words=currentWords();
@@ -828,12 +835,14 @@ function finishPractice(){const a=exerciseState;if(!a)return;
    Scope: ONLY example/sentence text (.example .de in #examples and #selectBody).
    Quiz/practice/search option labels are never tokenized. */
 function tokenizeDe(text){var s=String(text||'');if(!s)return'';var re=/[A-Za-zÄÖÜäöüß][A-Za-zÄÖÜäöüß'’-]+|[A-Za-zÄÖÜäöüß]/g,out='',last=0,m;while((m=re.exec(s))){out+=escapeHtml(s.slice(last,m.index));var tok=m[0];var clean=tok.replace(/[.'’\-–—]+$/,'');out+='<span class="lk" data-w="'+escapeHtml(clean)+'">'+escapeHtml(tok)+'</span>';last=m.index+tok.length;}out+=escapeHtml(s.slice(last));return out;}
-function findLocalWord(word){var q=normalize(word);if(!q||typeof allKnownItems==='undefined')return null;for(var i=0;i<allKnownItems.length;i++){var w=allKnownItems[i];if(!w||w.ph||w.id)continue;if(normalize(labelOf(w))===q)return w;}return null;}
+function findLocalWord(word){var q=normalize(word);if(!q)return null;function scan(list){if(!list)return null;for(var i=0;i<list.length;i++){var w=list[i];if(!w)continue;if(normalize(labelOf(w))===q)return w;}return null;}var hit=null;if(typeof LEVEL_BANK!=='undefined')hit=scan(LEVEL_BANK);if(!hit&&typeof BOOK_BANK!=='undefined')hit=scan(BOOK_BANK);if(!hit&&typeof TOPICAL_WORDS!=='undefined')hit=scan(Object.values(TOPICAL_WORDS).flat());if(!hit&&typeof PHRASE_GROUPS!=='undefined')hit=scan(PHRASE_GROUPS.flatMap(function(g){return g.items||[];}));if(!hit&&typeof IDIOM_GROUPS!=='undefined')hit=scan(IDIOM_GROUPS.flatMap(function(g){return g.items||[];}));if(!hit&&typeof allKnownItems!=='undefined')hit=scan(allKnownItems);return hit;}
+function findPhraseSuggestions(word,limit){var q=normalize(word);var out=[];if(!q||typeof PHRASE_GROUPS==='undefined')return out;var max=limit||5;var seen={};for(var gi=0;gi<PHRASE_GROUPS.length&&out.length<max;gi++){var items=PHRASE_GROUPS[gi].items||[];for(var i=0;i<items.length&&out.length<max;i++){var it=items[i];if(!it||!it.ph)continue;var m=normalize(it.ph).match(/[a-z\u00e4\u00f6\u00fc\u00df]+/);if(!m||m[0]!==q)continue;var k=normalize(it.ph);if(seen[k])continue;seen[k]=true;out.push(it);}}return out;}
+function findPhraseItem(phrase){var q=normalize(phrase);if(!q||typeof PHRASE_GROUPS==='undefined')return null;for(var gi=0;gi<PHRASE_GROUPS.length;gi++){var items=PHRASE_GROUPS[gi].items||[];for(var i=0;i<items.length;i++){if(items[i]&&normalize(items[i].ph)===q)return items[i];}}return null;}
 var selectPushed=false,selectOpen=false,selDragged=false;
 function showSelectSheet(){var wrap=$('#selectSheetWrap');if(!wrap)return;if(!selectOpen){try{history.pushState({poofVocabSelect:1},'');selectPushed=true;}catch(e){selectPushed=false;}}selectOpen=true;wrap.classList.add('show');wrap.setAttribute('aria-hidden','false');var sh=wrap.querySelector('.sheet');if(sh)sh.scrollTop=0;}
 function closeSelectSheet(fromPop){var wrap=$('#selectSheetWrap');if(!wrap)return;selClearHi();if(!fromPop&&selectPushed){selectPushed=false;try{history.back();return;}catch(e){}}selectOpen=false;selectPushed=false;wrap.classList.remove('show');wrap.setAttribute('aria-hidden','true');}
-function renderSelectWord(word){var entry=findLocalWord(word);var t=$('#selectWord');if(t)t.textContent=word;var d=$('#selectDictBtn');if(d)d.href='./?dict='+encodeURIComponent(word);var body=$('#selectBody');if(!body)return;if(!entry){body.innerHTML='<p class="mini">در بانک واژگان این صفحه برای این کلمه معنایی ثبت نشده است. برای دیدن مدخل کامل، از دکمهٔ زیر استفاده کن.</p>';return;}var art=(entry.art&&entry.art!=='—')?entry.art.trim():'';var ex=entry.ex||entry.ex2||'';var exfa=entry.ex?entry.exfa:(entry.ex2?entry.exfa2:'');body.innerHTML=(art?'<div class="mini">حرف تعریف: '+escapeHtml(art)+'</div>':'')+(entry.ipa?'<div class="sel-ipa" dir="ltr">'+escapeHtml(entry.ipa)+'</div>':'')+'<div class="sel-mean">'+escapeHtml(entry.fig||entry.fa||'')+'</div>'+(ex?'<div class="example"><div class="de">'+tokenizeDe(ex)+'</div>'+(exfa?'<span class="fa">'+escapeHtml(exfa)+'</span>':'')+'</div>':'');}
-function renderSelectPhrase(phrase){var t=$('#selectWord');if(t)t.textContent=phrase;var d=$('#selectDictBtn');if(d)d.href='./?dict='+encodeURIComponent(phrase);var body=$('#selectBody');if(!body)return;body.innerHTML='<div class="sel-mean" dir="ltr">'+escapeHtml(phrase)+'</div><p class="mini">معنی کامل این عبارت را در دیکشنری POOF ببین.</p>';}
+function renderSelectWord(word){var entry=findLocalWord(word);var t=$('#selectWord');if(t)t.textContent=word;var d=$('#selectDictBtn');if(d)d.href='./?dict='+encodeURIComponent(word);var body=$('#selectBody');if(!body)return;if(!entry){var sug=findPhraseSuggestions(word,5);var sugHtml=sug.length?('<div class="mini" style="margin-top:14px">عبارت‌های واقعی که با «'+escapeHtml(word)+'» شروع می‌شوند:</div>'+sug.map(function(s){return '<button type="button" class="dict-btn phrase-sugg" data-phrase-sugg="'+escapeHtml(s.ph)+'" style="display:block;width:100%;text-align:left;margin-top:8px" dir="ltr">'+escapeHtml(s.ph)+(s.fa?' <span style="color:var(--muted)">\u2014 '+escapeHtml(s.fa)+'</span>':'')+'</button>';}).join('')):'';body.innerHTML='<p class="mini">در بانک واژگان این صفحه برای این کلمه معنایی ثبت نشده است. برای دیدن مدخل کامل، از دکمهٔ زیر استفاده کن.</p>'+sugHtml;return;}var art=(entry.art&&entry.art!=='—')?entry.art.trim():'';var ex=entry.ex||entry.ex2||'';var exfa=entry.ex?entry.exfa:(entry.ex2?entry.exfa2:'');body.innerHTML=(art?'<div class="mini">حرف تعریف: '+escapeHtml(art)+'</div>':'')+(entry.ipa?'<div class="sel-ipa" dir="ltr">'+escapeHtml(entry.ipa)+'</div>':'')+'<div class="sel-mean">'+escapeHtml(entry.fig||entry.fa||'')+'</div>'+(ex?'<div class="example"><div class="de">'+tokenizeDe(ex)+'</div>'+(exfa?'<span class="fa">'+escapeHtml(exfa)+'</span>':'')+'</div>':'');}
+function renderSelectPhrase(phrase){var t=$('#selectWord');if(t)t.textContent=phrase;var d=$('#selectDictBtn');if(d)d.href='./?dict='+encodeURIComponent(phrase);var body=$('#selectBody');if(!body)return;var item=findPhraseItem(phrase);body.innerHTML='<div class="sel-mean" dir="ltr">'+escapeHtml(phrase)+'</div>'+(item&&item.fa?'<div class="sel-mean">'+escapeHtml(item.fa)+'</div>':'')+(item&&item.ex?'<div class="example"><div class="de">'+tokenizeDe(item.ex)+'</div>'+(item.exfa?'<span class="fa">'+escapeHtml(item.exfa)+'</span>':'')+'</div>':'')+'<p class="mini">معنی کامل این عبارت را در دیکشنری POOF ببین.</p>';}
 function openSelectWord(word){var w=String(word||'').replace(/[.'’\-–—]+$/,'').trim();if(!w)return;renderSelectWord(w);showSelectSheet();}
 function openSelectPhrase(phrase){var p=String(phrase||'').replace(/\s+/g,' ').replace(/^[\s.,;:!?…"\'„“”‘’()\[\]{}«»-]+/,'').replace(/[\s.,;:!?…"\'„“”‘’()\[\]{}«»-]+$/,'').trim();if(!p)return;renderSelectPhrase(p);showSelectSheet();}
 /* phrase-selection state (one example block at a time; never crosses a sentence) */
@@ -854,7 +863,7 @@ document.addEventListener('mousedown',function(e){if(e.button!==0)return;var lk=
 document.addEventListener('mousemove',function(e){if(!selMDown)return;var dx=e.clientX-selMSX,dy=e.clientY-selMSY;if(!selMDrag&&dx*dx+dy*dy>36){selMDrag=true;selSup=true;var lk0=document.elementFromPoint(selMSX,selMSY);var start=lk0&&lk0.closest?lk0.closest('.lk'):null;if(!start||!selBegin(start)){selMDown=false;selMDrag=false;selSup=false;return;}}if(!selMDrag)return;var t=document.elementFromPoint(e.clientX,e.clientY);if(t&&t.closest)selExtend(t.closest('.lk'));});
 document.addEventListener('mouseup',function(){if(!selMDown)return;var wasDrag=selMDrag;selMDown=false;selMDrag=false;if(wasDrag){selFinish();setTimeout(function(){selSup=false;},80);}});
 window.addEventListener('popstate',function(){if(selectOpen){selectOpen=false;selectPushed=false;var wrap=$('#selectSheetWrap');if(wrap){wrap.classList.remove('show');wrap.setAttribute('aria-hidden','true');}selClearHi();}else if(homePushed){homePushed=false;var snap=homeReturn;homeReturn=null;restoreHomeReturn(snap);}});
-(function(){var ex=$('#examples');if(ex)ex.addEventListener('click',function(e){if(selSup)return;if(!selTapOK())return;var lk=e.target.closest?e.target.closest('.lk'):null;if(!lk)return;openSelectWord(lk.dataset.w||lk.textContent);});var sb=$('#selectBody');if(sb)sb.addEventListener('click',function(e){if(selSup)return;if(!selTapOK())return;var lk=e.target.closest?e.target.closest('.lk'):null;if(!lk)return;openSelectWord(lk.dataset.w||lk.textContent);});var sw=$('#selectSheetWrap');if(sw)sw.addEventListener('click',function(e){if(e.target===sw)closeSelectSheet(false);});var cl=$('#selectClose');if(cl)cl.onclick=function(){closeSelectSheet(false);};})();
+(function(){var ex=$('#examples');if(ex)ex.addEventListener('click',function(e){if(selSup)return;if(!selTapOK())return;var lk=e.target.closest?e.target.closest('.lk'):null;if(!lk)return;openSelectWord(lk.dataset.w||lk.textContent);});var sb=$('#selectBody');if(sb)sb.addEventListener('click',function(e){var sg=e.target.closest?e.target.closest('[data-phrase-sugg]'):null;if(sg){openSelectPhrase(sg.dataset.phraseSugg||sg.textContent);return;}if(selSup)return;if(!selTapOK())return;var lk=e.target.closest?e.target.closest('.lk'):null;if(!lk)return;openSelectWord(lk.dataset.w||lk.textContent);});var sw=$('#selectSheetWrap');if(sw)sw.addEventListener('click',function(e){if(e.target===sw)closeSelectSheet(false);});var cl=$('#selectClose');if(cl)cl.onclick=function(){closeSelectSheet(false);};})();
 /* ===== Scrubbable reader progress bar (RTL: right edge = word 1) ===== */
 var scrubActive=false;
 function scrubToClientX(clientX){var bar=$('#progBar');if(!bar)return;var words=currentWords();if(!words.length)return;var r=bar.getBoundingClientRect();if(!r||!r.width)return;var p=(r.right-clientX)/r.width;if(p<0)p=0;if(p>1)p=1;var idx=Math.floor(p*words.length);if(idx>=words.length)idx=words.length-1;if(idx<0)idx=0;currentIndex=idx;renderReader();}
@@ -866,6 +875,10 @@ const _gmr=$('#goMainReview');if(_gmr)_gmr.onclick=goMainReview;
 const _amb=$('#addMainBtn');if(_amb)_amb.onclick=()=>{const w=currentWords()[currentIndex];if(!w)return;if(isInMain(w)){toast('این واژه از قبل در مرور اصلی است.');return;}if(addToMainReview(w)){toast('به مرور اصلی اضافه شد.');refreshMainMarker();}};
 const _fmb=$('#flashMainBtn');if(_fmb)_fmb.onclick=()=>{const w=currentWords()[currentIndex];if(!w)return;if(isInMain(w)){toast('این واژه از قبل در مرور اصلی است.');return;}if(addToMainReview(w)){toast('به مرور اصلی اضافه شد.');refreshMainMarker();}};
 $$('.poof-nav button').forEach(b=>b.onclick=()=>goMainTab(b.dataset.tab));
+/* BUG 2 — auto-hide bottom nav on scroll (mirrors the main app): scroll down >40px hides, scroll up >40px shows, top zone (<=90px) always shows, and no toggling while any sheet/popup is open. */
+var _poofNav=document.querySelector('.poof-nav');var lastToggleY=window.scrollY||0;
+window.addEventListener('scroll',function(){if(!_poofNav)return;if(document.querySelector('.bottom-sheet.show'))return;var y=window.scrollY||0;if(y<=90){_poofNav.classList.remove('nav-hidden');lastToggleY=y;}else if(y>lastToggleY+40){_poofNav.classList.add('nav-hidden');lastToggleY=y;}else if(y<lastToggleY-40){_poofNav.classList.remove('nav-hidden');lastToggleY=y;}},{passive:true});
+
 $('#openReview').onclick=()=>{closeSheet(); currentIndex=0; renderReader();};
 $('#openFlash').onclick=()=>{closeSheet(); currentIndex=0; renderFlash();};
 $('#openQuiz').onclick=()=>{closeSheet(); currentIndex=0; beginQuiz();};
@@ -874,6 +887,7 @@ const exS=$('#exSpelling');if(exS)exS.onclick=()=>{closeSheet(); currentIndex=0;
 const exG=$('#exGender');if(exG)exG.onclick=()=>{closeSheet(); currentIndex=0; beginPractice('gender');};
 $('#backBtn').onclick=()=>{ if($('#readerView').classList.contains('on')||$('#flashView').classList.contains('on')||$('#quizView').classList.contains('on')) renderSection(currentSection); else openHome(); };
 $('#homeBtn').onclick=goHomeViaButton;
+var _poofBack=document.querySelector('.poof-back');if(_poofBack)_poofBack.addEventListener('click',savePracticeResume);
 $('#speakWord').onclick=()=>{const cw=currentWords()[currentIndex]; speak(cw.id||cw.ph||cw.w);};
 $('#addBox').onclick=()=>{const w=currentWords()[currentIndex]; if(!w) return; const added=addToLeitner(w); renderReader(); toast(added?'به جعبهٔ لایتنر اضافه شد.':'این مورد از قبل در لایتنر است.');};
 $('#examples').addEventListener('click',e=>{const b=e.target.closest('.ex-speak'); if(!b) return; const w=currentWords()[currentIndex]; const arr=[w.ex,w.ex2]; speak(arr[+b.dataset.i]||w.id||w.ph||w.w);});
@@ -893,6 +907,7 @@ $('#prevWordBtn').onclick=prevWord; $('#nextWordBtn').onclick=nextWord;
 // initial
 refreshDashboardCounts();
 openHome();
+tryRestorePracticeResume();
 
 </script>
 <!--

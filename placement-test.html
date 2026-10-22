@@ -123,6 +123,9 @@ nav#poofNav button.hero:hover{background:linear-gradient(135deg,var(--ac),#caa25
 nav#poofNav button.hero .ic{width:26px;height:26px}
 nav#poofNav button.hero.on{background:linear-gradient(135deg,var(--ac),#caa25e);color:#1a1307;filter:brightness(1.08);box-shadow:0 0 0 3px var(--bg),0 10px 26px rgba(0,0,0,.55)}
 nav#poofNav.poof-nav-hidden{display:none}
+nav#poofNav{transition:transform .42s cubic-bezier(.4,0,.2,1),opacity .35s ease}
+nav#poofNav.nav-hidden{opacity:0;transform:translateY(calc(100% + 48px));pointer-events:none}
+nav#poofNav:focus-within{opacity:1;transform:none;pointer-events:auto}
 </style>
 </head>
 <body>
@@ -153,21 +156,49 @@ nav#poofNav.poof-nav-hidden{display:none}
 (function(){
 var nav=document.getElementById('poofNav');
 if(!nav)return;
+function ptResumeSnapshot(){
+try{
+if(typeof window.__ptResumeSnapshot==='function'){
+var s=window.__ptResumeSnapshot();
+if(s&&s.track)return{track:s.track,section:s.skill||null,skill:s.skill||null,itemIndex:s.itemId||null,itemId:s.itemId||null,scrollY:window.scrollY};
+}
+}catch(e){}
+var track='de';
+try{var deBtn=document.getElementById('trackDE');if(deBtn&&!deBtn.classList.contains('on'))track='en';}catch(e){}
+var itemId=null;
+try{var sess=JSON.parse(window.localStorage.getItem('pt_session_'+track+'_v2')||'null');if(sess&&sess.index)itemId=sess.index;}catch(e){}
+return{track:track,section:null,skill:null,itemIndex:itemId,itemId:itemId,scrollY:window.scrollY};
+}
+function ptSaveResume(){
+try{window.localStorage.setItem('poof_practice_resume',JSON.stringify({page:'placement-test.html',state:ptResumeSnapshot(),ts:Date.now()}));}catch(e){}
+}
 nav.addEventListener('click',function(ev){
 var b=ev.target&&ev.target.closest?ev.target.closest('[data-nav-tab]'):null;
 if(!b)return;
+try{ptSaveResume();}catch(e){}
 var tab=b.getAttribute('data-nav-tab');
 var textId=null;
 if(tab==='read'){try{var prev=JSON.parse(window.localStorage.getItem('poof_last_state')||'null');if(prev&&prev.textId)textId=prev.textId;}catch(e){}}
 try{window.localStorage.setItem('poof_last_state',JSON.stringify({tab:tab,scrollY:0,dictQ:'',textId:textId}));}catch(e){}
 window.location.href='./';
 });
+var backLink=document.querySelector('.poof-back a');
+if(backLink){backLink.addEventListener('click',function(){try{ptSaveResume();}catch(e){}});}
 var sheet=document.getElementById('poofSelectSheet');
 if(sheet&&window.MutationObserver){
 var sync=function(){nav.classList.toggle('poof-nav-hidden',!sheet.classList.contains('hide'));};
 new window.MutationObserver(sync).observe(sheet,{attributes:true,attributeFilter:['class']});
 sync();
 }
+var lastToggleY=window.scrollY;
+window.addEventListener('scroll',function(){
+var y=window.scrollY;
+var sh=document.getElementById('poofSelectSheet');
+if(sh&&!sh.classList.contains('hide'))return;
+if(y<=90){nav.classList.remove('nav-hidden');lastToggleY=y;}
+else if(y>lastToggleY+40){nav.classList.add('nav-hidden');lastToggleY=y;}
+else if(y<lastToggleY-40){nav.classList.remove('nav-hidden');lastToggleY=y;}
+},{passive:true});
 })();
 </script>
 <script>
@@ -228,6 +259,54 @@ const lev=i=>LEVELS[Math.max(0,Math.min(9,Math.round(i)))];
 const cap=i=>Math.max(0,Math.min(9,i));
 let byId=Object.fromEntries(Object.values(BANKS[TRACK]).flat().map(x=>[x.id,x]));
 let S=null,ticker=null,recognition=null,asrScore=null,speechCandidate=null,voiceReady=false;
+window.__ptResumeSnapshot=function(){
+var itemId=(S&&S.index)?S.index:null;
+var skill=null;
+try{if(itemId&&byId[itemId])skill=byId[itemId].skill||null;}catch(e){}
+return{track:TRACK,section:skill,skill:skill,itemIndex:itemId,itemId:itemId,scrollY:window.scrollY};
+};
+function ptRestoreScrollY(y){
+var target=(typeof y==='number'&&isFinite(y))?y:0;
+function doScroll(){try{window.scrollTo(0,target);}catch(e){}}
+try{window.requestAnimationFrame(doScroll);}catch(e){doScroll();}
+setTimeout(doScroll,350);
+}
+function ptRestoreResume(st){
+if(!st||typeof st!=='object')return false;
+var to=(st.track==='de'||st.track==='en')?st.track:null;
+if(to&&to!==TRACK){
+TRACK=to;
+byId=Object.fromEntries(Object.values(BANKS[TRACK]).flat().map(x=>[x.id,x]));
+$('trackDE').classList.toggle('on',TRACK==='de');$('trackEN').classList.toggle('on',TRACK==='en');
+$('trackDE').setAttribute('aria-pressed',String(TRACK==='de'));$('trackEN').setAttribute('aria-pressed',String(TRACK==='en'));
+refreshVoices();
+}
+var itemId=st.itemId||st.itemIndex||null;
+var scrollY=st.scrollY;
+if(!itemId){
+var sess0=null;try{sess0=JSON.parse(window.localStorage.getItem(activeKeys().session)||'null');}catch(e){sess0=null;}
+if(sess0&&sess0.track===TRACK){boot();ptRestoreScrollY(scrollY);return true;}
+intro();ptRestoreScrollY(scrollY);return true;
+}
+if(!byId[itemId]){boot();ptRestoreScrollY(scrollY);return true;}
+var sess=null;try{sess=JSON.parse(window.localStorage.getItem(activeKeys().session)||'null');}catch(e){sess=null;}
+if(sess&&sess.track===TRACK){
+S=sess;
+if(S.finished){result(true);ptRestoreScrollY(scrollY);return true;}
+if(S.index!==itemId){
+S.index=itemId;
+if(!Array.isArray(S.used))S.used=[];
+if(!S.used.includes(itemId))S.used.push(itemId);
+var it=byId[itemId];
+S.opts=it.kind==='mc'?shuffle(it.options.map((label,index)=>({label,index}))):[];
+S.draft='';S.audioRead=false;persist();
+}
+render();startTicker();ptRestoreScrollY(scrollY);return true;
+}
+var fresh=byId[itemId];
+S={track:TRACK,cur:4,t0:Date.now(),used:[itemId],log:[],est:[],index:itemId,opts:fresh.kind==='mc'?shuffle(fresh.options.map((label,index)=>({label,index}))):[],draft:'',audioRead:false,finished:false};
+persist();render();startTicker();ptRestoreScrollY(scrollY);return true;
+}
 function stopAudio(){try{speechSynthesis.cancel()}catch(e){};try{recognition?.stop()}catch(e){}recognition=null}
 function refreshVoices(){voiceReady=typeof speechSynthesis!=='undefined'&&speechSynthesis.getVoices().some(v=>v.lang?.toLowerCase().startsWith(TRACK))}
 if('speechSynthesis' in window){refreshVoices();speechSynthesis.addEventListener?.('voiceschanged',refreshVoices)}
@@ -518,7 +597,14 @@ $('trackEN').onclick=()=>switchTrack('en');
 function applyTheme(){let t;try{t=JSON.parse(localStorage.getItem('poof_v2')||'{}').theme==='snowy'?'snowy':'classic'}catch(e){t='classic'}document.documentElement.dataset.theme=t;const tc=document.getElementById('themeCss');if(tc){const f='theme-'+t+'.css?v=15';if(!tc.href.endsWith(f))tc.href=f}const m=document.querySelector('meta[name=theme-color]');if(m)m.content=t==='snowy'?'#081421':'#111111';document.querySelectorAll('[data-th]').forEach(b=>{b.classList.toggle('on',b.dataset.th===t);b.setAttribute('aria-pressed',String(b.dataset.th===t))})}
 document.querySelectorAll('[data-th]').forEach(b=>{b.onclick=()=>{try{const cur=JSON.parse(localStorage.getItem('poof_v2')||'{}');cur.theme=b.dataset.th;localStorage.setItem('poof_v2',JSON.stringify(cur))}catch(e){localStorage.setItem('poof_v2',JSON.stringify({theme:b.dataset.th}))}applyTheme()}});
 applyTheme();
-boot();
+var __ptResumeMatched=false,__ptResumeState=null;
+try{var __ptMarker=JSON.parse(window.localStorage.getItem('poof_practice_resume')||'null');if(__ptMarker&&__ptMarker.page==='placement-test.html'){__ptResumeMatched=true;__ptResumeState=(__ptMarker&&__ptMarker.state)?__ptMarker.state:null;}}catch(e){}
+if(__ptResumeMatched){
+var __ptRestored=false;
+try{__ptRestored=ptRestoreResume(__ptResumeState);}catch(e){__ptRestored=false;}
+try{window.localStorage.removeItem('poof_practice_resume');}catch(e){}
+if(!__ptRestored)boot();
+}else boot();
 
 </script>
 </body></html>

@@ -68,7 +68,9 @@ html:not([data-theme=snowy]) .hd h1,html:not([data-theme=snowy]) .hd .mark{displ
 .ic-svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;vertical-align:-3px}
 .ddd-badge{display:inline-flex;align-items:center;justify-content:center;padding:5px 10px;border:1.5px solid var(--accent);border-radius:99px;color:var(--accent);font-size:12px;font-weight:800;letter-spacing:.2px;white-space:nowrap}
 /* ===== bottom nav (same as main app) ===== */
-nav.poof-nav{position:fixed;right:16px;left:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:100;display:grid;grid-template-columns:repeat(5,1fr);align-items:center;padding:6px;max-width:688px;margin:0 auto;overflow:visible;background:var(--nav-bg,rgba(27,24,20,.78));border:1px solid var(--nav-border,rgba(230,185,111,.25));box-shadow:var(--shadow-nav,0 12px 32px rgba(0,0,0,.45));border-radius:24px;-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px)}
+nav.poof-nav{position:fixed;right:16px;left:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:100;display:grid;grid-template-columns:repeat(5,1fr);align-items:center;padding:6px;max-width:688px;margin:0 auto;overflow:visible;background:var(--nav-bg,rgba(27,24,20,.78));border:1px solid var(--nav-border,rgba(230,185,111,.25));box-shadow:var(--shadow-nav,0 12px 32px rgba(0,0,0,.45));border-radius:24px;-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);transition:transform .42s cubic-bezier(.4,0,.2,1),opacity .35s ease}
+nav.poof-nav.nav-hidden{opacity:0;transform:translateY(calc(100% + 48px));pointer-events:none}
+nav.poof-nav:focus-within{opacity:1;transform:none;pointer-events:auto}
 html[data-theme=snowy] nav.poof-nav{background:rgba(11,29,45,.78);border-color:rgba(185,220,244,.28);box-shadow:0 12px 32px rgba(0,8,16,.55)}
 html[data-theme=classic] nav.poof-nav{background:rgba(27,24,20,.78);border-color:rgba(230,185,111,.25);box-shadow:0 12px 32px rgba(0,0,0,.45)}
 nav.poof-nav button{padding:10px 2px;border:0;border-radius:16px;background:transparent;color:var(--muted);box-shadow:none}
@@ -121,7 +123,7 @@ db.cards=db.cards||[];
 function applyTheme(){var t=db.theme==="snowy"?"snowy":"classic";document.documentElement.dataset.theme=t;var tc=document.getElementById("themeCss");if(tc)tc.href="theme-"+t+".css?v=15";var m=document.querySelector("meta[name=theme-color]");if(m)m.content=t==="snowy"?"#081421":"#111111";document.querySelectorAll("[data-th]").forEach(function(b){var on=b.dataset.th===t;b.classList.toggle("on",on);b.setAttribute("aria-pressed",on?"true":"false")})}
 applyTheme();
 document.querySelectorAll("[data-th]").forEach(function(b){b.onclick=function(){db.theme=b.dataset.th;try{localStorage.setItem(K,JSON.stringify(db))}catch(e){}applyTheme()}});
-$("#backBtn").onclick=()=>{if(history.length>1)history.back();else location.href="index.html"};
+$("#backBtn").onclick=()=>{savePracticeResume();if(history.length>1)history.back();else location.href="index.html"};
 function $(s){return document.querySelector(s)}
 function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 const shuffle=a=>[...a].sort(()=>Math.random()-.5);
@@ -152,12 +154,36 @@ const micOK=()=>("SpeechRecognition" in window)||("webkitSpeechRecognition" in w
 
 /* ---------- session ---------- */
 let S=null; // {mode,cards,i,ok,wrong[]}
+let currentMode=null; // active data-mode id, or null on the hub home
+/* ---------- practice resume (practice-page side only) ---------- */
+/* Shared marker: poof_practice_resume = {page:'practice.html', state:{mode,scrollY}, ts}.
+   Saved by the bottom-nav and #backBtn handlers before leaving; consumed on load here.
+   index.html is intentionally untouched: it must leave a foreign-page marker alone. */
+function savePracticeResume(){
+  try{localStorage.setItem("poof_practice_resume",JSON.stringify({page:"practice.html",state:{mode:currentMode,scrollY:window.scrollY||0},ts:Date.now()}))}catch(e){}
+}
+function loadPracticeResume(){
+  let raw=null;
+  try{raw=localStorage.getItem("poof_practice_resume")}catch(e){return}
+  if(!raw)return;
+  let m=null;
+  try{m=JSON.parse(raw)}catch(e){return}
+  if(!m||m.page!=="practice.html")return; // foreign-page marker: leave untouched
+  try{localStorage.removeItem("poof_practice_resume")}catch(e){} // consume
+  const st=m.state||{};
+  const y=(typeof st.scrollY==="number"&&isFinite(st.scrollY))?st.scrollY:0;
+  if(st.mode&&MODES.some(x=>x.id===st.mode))startMode(st.mode); // re-enter recorded mode; else hub home stays
+  const restore=()=>{try{window.scrollTo(0,y)}catch(e){}};
+  try{requestAnimationFrame(restore)}catch(e){}
+  setTimeout(restore,350); // fallback after render
+}
 function poolFor(m){
   let p=db.cards.slice();
   if(m.custom)p=m.custom(p);
   return shuffle(p);
 }
 function viewHome(){
+  currentMode=null;
   const n=db.cards.length;
   app.innerHTML=`<div class="card"><div class="row"><div style="flex:1"><b>تمرین با کارت‌های خودت</b><div class="mute sm">${n?n+" کارت داری":"هنوز کارتی نداری"}</div></div></div></div>
   <div class="modes">${MODES.map(m=>{
@@ -237,6 +263,7 @@ function startMode(id){
   const pool=poolFor(m).slice(0,10);
   if(pool.length<m.need)return;
   S={mode:m,cards:pool,i:0,ok:0,wrong:[]};
+  currentMode=id;
   nextQ();
 }
 function progress(){
@@ -372,12 +399,14 @@ function viewResult(){
   $("#home").onclick=viewHome;
 }
 viewHome();
+loadPracticeResume();
 </script>
 <script>
 "use strict";
 /* ---------- bottom nav: restore main app on chosen tab ---------- */
 document.querySelectorAll("#poofNav button[data-tab]").forEach(function(b){
   b.addEventListener("click",function(){
+    try{if(typeof savePracticeResume==="function")savePracticeResume()}catch(e){}
     var tab=b.dataset.tab;
     var st={tab:tab,scrollY:0,dictQ:"",textId:null};
     if(tab==="read"){
@@ -387,6 +416,23 @@ document.querySelectorAll("#poofNav button[data-tab]").forEach(function(b){
     location.href="./";
   });
 });
+/* ---------- bottom nav auto-hide on scroll (same thresholds as main app) ---------- */
+/* practice.html has no sheet/popup/modal of its own, so the skip guard below only
+   fires for a genuinely open <dialog>; it is kept so a future overlay is respected. */
+function practiceOverlayOpen(){
+  try{if(document.querySelector("dialog[open]"))return true}catch(e){}
+  return false;
+}
+let lastToggleY=window.scrollY;
+window.addEventListener("scroll",function(){
+  var nav=document.getElementById("poofNav");
+  if(!nav)return;
+  if(practiceOverlayOpen())return; // never toggle while an overlay is open
+  var y=window.scrollY;
+  if(y<=90){nav.classList.remove("nav-hidden");lastToggleY=y}
+  else if(y>lastToggleY+40){nav.classList.add("nav-hidden");lastToggleY=y}
+  else if(y<lastToggleY-40){nav.classList.remove("nav-hidden");lastToggleY=y}
+},{passive:true});
 </script>
 </body>
 </html>

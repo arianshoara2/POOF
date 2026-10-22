@@ -63,7 +63,9 @@ html[data-theme="snowy"] .poof-scenic::after{background:linear-gradient(rgba(8,2
 
 /* POOF bottom nav (mirrors main app nav): fixed glass bar, theme-aware via var(--paper)/var(--line)/var(--brand) */
 .wrap{padding-bottom:calc(120px + env(safe-area-inset-bottom,0px))}
-.poof-nav{position:fixed;right:16px;left:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:40;display:grid;grid-template-columns:repeat(5,1fr);align-items:center;padding:6px;max-width:688px;margin:0 auto;overflow:visible;background:var(--paper);border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px)}
+.poof-nav{position:fixed;right:16px;left:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:40;display:grid;grid-template-columns:repeat(5,1fr);align-items:center;padding:6px;max-width:688px;margin:0 auto;overflow:visible;background:var(--paper);border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);transition:transform .42s cubic-bezier(.4,0,.2,1),opacity .35s ease}
+.poof-nav.nav-hidden{opacity:0;transform:translateY(calc(100% + 48px));pointer-events:none}
+.poof-nav:focus-within{opacity:1;transform:none;pointer-events:auto}
 .poof-nav button{padding:10px 2px;border:0;border-radius:16px;background:transparent;color:var(--muted)}
 .poof-nav button:hover{background:var(--tint);color:var(--brand)}
 .poof-nav button.on{background:var(--tint);color:var(--brand)}
@@ -244,9 +246,56 @@ app.addEventListener('click',e=>{let b=e.target.closest('[data-action],[data-pro
  case 'export':backup();break;
  case 'again':begin(result?.mode&&!(result.mode.startsWith('classic')||result.mode==='review')?result.mode:'general');break;
  }});
+/* POOF practice resume (trainer side only): marker shared with the other practice pages.
+   The trainer renders a whole exam section at once, so there is no single-question
+   cursor: "section" = session.sections[session.index] (its title + task kinds),
+   "questionIndex" = index of the first visible .qbox/article block in that section
+   (scrollY is the authoritative restore position; the block index is recorded for
+   fidelity and used only as a sanity check). index.html is never touched here. */
+function trainerResumeState(){
+  var stage=null, kinds=[];
+  try{ stage=current(); }catch(e){}
+  if(stage && Array.isArray(stage.secs)) kinds=stage.secs.map(function(s){ return s.kind; });
+  var qIndex=0, blocks=document.querySelectorAll('#app .qbox');
+  if(!blocks.length) blocks=document.querySelectorAll('#app article.pane');
+  for(var i=0;i<blocks.length;i++){
+    var r=blocks[i].getBoundingClientRect?blocks[i].getBoundingClientRect():null;
+    if(r && r.bottom>0){ qIndex=i; break; }
+    if(i===blocks.length-1) qIndex=blocks.length-1;
+  }
+  return {view:view, sectionIndex:session?session.index:0,
+    sectionTitle:stage?stage.title:null, sectionKinds:kinds,
+    questionIndex:qIndex, scrollY:window.scrollY||0};
+}
+function savePracticeResume(){
+  try{ localStorage.setItem('poof_practice_resume', JSON.stringify({page:'studienkolleg-trainer.html', state:trainerResumeState(), ts:Date.now()})); }catch(e){}
+}
+function restorePracticeResume(){
+  var raw=null; try{ raw=localStorage.getItem('poof_practice_resume'); }catch(e){}
+  if(!raw) return false;
+  var marker=null; try{ marker=JSON.parse(raw); }catch(e){ return false; }
+  if(!marker || marker.page!=='studienkolleg-trainer.html') return false; /* foreign marker: leave untouched */
+  var st=marker.state||{};
+  var y=(typeof st.scrollY==='number' && isFinite(st.scrollY) && st.scrollY>=0)?st.scrollY:0;
+  var restoreScroll=function(){
+    requestAnimationFrame(function(){ window.scrollTo(0,y); });
+    setTimeout(function(){ window.scrollTo(0,y); },350);
+  };
+  if((st.view==='exam' || st.view==='rest') && session && Array.isArray(session.sections) && session.sections.length){
+    var idx=Number(st.sectionIndex);
+    if(isFinite(idx)) session.index=Math.min(Math.max(0,Math.floor(idx)), session.sections.length-1);
+    var stage=session.sections[session.index];
+    if(stage && stage.endedAt && session.index<session.sections.length-1) renderRest(); else renderExam();
+    try{ localStorage.removeItem('poof_practice_resume'); }catch(e){} /* consume, after restore */
+    restoreScroll(); return true;
+  }
+  home();
+  try{ localStorage.removeItem('poof_practice_resume'); }catch(e){} /* consume, after restore */
+  restoreScroll(); return true;
+}
 // Resume after refresh: draft may be a live section or a stored rest.
 if(session && (!Array.isArray(session.sections)||session.index>=session.sections.length))dropDraft();
-home();
+if(!restorePracticeResume())home();
 </script>
 <script>
 /* POOF Select for the trainer (added on top of the theme layer; trainer logic untouched).
@@ -479,7 +528,42 @@ tokenizeAll();
 <button type="button" data-tab="me" aria-label="پروفایل" title="پروفایل"><svg class="ic" aria-hidden="true"><use href="#i-user"/></svg></button>
 </nav>
 <script>
-/* POOF bottom nav: writes the main app's own boot state (poof_last_state) and navigates to ./ */
-(function(){var nav=document.querySelector('.poof-nav');if(!nav)return;nav.addEventListener('click',function(e){var b=e.target&&e.target.closest?e.target.closest('button[data-tab]'):null;if(!b)return;var tab=b.getAttribute('data-tab');try{var prev=null;try{prev=JSON.parse(localStorage.getItem('poof_last_state')||'null');}catch(err){}var state={tab:tab,scrollY:0,dictQ:'',textId:(tab==='read'&&prev&&prev.textId)?prev.textId:null};localStorage.setItem('poof_last_state',JSON.stringify(state));}catch(err){}window.location.href='./';});})();
+/* POOF bottom nav: writes the main app's own boot state (poof_last_state) and navigates to ./.
+   Also writes the practice-resume marker (poof_practice_resume) BEFORE leaving, so a
+   return to this page restores the exact exercise. The header back link does the same. */
+(function(){
+  var nav=document.querySelector('.poof-nav');
+  if(nav) nav.addEventListener('click',function(e){
+    var b=e.target&&e.target.closest?e.target.closest('button[data-tab]'):null;
+    if(!b)return;
+    if(typeof savePracticeResume==='function'){ try{ savePracticeResume(); }catch(err){} }
+    var tab=b.getAttribute('data-tab');
+    try{var prev=null;try{prev=JSON.parse(localStorage.getItem('poof_last_state')||'null');}catch(err){}var state={tab:tab,scrollY:0,dictQ:'',textId:(tab==='read'&&prev&&prev.textId)?prev.textId:null};localStorage.setItem('poof_last_state',JSON.stringify(state));}catch(err){}
+    window.location.href='./';
+  });
+  var back=document.querySelector('.poof-back a');
+  if(back) back.addEventListener('click',function(){
+    if(typeof savePracticeResume==='function'){ try{ savePracticeResume(); }catch(err){} }
+  });
+  /* Bottom-bar auto-hide, mirroring the main app: transition + .nav-hidden on .poof-nav.
+     Guard reads the sheet/phrase/backdrop hidden flags because sheetOpen/popOpen live
+     inside the POOF Select IIFE above and are not visible to this script; hidden=false
+     is exactly the observable open state. */
+  if(!nav) return;
+  function trainerOverlayOpen(){
+    var s=document.querySelector('.poof-sheet'); if(s && !s.hidden) return true;
+    var ph=document.querySelector('.poof-phrase'); if(ph && !ph.hidden) return true;
+    var bd=document.querySelector('.poof-sheet-backdrop'); if(bd && !bd.hidden) return true;
+    return false;
+  }
+  var lastToggleY=window.scrollY||0;
+  window.addEventListener('scroll',function(){
+    if(trainerOverlayOpen()) return;
+    var y=window.scrollY||0;
+    if(y<=90){ nav.classList.remove('nav-hidden'); lastToggleY=y; }
+    else if(y>lastToggleY+40){ nav.classList.add('nav-hidden'); lastToggleY=y; }
+    else if(y<lastToggleY-40){ nav.classList.remove('nav-hidden'); lastToggleY=y; }
+  },{passive:true});
+})();
 </script>
 </body></html>

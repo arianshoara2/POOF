@@ -48,7 +48,7 @@ header::after{content:"";position:absolute;inset:0;background:linear-gradient(to
    the bar hides while a sheet/phrase popup or the toast is open (fallback: z-index). */
 html[data-theme="classic"] #dddNav{--nav-bg:rgba(27,24,20,.78);--nav-border:rgba(230,185,111,.25);--nav-hover:rgba(230,185,111,.08);--nav-active:rgba(230,185,111,.14)}
 html[data-theme="snowy"] #dddNav{--nav-bg:rgba(11,29,45,.78);--nav-border:rgba(185,220,244,.28);--nav-hover:rgba(185,220,244,.1);--nav-active:rgba(243,200,121,.16)}
-#dddNav{position:fixed;right:16px;left:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:50;display:grid;grid-template-columns:repeat(5,1fr);align-items:center;padding:6px;max-width:688px;margin:0 auto;overflow:visible;background:var(--nav-bg);border:1px solid var(--nav-border);box-shadow:0 12px 32px rgba(0,0,0,.45);border-radius:24px;-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px)}
+#dddNav{position:fixed;right:16px;left:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:50;display:grid;grid-template-columns:repeat(5,1fr);align-items:center;padding:6px;max-width:688px;margin:0 auto;overflow:visible;background:var(--nav-bg);border:1px solid var(--nav-border);box-shadow:0 12px 32px rgba(0,0,0,.45);border-radius:24px;-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);transition:transform .42s cubic-bezier(.4,0,.2,1),opacity .35s ease}
 #dddNav button{padding:10px 2px;border:0;border-radius:16px;background:transparent;color:var(--muted)}
 #dddNav button:hover{background:var(--nav-hover);color:var(--primary)}
 #dddNav button.on{background:var(--nav-active);color:var(--primary)}
@@ -58,6 +58,12 @@ html[data-theme="snowy"] #dddNav{--nav-bg:rgba(11,29,45,.78);--nav-border:rgba(1
 #dddNav button.hero .ic{width:26px;height:26px}
 #dddNav button.hero.on{background:linear-gradient(135deg,var(--primary),#caa25e);color:var(--bg);filter:brightness(1.08);box-shadow:0 0 0 3px var(--bg),0 10px 26px rgba(0,0,0,.55),0 0 20px var(--nav-active)}
 body:has(#dddSheet:not([hidden])) #dddNav,body:has(#dddPhrase:not([hidden])) #dddNav,body:has(#toast:not([hidden])) #dddNav{display:none}
+/* Auto-hide on scroll (BUG 2, mirrors the main app): .nav-hidden slides the bar
+   below the viewport; the :has() display:none rule above still wins while a
+   sheet/phrase popup or the toast is open, and the scroll listener skips
+   toggling while one is open, so the two mechanisms never fight. */
+#dddNav.nav-hidden{opacity:0;transform:translateY(calc(100% + 48px));pointer-events:none}
+#dddNav:focus-within{opacity:1;transform:none;pointer-events:auto}
 /* Minimal-compact pass (2026-10-22): smaller glyphs, tighter padding; targets stay >=40px.
    .ic glyphs 20px -> 16px (daily/say/mute/stats/data/rule icons). Mascot stays at the
    mandated 56px from the theme brief. Touch targets (CSS-computed, 16px base):
@@ -938,6 +944,7 @@ function setActiveTabs(){
  redrawPool();
 }
 function clearSessionTimers(){clearInterval(tickId);clearTimeout(nextTick);tickId=null;nextTick=null;}
+function dddStartQuickTick(){tickId=setInterval(()=>{if(!session||session.type!=='quick')return;const remain=Math.max(0,Math.ceil((session.ends-Date.now())/1000));$('timer').textContent=faN(remain)+' ثانیه';if(remain===0)finish();},200);}
 function start(g='normal'){
  clearSessionTimers();game=g;session=null;cur=null;last=null;answered=false;questionNo=0;
  const pool=currentPool();
@@ -950,14 +957,15 @@ function start(g='normal'){
   if(!pool.length){notify('در این فیلتر واژه‌ای وجود ندارد.');game='normal';}
   else{
    session={type:'quick',started:Date.now(),ends:Date.now()+60000,correct:0,attempted:0,errors:[],finished:false};
-   tickId=setInterval(()=>{if(!session||session.type!=='quick')return;const remain=Math.max(0,Math.ceil((session.ends-Date.now())/1000));$('timer').textContent=faN(remain)+' ثانیه';if(remain===0)finish();},200);
+   dddStartQuickTick();
   }
  }
  setActiveTabs();updateStats();nextQuestion();
 }
 function shuffle(a){const q=a.slice();for(let i=q.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[q[i],q[j]]=[q[j],q[i]];}return q;}
+let dddLastAnswer=null;
 function resetQuestion(){
- answered=false;$('fb').textContent='';$('fb').className='feedback';$('info').hidden=true;$('info').innerHTML='';$('next').hidden=true;
+ answered=false;dddLastAnswer=null;$('fb').textContent='';$('fb').className='feedback';$('info').hidden=true;$('info').innerHTML='';$('next').hidden=true;
  document.querySelectorAll('.art').forEach(b=>{b.disabled=false;b.className='art';b.textContent=b.dataset.a;});
  $('card').classList.remove('good','shake');$('meaning').textContent='ابتدا مقاله را انتخاب کن';
 }
@@ -996,7 +1004,7 @@ const INTERVALS=[0,5*60000,86400000,3*86400000,7*86400000,14*86400000];
 function answer(a){
  if(!cur||answered||!ARTICLES.has(a))return;
  if(session?.type==='quick'&&Date.now()>=session.ends){finish();return;}
- answered=true;const right=a===cur.a;const w=cur.w;
+ answered=true;dddLastAnswer=a;const right=a===cur.a;const w=cur.w;
  S.total++;if(right){S.ok++;S.streak++;S.best=Math.max(S.best,S.streak);if(S.wrong[w]){S.wrong[w]--;if(S.wrong[w]<=0)delete S.wrong[w];}}
  else{S.streak=0;S.wrong[w]=(S.wrong[w]||0)+1;}
  addToCounter('byLevel',cur.lv,right);addToCounter('byCategory',cur.cat,right);addToCounter('byArticle',cur.a,right);
@@ -1081,6 +1089,11 @@ $('cat').innerHTML='<option value="ALL">همهٔ دسته‌ها</option>'+Objec
 $('importCat').innerHTML=Object.entries(CATEGORIES).map(([c,n])=>`<option value="${c}">${safe(n)}</option>`).join('');
 $('levels').addEventListener('click',e=>{const b=e.target.closest('button[data-lv]');if(!b||b.dataset.lv===lv)return;lv=b.dataset.lv;start('normal');});
 $('cat').onchange=e=>{category=e.target.value;start('normal');};
+/* BUG 3 (save side): header «← بازگشت به POOF» writes the resume marker
+   before the browser follows the link. Synchronous localStorage write, so it
+   always lands before navigation. */
+const dddBackLink=document.querySelector('a[href="./"]');
+if(dddBackLink)dddBackLink.addEventListener('click',()=>{try{dddSaveResume();}catch(e){}});
 $('gameModes').onclick=e=>{const b=e.target.closest('button[data-game]');if(b&&b.dataset.game!==game)start(b.dataset.game);};
 $('arts').onclick=e=>{const b=e.target.closest('.art');if(b&&!b.disabled)answer(b.dataset.a);};
 $('next').onclick=nextQuestion;
@@ -1107,7 +1120,116 @@ window.addEventListener('keydown',e=>{
  if(e.key==='Enter'&&answered&&!e.target?.closest?.('button')){e.preventDefault();nextQuestion();}
 });
 window.addEventListener('visibilitychange',()=>{if(!document.hidden&&session?.type==='quick'&&Date.now()>=session.ends)finish();});
-applyPrefs();updateStats();start('normal');
+/* ===== Practice resume (BUG 3, practice-page side only) =====
+   Shared key poof_practice_resume = {page:'der-die-das.html', state, ts}.
+   SAVE (dddSaveResume) is called by the bottom-nav handler and the header
+   back link, BEFORE navigating to ./. LOAD (dddTryResume) runs here at boot,
+   before any start(): a marker for this page is consumed (deleted) even if
+   its state turns out unusable, so a bad marker can never loop; a marker for
+   another page is left untouched and boot proceeds to the normal home.
+   "Current word index" is the exam queue position (session.attempted, or
+   attempted-1 when the saved question was already answered) for exam mode,
+   and the current word's identity (cur.w) for normal/quick, which have no
+   positional index (words are drawn at random). Restoring never replays
+   stats: the answered display is re-rendered from the saved word/choice
+   without touching S, session counters, or Leitner. */
+const DDD_RESUME_KEY='poof_practice_resume';
+function dddSaveResume(){
+ try{
+  const st={lv,category,game,word:cur?cur.w:null,answered:!!answered,lastAnswer:answered?dddLastAnswer:null,scrollY:Math.round(window.scrollY||0)};
+  if(session){
+   st.session={type:session.type,attempted:session.attempted,correct:session.correct,errors:(session.errors||[]).map(x=>x.w),started:session.started,finished:!!session.finished};
+   if(session.type==='exam')st.session.queue=(session.queue||[]).map(x=>x.w);
+   if(session.type==='quick')st.session.remainingMs=Math.max(0,session.ends-Date.now());
+  }
+  localStorage.setItem(DDD_RESUME_KEY,JSON.stringify({page:'der-die-das.html',state:st,ts:Date.now()}));
+ }catch(e){}
+}
+function dddFindWord(w){return ALL.find(x=>x.w===w)||null;}
+function dddRestoreScroll(st){
+ const y=Math.round(st.scrollY||0);if(!y)return;
+ requestAnimationFrame(()=>{try{window.scrollTo(0,y);}catch(e){}});
+ setTimeout(()=>{try{window.scrollTo(0,y);}catch(e){}},350);
+}
+function dddModeStatusText(){
+ return session?.type==='exam'?'آزمون: پاسخ‌ها ثبت می‌شوند، نتیجه در پایان نمایش داده می‌شود.':session?.type==='quick'?'چالش یک‌دقیقه‌ای: تا جایی که می‌توانی درست جواب بده.':'هر بار مقاله را حدس بزن، بعد معنی و مثال را ببین.';
+}
+function dddRenderAnswered(chosen){
+ /* Re-creates answer()'s display for cur WITHOUT touching stats, session
+    counters, or Leitner (those were already persisted when first answered). */
+ resetQuestion();answered=true;
+ document.querySelectorAll('.art').forEach(b=>{b.disabled=true;if(b.dataset.a===cur.a){b.classList.add('ok');b.textContent=b.dataset.a+' ✓';}else if(chosen&&b.dataset.a===chosen){b.classList.add('bad');b.textContent=b.dataset.a+' ✕';}});
+ const right=!chosen||chosen===cur.a;
+ $('fb').textContent=right?'✓ آفرین، درست بود!':'✕ درستش: '+cur.a+' '+cur.w;$('fb').className='feedback '+(right?'ok':'bad');
+ $('word').textContent=cur.a+' '+cur.w;$('meaning').textContent=cur.fa;
+ const box=S.leitner[cur.w]?.box||0;
+ $('info').innerHTML=`<div>جمع: <span class="de" lang="de">${safe(pluralDisplay(cur))}</span></div><div>مثال: <span class="de" lang="de">${dddTokenize(cur.ex)}</span></div><div>${safe(cur.exfa)}</div><div class="rule"><strong> نکتهٔ قاعده:</strong> ${safe(ruleFor(cur))}<div class="tiny">خانهٔ لایتنر: ${faN(box)} از ۵</div></div>`;
+ $('info').hidden=false;$('next').hidden=false;
+ $('next').textContent=session?.type==='exam'&&session.attempted===20?'مشاهدهٔ نتیجه ←':'کلمهٔ بعدی ←';
+ $('card').hidden=false;$('result').hidden=true;
+ if(session){
+  $('sessionLine').hidden=false;
+  $('sessionProgress').textContent=session.type==='exam'?`سؤال ${faN(session.attempted)} از ${faN(20)}`:`پاسخ درست: ${faN(session.correct)} از ${faN(session.attempted)}`;
+  $('timer').textContent=session.type==='quick'?faN(Math.max(0,Math.ceil((session.ends-Date.now())/1000)))+' ثانیه':'';
+ }else $('sessionLine').hidden=true;
+ $('modeStatus').textContent=dddModeStatusText();
+}
+function dddShowWord(word){
+ /* Shows one specific word (normal/quick restore) without re-rolling. */
+ resetQuestion();redrawPool();
+ cur=word;last=word.w;
+ $('word').textContent=cur.w;$('say').disabled=false;
+ $('card').hidden=false;$('result').hidden=true;
+ if(session){
+  $('sessionLine').hidden=false;
+  $('sessionProgress').textContent=`پاسخ درست: ${faN(session.correct)} از ${faN(session.attempted)}`;
+  $('timer').textContent=session.type==='quick'?faN(Math.max(0,Math.ceil((session.ends-Date.now())/1000)))+' ثانیه':'';
+ }else $('sessionLine').hidden=true;
+ $('modeStatus').textContent=dddModeStatusText();
+ updateStats();
+}
+function dddTryResume(){
+ let m=null;try{m=JSON.parse(localStorage.getItem(DDD_RESUME_KEY)||'null');}catch(e){m=null;}
+ if(!m||m.page!=='der-die-das.html'||!m.state)return false;
+ try{localStorage.removeItem(DDD_RESUME_KEY);}catch(e){}
+ const st=m.state;
+ try{
+  if(!['A1','A2','B1','B2','MY','REV'].includes(st.lv))return false;
+  if(st.category!=='ALL'&&!CATEGORIES[st.category])return false;
+  if(!['normal','exam','quick'].includes(st.game))return false;
+  lv=st.lv;category=st.category;game=st.game;
+  $('cat').value=category;
+  clearSessionTimers();session=null;cur=null;last=null;answered=false;questionNo=0;
+  const word=st.word?dddFindWord(st.word):null;
+  if(st.session&&st.session.type==='exam'){
+   const queue=(st.session.queue||[]).map(dddFindWord);
+   if(queue.length!==20||queue.some(w=>!w))return false;
+   session={type:'exam',queue,started:st.session.started||Date.now(),correct:st.session.correct||0,errors:(st.session.errors||[]).map(dddFindWord).filter(Boolean),attempted:st.session.attempted||0,finished:false};
+   setActiveTabs();
+   if(st.session.finished||session.attempted>=session.queue.length){finish();dddRestoreScroll(st);return true;}
+   if(st.answered){
+    cur=session.queue[Math.max(0,session.attempted-1)];last=cur.w;
+    dddRenderAnswered(st.lastAnswer||null);updateStats();dddRestoreScroll(st);return true;
+   }
+   nextQuestion();dddRestoreScroll(st);return true;
+  }
+  if(st.session&&st.session.type==='quick'){
+   session={type:'quick',started:Date.now(),ends:Date.now()+Math.max(0,st.session.remainingMs||0),correct:st.session.correct||0,attempted:st.session.attempted||0,errors:(st.session.errors||[]).map(dddFindWord).filter(Boolean),finished:false};
+   setActiveTabs();
+   if(st.session.finished){finish();dddRestoreScroll(st);return true;}
+   dddStartQuickTick();
+   if(st.answered&&word){cur=word;last=word.w;dddRenderAnswered(st.lastAnswer||null);}
+   else if(word)dddShowWord(word);
+   else nextQuestion();
+   updateStats();dddRestoreScroll(st);return true;
+  }
+  setActiveTabs();
+  if(word)dddShowWord(word);else nextQuestion();
+  dddRestoreScroll(st);return true;
+ }catch(e){return false;}
+}
+applyPrefs();updateStats();
+if(!dddTryResume()){lv='A1';category='ALL';game='normal';$('cat').value='ALL';start('normal');}
 /*
  SELF-CHECK: قطعهٔ زیر را برای بررسی بانک اصلی در Console اجرا کن:
  console.table(Object.fromEntries(['A1','A2','B1','B2'].map(l => [l, BASE.filter(x=>x.lv===l).length])));
@@ -1279,6 +1401,10 @@ applyPrefs();updateStats();start('normal');
   nav.addEventListener('click',function(e){
     var b=e.target.closest?e.target.closest('button[data-tab]'):null;
     if(!b)return;
+    /* BUG 3 (save side): persist the exact exercise before leaving, so the
+       return trip can restore it. The main script owns the game state, so
+       this is a guarded call into its dddSaveResume(). */
+    try{if(typeof dddSaveResume==='function')dddSaveResume();}catch(err){}
     var tab=b.getAttribute('data-tab');
     var prev=null;
     try{prev=JSON.parse(localStorage.getItem('poof_last_state')||'null');}catch(err){prev=null;}
@@ -1287,5 +1413,24 @@ applyPrefs();updateStats();start('normal');
     try{localStorage.setItem('poof_last_state',JSON.stringify(state));}catch(err){}
     window.location.href='./';
   });
+  /* BUG 2: auto-hide the bottom bar on scroll, mirroring the main app
+     (index.html): same thresholds, same .nav-hidden class. Toggling is
+     skipped while a sheet, phrase popup, or toast is open — those already
+     hide the bar via the :has() display:none rule, and skipping keeps the
+     pre-popup hide/show state intact for when the popup closes. */
+  var lastToggleY=window.scrollY||0;
+  function dddSheetOpen(){
+    var s=document.getElementById('dddSheet');
+    var p=document.getElementById('dddPhrase');
+    var t=document.getElementById('toast');
+    return (s&&!s.hidden)||(p&&!p.hidden)||(t&&!t.hidden);
+  }
+  window.addEventListener('scroll',function(){
+    if(dddSheetOpen())return;
+    var y=window.scrollY||0;
+    if(y<=90){nav.classList.remove('nav-hidden');lastToggleY=y;}
+    else if(y>lastToggleY+40){nav.classList.add('nav-hidden');lastToggleY=y;}
+    else if(y<lastToggleY-40){nav.classList.remove('nav-hidden');lastToggleY=y;}
+  },{passive:true});
 })();</script>
 </body></html>
