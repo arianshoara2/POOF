@@ -23,7 +23,7 @@ button{cursor:pointer}
 [hidden]{display:none !important}
 .app{min-height:100dvh;max-width:760px;margin:0 auto;background:transparent}
 .topbar{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:10px;padding:calc(env(safe-area-inset-top) + 10px) 16px 10px;background:var(--glass);-webkit-backdrop-filter:blur(10px) saturate(1.25);backdrop-filter:blur(10px) saturate(1.25);border-bottom:1px solid rgba(255,255,255,.06)}
-.iconbtn{width:42px;height:42px;border:1px solid var(--line);border-radius:14px;background:var(--panel);color:var(--muted);display:grid;place-items:center;flex:none}
+.iconbtn{width:40px;height:40px;border:1px solid var(--line);border-radius:14px;background:var(--panel);color:var(--muted);display:grid;place-items:center;flex:none}
 .title-wrap{flex:1;min-width:0}.title{font-size:1.7rem;font-weight:800;color:var(--gold);margin:0}.subtitle{margin:4px 0 0;color:var(--muted);font-size:.92rem}
 main{padding:14px 14px calc(120px + env(safe-area-inset-bottom,0px))}
 .search{display:flex;gap:10px;background:var(--panel);border:1px solid var(--line);padding:10px 12px;border-radius:18px;margin-bottom:16px;box-shadow:var(--shadow)}
@@ -49,22 +49,22 @@ html[data-theme=snowy] .home-card .art{background:rgba(243,248,252,.82);color:#0
 .sub-item{display:grid;grid-template-columns:56px 1fr 60px;gap:12px;align-items:center;padding:13px 14px;border-bottom:1px solid rgba(255,255,255,.06);background:transparent;border-inline:0;border-top:0;border-bottom:1px solid rgba(255,255,255,.06);width:100%;color:inherit;text-align:initial}
 .sub-item:last-child{border-bottom:0}.count{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:var(--gold);color:#1a1307;font-weight:800;font-size:1rem}.sub-body h3{margin:0 0 6px;font-size:1.25rem}.sub-body .de{display:block;direction:ltr;color:var(--muted)}.sub-body .meta{display:block;margin-top:5px;color:var(--muted);font-size:.88rem}.iconbox{justify-self:end;width:60px;height:60px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);display:grid;place-items:center;font-size:2rem;color:var(--gold)}
 .bottom-sheet{position:fixed;inset:0;z-index:90;background:rgba(0,0,0,.65);display:none;align-items:flex-end;justify-content:center;padding:14px 14px calc(110px + env(safe-area-inset-bottom,0px))}.bottom-sheet.show{display:flex}.sheet{width:min(760px,100%);max-height:90dvh;overflow:auto;background:var(--panel);color:var(--text);border-radius:30px 30px 20px 20px;box-shadow:0 -10px 36px rgba(0,0,0,.35)}
-.sheet-head{position:sticky;top:0;background:var(--panel);padding:14px 16px 10px;border-bottom:1px solid var(--line);z-index:2}.grab{width:68px;height:7px;border-radius:99px;background:var(--line);margin:0 auto 12px}.sheet-top{display:flex;gap:12px;align-items:flex-start}.sheet-icon{width:56px;height:56px;border-radius:22px;background:var(--panel-2);border:1px solid var(--line);display:grid;place-items:center;font-size:2rem;color:var(--gold);box-shadow:0 4px 16px rgba(0,0,0,.08)}.sheet-top h3{margin:0;font-size:1.85rem}.sheet-top .de{display:block;direction:ltr;color:var(--muted);margin-top:4px;font-size:1.05rem}.sheet-top .sheet-meta{margin-top:8px;color:var(--muted);line-height:1.9}
-.sheet-actions{display:grid;grid-template-columns:1fr auto;gap:14px;padding:14px}.step-card{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--panel-2);border:1px solid var(--line);border-radius:999px;padding:12px 16px;box-shadow:0 3px 12px rgba(0,0,0,.05)}.step-card b{font-size:1rem}.step-card span{color:var(--muted)}.step-ico{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:1.2rem;font-weight:900}.sc-blue{background:#4f7ab8}.sc-teal{background:#3d8f8d}.sc-red{background:#c96a63}
-.exercise-box{margin:0 16px 18px;background:var(--panel-2);border:1px dashed var(--line);border-radius:24px;padding:14px}.exercise-box h4{margin:4px 0 12px;color:var(--gold)}.exercise-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.exercise-grid button{border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:13px 14px;text-align:right;color:var(--gold)}
+.sheet-head{position:sticky;top:0;background:var(--panel);padding:14px 16px 10px;border-bottom:1px solid var(--line);z-index:2}.grab{width:68px;height:7px;border-radius:99px;background:var(--line);margin:0 auto 12px}.sheet-top{display:flex;gap:12px;align-items:flex-start}.sheet-icon{width:48px;height:48px;border-radius:20px;background:var(--panel-2);border:1px solid var(--line);display:grid;place-items:center;font-size:2rem;color:var(--gold);box-shadow:0 4px 16px rgba(0,0,0,.08)}.sheet-top h3{margin:0;font-size:1.85rem}.sheet-top .de{display:block;direction:ltr;color:var(--muted);margin-top:4px;font-size:1.05rem}.sheet-top .sheet-meta{margin-top:8px;color:var(--muted);line-height:1.9}
+.sheet-actions{display:grid;grid-template-columns:1fr auto;gap:14px;padding:14px}.step-card{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--panel-2);border:1px solid var(--line);border-radius:999px;padding:9px 13px;box-shadow:0 3px 12px rgba(0,0,0,.05)}.step-card b{font-size:0.95rem}.step-card span{color:var(--muted)}.step-ico{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:1.2rem;font-weight:900}.sc-blue{background:#4f7ab8}.sc-teal{background:#3d8f8d}.sc-red{background:#c96a63}
+.exercise-box{margin:0 16px 18px;background:var(--panel-2);border:1px dashed var(--line);border-radius:24px;padding:14px}.exercise-box h4{margin:4px 0 12px;color:var(--gold)}.exercise-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.exercise-grid button{border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:10px 12px;text-align:right;color:var(--gold)}
 .reader{display:none;padding:0 0 90px}.reader.on{display:block}.reader-card{background:linear-gradient(180deg,#3a2f1a,var(--panel-2));border-radius:0 0 26px 26px;padding:22px 18px 18px;margin:-16px -16px 18px;color:var(--text);box-shadow:var(--shadow)}.progbar{height:6px;background:rgba(255,255,255,.25);border-radius:99px;overflow:hidden;margin:14px 0 6px}.progbar i{display:block;height:100%;background:var(--gold);border-radius:99px;width:0}.top-nums{display:flex;justify-content:space-between;font-size:1.05rem;opacity:.9}
-.word-big{font-size:3.3rem;text-align:center;margin:22px 0 0;direction:ltr;font-weight:500}
-.word-big.is-phrase{font-size:1.7rem;line-height:1.5}.ipa{text-align:center;font-size:1.2rem;margin-top:18px;opacity:.96}.speech-type{text-align:center;font-size:1rem;margin-top:10px;opacity:.95}.tools{display:flex;justify-content:center;gap:12px;transform:translateY(20px);margin-bottom:10px}.tool-btn{width:48px;height:48px;border:3px solid var(--gold);background:var(--panel);border-radius:50%;display:grid;place-items:center;font-size:1.4rem;color:var(--gold);box-shadow:0 8px 20px rgba(0,0,0,.18)}
-.word-panel{background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:22px;padding:16px;box-shadow:0 6px 20px rgba(0,0,0,.08)}.word-panel h4{margin:0 0 10px;font-size:1.8rem}.word-panel .mean{font-size:1.1rem;color:var(--muted);margin-bottom:14px}
+.word-big{font-size:clamp(1.9rem,11vw,3.3rem);text-align:center;margin:22px 0 0;direction:ltr;font-weight:500}
+.word-big.is-phrase{font-size:1.7rem;line-height:1.5}.ipa{text-align:center;font-size:1.2rem;margin-top:18px;opacity:.96}.speech-type{text-align:center;font-size:1rem;margin-top:10px;opacity:.95}.tools{display:flex;justify-content:center;gap:12px;transform:translateY(20px);margin-bottom:10px}.tool-btn{width:40px;height:40px;border:2px solid var(--gold);background:var(--panel);border-radius:50%;display:grid;place-items:center;font-size:1.15rem;color:var(--gold);box-shadow:0 6px 14px rgba(0,0,0,.18)}
+.word-panel{background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:22px;padding:16px;box-shadow:0 6px 20px rgba(0,0,0,.08)}.word-panel h4{margin:0 0 10px;font-size:clamp(1.15rem,5.5vw,1.8rem)}.word-panel .mean{font-size:1.1rem;color:var(--muted);margin-bottom:14px}
 .lit{color:var(--muted);font-size:14px;margin-top:8px;line-height:1.9}.example{background:var(--panel-2);border-radius:18px;padding:12px 14px;margin-bottom:10px}.example .de{direction:ltr;font-size:1.08rem;color:var(--text)}.example .fa{display:block;color:var(--muted);margin-top:8px;line-height:1.9}.row-tools{display:flex;align-items:center;gap:12px;justify-content:space-between;margin-top:14px;flex-wrap:wrap}.chip{display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:#1a1307;border-radius:16px;padding:10px 18px;font-weight:700}.dict-btn{padding:13px 22px;border:2px solid var(--gold);color:var(--gold);background:transparent;border-radius:999px;font-weight:700}.flash-wrap,.quiz-wrap{display:none}.flash-wrap.on,.quiz-wrap.on{display:block}
-.flash-card{background:linear-gradient(180deg,var(--panel),var(--panel-2));border:1px solid var(--line);border-radius:26px;padding:22px 16px;text-align:center;box-shadow:var(--shadow);min-height:260px;display:flex;flex-direction:column;justify-content:center}.flash-card .front{font-size:2.7rem;direction:ltr;font-weight:700}.flash-card .back{font-size:1.35rem;color:var(--gold);margin-top:14px;line-height:1.9}.flash-actions{display:flex;gap:12px;margin-top:14px}.flash-actions button,.quiz-opts button{flex:1;padding:15px;border-radius:18px;border:1px solid var(--line);background:var(--panel);color:var(--text)}.flash-actions .yes{background:rgba(54,179,126,.16);border-color:rgba(54,179,126,.55)}.flash-actions .no{background:rgba(242,95,92,.16);border-color:rgba(242,95,92,.55)}
+.flash-card{background:linear-gradient(180deg,var(--panel),var(--panel-2));border:1px solid var(--line);border-radius:26px;padding:22px 16px;text-align:center;box-shadow:var(--shadow);min-height:260px;display:flex;flex-direction:column;justify-content:center}.flash-card .front{font-size:clamp(1.7rem,9vw,2.7rem);direction:ltr;font-weight:700}.flash-card .back{font-size:1.35rem;color:var(--gold);margin-top:14px;line-height:1.9}.flash-actions{display:flex;gap:12px;margin-top:14px}.flash-actions button,.quiz-opts button{flex:1;padding:15px;border-radius:18px;border:1px solid var(--line);background:var(--panel);color:var(--text)}.flash-actions .yes{background:rgba(54,179,126,.16);border-color:rgba(54,179,126,.55)}.flash-actions .no{background:rgba(242,95,92,.16);border-color:rgba(242,95,92,.55)}
 .quiz-card{background:linear-gradient(180deg,var(--panel),var(--panel-2));border:1px solid var(--line);border-radius:24px;padding:16px;box-shadow:var(--shadow)}.quiz-q{font-size:1.28rem;margin-bottom:14px}.quiz-opts{display:grid;gap:10px}.quiz-opts button{text-align:right}.note{margin-top:10px;color:var(--muted);text-align:center}
 .mini{font-size:.88rem;color:var(--muted)}
 @media (min-width:600px){main{padding-inline:18px}.home-card{flex-basis:205px}.sub-item{grid-template-columns:64px 1fr 64px}.iconbox{width:64px;height:64px}}
 .poof-back{display:block;padding:12px 16px;color:var(--gold);font-weight:700;background:var(--bg)}
 .iconbtn svg{width:18px;height:18px}.search svg{width:18px;height:18px;flex:none}
-.home-card .art svg{width:32px;height:32px}.iconbox svg{width:28px;height:28px}.sheet-icon svg{width:28px;height:28px}
-.tool-btn svg{width:20px;height:20px}.dict-btn svg{width:16px;height:16px;vertical-align:-4px}
+.home-card .art svg{width:32px;height:32px}.iconbox svg{width:28px;height:28px}.sheet-icon svg{width:24px;height:24px}
+.tool-btn svg{width:17px;height:17px}.dict-btn svg{width:16px;height:16px;vertical-align:-4px}
 
 /* contrast fixes: buttons must inherit light text; UA controls follow dark scheme */
 button{color:inherit}
@@ -93,7 +93,7 @@ button{color:inherit}
 .practice-row{display:flex;gap:8px;flex-wrap:wrap}
 .practice-row input{flex:1;background:var(--bg);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:10px 12px;min-width:160px}
 .practice-row button.sel{border-color:var(--gold)!important;color:var(--gold)!important}
-.tool-btn.in-box{border-color:var(--gold)!important;color:var(--gold)!important}
+.tool-btn.in-box{border-color:var(--gold)!important;color:var(--gold)!important}.tool-btn.in-main{background:var(--gold)!important;color:#1a1206!important}.flash-actions .flash-box-btn{flex:0 0 auto;width:40px;height:40px;padding:0;border:2px solid var(--gold);background:var(--panel);border-radius:50%;display:grid;place-items:center;color:var(--gold)}.flash-actions .flash-box-btn.in-main{background:var(--gold);color:#1a1206}
 #readerLeitner{color:var(--muted);font-size:13px;margin-top:8px}
 .reader-nav{display:flex;gap:10px;margin:14px 0 4px}.reader-nav .nav-btn{flex:1;padding:12px;border-radius:999px;border:1px solid var(--line);background:var(--panel-2);color:var(--text);font-size:15px}.reader-nav .nav-btn.gold{background:var(--gold);color:#1a1307;border-color:var(--gold);font-weight:700}
 
@@ -131,7 +131,7 @@ html[data-theme=snowy] .lk.esel{background:rgba(243,200,121,.30)}
 @keyframes lppulse{50%{background:rgba(230,185,111,.35)}}
 /* select sheet content + empty-state mascot */
 .empty-wrap{text-align:center;padding:8px 0}
-.sel-word{font-size:1.9rem;font-weight:800;color:var(--gold);direction:ltr;text-align:left}
+.sel-word{font-size:clamp(1.3rem,7vw,1.9rem);font-weight:800;color:var(--gold);direction:ltr;text-align:left}
 .sel-ipa{color:var(--muted);direction:ltr;margin-top:4px}
 .sel-mean{font-size:1.15rem;line-height:1.9;margin-top:10px}
 #selectBody .example{margin:14px 0 0}
@@ -285,11 +285,11 @@ html[data-theme=snowy] .lk.esel{background:rgba(243,200,121,.30)}
         <div class="speech-type" id="rTag">حرف ندا</div>
         <div class="tools">
           <button class="tool-btn" id="speakWord" aria-label="تلفظ"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10v4h4l5 5V5L8 10H4Z"/><path d="M16 9a4 4 0 0 1 0 6"/><path d="M18.5 6.5a8 8 0 0 1 0 11"/></svg></button>
-          <button class="tool-btn" id="addBox" aria-label="لایتنر"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5 12 4l9 4.5v7L12 20l-9-4.5v-7Z"/><path d="M3 8.5 12 13l9-4.5"/><path d="M12 13v7"/></svg></button>
+          <button class="tool-btn" id="addBox" aria-label="افزودن به مرور اصلی و جعبهٔ لایتنر"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5 12 4l9 4.5v7L12 20l-9-4.5v-7Z"/><path d="M3 8.5 12 13l9-4.5"/><path d="M12 13v7"/></svg></button>
           <a class="tool-btn" id="goDict" href="./?dict=hallo" aria-label="نمایش در دیکشنری">A↔</a>
         </div>
         <div class="mini" id="readerLeitner">هنوز به لایتنر اضافه نشده</div>
-        <div class="bridge-row"><button class="dict-btn" id="addMainBtn" type="button">افزودن به مرور اصلی</button><span class="mini" id="mainMarker"></span></div>
+        
       </div>
       <div class="word-panel">
         <h4 id="rArtWord">hallo</h4>
@@ -314,8 +314,9 @@ html[data-theme=snowy] .lk.esel{background:rgba(243,200,121,.30)}
         <button id="flipBtn">برگردان کارت</button>
         <button class="yes" id="knowBtn">بلدم</button>
         <button class="no" id="dontBtn">بلد نیستم</button>
+        <button class="flash-box-btn" id="flashBoxBtn" type="button" aria-label="افزودن به مرور اصلی و جعبهٔ لایتنر"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5 12 4l9 4.5v7L12 20l-9-4.5v-7Z"/><path d="M3 8.5 12 13l9-4.5"/><path d="M12 13v7"/></svg></button>
       </div>
-      <div class="bridge-row"><button class="dict-btn" id="flashMainBtn" type="button">افزودن به مرور اصلی</button><span class="mini" id="flashMainMarker"></span></div>
+      
     </section>
 
     <section id="quizView" class="quiz-wrap">
@@ -659,7 +660,7 @@ function stripArticle(f){return String(f||'').replace(/^(der|die|das)\s+/i,'');}
 function readMainDb(){try{const d=JSON.parse(localStorage.getItem('poof_v2')||'null');return (d&&typeof d==='object'&&!Array.isArray(d))?d:null;}catch(e){return null;}}
 function isInMain(w){const db=readMainDb();if(!db||!Array.isArray(db.cards))return false;const f=normalize(mainFrontOf(w)),s=normalize(stripArticle(mainFrontOf(w)));return db.cards.some(c=>{const cf=normalize(String(c.front||''));return cf===f||cf===s||normalize(stripArticle(String(c.front||'')))===s;});}
 function addToMainReview(w){if(!w)return false;const db=readMainDb();if(!db){toast('اپ اصلی هنوز ساخته نشده؛ ابتدا POOF را باز کن.','bad');return false;}if(!Array.isArray(db.cards))db.cards=[];const front=mainFrontOf(w),f=normalize(front),s=normalize(stripArticle(front));if(db.cards.some(c=>{const cf=normalize(String(c.front||''));return cf===f||cf===s||normalize(stripArticle(String(c.front||'')))===s;}))return false;const card={pos:'',def:'',context:w.ex||'',contextFa:w.exfa||'',source:'wortschatz',created_at:Date.now(),ease:2.5,interval:0,reps:0,due:Date.now(),lang:'de',id:uidMain(),front:front,back:meaningOf(w)};if(typeof db.active==='string'&&db.active)card.deck_id=db.active;db.cards.push(card);try{localStorage.setItem('poof_v2',JSON.stringify(db));}catch(e){toast('فضای ذخیره‌سازی کافی نیست.','bad');return false;}return true;}
-function refreshMainMarker(){const w=currentWords()[currentIndex];if(!w)return;const inMain=isInMain(w);const m=$('#mainMarker');if(m)m.textContent=inMain?'در مرور اصلی':'';const fm=$('#flashMainMarker');if(fm)fm.textContent=inMain?'در مرور اصلی':'';}
+function refreshMainMarker(){const w=currentWords()[currentIndex];if(!w)return;const inMain=isInMain(w);const ab=$('#addBox');if(ab)ab.classList.toggle('in-main',inMain);const fb=$('#flashBoxBtn');if(fb)fb.classList.toggle('in-main',inMain);}
 function goMainReview(){try{localStorage.setItem('poof_last_state',JSON.stringify({tab:'review',textId:null,scrollY:0,dictQ:''}));}catch(e){}location.href='./';}
 function goMainTab(tab){try{let prev=null;try{prev=JSON.parse(localStorage.getItem('poof_last_state')||'null');}catch(e){}localStorage.setItem('poof_last_state',JSON.stringify({tab:tab,textId:tab==='read'?(prev&&prev.textId?prev.textId:null):null,scrollY:0,dictQ:''}));}catch(e){}savePracticeResume();location.href='./';}
 /* BUG 3 — practice resume marker (practice-page side ONLY; nothing in index.html). Saved before leaving to ./, consumed on the next wortschatz load. */
@@ -684,10 +685,11 @@ function renderReader(){
   $('#oppChip').style.display=w.opp?'inline-flex':'none'; $('#oppChip').textContent=w.opp?`متضاد: ${w.opp}`:'';
   $('#examples').innerHTML=[{de:w.ex,fa:w.exfa},{de:w.ex2,fa:w.exfa2}].filter(x=>x.de).map((x,i)=>`<div class="example"><div class="de">${tokenizeDe(x.de)}</div><span class="fa">${x.fa}</span><div style="margin-top:10px"><button class="dict-btn ex-speak" data-i="${i}" style="padding:8px 14px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10v4h4l5 5V5L8 10H4Z"/><path d="M16 9a4 4 0 0 1 0 6"/><path d="M18.5 6.5a8 8 0 0 1 0 11"/></svg> تلفظ مثال</button></div></div>`).join('');
   const _pw=currentWords()[currentIndex], _pp=_pw?progressFor(_pw):null;
-  const _ab=$('#addBox'); if(_ab){_ab.classList.toggle('in-box',!!_pp); _ab.title=_pp?('در خانهٔ '+toFaNum(_pp.box)+' از ۵'):'افزودن به جعبهٔ لایتنر';}
-  const _rl=$('#readerLeitner'); if(_rl)_rl.textContent=_pp?('خانهٔ '+toFaNum(_pp.box)+' از ۵ · '+(_pp.due&&_pp.due>Date.now()?'مرور بعدی: بعداً':'مرور: اکنون')):'هنوز به لایتنر اضافه نشده'; refreshMainMarker();
+  const _ab=$('#addBox'); if(_ab){_ab.classList.toggle('in-box',!!_pp); _ab.title=_pp?('در خانهٔ '+toFaNum(_pp.box)+' از ۵'):'افزودن به مرور اصلی و جعبهٔ لایتنر';}
+  const _rl=$('#readerLeitner'); if(_rl)_rl.textContent=_pp?('خانهٔ '+toFaNum(_pp.box)+' از ۵ · '+(_pp.due&&_pp.due>Date.now()?'مرور بعدی: بعداً':'مرور: اکنون')):'هنوز به لایتنر اضافه نشده'; refreshMainMarker(); fitWordEl($('#rWord'),18); fitWordEl($('#rArtWord'),16);
 }
 
+function fitWordEl(el,minPx){if(!el)return;try{el.style.fontSize='';var size=parseFloat(getComputedStyle(el).fontSize)||0;var guard=0;while(size>(minPx||18)&&el.scrollWidth>el.clientWidth&&guard<40){size-=2;el.style.fontSize=size+'px';guard++;}}catch(e){}}
 function nextWord(){ if(currentIndex<currentWords().length-1){ currentIndex++; renderReader(); } else { currentIndex=0; renderReader(); }}
 function prevWord(){ const n=currentWords().length; if(!n) return; currentIndex=(currentIndex-1+n)%n; renderReader(); }
 
@@ -696,7 +698,7 @@ function renderFlash(){
   const w=words[currentIndex];
   $('#sectionView').classList.remove('on'); $('#readerView').classList.remove('on'); $('#quizView').classList.remove('on'); $('#flashView').classList.add('on');
   updateHeader('فلش‌کارت','نمونهٔ گام دوم',true);
-  flashFlipped=false; $('#flashFront').textContent=(w.art&&w.art!=='—'?`${w.art} `:'')+(w.id||w.ph||w.w); $('#flashBack').textContent=w.fig||w.fa; $('#flashBack').hidden=true; refreshMainMarker();
+  flashFlipped=false; $('#flashFront').textContent=(w.art&&w.art!=='—'?`${w.art} `:'')+(w.id||w.ph||w.w); $('#flashBack').textContent=w.fig||w.fa; $('#flashBack').hidden=true; refreshMainMarker(); fitWordEl($('#flashFront'),18);
 }
 
 function speak(text){ try{ const u=new SpeechSynthesisUtterance(text); u.lang='de-DE'; u.rate=.95; speechSynthesis.cancel(); speechSynthesis.speak(u);}catch(e){} }
@@ -867,9 +869,11 @@ var selectPushed=false,selectOpen=false,selDragged=false;
 function showSelectSheet(){var wrap=$('#selectSheetWrap');if(!wrap)return;if(!selectOpen){try{history.pushState({poofVocabSelect:1},'');selectPushed=true;}catch(e){selectPushed=false;}}selectOpen=true;wrap.classList.add('show');wrap.setAttribute('aria-hidden','false');var sh=wrap.querySelector('.sheet');if(sh)sh.scrollTop=0;}
 function closeSelectSheet(fromPop){var wrap=$('#selectSheetWrap');if(!wrap)return;selClearHi();if(!fromPop&&selectPushed){selectPushed=false;try{history.back();return;}catch(e){}}selectOpen=false;selectPushed=false;wrap.classList.remove('show');wrap.setAttribute('aria-hidden','true');}
 function renderSelectWord(word){var entry=findLocalWord(word);var t=$('#selectWord');if(t)t.textContent=word;var d=$('#selectDictBtn');if(d)d.href='./?dict='+encodeURIComponent(word);var body=$('#selectBody');if(!body)return;if(!entry){var sug=findPhraseSuggestions(word,5);var sugHtml=sug.length?('<div class="mini" style="margin-top:14px">عبارت‌های واقعی که با «'+escapeHtml(word)+'» شروع می‌شوند:</div>'+sug.map(function(s){return '<button type="button" class="dict-btn phrase-sugg" data-phrase-sugg="'+escapeHtml(s.ph)+'" style="display:block;width:100%;text-align:left;margin-top:8px" dir="ltr">'+escapeHtml(s.ph)+(s.fa?' <span style="color:var(--muted)">\u2014 '+escapeHtml(s.fa)+'</span>':'')+'</button>';}).join('')):'';body.innerHTML='<p class="mini">در بانک واژگان این صفحه برای این کلمه معنایی ثبت نشده است. برای دیدن مدخل کامل، از دکمهٔ زیر استفاده کن.</p>'+sugHtml;return;}var art=(entry.art&&entry.art!=='—')?entry.art.trim():'';var ex=entry.ex||entry.ex2||'';var exfa=entry.ex?entry.exfa:(entry.ex2?entry.exfa2:'');body.innerHTML=(art?'<div class="mini">حرف تعریف: '+escapeHtml(art)+'</div>':'')+(entry.ipa?'<div class="sel-ipa" dir="ltr">'+escapeHtml(entry.ipa)+'</div>':'')+'<div class="sel-mean">'+escapeHtml(entry.fig||entry.fa||'')+'</div>'+(ex?'<div class="example"><div class="de">'+tokenizeDe(ex)+'</div>'+(exfa?'<span class="fa">'+escapeHtml(exfa)+'</span>':'')+'</div>':'');}
-function renderSelectPhrase(phrase){var t=$('#selectWord');if(t)t.textContent=phrase;var d=$('#selectDictBtn');if(d)d.href='./?dict='+encodeURIComponent(phrase);var body=$('#selectBody');if(!body)return;var item=findPhraseItem(phrase);body.innerHTML='<div class="sel-mean" dir="ltr">'+escapeHtml(phrase)+'</div>'+(item&&item.fa?'<div class="sel-mean">'+escapeHtml(item.fa)+'</div>':'')+(item&&item.ex?'<div class="example"><div class="de">'+tokenizeDe(item.ex)+'</div>'+(item.exfa?'<span class="fa">'+escapeHtml(item.exfa)+'</span>':'')+'</div>':'')+'<p class="mini">معنی کامل این عبارت را در دیکشنری POOF ببین.</p>';}
-function openSelectWord(word){var w=String(word||'').replace(/[.'’\-–—]+$/,'').trim();if(!w)return;renderSelectWord(w);showSelectSheet();}
-function openSelectPhrase(phrase){var p=String(phrase||'').replace(/\s+/g,' ').replace(/^[\s.,;:!?…"\'„“”‘’()\[\]{}«»-]+/,'').replace(/[\s.,;:!?…"\'„“”‘’()\[\]{}«»-]+$/,'').trim();if(!p)return;renderSelectPhrase(p);showSelectSheet();}
+function stripSelEdge(s){return String(s||'').replace(/^[\s.,;:!?…"\'„“”‘’()\[\]{}«»-]+/,'').replace(/[\s.,;:!?…"\'„“”‘’()\[\]{}«»-]+$/,'');}
+function findExampleFa(phrase){var q=stripSelEdge(normalize(phrase));if(!q)return null;var items=(typeof allKnownItems!=='undefined')?allKnownItems:[];for(var i=0;i<items.length;i++){var w=items[i];if(!w)continue;if(w.ex&&stripSelEdge(normalize(w.ex))===q&&w.exfa)return w.exfa;if(w.ex2&&stripSelEdge(normalize(w.ex2))===q&&w.exfa2)return w.exfa2;}return null;}
+function renderSelectPhrase(phrase){var t=$('#selectWord');if(t)t.textContent=phrase;var d=$('#selectDictBtn');if(d)d.href='./?dict='+encodeURIComponent(phrase);var body=$('#selectBody');if(!body)return;var item=findPhraseItem(phrase);var exFa=(!item||!item.fa)?findExampleFa(phrase):null;body.innerHTML='<div class="sel-mean" dir="ltr">'+escapeHtml(phrase)+'</div>'+(item&&item.fa?'<div class="sel-mean">'+escapeHtml(item.fa)+'</div>':'')+(exFa?'<div class="sel-mean">'+escapeHtml(exFa)+'</div>':'')+(item&&item.ex?'<div class="example"><div class="de">'+tokenizeDe(item.ex)+'</div>'+(item.exfa?'<span class="fa">'+escapeHtml(item.exfa)+'</span>':'')+'</div>':'')+'<p class="mini">معنی کامل این عبارت را در دیکشنری POOF ببین.</p>';}
+function openSelectWord(word){var w=String(word||'').replace(/[.'’\-–—]+$/,'').trim();if(!w)return;renderSelectWord(w);showSelectSheet();fitWordEl($('#selectWord'),18);}
+function openSelectPhrase(phrase){var p=String(phrase||'').replace(/\s+/g,' ').replace(/^[\s.,;:!?…"\'„“”‘’()\[\]{}«»-]+/,'').replace(/[\s.,;:!?…"\'„“”‘’()\[\]{}«»-]+$/,'').trim();if(!p)return;renderSelectPhrase(p);showSelectSheet();fitWordEl($('#selectWord'),18);}
 /* phrase-selection state (one example block at a time; never crosses a sentence) */
 var selT=null,selDrag=false,selSup=false,selSpans=null,selAnchor=-1,selHi=null,selBlock=null,selSX=0,selSY=0,selLX=0,selLY=0,selTap=null,selMDown=false,selMDrag=false,selMAnchor=-1,selMSX=0,selMSY=0;
 function selScope(lk){if(!lk)return null;var ex=lk.closest('.example');if(!ex)return null;if(!ex.closest('#examples')&&!ex.closest('#selectBody'))return null;return ex;}
@@ -897,8 +901,8 @@ $$('.home-card').forEach(b=>b.addEventListener('click',()=>renderSection(b.datas
 $('#subList').addEventListener('click',e=>{const b=e.target.closest('.sub-item'); if(b) openSheet(b.dataset.topic);});
 $('#closeSheet').onclick=closeSheet; $('#sheetWrap').addEventListener('click',e=>{if(e.target===e.currentTarget) closeSheet();});
 const _gmr=$('#goMainReview');if(_gmr)_gmr.onclick=goMainReview;
-const _amb=$('#addMainBtn');if(_amb)_amb.onclick=()=>{const w=currentWords()[currentIndex];if(!w)return;if(isInMain(w)){toast('این واژه از قبل در مرور اصلی است.');return;}if(addToMainReview(w)){toast('به مرور اصلی اضافه شد.');refreshMainMarker();}};
-const _fmb=$('#flashMainBtn');if(_fmb)_fmb.onclick=()=>{const w=currentWords()[currentIndex];if(!w)return;if(isInMain(w)){toast('این واژه از قبل در مرور اصلی است.');return;}if(addToMainReview(w)){toast('به مرور اصلی اضافه شد.');refreshMainMarker();}};
+const _fbb=$('#flashBoxBtn');if(_fbb)_fbb.onclick=boxIconTap;
+
 $$('.poof-nav button').forEach(b=>b.onclick=()=>goMainTab(b.dataset.tab));
 /* BUG 2 — auto-hide bottom nav on scroll (mirrors the main app): scroll down >40px hides, scroll up >40px shows, top zone (<=90px) always shows, and no toggling while any sheet/popup is open. */
 var _poofNav=document.querySelector('.poof-nav');var lastToggleY=window.scrollY||0;
@@ -914,7 +918,11 @@ $('#backBtn').onclick=()=>{ if($('#readerView').classList.contains('on')||$('#fl
 $('#homeBtn').onclick=goHomeViaButton;
 var _poofBack=document.querySelector('.poof-back');if(_poofBack)_poofBack.addEventListener('click',savePracticeResume);
 $('#speakWord').onclick=()=>{const cw=currentWords()[currentIndex]; speak(cw.id||cw.ph||cw.w);};
-$('#addBox').onclick=()=>{const w=currentWords()[currentIndex]; if(!w) return; const added=addToLeitner(w); renderReader(); toast(added?'به جعبهٔ لایتنر اضافه شد.':'این مورد از قبل در لایتنر است.');};
+/* Box icon = BOTH Leitner systems (reconciliation): it was the local-Leitner shortcut (addToLeitner),
+   and now also carries the removed pill's job (addToMainReview). One tap feeds both; local state stays
+   visible via in-box class + #readerLeitner text, main state via in-main gold fill. */
+function boxIconTap(){const w=currentWords()[currentIndex];if(!w)return;const localAdded=addToLeitner(w);const view=currentViewName();const rerender=()=>{if(view==='flash')renderFlash();else renderReader();};if(isInMain(w)){rerender();toast('این واژه از قبل در مرور اصلی است.');return;}if(addToMainReview(w)){rerender();toast(localAdded?'به مرور اصلی و جعبهٔ لایتنر اضافه شد.':'به مرور اصلی اضافه شد.');return;}rerender();}
+$('#addBox').onclick=boxIconTap;
 $('#examples').addEventListener('click',e=>{const b=e.target.closest('.ex-speak'); if(!b) return; const w=currentWords()[currentIndex]; const arr=[w.ex,w.ex2]; speak(arr[+b.dataset.i]||w.id||w.ph||w.w);});
 $('#flashCard').onclick=()=>{flashFlipped=!flashFlipped; $('#flashBack').hidden=!flashFlipped;};
 $('#flipBtn').onclick=()=>$('#flashCard').click();
