@@ -269,7 +269,7 @@ body,header,.card,button,input,select,textarea,.w{transition:color .3s ease,back
 @media (max-width:480px){main{padding-inline:16px}.card{padding:14px}}
 </style>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
-<script>try{var _t=(JSON.parse(localStorage.getItem('poof_v2')||'{}').theme==='snowy')?'snowy':'classic';document.write('<link rel="stylesheet" id="themeCss" href="theme-'+_t+'.css?v=15">')}catch(e){document.write('<link rel="stylesheet" id="themeCss" href="theme-classic.css?v=15">')}</script>
+<script>try{var _t=(JSON.parse(localStorage.getItem('poof_v2')||'{}').theme==='snowy')?'snowy':'classic';document.write('<link rel="stylesheet" id="themeCss" href="theme-'+_t+'.css?v=16">')}catch(e){document.write('<link rel="stylesheet" id="themeCss" href="theme-classic.css?v=16">')}</script>
 <style>
 /* POOF mascot animations */
 .poof-mascot{width:120px;height:120px;margin:0 auto;animation:poof-float 3s ease-in-out infinite}
@@ -657,6 +657,7 @@ html:not([data-theme=snowy]) #s-cards #list .card::after{background:linear-gradi
 <div id="uiModal" class="um-overlay" hidden role="alertdialog" aria-modal="true"><div class="um-sheet"><p id="umMsg"></p><div class="um-btns"><button id="umCancel" class="um-btn ghost">انصراف</button><button id="umOk" class="um-btn gold">تأیید</button></div></div></div>
 <div id="toast" role="status"></div>
 
+<script src="poof-core.js"></script>
 <script>
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -2842,8 +2843,7 @@ $("#wRnd").onclick=async()=>{try{wpOpen((await wp("action=query&list=random&rnna
 function renderRecent(){$$("#dlSeg button").forEach(b=>b.classList.toggle("on",b.dataset.dl===(db.dictLang||"de")));$("#recent").innerHTML=db.recent.map(w=>`<button class="chip de">${esc(w)}</button>`).join("")}
 function dsearch(w){
  w=norm(w||$("#q").value);if(!w)return;$("#q").value=w;
- db.recent=[w,...db.recent.filter(x=>x!==w)].slice(0,8);save();renderRecent();entNav($("#dentry"),w,"","dictionary",db.dictLang||"de","root");saveState();
-}
+ db.recent=[w,...db.recent.filter(x=>x!==w)].slice(0,8);save();renderRecent();entNav($("#dentry"),w,"","dictionary",db.dictLang||"de","root");saveState();try{if(window.PoofPos&&!poofRestoringIdx){var _pq=$("#q")?$("#q").value:"";PoofPos.track(PoofPos.make('index.html','tab:dict',{q:_pq,scrollY:Math.round(scrollY)||0}));}}catch(e){} }
 $("#qGo").onclick=()=>dsearch();$("#q").onkeydown=e=>{if(e.key==="Enter")dsearch()};
 $("#recent").onclick=e=>{const b=e.target.closest("button");if(b)dsearch(b.textContent)};
 
@@ -3148,7 +3148,7 @@ $("#packDeDel").onclick=async()=>{if(await uiConfirm("دیکشنری آفلای�
 renderPackDE();
 
 /* ===== 10) Theme + tabs ===== */
-function applyTheme(){const t=db.theme==="snowy"?"snowy":"classic";document.documentElement.dataset.theme=t;const tc=document.getElementById("themeCss");if(tc){const f="theme-"+t+".css?v=15";if(!tc.href.endsWith(f))tc.href=f}const m=document.querySelector("meta[name=theme-color]");if(m)m.content=t==="snowy"?"#081421":"#111111"}
+function applyTheme(){const t=db.theme==="snowy"?"snowy":"classic";document.documentElement.dataset.theme=t;const _swap=()=>{const tc=document.getElementById("themeCss");if(tc){const f="theme-"+t+".css?v=16";if(!tc.href.endsWith(f))tc.href=f}};if(window.PoofPos){try{PoofPos.fadeThemeSwap(_swap)}catch(e){_swap()}}else{_swap()}const m=document.querySelector("meta[name=theme-color]");if(m)m.content=t==="snowy"?"#081421":"#111111"}
 $("#proxyTest").onclick=async()=>{
  db.proxy=$("#proxy").value.trim();db.wkey=$("#wkey").value.trim();save();
  try{const h=await fetchHTML(WORT+"suchen?q=Schule"),c=h&&parseWortSearch(h);
@@ -3167,12 +3167,14 @@ function goReviewTab(){
   try { m = JSON.parse(localStorage.getItem('poof_practice_resume') || 'null'); } catch(e) { m = null; }
   var PAGES = ['wortschatz.html','der-die-das.html','studienkolleg-trainer.html','placement-test.html','practice.html'];
   if (m && typeof m.page === 'string' && PAGES.indexOf(m.page) >= 0) {
+    try{if(window.PoofPos)PoofPos.saveNow(PoofPos.make('index.html','tab:review',{}));}catch(e){}
     location.href = './' + m.page;
     return;
   }
   tab('review');
+  try{if(window.PoofPos)PoofPos.go(PoofPos.make('index.html','tab:review',{scrollY:0}));}catch(e){}
 }
-$("#nav").onclick=e=>{const b=e.target.closest("button");if(b){b.blur();if(b.dataset.t==="review")goReviewTab();else tab(b.dataset.t);saveState();pushNavState()}};
+$("#nav").onclick=e=>{const b=e.target.closest("button");if(b){b.blur();if(b.dataset.t==="review")goReviewTab();else tab(b.dataset.t);saveState();pushNavState();if(window.PoofPos&&b.dataset.t!=="review"){try{PoofPos.go(PoofPos.make('index.html','tab:'+b.dataset.t,{cat:b.dataset.t==="read"?(db.textId||""):"",scrollY:0}));}catch(e){}}}};
 /* ===== ثبت وضعیت + بازگشت سیستمی بین تب‌ها/متن‌ها (کلید جدا، بدون دست‌کاری poof_v2) ===== */
 const LS_STATE="poof_last_state";
 function curTab(){const v=[...document.querySelectorAll(".tab")].find(s=>!s.hidden);return v?v.id.replace(/^s-/,""):"read"}
@@ -3328,6 +3330,47 @@ if(_bootDict){
   }
 }
 gInit();
+/* ===== POOF position core — Part A wiring (index) =====
+   Tabs restore as section 'tab:cards' etc.; read tab carries the text id
+   in cat; dict tab carries the search text in q; scrollY is a supplement.
+   Legacy poof_last_state writes (saveState) are kept alongside PoofPos.
+   The ?dict= deep link keeps priority: when it fired at boot, apply() is a
+   NO-OP for the initial restore (poofBlockInitIdx), and the deep-link
+   position is recorded afterwards with track(). */
+var poofRestoringIdx=false, poofBlockInitIdx=false;
+function poofValidateIdx(pos){
+  var p={page:pos.page,section:pos.section||'',cat:pos.cat||'',anchor:pos.anchor||'',seen:pos.seen||'',selected:pos.selected||'',q:pos.q||'',filter:pos.filter||'',sort:pos.sort||'',view:pos.view||'',scrollY:pos.scrollY||0};
+  var m=/^tab:(.+)$/.exec(p.section||'');
+  var tabs=['read','dict','cards','review','me'];
+  if(!m||tabs.indexOf(m[1])<0){p.section='tab:read';p.cat='';p.q='';p.anchor='';p.seen='';p.selected='';p.view='';return p;}
+  var tt=m[1];
+  if(tt==='dict'){p.cat='';p.anchor='';p.seen='';p.selected='';p.view='';return p;}
+  if(tt==='read'){try{if(p.cat&&!allTexts().some(function(x){return x.id===p.cat;}))p.cat='';}catch(e){p.cat='';}p.q='';p.anchor='';p.seen='';p.selected='';p.view='';return p;}
+  p.cat='';p.q='';p.anchor='';p.seen='';p.selected='';p.view='';return p;
+}
+function poofApplyIdx(pos){
+  if(!pos||pos.page!=='index.html')return;
+  var m=/^tab:(.+)$/.exec(pos.section||'');if(!m)return;
+  var tt=m[1];if(['read','dict','cards','review','me'].indexOf(tt)<0)tt='read';
+  if(tt==='read'&&pos.cat){
+    try{var ok=allTexts().some(function(x){return x.id===pos.cat;});if(ok&&db.textId!==pos.cat){db.textId=pos.cat;renderReader();}}catch(e){}
+  }
+  if(curTab()!==tt){tab(tt);}
+  if(tt==='dict'&&pos.q){
+    var qEl=$("#q");var curQ=qEl?qEl.value:"";
+    if(curQ!==pos.q){try{dsearch(pos.q);}catch(e){}}
+  }
+  if(pos.scrollY){var y=pos.scrollY;requestAnimationFrame(()=>scrollTo(0,y));setTimeout(()=>scrollTo(0,y),350);}
+}
+if(window.PoofPos){
+  PoofPos.registerValidator('index.html',poofValidateIdx);
+  poofBlockInitIdx=!!_bootDict;
+  try{PoofPos.init({page:'index.html',apply:function(pos){if(poofBlockInitIdx)return;poofRestoringIdx=true;try{poofApplyIdx(pos);}catch(e){}poofRestoringIdx=false;}});}catch(e){}
+  poofBlockInitIdx=false;
+  if(_bootDict){try{var _dq=$("#q")?$("#q").value:"";if(_dq)PoofPos.track(PoofPos.make('index.html','tab:dict',{q:_dq,scrollY:0}));}catch(e){}}
+  addEventListener("scroll",()=>{if(poofRestoringIdx)return;try{var _ct=curTab();PoofPos.saveSoon(PoofPos.make('index.html','tab:'+_ct,{cat:_ct==="read"?(db.textId||""):"",q:_ct==="dict"?($("#q")?$("#q").value:""):"",scrollY:Math.round(scrollY)||0}));}catch(e){}},{passive:true});
+}
+
 </script>
 <script>
 if ('serviceWorker' in navigator) {
