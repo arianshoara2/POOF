@@ -1048,6 +1048,67 @@ let cache={};try{cache=JSON.parse(localStorage.getItem(KC))||{}}catch(e){}
 const saveCache=()=>{try{localStorage.setItem(KC,JSON.stringify(cache))}catch(e){}};
 const norm=w=>w.trim().replace(/^[^\p{L}]+|[^\p{L}]+$/gu,"");
 const strip=h=>new DOMParser().parseFromString(h,"text/html").body.textContent.trim();
+/* ===== Persian layer (offline, Batch 1: top-250) — dict-fa.jsonl =====
+   Loaded lazily on first German lookup; lemma + inflected-form index.
+   Homographs (leben/Leben, morgen/Morgen, essen/Essen) stay separate records:
+   an exact-case query shows only that record, a lowercase query shows all.
+   Never replaces the existing flow: it is shown FIRST, the rest follows. */
+let _faDict=null,_faDictP=null;
+async function loadFaDict(){
+ if(_faDict)return _faDict;
+ if(!_faDictP)_faDictP=(async()=>{
+  const r=await fetch("./dict-fa.jsonl");if(!r.ok)throw new Error("fa-dict "+r.status);
+  const txt=await r.text(),byKey=new Map(),byForm=new Map();
+  for(const line of txt.split("\n")){
+   const t=line.trim();if(!t)continue;let rec;try{rec=JSON.parse(t)}catch(err){continue}
+   const lk=String(rec.lemma||"").toLowerCase();if(!lk)continue;
+   if(!byKey.has(lk))byKey.set(lk,[]);byKey.get(lk).push(rec);
+   const fm=rec.forms||{},addF=f=>{if(!f)return;const k=String(f).toLowerCase().split(/\s+/).pop();if(k&&k!==lk&&!byForm.has(k))byForm.set(k,{rec,via:"form"})};
+   addF(fm.pres3);addF(fm.past);addF(fm.perf);if(rec.pl&&rec.pl!=="—")addF(rec.pl);
+  }
+  return {byKey,byForm};
+ })().catch(err=>{_faDictP=null;throw err});
+ _faDict=await _faDictP;return _faDict;
+}
+async function faLookup(w){
+ const d=await loadFaDict(),arr=d.byKey.get(w.toLowerCase());
+ if(arr){
+  const exact=arr.filter(r=>r.lemma===w);
+  if(exact.length)return {recs:exact,via:"lemma"};
+  return {recs:arr,via:"lemma"};
+ }
+ if(d.byForm.has(w.toLowerCase())){const f=d.byForm.get(w.toLowerCase());return {recs:[f.rec],via:"form"}}
+ const k=w.toLowerCase(),alt=k.includes("ß")?k.replace(/ß/g,"ss"):k.replace(/ss/g,"ß");
+ if(alt!==k){
+  const arr2=d.byKey.get(alt);
+  if(arr2)return {recs:arr2,via:"lemma"};
+  if(d.byForm.has(alt)){const f=d.byForm.get(alt);return {recs:[f.rec],via:"form"}}
+ }
+ return null;
+}
+function attachFaLayer(e,faL){
+ if(!faL||e.faLayerRecs)return;
+ e.faLayerRecs=faL.recs;e.faLayer=faL.recs[0];e.faLayerVia=faL.via;
+ const s=[];for(const r of faL.recs)for(const x of r.senses)if(x.fa)s.push(x.fa);
+ e.fa=[...new Set([...s,...(e.fa||[])])];
+ if(faL.via!=="lemma")e.lemma=faL.recs[0].lemma;
+ if(!e.src)e.src=[];
+ if(!e.src.includes("لایه‌ی فارسی آفلاین"))e.src.unshift("لایه‌ی فارسی آفلاین");
+}
+const FA_POS={verb:"فعل",noun:"اسم",adjective:"صفت",adverb:"قید",pronoun:"ضمیر",preposition:"حرف اضافه",conjunction:"حرف ربط",numeral:"عدد",interjection:"صوت"};
+function faLayerRecHTML(r){
+ const art=r.art?`<span style="color:var(--accent)">${esc(r.art)}</span> `:"";
+ const pl=r.pl&&r.pl!=="—"?`<div class="mute de">Plural: ${esc(r.pl)}</div>`:"";
+ const ipa=r.ipa?`<div class="mute de" dir="ltr" style="text-align:left">${esc(r.ipa)}</div>`:"";
+ const rev=r.review?`<span class="chip" style="background:#f0a35e33;color:#f0a35e;border-color:#f0a35e">بازبینی نشده</span>`:"";
+ const senses=r.senses.map(s=>`<div style="margin:8px 0"><b>${esc(s.fa)}</b>${s.reg?` <span class="mute">${esc(s.reg)}</span>`:""}${s.note?` <span class="mute de">${esc(s.note)}</span>`:""}${s.ex.map(x=>`<span class="sense">${sr(x.de,"de")}${x.fa?`<br>${sr(x.fa,"fa","mute")}`:""}</span>`).join("")}</div>`).join("");
+ return `<div class="row" style="gap:8px;align-items:center"><span class="big2 de" style="flex:1">${art}${esc(r.lemma)}</span>${rev}</div>${ipa}${pl}<div class="mute" style="margin:4px 0">${esc(FA_POS[r.pos]||r.pos)} · سطح ${esc(r.level)} · لایه‌ی فارسی آفلاین</div>${senses}`;
+}
+function faLayerHTML(e){
+ const recs=e.faLayerRecs||[e.faLayer];
+ const via=e.faLayerVia!=="lemma"?`<div class="mute">صورت صرف‌شده‌ی <button class="chip de" data-a="lemma">${esc(recs[0].lemma)}</button></div>`:"";
+ return `<div style="border:1px solid var(--accent);border-radius:12px;padding:10px 12px;margin:10px 0">${via}${recs.map((r,i)=>`${i?`<div style="height:1px;background:currentColor;opacity:.2;margin:10px 0"></div>`:""}${faLayerRecHTML(r)}`).join("")}</div>`;
+}
 async function getJSON(u){const r=await fetch(u);if(!r.ok)throw new Error(r.status);return r.json()}
 const Providers={
  async wiktionary(w,l="de"){
@@ -1158,9 +1219,10 @@ async function lookup(raw,lang){
  if(FA.test(w))return lookupFa(w);
  if(lang==="en")return lookupEn(w);
  const key=w.toLowerCase(),phrase=/\s/.test(w);let e=cache[key];
- if(e&&!(e.wortFailed&&!phrase))return e;
+ const faL=!phrase?await faLookup(w).catch(()=>null):null;
+ if(e&&!(e.wortFailed&&!phrase)){if(faL)attachFaLayer(e,faL);return e;}
  if(e){ // فقط wort را دوباره امتحان کن
-  try{e.wort=await Providers.wort(w);e.wortFailed=false;e.fa=buildFa(e);saveCache()}catch(x){}
+  try{e.wort=await Providers.wort(w);e.wortFailed=false;e.fa=buildFa(e);if(faL)attachFaLayer(e,faL);saveCache()}catch(x){}
   return e;
  }
  const loc=LOCAL[key];
@@ -1170,7 +1232,8 @@ async function lookup(raw,lang){
  e.fa=buildFa(e);
  e.lemma=(e.wort&&(e.wort.card?e.wort.card.word:e.wort.dict.word))||(loc?loc[0]:guessLemma(e.senses));
  e.src=[e.wort&&"wort.app",e.senses.length&&"Wiktionary",e.mm.length&&"MyMemory",loc&&"محلی"].filter(Boolean);
- if(!e.senses.length&&!e.fa.length&&!e.wort){
+ if(faL)attachFaLayer(e,faL);
+ if(!e.senses.length&&!e.fa.length&&!e.wort&&!e.faLayer){
   if([a,b,c].every(x=>x.status==="rejected"))throw new Error("offline");
   return {word:w,senses:[],fa:[],src:[]};
  }
@@ -1765,6 +1828,7 @@ function openPeek(box,word,lang,opts){
   if(n!==peekN)return;if(rich)peekFill(head,fa,rich,true);
   if(!rich){try{rich=await fetchRich(word,lang)}catch(_){}}
   if(n!==peekN)return;if(rich)peekFill(head,fa,rich,true);
+  if(!fa&&lang==="de"){try{const fl=await faLookup(word);if(fl&&fl.recs[0]&&fl.recs[0].senses[0])fa=fl.recs[0].senses[0].fa||""}catch(_){}}
   if(!fa){try{fa=await quick(word,lang)}catch(_){}}
   if(n!==peekN)return;
   if(rich&&rich.genus&&head===word)head=rich.genus+" "+word;
@@ -1894,6 +1958,7 @@ async function showEntry(box,raw,ctx,src,lang){
  ${e.en?`<div class="mute">English: <span class="de">${esc(e.en)}</span></div>`:""}
  ${!W.card&&!W.dict&&e.lemma&&e.lemma.toLowerCase()!==e.word.toLowerCase()?`<div class="mute">صورت صرف‌شده‌ی <button class="chip de" data-a="lemma">${esc(e.lemma)}</button></div>`:""}
  ${e.wortFailed?`<p class="mute">wort.app در دسترس نبود. آدرس واسط را در تب «پیشرفت» تنظیم کنید.</p>`:""}
+ ${e.faLayer?faLayerHTML(e):""}
  <p style="margin:10px 0 4px">معنی فارسی:</p>
  <div class="row" style="margin-bottom:6px">${(e.fa||[]).map(x=>`<button class="chip" data-a="fa">${esc(x)}</button>`).join("")}</div>
  <input id="fa" value="${esc((e.fa||[])[0]||"")}" placeholder="معنی را بنویسید">
