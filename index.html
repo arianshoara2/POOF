@@ -1133,7 +1133,8 @@ const FA=/[\u0600-\u06FF\uFB50-\uFDFF\uFE70-\uFEFF]/, ART=/^(der|die|das)$/i, WO
 async function fetchHTML(url){
  try{const r=await fetch(url);if(r.status===404)return null;if(r.ok)return await r.text()}catch(e){} // معمولاً CORS مسدود می‌کند
  const p=(db.proxy||"").trim();if(!p)throw new Error("noproxy");
- const u=p.includes("{url}")?p.replace("{url}",encodeURIComponent(url)):p+(p.includes("?")?"&":"?")+"url="+encodeURIComponent(url);
+ let u=p.includes("{url}")?p.replace("{url}",encodeURIComponent(url)):p+(p.includes("?")?"&":"?")+"url="+encodeURIComponent(url);
+ if(db.wkey)u+=(u.includes("?")?"&":"?")+"auth="+encodeURIComponent(db.wkey);
  const r=await fetchT(u);if(r.status===404)return null;if(!r.ok)throw new Error("proxy "+r.status);return r.text();
 }
 // متن صفحه را به «خط‌های» ساده تبدیل می‌کند (مستقل از نام کلاس‌های CSS سایت)
@@ -2673,7 +2674,8 @@ function parseTimed(body){
 /* مسیر پشتیبان زیرنویس: timedtext یوتیوب از راه پروکسی عمومی (همان سازوکار fetchHTML) */
 async function proxyText(url,ms){
  const p=(db.proxy||"").trim();if(!p)throw new Error("noproxy");
- const u=p.includes("{url}")?p.replace("{url}",encodeURIComponent(url)):p+(p.includes("?")?"&":"?")+"url="+encodeURIComponent(url);
+ let u=p.includes("{url}")?p.replace("{url}",encodeURIComponent(url)):p+(p.includes("?")?"&":"?")+"url="+encodeURIComponent(url);
+ if(db.wkey)u+=(u.includes("?")?"&":"?")+"auth="+encodeURIComponent(db.wkey);
  const r=await fetchT(u,ms||20000);
  if(!r.ok)throw new Error("proxy "+r.status);
  return r.text();
