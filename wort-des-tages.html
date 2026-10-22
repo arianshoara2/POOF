@@ -37,10 +37,11 @@ main{max-width:480px;margin:0 auto}
 .chip[data-w],.ptok{cursor:pointer}
 .ptok{border-bottom:1px dotted rgba(230,185,111,.55);-webkit-touch-callout:none;user-select:none}
 .ptok.sel{background:rgba(230,185,111,.28);border-radius:4px}
-#wsheet{position:fixed;inset-inline:12px;bottom:calc(env(safe-area-inset-bottom) + 14px);z-index:60;background:var(--glass);border:1px solid var(--edge);border-radius:20px;padding:18px 16px;box-shadow:0 16px 50px rgba(0,0,0,.55);max-height:72vh;overflow:auto;text-align:right}
+#wsheet{position:fixed;inset-inline:12px;bottom:calc(env(safe-area-inset-bottom) + 14px);z-index:110;background:var(--glass);border:1px solid var(--edge);border-radius:20px;padding:18px 16px calc(96px + env(safe-area-inset-bottom,0px));box-shadow:0 16px 50px rgba(0,0,0,.55);max-height:72vh;overflow:auto;text-align:right}
 #wsheet[hidden]{display:none}
-#wphrase{position:fixed;inset-inline:12px;bottom:calc(env(safe-area-inset-bottom) + 14px);z-index:61;background:var(--glass);border:1px solid var(--edge);border-radius:20px;padding:18px 16px;box-shadow:0 16px 50px rgba(0,0,0,.55);max-height:72vh;overflow:auto;text-align:right}
+#wphrase{position:fixed;inset-inline:12px;bottom:calc(env(safe-area-inset-bottom) + 14px);z-index:111;background:var(--glass);border:1px solid var(--edge);border-radius:20px;padding:18px 16px calc(96px + env(safe-area-inset-bottom,0px));box-shadow:0 16px 50px rgba(0,0,0,.55);max-height:72vh;overflow:auto;text-align:right}
 #wphrase[hidden]{display:none}
+#wsDict,#wpDict{padding:14px 16px;font-size:1.05rem}
 #wphrase .wp-word{font-family:Georgia,serif;font-size:1.3rem;direction:ltr;text-align:left}
 #wsheet .ws-word{font-family:Georgia,serif;font-size:1.6rem;direction:ltr}
 #wsheet .ws-art{font-family:Georgia,serif;font-style:italic;color:var(--gold);font-size:1.1rem;direction:ltr}
@@ -74,7 +75,9 @@ button{font:inherit;cursor:pointer;color:var(--ink)}
 .theme-toggle{display:flex;gap:6px;margin-inline-start:auto}
 .theme-toggle button{background:transparent;color:var(--gold);border:1px solid var(--edge);border-radius:20px;padding:5px 12px;font-size:13px;font-family:inherit;cursor:pointer}
 .theme-toggle button.on{background:var(--gold);color:#1a1307;border-color:transparent;font-weight:700}
-nav.poof-nav{position:fixed;right:16px;left:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:100;display:grid;grid-template-columns:repeat(5,1fr);align-items:center;padding:6px;max-width:688px;margin:0 auto;overflow:visible;background:rgba(27,24,20,.78);border:1px solid rgba(230,185,111,.25);box-shadow:0 12px 32px rgba(0,0,0,.45);border-radius:24px;-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px)}
+nav.poof-nav{position:fixed;right:16px;left:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:100;display:grid;grid-template-columns:repeat(5,1fr);align-items:center;padding:6px;max-width:688px;margin:0 auto;overflow:visible;background:rgba(27,24,20,.78);border:1px solid rgba(230,185,111,.25);box-shadow:0 12px 32px rgba(0,0,0,.45);border-radius:24px;-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);transition:transform .42s cubic-bezier(.4,0,.2,1),opacity .35s ease}
+nav.poof-nav.nav-hidden{opacity:0;transform:translateY(calc(100% + 48px));pointer-events:none}
+nav.poof-nav:focus-within{opacity:1;transform:none;pointer-events:auto}
 html[data-theme=snowy] nav.poof-nav{background:rgba(11,29,45,.78);border-color:rgba(185,220,244,.28);box-shadow:0 12px 32px rgba(0,8,16,.55)}
 nav.poof-nav button{padding:10px 2px;border:0;border-radius:16px;background:transparent;color:var(--mute);box-shadow:none}
 nav.poof-nav button.on{background:rgba(230,185,111,.14);color:var(--gold)}
@@ -281,6 +284,17 @@ $('poster').addEventListener('touchend',e=>{
   if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)*1.5){if(dx<0)$('next').click();else $('prev').click()}
 },{passive:true});
 if('speechSynthesis' in window)speechSynthesis.getVoices();
+/* نوار پایین: مخفی‌شدن خودکار با اسکرول، عین اپ اصلی — پایین‌رفتن بیش از ۴۰px مخفی، بالاآمدن بیش از ۴۰px آشکار، زیر ۹۰px همیشه آشکار؛ هنگام باز بودن ورق، تغییری نمی‌کند */
+let wortLastToggleY=window.scrollY;
+window.addEventListener('scroll',function(){
+  var nav=document.getElementById('poofNav');if(!nav)return;
+  var ws=document.getElementById('wsheet'),wp=document.getElementById('wphrase');
+  if((ws&&!ws.hidden)||(wp&&!wp.hidden))return; /* ورق باز است: نوار سر جایش می‌ماند */
+  var y=window.scrollY;
+  if(y<=90){nav.classList.remove('nav-hidden');wortLastToggleY=y}
+  else if(y>wortLastToggleY+40){nav.classList.add('nav-hidden');wortLastToggleY=y}
+  else if(y<wortLastToggleY-40){nav.classList.remove('nav-hidden');wortLastToggleY=y}
+},{passive:true});
 render();
 </script>
 </body>
