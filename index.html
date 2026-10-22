@@ -324,24 +324,26 @@ html:not([data-theme=snowy]) header .brand{position:relative;z-index:1}
 #learnCard .rc-txt b,#practiceCard .rc-txt b{font-size:17px}
 #learnCard .rc-txt p,#practiceCard .rc-txt p{font-size:12.5px}
 #s-read>.card{margin-bottom:10px}
-html:not([data-theme=snowy]) #learnCard,html:not([data-theme=snowy]) #movieCard,html:not([data-theme=snowy]) #wikiCard,html:not([data-theme=snowy]) #libZone{position:relative;overflow:hidden}
+html:not([data-theme=snowy]) #learnCard,html:not([data-theme=snowy]) #movieCard,html:not([data-theme=snowy]) #wikiCard,html:not([data-theme=snowy]) #libZone,html:not([data-theme=snowy]) #podCard,html:not([data-theme=snowy]) #wortCard{position:relative;overflow:hidden}
 html:not([data-theme=snowy]) .card-bg-img{position:absolute;inset:0;pointer-events:none}
 html:not([data-theme=snowy]) #learnCard .card-bg-img{opacity:.5}
 html:not([data-theme=snowy]) #movieCard .card-bg-img{opacity:.45}
+html:not([data-theme=snowy]) #podCard .card-bg-img,html:not([data-theme=snowy]) #wortCard .card-bg-img{opacity:.45}
 html:not([data-theme=snowy]) #wikiCard .card-bg-img,html:not([data-theme=snowy]) #libZone .card-bg-img{opacity:.18}
 html:not([data-theme=snowy]) .card-bg-img::after{content:"";position:absolute;inset:0;background:linear-gradient(260deg,rgba(20,16,12,.88),rgba(20,16,12,.55) 55%,rgba(20,16,12,.35))}
-html:not([data-theme=snowy]) #learnCard .card-in,html:not([data-theme=snowy]) #movieCard .card-in,html:not([data-theme=snowy]) #wikiCard .card-in,html:not([data-theme=snowy]) #libZone .card-in{position:relative;z-index:1}
+html:not([data-theme=snowy]) #learnCard .card-in,html:not([data-theme=snowy]) #movieCard .card-in,html:not([data-theme=snowy]) #wikiCard .card-in,html:not([data-theme=snowy]) #libZone .card-in,html:not([data-theme=snowy]) #podCard .card-in,html:not([data-theme=snowy]) #wortCard .card-in{position:relative;z-index:1}
 html:not([data-theme=snowy]) #libZone{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:14px 12px 4px;margin-bottom:16px;box-shadow:var(--shadow-card)}
 html:not([data-theme=snowy]) #libZone #lib{margin-bottom:6px}
-html:not([data-theme=snowy]) #learnCard b,html:not([data-theme=snowy]) #movieCard b{text-shadow:0 1px 6px rgba(0,0,0,.9)}
-html:not([data-theme=snowy]) #learnCard .mute,html:not([data-theme=snowy]) #movieCard .mute{color:#ead9bd;text-shadow:0 1px 6px rgba(0,0,0,.9)}
-html[data-theme=snowy] #learnCard,html[data-theme=snowy] #movieCard,html[data-theme=snowy] #wikiCard,html[data-theme=snowy] #libZone{position:relative;overflow:hidden}
+html:not([data-theme=snowy]) #learnCard b,html:not([data-theme=snowy]) #movieCard b,html:not([data-theme=snowy]) #podCard b,html:not([data-theme=snowy]) #wortCard b{text-shadow:0 1px 6px rgba(0,0,0,.9)}
+html:not([data-theme=snowy]) #learnCard .mute,html:not([data-theme=snowy]) #movieCard .mute,html:not([data-theme=snowy]) #podCard .mute,html:not([data-theme=snowy]) #wortCard .mute{color:#ead9bd;text-shadow:0 1px 6px rgba(0,0,0,.9)}
+html[data-theme=snowy] #learnCard,html[data-theme=snowy] #movieCard,html[data-theme=snowy] #wikiCard,html[data-theme=snowy] #libZone,html[data-theme=snowy] #podCard,html[data-theme=snowy] #wortCard{position:relative;overflow:hidden}
 html[data-theme=snowy] .card-bg-img{position:absolute;inset:0;pointer-events:none}
 html[data-theme=snowy] #learnCard .card-bg-img{opacity:.5}
 html[data-theme=snowy] #movieCard .card-bg-img{opacity:.45}
+html[data-theme=snowy] #podCard .card-bg-img,html[data-theme=snowy] #wortCard .card-bg-img{opacity:.45}
 html[data-theme=snowy] #wikiCard .card-bg-img,html[data-theme=snowy] #libZone .card-bg-img{opacity:.18}
 html[data-theme=snowy] .card-bg-img::after{content:"";position:absolute;inset:0;background:linear-gradient(260deg,rgba(8,20,33,.88),rgba(8,20,33,.55) 55%,rgba(8,20,33,.3))}
-html[data-theme=snowy] #learnCard .card-in,html[data-theme=snowy] #movieCard .card-in,html[data-theme=snowy] #wikiCard .card-in,html[data-theme=snowy] #libZone .card-in{position:relative;z-index:1}
+html[data-theme=snowy] #learnCard .card-in,html[data-theme=snowy] #movieCard .card-in,html[data-theme=snowy] #wikiCard .card-in,html[data-theme=snowy] #libZone .card-in,html[data-theme=snowy] #podCard .card-in,html[data-theme=snowy] #wortCard .card-in{position:relative;z-index:1}
 html[data-theme=snowy] #libZone{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:14px 12px 4px;margin-bottom:16px;box-shadow:var(--shadow-card)}
 html[data-theme=snowy] #libZone #lib{margin-bottom:6px}
 /* Frosted glass: search zones + library items */
@@ -356,8 +358,8 @@ html:not([data-theme=snowy]) #lib .lib-card{background:rgba(30,24,18,.5);-webkit
 /* Slim minimal language segment (wiki card only) */
 #wikiCard .seg{padding:3px;border-radius:12px}
 #wikiCard .seg button{padding:5px 0;font-size:13px;line-height:1.2;border-radius:9px}
-html[data-theme=snowy] #learnCard b,html[data-theme=snowy] #movieCard b{text-shadow:0 1px 6px rgba(0,0,0,.9)}
-html[data-theme=snowy] #learnCard .mute,html[data-theme=snowy] #movieCard .mute{color:#dbe7f0;text-shadow:0 1px 6px rgba(0,0,0,.9)}
+html[data-theme=snowy] #learnCard b,html[data-theme=snowy] #movieCard b,html[data-theme=snowy] #podCard b,html[data-theme=snowy] #wortCard b{text-shadow:0 1px 6px rgba(0,0,0,.9)}
+html[data-theme=snowy] #learnCard .mute,html[data-theme=snowy] #movieCard .mute,html[data-theme=snowy] #podCard .mute,html[data-theme=snowy] #wortCard .mute{color:#dbe7f0;text-shadow:0 1px 6px rgba(0,0,0,.9)}
 /* Snowy section backgrounds: library (fixed layer) + reading (reader card) */
 #readBg,#reviewBg,#cardsBg,#meBg,#dictBg{display:none;position:fixed;inset:0;z-index:0;pointer-events:none}
 #readBg::after,#reviewBg::after,#cardsBg::after,#meBg::after,#dictBg::after{content:"";position:absolute;inset:0;background:rgba(8,20,33,.78)}
@@ -434,12 +436,14 @@ html:not([data-theme=snowy]) #s-cards #list .card::after{background:linear-gradi
    </div>
   </div>
   <div class="card" id="podCard" style="cursor:pointer">
+   <div class="card-bg-img poof-img-reading-bg" aria-hidden="true"></div>
    <div class="card-in">
    <div class="row"><b><svg class="ic ic-inline" aria-hidden="true"><use href="#i-mic"/></svg> پادکست‌ها</b><span class="mute">آلمانی · انگلیسی</span></div>
    <p class="mute" style="margin:6px 0 0">پادکست‌های آموزشی با متن هم‌زمان — گوش کن و هم‌زمان بخوان</p>
    </div>
   </div>
   <div class="card" id="wortCard" style="cursor:pointer" onclick="location.href='wort-des-tages.html'">
+   <div class="card-bg-img poof-img-card-bg-snowy" aria-hidden="true"></div>
    <div class="card-in">
    <div class="row"><b><svg class="ic ic-inline" aria-hidden="true"><use href="#i-cards"/></svg> کلمه‌ی روز</b><span class="mute">آلمانی · روزانه</span></div>
    <p class="mute" style="margin:6px 0 0">هر روز یک کلمه‌ی آلمانی با ریشه، مثال و هم‌معنی — در صفحه‌ی جدا</p>
