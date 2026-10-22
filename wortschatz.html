@@ -25,7 +25,7 @@ button{cursor:pointer}
 .topbar{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:10px;padding:calc(env(safe-area-inset-top) + 10px) 16px 10px;background:var(--glass);-webkit-backdrop-filter:blur(10px) saturate(1.25);backdrop-filter:blur(10px) saturate(1.25);border-bottom:1px solid rgba(255,255,255,.06)}
 .iconbtn{width:42px;height:42px;border:1px solid var(--line);border-radius:14px;background:var(--panel);color:var(--muted);display:grid;place-items:center;flex:none}
 .title-wrap{flex:1;min-width:0}.title{font-size:1.7rem;font-weight:800;color:var(--gold);margin:0}.subtitle{margin:4px 0 0;color:var(--muted);font-size:.92rem}
-main{padding:14px 14px 20px}
+main{padding:14px 14px calc(120px + env(safe-area-inset-bottom,0px))}
 .search{display:flex;gap:10px;background:var(--panel);border:1px solid var(--line);padding:10px 12px;border-radius:18px;margin-bottom:16px;box-shadow:var(--shadow)}
 .search input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:var(--text);font-size:1rem}
 .kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
@@ -142,6 +142,18 @@ html[data-theme=snowy] .lk.esel{background:rgba(243,200,121,.30)}
 .section-hero,.shelf-head h2,.sub-body,.home-card .foot{text-align:right}
 .sub-body .de,.section-hero .de,.home-card .de{text-align:right}
 
+/* ===== Recently viewed + Leitner bridge + bottom nav (unified, minimal) ===== */
+.recent-card{flex-basis:150px}.recent-card .art{height:52px;font-size:1.15rem}
+.recent-card .art svg{width:28px;height:28px}
+.bridge-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:10px}
+.bridge-row .mini{color:var(--gold)}
+.poof-nav{position:fixed;right:16px;left:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:50;display:grid;grid-template-columns:repeat(5,1fr);align-items:center;padding:6px;max-width:688px;margin:0 auto;overflow:visible;background:var(--glass);border:1px solid var(--line);border-radius:24px;-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);box-shadow:0 8px 20px rgba(0,0,0,.35)}
+.poof-nav button{padding:10px 2px;border:0;border-radius:16px;background:transparent;color:var(--muted)}
+.poof-nav button.on{background:rgba(230,185,111,.18);color:var(--gold)}
+.poof-nav .ic{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+.poof-nav button.hero{width:54px;height:54px;padding:0;border-radius:50%;background:linear-gradient(135deg,var(--gold),#caa25e);color:#1a1307;justify-self:center;align-self:center;transform:translateY(-12px);box-shadow:0 0 0 3px var(--bg),0 8px 20px rgba(0,0,0,.45)}
+.poof-nav button.hero .ic{width:26px;height:26px}
+.poof-nav button.hero.on{filter:brightness(1.08);box-shadow:0 0 0 3px var(--bg),0 10px 26px rgba(0,0,0,.55),0 0 20px rgba(230,185,111,.35)}
 /* scrubbable reader progress bar: taller hit area, 6px visible track */
 #readerView .progbar{padding:8px 0;background-clip:content-box;cursor:pointer;touch-action:none}
 </style>
@@ -187,6 +199,11 @@ html[data-theme=snowy] .lk.esel{background:rgba(243,200,121,.30)}
           <input type="file" id="importFile" accept="application/json" hidden>
         </div>
         <p class="mini" style="margin-top:8px">پیشرفت فقط در همین دستگاه ذخیره می‌شود.</p>
+      </div>
+
+      <div class="shelf" id="recentShelf" hidden>
+        <div class="shelf-head"><h2>اخیراً دیده‌شده‌ها</h2></div>
+        <div class="row-scroll" id="recentRow"></div>
       </div>
 
       <div class="shelf">
@@ -266,6 +283,7 @@ html[data-theme=snowy] .lk.esel{background:rgba(243,200,121,.30)}
           <a class="tool-btn" id="goDict" href="./?dict=hallo" aria-label="نمایش در دیکشنری">A↔</a>
         </div>
         <div class="mini" id="readerLeitner">هنوز به لایتنر اضافه نشده</div>
+        <div class="bridge-row"><button class="dict-btn" id="addMainBtn" type="button">افزودن به مرور اصلی</button><span class="mini" id="mainMarker"></span></div>
       </div>
       <div class="word-panel">
         <h4 id="rArtWord">hallo</h4>
@@ -291,7 +309,7 @@ html[data-theme=snowy] .lk.esel{background:rgba(243,200,121,.30)}
         <button class="yes" id="knowBtn">بلدم</button>
         <button class="no" id="dontBtn">بلد نیستم</button>
       </div>
-      
+      <div class="bridge-row"><button class="dict-btn" id="flashMainBtn" type="button">افزودن به مرور اصلی</button><span class="mini" id="flashMainMarker"></span></div>
     </section>
 
     <section id="quizView" class="quiz-wrap">
@@ -337,6 +355,7 @@ html[data-theme=snowy] .lk.esel{background:rgba(243,200,121,.30)}
         </div>
       </div>
       <div class="sheet-actions" style="padding-top:0">
+        <button class="step-card" id="goMainReview"><div><b>مرور در اپ اصلی</b><br><span>مرور کارت‌های اصلی در POOF · زمان‌بندی جداگانه</span></div></button>
         <button class="step-card" style="border-color:#4a4032" id="closeSheet"><div><b>بستن</b><br><span>بازگشت به دسته‌ها</span></div><div class="step-ico sc-red">×</div></button>
       </div>
     </div>
@@ -357,10 +376,31 @@ html[data-theme=snowy] .lk.esel{background:rgba(243,200,121,.30)}
     </div>
   </div>
 </div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-cards" viewBox="0 0 24 24"><rect x="3.5" y="8" width="17" height="11" rx="2.5"/><path d="M7 4.5h10"/></symbol>
+<symbol id="i-dict" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4-4"/></symbol>
+<symbol id="i-read" viewBox="0 0 24 24"><path d="M2 5.5C4.5 4 8 4 12 6c4-2 7.5-2 10-.5V19c-2.5-1.5-6-1.5-10 .5-4-2-7.5-2-10-.5z"/><path d="M12 6v13.5"/></symbol>
+<symbol id="i-route" viewBox="0 0 24 24"><circle cx="6.5" cy="17.5" r="2.5"/><circle cx="17.5" cy="6.5" r="2.5"/><path d="M9 17.5h6.5a3 3 0 0 0 0-6h-4a3 3 0 0 1-3-3V9"/></symbol>
+<symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M5.2 20a7 7 0 0 1 13.6 0"/></symbol>
+</defs></svg>
+<nav class="poof-nav" aria-label="ناوبری اصلی">
+  <button data-tab="cards" aria-label="کارت‌ها" title="کارت‌ها"><svg class="ic" aria-hidden="true"><use href="#i-cards"/></svg></button>
+  <button data-tab="dict" aria-label="دیکشنری" title="دیکشنری"><svg class="ic" aria-hidden="true"><use href="#i-dict"/></svg></button>
+  <button data-tab="read" class="hero" aria-label="خواندنی" title="خواندنی"><svg class="ic" aria-hidden="true"><use href="#i-read"/></svg></button>
+  <button data-tab="review" class="on" aria-label="مرور و یادگیری" title="مرور و یادگیری"><svg class="ic" aria-hidden="true"><use href="#i-route"/></svg></button>
+  <button data-tab="me" aria-label="پروفایل" title="پروفایل"><svg class="ic" aria-hidden="true"><use href="#i-user"/></svg></button>
+</nav>
 <script>
 /* ===== POOF theme (shared key with the main app: poof_v2.theme) ===== */
 function applyPoofTheme(){var t='classic';try{t=(JSON.parse(localStorage.getItem('poof_v2')||'{}').theme==='snowy')?'snowy':'classic';}catch(e){}document.documentElement.dataset.theme=t;var tc=document.getElementById('themeCss');if(tc){var f='theme-'+t+'.css?v=15';if(tc.href&&!tc.href.endsWith(f))tc.href=f;}var m=document.querySelector('meta[name=theme-color]');if(m)m.content=(t==='snowy')?'#081421':'#111111';document.querySelectorAll('[data-th]').forEach(function(b){var on=b.dataset.th===t;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on?'true':'false');});}
-document.addEventListener('click',function(e){var b=e.target.closest?e.target.closest('[data-th]'):null;if(!b)return;try{var cur=JSON.parse(localStorage.getItem('poof_v2')||'{}');cur.theme=b.dataset.th;localStorage.setItem('poof_v2',JSON.stringify(cur));}catch(err){try{localStorage.setItem('poof_v2',JSON.stringify({theme:b.dataset.th}));}catch(e2){}}applyPoofTheme();});
+/* Theme toggle writes the SAME shared key as the main app (poof_v2.theme).
+   Cold-start guard: the main app's migrate() only accepts a poof_v2 that has
+   cards+decks arrays, otherwise it falls back to fresh() and the chosen theme
+   would be lost. So when the stored db is absent/invalid, write a fresh-shaped
+   main db carrying the chosen theme instead of a bare {theme} object. When a
+   valid main db exists, only its theme field is touched (parse-modify-write). */
+function freshMainDbWithTheme(th){return {v:2,decks:[{id:'default',name:'پیش‌فرض'}],cards:[],active:'default',texts:[],textId:null,log:{},recent:[],theme:th,proxy:''};}
+document.addEventListener('click',function(e){var b=e.target.closest?e.target.closest('[data-th]'):null;if(!b)return;try{var cur=JSON.parse(localStorage.getItem('poof_v2')||'{}');if(!cur||typeof cur!=='object'||Array.isArray(cur)||!Array.isArray(cur.cards)||!Array.isArray(cur.decks)){cur=freshMainDbWithTheme(b.dataset.th);}else{cur.theme=b.dataset.th;}localStorage.setItem('poof_v2',JSON.stringify(cur));}catch(err){try{localStorage.setItem('poof_v2',JSON.stringify(freshMainDbWithTheme(b.dataset.th)));}catch(e2){}}applyPoofTheme();});
 window.addEventListener('storage',function(e){if(e.key==='poof_v2')applyPoofTheme();});
 applyPoofTheme();
 const subtopics = [
@@ -577,7 +617,7 @@ function openHome(){toTop();
   $$('.section-view').forEach(v=>v.classList.remove('on')); $('#homeView').classList.add('on');
   $('#readerView').classList.remove('on'); $('#flashView').classList.remove('on'); $('#quizView').classList.remove('on');
   updateHeader('واژه‌آموزی','',false);
-  refreshDashboardCounts();
+  refreshDashboardCounts(); renderRecent();
 }
 
 /* ===== FIX 2 — home button history: tap home (same openHome path + scroll-to-top)
@@ -593,11 +633,28 @@ function goHomeViaButton(){if($('#homeView').classList.contains('on')){toTop();r
 
 function openSheet(topicId){toTop();
   currentTopic=topicId;
-  const t=topicById(topicId); if(!t) return;
+  const t=topicById(topicId); if(!t) return; recordRecent(topicId);
   $('#sheetFa').textContent=t.fa; $('#sheetDe').textContent=t.de; $('#sheetCount').textContent=toFaNum(t.words.length); const sl=$('#sheetCountLbl'); if(sl) sl.textContent=t.kind==='phrase'?'تعداد عبارت‌ها':(t.kind==='idiom'?'تعداد اصطلاح':(t.kind==='proverb'?'تعداد ضرب‌المثل':'تعداد کلمات')); $('#sheetDue').textContent=toFaNum(dueCount(t.words)); const _st=$('#sheetTestScore'); if(_st){const _s=P.tests[t.id]; _st.textContent=_s?('آخرین آزمون: '+toFaNum(_s.pct)+'٪'):'هنوز آزمونی ثبت نشده';} $('#sheetIcon').innerHTML=t.icon;
   $('#sheetWrap').classList.add('show');
 }
 function closeSheet(){ $('#sheetWrap').classList.remove('show'); toTop(); }
+
+/* ===== Recently viewed (A) + Leitner bridge to main app (B) =====
+   Recent: P.recent inside poof_vocab_progress_v1 (same object as cards/tests/days,
+   saved by the existing saveProgress(); safeLoad() above keeps it as a string list).
+   Bridge: shares CARDS with the main review only. It does NOT merge scheduling:
+   wortschatz keeps its 5-box Leitner, the main review keeps its own algorithm. */
+function recordRecent(topicId){if(!topicId||!topicById(topicId))return;if(!Array.isArray(P.recent))P.recent=[];P.recent=P.recent.filter(id=>id!==topicId);P.recent.unshift(topicId);P.recent=P.recent.slice(0,10);saveProgress();}
+function renderRecent(){const shelf=$('#recentShelf'),row=$('#recentRow');if(!shelf||!row)return;const ids=(Array.isArray(P.recent)?P.recent:[]).filter(id=>!!topicById(id)).slice(0,10);if(!ids.length){shelf.hidden=true;row.innerHTML='';return;}shelf.hidden=false;row.innerHTML=ids.map(id=>{const t=topicById(id);return `<button class="home-card recent-card" data-recent="${t.id}"><div class="art">${t.icon||''}</div><div class="foot"><span class="fa">${t.fa}</span><span class="de">${t.de}</span></div></button>`;}).join('');row.querySelectorAll('[data-recent]').forEach(b=>b.onclick=()=>openSheet(b.dataset.recent));}
+const uidMain=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+function mainFrontOf(w){const head=labelOf(w);return (w.art&&w.art!=='—'?w.art+' ':'')+head;}
+function stripArticle(f){return String(f||'').replace(/^(der|die|das)\s+/i,'');}
+function readMainDb(){try{const d=JSON.parse(localStorage.getItem('poof_v2')||'null');return (d&&typeof d==='object'&&!Array.isArray(d))?d:null;}catch(e){return null;}}
+function isInMain(w){const db=readMainDb();if(!db||!Array.isArray(db.cards))return false;const f=normalize(mainFrontOf(w)),s=normalize(stripArticle(mainFrontOf(w)));return db.cards.some(c=>{const cf=normalize(String(c.front||''));return cf===f||cf===s||normalize(stripArticle(String(c.front||'')))===s;});}
+function addToMainReview(w){if(!w)return false;const db=readMainDb();if(!db){toast('اپ اصلی هنوز ساخته نشده؛ ابتدا POOF را باز کن.','bad');return false;}if(!Array.isArray(db.cards))db.cards=[];const front=mainFrontOf(w),f=normalize(front),s=normalize(stripArticle(front));if(db.cards.some(c=>{const cf=normalize(String(c.front||''));return cf===f||cf===s||normalize(stripArticle(String(c.front||'')))===s;}))return false;const card={pos:'',def:'',context:w.ex||'',contextFa:w.exfa||'',source:'wortschatz',created_at:Date.now(),ease:2.5,interval:0,reps:0,due:Date.now(),lang:'de',id:uidMain(),front:front,back:meaningOf(w)};if(typeof db.active==='string'&&db.active)card.deck_id=db.active;db.cards.push(card);try{localStorage.setItem('poof_v2',JSON.stringify(db));}catch(e){toast('فضای ذخیره‌سازی کافی نیست.','bad');return false;}return true;}
+function refreshMainMarker(){const w=currentWords()[currentIndex];if(!w)return;const inMain=isInMain(w);const m=$('#mainMarker');if(m)m.textContent=inMain?'در مرور اصلی':'';const fm=$('#flashMainMarker');if(fm)fm.textContent=inMain?'در مرور اصلی':'';}
+function goMainReview(){try{localStorage.setItem('poof_last_state',JSON.stringify({tab:'review',textId:null,scrollY:0,dictQ:''}));}catch(e){}location.href='./';}
+function goMainTab(tab){try{let prev=null;try{prev=JSON.parse(localStorage.getItem('poof_last_state')||'null');}catch(e){}localStorage.setItem('poof_last_state',JSON.stringify({tab:tab,textId:tab==='read'?(prev&&prev.textId?prev.textId:null):null,scrollY:0,dictQ:''}));}catch(e){}location.href='./';}
 
 function renderReader(){
   const words=currentWords();
@@ -617,7 +674,7 @@ function renderReader(){
   $('#examples').innerHTML=[{de:w.ex,fa:w.exfa},{de:w.ex2,fa:w.exfa2}].filter(x=>x.de).map((x,i)=>`<div class="example"><div class="de">${tokenizeDe(x.de)}</div><span class="fa">${x.fa}</span><div style="margin-top:10px"><button class="dict-btn ex-speak" data-i="${i}" style="padding:8px 14px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10v4h4l5 5V5L8 10H4Z"/><path d="M16 9a4 4 0 0 1 0 6"/><path d="M18.5 6.5a8 8 0 0 1 0 11"/></svg> تلفظ مثال</button></div></div>`).join('');
   const _pw=currentWords()[currentIndex], _pp=_pw?progressFor(_pw):null;
   const _ab=$('#addBox'); if(_ab){_ab.classList.toggle('in-box',!!_pp); _ab.title=_pp?('در خانهٔ '+toFaNum(_pp.box)+' از ۵'):'افزودن به جعبهٔ لایتنر';}
-  const _rl=$('#readerLeitner'); if(_rl)_rl.textContent=_pp?('خانهٔ '+toFaNum(_pp.box)+' از ۵ · '+(_pp.due&&_pp.due>Date.now()?'مرور بعدی: بعداً':'مرور: اکنون')):'هنوز به لایتنر اضافه نشده';
+  const _rl=$('#readerLeitner'); if(_rl)_rl.textContent=_pp?('خانهٔ '+toFaNum(_pp.box)+' از ۵ · '+(_pp.due&&_pp.due>Date.now()?'مرور بعدی: بعداً':'مرور: اکنون')):'هنوز به لایتنر اضافه نشده'; refreshMainMarker();
 }
 
 function nextWord(){ if(currentIndex<currentWords().length-1){ currentIndex++; renderReader(); } else { currentIndex=0; renderReader(); }}
@@ -628,7 +685,7 @@ function renderFlash(){
   const w=words[currentIndex];
   $('#sectionView').classList.remove('on'); $('#readerView').classList.remove('on'); $('#quizView').classList.remove('on'); $('#flashView').classList.add('on');
   updateHeader('فلش‌کارت','نمونهٔ گام دوم',true);
-  flashFlipped=false; $('#flashFront').textContent=(w.art&&w.art!=='—'?`${w.art} `:'')+(w.id||w.ph||w.w); $('#flashBack').textContent=w.fig||w.fa; $('#flashBack').hidden=true;
+  flashFlipped=false; $('#flashFront').textContent=(w.art&&w.art!=='—'?`${w.art} `:'')+(w.id||w.ph||w.w); $('#flashBack').textContent=w.fig||w.fa; $('#flashBack').hidden=true; refreshMainMarker();
 }
 
 function speak(text){ try{ const u=new SpeechSynthesisUtterance(text); u.lang='de-DE'; u.rate=.95; speechSynthesis.cancel(); speechSynthesis.speak(u);}catch(e){} }
@@ -646,8 +703,8 @@ const escapeHtml=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;'
 const intervals=[0,10*60*1000,24*60*60*1000,3*86400000,7*86400000,21*86400000];
 const STORAGE_KEY='poof_vocab_progress_v1';
 function safeLoad(){let raw=null;try{raw=JSON.parse(localStorage.getItem(STORAGE_KEY)||'null');}catch(e){}
-  if(!raw||typeof raw!=='object'||Array.isArray(raw))return {version:1,cards:{},tests:{},days:{}};
-  return {version:1,cards:raw.cards&&typeof raw.cards==='object'&&!Array.isArray(raw.cards)?raw.cards:{},tests:raw.tests&&typeof raw.tests==='object'?raw.tests:{},days:raw.days&&typeof raw.days==='object'?raw.days:{}};}
+  if(!raw||typeof raw!=='object'||Array.isArray(raw))return {version:1,cards:{},tests:{},days:{},recent:[]};
+  return {version:1,cards:raw.cards&&typeof raw.cards==='object'&&!Array.isArray(raw.cards)?raw.cards:{},tests:raw.tests&&typeof raw.tests==='object'?raw.tests:{},days:raw.days&&typeof raw.days==='object'?raw.days:{},recent:Array.isArray(raw.recent)?raw.recent.filter(x=>typeof x==='string').slice(0,10):[]};}
 let P=safeLoad();
 function toast(msg,type=''){const el=$('#appToast');if(!el){alert(msg);return;}el.textContent=msg;el.className='app-toast show '+type;clearTimeout(toast._t);toast._t=setTimeout(()=>el.classList.remove('show'),2600);}
 function saveProgress(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(P));}catch(e){toast('فضای ذخیره‌سازی کافی نیست؛ خروجی پشتیبان بگیر.','bad');}}
@@ -686,7 +743,7 @@ function saveBackup(){const data=JSON.stringify({app:'POOF vocab',schema:1,expor
 function importBackup(file){if(!file)return;file.text().then(txt=>{let data;try{data=JSON.parse(txt);}catch(e){throw new Error('فرمت JSON نامعتبر است.');}
   if(data.app!=='POOF vocab'||!data.progress||typeof data.progress.cards!=='object')throw new Error('این فایل پشتیبان POOF نیست.');
   if(!confirm('پیشرفت فعلی با فایل پشتیبان جایگزین شود؟'))return;
-  P={version:1,cards:data.progress.cards||{},tests:data.progress.tests||{},days:data.progress.days||{}};saveProgress();refreshDashboardCounts();toast('پیشرفت بازیابی شد.');}).catch(e=>toast(e.message,'bad'));}
+  const _oldRecent=Array.isArray(P.recent)?P.recent:[];P={version:1,cards:data.progress.cards||{},tests:data.progress.tests||{},days:data.progress.days||{},recent:Array.isArray(data.progress.recent)?data.progress.recent.filter(x=>typeof x==='string').slice(0,10):_oldRecent};saveProgress();refreshDashboardCounts();toast('پیشرفت بازیابی شد.');}).catch(e=>toast(e.message,'bad'));}
 /* ---- quiz ---- */
 function possibleTypes(w){const res=['de-fa','fa-de'];if(['der','die','das'].includes(w.art))res.push('gender');if(w.ex&&normalize(w.ex).includes(normalize(labelOf(w)))&&labelOf(w).length<35)res.push('cloze');return res;}
 function qDistractors(target,type){const tt=currentWords();const others=uniqueItems(tt.concat(allKnownItems.filter(x=>!!x.id===!!target.id&&!!x.ph===!!target.ph&&!!x.w===!!target.w))).filter(x=>keyOf(x)!==keyOf(target));
@@ -805,6 +862,10 @@ function scrubToClientX(clientX){var bar=$('#progBar');if(!bar)return;var words=
 $$('.home-card').forEach(b=>b.addEventListener('click',()=>renderSection(b.dataset.target)));
 $('#subList').addEventListener('click',e=>{const b=e.target.closest('.sub-item'); if(b) openSheet(b.dataset.topic);});
 $('#closeSheet').onclick=closeSheet; $('#sheetWrap').addEventListener('click',e=>{if(e.target===e.currentTarget) closeSheet();});
+const _gmr=$('#goMainReview');if(_gmr)_gmr.onclick=goMainReview;
+const _amb=$('#addMainBtn');if(_amb)_amb.onclick=()=>{const w=currentWords()[currentIndex];if(!w)return;if(isInMain(w)){toast('این واژه از قبل در مرور اصلی است.');return;}if(addToMainReview(w)){toast('به مرور اصلی اضافه شد.');refreshMainMarker();}};
+const _fmb=$('#flashMainBtn');if(_fmb)_fmb.onclick=()=>{const w=currentWords()[currentIndex];if(!w)return;if(isInMain(w)){toast('این واژه از قبل در مرور اصلی است.');return;}if(addToMainReview(w)){toast('به مرور اصلی اضافه شد.');refreshMainMarker();}};
+$$('.poof-nav button').forEach(b=>b.onclick=()=>goMainTab(b.dataset.tab));
 $('#openReview').onclick=()=>{closeSheet(); currentIndex=0; renderReader();};
 $('#openFlash').onclick=()=>{closeSheet(); currentIndex=0; renderFlash();};
 $('#openQuiz').onclick=()=>{closeSheet(); currentIndex=0; beginQuiz();};

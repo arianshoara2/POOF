@@ -28,7 +28,7 @@ html[data-theme=classic] header::after{background:linear-gradient(to bottom,rgba
 .mark{display:grid;place-items:center;width:36px;height:36px;border-radius:12px;background:var(--accent);color:var(--bg);font:700 20px/1 var(--serif)}
 h1{margin:0;font:600 22px/1.2 var(--serif);letter-spacing:.16em;color:var(--accent)}
 .sub{color:var(--muted);font-size:14px}
-main{position:relative;z-index:1;max-width:720px;margin:0 auto;padding:20px 16px calc(32px + env(safe-area-inset-bottom,0px))}
+main{position:relative;z-index:1;max-width:720px;margin:0 auto;padding:20px 16px calc(120px + env(safe-area-inset-bottom,0px))}
 .card{border:1px solid var(--border);border-radius:var(--r-lg);padding:16px;margin-bottom:12px;background:rgba(30,24,18,.52);-webkit-backdrop-filter:blur(10px) saturate(1.15);backdrop-filter:blur(10px) saturate(1.15)}
 html[data-theme=snowy] .card{background:rgba(16,38,58,.5);-webkit-backdrop-filter:blur(10px) saturate(1.25);backdrop-filter:blur(10px) saturate(1.25)}
 html[data-theme=classic] .card{background:rgba(30,24,18,.52);-webkit-backdrop-filter:blur(10px) saturate(1.15);backdrop-filter:blur(10px) saturate(1.15)}
@@ -67,6 +67,21 @@ html:not([data-theme=snowy]) .hd h1,html:not([data-theme=snowy]) .hd .mark{displ
 .mode .ic svg{width:20px;height:20px;fill:none;stroke:var(--accent);stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
 .ic-svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;vertical-align:-3px}
 .ddd-badge{display:inline-flex;align-items:center;justify-content:center;padding:5px 10px;border:1.5px solid var(--accent);border-radius:99px;color:var(--accent);font-size:12px;font-weight:800;letter-spacing:.2px;white-space:nowrap}
+/* ===== bottom nav (same as main app) ===== */
+nav.poof-nav{position:fixed;right:16px;left:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:100;display:grid;grid-template-columns:repeat(5,1fr);align-items:center;padding:6px;max-width:688px;margin:0 auto;overflow:visible;background:var(--nav-bg,rgba(27,24,20,.78));border:1px solid var(--nav-border,rgba(230,185,111,.25));box-shadow:var(--shadow-nav,0 12px 32px rgba(0,0,0,.45));border-radius:24px;-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px)}
+html[data-theme=snowy] nav.poof-nav{background:rgba(11,29,45,.78);border-color:rgba(185,220,244,.28);box-shadow:0 12px 32px rgba(0,8,16,.55)}
+html[data-theme=classic] nav.poof-nav{background:rgba(27,24,20,.78);border-color:rgba(230,185,111,.25);box-shadow:0 12px 32px rgba(0,0,0,.45)}
+nav.poof-nav button{padding:10px 2px;border:0;border-radius:16px;background:transparent;color:var(--muted);box-shadow:none}
+nav.poof-nav button:hover{background:var(--hover,rgba(230,185,111,.08));color:var(--accent);filter:none}
+nav.poof-nav button:active{transform:none}
+nav.poof-nav button.on{background:var(--active,rgba(230,185,111,.14));color:var(--accent)}
+html[data-theme=snowy] nav.poof-nav button.on{background:rgba(243,200,121,.16)}
+nav.poof-nav .ic{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+nav.poof-nav button.hero{width:54px;height:54px;padding:0;border-radius:50%;background:linear-gradient(135deg,var(--accent),#caa25e);color:var(--bg);justify-self:center;align-self:center;transform:translateY(-12px);box-shadow:0 0 0 3px var(--bg),0 8px 20px rgba(0,0,0,.45)}
+nav.poof-nav button.hero:hover{background:linear-gradient(135deg,var(--accent),#caa25e);color:var(--bg);filter:brightness(1.06)}
+nav.poof-nav button.hero:active{transform:translateY(-12px)}
+nav.poof-nav button.hero .ic{width:26px;height:26px}
+nav.poof-nav button.hero.on{background:linear-gradient(135deg,var(--accent),#caa25e);color:var(--bg);filter:brightness(1.08);box-shadow:0 0 0 3px var(--bg),0 10px 26px rgba(0,0,0,.55),0 0 20px var(--active,rgba(230,185,111,.14))}
 </style>
 <script>try{var _t=(JSON.parse(localStorage.getItem('poof_v2')||'{}').theme==='snowy')?'snowy':'classic';document.write('<link rel="stylesheet" id="themeCss" href="theme-'+_t+'.css?v=15">')}catch(e){document.write('<link rel="stylesheet" id="themeCss" href="theme-classic.css?v=15">')}</script>
 </head>
@@ -79,11 +94,23 @@ html:not([data-theme=snowy]) .hd h1,html:not([data-theme=snowy]) .hd .mark{displ
 <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></symbol>
 <symbol id="i-choice" viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11"/><circle cx="5" cy="6" r="1.3"/><circle cx="5" cy="12" r="1.3"/><path d="M3.5 18l1 1 2-2"/></symbol>
 <symbol id="i-stop" viewBox="0 0 24 24"><rect x="6.5" y="6.5" width="11" height="11" rx="2"/></symbol>
+<symbol id="i-read" viewBox="0 0 24 24"><path d="M2 5.5C4.5 4 8 4 12 6c4-2 7.5-2 10-.5V19c-2.5-1.5-6-1.5-10 .5-4-2-7.5-2-10-.5z"/><path d="M12 6v13.5"/></symbol>
+<symbol id="i-dict" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4-4"/></symbol>
+<symbol id="i-cards" viewBox="0 0 24 24"><rect x="3.5" y="8" width="17" height="11" rx="2.5"/><path d="M7 4.5h10"/></symbol>
+<symbol id="i-route" viewBox="0 0 24 24"><circle cx="6.5" cy="17.5" r="2.5"/><circle cx="17.5" cy="6.5" r="2.5"/><path d="M9 17.5h6.5a3 3 0 0 0 0-6h-4a3 3 0 0 1-3-3V9"/></symbol>
+<symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M5.2 20a7 7 0 0 1 13.6 0"/></symbol>
 </defs></svg>
 <div class="poof-img-library-bg" id="scenicBg" aria-hidden="true"></div>
 <header><div class="poof-img-header-bg" aria-hidden="true" style="position:absolute;inset:0;z-index:0"></div><div class="hd"><span class="mark">P</span><div class="poof-mascot brand-mascot poof-img-snowy-wave" aria-hidden="true" style="display:none;width:56px;height:56px;margin:0"></div><div style="flex:1"><h1>POOF</h1><div class="sub">تمرین</div></div>
 <button class="ghost" id="backBtn" aria-label="بازگشت" style="border:none;font-size:18px;padding:8px 12px">→</button></div><div class="theme-toggle"><button type="button" class="ghost" data-th="snowy">برفی</button><button type="button" class="ghost" data-th="classic">کلاسیک</button></div></header>
 <main id="app"><div class="card center mute">در حال بارگذاری…</div></main>
+<nav class="poof-nav" id="poofNav" aria-label="ناوبری اصلی">
+ <button type="button" data-tab="cards" aria-label="کارت‌ها" title="کارت‌ها"><svg class="ic" aria-hidden="true"><use href="#i-cards"/></svg></button>
+ <button type="button" data-tab="dict" aria-label="دیکشنری" title="دیکشنری"><svg class="ic" aria-hidden="true"><use href="#i-dict"/></svg></button>
+ <button type="button" data-tab="read" class="hero" aria-label="خواندنی" title="خواندنی"><svg class="ic" aria-hidden="true"><use href="#i-read"/></svg></button>
+ <button type="button" data-tab="review" class="on" aria-label="مرور و یادگیری" title="مرور و یادگیری"><svg class="ic" aria-hidden="true"><use href="#i-route"/></svg></button>
+ <button type="button" data-tab="me" aria-label="پروفایل" title="پروفایل"><svg class="ic" aria-hidden="true"><use href="#i-user"/></svg></button>
+</nav>
 <script>
 "use strict";
 /* ---------- storage ---------- */
@@ -345,6 +372,21 @@ function viewResult(){
   $("#home").onclick=viewHome;
 }
 viewHome();
+</script>
+<script>
+"use strict";
+/* ---------- bottom nav: restore main app on chosen tab ---------- */
+document.querySelectorAll("#poofNav button[data-tab]").forEach(function(b){
+  b.addEventListener("click",function(){
+    var tab=b.dataset.tab;
+    var st={tab:tab,scrollY:0,dictQ:"",textId:null};
+    if(tab==="read"){
+      try{var prev=JSON.parse(localStorage.getItem("poof_last_state")||"null");if(prev&&prev.textId)st.textId=prev.textId}catch(e){}
+    }
+    try{localStorage.setItem("poof_last_state",JSON.stringify(st))}catch(e){}
+    location.href="./";
+  });
+});
 </script>
 </body>
 </html>
