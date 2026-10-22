@@ -3158,7 +3158,17 @@ function tab(t){$("#hSub").textContent=SUB[t];scrollTo(0,0);$("#nav").classList.
  $$(".tab").forEach(s=>s.hidden=s.id!=="s-"+t);
  if(t==="cards")renderCards();if(t==="review")startReview();if(t==="me")renderMe();if(t==="dict")renderRecent();
 }
-$("#nav").onclick=e=>{const b=e.target.closest("button");if(b){b.blur();tab(b.dataset.t);saveState();pushNavState()}};
+function goReviewTab(){
+  var m = null;
+  try { m = JSON.parse(localStorage.getItem('poof_practice_resume') || 'null'); } catch(e) { m = null; }
+  var PAGES = ['wortschatz.html','der-die-das.html','studienkolleg-trainer.html','placement-test.html','practice.html'];
+  if (m && typeof m.page === 'string' && PAGES.indexOf(m.page) >= 0) {
+    location.href = './' + m.page;
+    return;
+  }
+  tab('review');
+}
+$("#nav").onclick=e=>{const b=e.target.closest("button");if(b){b.blur();if(b.dataset.t==="review")goReviewTab();else tab(b.dataset.t);saveState();pushNavState()}};
 /* ===== ثبت وضعیت + بازگشت سیستمی بین تب‌ها/متن‌ها (کلید جدا، بدون دست‌کاری poof_v2) ===== */
 const LS_STATE="poof_last_state";
 function curTab(){const v=[...document.querySelectorAll(".tab")].find(s=>!s.hidden);return v?v.id.replace(/^s-/,""):"read"}
