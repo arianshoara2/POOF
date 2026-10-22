@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#111111">
-<script>try{var _t=(JSON.parse(localStorage.getItem('poof_v2')||'{}').theme==='snowy')?'snowy':'classic';document.write('<link rel="stylesheet" id="themeCss" href="theme-'+_t+'.css?v=15">')}catch(e){document.write('<link rel="stylesheet" id="themeCss" href="theme-classic.css?v=15">')}</script>
+<script>try{var _t=(JSON.parse(localStorage.getItem('poof_v2')||'{}').theme==='snowy')?'snowy':'classic';document.write('<link rel="stylesheet" id="themeCss" href="theme-'+_t+'.css?v=16">')}catch(e){document.write('<link rel="stylesheet" id="themeCss" href="theme-classic.css?v=16">')}</script>
 <title>واژه‌آموزی کامل — ۷ تسک</title>
 <style>
 :root{
@@ -390,9 +390,10 @@ html[data-theme=snowy] .lk.esel{background:rgba(243,200,121,.30)}
       <div style="padding:0 16px 18px"><a class="dict-btn" id="selectDictBtn" href="./">دیدن معنی کامل در دیکشنری POOF</a></div>
     </div>
   </div>
+<script src="poof-core.js"></script>
 <script>
 /* ===== POOF theme (shared key with the main app: poof_v2.theme) ===== */
-function applyPoofTheme(){var t='classic';try{t=(JSON.parse(localStorage.getItem('poof_v2')||'{}').theme==='snowy')?'snowy':'classic';}catch(e){}document.documentElement.dataset.theme=t;var tc=document.getElementById('themeCss');if(tc){var f='theme-'+t+'.css?v=15';if(tc.href&&!tc.href.endsWith(f))tc.href=f;}var m=document.querySelector('meta[name=theme-color]');if(m)m.content=(t==='snowy')?'#081421':'#111111';}
+function applyPoofTheme(){var t='classic';try{t=(JSON.parse(localStorage.getItem('poof_v2')||'{}').theme==='snowy')?'snowy':'classic';}catch(e){}document.documentElement.dataset.theme=t;var tc=document.getElementById('themeCss');if(tc){var f='theme-'+t+'.css?v=16';if(tc.href&&!tc.href.endsWith(f))tc.href=f;}var m=document.querySelector('meta[name=theme-color]');if(m)m.content=(t==='snowy')?'#081421':'#111111';}
 /* Theme is inherited from the main app (poof_v2.theme, chosen once in its Profile tab); this page has no theme toggle. */
 window.addEventListener('storage',function(e){if(e.key==='poof_v2')applyPoofTheme();});
 applyPoofTheme();
@@ -513,7 +514,7 @@ if(topicShelf){
     const total=items.reduce((a,tid)=>a+(TOPICAL_DEFINITIONS.find(d=>d.id===tid)?.idx.length||0),0);
     return `<button class="home-card topic" data-target="topicgroup_${id}"><div class="art">${icon}</div><div class="foot"><span class="fa">${fa}</span><span class="de">${de}</span><small>${items.length} موضوع · ${total} مدخل</small></div></button>`;
   }).join('');
-  topicShelf.addEventListener('click',e=>{const card=e.target.closest('[data-target]');if(card)renderSection(card.dataset.target)});
+  topicShelf.addEventListener('click',e=>{const card=e.target.closest('[data-target]');if(card){renderSection(card.dataset.target);poofGo();}});
 }
 const topicStats=document.getElementById('topicStats');
 if(topicStats) topicStats.textContent='۴۰ موضوع · ۱۲۰۰ مدخل موضوعی از بانک موجود (نما، بدون تکثیر داده)';
@@ -622,7 +623,7 @@ var homePushed=false, homeReturn=null;
 function currentViewName(){if($('#readerView').classList.contains('on'))return 'reader';if($('#flashView').classList.contains('on'))return 'flash';if($('#quizView').classList.contains('on'))return 'quiz';if($('#sectionView').classList.contains('on'))return 'section';return 'home';}
 function captureHomeReturn(){return {view:currentViewName(),section:currentSection,topic:currentTopic,index:currentIndex,scroll:(window.scrollY||0),quiz:quizState,exercise:exerciseState,sheet:!!$('#sheetWrap').classList.contains('show')};}
 function restoreHomeReturn(snap){if(!snap){openHome();return;}currentSection=snap.section;currentTopic=snap.topic;currentIndex=snap.index;if(snap.quiz)quizState=snap.quiz;if(snap.exercise)exerciseState=snap.exercise;if(snap.view==='reader')renderReader();else if(snap.view==='flash')renderFlash();else if(snap.view==='quiz'){if(snap.exercise)renderPractice();else if(snap.quiz)renderQuiz();else renderSection(snap.section);}else renderSection(snap.section);if(snap.sheet)openSheet(snap.topic);window.scrollTo(0,snap.scroll||0);}
-function goHomeViaButton(){if($('#homeView').classList.contains('on')){toTop();return;}homeReturn=captureHomeReturn();try{history.pushState({poofVocabHome:1},'');homePushed=true;}catch(e){homePushed=false;}openHome();}
+function goHomeViaButton(){if($('#homeView').classList.contains('on')){toTop();return;}homeReturn=captureHomeReturn();try{history.pushState({poofVocabHome:1},'');homePushed=true;}catch(e){homePushed=false;}openHome();poofTrack();}
 
 function openSheet(topicId){toTop();
   currentTopic=topicId;
@@ -638,7 +639,7 @@ function closeSheet(){ $('#sheetWrap').classList.remove('show'); toTop(); }
    Bridge: shares CARDS with the main review only. It does NOT merge scheduling:
    wortschatz keeps its 5-box Leitner, the main review keeps its own algorithm. */
 function recordRecent(topicId){if(!topicId||!topicById(topicId))return;if(!Array.isArray(P.recent))P.recent=[];P.recent=P.recent.filter(id=>id!==topicId);P.recent.unshift(topicId);P.recent=P.recent.slice(0,10);saveProgress();}
-function renderRecent(){const shelf=$('#recentShelf'),row=$('#recentRow');if(!shelf||!row)return;const ids=(Array.isArray(P.recent)?P.recent:[]).filter(id=>!!topicById(id)).slice(0,10);if(!ids.length){shelf.hidden=true;row.innerHTML='';return;}shelf.hidden=false;row.innerHTML=ids.map(id=>{const t=topicById(id);return `<button class="home-card recent-card" data-recent="${t.id}"><div class="art">${t.icon||''}</div><div class="foot"><span class="fa">${t.fa}</span><span class="de">${t.de}</span></div></button>`;}).join('');row.querySelectorAll('[data-recent]').forEach(b=>b.onclick=()=>openSheet(b.dataset.recent));}
+function renderRecent(){const shelf=$('#recentShelf'),row=$('#recentRow');if(!shelf||!row)return;const ids=(Array.isArray(P.recent)?P.recent:[]).filter(id=>!!topicById(id)).slice(0,10);if(!ids.length){shelf.hidden=true;row.innerHTML='';return;}shelf.hidden=false;row.innerHTML=ids.map(id=>{const t=topicById(id);return `<button class="home-card recent-card" data-recent="${t.id}"><div class="art">${t.icon||''}</div><div class="foot"><span class="fa">${t.fa}</span><span class="de">${t.de}</span></div></button>`;}).join('');row.querySelectorAll('[data-recent]').forEach(b=>b.onclick=()=>{openSheet(b.dataset.recent);poofGo();});}
 const uidMain=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
 function mainFrontOf(w){const head=labelOf(w);return (w.art&&w.art!=='—'?w.art+' ':'')+head;}
 function stripArticle(f){return String(f||'').replace(/^(der|die|das)\s+/i,'');}
@@ -646,12 +647,117 @@ function readMainDb(){try{const d=JSON.parse(localStorage.getItem('poof_v2')||'n
 function isInMain(w){const db=readMainDb();if(!db||!Array.isArray(db.cards))return false;const f=normalize(mainFrontOf(w)),s=normalize(stripArticle(mainFrontOf(w)));return db.cards.some(c=>{const cf=normalize(String(c.front||''));return cf===f||cf===s||normalize(stripArticle(String(c.front||'')))===s;});}
 function addToMainReview(w){if(!w)return false;const db=readMainDb();if(!db){toast('اپ اصلی هنوز ساخته نشده؛ ابتدا POOF را باز کن.','bad');return false;}if(!Array.isArray(db.cards))db.cards=[];const front=mainFrontOf(w),f=normalize(front),s=normalize(stripArticle(front));if(db.cards.some(c=>{const cf=normalize(String(c.front||''));return cf===f||cf===s||normalize(stripArticle(String(c.front||'')))===s;}))return false;const card={pos:'',def:'',context:w.ex||'',contextFa:w.exfa||'',source:'wortschatz',created_at:Date.now(),ease:2.5,interval:0,reps:0,due:Date.now(),lang:'de',id:uidMain(),front:front,back:meaningOf(w)};if(typeof db.active==='string'&&db.active)card.deck_id=db.active;db.cards.push(card);try{localStorage.setItem('poof_v2',JSON.stringify(db));}catch(e){toast('فضای ذخیره‌سازی کافی نیست.','bad');return false;}return true;}
 function refreshMainMarker(){const w=currentWords()[currentIndex];if(!w)return;const inMain=isInMain(w);const ab=$('#addBox');if(ab)ab.classList.toggle('in-main',inMain);const fb=$('#flashBoxBtn');if(fb)fb.classList.toggle('in-main',inMain);}
-function goMainReview(){try{localStorage.setItem('poof_last_state',JSON.stringify({tab:'review',textId:null,scrollY:0,dictQ:''}));}catch(e){}location.href='./';}
-function goMainTab(tab){try{let prev=null;try{prev=JSON.parse(localStorage.getItem('poof_last_state')||'null');}catch(e){}localStorage.setItem('poof_last_state',JSON.stringify({tab:tab,textId:tab==='read'?(prev&&prev.textId?prev.textId:null):null,scrollY:0,dictQ:''}));}catch(e){}savePracticeResume();location.href='./';}
+function goMainReview(){try{localStorage.setItem('poof_last_state',JSON.stringify({tab:'review',textId:null,scrollY:0,dictQ:''}));}catch(e){}poofRecordExit();location.href='./';}
+function goMainTab(tab){try{let prev=null;try{prev=JSON.parse(localStorage.getItem('poof_last_state')||'null');}catch(e){}localStorage.setItem('poof_last_state',JSON.stringify({tab:tab,textId:tab==='read'?(prev&&prev.textId?prev.textId:null):null,scrollY:0,dictQ:''}));}catch(e){}savePracticeResume();poofRecordExit();location.href='./';}
 /* BUG 3 — practice resume marker (practice-page side ONLY; nothing in index.html). Saved before leaving to ./, consumed on the next wortschatz load. */
 function savePracticeResume(){try{var snap=captureHomeReturn();localStorage.setItem('poof_practice_resume',JSON.stringify({page:'wortschatz.html',state:{view:snap.view,section:snap.section,topic:snap.topic,index:snap.index,scrollY:snap.scroll,sheetOpen:!!snap.sheet,quiz:snap.quiz||null,exercise:snap.exercise||null},ts:Date.now()}));}catch(e){}}
-function tryRestorePracticeResume(){var raw=null;try{raw=localStorage.getItem('poof_practice_resume');}catch(e){}if(!raw)return;var marker=null;try{marker=JSON.parse(raw);}catch(e){return;}if(!marker||marker.page!=='wortschatz.html')return;var st=marker.state||{};try{localStorage.removeItem('poof_practice_resume');}catch(e){}var snap={view:st.view||'home',section:st.section||'starter',topic:st.topic||'greet',index:(typeof st.index==='number'?st.index:0),scroll:(typeof st.scrollY==='number'?st.scrollY:0),quiz:st.quiz||null,exercise:st.exercise||null,sheet:!!st.sheetOpen};var t=topicById(snap.topic);if(!t){openHome();return;}var _ws=t.words||[];if(_ws.length){if(snap.index<0)snap.index=0;if(snap.index>=_ws.length)snap.index=_ws.length-1;}if(snap.view==='home'){openHome();}else{restoreHomeReturn(snap);}var y=snap.scroll||0;requestAnimationFrame(function(){window.scrollTo(0,y);});setTimeout(function(){window.scrollTo(0,y);},350);}
+function tryRestorePracticeResume(){var raw=null;try{raw=localStorage.getItem('poof_practice_resume');}catch(e){}if(!raw)return false;var marker=null;try{marker=JSON.parse(raw);}catch(e){return false;}if(!marker||marker.page!=='wortschatz.html')return false;var st=marker.state||{};try{localStorage.removeItem('poof_practice_resume');}catch(e){}var snap={view:st.view||'home',section:st.section||'starter',topic:st.topic||'greet',index:(typeof st.index==='number'?st.index:0),scroll:(typeof st.scrollY==='number'?st.scrollY:0),quiz:st.quiz||null,exercise:st.exercise||null,sheet:!!st.sheetOpen};var t=topicById(snap.topic);if(!t){openHome();return true;}var _ws=t.words||[];if(_ws.length){if(snap.index<0)snap.index=0;if(snap.index>=_ws.length)snap.index=_ws.length-1;}if(snap.view==='home'){openHome();}else{restoreHomeReturn(snap);}var y=snap.scroll||0;requestAnimationFrame(function(){window.scrollTo(0,y);});setTimeout(function(){window.scrollTo(0,y);},350);return true;}
 
+
+/* ===== POOF position core — Part A wiring (wortschatz) =====
+   Shared position model (window.PoofPos, poof-core.js): anchor is the
+   NORMALIZED WORD KEY (keyOf), never a row index; seen (last word reached)
+   and selected stay separate; scrollY is only a supplement.
+   Navigation actions call poofGo() (save + hash history entry); seen-word
+   moves call poofTrack() (save + replaceState, no history spam); scroll
+   changes call poofSaveSoon() (300ms debounce, snapshot only).
+   Render/begin functions themselves never call PoofPos: only the user-action
+   wrappers at the bottom of this script do, so PoofPos.init's apply()
+   restores WITHOUT calling go(). The poof_practice_resume marker keeps
+   priority: at boot, if it was consumed, apply() is a NO-OP for that
+   initial restore (poofBlockInit, cleared right after init returns). */
+var poofRestoring=false, poofBlockInit=false;
+function poofScrollTo(y){if(!y)return;var _y=y;requestAnimationFrame(function(){window.scrollTo(0,_y);});setTimeout(function(){window.scrollTo(0,_y);},350);}
+function poofSectionOfTopic(id){try{var e=Object.entries(sections).find(function(kv){return kv[1].ids&&kv[1].ids.indexOf(id)>=0;});return e?e[0]:'starter';}catch(err){return 'starter';}}
+function poofWordKey(w){try{return w?keyOf(w):'';}catch(err){return '';}}
+function poofCurPos(){
+  if(!window.PoofPos)return null;
+  var y=window.scrollY||0;
+  var sheetEl=document.querySelector('#sheetWrap');
+  var sheetOpen=!!(sheetEl&&sheetEl.classList.contains('show'));
+  var selEl=document.querySelector('#selectSheetWrap');
+  var selOpen=!!(selEl&&selEl.classList.contains('show'));
+  var ws=currentWords();
+  var w=ws.length?ws[Math.max(0,Math.min(currentIndex,ws.length-1))]:null;
+  var wk=poofWordKey(w);
+  if(selOpen){
+    var sw=document.querySelector('#selectWord');
+    var swText=sw?sw.textContent:'';
+    return PoofPos.make('wortschatz.html','select',{cat:currentTopic,anchor:normalize(swText||''),seen:wk,view:'select',scrollY:y});
+  }
+  if(sheetOpen)return PoofPos.make('wortschatz.html','sheet',{cat:currentTopic,view:'sheet',scrollY:y});
+  var view=currentViewName();
+  if(view==='reader')return PoofPos.make('wortschatz.html','reader',{cat:currentTopic,anchor:wk,seen:wk,scrollY:y});
+  if(view==='flash')return PoofPos.make('wortschatz.html','flash',{cat:currentTopic,anchor:wk,seen:wk,scrollY:y});
+  if(view==='quiz'){
+    if(exerciseState)return PoofPos.make('wortschatz.html','quiz',{cat:currentTopic,view:'exercise:'+(exerciseState.kind||''),filter:exerciseState.kind||'',scrollY:y});
+    return PoofPos.make('wortschatz.html','quiz',{cat:currentTopic,view:'quiz',scrollY:y});
+  }
+  if(view==='section')return PoofPos.make('wortschatz.html','section',{cat:currentSection,scrollY:y});
+  var qEl=document.querySelector('#searchInput');
+  var q=qEl?qEl.value:'';
+  if(q&&q.trim())return PoofPos.make('wortschatz.html','search',{q:q,scrollY:y});
+  return PoofPos.make('wortschatz.html','home',{scrollY:y});
+}
+function poofGo(){if(!window.PoofPos||poofRestoring)return;try{var p=poofCurPos();if(p)PoofPos.go(p);}catch(err){}}
+function poofTrack(){if(!window.PoofPos||poofRestoring)return;try{var p=poofCurPos();if(p)PoofPos.track(p);}catch(err){}}
+function poofSaveSoon(){if(!window.PoofPos||poofRestoring)return;try{var p=poofCurPos();if(p)PoofPos.saveSoon(p);}catch(err){}}
+function poofRecordExit(){poofTrack();}
+function poofFindKey(list,k){for(var i=0;i<list.length;i++){var w=list[i];try{if(keyOf(w)===k||normalize(labelOf(w))===k)return keyOf(w);}catch(err){}}return '';}
+function poofValidateWort(pos){
+  var p={page:pos.page,section:pos.section||'',cat:pos.cat||'',anchor:pos.anchor||'',seen:pos.seen||'',selected:pos.selected||'',q:pos.q||'',filter:pos.filter||'',sort:pos.sort||'',view:pos.view||'',scrollY:pos.scrollY||0};
+  if(p.section==='home'){p.cat='';p.anchor='';p.seen='';p.selected='';p.view='';return p;}
+  if(p.section==='section'){if(!sections[p.cat]){p.section='home';p.cat='';}p.anchor='';p.seen='';p.selected='';p.view='';return p;}
+  if(p.section==='search'){p.cat='';p.anchor='';p.seen='';p.selected='';p.view='';return p;}
+  if(p.section==='select'){if(p.cat&&!topicById(p.cat))p.cat='';return p;}
+  var tp=topicById(p.cat);
+  if(!tp){p.section='home';p.cat='';p.anchor='';p.seen='';p.selected='';p.view='';return p;}
+  if(p.section==='sheet'){p.anchor='';p.seen='';p.selected='';p.view='sheet';return p;}
+  if(p.section==='quiz'){p.anchor='';p.seen='';p.selected='';return p;}
+  p.section=(p.section==='flash')?'flash':'reader';
+  var list=tp.words||[];
+  if(!list.length){p.section='section';p.cat=poofSectionOfTopic(tp.id);p.anchor='';p.seen='';p.selected='';p.view='';return p;}
+  var ak=poofFindKey(list,p.anchor)||poofWordKey(list[0]);
+  p.anchor=ak;p.seen=poofFindKey(list,p.seen)||ak;p.selected='';p.view='';
+  return p;
+}
+function poofApplyWort(pos){
+  if(!pos||pos.page!=='wortschatz.html')return;
+  var sec=pos.section||'home';
+  if(sec==='home'){openHome();poofScrollTo(pos.scrollY);return;}
+  if(sec==='section'){if(sections[pos.cat])renderSection(pos.cat);else openHome();poofScrollTo(pos.scrollY);return;}
+  if(sec==='search'){openHome();var inp=document.querySelector('#searchInput');if(inp){inp.value=pos.q||'';renderSearch();}return;}
+  if(sec==='sheet'){var tsh=topicById(pos.cat);if(!tsh){openHome();return;}renderSection(poofSectionOfTopic(pos.cat));openSheet(pos.cat);return;}
+  if(sec==='select'){
+    var tsl=topicById(pos.cat);
+    if(tsl){
+      currentTopic=pos.cat;currentSection=poofSectionOfTopic(pos.cat);
+      var li=tsl.words||[];var ix=li.findIndex(function(w){return poofWordKey(w)===pos.seen;});if(ix>=0)currentIndex=ix;
+      renderReader();
+      if(pos.anchor){if(findLocalWord(pos.anchor))openSelectWord(pos.anchor,true);else openSelectPhrase(pos.anchor,true);}
+    } else {openHome();}
+    return;
+  }
+  var trd=topicById(pos.cat);
+  if(!trd){openHome();return;}
+  currentTopic=pos.cat;currentSection=poofSectionOfTopic(pos.cat);
+  var list3=trd.words||[];
+  if(!list3.length){renderSection(currentSection);return;}
+  var ix3=list3.findIndex(function(w){return poofWordKey(w)===pos.anchor||normalize(labelOf(w))===pos.anchor;});
+  if(ix3<0&&pos.legacy&&typeof pos.legacy.index==='number')ix3=Math.max(0,Math.min(pos.legacy.index,list3.length-1));
+  currentIndex=ix3>=0?ix3:0;
+  if(sec==='flash'){renderFlash();}
+  else if(sec==='quiz'){
+    var exKind=(pos.view&&pos.view.indexOf('exercise:')===0)?pos.view.slice(9):((pos.view==='exercise')?pos.filter:'');
+    if(exKind&&['reverse','spelling','gender'].indexOf(exKind)<0)exKind='';
+    if(exKind&&exerciseState&&exerciseState.kind===exKind){renderPractice();}
+    else if(exKind){beginPractice(exKind);}
+    else if(quizState){renderQuiz();}
+    else {beginQuiz();}
+  }
+  else {renderReader();}
+  poofScrollTo(pos.scrollY);
+}
 
 function renderReader(){
   const words=currentWords();
@@ -675,8 +781,8 @@ function renderReader(){
 }
 
 function fitWordEl(el,minPx){if(!el)return;try{el.style.fontSize='';var size=parseFloat(getComputedStyle(el).fontSize)||0;var guard=0;while(size>(minPx||18)&&el.scrollWidth>el.clientWidth&&guard<40){size-=2;el.style.fontSize=size+'px';guard++;}}catch(e){}}
-function nextWord(){ if(currentIndex<currentWords().length-1){ currentIndex++; renderReader(); } else { currentIndex=0; renderReader(); }}
-function prevWord(){ const n=currentWords().length; if(!n) return; currentIndex=(currentIndex-1+n)%n; renderReader(); }
+function nextWord(){ if(currentIndex<currentWords().length-1){ currentIndex++; renderReader(); } else { currentIndex=0; renderReader(); } poofTrack(); }
+function prevWord(){ const n=currentWords().length; if(!n) return; currentIndex=(currentIndex-1+n)%n; renderReader(); poofTrack(); }
 
 function renderFlash(){
   const words=currentWords(); if(!words.length){ alert('این بخش واژه‌ای ندارد.'); return; }
@@ -783,7 +889,7 @@ function refreshDashboardCounts(){
 }
 function openFound(w){const ids=WORDS_BY_TOPIC.get(keyOf(w))||[];const best=ids.find(id=>(topicById(id)?.words||[]).length>0);if(!best){toast('دسته‌ای برای این واژه پیدا نشد.');return;}
   currentTopic=best;const list=currentWords();currentIndex=list.findIndex(x=>keyOf(x)===keyOf(w));if(currentIndex<0)currentIndex=0;
-  const parent=Object.entries(sections).find(([,v])=>v.ids.includes(best));currentSection=parent?.[0]||'starter';toTop();renderReader();}
+  const parent=Object.entries(sections).find(([,v])=>v.ids.includes(best));currentSection=parent?.[0]||'starter';toTop();renderReader();poofGo();}
 function renderSearch(){const inp=$('#searchInput');const box=$('#searchResults');if(!box)return;
   const q=normalize(inp?inp.value:'');
   if(!q){box.innerHTML='<p class="mini">نام آلمانی یا معنی فارسی را تایپ کن.</p>';return;}
@@ -884,14 +990,14 @@ function findLocalWord(word){var q=normalize(word);if(!q)return null;function sc
 function findPhraseSuggestions(word,limit){var q=normalize(word);var out=[];if(!q||typeof PHRASE_GROUPS==='undefined')return out;var max=limit||5;var seen={};for(var gi=0;gi<PHRASE_GROUPS.length&&out.length<max;gi++){var items=PHRASE_GROUPS[gi].items||[];for(var i=0;i<items.length&&out.length<max;i++){var it=items[i];if(!it||!it.ph)continue;var m=normalize(it.ph).match(/[a-z\u00e4\u00f6\u00fc\u00df]+/);if(!m||m[0]!==q)continue;var k=normalize(it.ph);if(seen[k])continue;seen[k]=true;out.push(it);}}return out;}
 function findPhraseItem(phrase){var q=normalize(phrase);if(!q||typeof PHRASE_GROUPS==='undefined')return null;for(var gi=0;gi<PHRASE_GROUPS.length;gi++){var items=PHRASE_GROUPS[gi].items||[];for(var i=0;i<items.length;i++){if(items[i]&&normalize(items[i].ph)===q)return items[i];}}return null;}
 var selectPushed=false,selectOpen=false,selDragged=false;
-function showSelectSheet(){var wrap=$('#selectSheetWrap');if(!wrap)return;if(!selectOpen){try{history.pushState({poofVocabSelect:1},'');selectPushed=true;}catch(e){selectPushed=false;}}selectOpen=true;wrap.classList.add('show');wrap.setAttribute('aria-hidden','false');var sh=wrap.querySelector('.sheet');if(sh)sh.scrollTop=0;}
+function showSelectSheet(noPush){var wrap=$('#selectSheetWrap');if(!wrap)return;if(!selectOpen&&!noPush){try{history.pushState({poofVocabSelect:1},'');selectPushed=true;}catch(e){selectPushed=false;}}selectOpen=true;wrap.classList.add('show');wrap.setAttribute('aria-hidden','false');var sh=wrap.querySelector('.sheet');if(sh)sh.scrollTop=0;}
 function closeSelectSheet(fromPop){var wrap=$('#selectSheetWrap');if(!wrap)return;selClearHi();if(!fromPop&&selectPushed){selectPushed=false;try{history.back();return;}catch(e){}}selectOpen=false;selectPushed=false;wrap.classList.remove('show');wrap.setAttribute('aria-hidden','true');}
 function renderSelectWord(word){var entry=findLocalWord(word);var t=$('#selectWord');if(t)t.textContent=word;var d=$('#selectDictBtn');if(d)d.href='./?dict='+encodeURIComponent(word);var body=$('#selectBody');if(!body)return;if(!entry){var sug=findPhraseSuggestions(word,5);var sugHtml=sug.length?('<div class="mini" style="margin-top:14px">عبارت‌های واقعی که با «'+escapeHtml(word)+'» شروع می‌شوند:</div>'+sug.map(function(s){return '<button type="button" class="dict-btn phrase-sugg" data-phrase-sugg="'+escapeHtml(s.ph)+'" style="display:block;width:100%;text-align:left;margin-top:8px" dir="ltr">'+escapeHtml(s.ph)+(s.fa?' <span style="color:var(--muted)">\u2014 '+escapeHtml(s.fa)+'</span>':'')+'</button>';}).join('')):'';body.innerHTML='<p class="mini">در بانک واژگان این صفحه برای این کلمه معنایی ثبت نشده است. برای دیدن مدخل کامل، از دکمهٔ زیر استفاده کن.</p>'+sugHtml;return;}var art=(entry.art&&entry.art!=='—')?entry.art.trim():'';var ex=entry.ex||entry.ex2||'';var exfa=entry.ex?entry.exfa:(entry.ex2?entry.exfa2:'');body.innerHTML=(art?'<div class="mini">حرف تعریف: '+escapeHtml(art)+'</div>':'')+(entry.ipa?'<div class="sel-ipa" dir="ltr">'+escapeHtml(entry.ipa)+'</div>':'')+'<div class="sel-mean">'+escapeHtml(entry.fig||entry.fa||'')+'</div>'+(ex?'<div class="example"><div class="de">'+tokenizeDe(ex)+'</div>'+(exfa?'<span class="fa">'+escapeHtml(exfa)+'</span>':'')+'</div>':'');}
 function stripSelEdge(s){return String(s||'').replace(/^[\s.,;:!?…"\'„“”‘’()\[\]{}«»-]+/,'').replace(/[\s.,;:!?…"\'„“”‘’()\[\]{}«»-]+$/,'');}
 function findExampleFa(phrase){var q=stripSelEdge(normalize(phrase));if(!q)return null;var items=(typeof allKnownItems!=='undefined')?allKnownItems:[];for(var i=0;i<items.length;i++){var w=items[i];if(!w)continue;if(w.ex&&stripSelEdge(normalize(w.ex))===q&&w.exfa)return w.exfa;if(w.ex2&&stripSelEdge(normalize(w.ex2))===q&&w.exfa2)return w.exfa2;}return null;}
 function renderSelectPhrase(phrase){var t=$('#selectWord');if(t)t.textContent=phrase;var d=$('#selectDictBtn');if(d)d.href='./?dict='+encodeURIComponent(phrase);var body=$('#selectBody');if(!body)return;var item=findPhraseItem(phrase);var exFa=(!item||!item.fa)?findExampleFa(phrase):null;body.innerHTML='<div class="sel-mean" dir="ltr">'+escapeHtml(phrase)+'</div>'+(item&&item.fa?'<div class="sel-mean">'+escapeHtml(item.fa)+'</div>':'')+(exFa?'<div class="sel-mean">'+escapeHtml(exFa)+'</div>':'')+(item&&item.ex?'<div class="example"><div class="de">'+tokenizeDe(item.ex)+'</div>'+(item.exfa?'<span class="fa">'+escapeHtml(item.exfa)+'</span>':'')+'</div>':'')+'<p class="mini">معنی کامل این عبارت را در دیکشنری POOF ببین.</p>';}
-function openSelectWord(word){var w=String(word||'').replace(/[.'’\-–—]+$/,'').trim();if(!w)return;renderSelectWord(w);showSelectSheet();fitWordEl($('#selectWord'),18);}
-function openSelectPhrase(phrase){var p=String(phrase||'').replace(/\s+/g,' ').replace(/^[\s.,;:!?…"\'„“”‘’()\[\]{}«»-]+/,'').replace(/[\s.,;:!?…"\'„“”‘’()\[\]{}«»-]+$/,'').trim();if(!p)return;renderSelectPhrase(p);showSelectSheet();fitWordEl($('#selectWord'),18);}
+function openSelectWord(word,noPush){var w=String(word||'').replace(/[.'’\-–—]+$/,'').trim();if(!w)return;renderSelectWord(w);showSelectSheet(noPush);fitWordEl($('#selectWord'),18);}
+function openSelectPhrase(phrase,noPush){var p=String(phrase||'').replace(/\s+/g,' ').replace(/^[\s.,;:!?…"\'„“”‘’()\[\]{}«»-]+/,'').replace(/[\s.,;:!?…"\'„“”‘’()\[\]{}«»-]+$/,'').trim();if(!p)return;renderSelectPhrase(p);showSelectSheet(noPush);fitWordEl($('#selectWord'),18);}
 /* phrase-selection state (one example block at a time; never crosses a sentence) */
 var selT=null,selDrag=false,selSup=false,selSpans=null,selAnchor=-1,selHi=null,selBlock=null,selSX=0,selSY=0,selLX=0,selLY=0,selTap=null,selMDown=false,selMDrag=false,selMAnchor=-1,selMSX=0,selMSY=0;
 function selScope(lk){if(!lk)return null;var ex=lk.closest('.example');if(!ex)return null;if(!ex.closest('#examples')&&!ex.closest('#selectBody'))return null;return ex;}
@@ -909,15 +1015,15 @@ document.addEventListener('touchcancel',function(){if(selT){clearTimeout(selT);s
 document.addEventListener('mousedown',function(e){if(e.button!==0)return;var lk=e.target.closest?e.target.closest('.lk'):null;if(!lk||!selScope(lk))return;selMDown=true;selMDrag=false;selMSX=e.clientX;selMSY=e.clientY;selMAnchor=-1;});
 document.addEventListener('mousemove',function(e){if(!selMDown)return;var dx=e.clientX-selMSX,dy=e.clientY-selMSY;if(!selMDrag&&dx*dx+dy*dy>36){selMDrag=true;selSup=true;var lk0=document.elementFromPoint(selMSX,selMSY);var start=lk0&&lk0.closest?lk0.closest('.lk'):null;if(!start||!selBegin(start)){selMDown=false;selMDrag=false;selSup=false;return;}}if(!selMDrag)return;var t=document.elementFromPoint(e.clientX,e.clientY);if(t&&t.closest)selExtend(t.closest('.lk'));});
 document.addEventListener('mouseup',function(){if(!selMDown)return;var wasDrag=selMDrag;selMDown=false;selMDrag=false;if(wasDrag){selFinish();setTimeout(function(){selSup=false;},80);}});
-window.addEventListener('popstate',function(){if(selectOpen){selectOpen=false;selectPushed=false;var wrap=$('#selectSheetWrap');if(wrap){wrap.classList.remove('show');wrap.setAttribute('aria-hidden','true');}selClearHi();}else if(homePushed){homePushed=false;var snap=homeReturn;homeReturn=null;restoreHomeReturn(snap);}});
+window.addEventListener('popstate',function(){if(selectOpen){selectOpen=false;selectPushed=false;var wrap=$('#selectSheetWrap');if(wrap){wrap.classList.remove('show');wrap.setAttribute('aria-hidden','true');}selClearHi();poofTrack();}else if(homePushed){homePushed=false;var snap=homeReturn;homeReturn=null;restoreHomeReturn(snap);}});
 (function(){var ex=$('#examples');if(ex)ex.addEventListener('click',function(e){if(selSup)return;if(!selTapOK())return;var lk=e.target.closest?e.target.closest('.lk'):null;if(!lk)return;openSelectWord(lk.dataset.w||lk.textContent);});var sb=$('#selectBody');if(sb)sb.addEventListener('click',function(e){var sg=e.target.closest?e.target.closest('[data-phrase-sugg]'):null;if(sg){openSelectPhrase(sg.dataset.phraseSugg||sg.textContent);return;}if(selSup)return;if(!selTapOK())return;var lk=e.target.closest?e.target.closest('.lk'):null;if(!lk)return;openSelectWord(lk.dataset.w||lk.textContent);});var sw=$('#selectSheetWrap');if(sw)sw.addEventListener('click',function(e){if(e.target===sw)closeSelectSheet(false);});var cl=$('#selectClose');if(cl)cl.onclick=function(){closeSelectSheet(false);};})();
 /* ===== Scrubbable reader progress bar (RTL: right edge = word 1) ===== */
 var scrubActive=false;
-function scrubToClientX(clientX){var bar=$('#progBar');if(!bar)return;var words=currentWords();if(!words.length)return;var r=bar.getBoundingClientRect();if(!r||!r.width)return;var p=(r.right-clientX)/r.width;if(p<0)p=0;if(p>1)p=1;var idx=Math.floor(p*words.length);if(idx>=words.length)idx=words.length-1;if(idx<0)idx=0;currentIndex=idx;renderReader();}
+function scrubToClientX(clientX){var bar=$('#progBar');if(!bar)return;var words=currentWords();if(!words.length)return;var r=bar.getBoundingClientRect();if(!r||!r.width)return;var p=(r.right-clientX)/r.width;if(p<0)p=0;if(p>1)p=1;var idx=Math.floor(p*words.length);if(idx>=words.length)idx=words.length-1;if(idx<0)idx=0;currentIndex=idx;renderReader();poofTrack();}
 (function(){var bar=$('#progBar');if(!bar)return;bar.addEventListener('pointerdown',function(e){scrubActive=true;try{bar.setPointerCapture(e.pointerId);}catch(err){}scrubToClientX(e.clientX);});bar.addEventListener('pointermove',function(e){if(!scrubActive)return;scrubToClientX(e.clientX);});var _end=function(){scrubActive=false;};bar.addEventListener('pointerup',_end);bar.addEventListener('pointercancel',_end);})();
-$$('.home-card').forEach(b=>b.addEventListener('click',()=>renderSection(b.dataset.target)));
-$('#subList').addEventListener('click',e=>{const b=e.target.closest('.sub-item'); if(b) openSheet(b.dataset.topic);});
-$('#closeSheet').onclick=closeSheet; var _shc=$('#sheetHeadClose'); if(_shc)_shc.onclick=closeSheet; $('#sheetWrap').addEventListener('click',e=>{if(e.target===e.currentTarget) closeSheet();});
+$$('.home-card').forEach(b=>b.addEventListener('click',()=>{renderSection(b.dataset.target);poofGo();}));
+$('#subList').addEventListener('click',e=>{const b=e.target.closest('.sub-item'); if(b){openSheet(b.dataset.topic);poofGo();}});
+$('#closeSheet').onclick=()=>{closeSheet();poofGo();}; var _shc=$('#sheetHeadClose'); if(_shc)_shc.onclick=()=>{closeSheet();poofGo();}; $('#sheetWrap').addEventListener('click',e=>{if(e.target===e.currentTarget){closeSheet();poofGo();}});
 const _gmr=$('#goMainReview');if(_gmr)_gmr.onclick=goMainReview;
 const _fbb=$('#flashBoxBtn');if(_fbb)_fbb.onclick=boxIconTap;
 
@@ -925,16 +1031,18 @@ $$('.poof-nav button').forEach(b=>b.onclick=()=>goMainTab(b.dataset.tab));
 /* BUG 2 — auto-hide bottom nav on scroll (mirrors the main app): scroll down >40px hides, scroll up >40px shows, top zone (<=90px) always shows, and no toggling while any sheet/popup is open. */
 var _poofNav=document.querySelector('.poof-nav');var lastToggleY=window.scrollY||0;
 window.addEventListener('scroll',function(){if(!_poofNav)return;if(document.querySelector('.bottom-sheet.show'))return;var y=window.scrollY||0;if(y<=90){_poofNav.classList.remove('nav-hidden');lastToggleY=y;}else if(y>lastToggleY+40){_poofNav.classList.add('nav-hidden');lastToggleY=y;}else if(y<lastToggleY-40){_poofNav.classList.remove('nav-hidden');lastToggleY=y;}},{passive:true});
+window.addEventListener('scroll',function(){poofSaveSoon();},{passive:true});
 
-$('#openReview').onclick=()=>{closeSheet(); currentIndex=0; renderReader();};
-$('#openFlash').onclick=()=>{closeSheet(); currentIndex=0; renderFlash();};
-$('#openQuiz').onclick=()=>{closeSheet(); currentIndex=0; beginQuiz();};
-const exR=$('#exReverse');if(exR)exR.onclick=()=>{closeSheet(); currentIndex=0; beginPractice('reverse');};
-const exS=$('#exSpelling');if(exS)exS.onclick=()=>{closeSheet(); currentIndex=0; beginPractice('spelling');};
-const exG=$('#exGender');if(exG)exG.onclick=()=>{closeSheet(); currentIndex=0; beginPractice('gender');};
-$('#backBtn').onclick=()=>{ if($('#readerView').classList.contains('on')||$('#flashView').classList.contains('on')||$('#quizView').classList.contains('on')) renderSection(currentSection); else openHome(); };
+$('#openReview').onclick=()=>{closeSheet(); currentIndex=0; renderReader();poofGo();};
+$('#openFlash').onclick=()=>{closeSheet(); currentIndex=0; renderFlash();poofGo();};
+$('#openQuiz').onclick=()=>{closeSheet(); currentIndex=0; beginQuiz();poofGo();};
+const exR=$('#exReverse');if(exR)exR.onclick=()=>{closeSheet(); currentIndex=0; beginPractice('reverse');poofGo();};
+const exS=$('#exSpelling');if(exS)exS.onclick=()=>{closeSheet(); currentIndex=0; beginPractice('spelling');poofGo();};
+const exG=$('#exGender');if(exG)exG.onclick=()=>{closeSheet(); currentIndex=0; beginPractice('gender');poofGo();};
+$('#backBtn').onclick=()=>{ if($('#readerView').classList.contains('on')||$('#flashView').classList.contains('on')||$('#quizView').classList.contains('on')) renderSection(currentSection); else openHome(); poofGo(); };
 $('#homeBtn').onclick=goHomeViaButton;
 var _poofBack=document.querySelector('.poof-back');if(_poofBack)_poofBack.addEventListener('click',savePracticeResume);
+if(_poofBack)_poofBack.addEventListener('click',function(){poofRecordExit();});
 $('#speakWord').onclick=()=>{const cw=currentWords()[currentIndex]; speak(cw.id||cw.ph||cw.w);};
 /* Box icon = BOTH Leitner systems (reconciliation): it was the local-Leitner shortcut (addToLeitner),
    and now also carries the removed pill's job (addToMainReview). One tap feeds both; local state stays
@@ -944,10 +1052,10 @@ $('#addBox').onclick=boxIconTap;
 $('#examples').addEventListener('click',e=>{const b=e.target.closest('.ex-speak'); if(!b) return; const w=currentWords()[currentIndex]; const arr=[w.ex,w.ex2]; speak(arr[+b.dataset.i]||w.id||w.ph||w.w);});
 $('#flashCard').onclick=()=>{flashFlipped=!flashFlipped; $('#flashBack').hidden=!flashFlipped;};
 $('#flipBtn').onclick=()=>$('#flashCard').click();
-$('#knowBtn').onclick=()=>{const w=currentWords()[currentIndex]; if(w) markProgress(w,true); currentIndex=(currentIndex+1)%currentWords().length; renderFlash();};
+$('#knowBtn').onclick=()=>{const w=currentWords()[currentIndex]; if(w) markProgress(w,true); currentIndex=(currentIndex+1)%currentWords().length; renderFlash();poofTrack();};
 $('#dontBtn').onclick=()=>{const w=currentWords()[currentIndex]; if(w) markProgress(w,false); flashFlipped=true; $('#flashBack').hidden=false;};
 $('#quizOpts').addEventListener('click',e=>{const b=e.target.closest('button[data-idx]'); if(!b) return; answerQuiz(+b.dataset.idx);});
-const si=$('#searchInput');if(si){si.addEventListener('input',renderSearch);si.addEventListener('focus',()=>{if(si.value.trim())renderSearch();});}
+const si=$('#searchInput');if(si){si.addEventListener('input',()=>{renderSearch();poofTrack();});si.addEventListener('focus',()=>{if(si.value.trim())renderSearch();});si.addEventListener('keydown',e=>{if(e.key==='Enter')poofGo();});}
 const eb=$('#exportBackup');if(eb)eb.onclick=saveBackup;
 const ib=$('#importBackup');if(ib)ib.onclick=()=>{const f=$('#importFile');if(f)f.click();};
 const imf=$('#importFile');if(imf)imf.addEventListener('change',()=>{importBackup(imf.files[0]);imf.value='';});
@@ -958,7 +1066,15 @@ $('#prevWordBtn').onclick=prevWord; $('#nextWordBtn').onclick=nextWord;
 // initial
 refreshDashboardCounts();
 openHome();
-tryRestorePracticeResume();
+var poofMarkerConsumed=false;
+try{poofMarkerConsumed=!!tryRestorePracticeResume();}catch(e){}
+if(window.PoofPos){
+  PoofPos.registerValidator('wortschatz.html',poofValidateWort);
+  poofBlockInit=poofMarkerConsumed;
+  try{PoofPos.init({page:'wortschatz.html',apply:function(pos){if(poofBlockInit)return;poofRestoring=true;try{poofApplyWort(pos);}catch(e){}poofRestoring=false;}});}catch(e){}
+  poofBlockInit=false;
+  if(poofMarkerConsumed){try{var _mp=poofCurPos();if(_mp)PoofPos.track(_mp);}catch(e){}}
+}
 
 </script>
 <!--
