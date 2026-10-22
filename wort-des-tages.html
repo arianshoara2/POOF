@@ -83,7 +83,8 @@ nav.poof-nav .ic{width:24px;height:24px;fill:none;stroke:currentColor;stroke-wid
 nav.poof-nav button.hero{width:54px;height:54px;margin:0 auto;border-radius:50%;background:linear-gradient(180deg,var(--gold),var(--gold2));color:#1a1307;box-shadow:0 8px 22px rgba(0,0,0,.45);display:grid;place-items:center}
 nav.poof-nav button.hero .ic{width:26px;height:26px}
 </style>
-<script>try{var _t=(JSON.parse(localStorage.getItem('poof_v2')||'{}').theme==='snowy')?'snowy':'classic';document.write('<link rel="stylesheet" id="themeCss" href="theme-'+_t+'.css?v=15">')}catch(e){document.write('<link rel="stylesheet" id="themeCss" href="theme-classic.css?v=15">')}</script>
+<script>try{var _t=(JSON.parse(localStorage.getItem('poof_v2')||'{}').theme==='snowy')?'snowy':'classic';document.write('<link rel="stylesheet" id="themeCss" href="theme-'+_t+'.css?v=16">')}catch(e){document.write('<link rel="stylesheet" id="themeCss" href="theme-classic.css?v=16">')}</script>
+<script src="poof-core.js"></script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
@@ -490,7 +491,7 @@ const W=RAW.split('\n').map(l=>{const p=l.split('|');return{de:p[0],art:p[1],pl:
 const $=id=>document.getElementById(id);
 /* تم مشترک با اپ اصلی: فقط poof_v2.theme (برفی فقط وقتی دقیقاً 'snowy' باشد) */
 let dbW={};try{dbW=JSON.parse(localStorage.getItem('poof_v2')||'{}')}catch(e){dbW={}}
-function applyThemeW(){var t=dbW.theme==='snowy'?'snowy':'classic';document.documentElement.dataset.theme=t;var tc=document.getElementById('themeCss');if(tc)tc.href='theme-'+t+'.css?v=15';var m=document.querySelector('meta[name=theme-color]');if(m)m.content=t==='snowy'?'#081421':'#111111';}
+function applyThemeW(){var t=dbW.theme==='snowy'?'snowy':'classic';document.documentElement.dataset.theme=t;var tc=document.getElementById('themeCss');if(tc)tc.href='theme-'+t+'.css?v=16';var m=document.querySelector('meta[name=theme-color]');if(m)m.content=t==='snowy'?'#081421':'#111111';}
 applyThemeW();
 /* ناوبری پایین: مثل صفحه‌های یکپارچه — تب را در poof_last_state می‌نویسد و به اپ اصلی می‌رود */
 document.querySelectorAll('#poofNav [data-tab]').forEach(function(b){b.addEventListener('click',function(){
@@ -638,5 +639,121 @@ window.addEventListener('scroll',function(){
 },{passive:true});
 render();
 </script>
+
+<script>
+/* POOF position wiring (Part B): this page had NO resume marker, so PoofPos
+   is its first restore path. section=day/random, cat=ISO date of the shown
+   day, anchor=day index (dayIdx(view), or the random index ov), selected=
+   open sheet word. The date clamp-forward rule is mirrored in the validator:
+   a date after today is clamped to today (future calendar days are disabled
+   in render() too); day indexes are clamped to 0..W.length-1 (365). */
+(function(){
+  if(!window.PoofPos) return;
+  var PAGE='wort-des-tages.html';
+  var wortGo=window.go, wortOpenSheet=window.openSheet;
+  function pad(n){ return (n<10?'0':'')+n; }
+  function iso(d){
+    try{ return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()); }
+    catch(e){ return ''; }
+  }
+  function parseISO(s){
+    try{
+      var m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(s||'');
+      if(!m) return null;
+      var d=new Date(+m[1], +m[2]-1, +m[3]);
+      if(d.getFullYear()!==+m[1] || d.getMonth()!==+m[2]-1 || d.getDate()!==+m[3]) return null;
+      return d;
+    }catch(e){ return null; }
+  }
+  function y(){ try{ return Math.round(window.scrollY||0); }catch(e){ return 0; } }
+  function sheetSelected(){
+    try{
+      var sh=document.getElementById('wsheet');
+      if(sh && !sh.hidden){
+        var t=document.getElementById('wsTitle');
+        return t ? (t.textContent||'').trim() : '';
+      }
+    }catch(e){}
+    return '';
+  }
+  function curPos(){
+    try{
+      var idx=(ov!==null) ? ov : dayIdx(view);
+      var sel=sheetSelected();
+      return window.PoofPos.make(PAGE, (ov!==null) ? 'random' : 'day', {
+        cat: iso(view), anchor: String(idx),
+        selected: sel, view: sel ? 'sheet' : '', scrollY: y()
+      });
+    }catch(e){ return null; }
+  }
+  function restoreScroll(pos){
+    var t=(pos && typeof pos.scrollY==='number' && isFinite(pos.scrollY)) ? Math.round(pos.scrollY) : 0;
+    if(!t) return;
+    try{ requestAnimationFrame(function(){ try{ window.scrollTo(0,t); }catch(e){} }); }catch(e){}
+    setTimeout(function(){ try{ window.scrollTo(0,t); }catch(e){} }, 350);
+  }
+  window.PoofPos.registerValidator(PAGE, function(pos){
+    try{
+      if(pos.section!=='day' && pos.section!=='random') pos.section='day';
+      var d=parseISO(pos.cat), t=parseISO(iso(today));
+      if(!d) d=t;
+      if(d>t) d=t;
+      pos.cat=iso(d);
+      var max=W.length-1;
+      if(pos.section==='random'){
+        var ix=parseInt(pos.anchor,10);
+        if(!isFinite(ix)) ix=0;
+        pos.anchor=String(Math.min(Math.max(0,ix), max));
+      } else {
+        pos.anchor=String(dayIdx(d));
+      }
+      return pos;
+    }catch(e){ return null; }
+  });
+  window.PoofPos.init({ page: PAGE, apply: function(pos){
+    try{
+      var d=parseISO(pos.cat) || today;
+      if(pos.section==='random'){
+        view=new Date(d);
+        var ix=parseInt(pos.anchor,10);
+        ov=isFinite(ix) ? ix : null;
+        cm=view.getMonth(); cy=view.getFullYear();
+        render();
+      } else if(typeof wortGo==='function'){
+        wortGo(d);
+      }
+      if(pos.selected && typeof wortOpenSheet==='function'){
+        try{ wortOpenSheet(pos.selected); }catch(e){}
+      }
+      restoreScroll(pos);
+    }catch(e){}
+  }});
+  window.addEventListener('scroll', function(){ var p=curPos(); if(p) window.PoofPos.saveSoon(p); }, {passive:true});
+  var navBtns=document.querySelectorAll('#poofNav [data-tab]');
+  navBtns.forEach(function(b){
+    b.addEventListener('click', function(){ var p=curPos(); if(p) window.PoofPos.saveNow(p); });
+  });
+  var backLink=document.querySelector('.poof-back a');
+  if(backLink) backLink.addEventListener('click', function(){ var p=curPos(); if(p) window.PoofPos.saveNow(p); });
+  ['prev','next','tod','rnd'].forEach(function(id){
+    var b=document.getElementById(id);
+    if(b) b.addEventListener('click', function(){ setTimeout(function(){ var p=curPos(); if(p) window.PoofPos.go(p); }, 0); });
+  });
+  var grid=document.getElementById('grid');
+  if(grid) grid.addEventListener('click', function(){ setTimeout(function(){ var p=curPos(); if(p) window.PoofPos.go(p); }, 0); });
+  /* Sheet open is progress (track); sheet close is left alone on purpose:
+     the close handlers may call history.back(), which a track/go here
+     would fight. The next scroll or tap re-tracks the position. */
+  document.addEventListener('click', function(e){
+    var t=e.target && e.target.closest ? e.target.closest('.ptok') : null;
+    if(t) setTimeout(function(){ var p=curPos(); if(p) window.PoofPos.track(p); }, 0);
+  });
+  document.addEventListener('click', function(e){
+    var a=e.target && e.target.closest ? e.target.closest('a[href]') : null;
+    if(a){ var p=curPos(); if(p) window.PoofPos.saveNow(p); }
+  });
+})();
+</script>
+
 </body>
 </html>

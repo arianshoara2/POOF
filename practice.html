@@ -82,7 +82,8 @@ nav.poof-nav button.hero:active{transform:translateY(-12px)}
 nav.poof-nav button.hero .ic{width:26px;height:26px}
 nav.poof-nav button.hero.on{background:linear-gradient(135deg,var(--accent),#caa25e);color:var(--bg);filter:brightness(1.08);box-shadow:0 0 0 3px var(--bg),0 10px 26px rgba(0,0,0,.55),0 0 20px var(--active,rgba(230,185,111,.14))}
 </style>
-<script>try{var _t=(JSON.parse(localStorage.getItem('poof_v2')||'{}').theme==='snowy')?'snowy':'classic';document.write('<link rel="stylesheet" id="themeCss" href="theme-'+_t+'.css?v=15">')}catch(e){document.write('<link rel="stylesheet" id="themeCss" href="theme-classic.css?v=15">')}</script>
+<script>try{var _t=(JSON.parse(localStorage.getItem('poof_v2')||'{}').theme==='snowy')?'snowy':'classic';document.write('<link rel="stylesheet" id="themeCss" href="theme-'+_t+'.css?v=16">')}catch(e){document.write('<link rel="stylesheet" id="themeCss" href="theme-classic.css?v=16">')}</script>
+<script src="poof-core.js"></script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
@@ -117,7 +118,7 @@ const K="poof_v2";
 let db={};
 try{db=JSON.parse(localStorage.getItem(K))||{}}catch(e){db={}}
 db.cards=db.cards||[];
-function applyTheme(){var t=db.theme==="snowy"?"snowy":"classic";document.documentElement.dataset.theme=t;var tc=document.getElementById("themeCss");if(tc)tc.href="theme-"+t+".css?v=15";var m=document.querySelector("meta[name=theme-color]");if(m)m.content=t==="snowy"?"#081421":"#111111";}
+function applyTheme(){var t=db.theme==="snowy"?"snowy":"classic";document.documentElement.dataset.theme=t;var tc=document.getElementById("themeCss");if(tc)tc.href="theme-"+t+".css?v=16";var m=document.querySelector("meta[name=theme-color]");if(m)m.content=t==="snowy"?"#081421":"#111111";}
 applyTheme();
 $("#backBtn").onclick=()=>{savePracticeResume();if(history.length>1)history.back();else location.href="index.html"};
 function $(s){return document.querySelector(s)}
@@ -165,7 +166,7 @@ function loadPracticeResume(){
   let m=null;
   try{m=JSON.parse(raw)}catch(e){return}
   if(!m||m.page!=="practice.html")return; // foreign-page marker: leave untouched
-  try{localStorage.removeItem("poof_practice_resume")}catch(e){} // consume
+  try{localStorage.removeItem("poof_practice_resume");window.__poofPracticeMarkerConsumed=true;}catch(e){} // consume
   const st=m.state||{};
   const y=(typeof st.scrollY==="number"&&isFinite(st.scrollY))?st.scrollY:0;
   if(st.mode&&MODES.some(x=>x.id===st.mode))startMode(st.mode); // re-enter recorded mode; else hub home stays
@@ -430,5 +431,75 @@ window.addEventListener("scroll",function(){
   else if(y<lastToggleY-40){nav.classList.remove("nav-hidden");lastToggleY=y}
 },{passive:true});
 </script>
+
+<script>
+/* POOF position wiring (Part B): restores mode/scroll via PoofPos.
+   section=mode/hub, cat=mode id, anchor/seen=current card front.
+   Marker priority: if loadPracticeResume() consumed a poof_practice_resume
+   marker for this page at boot (window.__poofPracticeMarkerConsumed, set
+   beside the existing removeItem call), apply() is a NO-OP. The back button
+   is saveNow-only on purpose: its handler calls history.back(), and a go()
+   here would push a hash entry that hijacks that back navigation. */
+(function(){
+  if(!window.PoofPos) return;
+  var PAGE='practice.html';
+  var markerConsumed=!!window.__poofPracticeMarkerConsumed;
+  var MODE_IDS=MODES.map(function(m){ return m.id; });
+  function y(){ try{ return Math.round(window.scrollY||0); }catch(e){ return 0; } }
+  function curPos(){
+    try{
+      var mode=currentMode || '', card='';
+      try{ if(S && S.cards && S.cards[S.i]) card=S.cards[S.i].front||''; }catch(e){}
+      return window.PoofPos.make(PAGE, mode ? 'mode' : 'hub', {
+        cat: mode, anchor: card, seen: card, scrollY: y()
+      });
+    }catch(e){ return null; }
+  }
+  function restoreScroll(pos){
+    var t=(pos && typeof pos.scrollY==='number' && isFinite(pos.scrollY)) ? Math.round(pos.scrollY) : 0;
+    if(!t) return;
+    try{ requestAnimationFrame(function(){ try{ window.scrollTo(0,t); }catch(e){} }); }catch(e){}
+    setTimeout(function(){ try{ window.scrollTo(0,t); }catch(e){} }, 350);
+  }
+  window.PoofPos.registerValidator(PAGE, function(pos){
+    try{
+      if(pos.cat && MODE_IDS.indexOf(pos.cat)<0){ pos.cat=''; }
+      pos.section = pos.cat ? 'mode' : 'hub';
+      return pos;
+    }catch(e){ return null; }
+  });
+  window.PoofPos.init({ page: PAGE, apply: function(pos){
+    if(markerConsumed) return;
+    try{
+      if(pos.cat && pos.cat!==currentMode) startMode(pos.cat);
+      else if(!pos.cat && currentMode) viewHome();
+      restoreScroll(pos);
+    }catch(e){}
+  }});
+  window.addEventListener('scroll', function(){ var p=curPos(); if(p) window.PoofPos.saveSoon(p); }, {passive:true});
+  var navBtns=document.querySelectorAll('#poofNav button[data-tab]');
+  navBtns.forEach(function(b){
+    b.addEventListener('click', function(){ var p=curPos(); if(p) window.PoofPos.saveNow(p); });
+  });
+  var backBtn=document.getElementById('backBtn');
+  if(backBtn) backBtn.addEventListener('click', function(){ var p=curPos(); if(p) window.PoofPos.saveNow(p); });
+  var appEl=document.getElementById('app');
+  if(appEl) appEl.addEventListener('click', function(e){
+    var t=e.target;
+    var away=(t && t.closest) ? t.closest('a[href],[onclick]') : null;
+    if(away){ var p=curPos(); if(p) window.PoofPos.saveNow(p); return; }
+    var before=currentMode ? 'mode' : 'hub';
+    setTimeout(function(){
+      var p=curPos(); if(!p) return;
+      if(p.section!==before) window.PoofPos.go(p); else window.PoofPos.track(p);
+    }, 0);
+  });
+  document.addEventListener('click', function(e){
+    var a=e.target && e.target.closest ? e.target.closest('a[href]') : null;
+    if(a){ var p=curPos(); if(p) window.PoofPos.saveNow(p); }
+  });
+})();
+</script>
+
 </body>
 </html>
