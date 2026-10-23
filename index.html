@@ -2182,7 +2182,7 @@ async function showEntry(box,raw,ctx,src,lang){
   <label class="sense"><input type="radio" name="ex" value="-1"><span class="mute">بدون جمله</span></label>`+exs.map((x,i)=>`<label class="sense"><input type="radio" name="ex" value="${i}" ${i?"":"checked"}>${exHtml(x)}</label>`).join(""):""}
  ${dict?`<details style="margin-top:8px"><summary>همه‌ی معنی‌ها و عبارت‌ها (wort.app)</summary>${dict.senses.map(s=>`<p><b>${sr(s.meaning,"fa")}</b>${s.note?` <span class="mute de">${esc(s.note)}</span>`:""}`+
   [...s.ex,...s.ph].filter(x=>x.de).map(x=>`<span class="sense">${exHtml(x)}</span>`).join("")+`</p>`).join("")}</details>`:""}
- ${e.bamooz?bamoozPanelSafe(e.bamooz,"de"):""}
+ ${e.bamooz?`<details style="margin-top:8px"><summary>همه‌ی معنی‌ها و عبارت‌ها (بیاموز)</summary>${bamoozPanelSafe(e.bamooz,"de")}</details>`:""}
  ${flat.length?`<p style="margin:10px 0 4px">تعریف انگلیسی (Wiktionary):</p>`+flat.map((s,i)=>`<label class="sense"><input type="radio" name="sn" value="${i}" ${i?"":"checked"}><span><i>${esc(s.pos)}</i> — ${sr(s.def,"en")}</span></label>`).join(""):""}
  ${!flat.length&&!(e.fa||[]).length?`<p class="mute">نتیجه‌ای پیدا نشد؛ می‌توانید معنی را دستی بنویسید.</p>`:""}
  <div id="richSlot">${e.rich?richHTML(e.rich):""}</div>
