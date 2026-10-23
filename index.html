@@ -485,7 +485,7 @@ html:not([data-theme=snowy]) #s-cards #list .card::after{background:linear-gradi
    <div class="seg" id="tlSeg"><button class="on" data-tl="auto">خودکار</button><button data-tl="de">DE</button><button data-tl="en">EN</button><button data-tl="fa">فا</button></div>
    <textarea id="tBody" dir="auto" rows="6" placeholder="هر متن فارسی، آلمانی یا انگلیسی را اینجا بنویسید یا بچسبانید"></textarea>
    <div class="row"><button class="ghost" id="tPaste">چسباندن</button><button id="tAdd" style="flex:1">ذخیره و خواندن</button></div>
-   <div class="row" style="margin-top:10px"><button class="ghost" id="subPick">وارد کردن زیرنویس (SRT/VTT)</button><input id="subFile" type="file" accept=".srt,.vtt" hidden></div>
+   <div class="row" style="margin-top:10px"><button class="ghost" id="subPick">وارد کردن زیرنویس (SRT/VTT)</button><input id="subFile" type="file" accept=".srt,.vtt" hidden><button class="ghost" id="zabanSearchBtn">جست‌وجو در زبان</button></div>
    <div class="seg" id="subLangSeg" style="margin-top:8px"><button class="on" data-subl="auto">خودکار</button><button data-subl="de">DE</button><button data-subl="en">EN</button></div>
   </div>
   <div class="card" id="vp" hidden>
@@ -3167,6 +3167,7 @@ const localSeek=s=>{if(!localActive())return false;lv.currentTime=s;const pr=lv.
 let subLang="auto";
 $("#subLangSeg").onclick=e=>{const b=e.target.closest("[data-subl]");if(!b)return;subLang=b.dataset.subl;$$("#subLangSeg button").forEach(x=>x.classList.toggle("on",x===b))};
 $("#subPick").onclick=()=>$("#subFile").click();
+$("#zabanSearchBtn").onclick=()=>window.open("https://app.zaban.com/searchRoot","_blank","noopener");
 $("#subFile").onchange=async e=>{const f=e.target.files[0];e.target.value="";if(!f)return;try{await importSubs(f,subLang)}catch(x){toast("خواندن فایل زیرنویس ممکن نشد","bad")}};
 $("#lvPick").onclick=()=>$("#lvFile").click();
 $("#lvFile").onchange=e=>{const f=e.target.files[0];e.target.value="";if(f)useLocalVideo(f)};
