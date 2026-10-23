@@ -3441,7 +3441,7 @@ async function zbLoadSubFile(s){
   zbSegs=parseSubs(await r.text());
  }catch(e){zbSegs=[];toast("دریافت زیرنویس ممکن نشد","bad");return}
  const list=$("#zbSubList");
- list.innerHTML=zbSegs.map(x=>`<div class="tline" data-ts="${x.s}" style="padding:4px 6px;border-radius:6px" dir="auto">${esc(x.t)}</div>`).join("");
+ list.innerHTML=zbSegs.map(x=>`<div class="tline" data-ts="${x.s}" style="padding:4px 6px;border-radius:6px" dir="auto">${wrapWords(x.t)}</div>`).join("");
  $("#zbSubBar").hidden=false;$("#zbSubLine").textContent="";
  zbStartSync();
 }
@@ -3451,13 +3451,19 @@ function zbStartSync(){
   const v=$("#zbVideo");if(!v||v.hidden||!zbSegs.length)return;
   const c=v.currentTime;let i=-1;for(let k=0;k<zbSegs.length;k++){if(zbSegs[k].s<=c+.2)i=k;else break}
   if(i===zbCurSub)return;zbCurSub=i;
-  const line=$("#zbSubLine");if(line)line.textContent=i>=0?zbSegs[i].t:"";
+  const line=$("#zbSubLine");if(line)line.innerHTML=i>=0?wrapWords(zbSegs[i].t):"";
   $$("#zbSubList .tline").forEach((el,k)=>el.classList.toggle("cur",k===i));
  },500);
 }
 $("#zbSubList").addEventListener("click",e=>{
+ const w=e.target.closest(".w");
+ if(w){try{tab("dict");dsearch(w.dataset.w)}catch(err){}return}
  const b=e.target.closest("[data-ts]");if(!b)return;
  const v=$("#zbVideo");if(!v)return;v.currentTime=+b.dataset.ts;const pr=v.play();if(pr&&pr.catch)pr.catch(()=>{});
+});
+$("#zbSubLine").addEventListener("click",e=>{
+ const w=e.target.closest(".w");if(!w)return;
+ try{tab("dict");dsearch(w.dataset.w)}catch(err){}
 });
 const zbSubJump=dir=>{
  const v=$("#zbVideo");if(!v||!zbSegs.length)return;const c=v.currentTime;let j=-1;
