@@ -3330,7 +3330,7 @@ $("#zbBack").onclick=()=>zbBack();
 $("#zbKindSeg").onclick=e=>{const b=e.target.closest("[data-zbk]");if(!b)return;zbKind=b.dataset.zbk;$$("#zbKindSeg button").forEach(x=>x.classList.toggle("on",x===b));if($("#zbQ").value.trim())zbSearch()};
 let zbSearchSeq=0,zbDeb=null;
 async function zbSearch(){
- const q=$("#zbQ").value.trim();
+ const q=$("#zbQ").value.trim().toLowerCase();
  const seq=++zbSearchSeq;
  if(zbDeb){clearTimeout(zbDeb);zbDeb=null}
  const box=$("#zbRes");
@@ -3341,6 +3341,7 @@ async function zbSearch(){
   if(zbKind==="movie"){
    items=zbArr(await zbFetch("video-box/movies?search_key="+encodeURIComponent(q)+"&genre_id=&per_page=20&page=1")).filter(x=>x&&typeof x==="object").map(x=>({...x,__type:"movie"}));
   }else{
+   if(q.length<3){box.innerHTML=`<p class="state empty">برای جست‌وجوی همه، حداقل ۳ حرف بنویس</p>`;return}
    const j=await zbFetch("search/?search_key="+encodeURIComponent(q)+"&page=1&per_page=20");
    const d=j&&typeof j==="object"&&!Array.isArray(j.data)&&j.data&&typeof j.data==="object"?j.data:null;
    if(d&&(Array.isArray(d.movies)||Array.isArray(d.series))){
@@ -3466,10 +3467,16 @@ const zbSubJump=dir=>{
 };
 $("#zbPrevSub").onclick=()=>zbSubJump(-1);
 $("#zbNextSub").onclick=()=>zbSubJump(1);
+function zbUseNative(v){
+ const ua=navigator.userAgent||"";
+ const isIOS=/iPad|iPhone|iPod/.test(ua)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
+ const isSafari=/Safari/.test(ua)&&!/Chrome|Chromium|Edg|OPR|EdgA|OPiOS|FxiOS|CriOS/.test(ua);
+ return (isIOS||isSafari)&&v.canPlayType("application/vnd.apple.mpegurl")!=="";
+}
 function zbAttachHls(v,url){
  return new Promise(res=>{
   let done=false;const fin=()=>{if(!done){done=true;res()}};
-  if(v.canPlayType("application/vnd.apple.mpegurl")){v.src=url;v.addEventListener("loadedmetadata",fin,{once:true});setTimeout(fin,3000);return}
+  if(zbUseNative(v)){v.src=url;v.addEventListener("loadedmetadata",fin,{once:true});setTimeout(fin,3000);return}
   const go=()=>{
    try{
     if(zbHls)zbHls.destroy();
@@ -3480,23 +3487,28 @@ function zbAttachHls(v,url){
    }catch(e){toast("پخش این ویدیو ممکن نشد","bad");fin()}
   };
   if(window.Hls){go();return}
-  const s=document.createElement("script");s.src="https://cdn.jsdelivr.net/npm/hls.js@latest";
-  s.onload=()=>{if(window.Hls)go();else{toast("بارگذاری پخش‌کننده ممکن نشد","bad");fin()}};
-  s.onerror=()=>{toast("بارگذاری پخش‌کننده ممکن نشد","bad");fin()};
-  document.head.appendChild(s);
+  const zbHlsSrcs=["https://cdn.jsdelivr.net/npm/hls.js@latest","https://unpkg.com/hls.js@latest/dist/hls.min.js","https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.13/hls.min.js"];
+  const zbLoadHls=i=>{
+   if(i>=zbHlsSrcs.length){toast("بارگذاری پخش‌کننده ممکن نشد","bad");fin();return}
+   const s=document.createElement("script");s.src=zbHlsSrcs[i];
+   s.onload=()=>{if(window.Hls)go();else zbLoadHls(i+1)};
+   s.onerror=()=>zbLoadHls(i+1);
+   document.head.appendChild(s);
+  };
+  zbLoadHls(0);
  });
 }
 async function zbPlayCurrent(){
  const v=$("#zbVideo");if(!v||!zbPlayUrl)return;
  v.hidden=false;
- if(v.canPlayType("application/vnd.apple.mpegurl")){
+ if(zbUseNative(v)){
   v.src=zbPlayUrl;
   if(zbResume>0){const r=zbResume;zbResume=0;v.addEventListener("loadedmetadata",()=>{try{v.currentTime=r}catch(e){}},{once:true})}
  }else{
   await zbAttachHls(v,zbPlayUrl);
  }
  if(zbHistPending)zbHistRecord({...zbHistPending,pos:zbResume||0});
- const pr=v.play();if(pr&&pr.catch)pr.catch(()=>{});
+ const pr=v.play();if(pr&&pr.catch)pr.catch(()=>{toast("پخش این ویدیو ممکن نشد","bad")});
 }
 $("#zbPlay").onclick=()=>zbPlayCurrent();
 /* ===== زبان: تاریخچه‌ی تماشا (محلی + سرور، بی‌صدا) ===== */
