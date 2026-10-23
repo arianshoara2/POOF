@@ -101,6 +101,7 @@ input[type=radio]{accent-color:var(--accent)}
 .ctx{margin-top:6px;padding-top:10px;border-top:1px solid var(--border);font-style:italic}
 /* ===== stats ===== */
 .stat{text-align:center}.stat b{display:block;font:700 20px/1.3 var(--serif);color:var(--accent)}
+.help-sec{margin-bottom:20px}.help-sec h3{margin:0 0 6px;font-size:17px}.help-sec p{margin:0 0 8px}.help-ph{border:1.5px dashed var(--border);border-radius:14px;padding:24px 12px;text-align:center;color:var(--muted);font-size:14px}.help-ph img{width:100%;border-radius:10px;display:block}
 #s-me .stat .mute{font-size:11px}
 #s-me .bars{height:56px;gap:6px}
 #s-me .bars div{background:var(--accent);opacity:.85;border-radius:5px}
@@ -152,7 +153,7 @@ button.ib.pri{background:var(--accent);color:var(--bg);border-color:var(--accent
 #ltEntry{position:absolute;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));max-height:62vh;overflow:auto;z-index:5;margin:0}
 .lt-ctx{width:100%;font:italic 18px/1.9 var(--serif)}.lt-fa{font:16px/1.9 var(--sans);font-style:normal}
 #ed{position:fixed;inset:0;z-index:300;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
-#ask,#about{position:fixed;inset:0;z-index:310;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+#ask,#about,#help{position:fixed;inset:0;z-index:310;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
 #moviePick,#podPick{position:fixed;inset:0;z-index:310;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
 #podPick .pod-scenic{position:absolute;inset:0;z-index:0;background-size:cover;background-position:center;pointer-events:none}
 #podPick .pod-scenic::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.30),rgba(0,0,0,.55))}
@@ -613,7 +614,7 @@ html:not([data-theme=snowy]) #s-cards #list .card::after{background:linear-gradi
    </details>
   </div>
   <div class="card">
-   <div class="row"><button class="ghost" id="aboutBtn">ⓘ درباره poof</button></div>
+   <div class="row"><button class="ghost" id="helpBtn">📖 راهنمای استفاده</button><button class="ghost" id="aboutBtn">ⓘ درباره poof</button></div>
   </div>
  </section>
 </main>
@@ -657,9 +658,43 @@ html:not([data-theme=snowy]) #s-cards #list .card::after{background:linear-gradi
  <div class="ed-top"><b>درباره poof</b><button class="ib" id="aboutClose" aria-label="بستن"><svg class="ic" aria-hidden="true"><use href="#i-close"/></svg></button></div>
  <div style="text-align:center;padding:8px 0 4px"><img src="icon.svg" alt="poof" style="width:72px;height:72px;border-radius:18px"></div>
  <p style="text-align:center;margin:4px 0 2px"><b>poof</b></p>
- <p class="mute" style="text-align:center;margin:0 0 12px">نسخه ۶۹</p>
+ <p class="mute" style="text-align:center;margin:0 0 12px">نسخه ۷۰</p>
  <p style="margin:0 0 10px">با همکاری اصلی هوش مصنوعی موزی و آرین شعرا، با کمک چت‌جی‌پی‌تی و کلود، به‌صورت متن‌باز در گیت‌هاب ساخته شده است.</p>
  <p style="margin:0"><a href="https://github.com/arianshoara2/POOF" target="_blank" rel="noopener">github.com/arianshoara2/POOF</a></p>
+</div></div>
+<div id="help" hidden role="dialog" aria-label="راهنمای استفاده از POOF"><div class="ask-card">
+ <div class="ed-top"><b>📖 راهنمای استفاده از POOF</b><button class="ib" id="helpClose" aria-label="بستن"><svg class="ic" aria-hidden="true"><use href="#i-close"/></svg></button></div>
+ <p class="mute" style="margin-top:0">قدم‌به‌قدم با عکس، که چطور از POOF استفاده کنی:</p>
+ <div class="help-sec">
+  <h3>۱ · خواندن با POOF Select</h3>
+  <p>روی هر کلمه بزن تا ورق معنی‌اش باز شود. کلمه را نگه دار و بکش تا یک عبارت را با هم انتخاب کنی.</p>
+  <div class="help-ph" data-slot="select">📷 جای عکس این بخش</div>
+ </div>
+ <div class="help-sec">
+  <h3>۲ · دیکشنری</h3>
+  <p>کلمه‌های آلمانی و انگلیسی را جست‌وجو کن: تلفظ، جنسیت و جمع، مثال‌های واقعی و ریشه‌شناسی. کلماتی که بلدی هایلایت می‌شوند و درصد بلدی هر متن را می‌بینی.</p>
+  <div class="help-ph" data-slot="dict">📷 جای عکس این بخش</div>
+ </div>
+ <div class="help-sec">
+  <h3>۳ · کارت‌ها</h3>
+  <p>با دکمه‌ی + هر کلمه را به کارت‌های خودت اضافه کن و با مرور لایتنر (۵ جعبه) تثبیتش کن.</p>
+  <div class="help-ph" data-slot="cards">📷 جای عکس این بخش</div>
+ </div>
+ <div class="help-sec">
+  <h3>۴ · مرور و تمرین</h3>
+  <p>از بخش مرور و یادگیری تمرین کن: بازی der / die / das، آزمون تعیین سطح و مربی آزمون کالج.</p>
+  <div class="help-ph" data-slot="review">📷 جای عکس این بخش</div>
+ </div>
+ <div class="help-sec">
+  <h3>۵ · همگام‌سازی گوگل</h3>
+  <p>با حساب گوگل وارد شو تا کلمات و تاریخچه‌ات روی گوگل‌درایو خودت ذخیره شود و با هر گوشی که وارد شوی سر جایش باشد.</p>
+  <div class="help-ph" data-slot="sync">📷 جای عکس این بخش</div>
+ </div>
+ <div class="help-sec">
+  <h3>۶ · تم‌ها</h3>
+  <p>از همین صفحه‌ی پروفایل، بین تم Snowy (آبی شبانه و آرام) و Classic (گرم، تیره و طلایی) جابه‌جا شو.</p>
+  <div class="help-ph" data-slot="theme">📷 جای عکس این بخش</div>
+ </div>
 </div></div>
 <div id="cdetail" hidden role="dialog" aria-label="جزئیات کارت"><div class="ask-card">
  <div class="ed-top"><b>🃏 کارت</b><button class="ib" id="cdClose" aria-label="بستن"><svg class="ic" aria-hidden="true"><use href="#i-close"/></svg></button></div>
@@ -2117,7 +2152,7 @@ document.addEventListener("keydown",e=>{if(e.key==="Escape"&&peekOpen())closePee
    وقتی هیچ‌کدام باز نیستند، رفتار پیش‌فرض مرورگر دست نخورده می‌ماند. */
 window.addEventListener("popstate",(e)=>{
  try{
-  const busy=["#uiModal","#ask","#about","#ed","#moviePick","#podPick","#cdetail"].some(s=>{const el=$(s);return el&&!el.hidden});
+  const busy=["#uiModal","#ask","#about","#help","#ed","#moviePick","#podPick","#cdetail"].some(s=>{const el=$(s);return el&&!el.hidden});
   if(busy)return;
   if(peekOpen()){closePeek();return}
   const eb=$("#entry");
@@ -2625,6 +2660,9 @@ $("#askClose").onclick=()=>{$("#ask").hidden=true};
 $("#aboutBtn").onclick=()=>{$("#about").hidden=false};
 $("#aboutClose").onclick=()=>{$("#about").hidden=true};
 $("#about").addEventListener("click",e=>{if(e.target.id==="about")$("#about").hidden=true});
+$("#helpBtn").onclick=()=>{$("#help").hidden=false};
+$("#helpClose").onclick=()=>{$("#help").hidden=true};
+$("#help").addEventListener("click",e=>{if(e.target.id==="help")$("#help").hidden=true});
 $("#ask").addEventListener("click",e=>{if(e.target.id==="ask")$("#ask").hidden=true});
 $("#cdClose").onclick=()=>{$("#cdetail").hidden=true};
 $("#cdetail").addEventListener("click",e=>{if(e.target.id==="cdetail")$("#cdetail").hidden=true});
