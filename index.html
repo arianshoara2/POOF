@@ -477,11 +477,26 @@ html:not([data-theme=snowy]) #s-cards #list .card::after{background:linear-gradi
   <div id="lib"></div>
    </div>
   </div>
-  <div class="card" id="zbShelfCard">
-   <div class="row" style="margin-bottom:6px;align-items:center"><b>🎬 قفسه‌ی زبان</b><span class="mute" style="font-size:12px">با زدن روی هر عنوان، در خود زبان باز می‌شود</span></div>
-   <div id="zbList"></div>
-   <input id="zbTitle" placeholder="عنوان (مثلاً برکینگ بد)">
-   <div class="row" style="margin-top:8px"><input id="zbUrl" dir="ltr" placeholder="لینک اشتراک زبان" style="flex:1"><button class="ib pri" id="zbAdd" aria-label="افزودن به قفسه"><svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></button></div>
+  <div class="card" id="zabanCard">
+   <div class="row" style="margin-bottom:6px;align-items:center"><b>🎬 زبان</b><span class="mute" style="font-size:12px">سرچ و پخش داخل پووف</span></div>
+   <div class="row" style="gap:6px;margin-bottom:8px;flex-wrap:wrap"><button class="chip zbSaved" data-zbsaved="movie:1812">🐻 حیوانات</button><button class="chip zbSaved" data-zbsaved="ep:16:508">📺 برکینگ بد — قسمت ۱</button></div>
+   <div class="seg" id="zbKindSeg" style="margin-bottom:8px"><button class="on" data-zbk="all">همه</button><button data-zbk="movie">فیلم</button><button data-zbk="series">سریال</button></div>
+   <div class="searchbar"><input id="zbQ" dir="auto" placeholder="نام فیلم یا سریال…"><button class="ib pri" id="zbGo" aria-label="جست‌وجو"><svg class="ic" aria-hidden="true"><use href="#i-dict"/></svg></button></div>
+   <div id="zbRes"></div>
+   <div id="zbDetail" hidden>
+    <div class="row" style="gap:10px;align-items:flex-start;margin-top:10px"><img id="zbPoster" style="width:72px;border-radius:8px;flex:none" hidden><div style="flex:1;min-width:0"><b id="zbDTitle" dir="auto" style="display:block"></b><span id="zbDLevel" class="chip" hidden></span><div class="mute" id="zbDMeta" style="font-size:12px"></div></div><button class="ib" id="zbBack" aria-label="بازگشت">✕</button></div>
+    <details id="zbDescWrap" style="margin-top:8px" hidden><summary>توضیح</summary><p id="zbDesc" class="mute" dir="auto"></p></details>
+    <p class="mute" id="zbIpNote" hidden style="font-size:12px;margin:6px 0 0">برای دیدن همه‌ی ویدیوها وی‌پی‌ان را خاموش کن</p>
+    <div id="zbSeriesNav" hidden></div>
+    <div class="row" style="margin-top:10px"><button id="zbPlay" style="flex:1" hidden>▶ پخش</button></div>
+    <video id="zbVideo" controls playsinline style="width:100%;border-radius:12px;margin-top:10px" hidden></video>
+    <div id="zbSubBar" hidden>
+     <div class="row" style="gap:6px;margin-top:8px;align-items:center"><button class="ghost" id="zbPrevSub">قبلی</button><button class="ghost" id="zbNextSub">بعدی</button><div class="seg" id="zbSubSeg" style="flex:1"></div></div>
+     <p id="zbSubLine" style="margin:10px 0;padding:10px;border:1px solid var(--border);border-radius:10px;font-size:17px;line-height:1.9;min-height:1.9em" dir="auto"></p>
+     <div id="zbSubList"></div>
+    </div>
+    <div id="zbVocab" hidden></div>
+   </div>
   </div>
   <div class="card" id="addPanel" hidden>
    <div class="searchbar"><input id="tUrl" dir="ltr" placeholder="لینک یوتیوب یا مقاله…"><button class="ib pri" id="tGet" aria-label="دریافت از لینک"><svg class="ic" aria-hidden="true"><use href="#i-link"/></svg></button></div>
@@ -622,6 +637,8 @@ html:not([data-theme=snowy]) #s-cards #list .card::after{background:linear-gradi
    <input id="proxy" class="de" placeholder="https://…workers.dev/?url={url}"><button class="ghost full" id="proxyTest" style="margin-bottom:10px">ذخیره و آزمایش اتصال به wort.app</button>
    <p class="mute" style="margin:0 0 4px">کلید امنیتی ورکر (اختیاری — اگر در ورکر Secret با نام API_KEY ساخته‌اید، همان مقدار را اینجا بگذارید)</p>
    <input id="wkey" class="de" dir="ltr" placeholder="API_KEY (اختیاری)" autocomplete="off">
+   <p class="mute" style="margin:10px 0 4px">توکن زبان (برای سرچ و پخش زبان داخل پووف — فقط روی همین دستگاه ذخیره می‌شود)</p>
+   <input id="zbToken" class="de" dir="ltr" type="password" placeholder="توکن زبان" autocomplete="off">
    <div class="row" style="margin-top:8px"><label class="ghost-label">ورود پشتیبان<input id="imp" type="file" accept=".json,application/json" hidden></label></div>
    <div class="row" style="margin-top:8px"><label class="ghost-label">ورود کارت‌ها (افزودن به کارت‌های فعلی)<input id="impCards" type="file" accept=".json,application/json" hidden></label></div>
    </details>
@@ -3246,22 +3263,258 @@ $("#vpSeg").onclick=async e=>{
  try{await importYT(t.video.id,b.dataset.vl)}catch(x){toast(friendly(x),"bad")}
 };
 
-/* ===== قفسه‌ی زبان (لینک‌های اشتراک؛ باز شدن در خود زبان) ===== */
-const zbKind=u=>u.includes("/movies/")?"🎬 فیلم":u.includes("/series/")?"📺 سریال":"🔗 لینک";
-function renderZbShelf(){
- if(!Array.isArray(db.zbShelf))db.zbShelf=[{t:"حیوانات",u:"https://zaban.com/share/movies/1812?language=fa"},{t:"برکینگ بد — قسمت ۱",u:"https://zaban.com/share/series/16/seasons/18/episodes/508?language=fa"}];
- const el=$("#zbList");if(!el)return;
- el.innerHTML=db.zbShelf.length?db.zbShelf.map((z,i)=>`<div class="row" style="align-items:center;gap:6px;margin-bottom:6px"><a href="${esc(z.u)}" target="_blank" rel="noopener" style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" dir="auto">${esc(z.t)}</a><span class="mute" style="font-size:12px;flex:none">${zbKind(z.u)}</span><button class="ib" data-zbdel="${i}" aria-label="حذف">✕</button></div>`).join(""):`<p class="mute" style="margin:0">هنوز عنوانی نیست — لینک اشتراک یک فیلم یا قسمت را از زبان اینجا بگذار.</p>`;
- el.querySelectorAll("[data-zbdel]").forEach(b=>b.onclick=async()=>{if(!await uiConfirm("این عنوان از قفسه حذف شود؟",{okText:"حذف",danger:true}))return;db.zbShelf.splice(+b.dataset.zbdel,1);save();renderZbShelf();});
+/* ===== زبان (سرچ و پخش داخل پووف؛ استفاده‌ی شخصی، توکن فقط روی دستگاه) ===== */
+const ZB_BASE="https://api.zaban.io/api/v1/";
+const zbToken=()=>{try{return (localStorage.getItem("poof_zaban_token")||"").trim().replace(/^bearer\s+/i,"")}catch(e){return ""}};
+async function zbFetch(path,quiet){
+ const tk=zbToken();
+ if(!tk){if(!quiet)toast("توکن زبان را در پروفایل (تنظیمات پیشرفته) وارد کن","bad");throw new Error("notoken")}
+ let r;
+ try{r=await fetch(ZB_BASE+path,{headers:{Authorization:"Bearer "+tk,Accept:"application/json"}})}
+ catch(e){if(!quiet)toast("اتصال به زبان ممکن نشد","bad");throw e}
+ let j=null;try{j=await r.json()}catch(e){if(!quiet)toast("پاسخ زبان خوانده نشد","bad");throw e}
+ if(!r.ok||j.status===false){
+  if(r.status===401||r.status===403||/login/i.test(String((j&&j.message)||"")))toast("توکن زبان معتبر نیست؛ در پروفایل یک توکن تازه بگذار","bad");
+  else if(!quiet)toast("دریافت از زبان ممکن نشد","bad");
+  throw new Error("zabanfail");
+ }
+ return j.data;
 }
-$("#zbAdd").onclick=()=>{
- const u=($("#zbUrl").value||"").trim(),t=($("#zbTitle").value||"").trim();
- if(!u||!u.includes("zaban.com")){toast("لینک زبان را بگذار","bad");return}
- if(!Array.isArray(db.zbShelf))db.zbShelf=[];
- if(db.zbShelf.some(z=>z.u===u)){toast("این لینک قبلاً در قفسه هست");return}
- db.zbShelf.push({t:t||(u.includes("/movies/")?"فیلم زبان":"سریال زبان"),u});save();
- $("#zbTitle").value=$("#zbUrl").value="";renderZbShelf();toast("به قفسه‌ی زبان اضافه شد");
+const zbArr=j=>{
+ if(Array.isArray(j))return j;
+ if(!j||typeof j!=="object")return [];
+ if(Array.isArray(j.data))return j.data;
+ const d=j.data&&typeof j.data==="object"?j.data:j;
+ return d.items||d.results||d.movies||d.series||d.seasons||d.episodes||d.words||d.list||d.data||[];
 };
+const zbPoster=it=>{
+ if(!it||typeof it!=="object")return "";
+ for(const k of ["poster","image","cover","thumbnail"])if(typeof it[k]==="string"&&it[k])return it[k];
+ if(Array.isArray(it.photos)&&it.photos[0]){const p=it.photos[0];if(typeof p==="string")return p;if(p&&typeof p.url==="string")return p.url;if(p&&typeof p.path==="string")return p.path}
+ return "";
+};
+const zbFmt=s=>{s=Math.max(0,Math.floor(+s||0));return Math.floor(s/60)+":"+String(s%60).padStart(2,"0")};
+let zbKind="all",zbHls=null,zbSubTimer=null,zbSegs=[],zbCurSub=-1,zbPlayUrl="",zbResume=0;
+function zbCleanup(){
+ try{if(zbHls){zbHls.destroy();zbHls=null}}catch(e){}
+ const v=$("#zbVideo");
+ if(v){try{v.pause()}catch(e){}v.removeAttribute("src");try{v.load()}catch(e){}}
+ if(zbSubTimer){clearInterval(zbSubTimer);zbSubTimer=null}
+ zbSegs=[];zbCurSub=-1;zbPlayUrl="";zbResume=0;
+}
+function zbResetDetail(){
+ ["zbPoster","zbPlay","zbDescWrap","zbIpNote","zbSubBar","zbVocab"].forEach(id=>{const el=$("#"+id);if(el)el.hidden=true});
+ const v=$("#zbVideo");if(v)v.hidden=true;
+ const sn=$("#zbSeriesNav");if(sn){sn.hidden=true;sn.innerHTML=""}
+ const sl=$("#zbSubList");if(sl)sl.innerHTML="";
+ const ln=$("#zbSubLine");if(ln)ln.textContent="";
+ const sg=$("#zbSubSeg");if(sg)sg.innerHTML="";
+ const vc=$("#zbVocab");if(vc)vc.innerHTML="";
+ const ti=$("#zbDTitle");if(ti)ti.textContent="";
+ const me=$("#zbDMeta");if(me)me.textContent="";
+}
+function zbShowDetail(){const d=$("#zbDetail");if(d)d.hidden=false;const r=$("#zbRes");if(r)r.hidden=true}
+function zbBack(){
+ zbCleanup();zbResetDetail();
+ const d=$("#zbDetail");if(d)d.hidden=true;
+ const r=$("#zbRes");if(r)r.hidden=false;
+}
+$("#zbBack").onclick=()=>zbBack();
+$("#zbKindSeg").onclick=e=>{const b=e.target.closest("[data-zbk]");if(!b)return;zbKind=b.dataset.zbk;$$("#zbKindSeg button").forEach(x=>x.classList.toggle("on",x===b));if($("#zbQ").value.trim())zbSearch()};
+async function zbSearch(){
+ const q=$("#zbQ").value.trim();if(!q)return;
+ const box=$("#zbRes");zbBack();box.innerHTML=`<p class="state loading">در حال جست‌وجو…</p>`;
+ try{
+  let items=[];
+  if(zbKind==="movie"){
+   items=zbArr(await zbFetch("video-box/movies?search_key="+encodeURIComponent(q)+"&genre_id=&per_page=20&page=1")).filter(x=>x&&typeof x==="object").map(x=>({...x,__type:"movie"}));
+  }else{
+   const j=await zbFetch("search/?search_key="+encodeURIComponent(q)+"&page=1&per_page=20");
+   const d=j&&typeof j==="object"&&!Array.isArray(j.data)&&j.data&&typeof j.data==="object"?j.data:null;
+   if(d&&(Array.isArray(d.movies)||Array.isArray(d.series))){
+    items=[...(d.movies||[]).filter(x=>x&&typeof x==="object").map(x=>({...x,__type:"movie"})),...(d.series||[]).filter(x=>x&&typeof x==="object").map(x=>({...x,__type:"series"}))];
+   }else{
+    items=zbArr(j).filter(x=>x&&typeof x==="object").map(x=>({...x,__type:(x.type==="series"||x.kind==="series"||x.seasons||x.episode_count)?"series":"movie"}));
+   }
+   if(zbKind==="series")items=items.filter(x=>x.__type==="series");
+  }
+  if(!items.length){box.innerHTML=`<p class="state empty">نتیجه‌ای پیدا نشد.</p>`;return}
+  box.innerHTML=items.map((x,i)=>{const p=zbPoster(x),t=x.title||x.name||"بدون عنوان",lv=x.level||"";return `<button class="chip zbResItem" data-zbi="${i}" style="display:flex;gap:10px;width:100%;text-align:start;align-items:center;margin-top:6px;border-radius:10px;padding:6px 10px">${p?`<img src="${esc(p)}" style="width:44px;height:64px;object-fit:cover;border-radius:6px;flex:none" loading="lazy" alt="">`:""}<span style="flex:1;min-width:0"><b dir="auto" style="display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(t)}</b>${lv?`<span class="mute" style="font-size:12px">سطح ${esc(lv)}</span> `:""}<span class="mute" style="font-size:12px">${x.__type==="series"?"📺 سریال":"🎬 فیلم"}</span></span></button>`}).join("");
+  box.querySelectorAll(".zbResItem").forEach(b=>b.onclick=()=>{const it=items[+b.dataset.zbi];if(!it)return;if(it.__type==="series")zbOpenSeries(it.id,it);else zbOpenMovie(it.id)});
+ }catch(e){box.innerHTML=`<p class="state error">جست‌وجو ممکن نشد.</p>`}
+}
+$("#zbGo").onclick=()=>zbSearch();
+$("#zbQ").onkeydown=e=>{if(e.key==="Enter")zbSearch()};
+function zbRenderHead(d){
+ const p=zbPoster(d),t=d.title||d.name||"بدون عنوان";
+ const img=$("#zbPoster");if(p){img.src=p;img.hidden=false}else img.hidden=true;
+ $("#zbDTitle").textContent=t;
+ const lv=$("#zbDLevel");if(d.level){lv.textContent="سطح "+d.level;lv.hidden=false}else lv.hidden=true;
+ const parts=[];
+ if(d.duration)parts.push("⏱ "+zbFmt(d.duration));
+ if(d.imdb_rate)parts.push("IMDb "+d.imdb_rate);
+ if(Array.isArray(d.genres)&&d.genres.length)parts.push(d.genres.map(g=>g.title||g.name||"").filter(Boolean).join(" · "));
+ $("#zbDMeta").textContent=parts.join("  ");
+ const dw=$("#zbDescWrap");if(d.description){$("#zbDesc").textContent=d.description;dw.hidden=false}else dw.hidden=true;
+ $("#zbIpNote").hidden=!d.need_change_ip;
+}
+async function zbOpenMovie(id){
+ zbCleanup();zbResetDetail();
+ const box=$("#zbRes");box.innerHTML=`<p class="state loading">در حال دریافت…</p>`;
+ try{
+  const d=await zbFetch("video-box/movies/"+id);
+  zbShowDetail();zbRenderHead(d);
+  zbPlayUrl=d.transcode_url||"";
+  $("#zbPlay").hidden=!zbPlayUrl;
+  zbResume=(d.last_time>0)?d.last_time:0;
+  await zbLoadSubs(d.subtitles||[]);
+  zbLoadVocab("movie",id);
+ }catch(e){box.innerHTML=`<p class="state error">دریافت ممکن نشد.</p>`}
+}
+async function zbOpenSeries(sid,item){
+ zbCleanup();zbResetDetail();
+ const box=$("#zbRes");box.innerHTML=`<p class="state loading">در حال دریافت فصل‌ها…</p>`;
+ try{
+  const seasons=zbArr(await zbFetch("video-box/series/"+sid+"/seasons-list"));
+  zbShowDetail();
+  $("#zbDTitle").textContent=(item&&item.title)||(item&&item.name)||"سریال";
+  const nav=$("#zbSeriesNav");nav.hidden=false;
+  if(!seasons.length){nav.innerHTML=`<p class="state empty">فصلی پیدا نشد.</p>`;return}
+  nav.innerHTML=`<div class="row" style="margin:10px 0 6px"><b>فصل‌ها</b></div>`+seasons.map((s,i)=>`<button class="chip zbSeason" data-zbs="${i}" style="margin:2px">${esc(s.title||s.name||("فصل "+(s.number||s.season||i+1)))}</button>`).join("");
+  nav.querySelectorAll(".zbSeason").forEach(b=>b.onclick=()=>zbOpenSeason(sid,seasons[+b.dataset.zbs],nav));
+ }catch(e){box.innerHTML=`<p class="state error">دریافت ممکن نشد.</p>`}
+}
+async function zbOpenSeason(sid,season,nav){
+ nav.innerHTML=`<p class="state loading">در حال دریافت قسمت‌ها…</p>`;
+ try{
+  const eps=zbArr(await zbFetch("video-box/series/"+sid+"/seasons/"+season.id+"/episodes?page=1&per_page=20&ordering=asc"));
+  if(!eps.length){nav.innerHTML=`<p class="state empty">قسمتی پیدا نشد.</p>`;return}
+  nav.innerHTML=`<div class="row" style="margin:10px 0 6px"><b>قسمت‌ها</b></div>`+eps.map((ep,i)=>{const t=ep.title||ep.name||("قسمت "+(ep.episode_number||ep.number||i+1));return `<button class="chip zbEp" data-zbe="${i}" style="display:block;width:100%;text-align:start;margin-top:4px;border-radius:8px;padding:6px 10px" dir="auto">${esc(t)}</button>`}).join("");
+  nav.querySelectorAll(".zbEp").forEach(b=>b.onclick=()=>zbOpenEpisode(eps[+b.dataset.zbe]));
+ }catch(e){nav.innerHTML=`<p class="state error">دریافت قسمت‌ها ممکن نشد.</p>`}
+}
+async function zbOpenEpisode(ep){
+ const url=ep.transcode_url||ep.video_url||ep.url||(ep.video&&ep.video.url)||(ep.transcode&&ep.transcode.url)||"";
+ if(!url){toast("پخش این قسمت فعلاً در دسترس نیست","bad");return}
+ zbCleanup();zbResetDetail();
+ $("#zbDTitle").textContent=ep.title||ep.name||"قسمت";
+ const p=zbPoster(ep);const img=$("#zbPoster");if(p){img.src=p;img.hidden=false}else img.hidden=true;
+ const lv=$("#zbDLevel");if(ep.level){lv.textContent="سطح "+ep.level;lv.hidden=false}else lv.hidden=true;
+ $("#zbDMeta").textContent="";
+ zbPlayUrl=url;$("#zbPlay").hidden=false;
+ zbResume=(ep.last_time>0)?ep.last_time:0;
+ zbShowDetail();
+ await zbLoadSubs(ep.subtitles||[]);
+ if(ep.id)zbLoadVocab("episode",ep.id);
+}
+async function zbLoadSubs(subs){
+ const bar=$("#zbSubBar");bar.hidden=true;zbSegs=[];
+ if(!Array.isArray(subs)||!subs.length)return;
+ const seg=$("#zbSubSeg");
+ seg.innerHTML=subs.map((s,i)=>`<button data-zbsl="${i}">${esc(s.label||s.language||("زیرنویس "+(i+1)))}</button>`).join("");
+ seg.onclick=async e=>{const b=e.target.closest("[data-zbsl]");if(!b)return;$$("#zbSubSeg button").forEach(x=>x.classList.toggle("on",x===b));await zbLoadSubFile(subs[+b.dataset.zbsl])};
+ let di=subs.findIndex(s=>(s.language||"")==="fa");if(di<0)di=0;
+ $$("#zbSubSeg button").forEach((x,i)=>x.classList.toggle("on",i===di));
+ await zbLoadSubFile(subs[di]);
+}
+async function zbLoadSubFile(s){
+ try{
+  const r=await fetch(s.url);if(!r.ok)throw 0;
+  zbSegs=parseSubs(await r.text());
+ }catch(e){zbSegs=[];toast("دریافت زیرنویس ممکن نشد","bad");return}
+ const list=$("#zbSubList");
+ list.innerHTML=zbSegs.map(x=>`<div class="tline" data-ts="${x.s}" style="padding:4px 6px;border-radius:6px" dir="auto">${esc(x.t)}</div>`).join("");
+ $("#zbSubBar").hidden=false;$("#zbSubLine").textContent="";
+ zbStartSync();
+}
+function zbStartSync(){
+ if(zbSubTimer)clearInterval(zbSubTimer);
+ zbSubTimer=setInterval(()=>{
+  const v=$("#zbVideo");if(!v||v.hidden||!zbSegs.length)return;
+  const c=v.currentTime;let i=-1;for(let k=0;k<zbSegs.length;k++){if(zbSegs[k].s<=c+.2)i=k;else break}
+  if(i===zbCurSub)return;zbCurSub=i;
+  const line=$("#zbSubLine");if(line)line.textContent=i>=0?zbSegs[i].t:"";
+  $$("#zbSubList .tline").forEach((el,k)=>el.classList.toggle("cur",k===i));
+ },500);
+}
+$("#zbSubList").addEventListener("click",e=>{
+ const b=e.target.closest("[data-ts]");if(!b)return;
+ const v=$("#zbVideo");if(!v)return;v.currentTime=+b.dataset.ts;const pr=v.play();if(pr&&pr.catch)pr.catch(()=>{});
+});
+const zbSubJump=dir=>{
+ const v=$("#zbVideo");if(!v||!zbSegs.length)return;const c=v.currentTime;let j=-1;
+ if(dir<0){for(let k=zbSegs.length-1;k>=0;k--){if(zbSegs[k].s<c-.3){j=k;break}}}
+ else{for(let k=0;k<zbSegs.length;k++){if(zbSegs[k].s>c+.3){j=k;break}}}
+ if(j<0)return;v.currentTime=zbSegs[j].s;const pr=v.play();if(pr&&pr.catch)pr.catch(()=>{});
+};
+$("#zbPrevSub").onclick=()=>zbSubJump(-1);
+$("#zbNextSub").onclick=()=>zbSubJump(1);
+function zbAttachHls(v,url){
+ return new Promise(res=>{
+  let done=false;const fin=()=>{if(!done){done=true;res()}};
+  if(v.canPlayType("application/vnd.apple.mpegurl")){v.src=url;v.addEventListener("loadedmetadata",fin,{once:true});setTimeout(fin,3000);return}
+  const go=()=>{
+   try{
+    if(zbHls)zbHls.destroy();
+    zbHls=new Hls();zbHls.loadSource(url);zbHls.attachMedia(v);
+    zbHls.on(Hls.Events.MANIFEST_PARSED,()=>{if(zbResume>0){try{v.currentTime=zbResume}catch(e){}zbResume=0}fin()});
+    zbHls.on(Hls.Events.ERROR,(ev,data)=>{if(data&&data.fatal){toast("پخش این ویدیو ممکن نشد","bad");fin()}});
+    setTimeout(fin,5000);
+   }catch(e){toast("پخش این ویدیو ممکن نشد","bad");fin()}
+  };
+  if(window.Hls){go();return}
+  const s=document.createElement("script");s.src="https://cdn.jsdelivr.net/npm/hls.js@latest";
+  s.onload=()=>{if(window.Hls)go();else{toast("بارگذاری پخش‌کننده ممکن نشد","bad");fin()}};
+  s.onerror=()=>{toast("بارگذاری پخش‌کننده ممکن نشد","bad");fin()};
+  document.head.appendChild(s);
+ });
+}
+async function zbPlayCurrent(){
+ const v=$("#zbVideo");if(!v||!zbPlayUrl)return;
+ v.hidden=false;
+ if(v.canPlayType("application/vnd.apple.mpegurl")){
+  v.src=zbPlayUrl;
+  if(zbResume>0){const r=zbResume;zbResume=0;v.addEventListener("loadedmetadata",()=>{try{v.currentTime=r}catch(e){}},{once:true})}
+ }else{
+  await zbAttachHls(v,zbPlayUrl);
+ }
+ const pr=v.play();if(pr&&pr.catch)pr.catch(()=>{});
+}
+$("#zbPlay").onclick=()=>zbPlayCurrent();
+async function zbLoadVocab(type,id){
+ const box=$("#zbVocab");box.hidden=true;box.innerHTML="";
+ try{
+  const [w,p]=await Promise.all([
+   zbFetch("subtitle/words-world?type="+type+"&id="+id,true).catch(()=>null),
+   zbFetch("subtitle/phrases?type="+type+"&id="+id,true).catch(()=>null)
+  ]);
+  const words=zbArr(w),phr=zbArr(p);
+  if(!words.length&&!phr.length)return;
+  let h=`<div class="row" style="margin:12px 0 6px"><b>📖 جعبه لغت</b></div>`;
+  if(words.length)h+=words.map(x=>{const wd=x.word||x.title||x.text||x.name||"",mn=x.meaning||x.translation||x.fa||x.persian||x.definition||"";if(!wd)return "";return `<button class="chip zbWord" data-zbw="${esc(wd)}" style="display:block;width:100%;text-align:start;margin-top:4px;border-radius:8px;padding:6px 10px" dir="auto"><b>${esc(wd)}</b>${mn?`<br><span class="mute">${esc(mn)}</span>`:""}</button>`}).join("");
+  if(phr.length)h+=`<div class="mute" style="margin-top:10px">عبارت‌ها</div>`+phr.map(x=>{const wd=x.phrase||x.text||x.word||x.title||"",mn=x.meaning||x.translation||x.fa||x.persian||"";if(!wd)return "";return `<div style="padding:6px 10px" dir="auto"><b>${esc(wd)}</b>${mn?`<br><span class="mute">${esc(mn)}</span>`:""}</div>`}).join("");
+  box.innerHTML=h;box.hidden=false;
+  box.querySelectorAll(".zbWord").forEach(b=>b.onclick=()=>{try{tab("dict");dsearch(b.dataset.zbw)}catch(e){}});
+ }catch(e){}
+}
+$$(".zbSaved").forEach(b=>b.onclick=()=>{
+ const k=b.dataset.zbsaved;
+ if(k==="movie:1812")zbOpenMovie(1812);
+ else zbOpenSavedEp();
+});
+async function zbOpenSavedEp(){
+ const box=$("#zbRes");zbBack();box.innerHTML=`<p class="state loading">در حال یافتن قسمت…</p>`;
+ try{
+  const seasons=zbArr(await zbFetch("video-box/series/16/seasons-list"));
+  for(const s of seasons){
+   if(!s||!s.id)continue;
+   let eps=[];try{eps=zbArr(await zbFetch("video-box/series/16/seasons/"+s.id+"/episodes?page=1&per_page=20&ordering=asc",true))}catch(e){continue}
+   const ep=eps.find(x=>+x.id===508);
+   if(ep){zbOpenEpisode(ep);return}
+  }
+  box.innerHTML=`<p class="state error">قسمت پیدا نشد.</p>`;toast("قسمت برکینگ بد پیدا نشد","bad");
+ }catch(e){box.innerHTML=`<p class="state error">دریافت ممکن نشد.</p>`}
+}
 /* ===== Wikipedia (de / fa) → خواندن ===== */
 let wl="de";
 async function wp(q){const r=await fetch("https://"+wl+".wikipedia.org/w/api.php?format=json&origin=*&"+q);if(!r.ok)throw new Error(r.status);return r.json()}
@@ -3544,7 +3797,7 @@ function renderMe(){
   ["مرور امروز",db.log[fmt(new Date())]||0],["روز پیاپی",streak()]];
  $("#stats").innerHTML=`<div class="grid">${st.map(([l,v])=>`<div class="card stat"><b>${v}</b><span class="mute">${l}</span></div>`).join("")}</div>
   <div class="card"><div class="mute">مرورهای ۷ روز اخیر</div><div class="bars">${days.map(n=>`<div title="${n}" style="height:${Math.min(60,n*4)+2}px"></div>`).join("")}</div></div>`;
- $$("#themeOpts .theme-option").forEach(b=>b.classList.toggle("selected",b.dataset.th===(db.theme==="snowy"?"snowy":"classic")));$("#proxy").value=db.proxy||"";$("#wkey").value=db.wkey||"";
+ $$("#themeOpts .theme-option").forEach(b=>b.classList.toggle("selected",b.dataset.th===(db.theme==="snowy"?"snowy":"classic")));$("#proxy").value=db.proxy||"";$("#wkey").value=db.wkey||"";try{$("#zbToken").value=localStorage.getItem("poof_zaban_token")||""}catch(e){}
 }
 
 /* ===== 9) Export / Import (با پشتیبان قبل از جایگزینی) ===== */
@@ -3608,6 +3861,8 @@ $("#proxyTest").onclick=async()=>{
   toast(c?"اتصال موفق ✓ «"+c.meaning+"»":"صفحه گرفته شد ولی تحلیل نشد",c?"":"bad")}
  catch(x){toast(x.message==="noproxy"?"ابتدا آدرس واسط را وارد کنید":"اتصال ناموفق: "+x.message,"bad")}
 };
+/* توکن زبان: فقط روی همین دستگاه می‌ماند، هرگز در مخزن نیست؛ «Bearer …» کامل هم پذیرفته می‌شود */
+$("#zbToken").onchange=()=>{const v=($("#zbToken").value||"").trim().replace(/^bearer\s+/i,"");$("#zbToken").value=v;try{localStorage.setItem("poof_zaban_token",v)}catch(e){}toast("توکن زبان ذخیره شد")};
 $("#themeOpts").onclick=e=>{const b=e.target.closest("[data-th]");if(!b)return;db.theme=b.dataset.th;save();applyTheme();renderMe()};
 function tab(t){$("#hSub").textContent=SUB[t];scrollTo(0,0);$("#nav").classList.remove("nav-hidden");$("#pop").hidden=true;sel=null;drawSel();
  if(!$("#s-read").hidden&&t!=="read")saveProgress();
@@ -3650,7 +3905,7 @@ function pushNavState(){
 }
 let _scT=null;
 addEventListener("scroll",()=>{if(_scT)return;_scT=setTimeout(()=>{_scT=null;try{if(curTab()==="read"&&$("#entry").hidden&&!peekOpen())saveState()}catch(e){}},500)},{passive:true});
-function renderAll(){renderReader();renderZbShelf();renderRecent();renderCards();renderMe()}
+function renderAll(){renderReader();renderRecent();renderCards();renderMe()}
 let lastY=scrollY,lastToggleY=scrollY;addEventListener("scroll",()=>{const y=scrollY;if(!sel){const nav=$("#nav");if(y<=90){nav.classList.remove("nav-hidden");document.body.classList.remove("nav-down");lastToggleY=y}else if(y>lastToggleY+40){nav.classList.add("nav-hidden");document.body.classList.add("nav-down");lastToggleY=y}else if(y<lastToggleY-40){nav.classList.remove("nav-hidden");document.body.classList.remove("nav-down");lastToggleY=y}}lastY=y},{passive:true});
 addEventListener("pagehide",()=>{try{if(!$("#s-read").hidden)saveProgress()}catch(e){}});
 /* ---------- ورود با گوگل + همگام‌سازی ابری (Drive appDataFolder) ---------- */
