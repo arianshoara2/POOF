@@ -1703,9 +1703,13 @@ function enSeg(html){
  return html;
 }
 function enH3Block(seg,title){
- var hs=rHeadings(seg,"h3");
- for(var i=0;i<hs.length;i++)if(hs[i].title===title||hs[i].title===title+" 1")
-  return seg.slice(hs[i].index,i+1<hs.length?hs[i+1].index:seg.length);
+ /* h3 first (unchanged behavior), h4 fallback: Pronunciation etc. often sit at h4 under an Etymology h3 */
+ var hs=rHeadings(seg,"h3").map(function(h){h.level=3;return h}).concat(rHeadings(seg,"h4").map(function(h){h.level=4;return h})).sort(function(a,b){return a.index-b.index});
+ for(var i=0;i<hs.length;i++)if(hs[i].title===title||hs[i].title===title+" 1"){
+  var end=seg.length;
+  for(var j=i+1;j<hs.length;j++){if(hs[j].level<=hs[i].level){end=hs[j].index;break}}
+  return seg.slice(hs[i].index,end);
+ }
  return null;
 }
 function enNyms(seg,kind){
@@ -1732,17 +1736,42 @@ function parseRichEN(html){
   if(ps.length)out.etymology=ps[0].slice(0,400);
  }
  var POS=["Noun","Verb","Adjective","Adverb","Pronoun","Preposition","Interjection","Conjunction","Determiner","Proper noun","Phrase","Numeral","Particle"];
- var hs=rHeadings(seg,"h3");
- for(var i=0;i<hs.length&&out.meanings.length<6;i++){
-  if(POS.indexOf(hs[i].title)<0)continue;
-  var block=seg.slice(hs[i].index,i+1<hs.length?hs[i+1].index:seg.length);
+ /* POS sections may sit at h3 (single etymology) or h4 (under an Etymology h3) — collect both levels in document order */
+ var hs=rHeadings(seg,"h3").map(function(h){h.level=3;return h}).concat(rHeadings(seg,"h4").map(function(h){h.level=4;return h})).sort(function(a,b){return a.index-b.index});
+ function isPOS(t){for(var k=0;k<POS.length;k++){if(t===POS[k]||new RegExp("^"+POS[k]+"\\s+\\d+$").test(t))return true}return false}
+ for(var i=0;i<hs.length&&out.meanings.length<12;i++){
+  if(!isPOS(hs[i].title))continue;
+  var end=seg.length;
+  for(var j=i+1;j<hs.length;j++){if(hs[j].level<=hs[i].level){end=hs[j].index;break}}
+  var block=seg.slice(hs[i].index,end);
   var ol=rBlock(block,"ol",0);if(!ol)continue;
   rItems(ol.html,"li").forEach(function(li){
-   if(out.meanings.length>=6)return;
-   var ex="",em=li.match(/<span[^>]*class="[^"]*example[^"]*"[^>]*>([\s\S]*?)<\/span>/i);
-   if(em)ex=rTxt(em[1]).slice(0,240);
+   if(out.meanings.length>=12)return;
+   var exs=[],emRe=/<span[^>]*class="[^"]*example[^"]*"[^>]*>([\s\S]*?)<\/span>/gi,em;
+   while((em=emRe.exec(li))&&exs.length<2){var v0=rTxt(em[1]).slice(0,240);if(v0.length>=3&&exs.indexOf(v0)<0)exs.push(v0)}
+   /* fallback: examples live in a nested <ul> (or <dl>) inside the definition item; nested <ol> are subsenses, never examples */
+   if(!exs.length){
+    var up=0;
+    while(exs.length<2){
+     var ub=rBlock(li,"ul",up);if(!ub)break;up=ub.end;
+     rItems(ub.html,"li").forEach(function(it){
+      if(exs.length>=2)return;
+      var v1=rTxt(it).slice(0,240);if(v1.length>=3&&exs.indexOf(v1)<0)exs.push(v1);
+     });
+    }
+   }
+   if(!exs.length){
+    var dp=0;
+    while(exs.length<2){
+     var db=rBlock(li,"dl",dp);if(!db)break;dp=db.end;
+     rItems(db.html,"dd").forEach(function(it){
+      if(exs.length>=2)return;
+      var v2=rTxt(it).slice(0,240);if(v2.length>=3&&exs.indexOf(v2)<0)exs.push(v2);
+     });
+    }
+   }
    var t=rTxt(rStripLists(li));
-   if(t.length>1)out.meanings.push({text:t.slice(0,220),ex:ex?[ex]:[]});
+   if(t.length>1)out.meanings.push({text:t.slice(0,220),ex:exs});
   });
  }
  /* synonyms/antonyms: h4 sections + inline nyms spans */
@@ -1937,7 +1966,17 @@ function fillRich(box,e,t){
  if(!e||e.dir==="fa")return;
  var slot=$("#richSlot",box);if(!slot)return;
  box._rl=e.dir==="en"?"en":"de";
- if(e.rich){slot.innerHTML=richHTML(e.rich);fillConj(box,e,t);return}
+ if(e.rich){
+   slot.innerHTML=richHTML(e.rich);fillConj(box,e,t);
+   /* stale English rich (parsed before the meanings fix): refresh once per session in the background; upgrade the slot only if the new parse has meanings */
+   if(box._rl==="en"&&!(e.rich.meanings||[]).length&&!richBusy["re:"+e.word.toLowerCase()]){
+     richBusy["re:"+e.word.toLowerCase()]=1;
+     fetchRich(e.word,"en").then(function(r){
+       if(r&&(r.meanings||[]).length){e.rich=r;try{saveCache()}catch(_){} if(t===box._t){var s=$("#richSlot",box);if(s)s.innerHTML=richHTML(r)}}
+     }).catch(function(){});
+   }
+   return;
+ }
  var lang=box._rl,key=lang+":"+e.word.toLowerCase();
  if(richBusy[key])return;
  var net=function(){
@@ -2126,7 +2165,7 @@ async function showEntry(box,raw,ctx,src,lang){
  if(e.dir==="fa"||e.dir==="en"){
   const isFa=e.dir==="fa";box._l=isFa&&!e.de.length&&e.en.length?"en":isFa?"de":"en";
   const chips=(a,l,d)=>a.map(x=>`<button class="chip ${d?"de":""}" data-a="pk" data-l="${l}">${esc(x)}</button>`).join("");
-  const flat=(e.senses||[]).flatMap(s=>s.defs.map(d=>({pos:s.pos,...d}))).slice(0,6);
+  const flat=(e.senses||[]).flatMap(s=>s.defs.map(d=>({pos:s.pos,...d}))).slice(0,10);
   const G=e.glosbe,exs=[];if(!isFa){if(ctx)exs.push({en:ctx,fa:""});if(G)G.ex.forEach(x=>exs.length<10&&exs.push(x))}
   const exh=x=>`<span>${sr(x.en,"en")}${x.fa?`<br>${sr(x.fa,"fa","mute")}`:""}</span>`;
   box.innerHTML=`<div class="row"><span class="big2 ${isFa?"":"de"}" style="flex:1">${esc(e.word)}</span><button class="ib" data-a="sayv" aria-label="تلفظ">${ic("sound")}</button></div>
@@ -2134,7 +2173,7 @@ async function showEntry(box,raw,ctx,src,lang){
   <input id="fa" class="de" value="${esc(e.de[0]||e.en[0]||"")}" placeholder="Deutsch / English" style="margin-top:12px">`
   :`${e.fa.length?`<p class="lbl">فارسی</p><div class="row">${chips(e.fa,"fa",0)}</div>`:""}${e.de.length?`<p class="lbl">Deutsch</p><div class="row">${e.de.map(x=>`<button class="chip de" data-a="cp">${esc(x)}</button>`).join("")}</div>`:""}
   <input id="fa" value="${esc(e.fa[0]||"")}" placeholder="معنی فارسی" style="margin-top:12px">`}
-  ${flat.length?`<p class="lbl">تعریف انگلیسی</p>`+flat.map((s,i)=>`<label class="sense"><input type="radio" name="sn" value="${i}" ${i?"":"checked"}><span><i>${esc(s.pos)}</i> — ${sr(s.def,"en")}</span></label>`).join(""):""}
+  ${flat.length?`<p class="lbl">تعریف انگلیسی</p>`+flat.map((s,i)=>`<label class="sense"><input type="radio" name="sn" value="${i}" ${i?"":"checked"}><span><i>${esc(s.pos)}</i> — ${sr(s.def,"en")}${s.ex?`<br><span class="mute" dir="auto">${sr(s.ex,"en")}</span>`:""}</span></label>`).join(""):""}
   ${!isFa&&exs.length?`<p class="lbl">جمله‌ی نمونه برای کارت</p><label class="sense"><input type="radio" name="ex" value="-1"><span class="mute">بدون جمله</span></label>`+exs.map((x,i)=>`<label class="sense"><input type="radio" name="ex" value="${i}" ${i?"":"checked"}>${exh(x)}</label>`).join(""):""}
   ${!isFa&&G&&G.tr.length?`<details style="margin-top:8px"><summary>ترجمه‌ها و تعریف‌ها (Glosbe)</summary>${G.tr.map(x=>`<div class="sense"><span><b>${esc(x.w)}</b> ${x.pos?`<i>${esc(x.pos)}</i>`:""} ${x.def?sr(x.def,"en","mute"):""}</span></div>`).join("")}</details>`:""}
   ${!isFa&&G&&G.phr.length?`<details style="margin-top:8px"><summary>عبارت‌های مشابه (Glosbe)</summary>${G.phr.map(x=>`<div class="sense">${exh(x)}</div>`).join("")}</details>`:""}
