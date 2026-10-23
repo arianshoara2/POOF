@@ -485,6 +485,8 @@ html:not([data-theme=snowy]) #s-cards #list .card::after{background:linear-gradi
    <div class="seg" id="tlSeg"><button class="on" data-tl="auto">خودکار</button><button data-tl="de">DE</button><button data-tl="en">EN</button><button data-tl="fa">فا</button></div>
    <textarea id="tBody" dir="auto" rows="6" placeholder="هر متن فارسی، آلمانی یا انگلیسی را اینجا بنویسید یا بچسبانید"></textarea>
    <div class="row"><button class="ghost" id="tPaste">چسباندن</button><button id="tAdd" style="flex:1">ذخیره و خواندن</button></div>
+   <div class="row" style="margin-top:10px"><button class="ghost" id="subPick">وارد کردن زیرنویس (SRT/VTT)</button><input id="subFile" type="file" accept=".srt,.vtt" hidden></div>
+   <div class="seg" id="subLangSeg" style="margin-top:8px"><button class="on" data-subl="auto">خودکار</button><button data-subl="de">DE</button><button data-subl="en">EN</button></div>
   </div>
   <div class="card" id="vp" hidden>
    <div class="vp-frame" id="vpWrap"><div id="vpFrame"></div></div>
@@ -502,6 +504,12 @@ html:not([data-theme=snowy]) #s-cards #list .card::after{background:linear-gradi
     <button class="chip on" id="apFollow">دنبال‌کردن متن</button>
    </div>
    <audio id="au" controls preload="metadata"></audio>
+  </div>
+  <div class="card" id="lvCard" hidden>
+   <video id="lv" controls playsinline style="width:100%;border-radius:12px" hidden></video>
+   <div class="row" style="margin-top:8px"><button class="ghost" id="lvPick">انتخاب فایل ویدیو</button><span class="mute" id="lvName"></span></div>
+   <input id="lvFile" type="file" accept="video/*" hidden>
+   <p class="mute" style="margin:6px 0 0">ویدیو فقط در همین جلسه پخش می‌شود و جایی ذخیره نمی‌شود.</p>
   </div>
   <div class="row" id="hlBar" style="gap:8px;align-items:center;margin:0 0 8px">
    <button class="chip" id="hlTog">هایلایت بلدها</button>
@@ -2277,7 +2285,7 @@ function renderReader(){
  sents=[];
  if(t.segs){
   const igv=t.video&&t.video.ig;
-  const srcOf=g=>t.pod?("podcast:"+t.id+"@"+Math.floor(g.s)):igv?("ig:"+t.video.ig+"@"+Math.floor(g.s)):("video:"+t.video.id+"@"+Math.floor(g.s));
+  const srcOf=g=>t.pod?("podcast:"+t.id+"@"+Math.floor(g.s)):igv?("ig:"+t.video.ig+"@"+Math.floor(g.s)):t.video?("video:"+t.video.id+"@"+Math.floor(g.s)):("local:"+Math.floor(g.s));
   $("#text").innerHTML=t.video&&t.video.id&&!t.segs.length?`<div class="empty-wrap"><p class="state empty">${YT_BOT_MSG}</p></div>`:t.segs.map((g,k)=>`<div class="tline" id="sg${k}">${igv?`<span class="ts">${mmss(g.s)}</span>`:`<button class="ts" data-ts="${g.s}">${mmss(g.s)}</button>`}${sr(g.t,t.lang,"",srcOf(g))}</div>`).join("");
  }else if(t.pod)$("#text").innerHTML=(t.body||"").split(/\n\s*\n/).map(p=>"<p>"+esc(p).replace(/\n/g,"<br>")+"</p>").join("")||`<p class="state empty">بدون متن — فقط صوت.</p>`;
  else $("#text").innerHTML=t.body.split(/\n\s*\n/).map(p=>"<p>"+p.split(/(?<=[.!?؟])\s+/).map(s=>{
@@ -3123,8 +3131,50 @@ function loadYT(){
   setTimeout(()=>res(!!(window.YT&&YT.Player)),10000);
  }));
 }
+/* ===== زیرنویس فایل‌های خودتان (SRT/VTT) + ویدیوی محلی — فقط فایل‌های خود کاربر، بدون اینترنت ===== */
+const subTcSec=s=>{const m=String(s).trim().match(/^(?:(\d+):)?(\d{1,2}):(\d{2})[.,](\d{1,3})$/);return m?(+m[1]||0)*3600+ +m[2]*60+ +m[3]+ +m[4].padEnd(3,"0")/1000:null};
+function parseSubs(raw){
+ const segs=[];
+ for(const b of raw.replace(/^\uFEFF/,"").replace(/\r/g,"").split(/\n{2,}/)){
+  const lines=b.split("\n").map(x=>x.trim()).filter(Boolean),k=lines.findIndex(l=>l.includes("-->"));
+  if(k<0)continue;
+  const [a,c]=lines[k].split("-->").map(x=>x.trim().split(/\s+/)[0]),s=subTcSec(a),e=subTcSec(c);
+  if(s==null)continue;
+  const txt=lines.slice(k+1).join(" ").replace(/<[^>]+>/g,"").replace(/\{\\[^}]*\}/g,"").replace(/&nbsp;/g," ").replace(/\s+/g," ").trim();
+  if(txt)segs.push({s,d:e!=null?+(e-s).toFixed(3):0,t:txt});
+ }
+ return segs;
+}
+async function importSubs(file,lang){
+ const segs=parseSubs(await file.text());
+ if(segs.length<3)return toast("زیرنویس معتبر پیدا نشد","bad");
+ const body=segs.map(x=>x.t).join("\n"),t={id:"sub_"+uid(),added:Date.now(),title:"زیرنویس · "+file.name.replace(/\.(srt|vtt)$/i,""),
+  lang:lang&&lang!=="auto"?lang:detectLang(body),body,segs,local:true};
+ db.texts.push(t);db.textId=t.id;save();$("#addPanel").hidden=true;renderReader();toast(segs.length+" خط زیرنویس اضافه شد");
+}
+let lv=null;
+function useLocalVideo(file){
+ if(!lv)lv=$("#lv");if(!lv)return;
+ if(lv.src)URL.revokeObjectURL(lv.src);
+ lv.src=URL.createObjectURL(file);lv.hidden=false;
+ const c=$("#lvCard");if(c)c.hidden=false;
+ const n=$("#lvName");if(n)n.textContent=file.name;
+ lv.load();
+}
+const localActive=()=>{if(!lv)lv=$("#lv");return !!(lv&&!lv.hidden&&lv.src)};
+const localTime=()=>localActive()?lv.currentTime:null;
+const localSeek=s=>{if(!localActive())return false;lv.currentTime=s;const pr=lv.play();if(pr&&pr.catch)pr.catch(()=>{});return true};
+let subLang="auto";
+$("#subLangSeg").onclick=e=>{const b=e.target.closest("[data-subl]");if(!b)return;subLang=b.dataset.subl;$$("#subLangSeg button").forEach(x=>x.classList.toggle("on",x===b))};
+$("#subPick").onclick=()=>$("#subFile").click();
+$("#subFile").onchange=async e=>{const f=e.target.files[0];e.target.value="";if(!f)return;try{await importSubs(f,subLang)}catch(x){toast("خواندن فایل زیرنویس ممکن نشد","bad")}};
+$("#lvPick").onclick=()=>$("#lvFile").click();
+$("#lvFile").onchange=e=>{const f=e.target.files[0];e.target.value="";if(f)useLocalVideo(f)};
 async function setupPlayer(t){
  setupAudio(t);
+ const lvc=$("#lvCard"),lve=$("#lv");
+ if(lvc)lvc.hidden=!(t&&t.local);
+ if(lve)lve.hidden=!(t&&t.local&&lve.src);
  const vp=$("#vp");vp.hidden=!(t&&t.video);
  if(!t||!t.video){if(ytp&&ytp.pauseVideo)try{ytp.pauseVideo()}catch(e){}return}
  const note=$("#vpNote"),web=/^https?:$/.test(location.protocol);
@@ -3157,7 +3207,16 @@ async function setupPlayer(t){
  }catch(e){ytp=null;note.hidden=false;note.textContent="ساخت پخش‌کننده ممکن نشد؛ با دکمه‌ی «یوتیوب» باز کنید."}
 }
 setInterval(()=>{
- const t=curText();if(!t||!t.segs||!t.video||!t.video.id||!ytp||!ytp.getCurrentTime||$("#s-read").hidden)return;
+ const t=curText();if(!t||!t.segs||$("#s-read").hidden)return;
+ if(t.local&&localActive()){
+  const c=localTime();let i=-1;for(let k=0;k<t.segs.length;k++){if(t.segs[k].s<=c+.2)i=k;else break}
+  if(i===lastCur)return;lastCur=i;
+  $$("#text .tline.cur").forEach(x=>x.classList.remove("cur"));
+  const el=$("#sg"+i);if(!el)return;el.classList.add("cur");
+  if(follow&&!sel){const r=el.getBoundingClientRect();if(r.top<280||r.bottom>innerHeight-120)scrollBy({top:r.top-300,behavior:"smooth"})}
+  return;
+ }
+ if(!t.video||!t.video.id||!ytp||!ytp.getCurrentTime)return;
  let c;try{c=ytp.getCurrentTime()}catch(e){return}
  let i=-1;for(let k=0;k<t.segs.length;k++){if(t.segs[k].s<=c+.2)i=k;else break}
  if(i===lastCur)return;lastCur=i;
@@ -3168,6 +3227,7 @@ setInterval(()=>{
 $("#text").addEventListener("click",e=>{
  const b=e.target.closest("[data-ts]");if(!b)return;
  const s=+b.dataset.ts,t=curText();
+ if(t&&t.local&&localActive()){localSeek(s);return}
  if(t&&t.pod&&audEl){audEl.currentTime=s;const pr=audEl.play();if(pr&&pr.catch)pr.catch(()=>{});return}
  if(ytp&&ytp.seekTo){ytp.seekTo(s,true);ytp.playVideo()}
  else if(t&&t.video&&t.video.id)open("https://youtu.be/"+t.video.id+"?t="+Math.floor(s),"_blank");
