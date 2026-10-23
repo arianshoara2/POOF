@@ -2713,7 +2713,25 @@ async function importYT(id,want){
  }catch(e){err=e}
  if(!data){
   if(err&&err.message==="noproxy")throw err;   // گیت پریمیوم، مثل قبل
-  try{data=await ytTimedText(id,want)}catch(e){fbErr=e}
+  try{   // youtube-transcript.ai — سهمیه روزانه (هر خرابی به مرحله بعد می‌افتد)
+   const r=await fetchT(workerURL({yta:id})),j=await r.json();
+   if(!r.ok||j.error)throw new Error(j.error||"HTTP "+r.status);
+   if(!j.segments||!j.segments.length)throw new Error("no transcript");
+   data={segments:j.segments,title:j.title,lang:j.lang};
+  }catch(e){/* هر خرابی → مرحله بعد */}
+  if(!data)try{   // Supadata — سهمیه ماهانه، فقط زیرنویس موجود (هر خرابی به مرحله بعد می‌افتد)
+   const r=await fetchT(workerURL({supa:id,lang:want||""})),j=await r.json();
+   if(!r.ok||j.error)throw new Error(j.error||"HTTP "+r.status);
+   if(!j.segments||!j.segments.length)throw new Error("no transcript");
+   data={segments:j.segments,title:j.title,lang:j.lang};
+  }catch(e){/* هر خرابی → مرحله بعد */}
+  if(!data)try{   // مسیر API یوتیوب (کردیت فقط برای موفقیت؛ هر خرابی به timedtext می‌افتد)
+   const r=await fetchT(workerURL({ytapi:id,lang:want||""})),j=await r.json();
+   if(!r.ok||j.error)throw new Error(j.error||"HTTP "+r.status);
+   if(!j.segments||!j.segments.length)throw new Error("no transcript");
+   data={segments:j.segments,title:j.title,lang:j.lang};
+  }catch(e){/* هر خرابی API → افتادن به timedtext */}
+  if(!data)try{data=await ytTimedText(id,want)}catch(e){fbErr=e}
  }
  if(data){
   const segs=data.segments.map(x=>({s:x.s,t:x.t})),body=segs.map(x=>x.t).join("\n");
@@ -2759,12 +2777,23 @@ async function importIG(u){
    db.texts.push(t);db.textId=t.id;save();$("#addPanel").hidden=true;renderReader();
    toast("در حال ترانسکریپت…");
    try{
-    const r2=await fetchT(workerURL({igtr:u}),120000),j2=await r2.json();
-    if(!r2.ok||j2.error)throw new Error(j2.error||"HTTP "+r2.status);
-    if(j2.segments&&j2.segments.length){
-     t.segs=j2.segments.map(x=>({s:x.s,t:x.t}));t.body=j2.segments.map(x=>x.t).join("\n");
-     save();renderReader();toast("ترانسکریپت آماده شد");
-    }else throw new Error("no speech detected");
+    let ok=false;
+    try{   // Supadata — ترانسکریپت اینستاگرام (هر خرابی به ویسپر می‌افتد)
+     const r1=await fetchT(workerURL({igsupa:u}),120000),j1=await r1.json();
+     if(!r1.ok||j1.error)throw new Error(j1.error||"HTTP "+r1.status);
+     if(j1.segments&&j1.segments.length){
+      t.segs=j1.segments.map(x=>({s:x.s,t:x.t}));t.body=j1.segments.map(x=>x.t).join("\n");
+      save();renderReader();toast("ترانسکریپت آماده شد");ok=true;
+     }else throw new Error("no speech detected");
+    }catch(e){/* خرابی سوپادیتا → ویسپر */}
+    if(!ok){
+     const r2=await fetchT(workerURL({igtr:u}),120000),j2=await r2.json();
+     if(!r2.ok||j2.error)throw new Error(j2.error||"HTTP "+r2.status);
+     if(j2.segments&&j2.segments.length){
+      t.segs=j2.segments.map(x=>({s:x.s,t:x.t}));t.body=j2.segments.map(x=>x.t).join("\n");
+      save();renderReader();toast("ترانسکریپت آماده شد");
+     }else throw new Error("no speech detected");
+    }
    }catch(e){toast(friendly(e),"bad")}
    return;
   }
