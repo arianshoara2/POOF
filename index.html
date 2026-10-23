@@ -1320,6 +1320,8 @@ if(typeof document!=="undefined"&&!document.getElementById("bz-css")){
 }
 /* رندر امن پنل بیاموز: هر شکل غیرمنتظره‌ای فقط پنل را حذف می‌کند، نه کل صفحه را */
 const bamoozPanelSafe=(b,lang)=>{try{return b&&b.senses&&b.senses.length?bamoozPanel(b,lang):""}catch(_){return ""}};
+const BAMOOZ_TIMEOUT={__timeout:true};
+const bamoozTimed=w=>Promise.race([Providers.bamooz(w,"de").then(v=>v==null?null:v,()=>null),new Promise(res=>setTimeout(()=>res(BAMOOZ_TIMEOUT),8000))]);
 function buildFa(e){
  const W=e.wort,k=e.word.toLowerCase(),loc=LOCAL[k],a=[];
  if(W&&W.card)a.push(W.card.meaning);
@@ -1333,22 +1335,22 @@ async function lookup(raw,lang){
  if(lang==="en")return lookupEn(w);
  const key=w.toLowerCase(),phrase=/\s/.test(w);let e=cache[key];
  const faL=!phrase?await faLookup(w).catch(()=>null):null;
- if(e&&!(e.wortFailed&&!phrase)&&!(e.bamoozFailed&&!phrase)&&e.bamooz!==undefined){if(faL)attachFaLayer(e,faL);return e;}
+ if(e&&!phrase&&(e.bamoozFailed||e.bamooz===undefined)){bamoozTimed(w).then(v=>{try{if(v===BAMOOZ_TIMEOUT){e.bamoozFailed=true}else if(v){e.bamooz=v;e.bamoozFailed=false;if(!(e.src||[]).includes("بیاموز"))(e.src=e.src||[]).push("بیاموز")}else{e.bamooz=null;e.bamoozFailed=false}saveCache()}catch(_){}});}
+ if(e&&!(e.wortFailed&&!phrase)){if(faL)attachFaLayer(e,faL);return e;}
  if(e){ // فقط منابع ناقص را دوباره امتحان کن
   try{if(e.wortFailed){e.wort=await Providers.wort(w);e.wortFailed=false;e.fa=buildFa(e);if(faL)attachFaLayer(e,faL);saveCache()}}catch(x){}
-  try{if(e.bamoozFailed||e.bamooz===undefined){e.bamooz=await Providers.bamooz(w,"de");e.bamoozFailed=false;if(e.bamooz&&!(e.src||[]).includes("بیاموز"))(e.src=e.src||[]).push("بیاموز");saveCache()}}catch(x){e.bamoozFailed=true;try{saveCache()}catch(_){}}
   return e;
  }
  const loc=LOCAL[key];
- const [a,b,c,d,f]=await Promise.allSettled([phrase?Promise.resolve([]):Providers.wiktionary(w),Providers.mymemory(w),phrase?Promise.resolve(null):Providers.wort(w),tr(w,"de","en"),phrase?Promise.resolve(null):Providers.bamooz(w,"de")]);
+ const [a,b,c,d,f]=await Promise.allSettled([phrase?Promise.resolve([]):Providers.wiktionary(w),Providers.mymemory(w),phrase?Promise.resolve(null):Providers.wort(w),tr(w,"de","en"),phrase?Promise.resolve(null):bamoozTimed(w)]);
  e={word:w,en:d.value||"",senses:a.status==="fulfilled"?a.value:[],mm:b.status==="fulfilled"?b.value:[],
-  wort:c.status==="fulfilled"?c.value:null,wortFailed:!phrase&&c.status==="rejected",bamooz:f.status==="fulfilled"?f.value:null,bamoozFailed:!phrase&&f.status==="rejected"};
+  wort:c.status==="fulfilled"?c.value:null,wortFailed:!phrase&&c.status==="rejected",bamooz:(f.status==="fulfilled"&&f.value!==BAMOOZ_TIMEOUT)?f.value:null,bamoozFailed:!phrase&&f.status==="fulfilled"&&f.value===BAMOOZ_TIMEOUT};
  e.fa=buildFa(e);
  e.lemma=(e.wort&&(e.wort.card?e.wort.card.word:e.wort.dict.word))||(loc?loc[0]:guessLemma(e.senses));
  e.src=[e.wort&&"wort.app",e.senses.length&&"Wiktionary",e.mm.length&&"MyMemory",loc&&"محلی",e.bamooz&&"بیاموز"].filter(Boolean);
  if(faL)attachFaLayer(e,faL);
  if(!e.senses.length&&!e.fa.length&&!e.wort&&!e.faLayer&&!e.bamooz){
-  if([a,b,c,f].every(x=>x.status==="rejected"))throw new Error("offline");
+  if([a,b,c].every(x=>x.status==="rejected")&&!e.bamooz)throw new Error("offline");
   return {word:w,senses:[],fa:[],src:[]};
  }
  if([a,b,c,f].some(x=>x.status==="fulfilled")){cache[key]=e;saveCache()}
