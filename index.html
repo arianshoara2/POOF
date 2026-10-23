@@ -152,7 +152,7 @@ button.ib.pri{background:var(--accent);color:var(--bg);border-color:var(--accent
 #ltEntry{position:absolute;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));max-height:62vh;overflow:auto;z-index:5;margin:0}
 .lt-ctx{width:100%;font:italic 18px/1.9 var(--serif)}.lt-fa{font:16px/1.9 var(--sans);font-style:normal}
 #ed{position:fixed;inset:0;z-index:300;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
-#ask{position:fixed;inset:0;z-index:310;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+#ask,#about{position:fixed;inset:0;z-index:310;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
 #moviePick,#podPick{position:fixed;inset:0;z-index:310;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
 #podPick .pod-scenic{position:absolute;inset:0;z-index:0;background-size:cover;background-position:center;pointer-events:none}
 #podPick .pod-scenic::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.30),rgba(0,0,0,.55))}
@@ -612,6 +612,9 @@ html:not([data-theme=snowy]) #s-cards #list .card::after{background:linear-gradi
    <div class="row" style="margin-top:8px"><label class="ghost-label">ورود کارت‌ها (افزودن به کارت‌های فعلی)<input id="impCards" type="file" accept=".json,application/json" hidden></label></div>
    </details>
   </div>
+  <div class="card">
+   <div class="row"><button class="ghost" id="aboutBtn">ⓘ درباره poof</button></div>
+  </div>
  </section>
 </main>
 <nav id="nav" aria-label="ناوبری اصلی">
@@ -649,6 +652,14 @@ html:not([data-theme=snowy]) #s-cards #list .card::after{background:linear-gradi
 <div id="ask" hidden role="dialog" aria-label="از پووف بپرس"><div class="ask-card">
  <div class="ed-top"><b>✨ پووف توضیح می‌دهد</b><button class="ib" id="askClose" aria-label="بستن"><svg class="ic" aria-hidden="true"><use href="#i-close"/></svg></button></div>
  <div id="askBody"></div>
+</div></div>
+<div id="about" hidden role="dialog" aria-label="درباره poof"><div class="ask-card">
+ <div class="ed-top"><b>درباره poof</b><button class="ib" id="aboutClose" aria-label="بستن"><svg class="ic" aria-hidden="true"><use href="#i-close"/></svg></button></div>
+ <div style="text-align:center;padding:8px 0 4px"><img src="icon.svg" alt="poof" style="width:72px;height:72px;border-radius:18px"></div>
+ <p style="text-align:center;margin:4px 0 2px"><b>poof</b></p>
+ <p class="mute" style="text-align:center;margin:0 0 12px">نسخه ۶۹</p>
+ <p style="margin:0 0 10px">با همکاری اصلی هوش مصنوعی موزی و آرین شعرا، با کمک چت‌جی‌پی‌تی و کلود، به‌صورت متن‌باز در گیت‌هاب ساخته شده است.</p>
+ <p style="margin:0"><a href="https://github.com/arianshoara2/POOF" target="_blank" rel="noopener">github.com/arianshoara2/POOF</a></p>
 </div></div>
 <div id="cdetail" hidden role="dialog" aria-label="جزئیات کارت"><div class="ask-card">
  <div class="ed-top"><b>🃏 کارت</b><button class="ib" id="cdClose" aria-label="بستن"><svg class="ic" aria-hidden="true"><use href="#i-close"/></svg></button></div>
@@ -2106,7 +2117,7 @@ document.addEventListener("keydown",e=>{if(e.key==="Escape"&&peekOpen())closePee
    وقتی هیچ‌کدام باز نیستند، رفتار پیش‌فرض مرورگر دست نخورده می‌ماند. */
 window.addEventListener("popstate",(e)=>{
  try{
-  const busy=["#uiModal","#ask","#ed","#moviePick","#podPick","#cdetail"].some(s=>{const el=$(s);return el&&!el.hidden});
+  const busy=["#uiModal","#ask","#about","#ed","#moviePick","#podPick","#cdetail"].some(s=>{const el=$(s);return el&&!el.hidden});
   if(busy)return;
   if(peekOpen()){closePeek();return}
   const eb=$("#entry");
@@ -2611,6 +2622,9 @@ async function askPOOF(word,ctx){
  }
 }
 $("#askClose").onclick=()=>{$("#ask").hidden=true};
+$("#aboutBtn").onclick=()=>{$("#about").hidden=false};
+$("#aboutClose").onclick=()=>{$("#about").hidden=true};
+$("#about").addEventListener("click",e=>{if(e.target.id==="about")$("#about").hidden=true});
 $("#ask").addEventListener("click",e=>{if(e.target.id==="ask")$("#ask").hidden=true});
 $("#cdClose").onclick=()=>{$("#cdetail").hidden=true};
 $("#cdetail").addEventListener("click",e=>{if(e.target.id==="cdetail")$("#cdetail").hidden=true});
