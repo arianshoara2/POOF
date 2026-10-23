@@ -1321,7 +1321,7 @@ if(typeof document!=="undefined"&&!document.getElementById("bz-css")){
 /* رندر امن پنل بیاموز: هر شکل غیرمنتظره‌ای فقط پنل را حذف می‌کند، نه کل صفحه را */
 const bamoozPanelSafe=(b,lang)=>{try{return b&&b.senses&&b.senses.length?bamoozPanel(b,lang):""}catch(_){return ""}};
 const BAMOOZ_TIMEOUT={__timeout:true};
-const bamoozTimed=w=>Promise.race([Providers.bamooz(w,"de").then(v=>v==null?null:v,()=>null),new Promise(res=>setTimeout(()=>res(BAMOOZ_TIMEOUT),8000))]);
+const bamoozTimed=(w,lang)=>Promise.race([Providers.bamooz(w,lang||"de").then(v=>v==null?null:v,()=>null),new Promise(res=>setTimeout(()=>res(BAMOOZ_TIMEOUT),8000))]);
 function buildFa(e){
  const W=e.wort,k=e.word.toLowerCase(),loc=LOCAL[k],a=[];
  if(W&&W.card)a.push(W.card.meaning);
@@ -2138,6 +2138,7 @@ async function showEntry(box,raw,ctx,src,lang){
   ${!isFa&&exs.length?`<p class="lbl">جمله‌ی نمونه برای کارت</p><label class="sense"><input type="radio" name="ex" value="-1"><span class="mute">بدون جمله</span></label>`+exs.map((x,i)=>`<label class="sense"><input type="radio" name="ex" value="${i}" ${i?"":"checked"}>${exh(x)}</label>`).join(""):""}
   ${!isFa&&G&&G.tr.length?`<details style="margin-top:8px"><summary>ترجمه‌ها و تعریف‌ها (Glosbe)</summary>${G.tr.map(x=>`<div class="sense"><span><b>${esc(x.w)}</b> ${x.pos?`<i>${esc(x.pos)}</i>`:""} ${x.def?sr(x.def,"en","mute"):""}</span></div>`).join("")}</details>`:""}
   ${!isFa&&G&&G.phr.length?`<details style="margin-top:8px"><summary>عبارت‌های مشابه (Glosbe)</summary>${G.phr.map(x=>`<div class="sense">${exh(x)}</div>`).join("")}</details>`:""}
+  ${!isFa&&e.bamooz?`<div style="border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin-top:8px"><details><summary>همه‌ی معنی‌ها و عبارت‌ها (بیاموز)</summary>${bamoozPanelSafe(e.bamooz,"en")}</details></div>`:""}
   ${isFa&&ctx?`<div class="mute" style="margin-top:8px">${sr(ctx,"fa")}</div>`:""}
   ${!(isFa?e.de.length+e.en.length:e.fa.length+e.de.length+flat.length)?`<p class="mute">نتیجه‌ای پیدا نشد؛ معنی را دستی بنویسید.</p>`:""}
   <div id="richSlot">${e.rich?richHTML(e.rich):""}</div>
@@ -2429,14 +2430,17 @@ Providers.glosbe=async(w,a,b)=>{const h=await fetchHTML("https://glosbe.com/"+a+
 
 /* انگلیسی → فارسی + آلمانی (Glosbe + Wiktionary + گوگل + MyMemory) */
 async function lookupEn(w){
- const key="en:"+w.toLowerCase();if(cache[key]&&cache[key].gl)return cache[key];
- const ph=/\s/.test(w),lw=w.toLowerCase(),ne=x=>x.toLowerCase()!==lw;
- const [s,g,m,gd,md,gl]=await Promise.allSettled([ph?Promise.resolve([]):Providers.wiktionary(w,"en"),tr(w,"en","fa"),Providers.mymemory(w,"en|fa"),tr(w,"en","de"),Providers.mymemory(w,"en|de"),Providers.glosbe(w,"en","fa")]);
+ const key="en:"+w.toLowerCase(),ph=/\s/.test(w);
+ const ce=cache[key];
+ if(ce&&ce.gl){if(!ph&&(ce.bamoozFailed||ce.bamooz===undefined)){bamoozTimed(w,"en").then(v=>{try{if(v===BAMOOZ_TIMEOUT){ce.bamoozFailed=true}else if(v){ce.bamooz=v;ce.bamoozFailed=false;if(!(ce.src||[]).includes("بیاموز"))(ce.src=ce.src||[]).push("بیاموز")}else{ce.bamooz=null;ce.bamoozFailed=false}saveCache()}catch(_){}});}return ce;}
+ const lw=w.toLowerCase(),ne=x=>x.toLowerCase()!==lw;
+ const [s,g,m,gd,md,gl,bm]=await Promise.allSettled([ph?Promise.resolve([]):Providers.wiktionary(w,"en"),tr(w,"en","fa"),Providers.mymemory(w,"en|fa"),tr(w,"en","de"),Providers.mymemory(w,"en|de"),Providers.glosbe(w,"en","fa"),ph?Promise.resolve(null):bamoozTimed(w,"en")]);
+ const _bm=bm.status==="fulfilled"?bm.value:null,bamooz=_bm===BAMOOZ_TIMEOUT?null:_bm,bamoozFailed=!ph&&_bm===BAMOOZ_TIMEOUT;
  const G=gl.status==="fulfilled"?gl.value:null;
  const fa=uniq(G?G.tr.map(x=>x.w):[],G?G.less.slice(0,6):[],val(g),val(m)).filter(ne),de=uniq(val(gd),val(md)).filter(ne),senses=val(s);
- if(!fa.length&&!de.length&&!senses.length){if([s,m,md,gl].every(x=>x.status==="rejected"))throw new Error("offline");return {word:w,dir:"en",fa:[],de:[],senses:[],src:[],gl:true}}
- const e={word:w,dir:"en",fa,de,senses,glosbe:G,gl:gl.status==="fulfilled"||!db.proxy,
-  src:[G&&"Glosbe",senses.length&&"Wiktionary",(val(g).length||val(gd).length)&&"Google",(val(m).length||val(md).length)&&"MyMemory"].filter(Boolean)};
+ if(!fa.length&&!de.length&&!senses.length){if([s,m,md,gl].every(x=>x.status==="rejected"))throw new Error("offline");if(bamooz)return {word:w,dir:"en",fa:[],de:[],senses:[],bamooz,bamoozFailed:false,gl:true,src:["بیاموز"]};return {word:w,dir:"en",fa:[],de:[],senses:[],src:[],gl:true}}
+ const e={word:w,dir:"en",fa,de,senses,glosbe:G,gl:gl.status==="fulfilled"||!db.proxy,bamooz,bamoozFailed,
+  src:[G&&"Glosbe",senses.length&&"Wiktionary",(val(g).length||val(gd).length)&&"Google",(val(m).length||val(md).length)&&"MyMemory",bamooz&&"بیاموز"].filter(Boolean)};
  cache[key]=e;saveCache();return e;
 }
 
