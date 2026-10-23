@@ -477,6 +477,12 @@ html:not([data-theme=snowy]) #s-cards #list .card::after{background:linear-gradi
   <div id="lib"></div>
    </div>
   </div>
+  <div class="card" id="zbShelfCard">
+   <div class="row" style="margin-bottom:6px;align-items:center"><b>🎬 قفسه‌ی زبان</b><span class="mute" style="font-size:12px">با زدن روی هر عنوان، در خود زبان باز می‌شود</span></div>
+   <div id="zbList"></div>
+   <input id="zbTitle" placeholder="عنوان (مثلاً برکینگ بد)">
+   <div class="row" style="margin-top:8px"><input id="zbUrl" dir="ltr" placeholder="لینک اشتراک زبان" style="flex:1"><button class="ib pri" id="zbAdd" aria-label="افزودن به قفسه"><svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></button></div>
+  </div>
   <div class="card" id="addPanel" hidden>
    <div class="searchbar"><input id="tUrl" dir="ltr" placeholder="لینک یوتیوب یا مقاله…"><button class="ib pri" id="tGet" aria-label="دریافت از لینک"><svg class="ic" aria-hidden="true"><use href="#i-link"/></svg></button></div>
    <div class="seg" id="slSeg" style="margin-top:10px"><button class="on" data-sl="">زیرنویس اصلی</button><button data-sl="en">EN</button><button data-sl="de">DE</button><button data-sl="fa">فا</button></div>
@@ -1030,7 +1036,7 @@ let tt;function toast(m,k){const t=$("#toast");t.textContent=m;t.className="show
 /* ===== 1) Storage v2 + Migration + Backup ===== */
 const K="poof_v2",KC="poof_dict_cache2",KB="poof_backup";
 const PACK_URL_DE="https://github.com/arianshoara2/POOF/releases/download/dict-de-v1/poof-de-dict.jsonl.gz";
-const fresh=()=>({v:2,decks:[{id:"default",name:"پیش‌فرض"}],cards:[],active:"default",texts:[],textId:"t0",log:{},recent:[],theme:"auto",proxy:""});
+const fresh=()=>({v:2,decks:[{id:"default",name:"پیش‌فرض"}],cards:[],active:"default",texts:[],textId:"t0",log:{},recent:[],theme:"auto",proxy:"",zbShelf:[{t:"حیوانات",u:"https://zaban.com/share/movies/1812?language=fa"},{t:"برکینگ بد — قسمت ۱",u:"https://zaban.com/share/series/16/seasons/18/episodes/508?language=fa"}]});
 function migrate(d){
  if(!d||typeof d!=="object"||!Array.isArray(d.cards)||!Array.isArray(d.decks))return null;
  if(d.v>2)return null;                       // نسخه‌ی آینده: دست نزن
@@ -3240,6 +3246,22 @@ $("#vpSeg").onclick=async e=>{
  try{await importYT(t.video.id,b.dataset.vl)}catch(x){toast(friendly(x),"bad")}
 };
 
+/* ===== قفسه‌ی زبان (لینک‌های اشتراک؛ باز شدن در خود زبان) ===== */
+const zbKind=u=>u.includes("/movies/")?"🎬 فیلم":u.includes("/series/")?"📺 سریال":"🔗 لینک";
+function renderZbShelf(){
+ if(!Array.isArray(db.zbShelf))db.zbShelf=[{t:"حیوانات",u:"https://zaban.com/share/movies/1812?language=fa"},{t:"برکینگ بد — قسمت ۱",u:"https://zaban.com/share/series/16/seasons/18/episodes/508?language=fa"}];
+ const el=$("#zbList");if(!el)return;
+ el.innerHTML=db.zbShelf.length?db.zbShelf.map((z,i)=>`<div class="row" style="align-items:center;gap:6px;margin-bottom:6px"><a href="${esc(z.u)}" target="_blank" rel="noopener" style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" dir="auto">${esc(z.t)}</a><span class="mute" style="font-size:12px;flex:none">${zbKind(z.u)}</span><button class="ib" data-zbdel="${i}" aria-label="حذف">✕</button></div>`).join(""):`<p class="mute" style="margin:0">هنوز عنوانی نیست — لینک اشتراک یک فیلم یا قسمت را از زبان اینجا بگذار.</p>`;
+ el.querySelectorAll("[data-zbdel]").forEach(b=>b.onclick=async()=>{if(!await uiConfirm("این عنوان از قفسه حذف شود؟",{okText:"حذف",danger:true}))return;db.zbShelf.splice(+b.dataset.zbdel,1);save();renderZbShelf();});
+}
+$("#zbAdd").onclick=()=>{
+ const u=($("#zbUrl").value||"").trim(),t=($("#zbTitle").value||"").trim();
+ if(!u||!u.includes("zaban.com")){toast("لینک زبان را بگذار","bad");return}
+ if(!Array.isArray(db.zbShelf))db.zbShelf=[];
+ if(db.zbShelf.some(z=>z.u===u)){toast("این لینک قبلاً در قفسه هست");return}
+ db.zbShelf.push({t:t||(u.includes("/movies/")?"فیلم زبان":"سریال زبان"),u});save();
+ $("#zbTitle").value=$("#zbUrl").value="";renderZbShelf();toast("به قفسه‌ی زبان اضافه شد");
+};
 /* ===== Wikipedia (de / fa) → خواندن ===== */
 let wl="de";
 async function wp(q){const r=await fetch("https://"+wl+".wikipedia.org/w/api.php?format=json&origin=*&"+q);if(!r.ok)throw new Error(r.status);return r.json()}
@@ -3628,7 +3650,7 @@ function pushNavState(){
 }
 let _scT=null;
 addEventListener("scroll",()=>{if(_scT)return;_scT=setTimeout(()=>{_scT=null;try{if(curTab()==="read"&&$("#entry").hidden&&!peekOpen())saveState()}catch(e){}},500)},{passive:true});
-function renderAll(){renderReader();renderRecent();renderCards();renderMe()}
+function renderAll(){renderReader();renderZbShelf();renderRecent();renderCards();renderMe()}
 let lastY=scrollY,lastToggleY=scrollY;addEventListener("scroll",()=>{const y=scrollY;if(!sel){const nav=$("#nav");if(y<=90){nav.classList.remove("nav-hidden");document.body.classList.remove("nav-down");lastToggleY=y}else if(y>lastToggleY+40){nav.classList.add("nav-hidden");document.body.classList.add("nav-down");lastToggleY=y}else if(y<lastToggleY-40){nav.classList.remove("nav-hidden");document.body.classList.remove("nav-down");lastToggleY=y}}lastY=y},{passive:true});
 addEventListener("pagehide",()=>{try{if(!$("#s-read").hidden)saveProgress()}catch(e){}});
 /* ---------- ورود با گوگل + همگام‌سازی ابری (Drive appDataFolder) ---------- */
