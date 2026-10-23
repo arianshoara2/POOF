@@ -1208,6 +1208,118 @@ Providers.wort=async w=>{
  if(!card&&!dict&&bad)throw new Error("wort");
  return card||dict?{card,dict}:null;
 };
+/* ===== bamooz (dic.b-amooz.com): استفاده‌ی شخصی، زنده هنگام سرچ، بدون ذخیره در اپ ===== */
+/* =====================================================================
+   bamooz.js — دیکشنری بیاموز (dic.b-amooz.com) برای POOF
+   معنی‌ها، گرامر واژه (جمع/ملکی/گذشته…)، مترادف، عبارت‌ها، مثال‌ها و «کاربرد» را می‌آورد.
+   وابستگی‌ها (در اپ از قبل هستند): Providers, fetchHTML, FA, esc, sr(text,lang,extraClass,src)
+   صفحه از طریق Worker (poof-worker-v3.js) گرفته می‌شود؛ دامنه‌ی dic.b-amooz.com در آن مجاز است.
+   ===================================================================== */
+
+/* ---- ۱) DOM → «خط»‌های بلوکی (خط‌هایی که داخل <li> هستند علامت li:true می‌گیرند) ---- */
+function blockLinesX(root){
+ const out=[];let buf="",li=0;
+ const flush=()=>{const t=buf.replace(/\s+/g," ").trim();if(t)out.push({t,li:li>0});buf=""};
+ const BL=/^(DIV|P|LI|UL|OL|H[1-6]|SECTION|ARTICLE|TR|TD|TABLE|HEADER|FOOTER|NAV|MAIN|ASIDE|BUTTON|FIGURE|BLOCKQUOTE)$/;
+ (function walk(n){
+  for(const c of n.childNodes){
+   if(c.nodeType===3){buf+=c.nodeValue;continue}
+   if(c.nodeType!==1)continue;
+   const tg=c.tagName;if(/^(SCRIPT|STYLE|NOSCRIPT|SVG|TEMPLATE)$/.test(tg))continue;
+   if(tg==="BR"){flush();continue}
+   const b=BL.test(tg);if(b)flush();if(tg==="LI")li++;walk(c);if(b)flush();if(tg==="LI")li--;
+  }
+ })(root);
+ flush();return out;
+}
+
+/* ---- ۲) تحلیل‌گر (تابع خالص؛ ورودی: آرایه‌ی {t,li}) ---- */
+function parseBamoozLines(L){
+ const fa=t=>FA.test(t),clean=t=>t.replace(/^[•·\s]+/,"").replace(/^\d+\.\s*/,"").trim();
+ const isSense=(k)=>{const t=L[k].t,n=L[k+1];
+  if(L[k].li)return null;
+  let m=t.match(/^(\d+)\s+(?![.\d])(\S.*)$/);if(m&&fa(m[2]))return [m[1],m[2],0];
+  if(/^\d+$/.test(t)&&n&&!n.li&&fa(n.t))return [t,n.t,1];return null};
+ // شروع: خطِ «[اسم]» / «[فعل]» …
+ let i=L.findIndex((x,k)=>/^\[[^\]:]{1,25}\]$/.test(x.t)&&L[k+1]&&/[A-Za-zÄÖÜäöüß]/.test(L[k+1].t));
+ if(i<0)i=0;
+ const out={pos:"",head:"",ipa:"",tags:[],grammar:{},senses:[]};
+ for(;i<L.length;i++){
+  if(isSense(i))break;
+  const t=L[i].t;
+  if(/^(مشاهده در|دانلود|تصاویر)/.test(t))continue;
+  const pm=t.match(/^\[([^\]:]+)\]$/);if(pm&&!out.pos){out.pos=pm[1];continue}
+  if(/^\/.+\/$/.test(t)){out.ipa=t;continue}
+  const kv=[...t.matchAll(/\[([^\]:]+):\s*([^\]]+)\]/g)];
+  if(kv.length){kv.forEach(m=>out.grammar[m[1].trim()]=m[2].trim());continue}
+  if(!out.head&&/[A-Za-zÄÖÜäöüß]/.test(t)&&!fa(t)){out.head=t;continue}
+  if(fa(t)&&t.length<40)out.tags.push(t);
+ }
+ let s=null,ph=null,usage=false;
+ for(;i<L.length;i++){
+  const {t,li}=L[i];
+  if(/^(تصاویر|دانلود اپلیکیشن)/.test(t))break;
+  const sm=isSense(i);
+  if(sm){i+=sm[2];s={n:+sm[0],meaning:sm[1],label:"",syn:[],examples:[],phrases:[],usage:null};out.senses.push(s);ph=null;usage=false;continue}
+  if(!s)continue;
+  const syn=t.match(/^مترادف و متضاد\s*(.*)$/);
+  if(syn){s.syn=(syn[1]||(L[i+1]&&!L[i+1].li&&!fa(L[i+1].t)?L[++i].t:"")).split(/[\s،,]+/).filter(Boolean);continue}
+  if(/^کاربرد/.test(t)){usage=true;s.usage=[t];continue}
+  if(usage&&!li){s.usage.push(t);continue}
+  if(li){
+   const x=clean(t),k=x.search(/[\u0600-\u06FF\uFB50-\uFDFF\uFE70-\uFEFF]/);
+   const tgt=ph?ph.examples:s.examples;
+   if(k>0&&/[A-Za-zÄÖÜäöüß]/.test(x.slice(0,k))){tgt.push({src:x.slice(0,k).trim(),fa:x.slice(k).trim()});continue}   // هر دو در یک خط
+   if(!fa(x)){tgt.push({src:x,fa:""});continue}
+   const last=tgt[tgt.length-1];if(last&&!last.fa)last.fa=x;else tgt.push({src:"",fa:x});
+   continue;
+  }
+  if(/^(informal|formal|slang|literary|archaic|old-fashioned|figurative|spoken|written|rare|vulgar|dated|technical)$/i.test(t)){s.label=t;continue}
+  if(!fa(t)){ph={phrase:t,fa:"",examples:[]};s.phrases.push(ph);continue}
+  if(ph&&!ph.fa)ph.fa=t;
+ }
+ out.senses.forEach(z=>{z.examples=z.examples.filter(e=>e.src);z.phrases.forEach(p=>p.examples=p.examples.filter(e=>e.src))});
+ return out.senses.length?out:null;
+}
+
+/* ---- ۳) Provider: lang = "de" | "en" ---- */
+Providers.bamooz=async(w,lang)=>{
+ const h=await fetchHTML(`https://dic.b-amooz.com/${lang==="en"?"en":"de"}/dictionary/w?word=${encodeURIComponent(w.toLowerCase())}`);
+ if(!h)return null;
+ return parseBamoozLines(blockLinesX(new DOMParser().parseFromString(h,"text/html").body));
+};
+const bamoozMeanings=b=>b?b.senses.map(s=>s.meaning):[];
+const bamoozExamples=b=>b?b.senses.flatMap(s=>[...s.examples,...s.phrases.flatMap(p=>p.examples)]).filter(x=>x.src&&x.fa).slice(0,14):[];
+
+/* ---- ۴) رندر پنل: گرامر + معنی‌ها + مثال‌ها (همه‌ی متن‌ها با sr() قابل‌انتخاب و ترجمه) ---- */
+function bamoozPanel(b,lang){
+ const L=lang==="en"?"en":"de",S=(t,l,x)=>sr(t,l,x,"dictionary");
+ const tags=[b.pos,b.ipa,...b.tags].filter(Boolean).map(t=>`<span class="tag de">${esc(t)}</span>`);
+ Object.entries(b.grammar).forEach(([k,v])=>tags.push(`<span class="tag"><span class="mute">${esc(k)}:</span> <span class="de">${esc(v)}</span></span>`));
+ const ex=x=>`<div class="bz-ex">${S(x.src,L,"de")}${x.fa?`<div>${S(x.fa,"fa","mute")}</div>`:""}</div>`;
+ return `<div class="bz">${tags.length?`<div class="bz-tags">${tags.join("")}</div>`:""}`+
+  b.senses.map((s,k)=>`<details class="bz-s" ${k<2?"open":""}><summary><b>${s.n||k+1}</b> ${esc(s.meaning)}${s.label?` <span class="tag">${esc(s.label)}</span>`:""}</summary>
+   ${s.syn.length?`<div class="mute sm">مترادف و متضاد: ${s.syn.map(w=>S(w,L,"de")).join("، ")}</div>`:""}
+   ${s.examples.map(ex).join("")}
+   ${s.phrases.map(p=>`<div class="bz-ph"><div>${S(p.phrase,L,"de")} <span class="mute">—</span> ${p.fa?S(p.fa,"fa"):""}</div>${p.examples.map(ex).join("")}</div>`).join("")}
+   ${s.usage?`<details class="bz-u"><summary>توضیح گرامری و کاربرد</summary>${s.usage.map(x=>`<p>${esc(x)}</p>`).join("")}</details>`:""}
+  </details>`).join("")+`</div>`;
+}
+
+/* ---- ۵) CSS اختصاصی (از متغیرهای تم اپ استفاده می‌کند؛ نیازی به ویرایش CSS اصلی نیست) ---- */
+if(typeof document!=="undefined"&&!document.getElementById("bz-css")){
+ const st=document.createElement("style");st.id="bz-css";
+ st.textContent=`.bz{margin-top:6px}.bz-tags{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 12px}
+.tag{display:inline-block;padding:1px 10px;border:1px solid var(--border);border-radius:99px;font-size:13px;color:var(--accent)}
+.bz-s{border:1px solid var(--border);border-radius:var(--r-md,16px);padding:10px 14px;margin-bottom:8px}
+.bz-s>summary{cursor:pointer;list-style:none;font-weight:600}.bz-s>summary::-webkit-details-marker{display:none}
+.bz-ex{padding:6px 0 6px 0;border-bottom:1px dashed var(--border)}.bz-ex:last-child{border:0}
+.bz-ph{margin-top:10px;padding-top:8px;border-top:1px solid var(--border)}.bz-ph>div:first-child{font-weight:600}
+.bz-u{margin-top:10px}.bz-u>summary{cursor:pointer;color:var(--accent)}.bz-u p{margin:6px 0;color:var(--muted);line-height:1.9}`;
+ document.head.appendChild(st);
+}
+/* رندر امن پنل بیاموز: هر شکل غیرمنتظره‌ای فقط پنل را حذف می‌کند، نه کل صفحه را */
+const bamoozPanelSafe=(b,lang)=>{try{return b&&b.senses&&b.senses.length?bamoozPanel(b,lang):""}catch(_){return ""}};
 function buildFa(e){
  const W=e.wort,k=e.word.toLowerCase(),loc=LOCAL[k],a=[];
  if(W&&W.card)a.push(W.card.meaning);
@@ -1221,24 +1333,25 @@ async function lookup(raw,lang){
  if(lang==="en")return lookupEn(w);
  const key=w.toLowerCase(),phrase=/\s/.test(w);let e=cache[key];
  const faL=!phrase?await faLookup(w).catch(()=>null):null;
- if(e&&!(e.wortFailed&&!phrase)){if(faL)attachFaLayer(e,faL);return e;}
- if(e){ // فقط wort را دوباره امتحان کن
-  try{e.wort=await Providers.wort(w);e.wortFailed=false;e.fa=buildFa(e);if(faL)attachFaLayer(e,faL);saveCache()}catch(x){}
+ if(e&&!(e.wortFailed&&!phrase)&&!(e.bamoozFailed&&!phrase)&&e.bamooz!==undefined){if(faL)attachFaLayer(e,faL);return e;}
+ if(e){ // فقط منابع ناقص را دوباره امتحان کن
+  try{if(e.wortFailed){e.wort=await Providers.wort(w);e.wortFailed=false;e.fa=buildFa(e);if(faL)attachFaLayer(e,faL);saveCache()}}catch(x){}
+  try{if(e.bamoozFailed||e.bamooz===undefined){e.bamooz=await Providers.bamooz(w,"de");e.bamoozFailed=false;if(e.bamooz&&!(e.src||[]).includes("بیاموز"))(e.src=e.src||[]).push("بیاموز");saveCache()}}catch(x){e.bamoozFailed=true;try{saveCache()}catch(_){}}
   return e;
  }
  const loc=LOCAL[key];
- const [a,b,c,d]=await Promise.allSettled([phrase?Promise.resolve([]):Providers.wiktionary(w),Providers.mymemory(w),phrase?Promise.resolve(null):Providers.wort(w),tr(w,"de","en")]);
+ const [a,b,c,d,f]=await Promise.allSettled([phrase?Promise.resolve([]):Providers.wiktionary(w),Providers.mymemory(w),phrase?Promise.resolve(null):Providers.wort(w),tr(w,"de","en"),phrase?Promise.resolve(null):Providers.bamooz(w,"de")]);
  e={word:w,en:d.value||"",senses:a.status==="fulfilled"?a.value:[],mm:b.status==="fulfilled"?b.value:[],
-  wort:c.status==="fulfilled"?c.value:null,wortFailed:!phrase&&c.status==="rejected"};
+  wort:c.status==="fulfilled"?c.value:null,wortFailed:!phrase&&c.status==="rejected",bamooz:f.status==="fulfilled"?f.value:null,bamoozFailed:!phrase&&f.status==="rejected"};
  e.fa=buildFa(e);
  e.lemma=(e.wort&&(e.wort.card?e.wort.card.word:e.wort.dict.word))||(loc?loc[0]:guessLemma(e.senses));
- e.src=[e.wort&&"wort.app",e.senses.length&&"Wiktionary",e.mm.length&&"MyMemory",loc&&"محلی"].filter(Boolean);
+ e.src=[e.wort&&"wort.app",e.senses.length&&"Wiktionary",e.mm.length&&"MyMemory",loc&&"محلی",e.bamooz&&"بیاموز"].filter(Boolean);
  if(faL)attachFaLayer(e,faL);
- if(!e.senses.length&&!e.fa.length&&!e.wort&&!e.faLayer){
-  if([a,b,c].every(x=>x.status==="rejected"))throw new Error("offline");
+ if(!e.senses.length&&!e.fa.length&&!e.wort&&!e.faLayer&&!e.bamooz){
+  if([a,b,c,f].every(x=>x.status==="rejected"))throw new Error("offline");
   return {word:w,senses:[],fa:[],src:[]};
  }
- if([a,b,c].some(x=>x.status==="fulfilled")){cache[key]=e;saveCache()}
+ if([a,b,c,f].some(x=>x.status==="fulfilled")){cache[key]=e;saveCache()}
  return e;
 }
 /* صداها هر بار تازه خوانده می‌شوند (کشِ خالیِ صدا روی اندروید یعنی سکوت همیشگی)؛
@@ -2067,6 +2180,7 @@ async function showEntry(box,raw,ctx,src,lang){
   <label class="sense"><input type="radio" name="ex" value="-1"><span class="mute">بدون جمله</span></label>`+exs.map((x,i)=>`<label class="sense"><input type="radio" name="ex" value="${i}" ${i?"":"checked"}>${exHtml(x)}</label>`).join(""):""}
  ${dict?`<details style="margin-top:8px"><summary>همه‌ی معنی‌ها و عبارت‌ها (wort.app)</summary>${dict.senses.map(s=>`<p><b>${sr(s.meaning,"fa")}</b>${s.note?` <span class="mute de">${esc(s.note)}</span>`:""}`+
   [...s.ex,...s.ph].filter(x=>x.de).map(x=>`<span class="sense">${exHtml(x)}</span>`).join("")+`</p>`).join("")}</details>`:""}
+ ${e.bamooz?bamoozPanelSafe(e.bamooz,"de"):""}
  ${flat.length?`<p style="margin:10px 0 4px">تعریف انگلیسی (Wiktionary):</p>`+flat.map((s,i)=>`<label class="sense"><input type="radio" name="sn" value="${i}" ${i?"":"checked"}><span><i>${esc(s.pos)}</i> — ${sr(s.def,"en")}</span></label>`).join(""):""}
  ${!flat.length&&!(e.fa||[]).length?`<p class="mute">نتیجه‌ای پیدا نشد؛ می‌توانید معنی را دستی بنویسید.</p>`:""}
  <div id="richSlot">${e.rich?richHTML(e.rich):""}</div>
