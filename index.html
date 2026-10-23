@@ -7,12 +7,12 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="POOF">
+<meta name="apple-mobile-web-app-title" content="poof">
  
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#111111">
-<title>POOF Mini + wort</title>
+<title>poof</title>
 <style>
 /* ===== POOF design system: tokens (Classic / Snowy) ===== */
 :root{--bg:#111111;--surface:#1b1814;--text:#f5f1e8;--muted:#b8b0a4;--accent:#e6b96f;--error:#ff8f87;--ok:#9fd8a8;--border:#4a4032;
@@ -1481,7 +1481,104 @@ function parseRichDE(html){
   rTxt(dd).replace(/^\[\d+(?:\s*,\s*\d+)*\]\s*/,"").split(/[,;]/).forEach(function(x){x=x.trim();if(x.length>1&&out.synonyms.indexOf(x)<0&&out.synonyms.length<8)out.synonyms.push(x)});
  });
  var gw=deLabel(seg,"Gegenwörter");if(gw)out.antonyms=rLinks(gw.html);
+ /* فعل؟ جدول خلاصه‌ی صرف با ردیف‌های Präsens/Präteritum (برای فعل نبودن، بعداً Flexion گرفته نمی‌شود) */
+ var hv=false,tp2=0;
+ while(true){var tb2=rBlock(seg,"table",tp2);if(!tb2)break;tp2=tb2.end;var tt2=rTxt(tb2.html);if(/Präsens/.test(tt2)&&/Präteritum/.test(tt2)){hv=true;break}}
+ out.hasVerbTable=hv;
  return out;
+}
+/* ---------- صرف فعل آلمانی (ویکی‌واژه، صفحه‌ی Flexion) ---------- */
+/* تمیزکردن یک خانه‌ی جدول صرف: تگ‌ها و پانویس‌ها با rTxt می‌روند؛ گونه‌ی دوم و «veraltet» و علامت تعجب حذف می‌شود؛ ضمیر اول جدا می‌شود */
+function cleanFlexForm(cell){
+ var t=rTxt(cell||"").replace(/\[[^\]]*\]/g,"").replace(/\s+/g," ").trim();
+ if(!t||/^[-\u2014\u2013]+$/.test(t))return "";
+ var first=t.split(" , ")[0].split(",")[0].trim().replace(/\s*!+\s*$/g,"").trim();
+ first=first.replace(/^(ich|du|er\/sie\/es|wir|ihr|sie)\s+/i,"").trim();
+ if(!first||/^[-\u2014\u2013]+$/.test(first))return "";
+ return first;
+}
+function flexRows(tableHtml){
+ var rows=[],re=/<tr\b[^>]*>([\s\S]*?)<\/tr>/gi,m;
+ while((m=re.exec(tableHtml))){
+  var cells=[],cm,re2=/<t[hd]\b[^>]*>([\s\S]*?)<\/t[hd]>/gi;
+  while((cm=re2.exec(m[1])))cells.push(cm[1]);
+  rows.push(cells);
+ }
+ return rows;
+}
+/* استخراج فقط: ۶ فرم Präsens، ich Präteritum، Partizip II، ich Konjunktiv II — هر چیز غیرمنتظره → null */
+function parseFlexion(html){
+ try{
+  var tables=[],pos=0;
+  while(true){var tb=rBlock(html,"table",pos);if(!tb)break;pos=tb.end;tables.push(tb.html)}
+  var fin=null;
+  for(var ti=0;ti<tables.length&&!fin;ti++){
+   var rows=flexRows(tables[ti]),sec="",pres={},pret={};
+   for(var ri=0;ri<rows.length;ri++){
+    var cells=rows[ri];
+    var txt=cells.map(function(c){return rTxt(c)}).filter(Boolean).join(" ").replace(/\s+/g," ").trim();
+    if(/^(Pr\u00e4sens|Pr\u00e4teritum|Perfekt|Plusquamperfekt|Futur I|Futur II)$/.test(txt)){sec=txt;continue}
+    var pm=rTxt(cells[0]||"").match(/^(\d+)\. Person (Singular|Plural)/);
+    if(!pm||!sec)continue;
+    var key=pm[1]+(pm[2]==="Singular"?"S":"P");
+    if(sec==="Pr\u00e4sens")pres[key]=cells;
+    else if(sec==="Pr\u00e4teritum")pret[key]=cells;
+   }
+   if(pres["1S"]&&pres["2S"]&&pres["3S"]&&pres["1P"]&&pres["2P"]&&pres["3P"]&&pret["1S"])fin={pres:pres,pret:pret};
+  }
+  if(!fin)return null;
+  var presForms=["1S","2S","3S","1P","2P","3P"].map(function(k){return cleanFlexForm(fin.pres[k][1])});
+  if(presForms.some(function(f){return !f}))return null;
+  var pret=cleanFlexForm(fin.pret["1S"][1]),konj=cleanFlexForm(fin.pret["1S"][2]);
+  if(!pret||!konj)return null;
+  /* Partizip II: جدول Infinitive/Partizipien — ردیف بعد از سرستون «Perfekt Passiv» */
+  var part2="";
+  for(var tj=0;tj<tables.length&&!part2;tj++){
+   var r2=flexRows(tables[tj]);
+   for(var rj=0;rj<r2.length-1;rj++){
+    if(/Perfekt Passiv/.test(r2[rj].map(function(c){return rTxt(c)}).join(" "))){
+     var v=cleanFlexForm(r2[rj+1][1]);
+     if(v)part2=v;
+     break;
+    }
+   }
+  }
+  if(!part2)return null;
+  return {pres:presForms,pret:pret,part2:part2,konj2:konj};
+ }catch(e){return null}
+}
+function conjHTML(c){
+ if(!c)return "";
+ var order=[[0,"ich"],[3,"wir"],[1,"du"],[4,"ihr"],[2,"er, sie, es"],[5,"sie"]];
+ var grid=order.map(function(o){return '<span class="de"><span class="mute">'+esc(o[1])+"</span> "+esc(c.pres[o[0]])+"</span>"}).join("");
+ return '<details style="margin-top:8px"><summary>\u0635\u0631\u0641 \u0641\u0639\u0644</summary>'
+  +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:2px 12px;margin:6px 0" dir="ltr" lang="de">'+grid+'</div>'
+  +'<div class="mute" dir="ltr" style="text-align:left">Pr\u00e4teritum: ich '+esc(c.pret)+' \u00b7 Partizip II: '+esc(c.part2)+' \u00b7 Konjunktiv II: ich '+esc(c.konj2)+'</div></details>';
+}
+var conjBusy={};
+/* گرفتن جدول صرف از صفحه‌ی Flexion (همان مسیر fetchHTML، با کش سطح نشست برای هر کلمه) — در هر خطا هیچ چیزی رندر نمی‌شود */
+function fillConj(box,e,t){
+ try{
+  if(!e||box._rl!=="de")return;
+  if(e.rich&&e.rich.conj)return;
+  var key=String(e.word||"").trim().toLowerCase();if(!key)return;
+  if(conjBusy[key])return;
+  if(e.rich&&e.rich.hasVerbTable===false)return;
+  conjBusy[key]=1;
+  var tries=[],seen={};
+  [e.word,key].forEach(function(w){if(w&&!seen[w]){seen[w]=1;tries.push(w)}});
+  (function next(i){
+   if(i>=tries.length)return;
+   fetchHTML("https://de.wiktionary.org/api/rest_v1/page/html/"+encodeURIComponent("Flexion:"+tries[i])).then(function(html){
+    var c=html?parseFlexion(html):null;
+    if(c){
+     if(!e.rich)e.rich={lang:"de"};
+     e.rich.conj=c;try{saveCache()}catch(err){}
+     if(t===box._t){var s=$("#richSlot",box);if(s)s.innerHTML=richHTML(e.rich)}
+    }else next(i+1);
+   }).catch(function(){next(i+1)});
+  })(0);
+ }catch(err){}
 }
 /* ---------- English (en.wiktionary) ---------- */
 function enSeg(html){
@@ -1592,6 +1689,7 @@ function richHTML(r){
   +(r.etymology?'<details style="margin-top:6px"><summary>ریشه و ساخت</summary><p class="rich-ety" dir="auto">'+linkifyRich(r.etymology,L)+"</p></details>":"")
   +((r.synonyms||[]).length?'<p class="lbl">مترادف‌ها</p><div class="row">'+chips(r.synonyms)+"</div>":"")
   +((r.antonyms||[]).length?'<p class="lbl">متضادها</p><div class="row">'+chips(r.antonyms)+"</div>":"")
+  +(r.conj?conjHTML(r.conj):"")
   +"</div>";
 }
 function richFields(e){
@@ -1724,19 +1822,20 @@ function fillRich(box,e,t){
  if(!e||e.dir==="fa")return;
  var slot=$("#richSlot",box);if(!slot)return;
  box._rl=e.dir==="en"?"en":"de";
- if(e.rich){slot.innerHTML=richHTML(e.rich);return}
+ if(e.rich){slot.innerHTML=richHTML(e.rich);fillConj(box,e,t);return}
  var lang=box._rl,key=lang+":"+e.word.toLowerCase();
  if(richBusy[key])return;
  var net=function(){
   fetchRich(e.word,lang).then(function(r){
    e.rich=r;saveCache();
    if(t===box._t){var s2=$("#richSlot",box);if(s2)s2.innerHTML=richHTML(r)}
+   fillConj(box,e,t);
   });
  };
  if(lang==="de"&&packInstalled()){
   richBusy[key]=1;
   packLookupDE(e.word).then(function(r){
-   if(r){e.rich=r;saveCache();if(t===box._t){var s3=$("#richSlot",box);if(s3)s3.innerHTML=richHTML(r)}}
+   if(r){e.rich=r;saveCache();if(t===box._t){var s3=$("#richSlot",box);if(s3)s3.innerHTML=richHTML(r)}fillConj(box,e,t)}
    else if(e.rich===undefined)net();
   }).catch(function(){if(e.rich===undefined)net()});
   return;
