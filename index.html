@@ -213,6 +213,7 @@ button.ib.pri{background:var(--accent);color:var(--bg);border-color:var(--accent
 .vp-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .tline{display:flex;gap:10px;align-items:baseline;padding:6px 8px;border-radius:12px;transition:background-color .2s}
 #zbSubList .tline{display:block}
+#zbSticky{position:sticky;top:8px;z-index:20;background:var(--surface)}
 .tline.cur{background:var(--active)}
 /* ===== کتابخانه ===== */
 #lib{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
@@ -539,11 +540,17 @@ html:not([data-theme=snowy]) #s-cards #list .card::after{background:linear-gradi
     <p class="mute" id="zbIpNote" hidden style="font-size:12px;margin:6px 0 0">برای دیدن همه‌ی ویدیوها وی‌پی‌ان را خاموش کن</p>
     <div id="zbSeriesNav" hidden></div>
     <div class="row" style="margin-top:10px"><button id="zbPlay" style="flex:1" hidden>▶ پخش</button></div>
+    <div id="zbPlayerZone">
+     <div id="zbSticky">
     <video id="zbVideo" controls playsinline style="width:100%;border-radius:12px;margin-top:10px" hidden></video>
-    <div id="zbSubBar" hidden>
+    <div id="zbSubBarTop" hidden>
      <div class="row" style="gap:6px;margin-top:8px;align-items:center"><button class="ghost" id="zbPrevSub">قبلی</button><button class="ghost" id="zbNextSub">بعدی</button><div class="seg" id="zbSubSeg" style="flex:1"></div></div>
      <p id="zbSubLine" style="margin:10px 0;padding:10px;border:1px solid var(--border);border-radius:10px;font-size:17px;line-height:1.9;min-height:1.9em" dir="auto"></p>
+    </div>
+     </div>
+     <div id="zbSubBar" hidden>
      <div id="zbSubList"></div>
+     </div>
     </div>
     <div class="card" id="zbVocab" hidden></div>
    </div>
@@ -3383,7 +3390,7 @@ function zbCleanup(){
  zbSegs=[];zbCurSub=-1;zbPlayUrl="";zbResume=0;zbHistCur=null;zbHistPending=null;
 }
 function zbResetDetail(){
- ["zbPoster","zbPlay","zbDescWrap","zbIpNote","zbSubBar","zbVocab"].forEach(id=>{const el=$("#"+id);if(el)el.hidden=true});
+ ["zbPoster","zbPlay","zbDescWrap","zbIpNote","zbSubBar","zbSubBarTop","zbVocab"].forEach(id=>{const el=$("#"+id);if(el)el.hidden=true});
  const v=$("#zbVideo");if(v)v.hidden=true;
  const sn=$("#zbSeriesNav");if(sn){sn.hidden=true;sn.innerHTML=""}
  const sl=$("#zbSubList");if(sl)sl.innerHTML="";
@@ -3506,7 +3513,7 @@ async function zbOpenEpisode(ep,resume){
  if(ep.id)zbLoadVocab("episode",ep.id);
 }
 async function zbLoadSubs(subs){
- const bar=$("#zbSubBar");bar.hidden=true;zbSegs=[];
+ const bar=$("#zbSubBar");bar.hidden=true;const topEl=$("#zbSubBarTop");if(topEl)topEl.hidden=true;zbSegs=[];
  if(!Array.isArray(subs)||!subs.length)return;
  const seg=$("#zbSubSeg");
  seg.innerHTML=subs.map((s,i)=>`<button data-zbsl="${i}">${esc(s.label||s.language||("زیرنویس "+(i+1)))}</button>`).join("");
@@ -3523,12 +3530,13 @@ function zbShowSegs(segs,lang){
  zbSubLang=lang||"en";zbSegs=segs;
  const list=$("#zbSubList");
  list.innerHTML=zbSegs.map(x=>`<div class="tline" data-ts="${x.s}" data-ctx="${esc(x.t)}" data-lang="${zbSubLang}" data-src="zaban" style="padding:4px 6px;border-radius:6px" dir="auto">${wrapWords(x.t)}</div>`).join("");
- $("#zbSubBar").hidden=false;$("#zbSubLine").textContent="";
+ $("#zbSubBar").hidden=false;const topEl=$("#zbSubBarTop");if(topEl)topEl.hidden=false;$("#zbSubLine").textContent="";
+ zbCurSub=-1;zbCurLineStale=false;
  zbStartSync();
 }
 async function zbLoadSubFile(s){
  zbSubLang=(s&&s.language)||"en";
- if(sel&&W.length&&W[0].closest&&W[0].closest("#zbSubBar")){sel=null;drawSel();$("#pop").hidden=true;zbSelLine=null;zbSelAnchor=null}
+ if(sel&&W.length&&W[0].closest&&W[0].closest("#zbPlayerZone")){sel=null;drawSel();$("#pop").hidden=true;zbSelLine=null;zbSelAnchor=null}
  try{
   const r=await fetch(s.url);if(!r.ok)throw 0;
   zbShowSegs(parseSubs(await r.text()),zbSubLang);
@@ -3537,7 +3545,7 @@ async function zbLoadSubFile(s){
 async function zbLoadGerman(srcIdx){
  if(zbDeBusy)return;zbDeBusy=true;
  const seg=$("#zbSubSeg"),btn=seg&&seg.querySelector("[data-zbde]"),prev=seg&&seg.querySelector("button.on");
- const clearSheet=()=>{if(sel&&W.length&&W[0].closest&&W[0].closest("#zbSubBar")){sel=null;drawSel();$("#pop").hidden=true;zbSelLine=null;zbSelAnchor=null}};
+ const clearSheet=()=>{if(sel&&W.length&&W[0].closest&&W[0].closest("#zbPlayerZone")){sel=null;drawSel();$("#pop").hidden=true;zbSelLine=null;zbSelAnchor=null}};
  try{
   const key=zbCurKey?("poof_zb_de_mt_"+zbCurKey):"";
   let cached=null;if(key){try{cached=JSON.parse(localStorage.getItem(key)||"null")}catch(e){}}
