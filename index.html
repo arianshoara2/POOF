@@ -211,6 +211,7 @@ button.ib.pri{background:var(--accent);color:var(--bg);border-color:var(--accent
 .vp-frame{position:relative;width:100%;aspect-ratio:16/9;border-radius:16px;overflow:hidden;background:#000;margin-bottom:12px}
 .vp-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .tline{display:flex;gap:10px;align-items:baseline;padding:6px 8px;border-radius:12px;transition:background-color .2s}
+#zbSubList .tline{display:block}
 .tline.cur{background:var(--active)}
 /* ===== کتابخانه ===== */
 #lib{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
@@ -2735,7 +2736,7 @@ function dragHandle(which){return e=>{
   if(which==="s")sel.a=Math.min(i,sel.b);else sel.b=Math.max(i,sel.a);
   drawSel();
  };
- const up=()=>{["pointermove","pointerup","pointercancel"].forEach((n,k)=>el.removeEventListener(n,[mv,up,up][k]));setSel(sel.a,sel.b,true)};
+ const up=()=>{["pointermove","pointerup","pointercancel"].forEach((n,k)=>el.removeEventListener(n,[mv,up,up][k]));setSel(sel.a,sel.b,true);const l=W[sel.a]&&W[sel.a].closest("#zbSubList .tline,#zbSubLine");if(l&&l.dataset.ts)pop.ts=+l.dataset.ts};
  el.addEventListener("pointermove",mv);el.addEventListener("pointerup",up);el.addEventListener("pointercancel",up);
 }}
 $("#hs").onpointerdown=dragHandle("s");$("#he").onpointerdown=dragHandle("e");
@@ -3300,7 +3301,7 @@ const zbPoster=it=>{
  return "";
 };
 const zbFmt=s=>{s=Math.max(0,Math.floor(+s||0));return Math.floor(s/60)+":"+String(s%60).padStart(2,"0")};
-let zbKind="all",zbHls=null,zbSubTimer=null,zbSegs=[],zbCurSub=-1,zbPlayUrl="",zbResume=0;
+let zbKind="all",zbHls=null,zbSubTimer=null,zbSegs=[],zbCurSub=-1,zbPlayUrl="",zbResume=0,zbSubLang="en",zbSelLine=null,zbSelAnchor=null;
 function zbCleanup(){
  try{zbHistSavePos(true)}catch(e){}
  try{if(zbHls){zbHls.destroy();zbHls=null}}catch(e){}
@@ -3319,6 +3320,7 @@ function zbResetDetail(){
  const vc=$("#zbVocab");if(vc)vc.innerHTML="";
  const ti=$("#zbDTitle");if(ti)ti.textContent="";
  const me=$("#zbDMeta");if(me)me.textContent="";
+ if(sel&&W.length&&!document.contains(W[0])){sel=null;drawSel()}
 }
 function zbShowDetail(){const d=$("#zbDetail");if(d)d.hidden=false;const r=$("#zbRes");if(r)r.hidden=true}
 function zbBack(){
@@ -3436,12 +3438,14 @@ async function zbLoadSubs(subs){
  await zbLoadSubFile(subs[di]);
 }
 async function zbLoadSubFile(s){
+ zbSubLang=(s&&s.language)||"en";
+ if(sel&&W.length&&W[0].closest&&W[0].closest("#zbSubBar")){sel=null;drawSel();$("#pop").hidden=true;zbSelLine=null;zbSelAnchor=null}
  try{
   const r=await fetch(s.url);if(!r.ok)throw 0;
   zbSegs=parseSubs(await r.text());
  }catch(e){zbSegs=[];toast("دریافت زیرنویس ممکن نشد","bad");return}
  const list=$("#zbSubList");
- list.innerHTML=zbSegs.map(x=>`<div class="tline" data-ts="${x.s}" style="padding:4px 6px;border-radius:6px" dir="auto">${wrapWords(x.t)}</div>`).join("");
+ list.innerHTML=zbSegs.map(x=>`<div class="tline" data-ts="${x.s}" data-ctx="${esc(x.t)}" data-lang="${zbSubLang}" data-src="zaban" style="padding:4px 6px;border-radius:6px" dir="auto">${wrapWords(x.t)}</div>`).join("");
  $("#zbSubBar").hidden=false;$("#zbSubLine").textContent="";
  zbStartSync();
 }
@@ -3451,19 +3455,30 @@ function zbStartSync(){
   const v=$("#zbVideo");if(!v||v.hidden||!zbSegs.length)return;
   const c=v.currentTime;let i=-1;for(let k=0;k<zbSegs.length;k++){if(zbSegs[k].s<=c+.2)i=k;else break}
   if(i===zbCurSub)return;zbCurSub=i;
-  const line=$("#zbSubLine");if(line)line.innerHTML=i>=0?wrapWords(zbSegs[i].t):"";
+  const line=$("#zbSubLine");if(line){line.innerHTML=i>=0?wrapWords(zbSegs[i].t):"";if(i>=0){line.dataset.ctx=zbSegs[i].t;line.dataset.lang=zbSubLang;line.dataset.ts=zbSegs[i].s;line.dataset.src="zaban"}else{delete line.dataset.ctx;delete line.dataset.lang;delete line.dataset.ts;delete line.dataset.src}if(sel&&W.length&&!document.contains(W[0])){sel=null;drawSel()}}
   $$("#zbSubList .tline").forEach((el,k)=>el.classList.toggle("cur",k===i));
  },500);
 }
+function zbPick(el,shift){
+ const line=el.closest("#zbSubList .tline")||el.closest("#zbSubLine");
+ if(!line)return;
+ const words=[...line.querySelectorAll(".w")];
+ const i=words.indexOf(el);if(i<0)return;
+ let a=i,b=i;
+ if(shift&&sel&&zbSelLine===line&&zbSelAnchor&&words.includes(zbSelAnchor)){const ai=words.indexOf(zbSelAnchor);a=Math.min(ai,i);b=Math.max(ai,i)}
+ W=words;setSel(a,b,true);
+ zbSelLine=line;zbSelAnchor=words[a];
+ const ts=line.dataset.ts;if(ts!=null&&ts!=="")pop.ts=+ts;
+}
 $("#zbSubList").addEventListener("click",e=>{
  const w=e.target.closest(".w");
- if(w){try{tab("dict");dsearch(w.dataset.w)}catch(err){}return}
+ if(w){zbPick(w,e.shiftKey);return}
  const b=e.target.closest("[data-ts]");if(!b)return;
  const v=$("#zbVideo");if(!v)return;v.currentTime=+b.dataset.ts;const pr=v.play();if(pr&&pr.catch)pr.catch(()=>{});
 });
 $("#zbSubLine").addEventListener("click",e=>{
  const w=e.target.closest(".w");if(!w)return;
- try{tab("dict");dsearch(w.dataset.w)}catch(err){}
+ zbPick(w,e.shiftKey);
 });
 const zbSubJump=dir=>{
  const v=$("#zbVideo");if(!v||!zbSegs.length)return;const c=v.currentTime;let j=-1;
