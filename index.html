@@ -2585,6 +2585,13 @@ $("#pop").onclick=ev=>{
    if(eHi&&eHi.a===0&&eHi.b===pop._espans.length-1)return toast("همین حالا یک جمله‌ی کامل انتخاب شده");
    eHi={a:0,b:pop._espans.length-1};eDraw();eShowPop();return;
   }
+  if(sel!=null&&W.length&&zbSelLine&&W[0]&&(W[0].closest("#zbSubList .tline")||W[0].closest("#zbSubLine"))){
+   if(sel.a===0&&sel.b===W.length-1)return toast("همین حالا یک جمله‌ی کامل انتخاب شده");
+   setSel(0,W.length-1,true);
+   const ts=zbSelLine.dataset.ts;if(ts!=null&&ts!=="")pop.ts=+ts;
+   zbSelAnchor=W[0];
+   return;
+  }
   if(sel==null||!W.length)return;
   const w0=W[sel.a];if(!w0||!w0.closest("#text"))return;
   let lo=sel.a,hi=sel.b;
@@ -3503,7 +3510,7 @@ $("#zbSubLine").addEventListener("click",e=>{
 });
 const zbSubJump=dir=>{
  const v=$("#zbVideo");if(!v||!zbSegs.length)return;const c=v.currentTime;let j=-1;
- if(dir<0){for(let k=zbSegs.length-1;k>=0;k--){if(zbSegs[k].s<c-.3){j=k;break}}}
+ if(dir<0){let i=-1;for(let k=0;k<zbSegs.length;k++){if(zbSegs[k].s<=c)i=k;else break}if(i<0)j=-1;else if(c-zbSegs[i].s<=3&&i>0)j=i-1;else j=i}
  else{for(let k=0;k<zbSegs.length;k++){if(zbSegs[k].s>c+.3){j=k;break}}}
  if(j<0)return;v.currentTime=zbSegs[j].s;const pr=v.play();if(pr&&pr.catch)pr.catch(()=>{});
 };
