@@ -545,7 +545,7 @@ html:not([data-theme=snowy]) #s-cards #list .card::after{background:linear-gradi
      <p id="zbSubLine" style="margin:10px 0;padding:10px;border:1px solid var(--border);border-radius:10px;font-size:17px;line-height:1.9;min-height:1.9em" dir="auto"></p>
      <div id="zbSubList"></div>
     </div>
-    <div id="zbVocab" hidden></div>
+    <div class="card" id="zbVocab" hidden></div>
    </div>
    </div>
   </div>
@@ -2738,7 +2738,7 @@ function openCardDetail(c){
  $("#cdEdit").onclick=()=>{$("#cdetail").hidden=true;openEditor(c)};
  $("#cdDel").onclick=async()=>{if(await uiConfirm("کارت حذف شود؟",{okText:"حذف",danger:true})){db.cards=db.cards.filter(x=>x!==c);save();renderCards();$("#cdetail").hidden=true}};
 }
-document.addEventListener("click",e=>{if(!e.target.closest("#pop,.w,.hd,.lt-card,.zbWord")){$("#pop").hidden=true;sel=null;drawSel()}});
+document.addEventListener("click",e=>{if(!e.target.closest("#pop,.w,.hd,.lt-card,.zbWord,.zbPhrase")){$("#pop").hidden=true;sel=null;drawSel()}});
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){$("#pop").hidden=true;sel=null;drawSel()}});
 
 /* ===== انتخاب با دسته‌ها: از یک کلمه تا هر تعداد (مثل Deucards) ===== */
@@ -3747,11 +3747,12 @@ async function zbLoadVocab(type,id){
   ]);
   const words=zbArr(w),phr=zbArr(p);
   if(!words.length&&!phr.length)return;
-  let h=`<div class="row" style="margin:12px 0 6px"><b>📖 جعبه لغت</b></div>`;
+  let h=`<div class="row" style="margin:0 0 8px;justify-content:space-between"><b>📖 جعبه لغت</b><span class="mute">${words.length+phr.length} مورد</span></div>`;
   if(words.length)h+=words.map(x=>{const wd=x.word||x.title||x.text||x.name||"",mn=x.meaning||x.translation||x.fa||x.persian||x.definition||"";if(!wd)return "";return `<button class="chip zbWord" data-zbw="${esc(wd)}" data-zbmn="${esc(mn)}" style="display:block;width:100%;text-align:start;margin-top:4px;border-radius:8px;padding:6px 10px" dir="auto"><b>${esc(wd)}</b>${mn?`<br><span class="mute">${esc(mn)}</span>`:""}</button>`}).join("");
-  if(phr.length)h+=`<div class="mute" style="margin-top:10px">عبارت‌ها</div>`+phr.map(x=>{const wd=x.phrase||x.text||x.word||x.title||"",mn=x.meaning||x.translation||x.fa||x.persian||"";if(!wd)return "";return `<div style="padding:6px 10px" dir="auto"><b>${esc(wd)}</b>${mn?`<br><span class="mute">${esc(mn)}</span>`:""}</div>`}).join("");
+  if(phr.length)h+=`<div class="mute" style="margin-top:10px">عبارت‌ها</div>`+phr.map(x=>{const wd=x.phrase||x.text||x.word||x.title||"",mn=x.meaning||x.translation||x.fa||x.persian||"";if(!wd)return "";return `<button class="chip zbPhrase" data-zbw="${esc(wd)}" data-zbmn="${esc(mn)}" style="display:block;width:100%;text-align:start;margin-top:4px;border-radius:8px;padding:6px 10px" dir="auto"><b>${esc(wd)}</b>${mn?`<br><span class="mute">${esc(mn)}</span>`:""}</button>`}).join("");
   box.innerHTML=h;box.hidden=false;
   box.querySelectorAll(".zbWord").forEach(b=>b.onclick=()=>{try{const r=b.getBoundingClientRect();sel=null;drawSel();pop.video=null;pop.ts=null;pop.textId=null;showPop({top:r.top,bottom:r.bottom,left:r.left,width:r.width},b.dataset.zbw,b.dataset.zbmn||"","zaban",FA.test(b.dataset.zbw)?"fa":"en")}catch(e){}});
+  box.querySelectorAll(".zbPhrase").forEach(b=>b.onclick=()=>{try{const r=b.getBoundingClientRect();sel=null;drawSel();pop.video=null;pop.ts=null;pop.textId=null;showPop({top:r.top,bottom:r.bottom,left:r.left,width:r.width},b.dataset.zbw,b.dataset.zbmn||"","zaban",FA.test(b.dataset.zbw)?"fa":"en")}catch(e){}});
  }catch(e){}
 }
 $$(".zbSaved").forEach(b=>b.onclick=()=>{
