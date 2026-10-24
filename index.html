@@ -270,7 +270,9 @@ nav button.hero.on{background:linear-gradient(135deg,var(--accent),#caa25e);colo
 body,header,.card,button,input,select,textarea,.w{transition:color .3s ease,background-color .3s ease,border-color .3s ease,box-shadow .3s ease,transform .2s ease}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 @media (max-width:480px){main{padding-inline:16px}.card{padding:14px}}
-@media (max-width:520px){#addPanel{padding:12px}#addPanel input,#addPanel textarea{padding:8px 10px;margin-bottom:6px}#addPanel .searchbar,#addPanel .row{gap:6px}#addPanel .mute{margin-bottom:8px}}
+@media (max-width:520px){#addPanel{padding:11px}#addPanel input,#addPanel textarea{padding:7px 9px;margin-bottom:5px}#addPanel .searchbar,#addPanel .row{gap:5px}#addPanel .mute{margin-bottom:7px}}
+.secHead{display:flex;justify-content:space-between;align-items:center;width:100%;background:none;border:0;padding:6px 2px;font:inherit;font-weight:700;cursor:pointer;color:inherit;text-align:start}.secChev{opacity:.7;flex:none}#libZone #addPanel{margin-top:10px;padding-top:12px;border-top:1px solid var(--border)}.wp-h{margin:14px 0 6px;font-size:18px}.wp-scroll{overflow-x:auto;margin:10px 0}.wp-t{border-collapse:collapse;font-size:14px}.wp-t td,.wp-t th{border:1px solid var(--border);padding:6px 8px;vertical-align:top}.wp-f{margin:12px 0;text-align:center}.wp-f img{max-width:100%;height:auto;border-radius:10px}.wp-f figcaption{font-size:12px;opacity:.75;margin-top:4px}
+
 </style>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script>try{var _t=(JSON.parse(localStorage.getItem('poof_v2')||'{}').theme==='snowy')?'snowy':'classic';document.write('<link rel="stylesheet" id="themeCss" href="theme-'+_t+'.css?v=16">')}catch(e){document.write('<link rel="stylesheet" id="themeCss" href="theme-classic.css?v=16">')}</script>
@@ -475,37 +477,10 @@ html:not([data-theme=snowy]) #s-cards #list .card::after{background:linear-gradi
   <div id="libZone">
    <div class="card-bg-img poof-img-reading-bg" aria-hidden="true"></div>
    <div class="card-in">
+   <button class="secHead" data-sec="lib"><span>📚 کتابخانه</span><span class="secChev">▾</span></button>
+   <div id="secLibBody">
   <div class="row" style="margin-bottom:10px"><input id="libQ" placeholder="جست‌وجو در کتابخانه…" style="flex:1"><button class="ib" id="libSort" aria-label="مرتب‌سازی" title="مرتب‌سازی">⇅</button><button class="ib pri" id="addTxt" aria-label="متن جدید"><svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></button></div>
-  <div class="row" id="libFilters" style="margin-bottom:10px;gap:6px"><button class="chip lf on" data-lf="all">همه</button><button class="chip lf" data-lf="vid"><svg class="ic ic-inline" aria-hidden="true"><use href="#i-film"/></svg> ویدیو</button><button class="chip lf" data-lf="txt"><svg class="ic ic-inline" aria-hidden="true"><use href="#i-doc"/></svg> متن</button><button class="chip lf" data-lf="wp"><svg class="ic ic-inline" aria-hidden="true"><use href="#i-globe"/></svg> ویکی‌پدیا</button><button class="chip lf" data-lf="pod"><svg class="ic ic-inline" aria-hidden="true"><use href="#i-mic"/></svg> پادکست</button></div>
-  <div id="lib"></div>
-   </div>
-  </div>
-  <div class="card" id="zbHistCard" hidden>
-   <div class="row" style="margin-bottom:6px;align-items:center"><b>🕘 تاریخچه تماشا</b><span class="mute" style="font-size:12px">زبان</span></div>
-   <div id="zbHistList"></div>
-  </div>
-  <div class="card" id="zabanCard">
-   <div class="row" style="margin-bottom:6px;align-items:center"><b>🎬 زبان</b><span class="mute" style="font-size:12px">سرچ و پخش داخل پووف</span></div>
-   <div class="row" style="gap:6px;margin-bottom:8px;flex-wrap:wrap"><button class="chip zbSaved" data-zbsaved="movie:1812">🐻 حیوانات</button><button class="chip zbSaved" data-zbsaved="ep:16:508">📺 برکینگ بد — قسمت ۱</button></div>
-   <div class="seg" id="zbKindSeg" style="margin-bottom:8px"><button class="on" data-zbk="all">همه</button><button data-zbk="movie">فیلم</button><button data-zbk="series">سریال</button></div>
-   <div class="searchbar"><input id="zbQ" dir="auto" placeholder="نام فیلم یا سریال…"><button class="ib pri" id="zbGo" aria-label="جست‌وجو"><svg class="ic" aria-hidden="true"><use href="#i-dict"/></svg></button></div>
-   <div id="zbRes"></div>
-   <div id="zbDetail" hidden>
-    <div class="row" style="gap:10px;align-items:flex-start;margin-top:10px"><img id="zbPoster" style="width:72px;border-radius:8px;flex:none" hidden><div style="flex:1;min-width:0"><b id="zbDTitle" dir="auto" style="display:block"></b><span id="zbDLevel" class="chip" hidden></span><div class="mute" id="zbDMeta" style="font-size:12px"></div></div><button class="ib" id="zbBack" aria-label="بازگشت">✕</button></div>
-    <details id="zbDescWrap" style="margin-top:8px" hidden><summary>توضیح</summary><p id="zbDesc" class="mute" dir="auto"></p></details>
-    <p class="mute" id="zbIpNote" hidden style="font-size:12px;margin:6px 0 0">برای دیدن همه‌ی ویدیوها وی‌پی‌ان را خاموش کن</p>
-    <div id="zbSeriesNav" hidden></div>
-    <div class="row" style="margin-top:10px"><button id="zbPlay" style="flex:1" hidden>▶ پخش</button></div>
-    <video id="zbVideo" controls playsinline style="width:100%;border-radius:12px;margin-top:10px" hidden></video>
-    <div id="zbSubBar" hidden>
-     <div class="row" style="gap:6px;margin-top:8px;align-items:center"><button class="ghost" id="zbPrevSub">قبلی</button><button class="ghost" id="zbNextSub">بعدی</button><div class="seg" id="zbSubSeg" style="flex:1"></div></div>
-     <p id="zbSubLine" style="margin:10px 0;padding:10px;border:1px solid var(--border);border-radius:10px;font-size:17px;line-height:1.9;min-height:1.9em" dir="auto"></p>
-     <div id="zbSubList"></div>
-    </div>
-    <div id="zbVocab" hidden></div>
-   </div>
-  </div>
-  <div class="card" id="addPanel" hidden>
+  <div id="addPanel" hidden>
    <div class="searchbar"><input id="tUrl" dir="ltr" placeholder="لینک یوتیوب یا مقاله…"><button class="ib pri" id="tGet" aria-label="دریافت از لینک"><svg class="ic" aria-hidden="true"><use href="#i-link"/></svg></button></div>
    <div class="seg" id="slSeg" style="margin-top:10px"><button class="on" data-sl="">زیرنویس اصلی</button><button data-sl="en">EN</button><button data-sl="de">DE</button><button data-sl="fa">فا</button></div>
    <p class="mute" style="margin:0 0 12px">اگر دریافت خودکار نشد: در یوتیوب «Show transcript» را باز کنید، متن را در کادر پایین بچسبانید و لینک را همین‌جا بگذارید؛ زمان‌ها حفظ می‌شود.</p>
@@ -515,6 +490,11 @@ html:not([data-theme=snowy]) #s-cards #list .card::after{background:linear-gradi
    <div class="row"><button class="ghost" id="tPaste">چسباندن</button><button id="tAdd" style="flex:1">ذخیره و خواندن</button></div>
    <div class="row" style="margin-top:10px"><button class="ghost" id="subPick">وارد کردن زیرنویس (SRT/VTT)</button><input id="subFile" type="file" accept=".srt,.vtt" hidden><button class="ghost" id="zabanSearchBtn">جست‌وجو در زبان</button></div>
    <div class="seg" id="subLangSeg" style="margin-top:8px"><button class="on" data-subl="auto">خودکار</button><button data-subl="de">DE</button><button data-subl="en">EN</button></div>
+  </div>
+  <div class="row" id="libFilters" style="margin-bottom:10px;gap:6px"><button class="chip lf on" data-lf="all">همه</button><button class="chip lf" data-lf="vid"><svg class="ic ic-inline" aria-hidden="true"><use href="#i-film"/></svg> ویدیو</button><button class="chip lf" data-lf="txt"><svg class="ic ic-inline" aria-hidden="true"><use href="#i-doc"/></svg> متن</button><button class="chip lf" data-lf="wp"><svg class="ic ic-inline" aria-hidden="true"><use href="#i-globe"/></svg> ویکی‌پدیا</button><button class="chip lf" data-lf="pod"><svg class="ic ic-inline" aria-hidden="true"><use href="#i-mic"/></svg> پادکست</button></div>
+  <div id="lib"></div>
+   </div>
+   </div>
   </div>
   <div class="card" id="vp" hidden>
    <div class="vp-frame" id="vpWrap"><div id="vpFrame"></div></div>
@@ -546,6 +526,35 @@ html:not([data-theme=snowy]) #s-cards #list .card::after{background:linear-gradi
   <div class="card de poof-img-reading-bg" id="text"></div>
   <p class="mute" id="txtSrc" hidden></p>
   <p class="mute">روی یک کلمه بزنید، یا کلمه را لمس طولانی کنید و بکشید تا چند کلمه انتخاب شود.</p>
+  <div class="card" id="zabanCard">
+   <button class="secHead" data-sec="zb"><span>🎬 زبان <span class="mute" style="font-size:12px;font-weight:400">سرچ و پخش داخل پووف</span></span><span class="secChev">▾</span></button>
+   <div id="secZbBody">
+   <div class="row" style="gap:6px;margin-bottom:8px;flex-wrap:wrap"><button class="chip zbSaved" data-zbsaved="movie:1812">🐻 حیوانات</button><button class="chip zbSaved" data-zbsaved="ep:16:508">📺 برکینگ بد — قسمت ۱</button></div>
+   <div class="seg" id="zbKindSeg" style="margin-bottom:8px"><button class="on" data-zbk="all">همه</button><button data-zbk="movie">فیلم</button><button data-zbk="series">سریال</button></div>
+   <div class="searchbar"><input id="zbQ" dir="auto" placeholder="نام فیلم یا سریال…"><button class="ib pri" id="zbGo" aria-label="جست‌وجو"><svg class="ic" aria-hidden="true"><use href="#i-dict"/></svg></button></div>
+   <div id="zbRes"></div>
+   <div id="zbDetail" hidden>
+    <div class="row" style="gap:10px;align-items:flex-start;margin-top:10px"><img id="zbPoster" style="width:72px;border-radius:8px;flex:none" hidden><div style="flex:1;min-width:0"><b id="zbDTitle" dir="auto" style="display:block"></b><span id="zbDLevel" class="chip" hidden></span><div class="mute" id="zbDMeta" style="font-size:12px"></div></div><button class="ib" id="zbBack" aria-label="بازگشت">✕</button></div>
+    <details id="zbDescWrap" style="margin-top:8px" hidden><summary>توضیح</summary><p id="zbDesc" class="mute" dir="auto"></p></details>
+    <p class="mute" id="zbIpNote" hidden style="font-size:12px;margin:6px 0 0">برای دیدن همه‌ی ویدیوها وی‌پی‌ان را خاموش کن</p>
+    <div id="zbSeriesNav" hidden></div>
+    <div class="row" style="margin-top:10px"><button id="zbPlay" style="flex:1" hidden>▶ پخش</button></div>
+    <video id="zbVideo" controls playsinline style="width:100%;border-radius:12px;margin-top:10px" hidden></video>
+    <div id="zbSubBar" hidden>
+     <div class="row" style="gap:6px;margin-top:8px;align-items:center"><button class="ghost" id="zbPrevSub">قبلی</button><button class="ghost" id="zbNextSub">بعدی</button><div class="seg" id="zbSubSeg" style="flex:1"></div></div>
+     <p id="zbSubLine" style="margin:10px 0;padding:10px;border:1px solid var(--border);border-radius:10px;font-size:17px;line-height:1.9;min-height:1.9em" dir="auto"></p>
+     <div id="zbSubList"></div>
+    </div>
+    <div id="zbVocab" hidden></div>
+   </div>
+   </div>
+  </div>
+  <div class="card" id="zbHistCard" hidden>
+   <button class="secHead" data-sec="zbhist"><span>🕘 تاریخچه تماشا <span class="mute" style="font-size:12px;font-weight:400">زبان</span></span><span class="secChev">▾</span></button>
+   <div id="secZbHistBody">
+   <div id="zbHistList"></div>
+   </div>
+  </div>
   <div class="card" id="entry" hidden></div>
  </section>
 
@@ -2318,6 +2327,14 @@ function renderReader(){
   const srcOf=g=>t.pod?("podcast:"+t.id+"@"+Math.floor(g.s)):igv?("ig:"+t.video.ig+"@"+Math.floor(g.s)):t.video?("video:"+t.video.id+"@"+Math.floor(g.s)):("local:"+Math.floor(g.s));
   $("#text").innerHTML=t.video&&t.video.id&&!t.segs.length?`<div class="empty-wrap"><p class="state empty">${YT_BOT_MSG}</p></div>`:t.segs.map((g,k)=>`<div class="tline" id="sg${k}">${igv?`<span class="ts">${mmss(g.s)}</span>`:`<button class="ts" data-ts="${g.s}">${mmss(g.s)}</button>`}${sr(g.t,t.lang,"",srcOf(g))}</div>`).join("");
  }else if(t.pod)$("#text").innerHTML=(t.body||"").split(/\n\s*\n/).map(p=>"<p>"+esc(p).replace(/\n/g,"<br>")+"</p>").join("")||`<p class="state empty">بدون متن — فقط صوت.</p>`;
+ else if(t.wpBlocks&&t.wpBlocks.length){
+  const rich=wpRichHTML(t);
+  if(rich)$("#text").innerHTML=rich;
+  else $("#text").innerHTML=t.body.split(/\n\s*\n/).map(p=>"<p>"+p.split(/(?<=[.!?؟])\s+/).map(s=>{
+   const i=sents.push(s)-1;
+   return s.split(/(?<=\s)(?=\S)/).map(w=>norm(w)?`<span class="w" tabindex="0" role="button" data-w="${esc(norm(w))}" data-i="${i}">${esc(w)}</span>`:w).join("");
+  }).join(" ")+"</p>").join("");
+ }
  else $("#text").innerHTML=t.body.split(/\n\s*\n/).map(p=>"<p>"+p.split(/(?<=[.!?؟])\s+/).map(s=>{
   const i=sents.push(s)-1;
   return s.split(/(?<=\s)(?=\S)/).map(w=>norm(w)?`<span class="w" tabindex="0" role="button" data-w="${esc(norm(w))}" data-i="${i}">${esc(w)}</span>`:w).join("");
@@ -2533,7 +2550,24 @@ async function lookupEn(w){
 
 /* پنل «متن جدید» و انتخاب زبان */
 let tl="auto";
-$("#addTxt").onclick=()=>{const p=$("#addPanel");p.hidden=!p.hidden;if(!p.hidden&&matchMedia("(pointer:fine)").matches)$("#tBody").focus()};
+$("#addTxt").onclick=()=>{const p=$("#addPanel");p.hidden=!p.hidden;if(!p.hidden){if(matchMedia("(pointer:fine)").matches)$("#tBody").focus();p.scrollIntoView({block:"nearest"})}};
+/* ===== collapsible Reader sections (library / zaban / history) ===== */
+function secApply(){
+ let st={};try{st=JSON.parse(localStorage.getItem("poof_sections_collapsed")||"{}")}catch(e){}
+ [["lib","secLibBody"],["zb","secZbBody"],["zbhist","secZbHistBody"]].forEach(([k,body])=>{
+  const b=document.getElementById(body);if(!b)return;
+  const col=!!st[k];b.hidden=col;
+  document.querySelectorAll('[data-sec="'+k+'"] .secChev').forEach(c=>c.textContent=col?"\u25b8":"\u25be");
+ });
+}
+document.addEventListener("click",e=>{
+ const h=e.target.closest("[data-sec]");if(!h)return;
+ const k=h.dataset.sec;let st={};try{st=JSON.parse(localStorage.getItem("poof_sections_collapsed")||"{}")}catch(e){}
+ st[k]=!st[k];try{localStorage.setItem("poof_sections_collapsed",JSON.stringify(st))}catch(e){}
+ secApply();
+});
+secApply();
+
 $("#tlSeg").onclick=e=>{const b=e.target.closest("[data-tl]");if(!b)return;tl=b.dataset.tl;$$("#tlSeg button").forEach(x=>x.classList.toggle("on",x===b))};
 $("#tPaste").onclick=async()=>{try{$("#tBody").value=await navigator.clipboard.readText()}catch(e){toast("چسباندن خودکار ممکن نیست؛ دستی بچسبانید","bad")}};
 $("#tAdd").onclick=()=>{
@@ -3325,7 +3359,7 @@ const zbPoster=it=>{
  return "";
 };
 const zbFmt=s=>{s=Math.max(0,Math.floor(+s||0));return Math.floor(s/60)+":"+String(s%60).padStart(2,"0")};
-let zbKind="all",zbHls=null,zbSubTimer=null,zbSegs=[],zbCurSub=-1,zbPlayUrl="",zbResume=0,zbSubLang="en",zbSelLine=null,zbSelAnchor=null;
+let zbKind="all",zbHls=null,zbSubTimer=null,zbSegs=[],zbCurSub=-1,zbPlayUrl="",zbResume=0,zbSubLang="en",zbSelLine=null,zbSelAnchor=null,zbCurSubs=[],zbCurKey="",zbDeBusy=false;
 function zbCleanup(){
  try{zbHistSavePos(true)}catch(e){}
  try{if(zbHls){zbHls.destroy();zbHls=null}}catch(e){}
@@ -3405,6 +3439,7 @@ function zbRenderHead(d){
  $("#zbIpNote").hidden=!d.need_change_ip;
 }
 async function zbOpenMovie(id,resume){
+ zbCurKey="movie:"+id;
  zbCleanup();zbResetDetail();
  const box=$("#zbRes");box.innerHTML=`<p class="state loading">در حال دریافت…</p>`;
  try{
@@ -3441,6 +3476,7 @@ async function zbOpenSeason(sid,season,nav){
  }catch(e){nav.innerHTML=`<p class="state error">دریافت قسمت‌ها ممکن نشد.</p>`}
 }
 async function zbOpenEpisode(ep,resume){
+ zbCurKey="episode:"+(+ep.id||0);
  const url=ep.transcode_url||ep.video_url||ep.url||(ep.video&&ep.video.url)||(ep.transcode&&ep.transcode.url)||"";
  if(!url){toast("پخش این قسمت فعلاً در دسترس نیست","bad");return}
  zbCleanup();zbResetDetail();
@@ -3460,22 +3496,75 @@ async function zbLoadSubs(subs){
  if(!Array.isArray(subs)||!subs.length)return;
  const seg=$("#zbSubSeg");
  seg.innerHTML=subs.map((s,i)=>`<button data-zbsl="${i}">${esc(s.label||s.language||("زیرنویس "+(i+1)))}</button>`).join("");
+ zbCurSubs=subs;
+ let zbSrcIdx=subs.findIndex(s=>(s.language||"")==="en");if(zbSrcIdx<0)zbSrcIdx=subs.findIndex(s=>(s.language||"")==="fa");
+ if(zbSrcIdx>=0&&!subs.some(s=>(s.language||"")==="de"))seg.innerHTML+=`<button data-zbde>آلمانی (ترجمه ماشینی)</button>`;
  seg.onclick=async e=>{const b=e.target.closest("[data-zbsl]");if(!b)return;$$("#zbSubSeg button").forEach(x=>x.classList.toggle("on",x===b));await zbLoadSubFile(subs[+b.dataset.zbsl])};
+ const zbDeBtn=seg.querySelector("[data-zbde]");if(zbDeBtn)zbDeBtn.onclick=async()=>{await zbLoadGerman(zbSrcIdx)};
  let di=subs.findIndex(s=>(s.language||"")==="fa");if(di<0)di=0;
  $$("#zbSubSeg button").forEach((x,i)=>x.classList.toggle("on",i===di));
  await zbLoadSubFile(subs[di]);
+}
+function zbShowSegs(segs,lang){
+ zbSubLang=lang||"en";zbSegs=segs;
+ const list=$("#zbSubList");
+ list.innerHTML=zbSegs.map(x=>`<div class="tline" data-ts="${x.s}" data-ctx="${esc(x.t)}" data-lang="${zbSubLang}" data-src="zaban" style="padding:4px 6px;border-radius:6px" dir="auto">${wrapWords(x.t)}</div>`).join("");
+ $("#zbSubBar").hidden=false;$("#zbSubLine").textContent="";
+ zbStartSync();
 }
 async function zbLoadSubFile(s){
  zbSubLang=(s&&s.language)||"en";
  if(sel&&W.length&&W[0].closest&&W[0].closest("#zbSubBar")){sel=null;drawSel();$("#pop").hidden=true;zbSelLine=null;zbSelAnchor=null}
  try{
   const r=await fetch(s.url);if(!r.ok)throw 0;
-  zbSegs=parseSubs(await r.text());
+  zbShowSegs(parseSubs(await r.text()),zbSubLang);
  }catch(e){zbSegs=[];toast("دریافت زیرنویس ممکن نشد","bad");return}
- const list=$("#zbSubList");
- list.innerHTML=zbSegs.map(x=>`<div class="tline" data-ts="${x.s}" data-ctx="${esc(x.t)}" data-lang="${zbSubLang}" data-src="zaban" style="padding:4px 6px;border-radius:6px" dir="auto">${wrapWords(x.t)}</div>`).join("");
- $("#zbSubBar").hidden=false;$("#zbSubLine").textContent="";
- zbStartSync();
+}
+async function zbLoadGerman(srcIdx){
+ if(zbDeBusy)return;zbDeBusy=true;
+ const seg=$("#zbSubSeg"),btn=seg&&seg.querySelector("[data-zbde]"),prev=seg&&seg.querySelector("button.on");
+ const clearSheet=()=>{if(sel&&W.length&&W[0].closest&&W[0].closest("#zbSubBar")){sel=null;drawSel();$("#pop").hidden=true;zbSelLine=null;zbSelAnchor=null}};
+ try{
+  const key=zbCurKey?("poof_zb_de_mt_"+zbCurKey):"";
+  let cached=null;if(key){try{cached=JSON.parse(localStorage.getItem(key)||"null")}catch(e){}}
+  if(Array.isArray(cached)&&cached.length){
+   clearSheet();
+   $$("#zbSubSeg button").forEach(x=>x.classList.toggle("on",x===btn));
+   zbShowSegs(cached,"de");toast("زیرنویس آلمانی (ترجمه ماشینی)");return;
+  }
+  const src=zbCurSubs[srcIdx];if(!src||!src.url)throw new Error("nosrc");
+  if(btn)btn.disabled=true;
+  toast("در حال ترجمه زیرنویس…");
+  const r=await fetch(src.url);if(!r.ok)throw new Error("subfetch");
+  const srcSegs=parseSubs(await r.text());if(!srcSegs.length)throw new Error("empty");
+  const from=(src.language||"")==="fa"?"fa":"en";
+  const deSegs=[];
+  for(let a=0;a<srcSegs.length;a+=15){
+   const chunk=srcSegs.slice(a,a+15);
+   let out=null;
+   try{
+    const t=await tr(chunk.map(x=>x.t).join("\n"),from,"de");
+    const parts=t?t.split("\n").map(s=>s.trim()).filter(Boolean):[];
+    if(parts.length===chunk.length)out=parts;
+   }catch(e){}
+   if(!out){
+    out=[];
+    for(const x of chunk){try{out.push((await tr(x.t,from,"de"))||x.t)}catch(e){out.push(x.t)}}
+   }
+   chunk.forEach((x,i)=>deSegs.push({s:x.s,d:x.d,t:out[i]||x.t}));
+  }
+  clearSheet();
+  $$("#zbSubSeg button").forEach(x=>x.classList.toggle("on",x===btn));
+  zbShowSegs(deSegs,"de");
+  if(key){try{localStorage.setItem(key,JSON.stringify(deSegs))}catch(e){}}
+  toast("زیرنویس آلمانی آماده شد (ترجمه ماشینی)");
+ }catch(e){
+  if(prev)$$("#zbSubSeg button").forEach(x=>x.classList.toggle("on",x===prev));
+  toast("ترجمه زیرنویس ممکن نشد","bad");
+ }finally{
+  if(btn)btn.disabled=false;
+  zbDeBusy=false;
+ }
 }
 function zbStartSync(){
  if(zbSubTimer)clearInterval(zbSubTimer);
@@ -3677,18 +3766,83 @@ async function wpSearch(q){
   box.innerHTML=l.length?l.map(x=>`<button class="chip ${wl==="fa"?"":"de"}" data-t="${esc(x.title)}" style="display:block;width:100%;text-align:start;margin-top:6px;border-radius:8px;padding:6px 10px"><b>${esc(x.title)}</b><br><span class="mute">${esc(strip(x.snippet))}…</span></button>`).join(""):`<div class="empty-wrap"><div class="poof-mascot small poof-img-snowy-think"></div><p class="state empty">نتیجه‌ای پیدا نشد.</p></div>`;
  }catch(e){box.innerHTML=`<p class="state error">اتصال به ویکی‌پدیا برقرار نشد.</p>`}
 }
+const WP_SKIP_SEC=/^(references|external links|see also|weblinks|literatur|einzelnachweise|siehe auch|\u0645\u0646\u0627\u0628\u0639|\u067e\u06cc\u0648\u0646\u062f \u0628\u0647 \u0628\u06cc\u0631\u0648\u0646|\u062c\u0633\u062a\u0627\u0631\u0647\u0627\u06cc \u0648\u0627\u0628\u0633\u062a\u0647)$/i;
+function wpCleanText(el){
+ const c=el.cloneNode(true);
+ c.querySelectorAll("sup.reference,.mw-editsection,script,style").forEach(n=>n.remove());
+ return (c.textContent||"").replace(/\s+/g," ").trim();
+}
+async function wpParse(title){
+ const j=await wp("action=parse&prop=text&page="+encodeURIComponent(title)+"&redirects=1");
+ const htm=j.parse&&j.parse.text&&j.parse.text["*"];if(!htm)throw new Error("noparse");
+ const doc=new DOMParser().parseFromString(htm,"text/html");
+ const root=doc.querySelector(".mw-parser-output")||doc.body;
+ const blocks=[];let skip=false;
+ for(const el of root.children){
+  const tag=el.tagName;
+  if(tag==="H2"||tag==="H3"||tag==="H4"){
+   const t=wpCleanText(el);
+   skip=(tag==="H2"&&WP_SKIP_SEC.test(t));
+   if(t&&!skip&&blocks.length<150)blocks.push({k:"h",t});
+   continue;
+  }
+  if(skip)continue;
+  if(tag==="P"){const t=wpCleanText(el);if(t&&blocks.length<150)blocks.push({k:"p",t});}
+  else if(tag==="UL"||tag==="OL"){el.querySelectorAll(":scope > li").forEach(li=>{const t=wpCleanText(li);if(t&&blocks.length<150)blocks.push({k:"li",t})});}
+  else if(tag==="TABLE"){
+   const rows=[];el.querySelectorAll("tr").forEach(tr=>{
+    const cells=[...tr.querySelectorAll("th,td")].map(c=>wpCleanText(c));
+    if(cells.some(Boolean)&&rows.length<40)rows.push(cells.slice(0,12));
+   });
+   if(rows.length&&blocks.length<150)blocks.push({k:"table",rows});
+  }
+  else if(tag==="FIGURE"||el.classList.contains("thumb")){
+   const img=el.querySelector("img");if(!img)continue;
+   let src=img.getAttribute("src")||"";if(src.startsWith("//"))src="https:"+src;
+   if(!src)continue;
+   const cap=el.querySelector("figcaption");const ct=cap?wpCleanText(cap):"";
+   if(blocks.length<150)blocks.push({k:"img",src,cap:ct});
+  }
+ }
+ if(!blocks.some(b=>b.k==="p"))throw new Error("nobody");
+ return {title:j.parse.title,blocks};
+}
+function wpRichHTML(t){
+ const wordSpans=s=>{
+  const i=sents.push(s)-1;
+  return s.split(/(?<=\s)(?=\S)/).map(w=>norm(w)?`<span class="w" tabindex="0" role="button" data-w="${esc(norm(w))}" data-i="${i}">${esc(w)}</span>`:esc(w)).join("");
+ };
+ const sentSpans=p=>p.split(/(?<=[.!?\u061f])\s+/).map(wordSpans).join(" ");
+ return t.wpBlocks.map(b=>{
+  if(b.k==="h"&&typeof b.t==="string")return `<h3 class="wp-h" dir="auto">${esc(b.t)}</h3>`;
+  if(b.k==="p"&&typeof b.t==="string")return `<p dir="auto">${sentSpans(b.t)}</p>`;
+  if(b.k==="li"&&typeof b.t==="string")return `<p dir="auto">\u2022 ${sentSpans(b.t)}</p>`;
+  if(b.k==="table"&&Array.isArray(b.rows))return `<div class="wp-scroll"><table class="wp-t" dir="auto">${b.rows.map(r=>`<tr>${r.map(c=>`<td>${esc(c)}</td>`).join("")}</tr>`).join("")}</table></div>`;
+  if(b.k==="img"&&typeof b.src==="string")return `<figure class="wp-f"><img src="${esc(b.src)}" loading="lazy" alt="">${b.cap?`<figcaption>${esc(b.cap)}</figcaption>`:""}</figure>`;
+  return "";
+ }).join("");
+}
 async function wpOpen(title){
  const id=({de:"wp_",fa:"wpfa_",en:"wpen_"})[wl]+title;
  if(!db.texts.some(x=>x.id===id)){
   $("#wRes").innerHTML=`<p class="state loading">در حال دریافت مقاله…</p>`;
+  let saved=false;
   try{
-   const j=await wp("action=query&prop=extracts&explaintext=1&exsectionformat=plain&redirects=1&titles="+encodeURIComponent(title));
-   const pg=Object.values(j.query.pages)[0];let t=((pg&&pg.extract)||"").trim();
-   if(!t)throw new Error("empty");
-   t=t.replace(/\n{3,}/g,"\n\n");
-   if(t.length>8000){const c=t.slice(0,8000);t=c.slice(0,c.lastIndexOf("\n"))||c}
-   db.texts.push({id,added:Date.now(),title:pg.title,body:pg.title+"\n\n"+t,wp:pg.title,lang:wl});
-  }catch(e){$("#wRes").innerHTML="";return toast("دریافت مقاله ناموفق بود","bad")}
+   const p=await wpParse(title);
+   const plain=p.blocks.filter(b=>b.k==="p"||b.k==="li").map(b=>b.t).join("\n\n");
+   db.texts.push({id,added:Date.now(),title:p.title,body:p.title+"\n\n"+plain.slice(0,8000),wp:p.title,lang:wl,wpBlocks:p.blocks});
+   saved=true;
+  }catch(e){}
+  if(!saved){
+   try{
+    const j=await wp("action=query&prop=extracts&explaintext=1&exsectionformat=plain&redirects=1&titles="+encodeURIComponent(title));
+    const pg=Object.values(j.query.pages)[0];let t=((pg&&pg.extract)||"").trim();
+    if(!t)throw new Error("empty");
+    t=t.replace(/\n{3,}/g,"\n\n");
+    if(t.length>8000){const c=t.slice(0,8000);t=c.slice(0,c.lastIndexOf("\n"))||c}
+    db.texts.push({id,added:Date.now(),title:pg.title,body:pg.title+"\n\n"+t,wp:pg.title,lang:wl});
+   }catch(e){$("#wRes").innerHTML="";return toast("دریافت مقاله ناموفق بود","bad")}
+  }
  }
  db.textId=id;save();$("#wRes").innerHTML="";$("#entry").hidden=true;renderReader();$("#text").scrollIntoView({behavior:"smooth"});saveState();pushNavState();
 }
