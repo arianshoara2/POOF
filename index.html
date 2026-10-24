@@ -1113,7 +1113,7 @@ const LOCAL={heute:["heute","امروز"],gehe:["gehen","رفتن"],ich:["ich","
 let cache={};try{cache=JSON.parse(localStorage.getItem(KC))||{}}catch(e){}
 const saveCache=()=>{try{localStorage.setItem(KC,JSON.stringify(cache))}catch(e){}};
 const norm=w=>w.trim().replace(/^[^\p{L}]+|[^\p{L}]+$/gu,"");
-const strip=h=>new DOMParser().parseFromString(h,"text/html").body.textContent.trim();
+const strip=h=>{const d=new DOMParser().parseFromString(h,"text/html");d.body.querySelectorAll("script,style,noscript,template").forEach(x=>x.remove());return d.body.textContent.trim();};
 /* ===== Persian layer (offline, Batch 1: top-250) — dict-fa.jsonl =====
    Loaded lazily on first German lookup; lemma + inflected-form index.
    Homographs (leben/Leben, morgen/Morgen, essen/Essen) stay separate records:
@@ -1269,7 +1269,7 @@ Providers.wort=async w=>{
  const lem=card?card.word:w;
  for(const t of new Set([lem,lem[0].toUpperCase()+lem.slice(1),lem.toLowerCase()])){
   try{const h=await fetchHTML(WORT+"woerterbuch/deutsch-persisch/"+encodeURIComponent(t));dict=h&&parseWortDict(h);if(dict)break}
-  catch(x){if(x.message==="noproxy")throw x;bad++;break}
+  catch(x){if(x.message==="noproxy")throw x;bad++;continue}
  }
  if(!card&&!dict&&bad)throw new Error("wort");
  return card||dict?{card,dict}:null;
@@ -2289,8 +2289,8 @@ async function showEntry(box,raw,ctx,src,lang){
  ${card&&(card.defDe||card.defFa)?`<div class="mute" style="margin-bottom:8px"><span class="de" style="display:block">${sr(card.defDe,"de")}</span>${sr(card.defFa,"fa")}</div>`:""}
  ${exs.length?`<p style="margin:10px 0 4px">جمله‌ی نمونه برای کارت:</p>
   <label class="sense"><input type="radio" name="ex" value="-1"><span class="mute">بدون جمله</span></label>`+exs.map((x,i)=>`<label class="sense"><input type="radio" name="ex" value="${i}" ${i?"":"checked"}>${exHtml(x)}</label>`).join(""):""}
- ${dict?`<div style="border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin-top:8px"><details><summary>همه‌ی معنی‌ها و عبارت‌ها (wort.app)</summary>${dict.senses.map(s=>`<p><b>${sr(s.meaning,"fa")}</b>${s.note?` <span class="mute de">${esc(s.note)}</span>`:""}`+
-  [...s.ex,...s.ph].filter(x=>x.de).map(x=>`<span class="sense">${exHtml(x)}</span>`).join("")+`</p>`).join("")}</details></div>`:""}
+ ${(dict||card)?`<div style="border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin-top:8px"><details><summary>همه‌ی معنی‌ها و عبارت‌ها (wort.app)</summary>${dict?dict.senses.map(s=>`<p><b>${sr(s.meaning,"fa")}</b>${s.note?` <span class="mute de">${esc(s.note)}</span>`:""}`+
+  [...s.ex,...s.ph].filter(x=>x.de).map(x=>`<span class="sense">${exHtml(x)}</span>`).join("")+`</p>`).join(""):`<p><b>${sr(card.meaning,"fa")}</b>${card.defDe?`<br><span class="de">${sr(card.defDe,"de")}</span>`:""}${card.defFa?`<br>${sr(card.defFa,"fa")}`:""}</p>`+(card.ex||[]).filter(x=>x.de).map(x=>`<span class="sense">${exHtml(x)}</span>`).join("")}}</details></div>`:""}
  ${e.bamooz?`<div style="border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin-top:8px"><details><summary>همه‌ی معنی‌ها و عبارت‌ها (بیاموز)</summary>${bamoozPanelSafe(e.bamooz,"de")}</details></div>`:""}
  ${flat.length?`<div style="border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin-top:8px"><p style="margin:0 0 4px">تعریف انگلیسی (Wiktionary):</p>`+flat.map((s,i)=>`<label class="sense"><input type="radio" name="sn" value="${i}" ${i?"":"checked"}><span><i>${esc(s.pos)}</i> — ${sr(s.def,"en")}</span></label>`).join("")+`</div>`:""}
  ${!flat.length&&!(e.fa||[]).length?`<p class="mute">نتیجه‌ای پیدا نشد؛ می‌توانید معنی را دستی بنویسید.</p>`:""}
