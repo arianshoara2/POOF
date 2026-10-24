@@ -270,6 +270,7 @@ nav button.hero.on{background:linear-gradient(135deg,var(--accent),#caa25e);colo
 body,header,.card,button,input,select,textarea,.w{transition:color .3s ease,background-color .3s ease,border-color .3s ease,box-shadow .3s ease,transform .2s ease}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 @media (max-width:480px){main{padding-inline:16px}.card{padding:14px}}
+@media (max-width:520px){#addPanel{padding:12px}#addPanel input,#addPanel textarea{padding:8px 10px;margin-bottom:6px}#addPanel .searchbar,#addPanel .row{gap:6px}#addPanel .mute{margin-bottom:8px}}
 </style>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script>try{var _t=(JSON.parse(localStorage.getItem('poof_v2')||'{}').theme==='snowy')?'snowy':'classic';document.write('<link rel="stylesheet" id="themeCss" href="theme-'+_t+'.css?v=16">')}catch(e){document.write('<link rel="stylesheet" id="themeCss" href="theme-classic.css?v=16">')}</script>
@@ -2532,7 +2533,7 @@ async function lookupEn(w){
 
 /* پنل «متن جدید» و انتخاب زبان */
 let tl="auto";
-$("#addTxt").onclick=()=>{const p=$("#addPanel");p.hidden=!p.hidden;if(!p.hidden)$("#tBody").focus()};
+$("#addTxt").onclick=()=>{const p=$("#addPanel");p.hidden=!p.hidden;if(!p.hidden&&matchMedia("(pointer:fine)").matches)$("#tBody").focus()};
 $("#tlSeg").onclick=e=>{const b=e.target.closest("[data-tl]");if(!b)return;tl=b.dataset.tl;$$("#tlSeg button").forEach(x=>x.classList.toggle("on",x===b))};
 $("#tPaste").onclick=async()=>{try{$("#tBody").value=await navigator.clipboard.readText()}catch(e){toast("چسباندن خودکار ممکن نیست؛ دستی بچسبانید","bad")}};
 $("#tAdd").onclick=()=>{
@@ -3078,15 +3079,7 @@ async function importIG(u){
  const sid="ig_"+ig.sc;
  let t=db.texts.find(x=>x.id===sid);
  if(!t){
-  const r=await fetchT(workerURL({ig:u})),j=await r.json();
-  if(!r.ok||j.error)throw new Error(j.error||"HTTP "+r.status);
-  if(j.kind!=="video"){
-   t={id:sid,added:Date.now(),title:"Instagram · "+(j.title||ig.sc),lang:j.caption?detectLang(j.caption):"en",body:j.caption||"(بدون کپشن)",url:u};
-   db.texts.push(t);
-  }else{
-   t={id:sid,added:Date.now(),title:"Instagram · "+(j.title||ig.sc),lang:"en",body:j.caption||"",video:{ig:ig.sc,path:j.path||ig.path}};
-   db.texts.push(t);db.textId=t.id;save();$("#addPanel").hidden=true;renderReader();
-   toast("در حال ترانسکریپت…");
+  const runTranscript=async()=>{
    try{
     let ok=false;
     try{   // Supadata — ترانسکریپت اینستاگرام (هر خرابی به ویسپر می‌افتد)
@@ -3094,6 +3087,7 @@ async function importIG(u){
      if(!r1.ok||j1.error)throw new Error(j1.error||"HTTP "+r1.status);
      if(j1.segments&&j1.segments.length){
       t.segs=j1.segments.map(x=>({s:x.s,t:x.t}));t.body=j1.segments.map(x=>x.t).join("\n");
+      if(j1.title&&t.title==="Instagram · "+ig.sc)t.title="Instagram · "+j1.title;
       save();renderReader();toast("ترانسکریپت آماده شد");ok=true;
      }else throw new Error("no speech detected");
     }catch(e){/* خرابی سوپادیتا → ویسپر */}
@@ -3106,6 +3100,28 @@ async function importIG(u){
      }else throw new Error("no speech detected");
     }
    }catch(e){toast(friendly(e),"bad")}
+  };
+  let meta=null;
+  try{
+   const r=await fetchT(workerURL({ig:u})),j=await r.json();
+   if(!r.ok||j.error)throw new Error(j.error||"HTTP "+r.status);
+   meta=j;
+  }catch(e){
+   if(!/instagram blocked|login wall|empty page/i.test(e.message||e))throw e;
+   t={id:sid,added:Date.now(),title:"Instagram · "+ig.sc,lang:"en",body:"",url:u,video:{ig:ig.sc,path:ig.path}};
+   db.texts.push(t);db.textId=t.id;save();$("#addPanel").hidden=true;renderReader();
+   toast("در حال ترانسکریپت…");
+   await runTranscript();
+   return;
+  }
+  if(meta.kind!=="video"){
+   t={id:sid,added:Date.now(),title:"Instagram · "+(meta.title||ig.sc),lang:meta.caption?detectLang(meta.caption):"en",body:meta.caption||"(بدون کپشن)",url:u};
+   db.texts.push(t);
+  }else{
+   t={id:sid,added:Date.now(),title:"Instagram · "+(meta.title||ig.sc),lang:"en",body:meta.caption||"",video:{ig:ig.sc,path:meta.path||ig.path}};
+   db.texts.push(t);db.textId=t.id;save();$("#addPanel").hidden=true;renderReader();
+   toast("در حال ترانسکریپت…");
+   await runTranscript();
    return;
   }
  }
