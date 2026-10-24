@@ -213,7 +213,7 @@ button.ib.pri{background:var(--accent);color:var(--bg);border-color:var(--accent
 .vp-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .tline{display:flex;gap:10px;align-items:baseline;padding:6px 8px;border-radius:12px;transition:background-color .2s}
 #zbSubList .tline{display:block}
-#zbSticky{position:sticky;top:8px;z-index:20;background:var(--surface)}
+#zbSticky{position:sticky;top:8px;z-index:20;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden}
 .tline.cur{background:var(--active)}
 /* ===== کتابخانه ===== */
 #lib{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
@@ -547,6 +547,7 @@ html:not([data-theme=snowy]) #s-cards #list .card::after{background:linear-gradi
      <div class="row" style="gap:6px;margin-top:8px;align-items:center"><button class="ghost" id="zbPrevSub">قبلی</button><button class="ghost" id="zbNextSub">بعدی</button><div class="seg" id="zbSubSeg" style="flex:1"></div></div>
      <p id="zbSubLine" style="margin:10px 0;padding:10px;border:1px solid var(--border);border-radius:10px;font-size:17px;line-height:1.9;min-height:1.9em" dir="auto"></p>
     </div>
+    <button class="ghost" id="zbPlayTgl" hidden style="display:block;margin:8px auto 2px;width:fit-content;font-size:20px;padding:6px 18px" aria-label="پخش/مکث">▶️</button>
      </div>
      <div id="zbSubBar" hidden>
      <div id="zbSubList"></div>
@@ -3391,7 +3392,7 @@ function zbCleanup(){
 }
 function zbResetDetail(){
  ["zbPoster","zbPlay","zbDescWrap","zbIpNote","zbSubBar","zbSubBarTop","zbVocab"].forEach(id=>{const el=$("#"+id);if(el)el.hidden=true});
- const v=$("#zbVideo");if(v)v.hidden=true;
+ const v=$("#zbVideo");if(v)v.hidden=true;zbSyncTgl();
  const sn=$("#zbSeriesNav");if(sn){sn.hidden=true;sn.innerHTML=""}
  const sl=$("#zbSubList");if(sl)sl.innerHTML="";
  const ln=$("#zbSubLine");if(ln)ln.textContent="";
@@ -3661,7 +3662,7 @@ function zbAttachHls(v,url){
 }
 async function zbPlayCurrent(){
  const v=$("#zbVideo");if(!v||!zbPlayUrl)return;
- v.hidden=false;
+ v.hidden=false;zbSyncTgl();
  if(zbUseNative(v)){
   v.src=zbPlayUrl;
   if(zbResume>0){const r=zbResume;zbResume=0;v.addEventListener("loadedmetadata",()=>{try{v.currentTime=r}catch(e){}},{once:true})}
@@ -3700,6 +3701,11 @@ function zbHistSavePos(reorder){
 $("#zbVideo").addEventListener("timeupdate",()=>{const now=Date.now();if(now-zbHistLastSave<15000)return;zbHistLastSave=now;zbHistSavePos(false)});
 $("#zbVideo").addEventListener("pause",()=>zbHistSavePos(true));
 $("#zbVideo").addEventListener("ended",()=>zbHistSavePos(true));
+function zbSyncTgl(){const v=$("#zbVideo"),t=$("#zbPlayTgl");if(!v||!t)return;t.hidden=v.hidden;t.textContent=v.paused?"▶️":"⏸️"}
+$("#zbVideo").addEventListener("play",zbSyncTgl);
+$("#zbVideo").addEventListener("pause",zbSyncTgl);
+$("#zbVideo").addEventListener("ended",zbSyncTgl);
+$("#zbPlayTgl").onclick=()=>{const v=$("#zbVideo");if(!v||v.hidden)return;if(v.paused){const pr=v.play();if(pr&&pr.catch)pr.catch(()=>{})}else v.pause()};
 async function zbHistServerLoad(){
  if(zbHistServerTried)return zbHistServer||[];
  zbHistServerTried=true;zbHistServer=[];
