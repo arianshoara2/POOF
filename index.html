@@ -1111,6 +1111,8 @@ const LOCAL={heute:["heute","امروز"],gehe:["gehen","رفتن"],ich:["ich","
  buch:["Buch","کتاب"],meine:["mein","من / مال من"],freundin:["Freundin","دوست (دختر)"],trinkt:["trinken","نوشیدن"],wasser:["Wasser","آب"],
  wir:["wir","ما"],essen:["essen","خوردن"],apfel:["Apfel","سیب"],kaffee:["Kaffee","قهوه"],rechnung:["Rechnung","صورت‌حساب"]};
 let cache={};try{cache=JSON.parse(localStorage.getItem(KC))||{}}catch(e){}
+// ?v=91: ورودی‌های wort با پارسر قدیمی (بدون sentences/collocations یا معنیِ عددی) را دور بینداز تا با پارسر جدید دوباره گرفته شوند
+try{for(const k of Object.keys(cache)){const w=cache[k]&&cache[k].wort;if(!w)continue;if((w.dict&&!("sentences" in w.dict))||(w.card&&/^\s*[0-9۰-۹]+([.)]\s*|$)/.test(w.card.meaning||"")))delete cache[k].wort}}catch(e){}
 const saveCache=()=>{try{localStorage.setItem(KC,JSON.stringify(cache))}catch(e){}};
 const norm=w=>w.trim().replace(/^[^\p{L}]+|[^\p{L}]+$/gu,"");
 const strip=h=>{const d=new DOMParser().parseFromString(h,"text/html");d.body.querySelectorAll("script,style,noscript,template").forEach(x=>x.remove());return d.body.textContent.trim();};
@@ -1226,41 +1228,112 @@ function pairUp(L){
  if(p)out.push(p.fa?{fa:p.t}:{de:p.t});
  return out;
 }
+// مرزهای بخش‌های جدید wort.app + خط‌های زباله (برای هر دو پارسر)
+const WORT_NUM=/^[0-9۰-۹]+[.)]\s*(.*)$/;
+const WORT_STOP=/^(Deklination|SÄTZE MIT|VERBINDUNGEN|KI-Erklärung|Häufigkeit|Als Radar|Premium|🔒)/i;
+const WORT_HEAD=/^(Beispiele|Wendungen|Bedeutungen)$/i;
+const WORT_BRACE=/^[\{\}\[\]×]+$/;
+const WORT_GROUPS=/^(Verben|Adjektive|Präpositionen|Substantive|Nomen|Adverbien|Konjunktionen)$/;
+const WORT_POS_DE=/^(Adjektiv|Nomen|Verb|Adverb|Präposition|Konjunktion|Artikel|Pronomen|Numerale|Interjektion)$/;
+// «2. minderwertig ۲. کم ارزش…» → فقط بخش فارسی بعد از عدد فارسی؛ در غیر این صورت دست نخورده
+function wortCleanNum(rest){
+ const m=rest.match(/^([^۰-۹\u0600-\u06FF]*?)[۰-۹]+[.)]\s*(.+)$/);
+ if(m&&FA.test(m[2])&&!FA.test(m[1]))return m[2].trim();
+ return rest.trim();
+}
+function wortHeaderMode(rest){
+ if(/^Beispiele$/i.test(rest))return "ex";
+ if(/^Wendungen$/i.test(rest))return "ph";
+ return null;
+}
 // صفحه‌ی دیکشنری: /woerterbuch/deutsch-persisch/Word
 function parseWortDict(html){
  const r=wortLines(html);if(!r)return null;
- const L=r.lines,num=/^[0-9۰-۹]+[.)]\s*(.*)$/,e={word:r.word,article:"",plural:"",senses:[]};
+ const L=r.lines,e={word:r.word,article:"",plural:"",senses:[],sentences:[],collocations:[]};
  let i=1;
- for(;i<L.length&&!num.test(L[i]);i++){
+ for(;i<L.length&&!WORT_NUM.test(L[i]);i++){
+  if(WORT_STOP.test(L[i]))break;
   if(ART.test(L[i]))e.article=L[i];
   else{const m=L[i].match(/^Plural:?\s*(.*)$/i);if(m)e.plural=m[1]||L[++i]||""}
  }
  let s=null,k="n";
  for(;i<L.length;i++){
-  const t=L[i],m=t.match(num);
-  if(m){s={meaning:m[1],r:{n:[],ex:[],ph:[]}};e.senses.push(s);k="n";continue}
+  const t=L[i];
+  if(WORT_STOP.test(t))break;
+  if(WORT_BRACE.test(t))continue;
+  const m=t.match(WORT_NUM);
+  if(m){
+   const rest=wortCleanNum(m[1]),hm=wortHeaderMode(rest);
+   s={meaning:hm?"":rest,r:{n:[],ex:[],ph:[]}};e.senses.push(s);k=hm||"n";continue;
+  }
   if(!s)continue;
+  if(WORT_HEAD.test(t)){const hm=wortHeaderMode(t);if(hm){k=hm;continue}}
   if(/^مثال/.test(t))k="ex";else if(/^عبارات/.test(t))k="ph";else s.r[k].push(t);
  }
- e.senses=e.senses.map(s=>({meaning:s.meaning,note:s.r.n.join(" "),ex:pairUp(s.r.ex),ph:pairUp(s.r.ph)}));
- return e.senses.length?e:null;
+ e.senses=e.senses.map(s=>({meaning:s.meaning,note:s.r.n.join(" "),ex:pairUp(s.r.ex),ph:pairUp(s.r.ph)})).filter(s=>(s.meaning&&!/^[0-9۰-۹\s.)(]+$/.test(s.meaning))||s.ex.length||s.ph.length);
+ const si=L.findIndex(t=>/^SÄTZE MIT/i.test(t));
+ if(si>=0){
+  const seg=[];
+  for(let j=si+1;j<L.length;j++){
+   const t=L[j];
+   if(/^(VERBINDUNGEN|KI-Erklärung|Häufigkeit|Als Radar|Premium|Deklination|🔒)/i.test(t))break;
+   if(/^(Sätze|Im Gespräch)$/i.test(t)||WORT_BRACE.test(t))continue;
+   seg.push(t);
+  }
+  e.sentences=pairUp(seg).filter(x=>x.de);
+ }
+ const vi=L.findIndex(t=>/^VERBINDUNGEN$/i.test(t));
+ if(vi>=0){
+  const groups=[];let g=null,raw=[];
+  const flush=()=>{if(g!==null&&raw.length)groups.push({label:g,items:pairUp(raw).filter(x=>x.de)});raw=[]};
+  for(let j=vi+1;j<L.length;j++){
+   const t=L[j];
+   if(/^(KI-Erklärung|Häufigkeit|Premium|Deklination|🔒)/i.test(t))break;
+   if(/^(Als Radar|5 weitere Verbindungen.*)$/i.test(t)||WORT_BRACE.test(t))continue;
+   if(WORT_GROUPS.test(t)){flush();g=t;continue}
+   if(g===null)g="";
+   raw.push(t);
+  }
+  flush();
+  e.collocations=groups.filter(g=>g.items.length);
+ }
+ return e.senses.length||e.sentences.length||e.collocations.length?e:null;
 }
 // صفحه‌ی جست‌وجو: /suchen?q=Word (کارت خلاصه + جمله‌های نمونه؛ صورت‌های صرف‌شده را هم به ریشه می‌رساند)
 function parseWortSearch(html){
  const r=wortLines(html);if(!r)return null;
  const L=r.lines,e={word:r.word,article:"",pos:"",meaning:"",plural:"",defDe:"",defFa:"",ex:[]};
  let i=0;if(ART.test(L[0]||""))e.article=L[i++];i++;
- const xi=L.findIndex(t=>/^نمونه/.test(t)),head=L.slice(i,xi<0?L.length:xi),fa=[];
- for(let j=0;j<head.length;j++){
-  const t=head[j];
-  if(t==="هوش مصنوعی")continue;
-  if(/^جمع:?$/.test(t)){e.plural=head[++j]||"";continue}
+ const fa=[];let xi=-1;
+ for(let j=i;j<L.length;j++){
+  const t=L[j];
+  if(WORT_STOP.test(t))break;
+  if(WORT_BRACE.test(t))continue;
+  if(/^نمونه/.test(t)||/^Beispiele$/i.test(t)){xi=j;break}
+  const nm=t.match(/^[0-9]+[.)]\s*(.*)$/);
+  if(nm){if(wortHeaderMode(wortCleanNum(nm[1]))==="ex"){xi=j;break}break}
+  if(t==="هوش مصنوعی"||WORT_HEAD.test(t))continue;
+  if(/^جمع:?$/.test(t)){e.plural=L[++j]||"";continue}
   const m=t.match(/^جمع:\s*(.+)$/);if(m){e.plural=m[1];continue}
   if(FA.test(t)){if(!e.pos&&/^(اسم|فعل|صفت|قید|ضمیر|حرف.*|عدد|پیشوند)$/.test(t))e.pos=t;else fa.push(t)}
-  else if(!e.defDe)e.defDe=t;
+  else if(!e.defDe){
+   if(WORT_POS_DE.test(t))continue;
+   if(t.toLowerCase().startsWith(e.word.toLowerCase()+" ·"))continue;
+   e.defDe=t;
+  }
  }
- e.meaning=fa[0]||"";e.defFa=fa[1]||"";
- if(xi>=0)e.ex=pairUp(L.slice(xi+1));
+ e.meaning=(fa[0]||"").replace(/^\s*[0-9۰-۹]+[.)]\s*/,"");
+ e.defFa=fa[1]||"";
+ if(xi>=0){
+  const seg=[];
+  for(let j=xi+1;j<L.length;j++){
+   const t=L[j];
+   if(WORT_STOP.test(t)||WORT_NUM.test(t))break;
+   if(WORT_BRACE.test(t)||WORT_HEAD.test(t))continue;
+   seg.push(t);
+  }
+  e.ex=pairUp(seg);
+ }
  return e.meaning?e:null;
 }
 Providers.wort=async w=>{
@@ -1390,10 +1463,11 @@ const BAMOOZ_TIMEOUT={__timeout:true};
 const bamoozTimed=(w,lang)=>Promise.race([Providers.bamooz(w,lang||"de").then(v=>v==null?null:v,()=>null),new Promise(res=>setTimeout(()=>res(BAMOOZ_TIMEOUT),8000))]);
 function buildFa(e){
  const W=e.wort,k=e.word.toLowerCase(),loc=LOCAL[k],a=[];
- if(W&&W.card)a.push(W.card.meaning);
- if(W&&W.dict)W.dict.senses.forEach(s=>a.push(s.meaning));
+ const clean=x=>String(x||"").replace(/^\s*[0-9۰-۹]+[.)]\s*/,"").trim();
+ if(W&&W.card)a.push(clean(W.card.meaning));
+ if(W&&W.dict)W.dict.senses.forEach(s=>a.push(clean(s.meaning)));
  if(loc)a.push(loc[1]);
- return [...new Set([...a,...(e.mm||[]).filter(x=>x.toLowerCase()!==k)])].filter(Boolean).slice(0,8);
+ return [...new Set([...a,...(e.mm||[]).filter(x=>x.toLowerCase()!==k)])].filter(x=>x&&!/^[0-9۰-۹\s.)(]+$/.test(x)).slice(0,8);
 }
 /* اگر نمای دیکشنری هنوز همین کلمه را نشان می‌دهد، آن را دوباره رندر کن
    (برای اینکه پنل بیاموزِ تازه‌رسیده بدون جست‌وجوی دوباره دیده شود) */
@@ -2277,6 +2351,7 @@ async function showEntry(box,raw,ctx,src,lang){
  if(card)card.ex.forEach(x=>x.de&&exs.push(x));
  if(dict)dict.senses.forEach(s=>s.ex.forEach(x=>x.de&&exs.length<12&&exs.push(x)));
  const exHtml=x=>`<span>${sr(x.de,"de")}${x.fa?`<br>${sr(x.fa,"fa","mute")}`:""}</span>`;
+ const wortExtraHTML=d=>{let h="";if(d.sentences&&d.sentences.length)h+=`<p style="margin-top:8px"><b>جمله‌ها (wort.app)</b></p>`+d.sentences.map(x=>`<span class="sense">${exHtml(x)}</span>`).join("");if(d.collocations&&d.collocations.length)h+=`<p style="margin-top:8px"><b>ترکیب‌ها (wort.app)</b></p>`+d.collocations.map(g=>`${g.label?`<div class="mute">${esc(g.label)}</div>`:""}`+g.items.map(x=>`<span class="sense">${exHtml(x)}</span>`).join("")).join("");return h};
  box.innerHTML=`<div class="row"><span class="big2 de" style="flex:1">${art?`<span style="color:var(--accent)">${esc(art)}</span> `:""}${esc(head)}</span><button class="ib" data-a="say" aria-label="تلفظ">${ic("sound")}</button><button class="ib" data-a="ask" aria-label="از پووف بپرس" style="font-size:18px">✨</button></div>
  ${plural?`<div class="mute de">Plural: ${esc(plural)}</div>`:""}
  ${e.en?`<div class="mute">English: <span class="de">${esc(e.en)}</span></div>`:""}
@@ -2290,7 +2365,7 @@ async function showEntry(box,raw,ctx,src,lang){
  ${exs.length?`<p style="margin:10px 0 4px">جمله‌ی نمونه برای کارت:</p>
   <label class="sense"><input type="radio" name="ex" value="-1"><span class="mute">بدون جمله</span></label>`+exs.map((x,i)=>`<label class="sense"><input type="radio" name="ex" value="${i}" ${i?"":"checked"}>${exHtml(x)}</label>`).join(""):""}
  ${(dict||card)?`<div style="border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin-top:8px"><details><summary>همه‌ی معنی‌ها و عبارت‌ها (wort.app)</summary>${dict?dict.senses.map(s=>`<p><b>${sr(s.meaning,"fa")}</b>${s.note?` <span class="mute de">${esc(s.note)}</span>`:""}`+
-  [...s.ex,...s.ph].filter(x=>x.de).map(x=>`<span class="sense">${exHtml(x)}</span>`).join("")+`</p>`).join(""):`<p><b>${sr(card.meaning,"fa")}</b>${card.defDe?`<br><span class="de">${sr(card.defDe,"de")}</span>`:""}${card.defFa?`<br>${sr(card.defFa,"fa")}`:""}</p>`+(card.ex||[]).filter(x=>x.de).map(x=>`<span class="sense">${exHtml(x)}</span>`).join("")}}</details></div>`:""}
+  [...s.ex,...s.ph].filter(x=>x.de).map(x=>`<span class="sense">${exHtml(x)}</span>`).join("")+`</p>`).join("")+wortExtraHTML(dict):`<p><b>${sr(card.meaning,"fa")}</b>${card.defDe?`<br><span class="de">${sr(card.defDe,"de")}</span>`:""}${card.defFa?`<br>${sr(card.defFa,"fa")}`:""}</p>`+(card.ex||[]).filter(x=>x.de).map(x=>`<span class="sense">${exHtml(x)}</span>`).join("")}}</details></div>`:""}
  ${e.bamooz?`<div style="border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin-top:8px"><details><summary>همه‌ی معنی‌ها و عبارت‌ها (بیاموز)</summary>${bamoozPanelSafe(e.bamooz,"de")}</details></div>`:""}
  ${flat.length?`<div style="border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin-top:8px"><p style="margin:0 0 4px">تعریف انگلیسی (Wiktionary):</p>`+flat.map((s,i)=>`<label class="sense"><input type="radio" name="sn" value="${i}" ${i?"":"checked"}><span><i>${esc(s.pos)}</i> — ${sr(s.def,"en")}</span></label>`).join("")+`</div>`:""}
  ${!flat.length&&!(e.fa||[]).length?`<p class="mute">نتیجه‌ای پیدا نشد؛ می‌توانید معنی را دستی بنویسید.</p>`:""}
