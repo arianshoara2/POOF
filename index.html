@@ -500,7 +500,7 @@ html:not([data-theme=snowy]) #s-cards #list .card::after{background:linear-gradi
    <div class="vp-frame" id="vpWrap"><div id="vpFrame"></div></div>
    <p class="mute" id="vpNote" hidden></p>
    <div class="seg" id="vpSeg"><button data-vl="">اصلی</button><button data-vl="en">EN</button><button data-vl="de">DE</button><button data-vl="fa">فا</button></div>
-   <div class="row"><button class="chip on" id="vpFollow">دنبال‌کردن زیرنویس</button><a id="vpOpen" class="chip" target="_blank" rel="noopener" style="text-decoration:none;padding:3px 12px">یوتیوب</a></div>
+   <div class="row"><button class="chip on" id="vpFollow">دنبال‌کردن زیرنویس</button><a id="vpOpen" class="chip" target="_blank" rel="noopener" style="text-decoration:none;padding:3px 12px">یوتیوب</a><button class="chip" id="vpClose" aria-label="بستن متن">✕ بستن</button></div>
   </div>
   <div class="card" id="ap" hidden>
    <div class="row" style="margin-bottom:6px;align-items:center">
@@ -3284,14 +3284,14 @@ async function setupPlayer(t){
  let alive=false;
  if(ytp&&ytp._id===id){try{ytp.getPlayerState();alive=true}catch(e){ytp=null}}
  if(alive)return;
- if(!(await loadYT())){if(my!==ytpToken)return;note.hidden=false;note.textContent="بارگذاری پخش‌کننده‌ی یوتیوب ممکن نشد؛ با دکمه‌ی «یوتیوب» باز کنید.";$("#vpWrap").hidden=true;return}
+ if(!(await loadYT())){if(my!==ytpToken)return;note.hidden=false;note.textContent="بارگذاری پخش‌کننده‌ی یوتیوب ممکن نشد؛ با دکمه‌ی «یوتیوب» باز کنید.";$("#vpWrap").innerHTML='<div id="vpFrame"></div>';$("#vpWrap").hidden=true;return}
  if(my!==ytpToken)return;
  $("#vpWrap").innerHTML='<div id="vpFrame"></div>';ytp=null;
  try{
   ytp=new YT.Player("vpFrame",{videoId:id,playerVars:{playsinline:1,rel:0,origin:location.origin},
-   events:{onError:()=>{note.hidden=false;note.textContent="یوتیوب اجازه‌ی پخش این ویدیو را داخل اپ نداد؛ با دکمه‌ی «یوتیوب» باز کنید."}}});
+   events:{onError:()=>{note.hidden=false;note.textContent="یوتیوب اجازه‌ی پخش این ویدیو را داخل اپ نداد؛ با دکمه‌ی «یوتیوب» باز کنید.";$("#vpWrap").innerHTML='<div id="vpFrame"></div>';$("#vpWrap").hidden=true;}}});
   ytp._id=id;
- }catch(e){ytp=null;note.hidden=false;note.textContent="ساخت پخش‌کننده ممکن نشد؛ با دکمه‌ی «یوتیوب» باز کنید."}
+ }catch(e){ytp=null;note.hidden=false;note.textContent="ساخت پخش‌کننده ممکن نشد؛ با دکمه‌ی «یوتیوب» باز کنید.";$("#vpWrap").innerHTML='<div id="vpFrame"></div>';$("#vpWrap").hidden=true;}
 }
 setInterval(()=>{
  const t=curText();if(!t||!t.segs||$("#s-read").hidden)return;
@@ -3320,6 +3320,20 @@ $("#text").addEventListener("click",e=>{
  else if(t&&t.video&&t.video.id)open("https://youtu.be/"+t.video.id+"?t="+Math.floor(s),"_blank");
 });
 $("#vpFollow").onclick=e=>{follow=!follow;e.currentTarget.classList.toggle("on",follow)};
+$("#vpClose").onclick=()=>{
+  try{saveProgress()}catch(e){}
+  try{setupPlayer(null)}catch(e){}
+  ytp=null;try{ytpToken++}catch(e){}
+  db.textId=null;save();
+  try{saveState()}catch(e){}
+  try{if(window.PoofPos)PoofPos.track(PoofPos.make('index.html','tab:read',{cat:"",scrollY:0}))}catch(e){}
+  try{history.replaceState({poof:"nav",tab:curTab(),textId:null,scrollY:0},"")}catch(e){}
+  sel=null;W=[];drawSel();lastCur=-1;
+  $("#text").innerHTML="";
+  const sl=$("#txtSrc");if(sl)sl.hidden=true;
+  renderLib();
+  toast("متن بسته شد");
+};
 $("#vpSeg").onclick=async e=>{
  const b=e.target.closest("[data-vl]"),t=curText();if(!b||!t||!t.video)return;
  toast("در حال دریافت زیرنویس…");
@@ -3359,7 +3373,7 @@ const zbPoster=it=>{
  return "";
 };
 const zbFmt=s=>{s=Math.max(0,Math.floor(+s||0));return Math.floor(s/60)+":"+String(s%60).padStart(2,"0")};
-let zbKind="all",zbHls=null,zbSubTimer=null,zbSegs=[],zbCurSub=-1,zbPlayUrl="",zbResume=0,zbSubLang="en",zbSelLine=null,zbSelAnchor=null,zbCurSubs=[],zbCurKey="",zbDeBusy=false;
+let zbKind="all",zbHls=null,zbSubTimer=null,zbSegs=[],zbCurSub=-1,zbPlayUrl="",zbResume=0,zbSubLang="en",zbSelLine=null,zbSelAnchor=null,zbCurSubs=[],zbCurKey="",zbDeBusy=false,zbCurLineStale=false;
 function zbCleanup(){
  try{zbHistSavePos(true)}catch(e){}
  try{if(zbHls){zbHls.destroy();zbHls=null}}catch(e){}
@@ -3571,8 +3585,9 @@ function zbStartSync(){
  zbSubTimer=setInterval(()=>{
   const v=$("#zbVideo");if(!v||v.hidden||!zbSegs.length)return;
   const c=v.currentTime;let i=-1;for(let k=0;k<zbSegs.length;k++){if(zbSegs[k].s<=c+.2)i=k;else break}
-  if(i===zbCurSub)return;zbCurSub=i;
-  const line=$("#zbSubLine");if(line){line.innerHTML=i>=0?wrapWords(zbSegs[i].t):"";if(i>=0){line.dataset.ctx=zbSegs[i].t;line.dataset.lang=zbSubLang;line.dataset.ts=zbSegs[i].s;line.dataset.src="zaban"}else{delete line.dataset.ctx;delete line.dataset.lang;delete line.dataset.ts;delete line.dataset.src}if(sel&&W.length&&!document.contains(W[0])){sel=null;drawSel()}}
+  const held=!$("#pop").hidden&&sel!=null&&W.length&&W[0].closest&&W[0].closest("#zbSubLine");
+  if(i===zbCurSub&&!zbCurLineStale)return;zbCurSub=i;
+  if(!held){const line=$("#zbSubLine");if(line){line.innerHTML=i>=0?wrapWords(zbSegs[i].t):"";if(i>=0){line.dataset.ctx=zbSegs[i].t;line.dataset.lang=zbSubLang;line.dataset.ts=zbSegs[i].s;line.dataset.src="zaban"}else{delete line.dataset.ctx;delete line.dataset.lang;delete line.dataset.ts;delete line.dataset.src}if(sel&&W.length&&!document.contains(W[0])){sel=null;drawSel()}}zbCurLineStale=false}else zbCurLineStale=true;
   $$("#zbSubList .tline").forEach((el,k)=>el.classList.toggle("cur",k===i));
  },500);
 }
@@ -3686,8 +3701,9 @@ async function zbHistServerLoad(){
    if(!e||typeof e!=="object")return null;
    const id=e.id||e.movie_id||e.episode_id||e.video_id||0;
    if(!id)return null;
-   const type=(e.type==="episode"||e.type==="series"||e.episode_id)?"episode":"movie";
-   return {type,id,title:e.title||e.name||"بدون عنوان",poster:zbPoster(e),level:e.level||"",url:e.transcode_url||e.video_url||e.url||"",subs:Array.isArray(e.subtitles)?e.subtitles:[],seriesId:e.series_id||e.sid||0,pos:(e.last_time>0)?e.last_time:((e.position>0)?e.position:0),server:true};
+   const seriesId=e.series_id||e.sid||0;
+   const type=(e.type==="episode"||e.type==="series"||e.episode_id||seriesId)?"episode":"movie";
+   return {type,id,title:e.title||e.name||"بدون عنوان",poster:zbPoster(e),level:e.level||"",url:e.transcode_url||e.video_url||e.url||"",subs:Array.isArray(e.subtitles)?e.subtitles:[],seriesId,pos:(e.last_time>0)?e.last_time:((e.position>0)?e.position:0),server:true};
   }).filter(Boolean);
  }catch(e){}
  return zbHistServer;
@@ -3699,24 +3715,25 @@ async function zbRenderHist(){
  const merged=[];
  for(const s of server)merged.push(s);
  for(const l of local){
-  const mi=merged.findIndex(m=>(m.type+":"+m.id)===(l.type+":"+l.id));
-  if(mi>=0){if(l.pos>0&&!(merged[mi].pos>0))merged[mi].pos=l.pos;continue}
+  const mi=merged.findIndex(m=>+m.id===+l.id);
+  if(mi>=0){const sv=merged[mi];merged[mi]={...sv,type:l.type,seriesId:l.seriesId||sv.seriesId,url:l.url||sv.url,subs:(l.subs&&l.subs.length)?l.subs:sv.subs,poster:l.poster||sv.poster,level:l.level||sv.level,title:l.title||sv.title,pos:(l.pos>0?l.pos:sv.pos),watchedAt:l.watchedAt||sv.watchedAt,server:false};continue}
   merged.push(l);
  }
  const box=$("#zbHistList");if(!box)return;
  if(!merged.length){card.hidden=true;box.innerHTML="";return}
  card.hidden=false;
  box.innerHTML=merged.map((h,i)=>{
-  const th=h.poster?`<img loading="lazy" src="${esc(h.poster)}" alt="" style="width:44px;height:64px;object-fit:cover;border-radius:6px;flex:none">`:`<div class="lib-ic">${h.type==="episode"?"📺":"🎬"}</div>`;
-  const meta=[h.type==="episode"?"📺 سریال":"🎬 فیلم",h.pos>0?("ادامه از "+zbFmt(h.pos)):"",h.watchedAt?new Date(h.watchedAt).toLocaleDateString("fa-IR"):null].filter(Boolean).join(" · ");
+  const th=h.poster?`<img loading="lazy" src="${esc(h.poster)}" alt="" style="width:44px;height:64px;object-fit:cover;border-radius:6px;flex:none">`:`<div class="lib-ic">${(h.seriesId||h.type==="episode")?"📺":"🎬"}</div>`;
+  const meta=[(h.seriesId||h.type==="episode")?"📺 سریال":"🎬 فیلم",h.pos>0?("ادامه از "+zbFmt(h.pos)):"",h.watchedAt?new Date(h.watchedAt).toLocaleDateString("fa-IR"):null].filter(Boolean).join(" · ");
   return `<div class="lib-card zbHistItem" data-zbh="${i}" style="cursor:pointer">${th}<div class="lib-tx"><b>${esc(h.title)}</b><span class="mute">${meta}</span></div></div>`;
  }).join("");
  box.querySelectorAll(".zbHistItem").forEach(b=>b.onclick=()=>{
   const h=merged[+b.dataset.zbh];if(!h)return;
   const res=h.server?(h.pos>0?h.pos:null):h.pos;
+  if(h.type==="episode"&&h.url){zbOpenEpisode({id:h.id,title:h.title,transcode_url:h.url,subtitles:h.subs,poster:h.poster,level:h.level},res);return}
+  if(h.seriesId){zbOpenSeries(h.seriesId,{title:h.title});return}
   if(h.type==="movie"){zbOpenMovie(h.id,res);return}
   if(h.url){zbOpenEpisode({id:h.id,title:h.title,transcode_url:h.url,subtitles:h.subs,poster:h.poster,level:h.level},res);return}
-  if(h.seriesId){zbOpenSeries(h.seriesId,{title:h.title});return}
   toast("پخش این مورد فعلاً در دسترس نیست","bad");
  });
 }
