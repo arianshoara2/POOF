@@ -23,6 +23,7 @@
 html[data-theme=snowy]{--bg:#081421;--surface:#10263a;--text:#f3f8fc;--muted:#b8c7d3;--accent:#f3c879;--error:#ff9d9d;--ok:#9fe0c0;--border:#294861;
 --nav-bg:rgba(11,29,45,.78);--nav-border:rgba(185,220,244,.28);--hover:rgba(185,220,244,.1);--active:rgba(243,200,121,.16);--shadow-nav:0 12px 32px rgba(0,8,16,.55);--shadow-pop:0 18px 40px rgba(0,8,16,.6)}
 /* ===== base ===== */
+html{scrollbar-gutter:stable}
 *{box-sizing:border-box}[hidden]{display:none!important}
 a,button{-webkit-tap-highlight-color:transparent}
 body{margin:0;min-height:100dvh;font:15px/1.6 var(--sans);color:var(--text);background:var(--bg)}
@@ -2695,7 +2696,7 @@ function openCardDetail(c){
  $("#cdEdit").onclick=()=>{$("#cdetail").hidden=true;openEditor(c)};
  $("#cdDel").onclick=async()=>{if(await uiConfirm("کارت حذف شود؟",{okText:"حذف",danger:true})){db.cards=db.cards.filter(x=>x!==c);save();renderCards();$("#cdetail").hidden=true}};
 }
-document.addEventListener("click",e=>{if(!e.target.closest("#pop,.w,.hd,.lt-card")){$("#pop").hidden=true;sel=null;drawSel()}});
+document.addEventListener("click",e=>{if(!e.target.closest("#pop,.w,.hd,.lt-card,.zbWord")){$("#pop").hidden=true;sel=null;drawSel()}});
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){$("#pop").hidden=true;sel=null;drawSel()}});
 
 /* ===== انتخاب با دسته‌ها: از یک کلمه تا هر تعداد (مثل Deucards) ===== */
@@ -3292,7 +3293,7 @@ const zbArr=j=>{
  if(!j||typeof j!=="object")return [];
  if(Array.isArray(j.data))return j.data;
  const d=j.data&&typeof j.data==="object"?j.data:j;
- return d.items||d.results||d.movies||d.series||d.seasons||d.episodes||d.words||d.list||d.data||[];
+ return d.items||d.result||d.results||d.movies||d.series||d.seasons||d.episodes||d.words||d.list||d.data||[];
 };
 const zbPoster=it=>{
  if(!it||typeof it!=="object")return "";
@@ -3332,26 +3333,30 @@ $("#zbBack").onclick=()=>zbBack();
 $("#zbKindSeg").onclick=e=>{const b=e.target.closest("[data-zbk]");if(!b)return;zbKind=b.dataset.zbk;$$("#zbKindSeg button").forEach(x=>x.classList.toggle("on",x===b));if($("#zbQ").value.trim())zbSearch()};
 let zbSearchSeq=0,zbDeb=null;
 async function zbSearch(){
- const q=$("#zbQ").value.trim().toLowerCase();
+ const q=$("#zbQ").value.trim();
  const seq=++zbSearchSeq;
  if(zbDeb){clearTimeout(zbDeb);zbDeb=null}
  const box=$("#zbRes");
  if(!q){box.innerHTML="";return}
  zbBack();box.innerHTML=`<p class="state loading">در حال جست‌وجو…</p>`;
  try{
+  const failSoft=async p=>{try{return await zbFetch(p,true,true)}catch(e){return null}};
+  const clean=a=>zbArr(a).filter(x=>x&&typeof x==="object");
+  const mq="video-box/movies?search_key="+encodeURIComponent(q)+"&genre_id=&per_page=20&page=1";
+  const sq="video-box/series?search_key="+encodeURIComponent(q)+"&genre_id=&per_page=20&page=1";
   let items=[];
   if(zbKind==="movie"){
-   items=zbArr(await zbFetch("video-box/movies?search_key="+encodeURIComponent(q)+"&genre_id=&per_page=20&page=1")).filter(x=>x&&typeof x==="object").map(x=>({...x,__type:"movie"}));
+   items=clean(await zbFetch(mq)).map(x=>({...x,__type:"movie"}));
   }else{
-   if(q.length<3){box.innerHTML=`<p class="state empty">برای جست‌وجوی همه، حداقل ۳ حرف بنویس</p>`;return}
-   const j=await zbFetch("search/?search_key="+encodeURIComponent(q)+"&page=1&per_page=20");
-   const d=j&&typeof j==="object"&&!Array.isArray(j.data)&&j.data&&typeof j.data==="object"?j.data:null;
-   if(d&&(Array.isArray(d.movies)||Array.isArray(d.series))){
-    items=[...(d.movies||[]).filter(x=>x&&typeof x==="object").map(x=>({...x,__type:"movie"})),...(d.series||[]).filter(x=>x&&typeof x==="object").map(x=>({...x,__type:"series"}))];
+   if(!zbToken()){toast("توکن زبان را در پروفایل (تنظیمات پیشرفته) وارد کن","bad");box.innerHTML=`<p class="state error">جست‌وجو ممکن نشد.</p>`;return}
+   if(zbKind==="series"){
+    items=clean(await failSoft(sq)).map(x=>({...x,__type:"series"}));
    }else{
-    items=zbArr(j).filter(x=>x&&typeof x==="object").map(x=>({...x,__type:(x.type==="series"||x.kind==="series"||x.seasons||x.episode_count)?"series":"movie"}));
+    const [m,s]=await Promise.all([failSoft(mq),failSoft(sq)]);
+    if(m===null&&s===null)throw new Error("bothfailed");
+    const seen=new Set();items=[];
+    for(const x of [...clean(m).map(x=>({...x,__type:"movie"})),...clean(s).map(x=>({...x,__type:"series"}))]){const k=x.__type+":"+x.id;if(seen.has(k))continue;seen.add(k);items.push(x)}
    }
-   if(zbKind==="series")items=items.filter(x=>x.__type==="series");
   }
   if(seq!==zbSearchSeq)return;
   if(!items.length){box.innerHTML=`<p class="state empty">نتیجه‌ای پیدا نشد.</p>`;return}
@@ -3614,10 +3619,10 @@ async function zbLoadVocab(type,id){
   const words=zbArr(w),phr=zbArr(p);
   if(!words.length&&!phr.length)return;
   let h=`<div class="row" style="margin:12px 0 6px"><b>📖 جعبه لغت</b></div>`;
-  if(words.length)h+=words.map(x=>{const wd=x.word||x.title||x.text||x.name||"",mn=x.meaning||x.translation||x.fa||x.persian||x.definition||"";if(!wd)return "";return `<button class="chip zbWord" data-zbw="${esc(wd)}" style="display:block;width:100%;text-align:start;margin-top:4px;border-radius:8px;padding:6px 10px" dir="auto"><b>${esc(wd)}</b>${mn?`<br><span class="mute">${esc(mn)}</span>`:""}</button>`}).join("");
+  if(words.length)h+=words.map(x=>{const wd=x.word||x.title||x.text||x.name||"",mn=x.meaning||x.translation||x.fa||x.persian||x.definition||"";if(!wd)return "";return `<button class="chip zbWord" data-zbw="${esc(wd)}" data-zbmn="${esc(mn)}" style="display:block;width:100%;text-align:start;margin-top:4px;border-radius:8px;padding:6px 10px" dir="auto"><b>${esc(wd)}</b>${mn?`<br><span class="mute">${esc(mn)}</span>`:""}</button>`}).join("");
   if(phr.length)h+=`<div class="mute" style="margin-top:10px">عبارت‌ها</div>`+phr.map(x=>{const wd=x.phrase||x.text||x.word||x.title||"",mn=x.meaning||x.translation||x.fa||x.persian||"";if(!wd)return "";return `<div style="padding:6px 10px" dir="auto"><b>${esc(wd)}</b>${mn?`<br><span class="mute">${esc(mn)}</span>`:""}</div>`}).join("");
   box.innerHTML=h;box.hidden=false;
-  box.querySelectorAll(".zbWord").forEach(b=>b.onclick=()=>{try{tab("dict");dsearch(b.dataset.zbw)}catch(e){}});
+  box.querySelectorAll(".zbWord").forEach(b=>b.onclick=()=>{try{const r=b.getBoundingClientRect();sel=null;drawSel();pop.video=null;pop.ts=null;pop.textId=null;showPop({top:r.top,bottom:r.bottom,left:r.left,width:r.width},b.dataset.zbw,b.dataset.zbmn||"","zaban",FA.test(b.dataset.zbw)?"fa":"en")}catch(e){}});
  }catch(e){}
 }
 $$(".zbSaved").forEach(b=>b.onclick=()=>{
