@@ -661,7 +661,7 @@ html:not([data-theme=snowy]) #s-cards #list .card::after{background:linear-gradi
    <input id="proxy" class="de" placeholder="https://…workers.dev/?url={url}"><button class="ghost full" id="proxyTest" style="margin-bottom:10px">ذخیره و آزمایش اتصال به wort.app</button>
    <button class="ghost full" id="bamoozTest" style="margin-bottom:10px">ذخیره و آزمایش اتصال به بیاموز</button>
    <p class="mute" style="margin:0 0 4px">کلید امنیتی ورکر (اختیاری — اگر در ورکر Secret با نام API_KEY ساخته‌اید، همان مقدار را اینجا بگذارید)</p>
-   <input id="wkey" class="de" dir="ltr" placeholder="API_KEY (اختیاری)" autocomplete="off">
+   <input id="wkey" type="password" class="de" dir="ltr" placeholder="API_KEY (اختیاری)" autocomplete="off">
    <p class="mute" style="margin:10px 0 4px">توکن زبان (برای سرچ و پخش زبان داخل پووف — فقط روی همین دستگاه ذخیره می‌شود)</p>
    <input id="zbToken" class="de" dir="ltr" type="password" placeholder="توکن زبان" autocomplete="off">
    <div class="row" style="margin-top:8px"><label class="ghost-label">ورود پشتیبان<input id="imp" type="file" accept=".json,application/json" hidden></label></div>
@@ -1197,7 +1197,7 @@ const guessLemma=ss=>{for(const s of ss)for(const d of s.defs){const m=d.def.mat
 /* ----- wort.app: استفاده‌ی شخصی، کم‌حجم و همیشه با کش ----- */
 const FA=/[\u0600-\u06FF\uFB50-\uFDFF\uFE70-\uFEFF]/, ART=/^(der|die|das)$/i, WORT="https://wort.app/fa/";
 async function fetchHTML(url){
- try{const r=await fetch(url);if(r.status===404)return null;if(r.ok)return await r.text()}catch(e){} // معمولاً CORS مسدود می‌کند
+ try{const _c=new AbortController(),_t=setTimeout(()=>_c.abort(),5000);try{const r=await fetch(url,{signal:_c.signal});if(r.status===404)return null;if(r.ok)return await r.text()}finally{clearTimeout(_t)}}catch(e){} // مستقیم معمولاً فوری رد می‌شود (CORS) یا زیر ۵ ثانیه جواب می‌دهد؛ توقفِ بیشتر به پروکسی می‌رسد تا رقابت ۸ ثانیه‌ای بیاموز فرصتِ پایه‌ی پروکسی را داشته باشد
  const p=(db.proxy||"").trim();if(!p)throw new Error("noproxy");
  let u=p.includes("{url}")?p.replace("{url}",encodeURIComponent(url)):p+(p.includes("?")?"&":"?")+"url="+encodeURIComponent(url);
  if(db.wkey)u+=(u.includes("?")?"&":"?")+"auth="+encodeURIComponent(db.wkey);
@@ -1405,9 +1405,9 @@ async function lookup(raw,lang){
  const key=w.toLowerCase(),phrase=/\s/.test(w);let e=cache[key];
  const faL=!phrase?await faLookup(w).catch(()=>null):null;
  if(e&&!phrase&&(e.bamoozFailed||e.bamooz==null)){bamoozTimed(w).then(v=>{try{if(v===BAMOOZ_TIMEOUT){e.bamoozFailed=true}else if(v){e.bamooz=v;e.bamoozFailed=false;if(!(e.src||[]).includes("بیاموز"))(e.src=e.src||[]).push("بیاموز")}else{e.bamooz=null;e.bamoozFailed=false}saveCache();rerenderDictIfShowing(w,lang||"de")}catch(_){}});}
- if(e&&!(!phrase&&(e.wortFailed||e.wort==null))){if(faL)attachFaLayer(e,faL);return e;}
+ if(e&&!(!phrase&&(e.wortFailed||e.wort==null||(e.wort&&!e.wort.dict)))){if(faL)attachFaLayer(e,faL);return e;}
  if(e){ // فقط منابع ناقص را دوباره امتحان کن
-  try{if(!phrase&&(e.wortFailed||e.wort==null)){e.wort=await Providers.wort(w);e.wortFailed=false;e.fa=buildFa(e);if(faL)attachFaLayer(e,faL);saveCache()}}catch(x){}
+  try{if(!phrase&&(e.wortFailed||e.wort==null||(e.wort&&!e.wort.dict))){e.wort=await Providers.wort(w);e.wortFailed=false;e.fa=buildFa(e);if(faL)attachFaLayer(e,faL);saveCache()}}catch(x){}
   return e;
  }
  const loc=LOCAL[key];
@@ -4200,17 +4200,21 @@ renderPackDE();
 /* ===== 10) Theme + tabs ===== */
 function applyTheme(){const t=db.theme==="snowy"?"snowy":"classic";document.documentElement.dataset.theme=t;const _swap=()=>{const tc=document.getElementById("themeCss");if(tc){const f="theme-"+t+".css?v=16";if(!tc.href.endsWith(f))tc.href=f}};if(window.PoofPos){try{PoofPos.fadeThemeSwap(_swap)}catch(e){_swap()}}else{_swap()}const m=document.querySelector("meta[name=theme-color]");if(m)m.content=t==="snowy"?"#081421":"#111111"}
 $("#proxyTest").onclick=async()=>{
- db.proxy=$("#proxy").value.trim();db.wkey=$("#wkey").value.trim();save();
+ const _tb=$("#proxyTest"),_ol=_tb.textContent;_tb.disabled=true;_tb.textContent="در حال آزمایش…";toast("در حال آزمایش اتصال…");
+ try{db.proxy=$("#proxy").value.trim();db.wkey=$("#wkey").value.trim();save();
  try{const h=await fetchHTML(WORT+"suchen?q=Schule"),c=h&&parseWortSearch(h);
   toast(c?"اتصال موفق ✓ «"+c.meaning+"»":"صفحه گرفته شد ولی تحلیل نشد",c?"":"bad")}
  catch(x){toast(x.message==="noproxy"?"ابتدا آدرس واسط را وارد کنید":"اتصال ناموفق: "+x.message,"bad")}
+ }finally{_tb.disabled=false;_tb.textContent=_ol}
 };
 $("#bamoozTest").onclick=async()=>{
- db.proxy=$("#proxy").value.trim();db.wkey=$("#wkey").value.trim();save();
+ const _tb=$("#bamoozTest"),_ol=_tb.textContent;_tb.disabled=true;_tb.textContent="در حال آزمایش…";toast("در حال آزمایش اتصال…");
+ try{db.proxy=$("#proxy").value.trim();db.wkey=$("#wkey").value.trim();save();
  try{const h=await fetchHTML("https://dic.b-amooz.com/de/dictionary/w?word="+encodeURIComponent("Schule".toLowerCase()));if(!h)throw new Error("empty");
   const b=parseBamoozLines(blockLinesX(new DOMParser().parseFromString(h,"text/html").body)),m=b&&b.senses&&b.senses.length?b.senses[0].meaning:"";
   toast(m?"اتصال موفق ✓ «"+m+"»":"صفحه گرفته شد ولی معنی پیدا نشد",m?"":"bad")}
  catch(x){toast(x.message==="noproxy"?"ابتدا آدرس واسط را وارد کنید":"اتصال ناموفق: "+x.message,"bad")}
+ }finally{_tb.disabled=false;_tb.textContent=_ol}
 };
 /* توکن زبان: فقط روی همین دستگاه می‌ماند، هرگز در مخزن نیست؛ «Bearer …» کامل هم پذیرفته می‌شود */
 $("#zbToken").onchange=()=>{const v=($("#zbToken").value||"").trim().replace(/^bearer\s+/i,"");$("#zbToken").value=v;try{localStorage.setItem("poof_zaban_token",v)}catch(e){}toast("توکن زبان ذخیره شد")};
