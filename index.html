@@ -547,7 +547,7 @@ html:not([data-theme=snowy]) #s-cards #list .card::after{background:linear-gradi
      <div class="row" style="gap:6px;margin-top:8px;align-items:center"><button class="ghost" id="zbPrevSub">قبلی</button><button class="ghost" id="zbNextSub">بعدی</button><div class="seg" id="zbSubSeg" style="flex:1"></div></div>
      <p id="zbSubLine" style="margin:10px 0;padding:10px;border:1px solid var(--border);border-radius:10px;font-size:17px;line-height:1.9;min-height:1.9em" dir="auto"></p>
     </div>
-    <button class="ghost" id="zbPlayTgl" hidden style="display:block;margin:8px auto 2px;width:fit-content;font-size:20px;padding:6px 18px" aria-label="پخش/مکث">▶️</button>
+    <button class="ghost" id="zbPlayTgl" hidden style="display:block;margin:8px auto 2px;width:fit-content" aria-label="پخش/مکث">▶️</button>
      </div>
      <div id="zbSubBar" hidden>
      <div id="zbSubList"></div>
@@ -2329,6 +2329,7 @@ const BUILTIN=[
 const allTexts=()=>[...BUILTIN,...db.texts];let sents=[];
 function renderReader(){
  const all=allTexts(),t=all.find(x=>x.id===db.textId)||all[0];db.textId=t.id;
+ if(t.video&&t.video.ig&&t.lang==="en"&&t.body&&detectLang(t.body)==="de"){t.lang="de";save();}
  sents=[];
  if(t.segs){
   const igv=t.video&&t.video.ig;
@@ -3148,6 +3149,7 @@ async function importIG(u){
       save();renderReader();toast("ترانسکریپت آماده شد");
      }else throw new Error("no speech detected");
     }
+    if(t.body)t.lang=detectLang(t.body);save();
    }catch(e){toast(friendly(e),"bad")}
   };
   let meta=null;
@@ -3167,7 +3169,7 @@ async function importIG(u){
    t={id:sid,added:Date.now(),title:"Instagram · "+(meta.title||ig.sc),lang:meta.caption?detectLang(meta.caption):"en",body:meta.caption||"(بدون کپشن)",url:u};
    db.texts.push(t);
   }else{
-   t={id:sid,added:Date.now(),title:"Instagram · "+(meta.title||ig.sc),lang:"en",body:meta.caption||"",video:{ig:ig.sc,path:meta.path||ig.path}};
+   t={id:sid,added:Date.now(),title:"Instagram · "+(meta.title||ig.sc),lang:meta.caption?detectLang(meta.caption):"en",body:meta.caption||"",video:{ig:ig.sc,path:meta.path||ig.path}};
    db.texts.push(t);db.textId=t.id;save();$("#addPanel").hidden=true;renderReader();
    toast("در حال ترانسکریپت…");
    await runTranscript();
@@ -3280,7 +3282,7 @@ async function setupPlayer(t){
   $("#vpSeg").hidden=true;
   $("#vpWrap").hidden=!web;note.hidden=web;
   if(!web){note.textContent="پخش داخل اپ فقط از آدرس https (مثل GitHub Pages) کار می‌کند.";return}
-  $("#vpWrap").innerHTML=`<iframe src="https://www.instagram.com/${path}/${sc}/embed" width="100%" height="480" frameborder="0" scrolling="no" allowtransparency="true" allow="encrypted-media" style="border:0;max-width:540px;background:#fff"></iframe>`;
+  $("#vpWrap").innerHTML=`<p class="mute" style="padding:10px 4px">اینستاگرام اجازه‌ی پخش درون اپ را نمی‌دهد؛ با دکمه‌ی «اینستاگرام» ریل را باز کنید.</p>`;
   return;
  }
  $("#vpSeg").hidden=false;$("#vpOpen").textContent="یوتیوب";
