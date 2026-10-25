@@ -1111,8 +1111,8 @@ const LOCAL={heute:["heute","امروز"],gehe:["gehen","رفتن"],ich:["ich","
  buch:["Buch","کتاب"],meine:["mein","من / مال من"],freundin:["Freundin","دوست (دختر)"],trinkt:["trinken","نوشیدن"],wasser:["Wasser","آب"],
  wir:["wir","ما"],essen:["essen","خوردن"],apfel:["Apfel","سیب"],kaffee:["Kaffee","قهوه"],rechnung:["Rechnung","صورت‌حساب"]};
 let cache={};try{cache=JSON.parse(localStorage.getItem(KC))||{}}catch(e){}
-// ?v=91: ورودی‌های wort با پارسر قدیمی (بدون sentences/collocations یا معنیِ عددی) را دور بینداز تا با پارسر جدید دوباره گرفته شوند
-try{for(const k of Object.keys(cache)){const w=cache[k]&&cache[k].wort;if(!w)continue;if((w.dict&&!("sentences" in w.dict))||(w.card&&/^\s*[0-9۰-۹]+([.)]\s*|$)/.test(w.card.meaning||"")))delete cache[k].wort}}catch(e){}
+// ?v=92: ورودی‌های wort با پارسر قدیمی (بدون نشان v=2) را دور بینداز تا با پارسر جدید دوباره گرفته شوند
+try{for(const k of Object.keys(cache)){const w=cache[k]&&cache[k].wort;if(!w)continue;if((w.dict&&w.dict.v!==2)||(w.card&&/^\s*[0-9۰-۹]+([.)]\s*|$)/.test(w.card.meaning||"")))delete cache[k].wort}}catch(e){}
 const saveCache=()=>{try{localStorage.setItem(KC,JSON.stringify(cache))}catch(e){}};
 const norm=w=>w.trim().replace(/^[^\p{L}]+|[^\p{L}]+$/gu,"");
 const strip=h=>{const d=new DOMParser().parseFromString(h,"text/html");d.body.querySelectorAll("script,style,noscript,template").forEach(x=>x.remove());return d.body.textContent.trim();};
@@ -1217,22 +1217,29 @@ function wortLines(html){
  const out=[];for(const t of L.slice(ART.test(L[i-1]||"")?i-1:i)){if(/^(×|نتایج|تماس با ما)/.test(t))break;out.push(t)}
  return {word,lines:out};
 }
-// جفت‌کردن «جمله‌ی آلمانی ↔ ترجمه‌ی فارسی» به هر ترتیبی که باشند
+// جفت‌کردن «جمله‌ی آلمانی ↔ ترجمه‌ی فارسی»؛ تکه‌تکه‌های آلمانی (لینک‌های wort.app) اول به هم می‌چسبند
 function pairUp(L){
- const out=[];let p=null;
+ const out=[];let de="",pendFa=null;
+ const joinFrag=(buf,frag)=>buf?(WORT_NO_SPACE.test(frag)?buf+frag:buf+" "+frag):frag;
  for(const t of L){
-  const fa=FA.test(t);
-  if(p&&p.fa!==fa){out.push(fa?{de:p.t,fa:t}:{de:t,fa:p.t});p=null}
-  else{if(p)out.push(p.fa?{fa:p.t}:{de:p.t});p={t,fa}}
+  if(WORT_BARE_NUM.test(t))continue;
+  if(FA.test(t)){
+   if(de){out.push(pendFa!==null?{de,fa:pendFa}:{de,fa:t});de="";pendFa=pendFa!==null?t:null}
+   else if(out.length){const last=out[out.length-1];last.fa=last.fa?last.fa+" "+t:t}
+   else pendFa=pendFa?pendFa+" "+t:t;
+  }else de=joinFrag(de,t);
  }
- if(p)out.push(p.fa?{fa:p.t}:{de:p.t});
+ if(de)out.push(pendFa!==null?{de,fa:pendFa}:{de});
+ else if(pendFa!==null)out.push({fa:pendFa});
  return out;
 }
 // مرزهای بخش‌های جدید wort.app + خط‌های زباله (برای هر دو پارسر)
 const WORT_NUM=/^[0-9۰-۹]+[.)]\s*(.*)$/;
+const WORT_BARE_NUM=/^[0-9۰-۹]+$/;
+const WORT_NO_SPACE=/^[?!.,;:%\)\]]/;
 const WORT_STOP=/^(Deklination|SÄTZE MIT|VERBINDUNGEN|KI-Erklärung|Häufigkeit|Als Radar|Premium|🔒)/i;
 const WORT_HEAD=/^(Beispiele|Wendungen|Bedeutungen)$/i;
-const WORT_BRACE=/^[\{\}\[\]×]+$/;
+const WORT_BRACE=/^[{}×]+$/;
 const WORT_GROUPS=/^(Verben|Adjektive|Präpositionen|Substantive|Nomen|Adverbien|Konjunktionen)$/;
 const WORT_POS_DE=/^(Adjektiv|Nomen|Verb|Adverb|Präposition|Konjunktion|Artikel|Pronomen|Numerale|Interjektion)$/;
 // «2. minderwertig ۲. کم ارزش…» → فقط بخش فارسی بعد از عدد فارسی؛ در غیر این صورت دست نخورده
@@ -1249,11 +1256,12 @@ function wortHeaderMode(rest){
 // صفحه‌ی دیکشنری: /woerterbuch/deutsch-persisch/Word
 function parseWortDict(html){
  const r=wortLines(html);if(!r)return null;
- const L=r.lines,e={word:r.word,article:"",plural:"",senses:[],sentences:[],collocations:[]};
- let i=1;
+ const L=r.lines,e={word:r.word,article:"",plural:"",senses:[],sentences:[],collocations:[],v:2};
+ let i=0;
  for(;i<L.length&&!WORT_NUM.test(L[i]);i++){
   if(WORT_STOP.test(L[i]))break;
   if(ART.test(L[i]))e.article=L[i];
+  else if(!e.plural&&/^(der|die|das)\s/.test(L[i])&&L[i].includes("·"))e.plural=L[i].split("·")[0].trim();
   else{const m=L[i].match(/^Plural:?\s*(.*)$/i);if(m)e.plural=m[1]||L[++i]||""}
  }
  let s=null,k="n";
@@ -1261,6 +1269,7 @@ function parseWortDict(html){
   const t=L[i];
   if(WORT_STOP.test(t))break;
   if(WORT_BRACE.test(t))continue;
+  if(WORT_BARE_NUM.test(t))continue;
   const m=t.match(WORT_NUM);
   if(m){
    const rest=wortCleanNum(m[1]),hm=wortHeaderMode(rest);
@@ -1270,7 +1279,7 @@ function parseWortDict(html){
   if(WORT_HEAD.test(t)){const hm=wortHeaderMode(t);if(hm){k=hm;continue}}
   if(/^مثال/.test(t))k="ex";else if(/^عبارات/.test(t))k="ph";else s.r[k].push(t);
  }
- e.senses=e.senses.map(s=>({meaning:s.meaning,note:s.r.n.join(" "),ex:pairUp(s.r.ex),ph:pairUp(s.r.ph)})).filter(s=>(s.meaning&&!/^[0-9۰-۹\s.)(]+$/.test(s.meaning))||s.ex.length||s.ph.length);
+ e.senses=e.senses.map(s=>({meaning:(/^[0-9۰-۹\s.)(]+$/.test(s.meaning)?"":s.meaning),note:s.r.n.join(" "),ex:pairUp(s.r.ex),ph:pairUp(s.r.ph)})).filter(s=>(s.meaning&&!/^[0-9۰-۹\s.)(]+$/.test(s.meaning))||s.ex.length||s.ph.length);
  const si=L.findIndex(t=>/^SÄTZE MIT/i.test(t));
  if(si>=0){
   const seg=[];
@@ -1309,12 +1318,14 @@ function parseWortSearch(html){
   const t=L[j];
   if(WORT_STOP.test(t))break;
   if(WORT_BRACE.test(t))continue;
+  if(WORT_BARE_NUM.test(t))continue;
   if(/^نمونه/.test(t)||/^Beispiele$/i.test(t)){xi=j;break}
   const nm=t.match(/^[0-9]+[.)]\s*(.*)$/);
   if(nm){if(wortHeaderMode(wortCleanNum(nm[1]))==="ex"){xi=j;break}break}
   if(t==="هوش مصنوعی"||WORT_HEAD.test(t))continue;
   if(/^جمع:?$/.test(t)){e.plural=L[++j]||"";continue}
   const m=t.match(/^جمع:\s*(.+)$/);if(m){e.plural=m[1];continue}
+  if(!e.plural&&/^(der|die|das)\s/.test(t)&&t.includes("·")){e.plural=t.split("·")[0].trim();continue}
   if(FA.test(t)){if(!e.pos&&/^(اسم|فعل|صفت|قید|ضمیر|حرف.*|عدد|پیشوند)$/.test(t))e.pos=t;else fa.push(t)}
   else if(!e.defDe){
    if(WORT_POS_DE.test(t))continue;
