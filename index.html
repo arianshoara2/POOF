@@ -657,6 +657,9 @@ html:not([data-theme=snowy]) #s-cards #list .card::after{background:linear-gradi
     <p class="mute" style="font-size:11px;margin:6px 0 0">منبع: ویکی‌واژهٔ آلمانی (kaikki.org)، CC BY-SA 4.0</p>
    </div>
    <details class="adv"><summary>تنظیمات پیشرفته</summary>
+   <p class="mute" style="margin:0 0 4px">ورود یکجای کلیدها — هر سه مقدار (آدرس واسط، کلید ورکر، توکن زبان) را با هم در همین یک کادر بچسبانید، هر کدام در یک خط؛ ترتیب مهم نیست. بعد از ذخیره، این کادر خودش خالی می‌شود و کپی از آن ممکن نیست.</p>
+   <textarea id="bulkKeys" class="de" dir="ltr" rows="3" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="هر مقدار در یک خط" style="-webkit-text-security:disc" oncopy="event.preventDefault()" oncut="event.preventDefault()"></textarea>
+   <button class="ghost full" id="bulkKeysBtn" style="margin-bottom:10px">ذخیره‌ی یکجای کلیدها</button>
    <p class="mute" style="margin:0 0 4px">آدرس واسط برای wort.app (Cloudflare Worker). نمونه: https://NAME.workers.dev/?url={url}</p>
    <input id="proxy" class="de" placeholder="https://…workers.dev/?url={url}"><button class="ghost full" id="proxyTest" style="margin-bottom:10px">ذخیره و آزمایش اتصال به wort.app</button>
    <button class="ghost full" id="bamoozTest" style="margin-bottom:10px">ذخیره و آزمایش اتصال به بیاموز</button>
@@ -4533,6 +4536,43 @@ $("#bamoozTest").onclick=async()=>{
   toast(m?"اتصال موفق ✓ «"+m+"»":"صفحه گرفته شد ولی معنی پیدا نشد",m?"":"bad")}
  catch(x){toast(x.message==="noproxy"?"ابتدا آدرس واسط را وارد کنید":"اتصال ناموفق: "+x.message,"bad")}
  }finally{_tb.disabled=false;_tb.textContent=_ol}
+};
+/* ورود یکجای کلیدها (?v=96): یک کادر رمزی برای هر سه مقدار؛ تشخیص بر اساس شکل مقدار، نه ترتیب */
+function bulkParseKeys(raw){
+  const found={};
+  const classify=t=>{
+    t=t.replace(/^bearer\s+/i,"");
+    if(/^https?:\/\//i.test(t)){const m=t.match(/https?:\/\/\S+/);return ["proxy",m[0].replace(/[.,،؛;]+$/,"")];}
+    if(/^\d+\|[A-Za-z0-9_-]+$/.test(t)) return ["zb",t];
+    if(/^[A-Za-z0-9_-]{32,}$/.test(t)) return ["wkey",t];
+    return null;
+  };
+  const lines=(raw||"").split(/\n/).map(s=>s.trim()).filter(Boolean);
+  for(const ln of lines){const c=classify(ln);if(c&&!found[c[0]])found[c[0]]=c[1];}
+  if(!found.proxy||!found.zb||!found.wkey){
+    const blob=(raw||"").replace(/^bearer\s+/gim,"");
+    if(!found.proxy){const m=blob.match(/https:\/\/[^\s'"]+/);if(m)found.proxy=m[0].replace(/[.,،؛;]+$/,"");}
+    if(!found.zb){const m=blob.match(/\d+\|[A-Za-z0-9_-]{48}/)||blob.match(/\d+\|[A-Za-z0-9_-]{20,}/);if(m)found.zb=m[0];}
+    if(!found.wkey){const rest=blob.replace(/https:\/\/[^\s'"]+/g," ").replace(/\d+\|[A-Za-z0-9_-]+/g," ");const toks=rest.split(/\s+/).filter(x=>/^[A-Za-z0-9_-]{32,}$/.test(x));if(toks.length)found.wkey=toks.sort((a,b)=>b.length-a.length)[0];}
+  }
+  return found;
+}
+$("#bulkKeysBtn").onclick=()=>{
+  const el=$("#bulkKeys");const raw=el.value||"";
+  if(!raw.trim()){toast("چیزی وارد نشده","bad");return;}
+  const f=bulkParseKeys(raw);const names=[];
+  if(f.proxy){db.proxy=f.proxy;names.push("آدرس واسط");}
+  if(f.wkey){db.wkey=f.wkey;names.push("کلید ورکر");}
+  if(f.zb){try{localStorage.setItem("poof_zaban_token",f.zb)}catch(e){}names.push("توکن زبان");}
+  if(!names.length){toast("هیچ کلیدی شناخته نشد — هر مقدار را در یک خط جداگانه بچسبانید","bad");return;}
+  save();
+  try{$("#proxy").value=db.proxy||"";$("#wkey").value=db.wkey||"";$("#zbToken").value=localStorage.getItem("poof_zaban_token")||"";}catch(e){}
+  el.value="";
+  const missing=[];
+  if(!f.proxy)missing.push("آدرس واسط");
+  if(!f.wkey)missing.push("کلید ورکر");
+  if(!f.zb)missing.push("توکن زبان");
+  toast("ذخیره شد: "+names.join("، ")+(missing.length?" — پیدا نشد: "+missing.join("، "):""));
 };
 /* توکن زبان: فقط روی همین دستگاه می‌ماند، هرگز در مخزن نیست؛ «Bearer …» کامل هم پذیرفته می‌شود */
 $("#zbToken").onchange=()=>{const v=($("#zbToken").value||"").trim().replace(/^bearer\s+/i,"");$("#zbToken").value=v;try{localStorage.setItem("poof_zaban_token",v)}catch(e){}toast("توکن زبان ذخیره شد")};
