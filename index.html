@@ -1111,8 +1111,8 @@ const LOCAL={heute:["heute","امروز"],gehe:["gehen","رفتن"],ich:["ich","
  buch:["Buch","کتاب"],meine:["mein","من / مال من"],freundin:["Freundin","دوست (دختر)"],trinkt:["trinken","نوشیدن"],wasser:["Wasser","آب"],
  wir:["wir","ما"],essen:["essen","خوردن"],apfel:["Apfel","سیب"],kaffee:["Kaffee","قهوه"],rechnung:["Rechnung","صورت‌حساب"]};
 let cache={};try{cache=JSON.parse(localStorage.getItem(KC))||{}}catch(e){}
-// ?v=92: ورودی‌های wort با پارسر قدیمی (بدون نشان v=2) را دور بینداز تا با پارسر جدید دوباره گرفته شوند
-try{for(const k of Object.keys(cache)){const w=cache[k]&&cache[k].wort;if(!w)continue;if((w.dict&&w.dict.v!==2)||(w.card&&/^\s*[0-9۰-۹]+([.)]\s*|$)/.test(w.card.meaning||"")))delete cache[k].wort}}catch(e){}
+// ?v=93: ورودی‌های wort که دیکشنری‌شان نشان v=3 ندارد (پارسر قدیمی یا فقط-کارت) را دور بینداز تا با پارسر جدید دوباره گرفته شوند
+try{for(const k of Object.keys(cache)){const w=cache[k]&&cache[k].wort;if(!w)continue;if((!w.dict||w.dict.v!==3)||(w.card&&/^\s*[0-9۰-۹]+([.)]\s*|$)/.test(w.card.meaning||"")))delete cache[k].wort}}catch(e){}
 const saveCache=()=>{try{localStorage.setItem(KC,JSON.stringify(cache))}catch(e){}};
 const norm=w=>w.trim().replace(/^[^\p{L}]+|[^\p{L}]+$/gu,"");
 const strip=h=>{const d=new DOMParser().parseFromString(h,"text/html");d.body.querySelectorAll("script,style,noscript,template").forEach(x=>x.remove());return d.body.textContent.trim();};
@@ -1256,7 +1256,7 @@ function wortHeaderMode(rest){
 // صفحه‌ی دیکشنری: /woerterbuch/deutsch-persisch/Word
 function parseWortDict(html){
  const r=wortLines(html);if(!r)return null;
- const L=r.lines,e={word:r.word,article:"",plural:"",senses:[],sentences:[],collocations:[],v:2};
+ const L=r.lines,e={word:r.word,article:"",plural:"",senses:[],sentences:[],collocations:[],dekl:null,v:3};
  let i=0;
  for(;i<L.length&&!WORT_NUM.test(L[i]);i++){
   if(WORT_STOP.test(L[i]))break;
@@ -1306,7 +1306,43 @@ function parseWortDict(html){
   flush();
   e.collocations=groups.filter(g=>g.items.length);
  }
- return e.senses.length||e.sentences.length||e.collocations.length?e:null;
+ // ?v=93: Deklination/Konjugation — جدول ایستا + «Nach …» + «Prädikativ» به‌صورت بلوکِ خودش (هرگز محتوای معنی‌ها نیست؛ برگه‌های ایستا فقط گونه‌ی پیش‌فرض جدول را دارند، زبانه‌های JS مثل Positiv/Komparativ یا «mit ein…» در متن ایستا نیستند)
+ const di=L.findIndex(t=>/^(Deklination|Konjugation)$/i.test(t));
+ if(di>=0){
+  const kind=/^Konjugation/i.test(L[di])?"Konjugation":"Deklination";
+  let note="",praed="";const pipe=[],cells=[];
+  for(let j=di+1;j<L.length;j++){
+   const t=L[j];
+   if(/^(KI-Erklärung|Häufigkeit|Als Radar|Premium|SÄTZE MIT|VERBINDUNGEN|🔒)/i.test(t))break;
+   if(WORT_BRACE.test(t))continue;
+   if(/^Nach\s/i.test(t)||/^Prädikativ/i.test(t)){
+    let v=t;
+    if(/:\s*$/.test(t)&&L[j+1]&&!/^(KI-Erklärung|Häufigkeit|Als Radar|Premium|SÄTZE MIT|VERBINDUNGEN|Deklination|Konjugation|🔒)/i.test(L[j+1]))v+=" "+L[++j];
+    if(/^Nach\s/i.test(t))note=v;else praed=v;
+    continue;
+   }
+   if(t.includes("|")){
+    let cs=t.split("|").map(x=>x.trim());
+    if(cs.length&&cs[0]==="")cs.shift();
+    if(cs.length&&cs[cs.length-1]==="")cs.pop();
+    if(cs.length)pipe.push(cs);
+    continue;
+   }
+   cells.push(t);
+  }
+  let header=[],rows=[];
+  if(pipe.length){header=pipe[0];rows=pipe.slice(1);}
+  else{
+   const idxs=[];
+   cells.forEach((c,ix)=>{if(/^(Nom|Akk|Dat|Gen)\.?$/.test(c))idxs.push(ix)});
+   if(idxs.length){
+    header=cells.slice(0,idxs[0]);
+    for(let q=0;q<idxs.length;q++)rows.push(cells.slice(idxs[q],q+1<idxs.length?idxs[q+1]:cells.length));
+   }
+  }
+  if(header.length||rows.length||note||praed)e.dekl={kind,header,rows,note,praed};
+ }
+ return e.senses.length||e.sentences.length||e.collocations.length||(e.dekl&&(e.dekl.rows.length||e.dekl.note||e.dekl.praed))?e:null;
 }
 // صفحه‌ی جست‌وجو: /suchen?q=Word (کارت خلاصه + جمله‌های نمونه؛ صورت‌های صرف‌شده را هم به ریشه می‌رساند)
 function parseWortSearch(html){
@@ -1319,6 +1355,10 @@ function parseWortSearch(html){
   if(WORT_STOP.test(t))break;
   if(WORT_BRACE.test(t))continue;
   if(WORT_BARE_NUM.test(t))continue;
+  // ?v=93: سرخط «Alle Treffer …» هرگز معنی/تعریف نیست
+  if(/^Alle Treffer/i.test(t))continue;
+  // ?v=93: برچسب نوع آلمانی (Adjektiv و…) را نگه دار، نه اینکه دور بینداز
+  if(WORT_POS_DE.test(t)){e.pos=t;continue}
   if(/^نمونه/.test(t)||/^Beispiele$/i.test(t)){xi=j;break}
   const nm=t.match(/^[0-9]+[.)]\s*(.*)$/);
   if(nm){if(wortHeaderMode(wortCleanNum(nm[1]))==="ex"){xi=j;break}break}
@@ -1328,7 +1368,6 @@ function parseWortSearch(html){
   if(!e.plural&&/^(der|die|das)\s/.test(t)&&t.includes("·")){e.plural=t.split("·")[0].trim();continue}
   if(FA.test(t)){if(!e.pos&&/^(اسم|فعل|صفت|قید|ضمیر|حرف.*|عدد|پیشوند)$/.test(t))e.pos=t;else fa.push(t)}
   else if(!e.defDe){
-   if(WORT_POS_DE.test(t))continue;
    if(t.toLowerCase().startsWith(e.word.toLowerCase()+" ·"))continue;
    e.defDe=t;
   }
@@ -1345,16 +1384,19 @@ function parseWortSearch(html){
   }
   e.ex=pairUp(seg);
  }
- return e.meaning?e:null;
+ // ?v=93: کارتِ بی‌معنی هم مفید است (سرخط/صورت‌ها + پنلِ کارت) — فقط وقتی هیچ‌کدام از معنی، نوع و تعریف نیست، خالی است
+ return (e.meaning||e.pos||e.defDe)?e:null;
 }
 Providers.wort=async w=>{
- let card=null,dict=null,bad=0;
- try{const h=await fetchHTML(WORT+"suchen?q="+encodeURIComponent(w));if(h)card=parseWortSearch(h)}catch(x){if(x.message==="noproxy")throw x;bad++}
+ let card=null,dict=null,bad=0,suchenHtml=null;
+ try{const h=await fetchHTML(WORT+"suchen?q="+encodeURIComponent(w));suchenHtml=h;if(h)card=parseWortSearch(h)}catch(x){if(x.message==="noproxy")throw x;bad++}
  const lem=card?card.word:w;
  for(const t of new Set([lem,lem[0].toUpperCase()+lem.slice(1),lem.toLowerCase()])){
   try{const h=await fetchHTML(WORT+"woerterbuch/deutsch-persisch/"+encodeURIComponent(t));dict=h&&parseWortDict(h);if(dict)break}
   catch(x){if(x.message==="noproxy")throw x;bad++;continue}
  }
+ // ?v=93: اگر هیچ گونه‌ی دیکشنری جواب نداد، همان متن ایستای صفحه‌ی جست‌وجو را با پارسر دیکشنری بخوان (برای Geboren محتوایش ≈ صفحه‌ی دیکشنری است)
+ if(!dict&&suchenHtml)dict=parseWortDict(suchenHtml);
  if(!card&&!dict&&bad)throw new Error("wort");
  return card||dict?{card,dict}:null;
 };
@@ -1478,7 +1520,19 @@ function buildFa(e){
  if(W&&W.card)a.push(clean(W.card.meaning));
  if(W&&W.dict)W.dict.senses.forEach(s=>a.push(clean(s.meaning)));
  if(loc)a.push(loc[1]);
- return [...new Set([...a,...(e.mm||[]).filter(x=>x.toLowerCase()!==k)])].filter(x=>x&&!/^[0-9۰-۹\s.)(]+$/.test(x)).slice(0,8);
+ // ?v=93: بهداشت چیپ‌ها فقط برای ورودی‌های MyMemory (معنی‌های wort دست نمی‌خورند):
+ // رقم لاتین (زباله‌ی سال/عدد مثل «تولد 1918») و ورودی‌ای که یک چیپِ نگه‌داشته‌شده را به‌صورت کلمه‌ی کامل در خود دارد (مثل «متولد تاریخ» وقتی «متولد» نگه داشته شده) حذف می‌شود
+ const kept=[...new Set(a)].filter(x=>x&&!/^[0-9۰-۹\s.)(]+$/.test(x));
+ const toks=s=>String(s).split(/[\s،,؛:()\[\]]+/).filter(Boolean);
+ const containsKept=(s,sub)=>{const st=toks(s),kt=toks(sub);if(!kt.length||kt.length>st.length)return false;for(let i=0;i<=st.length-kt.length;i++)if(kt.every((tk,q)=>st[i+q]===tk))return true;return false};
+ const mm=[];
+ for(const x of (e.mm||[])){
+  if(!x||x.toLowerCase()===k)continue;
+  if(/[0-9]/.test(x))continue;
+  if(kept.some(y=>containsKept(x,y)))continue;
+  kept.push(x);mm.push(x);
+ }
+ return [...new Set([...kept])].filter(x=>x&&!/^[0-9۰-۹\s.)(]+$/.test(x)).slice(0,8);
 }
 /* اگر نمای دیکشنری هنوز همین کلمه را نشان می‌دهد، آن را دوباره رندر کن
    (برای اینکه پنل بیاموزِ تازه‌رسیده بدون جست‌وجوی دوباره دیده شود) */
@@ -2362,12 +2416,19 @@ async function showEntry(box,raw,ctx,src,lang){
  if(card)card.ex.forEach(x=>x.de&&exs.push(x));
  if(dict)dict.senses.forEach(s=>s.ex.forEach(x=>x.de&&exs.length<12&&exs.push(x)));
  const exHtml=x=>`<span>${sr(x.de,"de")}${x.fa?`<br>${sr(x.fa,"fa","mute")}`:""}</span>`;
- const wortExtraHTML=d=>{let h="";if(d.sentences&&d.sentences.length)h+=`<p style="margin-top:8px"><b>جمله‌ها (wort.app)</b></p>`+d.sentences.map(x=>`<span class="sense">${exHtml(x)}</span>`).join("");if(d.collocations&&d.collocations.length)h+=`<p style="margin-top:8px"><b>ترکیب‌ها (wort.app)</b></p>`+d.collocations.map(g=>`${g.label?`<div class="mute">${esc(g.label)}</div>`:""}`+g.items.map(x=>`<span class="sense">${exHtml(x)}</span>`).join("")).join("");return h};
+ const wortExtraHTML=d=>{let h="";if(d.sentences&&d.sentences.length)h+=`<p style="margin-top:8px"><b>جمله‌ها (wort.app)</b></p>`+d.sentences.map(x=>`<span class="sense">${exHtml(x)}</span>`).join("");if(d.collocations&&d.collocations.length)h+=`<p style="margin-top:8px"><b>ترکیب‌ها (wort.app)</b></p>`+d.collocations.map(g=>`${g.label?`<div class="mute">${esc(g.label)}</div>`:""}`+g.items.map(x=>`<span class="sense">${exHtml(x)}</span>`).join("")).join("");
+  // ?v=93: بلوک تصریف (فقط گونه‌ی ایستای جدول؛ زبانه‌های JS ادعا نمی‌شوند)
+  if(d.dekl&&(d.dekl.rows.length||d.dekl.note||d.dekl.praed)){
+   const dk=d.dekl,hd=dk.header,hasCorner=hd.length&&dk.rows.length&&hd.length===dk.rows[0].length;
+   const headRow=hd.length?`<tr>${(hasCorner?hd:[...[""],...hd]).map(c=>`<th style="border:1px solid var(--border);padding:4px 8px;text-align:start">${esc(c)}</th>`).join("")}</tr>`:"";
+   h+=`<details style="margin-top:8px"><summary>تصریف (${dk.kind?esc(dk.kind)+" · ":""}wort.app)</summary>${dk.note?`<div class="mute de" style="margin:6px 0">${esc(dk.note)}</div>`:""}${dk.praed?`<div class="mute de" style="margin:6px 0">${esc(dk.praed)}</div>`:""}${dk.rows.length?`<table class="de" dir="ltr" style="border-collapse:collapse;margin-top:6px">${headRow}${dk.rows.map(r=>`<tr>${r.map(c=>`<td style="border:1px solid var(--border);padding:4px 8px">${esc(c)}</td>`).join("")}</tr>`).join("")}</table>`:""}</details>`;
+  }
+  return h};
  box.innerHTML=`<div class="row"><span class="big2 de" style="flex:1">${art?`<span style="color:var(--accent)">${esc(art)}</span> `:""}${esc(head)}</span><button class="ib" data-a="say" aria-label="تلفظ">${ic("sound")}</button><button class="ib" data-a="ask" aria-label="از پووف بپرس" style="font-size:18px">✨</button></div>
  ${plural?`<div class="mute de">Plural: ${esc(plural)}</div>`:""}
  ${e.en?`<div class="mute">English: <span class="de">${esc(e.en)}</span></div>`:""}
  ${!W.card&&!W.dict&&e.lemma&&e.lemma.toLowerCase()!==e.word.toLowerCase()?`<div class="mute">صورت صرف‌شده‌ی <button class="chip de" data-a="lemma">${esc(e.lemma)}</button></div>`:""}
- ${e.wortFailed?`<p class="mute">wort.app در دسترس نبود. آدرس واسط را در تب «پیشرفت» تنظیم کنید.</p>`:""}
+ ${e.wortFailed?`<p class="mute">wort.app در دسترس نبود. آدرس واسط را در تب «پیشرفت» تنظیم کنید.</p>`:!/\s/.test(raw)&&!W.card&&!W.dict?`<p class="mute">wort.app برای این کلمه چیزی پیدا نکرد.</p>`:""}
  ${e.faLayer?faLayerHTML(e):""}
  <p style="margin:10px 0 4px">معنی فارسی:</p>
  <div class="row" style="margin-bottom:6px">${(e.fa||[]).map(x=>`<button class="chip" data-a="fa">${esc(x)}</button>`).join("")}</div>
