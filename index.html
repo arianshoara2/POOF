@@ -1111,8 +1111,8 @@ const LOCAL={heute:["heute","امروز"],gehe:["gehen","رفتن"],ich:["ich","
  buch:["Buch","کتاب"],meine:["mein","من / مال من"],freundin:["Freundin","دوست (دختر)"],trinkt:["trinken","نوشیدن"],wasser:["Wasser","آب"],
  wir:["wir","ما"],essen:["essen","خوردن"],apfel:["Apfel","سیب"],kaffee:["Kaffee","قهوه"],rechnung:["Rechnung","صورت‌حساب"]};
 let cache={};try{cache=JSON.parse(localStorage.getItem(KC))||{}}catch(e){}
-// ?v=94: ورودی‌های wort که دیکشنری‌شان نشان v=4 ندارد (پارسر قدیمی یا فقط-کارت) را دور بینداز تا با پارسر جدید دوباره گرفته شوند
-try{for(const k of Object.keys(cache)){const w=cache[k]&&cache[k].wort;if(!w)continue;if((!w.dict||w.dict.v!==4)||(w.card&&/^\s*[0-9۰-۹]+([.)]\s*|$)/.test(w.card.meaning||"")))delete cache[k].wort}}catch(e){}
+// ?v=95: ورودی‌های wort که دیکشنری‌شان نشان v=5 ندارد (پارسر قدیمی یا فقط-کارت) را دور بینداز تا با پارسر جدید دوباره گرفته شوند
+try{for(const k of Object.keys(cache)){const w=cache[k]&&cache[k].wort;if(!w)continue;if((!w.dict||w.dict.v!==5)||(w.card&&/^\s*[0-9۰-۹]+([.)]\s*|$)/.test(w.card.meaning||"")))delete cache[k].wort}}catch(e){}
 const saveCache=()=>{try{localStorage.setItem(KC,JSON.stringify(cache))}catch(e){}};
 const norm=w=>w.trim().replace(/^[^\p{L}]+|[^\p{L}]+$/gu,"");
 const strip=h=>{const d=new DOMParser().parseFromString(h,"text/html");d.body.querySelectorAll("script,style,noscript,template").forEach(x=>x.remove());return d.body.textContent.trim();};
@@ -1256,7 +1256,7 @@ function wortHeaderMode(rest){
 // صفحه‌ی دیکشنری: /woerterbuch/deutsch-persisch/Word
 function parseWortDict(html){
  const r=wortLines(html);if(!r)return null;
- const L=r.lines,e={word:r.word,article:"",plural:"",senses:[],sentences:[],collocations:[],dekl:null,v:4};
+ const L=r.lines,e={word:r.word,article:"",plural:"",senses:[],sentences:[],collocations:[],dekl:null,v:5};
  let i=0;
  for(;i<L.length&&!WORT_NUM.test(L[i]);i++){
   if(WORT_STOP.test(L[i]))break;
@@ -1400,6 +1400,106 @@ function wortVerbGroups(v){
  const gs=Array.isArray(v.groups)?v.groups:(Array.isArray(v.items)?[{label:"",items:v.items}]:(Array.isArray(v)?[{label:"",items:v}]:[]));
  return gs.map(g=>({label:g.label||g.title||"",items:(Array.isArray(g.items)?g.items:[]).filter(x=>x&&x.de)})).filter(g=>g.items.length);
 }
+// ?v=95: جدول‌های کامل صرف فعل wort.app — از داده‌ی Next صفحه‌ی konjugation (کپچر ۲۰۲۶-۱۰-۲۵).
+// همه fail-closed: نبودِ buildId، 404، JSON خراب یا فیلدِ گمشده یعنی «هیچ جدول اضافه‌ای»، هرگز خطا یا مقدار ساختگی.
+function wortBuildId(html){try{const m=String(html||"").match(/"buildId":"([^"]+)"/);return m?m[1]:null}catch(e){return null}}
+function parseWortConj(t){try{const j=JSON.parse(t);if(!j||typeof j!=="object")return null;const d=j.pageProps&&j.pageProps.data?j.pageProps.data:(j.data&&typeof j.data==="object"?j.data:null);return(d&&typeof d==="object"&&(d.verb_main||d.present||d.past))?d:null}catch(e){return null}}
+const CONJ_PERSONS=["ich","du","er/sie/es","wir","ihr","sie/Sie"];
+const CONJ_AUX={
+ haben:{pres:["habe","hast","hat","haben","habt","haben"],past:["hatte","hattest","hatte","hatten","hattet","hatten"],k1:["habe","habest","habe","haben","habet","haben"],k2:["hätte","hättest","hätte","hätten","hättet","hätten"]},
+ sein:{pres:["bin","bist","ist","sind","seid","sind"],past:["war","warst","war","waren","wart","waren"],k1:["sei","seist","sei","seien","seiet","seien"],k2:["wäre","wärst","wäre","wären","wärt","wären"]},
+ werden:{pres:["werde","wirst","wird","werden","werdet","werden"],past:["wurde","wurdest","wurde","wurden","wurdet","wurden"],k1:["werde","werdest","werde","werden","werdet","werden"],k2:["würde","würdest","würde","würden","würdet","würden"]}
+};
+function conjVar(v){return String(v==null?"":v).split(/\r\n|\n|\r/).map(s=>s.trim()).filter(Boolean)}
+function conjForm(v){const vs=conjVar(v);return vs.length?vs.join(" / "):""}
+function conjPick(row,pfx){
+ if(!row||typeof row!=="object")return null;
+ const fs=["ich","du","ese","wir","ihr","sie"].map(k=>conjForm(row[pfx+"_"+k]));
+ return fs.some(Boolean)?fs:null;
+}
+function conjTable(title,forms){
+ if(!forms)return"";
+ const rows=CONJ_PERSONS.map((p,i)=>`<tr><td style="border:1px solid var(--border);padding:4px 8px" class="mute">${p}</td><td style="border:1px solid var(--border);padding:4px 8px">${esc(forms[i]||"")}</td></tr>`).join("");
+ return `<div class="mute" style="margin-top:6px">${title}</div><table class="de" dir="ltr" style="border-collapse:collapse;margin-top:2px">${rows}</table>`;
+}
+function conjAuxForms(paradigm,part,extra){
+ if(!paradigm||!part)return null;
+ return paradigm.map(a=>a+" "+part+(extra?" "+extra:""));
+}
+function wortConjHTML(d){
+ if(!d||typeof d!=="object")return"";
+ const verb=d.verb_main||"";
+ const pr=Array.isArray(d.present)?d.present[0]:(d.present&&typeof d.present==="object"?d.present:null);
+ const pa=d.past&&typeof d.past==="object"?d.past:null;
+ const pf=d.perfect&&typeof d.perfect==="object"?d.perfect:null;
+ const f1=d.future1&&typeof d.future1==="object"?d.future1:null;
+ const f2=d.future2&&typeof d.future2==="object"?d.future2:null;
+ const im=d.imprativ&&typeof d.imprativ==="object"?d.imprativ:null;
+ const part=pf?conjForm(pf.partizip_perfekt):"";
+ const perfHelpRaw=(pf&&pf.infinitiv_perfekt_help)||d.help_verb_str||"haben";
+ const perfSein=/sein/i.test(perfHelpRaw);
+ const aux=perfSein?CONJ_AUX.sein:CONJ_AUX.haben;
+ const perfWord=perfSein?"sein":"haben";
+ const fut1Inf=f1?conjForm(f1.infinitiv_futur||f1.i_value):"";
+ const fut2Inf=f2?conjForm(f2.infinitiv_futur_corrected||f2.infinitiv_futur):"";
+ let ind="",k1="",k2="",imp="",misc="";
+ const prI=conjPick(pr,"i"),paI=conjPick(pa,"i");
+ if(prI)ind+=conjTable("Präsens · حال ساده",prI);
+ if(paI)ind+=conjTable("Präteritum · گذشته ساده",paI);
+ if(part)ind+=conjTable("Perfekt · ماضی نقلی",conjAuxForms(aux.pres,part));
+ if(part)ind+=conjTable("Plusquamperfekt · ماضی بعید",conjAuxForms(aux.past,part));
+ if(fut1Inf)ind+=conjTable("Futur I · آینده",conjAuxForms(CONJ_AUX.werden.pres,fut1Inf));
+ if(part)ind+=conjTable("Futur II · آینده کامل",conjAuxForms(CONJ_AUX.werden.pres,part,perfWord));
+ else if(fut2Inf)ind+=conjTable("Futur II · آینده کامل",conjAuxForms(CONJ_AUX.werden.pres,fut2Inf));
+ const prK=conjPick(pr,"k");
+ if(prK)k1+=conjTable("Präsens · حال ساده",prK);
+ if(part)k1+=conjTable("Perfekt · ماضی نقلی",conjAuxForms(aux.k1,part));
+ if(fut1Inf)k1+=conjTable("Futur I · آینده",conjAuxForms(CONJ_AUX.werden.k1,fut1Inf));
+ if(part)k1+=conjTable("Futur II · آینده کامل",conjAuxForms(CONJ_AUX.werden.k1,part,perfWord));
+ else if(fut2Inf)k1+=conjTable("Futur II · آینده کامل",conjAuxForms(CONJ_AUX.werden.k1,fut2Inf));
+ let k2forms=null;
+ if(pr&&conjPick(pr,"k2"))k2forms=conjPick(pr,"k2");
+ else if(pa&&conjPick(pa,"k2"))k2forms=conjPick(pa,"k2");
+ else if(pa&&conjPick(pa,"k"))k2forms=conjPick(pa,"k");
+ if(k2forms)k2+=conjTable("حال و گذشته",k2forms);
+ if(part)k2+=conjTable("ماضی",conjAuxForms(aux.k2,part));
+ if(fut1Inf)k2+=conjTable("آینده",conjAuxForms(CONJ_AUX.werden.k2,fut1Inf));
+ if(part)k2+=conjTable("آینده کامل",conjAuxForms(CONJ_AUX.werden.k2,part,perfWord));
+ else if(fut2Inf)k2+=conjTable("آینده کامل",conjAuxForms(CONJ_AUX.werden.k2,fut2Inf));
+ if(im){
+  const s1=conjVar(im.singular_1),s2=conjVar(im.singular_2),pl=conjForm(im.plural);
+  const du=[...s1];s2.forEach(v=>{if(!du.includes(v))du.push(v)});
+  const rows=[];
+  if(du.length)rows.push(["du",du.map(v=>v+"!").join(" / ")]);
+  if(pl)rows.push(["ihr",pl+"!"]);
+  if(verb)rows.push(["Sie",verb+" Sie!"]);
+  if(verb)rows.push(["wir",verb+" wir!"]);
+  if(rows.length)imp+=`<table class="de" dir="ltr" style="border-collapse:collapse;margin-top:6px">`+rows.map(r=>`<tr><td style="border:1px solid var(--border);padding:4px 8px" class="mute">${r[0]}</td><td style="border:1px solid var(--border);padding:4px 8px">${esc(r[1])}</td></tr>`).join("")+`</table>`;
+ }
+ const miscRows=[];
+ if(part)miscRows.push(["Partizip II",part]);
+ let p1="";
+ for(const k of Object.keys(d)){if(/^partizip(?!_perfekt)/i.test(k)&&typeof d[k]==="string"&&d[k].trim()){p1=d[k].trim();break}}
+ if(p1)miscRows.push(["Partizip I",p1]);
+ if(verb&&/untrennbar/i.test(String(d.trennbar||"")))miscRows.push(["zu-Infinitiv","zu "+verb]);
+ if(miscRows.length)misc+=`<table class="de" dir="ltr" style="border-collapse:collapse;margin-top:6px">`+miscRows.map(r=>`<tr><td style="border:1px solid var(--border);padding:4px 8px" class="mute">${r[0]}</td><td style="border:1px solid var(--border);padding:4px 8px">${esc(r[1])}</td></tr>`).join("")+`</table>`;
+ const sections=[];
+ if(ind)sections.push(`<div style="margin-top:8px"><b>اخباری (Indikativ)</b>${ind}</div>`);
+ if(k1)sections.push(`<div style="margin-top:8px"><b>التزامی (Konjunktiv I)</b>${k1}</div>`);
+ if(k2)sections.push(`<div style="margin-top:8px"><b>شرطی (Konjunktiv II)</b>${k2}</div>`);
+ if(imp)sections.push(`<div style="margin-top:8px"><b>امری (Imperativ)</b>${imp}</div>`);
+ if(misc)sections.push(`<div style="margin-top:8px"><b>مصدر و اسم مفعول</b>${misc}</div>`);
+ if(!verb&&!sections.length)return"";
+ const chips=[];
+ if(d.irregular&&/^unregelm/i.test(String(d.irregular).trim()))chips.push("unregelmäßig");
+ if(d.help_verb_str)chips.push("mit "+(/sein/i.test(d.help_verb_str)?"sein":"haben"));
+ let h=`<details style="margin-top:8px"><summary>صرف فعل کامل (wort.app)</summary>`;
+ if(verb||d.meaning||chips.length){
+  h+=`<p style="margin:6px 0">${verb?`<b>${esc(verb)}</b>`:""}${d.meaning?` <span>${sr(d.meaning,"fa")}</span>`:""}${chips.length?` <span class="mute">${chips.map(esc).join(" · ")}</span>`:""}</p>`;
+ }
+ h+=sections.join("")+`</details>`;
+ return h;
+}
 // بخش‌های API داخل همان باکس wort (بعد از جمله‌ها/ترکیب‌ها/تصریف ایستا)؛ W = ورودی wort یعنی {card,dict,api,ai,verb}
 function wortApiHTML(W){
  if(!W)return"";
@@ -1417,7 +1517,9 @@ function wortApiHTML(W){
   if(dy.length)h+=`<p style="margin-top:8px"><b>در گفت‌وگو (wort.app)</b></p>`+dy.map(x=>`<span class="sense">${ex(x)}${x.subcategoryFa?`<div class="mute">${esc(x.subcategoryFa)}</div>`:""}</span>`).join("");
   const ws=(api.words||[]).filter(x=>x&&x.forPremium===false&&(x.slug||x.title)).slice(0,3);
   if(ws.length)h+=`<p style="margin-top:8px"><b>نتایج دیگر (wort.app)</b></p><div class="row">`+ws.map(x=>{const sg=x.slug||x.title,ti=x.title||x.slug,ty=x.type&&x.type!=="Unbekannt"?x.type:"";return`<button class="chip de" data-a="wortgo" data-w="${esc(sg)}">${esc(ti)}${ty?` <span class="mute">${esc(ty)}</span>`:""}</button>`}).join("")+`</div>`;
-  if(api.cons&&api.cons.verb)h+=`<p style="margin-top:8px"><b>صرف فعل مرتبط (wort.app)</b></p><div class="row"><button class="chip de" data-a="wortgo" data-w="${esc(api.cons.verb)}">صرف فعل: ${esc(api.cons.verb)}</button></div>`;
+  const ch=W.conj?wortConjHTML(W.conj):"";
+  if(ch)h+=ch;
+  else if(api.cons&&api.cons.verb)h+=`<p style="margin-top:8px"><b>صرف فعل مرتبط (wort.app)</b></p><div class="row"><button class="chip de" data-a="wortgo" data-w="${esc(api.cons.verb)}">صرف فعل: ${esc(api.cons.verb)}</button></div>`;
  }
  if(ai){
   const exs=Array.isArray(ai.examples)?ai.examples.filter(x=>x&&x.de):[];
@@ -1446,7 +1548,7 @@ Providers.wort=async w=>{
  if(!dict&&suchenHtml)dict=parseWortDict(suchenHtml);
  if(!card&&!dict&&bad)throw new Error("wort");
  // ?v=94: API زنده‌ی wort.app — همه fail-closed؛ نبودِ بسته یعنی هیچ بخش اضافه‌ای (محتوای ایستا دست‌نخورده می‌ماند)
- let api=null,ai=null,verb=null;
+ let api=null,ai=null,verb=null,conj=null;
  try{
   const [allR,aiR]=await Promise.allSettled([fetchHTML("https://wort.app/api/search/all?q="+encodeURIComponent(w)+"&tier=free"),fetchHTML("https://wort.app/api/search/ai2?q="+encodeURIComponent(w))]);
   if(allR.status==="fulfilled"&&allR.value)api=parseWortApiAll(allR.value);
@@ -1456,7 +1558,17 @@ Providers.wort=async w=>{
   const vid=wortVerbId(dictHtml||suchenHtml);
   if(vid){const vT=await fetchHTML("https://wort.app/api/vocab/verbindungen?id="+encodeURIComponent(vid)+"&tier=free");if(vT)verb=parseWortVerb(vT)}
  }catch(x){}
- return card||dict?{card,dict,api,ai,verb}:null;
+ // ?v=95: جدول‌های کامل صرف فعل — فقط وقتی فعل مرتبط (cons.verb) یا یک ورودی Verb در words هست؛ یک fetch، بدون buildId یعنی هیچ جدول
+ try{
+  let target=null;
+  if(api&&api.cons&&api.cons.verb)target=api.cons.verb;
+  else if(api&&Array.isArray(api.words)){const vb=api.words.find(x=>x&&x.type==="Verb"&&(x.slug||x.title));if(vb)target=vb.slug||vb.title;}
+  if(target){
+   const bid=wortBuildId(dictHtml||suchenHtml);
+   if(bid){const cT=await fetchHTML("https://wort.app/_next/data/"+bid+"/fa/konjugation/"+encodeURIComponent(target)+".json?verb="+encodeURIComponent(target));if(cT)conj=parseWortConj(cT);}
+  }
+ }catch(x){}
+ return card||dict?{card,dict,api,ai,verb,conj}:null;
 };
 /* ===== bamooz (dic.b-amooz.com): استفاده‌ی شخصی، زنده هنگام سرچ، بدون ذخیره در اپ ===== */
 /* =====================================================================
