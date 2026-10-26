@@ -3157,7 +3157,13 @@ function dragHandle(which){return e=>{
  const mv=ev=>{
   const i=spanAt(ev.clientX,ev.clientY-34);
   if(i<0)return;
-  if(which==="s")sel.a=Math.min(i,sel.b);else sel.b=Math.max(i,sel.a);
+  if(which==="s"){
+   if(i<=sel.b)sel.a=i;
+   else{sel.a=sel.b;sel.b=i;which="e";}
+  }else{
+   if(i>=sel.a)sel.b=i;
+   else{sel.b=sel.a;sel.a=i;which="s";}
+  }
   drawSel();
  };
  const up=()=>{["pointermove","pointerup","pointercancel"].forEach((n,k)=>el.removeEventListener(n,[mv,up,up][k]));setSel(sel.a,sel.b,true);const l=W[sel.a]&&W[sel.a].closest("#zbSubList .tline,#zbSubLine");if(l&&l.dataset.ts)pop.ts=+l.dataset.ts};
