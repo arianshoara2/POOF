@@ -88,6 +88,7 @@ input[type=radio]{accent-color:var(--accent)}
 /* ===== reader ===== */
 #text{font:18px/1.8 var(--serif);-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 #text p{margin:0 0 14px}
+#text .mdh{margin:18px 0 8px}#text .mdimg{max-width:100%;border-radius:12px;margin:8px 0}#text .mdlink{word-break:break-all}
 .w{cursor:pointer;border-radius:6px;padding:2px 0}
 .w.kw{background:rgba(230,185,111,.14)}
 .w.lpp{animation:lppulse .3s ease}
@@ -2652,6 +2653,38 @@ const BUILTIN=[
  {id:"t3",lang:"fa",title:"مدرسه (نمونه فارسی)",body:"امروز به مدرسه می‌روم. یک کتاب می‌خوانم."},
  {id:"t1",lang:"de",title:"کافه (نمونه)",body:"Ich möchte einen Kaffee bestellen. Der Kellner bringt die Rechnung."}];
 const allTexts=()=>[...BUILTIN,...db.texts];let sents=[];
+/* رندر متن‌های چسبانده‌شده (?v=97): جهت خودکار هر پاراگراف + مارک‌داون ساده‌ی چت‌جی‌پی‌تی */
+function txtWordsHTML(t){
+  return t.split(/(?<=[.!?؟])\s+/).map(s=>{
+    const i=sents.push(s)-1;
+    return s.split(/(?<=\s)(?=\S)/).map(w=>norm(w)?`<span class="w" tabindex="0" role="button" data-w="${esc(norm(w))}" data-i="${i}">${esc(w)}</span>`:w).join("");
+  }).join(" ");
+}
+const txtIsImgUrl=u=>/images\.|static-|\.(png|jpe?g|gif|webp|svg)(\?|#|$)/i.test(u);
+function txtInlineHTML(p){
+  const re=/!\[([^\]]*)\]\((https?:\/\/[^)\s]+)\)|\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)|\*\*([^*]+)\*\*|\*([^*]+)\*|`([^`]+)`|(https?:\/\/[^\s]+)/g;
+  let out="",last=0,m;
+  while((m=re.exec(p))){
+    if(m.index>last) out+=txtWordsHTML(p.slice(last,m.index));
+    if(m[2]) out+=`<img class="mdimg" loading="lazy" src="${esc(m[2])}" alt="${esc(m[1])}">`;
+    else if(m[4]) out+=`<a class="mdlink" href="${esc(m[4])}" target="_blank" rel="noopener">${esc(m[3])}</a>`;
+    else if(m[5]) out+=`<strong>${esc(m[5])}</strong>`;
+    else if(m[6]) out+=`<em>${esc(m[6])}</em>`;
+    else if(m[7]) out+=`<code>${esc(m[7])}</code>`;
+    else if(m[8]){let u=m[8];while(/[.,;!؟:]$/.test(u))u=u.slice(0,-1);if(u.endsWith(")")&&!u.includes("("))u=u.slice(0,-1);const tail=m[8].slice(u.length);out+=txtIsImgUrl(u)?`<img class="mdimg" loading="lazy" src="${esc(u)}">`:`<a class="mdlink" href="${esc(u)}" target="_blank" rel="noopener">${esc(u)}</a>`;if(tail)out+=esc(tail);}
+    last=m.index+m[0].length;
+  }
+  if(last<p.length) out+=txtWordsHTML(p.slice(last));
+  return out;
+}
+function txtParaHTML(p){
+  const t=p.trim();
+  if(!t) return "";
+  const hm=t.match(/^(#{1,6})\s+([\s\S]+)$/);
+  if(hm){const lv=Math.min(6,hm[1].length);return `<h${lv} class="mdh" dir="auto">${esc(hm[2])}</h${lv}>`;}
+  if(/^https?:\/\/\S+$/.test(t)) return `<p dir="auto">${txtIsImgUrl(t)?`<img class="mdimg" loading="lazy" src="${esc(t)}">`:`<a class="mdlink" href="${esc(t)}" target="_blank" rel="noopener">${esc(t)}</a>`}</p>`;
+  return `<p dir="auto">${txtInlineHTML(p)}</p>`;
+}
 function renderReader(){
  const all=allTexts(),t=all.find(x=>x.id===db.textId)||all[0];db.textId=t.id;
  if(t.video&&t.video.ig&&t.lang==="en"&&t.body&&detectLang(t.body)==="de"){t.lang="de";save();}
@@ -2664,15 +2697,9 @@ function renderReader(){
  else if(t.wpBlocks&&t.wpBlocks.length){
   const rich=wpRichHTML(t);
   if(rich)$("#text").innerHTML=rich;
-  else $("#text").innerHTML=t.body.split(/\n\s*\n/).map(p=>"<p>"+p.split(/(?<=[.!?؟])\s+/).map(s=>{
-   const i=sents.push(s)-1;
-   return s.split(/(?<=\s)(?=\S)/).map(w=>norm(w)?`<span class="w" tabindex="0" role="button" data-w="${esc(norm(w))}" data-i="${i}">${esc(w)}</span>`:w).join("");
-  }).join(" ")+"</p>").join("");
+  else $("#text").innerHTML=t.body.split(/\n\s*\n/).map(txtParaHTML).join("");
  }
- else $("#text").innerHTML=t.body.split(/\n\s*\n/).map(p=>"<p>"+p.split(/(?<=[.!?؟])\s+/).map(s=>{
-  const i=sents.push(s)-1;
-  return s.split(/(?<=\s)(?=\S)/).map(w=>norm(w)?`<span class="w" tabindex="0" role="button" data-w="${esc(norm(w))}" data-i="${i}">${esc(w)}</span>`:w).join("");
- }).join(" ")+"</p>").join("");
+ else $("#text").innerHTML=t.body.split(/\n\s*\n/).map(txtParaHTML).join("");
  $("#text").classList.toggle("de",t.lang!=="fa");sel=null;W=[];drawSel();renderLib();
  hlApply(t);
  const sl=$("#txtSrc");sl.hidden=!t.wp;
