@@ -506,7 +506,7 @@ html:not([data-theme=snowy]) #s-cards #list .card::after{background:linear-gradi
    <div class="vp-frame" id="vpWrap"><div id="vpFrame"></div></div>
    <p class="mute" id="vpNote" hidden></p>
    <div class="seg" id="vpSeg"><button data-vl="">اصلی</button><button data-vl="en">EN</button><button data-vl="de">DE</button><button data-vl="fa">فا</button></div>
-   <div class="row"><button class="chip on" id="vpFollow">دنبال‌کردن زیرنویس</button><a id="vpOpen" class="chip" target="_blank" rel="noopener" style="text-decoration:none;padding:3px 12px">یوتیوب</a><button class="chip" id="vpClose" aria-label="بستن متن">✕ بستن</button></div>
+   <div class="row"><button class="chip on" id="vpFollow">دنبال‌کردن زیرنویس</button><a id="vpOpen" class="chip" target="_blank" rel="noopener" style="text-decoration:none;padding:3px 12px">یوتیوب</a><button class="chip" id="vpGetAudio" hidden>دریافت صوت</button><button class="chip" id="vpClose" aria-label="بستن متن">✕ بستن</button></div>
   </div>
   <div class="card" id="ap" hidden>
    <div class="row" style="margin-bottom:6px;align-items:center">
@@ -515,7 +515,7 @@ html:not([data-theme=snowy]) #s-cards #list .card::after{background:linear-gradi
      <b style="display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" dir="auto"><span id="apTitle" dir="auto"></span></b>
      <span class="mute" id="apShow" dir="auto" style="display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></span>
     </div>
-    <button class="chip on" id="apFollow">دنبال‌کردن متن</button>
+    <button class="chip on" id="apFollow">دنبال‌کردن متن</button><button class="chip" id="apListen" hidden>🎧 شنیداری</button>
    </div>
    <audio id="au" controls preload="metadata"></audio>
   </div>
@@ -1003,7 +1003,7 @@ $("#podRes").onclick=e=>{
  if(ep)podImport(podEps[+ep.dataset.ep],ep);
 };
 /* --- پخش‌کننده‌ی صوتی پادکست: هم‌زمان با متن، ذخیره‌ی جای پخش، ادامه --- */
-let audEl=null,audFor="",audSaveAt=0;
+let audEl=null,audFor="",audSaveAt=0;let igListen=false;const igAudRefreshed=new Set();function igPlayAt(s){if(!audEl)return;try{audEl.currentTime=s}catch(e){}const pr=audEl.play();if(pr&&pr.catch)pr.catch(()=>{})}
 function audSavePos(t){
  if(!t)return;const p=t.progress||{};
  if(t.segs&&lastCur>=0)p.seg=Math.max(0,lastCur);
@@ -1015,15 +1015,17 @@ function audSavePos(t){
 }
 function setupAudio(t){
  const ap=$("#ap");if(!ap)return;audEl=$("#au");if(!audEl)return;
- if(!t||!t.pod){ap.hidden=true;if(!audEl.paused)audEl.pause();return}
+ igListen=false;const _lb=$("#apListen");if(_lb){_lb.hidden=true;_lb.classList.remove("on")}
+ if(!t||!(t.pod||t.audio)){ap.hidden=true;if(!audEl.paused)audEl.pause();return}
  ap.hidden=false;$("#apTitle").textContent=t.title||"";
  const ab=$("#apArtBox");
- if(t.pod.art){ab.innerHTML='<img src="'+esc(t.pod.art)+'" alt="" style="width:100%;height:100%;object-fit:cover" loading="lazy">'}
+ if(t.pod&&t.pod.art){ab.innerHTML='<img src="'+esc(t.pod.art)+'" alt="" style="width:100%;height:100%;object-fit:cover" loading="lazy">'}
  else ab.innerHTML='<svg class="ic" style="width:34px;height:34px;color:var(--accent)" aria-hidden="true"><use href="#i-mic"/></svg>';
- $("#apShow").textContent=t.pod.show||"";
+ $("#apShow").textContent=t.pod?(t.pod.show||""):"اینستاگرام · صوت ریل";
  $("#apFollow").classList.toggle("on",follow);
+ if(_lb)_lb.hidden=!(t.audio&&t.segs&&t.segs.length);
  if(audFor!==t.id){
-  audFor=t.id;audEl.src=t.pod.audio;
+  audFor=t.id;audEl.src=t.pod?t.pod.audio:t.audio;
   audEl.onloadedmetadata=()=>{
    const p=t.progress||{};let at=p.pos||0;
    if(!at&&t.segs&&p.seg>0&&t.segs[p.seg])at=t.segs[p.seg].s;
@@ -1035,10 +1037,27 @@ function setupAudio(t){
  if(_au){
   _au.addEventListener("pause",()=>{const t=db.texts.find(x=>x.id===audFor);if(t)audSavePos(t)});
   _au.addEventListener("ended",()=>{const t=db.texts.find(x=>x.id===audFor);if(t)audSavePos(t)});
+  _au.addEventListener("error",async()=>{
+   const t=db.texts.find(x=>x.id===audFor);
+   if(!t||!t.video||!t.video.ig||!t.audio||!t.url||igAudRefreshed.has(t.id))return;
+   igAudRefreshed.add(t.id);
+   try{
+    const r=await fetchT(workerURL({ig:t.url})),j=await r.json();
+    if(!r.ok||j.error)throw new Error(j.error||"HTTP "+r.status);
+    if(j.videoUrl&&j.videoUrl!==t.audio){t.audio=j.videoUrl;save();audEl.src=j.videoUrl;const pr=audEl.play();if(pr&&pr.catch)pr.catch(()=>{});toast("صوت تازه شد")}
+    else if(!j.videoUrl)toast("ورکر هنوز صوت را برنمی‌گرداند — فایل ورکر جدید را جایگذاری کن","bad");
+    else toast("صوت این ریل منقضی شده؛ لینک را دوباره وارد کن","bad");
+   }catch(e){toast("دریافت دوباره‌ی صوت ممکن نشد","bad")}
+  });
  }}
 $("#apFollow").onclick=e=>{follow=!follow;e.currentTarget.classList.toggle("on",follow);const vf=$("#vpFollow");if(vf)vf.classList.toggle("on",follow)};
+$("#apListen").onclick=()=>{
+ igListen=!igListen;
+ const b=$("#apListen");if(b)b.classList.toggle("on",igListen);
+ if(igListen)toast("حالت شنیداری روشن شد — با زدن روی هر بخش، صوت از همان‌جا پخش می‌شود؛ برای ترجمه‌ی کلمه، دوباره بزن تا خاموش شود");
+};
 setInterval(()=>{
- const t=curText();if(!t||!t.pod||!audEl||$("#s-read").hidden)return;
+ const t=curText();if(!t||!(t.pod||t.audio)||!audEl||$("#s-read").hidden)return;
  const c=audEl.currentTime;if(!isFinite(c))return;
  if(t.segs){
   let i=-1;for(let k=0;k<t.segs.length;k++){if(t.segs[k].s<=c+.2)i=k;else break}
@@ -2696,7 +2715,7 @@ function renderReader(){
  if(t.segs){
   const igv=t.video&&t.video.ig;
   const srcOf=g=>t.pod?("podcast:"+t.id+"@"+Math.floor(g.s)):igv?("ig:"+t.video.ig+"@"+Math.floor(g.s)):t.video?("video:"+t.video.id+"@"+Math.floor(g.s)):("local:"+Math.floor(g.s));
-  $("#text").innerHTML=t.video&&t.video.id&&!t.segs.length?`<div class="empty-wrap"><p class="state empty">${YT_BOT_MSG}</p></div>`:t.segs.map((g,k)=>`<div class="tline" id="sg${k}">${igv?`<span class="ts">${mmss(g.s)}</span>`:`<button class="ts" data-ts="${g.s}">${mmss(g.s)}</button>`}${sr(g.t,t.lang,"",srcOf(g))}</div>`).join("");
+  $("#text").innerHTML=t.video&&t.video.id&&!t.segs.length?`<div class="empty-wrap"><p class="state empty">${YT_BOT_MSG}</p></div>`:t.segs.map((g,k)=>`<div class="tline" id="sg${k}">${`<button class="ts" data-ts="${g.s}">${mmss(g.s)}</button>`}${sr(g.t,t.lang,"",srcOf(g))}</div>`).join("");
  }else if(t.pod)$("#text").innerHTML=(t.body||"").split(/\n\s*\n/).map(p=>"<p>"+esc(p).replace(/\n/g,"<br>")+"</p>").join("")||`<p class="state empty">بدون متن — فقط صوت.</p>`;
  else if(t.wpBlocks&&t.wpBlocks.length){
   const rich=wpRichHTML(t);
@@ -3148,6 +3167,13 @@ function setSel(a,b,withPop){
  showPop({top:f.top,bottom:l.bottom,left:L,width:R-L},selText(),r?r.dataset.ctx:sents[W[a].dataset.i],r?(r.dataset.src||"leitner"):"text:"+db.textId,g?g.dataset.lang:undefined);
 }
 function pick(el,shift){
+ if(igListen){
+  const t=curText();
+  if(t&&t.audio&&t.segs&&el.closest("#text")){
+   const line=el.closest(".tline");const k=line?+line.id.slice(2):-1;
+   if(k>=0&&t.segs[k]){igPlayAt(t.segs[k].s);return}
+  }
+ }
  const root=el.closest("#text")||el.closest(".lt-face,.sr");
  W=[...root.querySelectorAll(".w")];const i=W.indexOf(el);if(i<0)return;
  if(shift&&sel)setSel(Math.min(sel.a,i),Math.max(sel.b,i),true);else setSel(i,i,true);
@@ -3547,7 +3573,7 @@ async function importIG(u){
    t={id:sid,added:Date.now(),title:"Instagram · "+(meta.title||ig.sc),lang:meta.caption?detectLang(meta.caption):"en",body:meta.caption||"(بدون کپشن)",url:u};
    db.texts.push(t);
   }else{
-   t={id:sid,added:Date.now(),title:"Instagram · "+(meta.title||ig.sc),lang:meta.caption?detectLang(meta.caption):"en",body:meta.caption||"",video:{ig:ig.sc,path:meta.path||ig.path}};
+   t={id:sid,added:Date.now(),title:"Instagram · "+(meta.title||ig.sc),lang:meta.caption?detectLang(meta.caption):"en",body:meta.caption||"",video:{ig:ig.sc,path:meta.path||ig.path},audio:meta.videoUrl||""};
    db.texts.push(t);db.textId=t.id;save();$("#addPanel").hidden=true;renderReader();
    toast("در حال ترانسکریپت…");
    await runTranscript();
@@ -3647,6 +3673,7 @@ $("#lvPick").onclick=()=>$("#lvFile").click();
 $("#lvFile").onchange=e=>{const f=e.target.files[0];e.target.value="";if(f)useLocalVideo(f)};
 async function setupPlayer(t){
  setupAudio(t);
+ const _ga=$("#vpGetAudio");if(_ga)_ga.hidden=true;
  const lvc=$("#lvCard"),lve=$("#lv");
  if(lvc)lvc.hidden=!(t&&t.local);
  if(lve)lve.hidden=!(t&&t.local&&lve.src);
@@ -3658,6 +3685,7 @@ async function setupPlayer(t){
   const sc=t.video.ig,path=t.video.path||"reel";
   $("#vpOpen").href=`https://www.instagram.com/${path}/${sc}/`;$("#vpOpen").textContent="اینستاگرام";
   $("#vpSeg").hidden=true;
+  const _ga2=$("#vpGetAudio");if(_ga2)_ga2.hidden=!(t.segs&&t.segs.length&&!t.audio);
   $("#vpWrap").hidden=!web;note.hidden=web;
   if(!web){note.textContent="پخش داخل اپ فقط از آدرس https (مثل GitHub Pages) کار می‌کند.";return}
   $("#vpWrap").innerHTML=`<p class="mute" style="padding:10px 4px">اینستاگرام اجازه‌ی پخش درون اپ را نمی‌دهد؛ با دکمه‌ی «اینستاگرام» ریل را باز کنید.</p>`;
@@ -3703,11 +3731,27 @@ $("#text").addEventListener("click",e=>{
  const b=e.target.closest("[data-ts]");if(!b)return;
  const s=+b.dataset.ts,t=curText();
  if(t&&t.local&&localActive()){localSeek(s);return}
+ if(t&&t.video&&t.video.ig){
+   if(t.audio&&audEl){audEl.currentTime=s;const pr=audEl.play();if(pr&&pr.catch)pr.catch(()=>{});}
+   else toast("صوت این ریل هنوز دریافت نشده؛ دکمه‌ی «دریافت صوت» را بزن");
+   return;
+ }
  if(t&&t.pod&&audEl){audEl.currentTime=s;const pr=audEl.play();if(pr&&pr.catch)pr.catch(()=>{});return}
  if(ytp&&ytp.seekTo){ytp.seekTo(s,true);ytp.playVideo()}
  else if(t&&t.video&&t.video.id)open("https://youtu.be/"+t.video.id+"?t="+Math.floor(s),"_blank");
 });
 $("#vpFollow").onclick=e=>{follow=!follow;e.currentTarget.classList.toggle("on",follow)};
+$("#vpGetAudio").onclick=async()=>{
+ const t=curText();if(!t||!t.video||!t.video.ig||!t.url)return;
+ const b=$("#vpGetAudio");if(b)b.disabled=true;
+ try{
+  const r=await fetchT(workerURL({ig:t.url})),j=await r.json();
+  if(!r.ok||j.error)throw new Error(j.error||"HTTP "+r.status);
+  if(j.videoUrl){t.audio=j.videoUrl;save();if(b)b.hidden=true;setupAudio(t);toast("صوت آماده شد — با دکمه‌ی پخش گوش کن")}
+  else toast("ورکر هنوز صوت را برنمی‌گرداند — فایل ورکر جدید را جایگذاری کن","bad");
+ }catch(e){toast(friendly(e),"bad")}
+ if(b)b.disabled=false;
+};
 $("#vpClose").onclick=()=>{
   try{saveProgress()}catch(e){}
   try{setupPlayer(null)}catch(e){}
