@@ -258,6 +258,10 @@ nav button.hero .ic{width:26px;height:26px}
 nav button.hero.on{background:linear-gradient(135deg,var(--accent),#caa25e);color:var(--bg);filter:brightness(1.08);box-shadow:0 0 0 3px var(--bg),0 10px 26px rgba(0,0,0,.55),0 0 20px var(--active)}
 /* ===== popover + toast ===== */
 #pop{position:fixed;z-index:270;width:min(320px,90vw);padding:12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);box-shadow:var(--shadow-pop)}
+.popB .popLang{width:auto;min-width:30px;height:30px;align-self:center;font-size:11px;font-weight:700;padding:0 6px;border:1px solid var(--border);border-radius:999px;flex:none}
+#popLangMenu{display:flex;gap:6px;margin:0 0 8px}
+#popLangMenu[hidden]{display:none}
+#popLangMenu button{flex:1;height:30px;font-size:11px;font-weight:700;border:1px solid var(--border);border-radius:999px;background:var(--hover);color:var(--text)}
 /* ===== پیش‌نمایش سریع کلمه (Peek) — زیر #uiModal (۵۰۰) ===== */
 #peek{position:fixed;inset:0;z-index:330;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
 .peek-card{width:100%;max-width:560px;max-height:72dvh;overflow:auto;padding:18px 20px calc(18px + env(safe-area-inset-bottom,0px));background:var(--surface);border:1px solid var(--border);border-bottom:0;border-radius:26px 26px 0 0;box-shadow:var(--shadow-pop);animation:umUp .28s cubic-bezier(.2,.9,.3,1)}
@@ -683,8 +687,8 @@ html:not([data-theme=snowy]) #s-cards #list .card::after{background:linear-gradi
  <button data-t="me" aria-label="پروفایل" title="پروفایل"><svg class="ic" aria-hidden="true"><use href="#i-user"/></svg></button>
 </nav>
 <div class="hd" id="hs" hidden></div><div class="hd" id="he" hidden></div>
-<div id="pop" hidden><div id="popT" class="popT"></div><div class="popB">
- <button data-p="say" aria-label="تلفظ"><svg class="ic" aria-hidden="true"><use href="#i-sound"/></svg></button><button data-p="ask" aria-label="از پووف بپرس" style="font-size:20px">✨</button><button data-p="more" aria-label="جزئیات"><svg class="ic" aria-hidden="true"><use href="#i-expand"/></svg></button><button data-p="sent" aria-label="گسترش به جمله"><svg class="ic" aria-hidden="true"><use href="#i-sent"/></svg></button><button data-p="copy" aria-label="کپی"><svg class="ic" aria-hidden="true"><use href="#i-copy"/></svg></button><button data-p="edit" aria-label="ویرایش"><svg class="ic" aria-hidden="true"><use href="#i-edit"/></svg></button><button data-p="add" class="plus" aria-label="افزودن به کارت‌ها"><svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></button></div></div>
+<div id="pop" hidden><div id="popT" class="popT"></div><div id="popLangMenu" hidden></div><div class="popB">
+ <button data-p="say" aria-label="تلفظ"><svg class="ic" aria-hidden="true"><use href="#i-sound"/></svg></button><button data-p="ask" aria-label="از پووف بپرس" style="font-size:20px">✨</button><button data-p="more" aria-label="جزئیات"><svg class="ic" aria-hidden="true"><use href="#i-expand"/></svg></button><button data-p="sent" aria-label="گسترش به جمله"><svg class="ic" aria-hidden="true"><use href="#i-sent"/></svg></button><button data-p="copy" aria-label="کپی"><svg class="ic" aria-hidden="true"><use href="#i-copy"/></svg></button><button data-p="edit" aria-label="ویرایش"><svg class="ic" aria-hidden="true"><use href="#i-edit"/></svg></button><button data-p="add" class="plus" aria-label="افزودن به کارت‌ها"><svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></button><button data-p="lang" id="popLang" class="popLang" aria-label="زبان ترجمه">فا</button></div></div>
 <div id="peek" hidden role="dialog" aria-label="پیش‌نمایش کلمه"><div class="peek-card">
  <div class="row" style="align-items:center"><span class="big2 de" id="peekHead" style="flex:1"></span><button class="ib" id="peekX" aria-label="بستن"><svg class="ic" aria-hidden="true"><use href="#i-close"/></svg></button></div>
  <div id="peekBody"></div>
@@ -2942,7 +2946,7 @@ $("#wlSeg").onclick=e=>{const b=e.target.closest("[data-wl]");if(!b)return;wl=b.
 $("#dlSeg").onclick=e=>{const b=e.target.closest("[data-dl]");if(!b)return;db.dictLang=b.dataset.dl;save();renderRecent();if($("#q").value.trim())dsearch()};
 
 /* ===== پاپ‌آور کنار کلمه (مثل Deucards) ===== */
-const pop={n:0,text:"",tr:"",ctx:"",src:"",textId:null,ts:null,video:null};
+const pop={n:0,text:"",tr:"",trg:"fa",ctx:"",src:"",textId:null,ts:null,video:null};
 const popVideo=()=>{if(!pop.video)return undefined;const v={...pop.video};if(pop.ts!=null)v.t=Math.floor(pop.ts);return v};
 function placePop(r){
  const p=$("#pop");p.hidden=false;const w=p.offsetWidth,h=p.offsetHeight,top=8;
@@ -2951,9 +2955,14 @@ function placePop(r){
  if(y+h>innerHeight-8)y=Math.max(top,innerHeight-h-8);
  p.style.left=Math.min(Math.max(8,r.left+r.width/2-w/2),innerWidth-w-8)+"px";p.style.top=y+"px";
 }
+function renderPopLangMenu(){
+ const m=$("#popLangMenu");if(!m)return;
+ m.innerHTML=["fa","en","de"].filter(l=>l!==pop.trg).map(l=>`<button data-p="langopt" data-l="${l}">${LB[l]}</button>`).join("");
+}
 async function showPop(rect,text,ctx,src,lang){
  const n=++pop.n;Object.assign(pop,{text,ctx,src,tr:"",lang:lang||curLang()});
- pop._ebox=null;pop._espans=null;
+ pop._rect=rect;pop._ebox=null;pop._espans=null;
+ pop.trg=FA.test(text)?"de":"fa";const _pl=$("#popLang");if(_pl)_pl.textContent=LB[pop.trg];const _lm=$("#popLangMenu");if(_lm)_lm.hidden=true;
  const t=$("#popT");t.textContent="…";t.dir="auto";placePop(rect);
  const tr=await quick(text,pop.lang);if(n!==pop.n)return;
  pop.tr=tr;t.textContent=tr||"ترجمه پیدا نشد";t.dir=FA.test(tr)?"rtl":"ltr";placePop(rect);
@@ -2970,8 +2979,10 @@ function copyText(t){
  };
  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(done,legacy);else legacy();
 }
-$("#pop").onclick=ev=>{
+$("#pop").onclick=async ev=>{
  const b=ev.target.closest("button");if(!b)return;const a=b.dataset.p;
+ if(a==="lang"){const m=$("#popLangMenu");if(!m)return;m.hidden=!m.hidden;if(!m.hidden)renderPopLangMenu();if(pop._rect)placePop(pop._rect);return}
+ else if(a==="langopt"){const T=b.dataset.l;if(!T||T===pop.trg)return;const n=pop.n;pop.trg=T;const pl=$("#popLang");if(pl)pl.textContent=LB[T];const m=$("#popLangMenu");if(m)m.hidden=true;const src=FA.test(pop.text)?"fa":detectLang(pop.ctx||pop.text);const t=$("#popT");t.textContent="…";t.dir="auto";const r=await tr(pop.text,src,T);if(n!==pop.n)return;pop.tr=r;t.textContent=r||"ترجمه پیدا نشد";t.dir=FA.test(r)?"rtl":"ltr";if(pop._rect)placePop(pop._rect);return}
  if(a==="say")say(pop.text,pop.lang);
  else if(a==="ask"){askPOOF(pop.text,pop._ebox?pop.ctx:"")}
  else if(a==="copy")copyText(pop.text);
