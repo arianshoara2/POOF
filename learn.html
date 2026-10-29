@@ -98,8 +98,9 @@ html:not([data-theme=snowy]) .brand-mascot{display:block!important;animation:poo
 html:not([data-theme=snowy]) .hd h1,html:not([data-theme=snowy]) .hd .mark{display:none}
 @keyframes poof-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
 .path-mascot{animation:poof-float 3s ease-in-out infinite;filter:drop-shadow(0 6px 14px rgba(0,0,0,.45))}
-</style>
-<script>try{var _t=(JSON.parse(localStorage.getItem('poof_v2')||'{}').theme==='snowy')?'snowy':'classic';document.write('<link rel="stylesheet" id="themeCss" href="theme-'+_t+'.css?v=16">')}catch(e){document.write('<link rel="stylesheet" id="themeCss" href="theme-classic.css?v=16">')}</script>
+
+/* ?v=118: full theme support (tokens mirror main app) */ html[data-theme=lilac]{--bg:#EEF2FF;--surface:#FFFFFF;--text:#1E1B4B;--muted:#55547E;--accent:#4F46E5;--error:#B91C1C;--ok:#166534;--border:#C7D2FE;color-scheme:light} html[data-theme=peachy]{--bg:#FFF7ED;--surface:#FFFFFF;--text:#1C1917;--muted:#57534E;--accent:#C2410C;--error:#B91C1C;--ok:#166534;--border:#FED7AA;color-scheme:light} html[data-theme=minty]{--bg:#F0FDF4;--surface:#FFFFFF;--text:#052E16;--muted:#365314;--accent:#166534;--error:#B91C1C;--ok:#166534;--border:#BBF7D0;color-scheme:light} html[data-theme=ocean]{--bg:#0B1E3A;--surface:#12294D;--text:#E8F1FF;--muted:#A8BDD8;--accent:#38BDF8;--error:#ff9d9d;--ok:#9fe0c0;--border:#2A4A73;color-scheme:dark} html[data-theme=sun]{--bg:#FFF7E0;--surface:#FFFFFF;--text:#3B2A00;--muted:#6B5A2E;--accent:#92400E;--error:#B91C1C;--ok:#166534;--border:#F5D67B;color-scheme:light} html[data-theme=nebula]{--bg:#1A0B2E;--surface:#2A1650;--text:#F3EFFF;--muted:#C9B8E8;--accent:#F5C97B;--error:#ff9d9d;--ok:#9fe0c0;--border:#4C2E85;color-scheme:dark} html[data-theme=lilac] #learnBg{background-image:url('pouf-lilac-scene-path.webp');background-size:cover;background-position:center} html[data-theme=minty] #learnBg{background-image:url('pouf-minty-scene-path.webp');background-size:cover;background-position:center} html[data-theme=nebula] #learnBg{background-image:url('pouf-nebula-scene-path.webp');background-size:cover;background-position:center} html[data-theme=ocean] #learnBg{background-image:url('pouf-blue-scene-boardwalk.webp');background-size:cover;background-position:center} html[data-theme=sun] #learnBg{background-image:url('pouf-sun-scene-stairs.webp');background-size:cover;background-position:center} html[data-theme=lilac] #learnBg::after{background:rgba(255,255,255,.72)} html[data-theme=peachy] #learnBg::after{background:rgba(255,255,255,.72)} html[data-theme=minty] #learnBg::after{background:rgba(255,255,255,.72)} html[data-theme=sun] #learnBg::after{background:rgba(255,255,255,.72)} html[data-theme=ocean] #learnBg::after{background:rgba(8,20,40,.68)} html[data-theme=nebula] #learnBg::after{background:rgba(26,11,46,.68)}</style>
+<script>try{var _t=(function(){try{var _th=JSON.parse(localStorage.getItem('poof_v2')||'{}').theme;return (['snowy','lilac','peachy','minty','ocean','sun','nebula'].indexOf(_th)>=0?_th:'classic');}catch(e){return 'classic';}})();document.write('<link rel="stylesheet" id="themeCss" href="theme-'+(_t==='snowy'?'snowy':'classic')+'.css?v=16">')}catch(e){document.write('<link rel="stylesheet" id="themeCss" href="theme-classic.css?v=16">')}</script>
 </head>
 <body>
 <div id="learnBg" class="poof-img-learn-path-bg" aria-hidden="true"></div>
@@ -388,7 +389,7 @@ const DE_ALL=[...DE_BASIC,...DE_ADV,...DE_C1];
 /* ---------- 8) INIT ---------- */
 $("#backApp").onclick=()=>{if(history.length>1)history.back();else location.href="index.html"};
 LESSONS=TRACK==="en"?EN_LESSONS:DE_ALL;
-if(load()&&db.theme==="snowy")document.documentElement.dataset.theme="snowy";
+if(load())document.documentElement.dataset.theme=(['snowy','lilac','peachy','minty','ocean','sun','nebula'].indexOf(db.theme)>=0?db.theme:'classic');
 route();
 </script>
 </body>

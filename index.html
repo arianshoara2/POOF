@@ -32,7 +32,7 @@ header{padding:calc(20px + env(safe-area-inset-top,0px)) 24px 14px;background:va
 .mark{display:grid;place-items:center;width:44px;height:44px;border-radius:14px;background:var(--accent);color:var(--bg);font:700 26px/1 var(--serif)}
 h1{margin:0;font:600 22px/1.2 var(--serif);letter-spacing:.16em;color:var(--accent)}
 #hSub{color:var(--muted);font-size:14px}
-main{max-width:720px;margin:0 auto;padding:24px 20px calc(144px + env(safe-area-inset-bottom,0px));transition:padding-bottom .3s}body.nav-down main{padding-bottom:calc(28px + env(safe-area-inset-bottom,0px))}
+main{max-width:720px;margin:0 auto;padding:24px 20px calc(144px + env(safe-area-inset-bottom,0px));transition:padding-bottom .3s}body.nav-down main{padding-bottom:calc(144px + env(safe-area-inset-bottom,0px))}
 h2{margin:4px 0 16px;font-size:18px;font-weight:600}
 a{color:var(--accent)}
 /* ===== surfaces ===== */
@@ -413,28 +413,34 @@ html[data-theme=lilac]{--lt-bg:#EEF2FF;--lt-text:#1E1B4B;--lt-muted:#55547E;--lt
 html[data-theme=peachy]{--lt-bg:#FFF7ED;--lt-text:#1C1917;--lt-muted:#57534E;--lt-card:#FFFFFF;--lt-border:#FED7AA;--lt-primary:#F97316;--lt-shadow:249,115,22;--lt-pastel:#FDBCB4;--lt-link:#C2410C;color-scheme:light}
 html[data-theme=minty]{--lt-bg:#F0FDF4;--lt-text:#052E16;--lt-muted:#365314;--lt-card:#FFFFFF;--lt-border:#BBF7D0;--lt-primary:#166534;--lt-shadow:22,101,52;--lt-pastel:#98FF98;--lt-link:#166534;color-scheme:light}
 /* Page background under light themes (reader text area keeps its own dark wash; #text rules untouched) */
-html[data-theme=lilac] body,html[data-theme=peachy] body,html[data-theme=minty] body{background:var(--lt-bg)}
+html[data-theme=lilac] body,html[data-theme=peachy] body,html[data-theme=minty] body,/* Page background under light themes (reader text area keeps its own dark wash; #text rules untouched) */
+html[data-theme=sun] body,html[data-theme=sun] body{background:var(--lt-bg)}
 /* Hide the dark scenic background layer of the read tab so the light bg shows (other tab layers untouched) */
-html[data-theme=lilac] body:has(#s-read:not([hidden])) #readBg,html[data-theme=peachy] body:has(#s-read:not([hidden])) #readBg,html[data-theme=minty] body:has(#s-read:not([hidden])) #readBg{display:none}
+html[data-theme=lilac] body:has(#s-read:not([hidden])) #readBg,html[data-theme=peachy] body:has(#s-read:not([hidden])) #readBg,html[data-theme=minty] body:has(#s-read:not([hidden])) #readBg,/* Hide the dark scenic background layer of the read tab so the light bg shows (other tab layers untouched) */
+html[data-theme=sun] body:has(#s-read:not([hidden])) #readBg,html[data-theme=sun] body:has(#s-read:not([hidden])) #readBg{display:none}
 /* Home cards: clay (scenic photo layer hidden; titles/mutes reset to dark, no text-shadow) */
-html[data-theme=lilac] #learnCard,html[data-theme=peachy] #learnCard,html[data-theme=minty] #learnCard,html[data-theme=lilac] #practiceCard,html[data-theme=peachy] #practiceCard,html[data-theme=minty] #practiceCard,html[data-theme=lilac] #movieCard,html[data-theme=peachy] #movieCard,html[data-theme=minty] #movieCard,html[data-theme=lilac] #podCard,html[data-theme=peachy] #podCard,html[data-theme=minty] #podCard,html[data-theme=lilac] #wortCard,html[data-theme=peachy] #wortCard,html[data-theme=minty] #wortCard{background:var(--lt-card);border:3px solid var(--lt-border);border-radius:22px;box-shadow:inset -2px -2px 8px rgba(255,255,255,.9),4px 4px 8px rgba(var(--lt-shadow),.18);color:var(--lt-text);-webkit-backdrop-filter:none;backdrop-filter:none}
-html[data-theme=lilac] #learnCard .card-bg-img,html[data-theme=peachy] #learnCard .card-bg-img,html[data-theme=minty] #learnCard .card-bg-img,html[data-theme=lilac] #practiceCard .card-bg-img,html[data-theme=peachy] #practiceCard .card-bg-img,html[data-theme=minty] #practiceCard .card-bg-img,html[data-theme=lilac] #movieCard .card-bg-img,html[data-theme=peachy] #movieCard .card-bg-img,html[data-theme=minty] #movieCard .card-bg-img,html[data-theme=lilac] #podCard .card-bg-img,html[data-theme=peachy] #podCard .card-bg-img,html[data-theme=minty] #podCard .card-bg-img,html[data-theme=lilac] #wortCard .card-bg-img,html[data-theme=peachy] #wortCard .card-bg-img,html[data-theme=minty] #wortCard .card-bg-img{display:none}
-html[data-theme=lilac] #learnCard b,html[data-theme=peachy] #learnCard b,html[data-theme=minty] #learnCard b,html[data-theme=lilac] #practiceCard b,html[data-theme=peachy] #practiceCard b,html[data-theme=minty] #practiceCard b,html[data-theme=lilac] #movieCard b,html[data-theme=peachy] #movieCard b,html[data-theme=minty] #movieCard b,html[data-theme=lilac] #podCard b,html[data-theme=peachy] #podCard b,html[data-theme=minty] #podCard b,html[data-theme=lilac] #wortCard b,html[data-theme=peachy] #wortCard b,html[data-theme=minty] #wortCard b{text-shadow:none}
-html[data-theme=lilac] #learnCard .mute,html[data-theme=peachy] #learnCard .mute,html[data-theme=minty] #learnCard .mute,html[data-theme=lilac] #practiceCard .mute,html[data-theme=peachy] #practiceCard .mute,html[data-theme=minty] #practiceCard .mute,html[data-theme=lilac] #movieCard .mute,html[data-theme=peachy] #movieCard .mute,html[data-theme=minty] #movieCard .mute,html[data-theme=lilac] #podCard .mute,html[data-theme=peachy] #podCard .mute,html[data-theme=minty] #podCard .mute,html[data-theme=lilac] #wortCard .mute,html[data-theme=peachy] #wortCard .mute,html[data-theme=minty] #wortCard .mute{color:var(--lt-muted);text-shadow:none}
+html[data-theme=lilac] #learnCard,html[data-theme=peachy] #learnCard,html[data-theme=minty] #learnCard,html[data-theme=lilac] #practiceCard,html[data-theme=peachy] #practiceCard,html[data-theme=minty] #practiceCard,html[data-theme=lilac] #movieCard,html[data-theme=peachy] #movieCard,html[data-theme=minty] #movieCard,html[data-theme=lilac] #podCard,html[data-theme=peachy] #podCard,html[data-theme=minty] #podCard,html[data-theme=lilac] #wortCard,html[data-theme=peachy] #wortCard,html[data-theme=minty] #wortCard,/* Home cards: clay (scenic photo layer hidden; titles/mutes reset to dark, no text-shadow) */
+html[data-theme=sun] #learnCard,html[data-theme=sun] #learnCard,html[data-theme=sun] #practiceCard,html[data-theme=sun] #movieCard,html[data-theme=sun] #podCard,html[data-theme=sun] #wortCard{background:var(--lt-card);border:3px solid var(--lt-border);border-radius:22px;box-shadow:inset -2px -2px 8px rgba(255,255,255,.9),4px 4px 8px rgba(var(--lt-shadow),.18);color:var(--lt-text);-webkit-backdrop-filter:none;backdrop-filter:none}
+html[data-theme=lilac] #learnCard .card-bg-img,html[data-theme=peachy] #learnCard .card-bg-img,html[data-theme=minty] #learnCard .card-bg-img,html[data-theme=lilac] #practiceCard .card-bg-img,html[data-theme=peachy] #practiceCard .card-bg-img,html[data-theme=minty] #practiceCard .card-bg-img,html[data-theme=lilac] #movieCard .card-bg-img,html[data-theme=peachy] #movieCard .card-bg-img,html[data-theme=minty] #movieCard .card-bg-img,html[data-theme=lilac] #podCard .card-bg-img,html[data-theme=peachy] #podCard .card-bg-img,html[data-theme=minty] #podCard .card-bg-img,html[data-theme=lilac] #wortCard .card-bg-img,html[data-theme=peachy] #wortCard .card-bg-img,html[data-theme=minty] #wortCard .card-bg-img,html[data-theme=sun] #learnCard .card-bg-img,html[data-theme=sun] #practiceCard .card-bg-img,html[data-theme=sun] #movieCard .card-bg-img,html[data-theme=sun] #podCard .card-bg-img,html[data-theme=sun] #wortCard .card-bg-img{display:none}
+html[data-theme=lilac] #learnCard b,html[data-theme=peachy] #learnCard b,html[data-theme=minty] #learnCard b,html[data-theme=lilac] #practiceCard b,html[data-theme=peachy] #practiceCard b,html[data-theme=minty] #practiceCard b,html[data-theme=lilac] #movieCard b,html[data-theme=peachy] #movieCard b,html[data-theme=minty] #movieCard b,html[data-theme=lilac] #podCard b,html[data-theme=peachy] #podCard b,html[data-theme=minty] #podCard b,html[data-theme=lilac] #wortCard b,html[data-theme=peachy] #wortCard b,html[data-theme=minty] #wortCard b,html[data-theme=sun] #learnCard b,html[data-theme=sun] #practiceCard b,html[data-theme=sun] #movieCard b,html[data-theme=sun] #podCard b,html[data-theme=sun] #wortCard b{text-shadow:none}
+html[data-theme=lilac] #learnCard .mute,html[data-theme=peachy] #learnCard .mute,html[data-theme=minty] #learnCard .mute,html[data-theme=lilac] #practiceCard .mute,html[data-theme=peachy] #practiceCard .mute,html[data-theme=minty] #practiceCard .mute,html[data-theme=lilac] #movieCard .mute,html[data-theme=peachy] #movieCard .mute,html[data-theme=minty] #movieCard .mute,html[data-theme=lilac] #podCard .mute,html[data-theme=peachy] #podCard .mute,html[data-theme=minty] #podCard .mute,html[data-theme=lilac] #wortCard .mute,html[data-theme=peachy] #wortCard .mute,html[data-theme=minty] #wortCard .mute,html[data-theme=sun] #learnCard .mute,html[data-theme=sun] #practiceCard .mute,html[data-theme=sun] #movieCard .mute,html[data-theme=sun] #podCard .mute,html[data-theme=sun] #wortCard .mute{color:var(--lt-muted);text-shadow:none}
 /* Library zone: clay panel (search inputs inside keep their existing glassy rules, untouched) */
-html[data-theme=lilac] #libZone,html[data-theme=peachy] #libZone,html[data-theme=minty] #libZone{background:var(--lt-bg);border:3px solid var(--lt-border);border-radius:22px;box-shadow:inset -2px -2px 8px rgba(255,255,255,.9),4px 4px 8px rgba(var(--lt-shadow),.18);color:var(--lt-text);-webkit-backdrop-filter:none;backdrop-filter:none}
-html[data-theme=lilac] #libZone .card-bg-img,html[data-theme=peachy] #libZone .card-bg-img,html[data-theme=minty] #libZone .card-bg-img{display:none}
+html[data-theme=lilac] #libZone,html[data-theme=peachy] #libZone,html[data-theme=minty] #libZone,/* Library zone: clay panel (search inputs inside keep their existing glassy rules, untouched) */
+html[data-theme=sun] #libZone,html[data-theme=sun] #libZone{background:var(--lt-bg);border:3px solid var(--lt-border);border-radius:22px;box-shadow:inset -2px -2px 8px rgba(255,255,255,.9),4px 4px 8px rgba(var(--lt-shadow),.18);color:var(--lt-text);-webkit-backdrop-filter:none;backdrop-filter:none}
+html[data-theme=lilac] #libZone .card-bg-img,html[data-theme=peachy] #libZone .card-bg-img,html[data-theme=minty] #libZone .card-bg-img,html[data-theme=sun] #libZone .card-bg-img{display:none}
 /* Library items: white clay cards, pastel icon chip with dark icon */
-html[data-theme=lilac] #lib .lib-card,html[data-theme=peachy] #lib .lib-card,html[data-theme=minty] #lib .lib-card{background:var(--lt-card);border:3px solid var(--lt-border);border-radius:22px;box-shadow:inset -2px -2px 8px rgba(255,255,255,.9),4px 4px 8px rgba(var(--lt-shadow),.14);color:var(--lt-text);-webkit-backdrop-filter:none;backdrop-filter:none}
-html[data-theme=lilac] #lib .lib-card .lib-tx b,html[data-theme=peachy] #lib .lib-card .lib-tx b,html[data-theme=minty] #lib .lib-card .lib-tx b{color:var(--lt-text)}
-html[data-theme=lilac] #lib .lib-card .lib-tx .mute,html[data-theme=peachy] #lib .lib-card .lib-tx .mute,html[data-theme=minty] #lib .lib-card .lib-tx .mute{color:var(--lt-muted)}
-html[data-theme=lilac] #lib .lib-card .lib-ic,html[data-theme=peachy] #lib .lib-card .lib-ic,html[data-theme=minty] #lib .lib-card .lib-ic{background:var(--lt-pastel)}
-html[data-theme=lilac] #lib .lib-card .lib-ic .ic,html[data-theme=peachy] #lib .lib-card .lib-ic .ic,html[data-theme=minty] #lib .lib-card .lib-ic .ic{color:var(--lt-text)}
-html[data-theme=lilac] #lib .lib-card .lib-del,html[data-theme=peachy] #lib .lib-card .lib-del,html[data-theme=minty] #lib .lib-card .lib-del{color:var(--lt-muted)}
-html[data-theme=lilac] #lib .lib-card.on,html[data-theme=peachy] #lib .lib-card.on,html[data-theme=minty] #lib .lib-card.on{border-color:var(--lt-primary);box-shadow:inset -2px -2px 8px rgba(255,255,255,.9),4px 4px 8px rgba(var(--lt-shadow),.14),0 0 0 1px var(--lt-primary)}
+html[data-theme=lilac] #lib .lib-card,html[data-theme=peachy] #lib .lib-card,html[data-theme=minty] #lib .lib-card,pastel icon chip with dark icon */
+html[data-theme=sun] #lib .lib-card,html[data-theme=sun] #lib .lib-card{background:var(--lt-card);border:3px solid var(--lt-border);border-radius:22px;box-shadow:inset -2px -2px 8px rgba(255,255,255,.9),4px 4px 8px rgba(var(--lt-shadow),.14);color:var(--lt-text);-webkit-backdrop-filter:none;backdrop-filter:none}
+html[data-theme=lilac] #lib .lib-card .lib-tx b,html[data-theme=peachy] #lib .lib-card .lib-tx b,html[data-theme=minty] #lib .lib-card .lib-tx b,html[data-theme=sun] #lib .lib-card .lib-tx b{color:var(--lt-text)}
+html[data-theme=lilac] #lib .lib-card .lib-tx .mute,html[data-theme=peachy] #lib .lib-card .lib-tx .mute,html[data-theme=minty] #lib .lib-card .lib-tx .mute,html[data-theme=sun] #lib .lib-card .lib-tx .mute{color:var(--lt-muted)}
+html[data-theme=lilac] #lib .lib-card .lib-ic,html[data-theme=peachy] #lib .lib-card .lib-ic,html[data-theme=minty] #lib .lib-card .lib-ic,html[data-theme=sun] #lib .lib-card .lib-ic{background:var(--lt-pastel)}
+html[data-theme=lilac] #lib .lib-card .lib-ic .ic,html[data-theme=peachy] #lib .lib-card .lib-ic .ic,html[data-theme=minty] #lib .lib-card .lib-ic .ic,html[data-theme=sun] #lib .lib-card .lib-ic .ic{color:var(--lt-text)}
+html[data-theme=lilac] #lib .lib-card .lib-del,html[data-theme=peachy] #lib .lib-card .lib-del,html[data-theme=minty] #lib .lib-card .lib-del,html[data-theme=sun] #lib .lib-card .lib-del{color:var(--lt-muted)}
+html[data-theme=lilac] #lib .lib-card.on,html[data-theme=peachy] #lib .lib-card.on,html[data-theme=minty] #lib .lib-card.on,html[data-theme=sun] #lib .lib-card.on{border-color:var(--lt-primary);box-shadow:inset -2px -2px 8px rgba(255,255,255,.9),4px 4px 8px rgba(var(--lt-shadow),.14),0 0 0 1px var(--lt-primary)}
 /* Button press (light themes only): 200ms ease-out */
-html[data-theme=lilac] button,html[data-theme=peachy] button,html[data-theme=minty] button{transition:transform .2s ease-out}
-html[data-theme=lilac] button:active,html[data-theme=peachy] button:active,html[data-theme=minty] button:active{transform:scale(.97)}
+html[data-theme=lilac] button,html[data-theme=peachy] button,html[data-theme=minty] button,/* Button press (light themes only): 200ms ease-out */
+html[data-theme=sun] button,html[data-theme=sun] button{transition:transform .2s ease-out}
+html[data-theme=lilac] button:active,html[data-theme=peachy] button:active,html[data-theme=minty] button:active,html[data-theme=sun] button:active{transform:scale(.97)}
 /* Reduced motion: no bounce/float animations (game bounce itself arrives in ?v=103) */
 @media (prefers-reduced-motion:reduce){.poof-mascot,.brand-mascot{animation:none}}
 html[data-theme=lilac] .brand-mascot{display:block}
@@ -450,114 +456,115 @@ html[data-theme=sun] #sunHomeBanner{display:block}
 html[data-theme=nebula] #nebulaHomeBanner{display:block}
 
   /* ===== ?v=107 light-theme consistency: clay everywhere under Lilac/Peachy/Minty; dark themes untouched; reader keeps dark wash ===== */
-  html[data-theme=lilac] body,html[data-theme=peachy] body,html[data-theme=minty] body{color:var(--lt-text)}
-  html[data-theme=lilac] #text,html[data-theme=peachy] #text,html[data-theme=minty] #text{color:var(--text)}
-  html[data-theme=lilac] .mute,html[data-theme=peachy] .mute,html[data-theme=minty] .mute{color:var(--lt-muted)}
-  html[data-theme=lilac] a,html[data-theme=peachy] a,html[data-theme=minty] a{color:var(--lt-link)}
-  html[data-theme=lilac] input::placeholder,html[data-theme=lilac] textarea::placeholder,html[data-theme=peachy] input::placeholder,html[data-theme=peachy] textarea::placeholder,html[data-theme=minty] input::placeholder,html[data-theme=minty] textarea::placeholder{color:var(--lt-muted);opacity:1}
-  html[data-theme=lilac] input,html[data-theme=lilac] select,html[data-theme=lilac] textarea,html[data-theme=peachy] input,html[data-theme=peachy] select,html[data-theme=peachy] textarea,html[data-theme=minty] input,html[data-theme=minty] select,html[data-theme=minty] textarea{background:var(--lt-card);color:var(--lt-text);border-color:var(--lt-border)}
-  html[data-theme=lilac] input:focus,html[data-theme=lilac] select:focus,html[data-theme=lilac] textarea:focus,html[data-theme=peachy] input:focus,html[data-theme=peachy] select:focus,html[data-theme=peachy] textarea:focus,html[data-theme=minty] input:focus,html[data-theme=minty] select:focus,html[data-theme=minty] textarea:focus{border-color:var(--lt-link);outline-color:var(--lt-link)}
-  html[data-theme=lilac] header,html[data-theme=peachy] header,html[data-theme=minty] header{background:var(--lt-card);border-bottom-color:var(--lt-border)}
-  html[data-theme=lilac] header .poof-img-header-bg,html[data-theme=peachy] header .poof-img-header-bg,html[data-theme=minty] header .poof-img-header-bg{display:none}
-  html[data-theme=lilac] header::after,html[data-theme=peachy] header::after,html[data-theme=minty] header::after{display:none}
-  html[data-theme=lilac] #hSub,html[data-theme=peachy] #hSub,html[data-theme=minty] #hSub{color:var(--lt-muted)}
-  html[data-theme=lilac] body:has(#s-read:not([hidden])) #readBg,html[data-theme=lilac] body:has(#s-review:not([hidden])) #reviewBg,html[data-theme=lilac] body:has(#s-cards:not([hidden])) #cardsBg,html[data-theme=lilac] body:has(#s-me:not([hidden])) #meBg,html[data-theme=lilac] body:has(#s-dict:not([hidden])) #dictBg,html[data-theme=peachy] body:has(#s-read:not([hidden])) #readBg,html[data-theme=peachy] body:has(#s-review:not([hidden])) #reviewBg,html[data-theme=peachy] body:has(#s-cards:not([hidden])) #cardsBg,html[data-theme=peachy] body:has(#s-me:not([hidden])) #meBg,html[data-theme=peachy] body:has(#s-dict:not([hidden])) #dictBg,html[data-theme=minty] body:has(#s-read:not([hidden])) #readBg,html[data-theme=minty] body:has(#s-review:not([hidden])) #reviewBg,html[data-theme=minty] body:has(#s-cards:not([hidden])) #cardsBg,html[data-theme=minty] body:has(#s-me:not([hidden])) #meBg,html[data-theme=minty] body:has(#s-dict:not([hidden])) #dictBg{display:none}
-  html[data-theme=lilac] nav,html[data-theme=peachy] nav,html[data-theme=minty] nav{background:rgba(255,255,255,.88);border-color:var(--lt-border);box-shadow:0 12px 32px rgba(var(--lt-shadow),.18)}
-  html[data-theme=lilac] nav button,html[data-theme=peachy] nav button,html[data-theme=minty] nav button{color:var(--lt-muted)}
-  html[data-theme=lilac] nav button:hover,html[data-theme=peachy] nav button:hover,html[data-theme=minty] nav button:hover{background:rgba(var(--lt-shadow),.08);color:var(--lt-link)}
-  html[data-theme=lilac] nav button.on,html[data-theme=peachy] nav button.on,html[data-theme=minty] nav button.on{color:var(--lt-primary)}
-  html[data-theme=lilac] nav button.on:hover,html[data-theme=peachy] nav button.on:hover,html[data-theme=minty] nav button.on:hover{color:var(--lt-primary)}
-  html[data-theme=lilac] nav button::before,html[data-theme=peachy] nav button::before,html[data-theme=minty] nav button::before{background:var(--lt-card);border-color:var(--lt-border);box-shadow:0 10px 24px rgba(var(--lt-shadow),.25)}
-  html[data-theme=lilac] nav button::after,html[data-theme=peachy] nav button::after,html[data-theme=minty] nav button::after{border-color:var(--lt-border);box-shadow:inset 0 0 0 8px rgba(255,255,255,.88)}
-  html[data-theme=lilac] .card,html[data-theme=peachy] .card,html[data-theme=minty] .card{background:var(--lt-card);border:3px solid var(--lt-border);border-radius:22px;box-shadow:inset -2px -2px 8px rgba(255,255,255,.9),4px 4px 8px rgba(var(--lt-shadow),.14);-webkit-backdrop-filter:none;backdrop-filter:none;color:var(--lt-text)}
-  html[data-theme=lilac] #s-review .card,html[data-theme=lilac] #s-cards .card,html[data-theme=lilac] #s-me .card,html[data-theme=lilac] #s-dict .card,html[data-theme=peachy] #s-review .card,html[data-theme=peachy] #s-cards .card,html[data-theme=peachy] #s-me .card,html[data-theme=peachy] #s-dict .card,html[data-theme=minty] #s-review .card,html[data-theme=minty] #s-cards .card,html[data-theme=minty] #s-me .card,html[data-theme=minty] #s-dict .card{background:var(--lt-card);border:3px solid var(--lt-border);border-radius:22px;box-shadow:inset -2px -2px 8px rgba(255,255,255,.9),4px 4px 8px rgba(var(--lt-shadow),.14);-webkit-backdrop-filter:none;backdrop-filter:none;color:var(--lt-text)}
-  html[data-theme=lilac] .card-bg-img,html[data-theme=peachy] .card-bg-img,html[data-theme=minty] .card-bg-img{display:none}
-  html[data-theme=lilac] #s-cards #list .card::after,html[data-theme=peachy] #s-cards #list .card::after,html[data-theme=minty] #s-cards #list .card::after{display:none}
-  html[data-theme=lilac] #wikiCard,html[data-theme=peachy] #wikiCard,html[data-theme=minty] #wikiCard{background:var(--lt-card);border:3px solid var(--lt-border);border-radius:22px;box-shadow:inset -2px -2px 8px rgba(255,255,255,.9),4px 4px 8px rgba(var(--lt-shadow),.14);-webkit-backdrop-filter:none;backdrop-filter:none;color:var(--lt-text)}
-  html[data-theme=lilac] #lib .lib-card,html[data-theme=peachy] #lib .lib-card,html[data-theme=minty] #lib .lib-card{-webkit-backdrop-filter:none;backdrop-filter:none}
-  html[data-theme=lilac] #lib .lib-card .lib-del,html[data-theme=peachy] #lib .lib-card .lib-del,html[data-theme=minty] #lib .lib-card .lib-del{border-color:var(--lt-border)}
-  html[data-theme=lilac] .lib-banner,html[data-theme=peachy] .lib-banner,html[data-theme=minty] .lib-banner{background:var(--lt-card);border:3px solid var(--lt-border);border-radius:22px;box-shadow:inset -2px -2px 8px rgba(255,255,255,.9),4px 4px 8px rgba(var(--lt-shadow),.14)}
-  html[data-theme=lilac] .lib-banner .poof-img-library-banner,html[data-theme=peachy] .lib-banner .poof-img-library-banner,html[data-theme=minty] .lib-banner .poof-img-library-banner{display:none}
-  html[data-theme=lilac] .lib-banner::before,html[data-theme=peachy] .lib-banner::before,html[data-theme=minty] .lib-banner::before{display:none}
-  html[data-theme=lilac] .lib-banner-txt h2,html[data-theme=peachy] .lib-banner-txt h2,html[data-theme=minty] .lib-banner-txt h2{color:var(--lt-text);text-shadow:none}
-  html[data-theme=lilac] .lib-banner-txt p,html[data-theme=peachy] .lib-banner-txt p,html[data-theme=minty] .lib-banner-txt p{color:var(--lt-muted);text-shadow:none}
-  html[data-theme=lilac] button.ghost,html[data-theme=peachy] button.ghost,html[data-theme=minty] button.ghost{color:var(--lt-link);border-color:var(--lt-border)}
-  html[data-theme=lilac] .ghost-label,html[data-theme=peachy] .ghost-label,html[data-theme=minty] .ghost-label{color:var(--lt-link);border-color:var(--lt-border)}
-  html[data-theme=lilac] .vchip,html[data-theme=peachy] .vchip,html[data-theme=minty] .vchip{color:var(--lt-link);border-color:var(--lt-border)}
-  html[data-theme=lilac] button.chip,html[data-theme=peachy] button.chip,html[data-theme=minty] button.chip{color:var(--lt-link);border-color:var(--lt-border)}
-  html[data-theme=lilac] button.chip.on,html[data-theme=peachy] button.chip.on,html[data-theme=minty] button.chip.on{background:rgba(var(--lt-shadow),.14);border-color:var(--lt-link)}
-  html[data-theme=lilac] .seg,html[data-theme=peachy] .seg,html[data-theme=minty] .seg{background:var(--lt-card);border-color:var(--lt-border)}
-  html[data-theme=lilac] .seg button,html[data-theme=peachy] .seg button,html[data-theme=minty] .seg button{color:var(--lt-muted)}
-  html[data-theme=lilac] .seg button.on,html[data-theme=peachy] .seg button.on,html[data-theme=minty] .seg button.on{background:rgba(var(--lt-shadow),.14);color:var(--lt-link)}
-  html[data-theme=lilac] button.ib,html[data-theme=peachy] button.ib,html[data-theme=minty] button.ib{color:var(--lt-muted);border-color:var(--lt-border)}
-  html[data-theme=lilac] button.ib:hover,html[data-theme=peachy] button.ib:hover,html[data-theme=minty] button.ib:hover{color:var(--lt-link);border-color:var(--lt-link);background:rgba(var(--lt-shadow),.08)}
-  html[data-theme=lilac] .opt,html[data-theme=peachy] .opt,html[data-theme=minty] .opt{border-color:var(--lt-border);color:var(--lt-text)}
-  html[data-theme=lilac] .opt:hover,html[data-theme=peachy] .opt:hover,html[data-theme=minty] .opt:hover{background:rgba(var(--lt-shadow),.08)}
-  html[data-theme=lilac] .opt.pick,html[data-theme=peachy] .opt.pick,html[data-theme=minty] .opt.pick{border-color:var(--lt-link);background:rgba(var(--lt-shadow),.14)}
-  html[data-theme=lilac] .opt.right,html[data-theme=peachy] .opt.right,html[data-theme=minty] .opt.right{border-color:#166534;background:rgba(22,101,52,.10);color:#166534}
-  html[data-theme=lilac] .opt.wrong,html[data-theme=peachy] .opt.wrong,html[data-theme=minty] .opt.wrong{border-color:#B91C1C;background:rgba(185,28,28,.08);color:#B91C1C}
-  html[data-theme=lilac] .okmsg,html[data-theme=peachy] .okmsg,html[data-theme=minty] .okmsg{color:#166534}
-  html[data-theme=lilac] .badmsg,html[data-theme=peachy] .badmsg,html[data-theme=minty] .badmsg{color:#B91C1C}
-  html[data-theme=lilac] .state,html[data-theme=peachy] .state,html[data-theme=minty] .state{color:var(--lt-muted)}
-  html[data-theme=lilac] .state.empty,html[data-theme=peachy] .state.empty,html[data-theme=minty] .state.empty{border-color:var(--lt-border)}
-  html[data-theme=lilac] .state.error,html[data-theme=peachy] .state.error,html[data-theme=minty] .state.error{color:#B91C1C}
-  html[data-theme=lilac] .bx,html[data-theme=peachy] .bx,html[data-theme=minty] .bx{background:var(--lt-card);border-color:var(--lt-border)}
-  html[data-theme=lilac] #s-review .bx,html[data-theme=peachy] #s-review .bx,html[data-theme=minty] #s-review .bx{background:var(--lt-card);border-color:var(--lt-border)}
-  html[data-theme=lilac] .bx b,html[data-theme=peachy] .bx b,html[data-theme=minty] .bx b{color:var(--lt-link)}
-  html[data-theme=lilac] .bx span,html[data-theme=peachy] .bx span,html[data-theme=minty] .bx span{color:var(--lt-muted)}
-  html[data-theme=lilac] .stat b,html[data-theme=peachy] .stat b,html[data-theme=minty] .stat b{color:var(--lt-link)}
-  html[data-theme=lilac] .lt-word,html[data-theme=peachy] .lt-word,html[data-theme=minty] .lt-word{color:var(--lt-link)}
-  html[data-theme=lilac] .wf,html[data-theme=peachy] .wf,html[data-theme=minty] .wf{color:var(--lt-link)}
-  html[data-theme=lilac] .badge,html[data-theme=peachy] .badge,html[data-theme=minty] .badge{color:var(--lt-link);border-color:var(--lt-link)}
-  html[data-theme=lilac] .cardnum,html[data-theme=peachy] .cardnum,html[data-theme=minty] .cardnum{background:var(--lt-card);border-color:var(--lt-link);color:var(--lt-text)}
-  html[data-theme=lilac] #s-me .cardnum,html[data-theme=peachy] #s-me .cardnum,html[data-theme=minty] #s-me .cardnum{background:var(--lt-card);border-color:var(--lt-link);color:var(--lt-text)}
-  html[data-theme=lilac] .feat li,html[data-theme=peachy] .feat li,html[data-theme=minty] .feat li{background:var(--lt-card);border-color:var(--lt-border)}
-  html[data-theme=lilac] #s-me .feat li,html[data-theme=peachy] #s-me .feat li,html[data-theme=minty] #s-me .feat li{background:var(--lt-card);border-color:var(--lt-border)}
-  html[data-theme=lilac] .plan.on,html[data-theme=peachy] .plan.on,html[data-theme=minty] .plan.on{background:rgba(var(--lt-shadow),.14);color:var(--lt-link)}
-  html[data-theme=lilac] .plan.hot,html[data-theme=peachy] .plan.hot,html[data-theme=minty] .plan.hot{box-shadow:0 0 0 1px var(--lt-link)}
-  html[data-theme=lilac] .pbar,html[data-theme=peachy] .pbar,html[data-theme=minty] .pbar{background:var(--lt-border)}
-  html[data-theme=lilac] .pbar i,html[data-theme=peachy] .pbar i,html[data-theme=minty] .pbar i{background:var(--lt-primary)}
-  html[data-theme=lilac] #s-me .bars div,html[data-theme=peachy] #s-me .bars div,html[data-theme=minty] #s-me .bars div{background:var(--lt-primary)}
-  html[data-theme=lilac] .theme-option,html[data-theme=peachy] .theme-option,html[data-theme=minty] .theme-option{background:transparent;border-color:var(--lt-border);color:var(--lt-text)}
-  html[data-theme=lilac] .theme-option span,html[data-theme=peachy] .theme-option span,html[data-theme=minty] .theme-option span{color:var(--lt-muted)}
-  html[data-theme=lilac] .theme-option.selected,html[data-theme=peachy] .theme-option.selected,html[data-theme=minty] .theme-option.selected{background:rgba(var(--lt-shadow),.14);border-color:var(--lt-link);color:var(--lt-link)}
-  html[data-theme=lilac] .theme-option.selected span,html[data-theme=peachy] .theme-option.selected span,html[data-theme=minty] .theme-option.selected span{color:var(--lt-link)}
-  html[data-theme=lilac] .ask-word,html[data-theme=peachy] .ask-word,html[data-theme=minty] .ask-word{color:var(--lt-link)}
-  html[data-theme=lilac] .ask-sec>h4,html[data-theme=peachy] .ask-sec>h4,html[data-theme=minty] .ask-sec>h4{color:var(--lt-muted)}
-  html[data-theme=lilac] .ask-ex .t,html[data-theme=peachy] .ask-ex .t,html[data-theme=minty] .ask-ex .t{color:var(--lt-muted)}
-  html[data-theme=lilac] .ask-load,html[data-theme=peachy] .ask-load,html[data-theme=minty] .ask-load{color:var(--lt-muted)}
-  html[data-theme=lilac] .ask-chip,html[data-theme=peachy] .ask-chip,html[data-theme=minty] .ask-chip{border-color:var(--lt-border)}
-  html[data-theme=lilac] .reg-chip,html[data-theme=peachy] .reg-chip,html[data-theme=minty] .reg-chip{color:var(--lt-link);border-color:var(--lt-border)}
-  html[data-theme=lilac] .ask-tip,html[data-theme=peachy] .ask-tip,html[data-theme=minty] .ask-tip{border-color:var(--lt-link)}
-  html[data-theme=lilac] .raudio,html[data-theme=peachy] .raudio,html[data-theme=minty] .raudio{border-color:var(--lt-border);background:rgba(var(--lt-shadow),.10);color:var(--lt-link)}
-  html[data-theme=lilac] .ctx,html[data-theme=peachy] .ctx,html[data-theme=minty] .ctx{border-top-color:var(--lt-border)}
-  html[data-theme=lilac] details.adv,html[data-theme=peachy] details.adv,html[data-theme=minty] details.adv{border-top-color:var(--lt-border)}
-  html[data-theme=lilac] #addPanel,html[data-theme=peachy] #addPanel,html[data-theme=minty] #addPanel{border-top-color:var(--lt-border)}
-  html[data-theme=lilac] #libZone #addPanel,html[data-theme=peachy] #libZone #addPanel,html[data-theme=minty] #libZone #addPanel{border-top-color:var(--lt-border)}
-  html[data-theme=lilac] .lbl,html[data-theme=peachy] .lbl,html[data-theme=minty] .lbl{color:var(--lt-muted)}
-  html[data-theme=lilac] .ed-card label,html[data-theme=peachy] .ed-card label,html[data-theme=minty] .ed-card label{color:var(--lt-muted)}
-  html[data-theme=lilac] #pop,html[data-theme=peachy] #pop,html[data-theme=minty] #pop{background:var(--lt-card);border-color:var(--lt-border);color:var(--lt-text);box-shadow:0 18px 40px rgba(var(--lt-shadow),.25)}
-  html[data-theme=lilac] .popT,html[data-theme=peachy] .popT,html[data-theme=minty] .popT{border-bottom-color:var(--lt-border)}
-  html[data-theme=lilac] .popB button,html[data-theme=peachy] .popB button,html[data-theme=minty] .popB button{color:var(--lt-muted)}
-  html[data-theme=lilac] .peek-card,html[data-theme=peachy] .peek-card,html[data-theme=minty] .peek-card{background:var(--lt-card);border-color:var(--lt-border);color:var(--lt-text);box-shadow:0 18px 40px rgba(var(--lt-shadow),.25)}
-  html[data-theme=lilac] .um-sheet,html[data-theme=peachy] .um-sheet,html[data-theme=minty] .um-sheet{background:var(--lt-card);border-color:var(--lt-border);color:var(--lt-text);box-shadow:0 18px 40px rgba(var(--lt-shadow),.25)}
-  html[data-theme=lilac] .ask-card,html[data-theme=peachy] .ask-card,html[data-theme=minty] .ask-card{background:var(--lt-card);border-color:var(--lt-border);color:var(--lt-text);box-shadow:0 18px 40px rgba(var(--lt-shadow),.25)}
-  html[data-theme=lilac] .ed-card,html[data-theme=peachy] .ed-card,html[data-theme=minty] .ed-card{background:var(--lt-card);border-color:var(--lt-border);color:var(--lt-text);box-shadow:0 18px 40px rgba(var(--lt-shadow),.25)}
-  html[data-theme=lilac] .um-btn.ghost,html[data-theme=peachy] .um-btn.ghost,html[data-theme=minty] .um-btn.ghost{background:transparent;border-color:var(--lt-border);color:var(--lt-text)}
-  html[data-theme=lilac] .lt-card,html[data-theme=peachy] .lt-card,html[data-theme=minty] .lt-card{background:var(--lt-card);border-color:var(--lt-border);color:var(--lt-text);box-shadow:0 10px 24px rgba(var(--lt-shadow),.18)}
-  html[data-theme=lilac] #lt,html[data-theme=peachy] #lt,html[data-theme=minty] #lt{background:var(--lt-bg)}
-  html[data-theme=lilac] .lt-hint,html[data-theme=peachy] .lt-hint,html[data-theme=minty] .lt-hint{background:var(--lt-card)}
-  html[data-theme=lilac] .lt-hints .ok,html[data-theme=peachy] .lt-hints .ok,html[data-theme=minty] .lt-hints .ok{color:#166534}
-  html[data-theme=lilac] .lt-hints .no,html[data-theme=peachy] .lt-hints .no,html[data-theme=minty] .lt-hints .no{color:#B91C1C}
-  html[data-theme=lilac] .ib.ok-b,html[data-theme=peachy] .ib.ok-b,html[data-theme=minty] .ib.ok-b{color:#166534;border-color:#166534}
-  html[data-theme=lilac] .ib.no-b,html[data-theme=peachy] .ib.no-b,html[data-theme=minty] .ib.no-b{color:#B91C1C;border-color:#B91C1C}
-  html[data-theme=lilac] .movie-it,html[data-theme=peachy] .movie-it,html[data-theme=minty] .movie-it{background:var(--lt-card);border-color:var(--lt-border)}
-  html[data-theme=lilac] .movie-it .m,html[data-theme=peachy] .movie-it .m,html[data-theme=minty] .movie-it .m{color:var(--lt-muted)}
-  html[data-theme=lilac] .pod-scenic,html[data-theme=peachy] .pod-scenic,html[data-theme=minty] .pod-scenic{display:none}
-  html[data-theme=lilac] #zbSticky,html[data-theme=peachy] #zbSticky,html[data-theme=minty] #zbSticky{background:var(--lt-card);border-color:var(--lt-border)}
-  html[data-theme=lilac] .tline.cur,html[data-theme=peachy] .tline.cur,html[data-theme=minty] .tline.cur{background:rgba(var(--lt-shadow),.10)}
-  html[data-theme=lilac] .wp-t td,html[data-theme=lilac] .wp-t th,html[data-theme=peachy] .wp-t td,html[data-theme=peachy] .wp-t th,html[data-theme=minty] .wp-t td,html[data-theme=minty] .wp-t th{border-color:var(--lt-border)}
-  html[data-theme=lilac] .help-img img,html[data-theme=peachy] .help-img img,html[data-theme=minty] .help-img img{border-color:var(--lt-border)}
+  html[data-theme=lilac] body,html[data-theme=peachy] body,html[data-theme=minty] body,/* ===== ?v=107 light-theme consistency: clay everywhere under Lilac/Peachy/Minty; dark themes untouched; reader keeps dark wash ===== */
+  html[data-theme=sun] body,html[data-theme=sun] body{color:var(--lt-text)}
+  html[data-theme=lilac] #text,html[data-theme=peachy] #text,html[data-theme=minty] #text,html[data-theme=sun] #text{color:var(--text)}
+  html[data-theme=lilac] .mute,html[data-theme=peachy] .mute,html[data-theme=minty] .mute,html[data-theme=sun] .mute{color:var(--lt-muted)}
+  html[data-theme=lilac] a,html[data-theme=peachy] a,html[data-theme=minty] a,html[data-theme=sun] a{color:var(--lt-link)}
+  html[data-theme=lilac] input::placeholder,html[data-theme=lilac] textarea::placeholder,html[data-theme=peachy] input::placeholder,html[data-theme=peachy] textarea::placeholder,html[data-theme=minty] input::placeholder,html[data-theme=minty] textarea::placeholder,html[data-theme=sun] input::placeholder,html[data-theme=sun] textarea::placeholder{color:var(--lt-muted);opacity:1}
+  html[data-theme=lilac] input,html[data-theme=lilac] select,html[data-theme=lilac] textarea,html[data-theme=peachy] input,html[data-theme=peachy] select,html[data-theme=peachy] textarea,html[data-theme=minty] input,html[data-theme=minty] select,html[data-theme=minty] textarea,html[data-theme=sun] input,html[data-theme=sun] select,html[data-theme=sun] textarea{background:var(--lt-card);color:var(--lt-text);border-color:var(--lt-border)}
+  html[data-theme=lilac] input:focus,html[data-theme=lilac] select:focus,html[data-theme=lilac] textarea:focus,html[data-theme=peachy] input:focus,html[data-theme=peachy] select:focus,html[data-theme=peachy] textarea:focus,html[data-theme=minty] input:focus,html[data-theme=minty] select:focus,html[data-theme=minty] textarea:focus,html[data-theme=sun] input:focus,html[data-theme=sun] select:focus,html[data-theme=sun] textarea:focus{border-color:var(--lt-link);outline-color:var(--lt-link)}
+  html[data-theme=lilac] header,html[data-theme=peachy] header,html[data-theme=minty] header,html[data-theme=sun] header{background:var(--lt-card);border-bottom-color:var(--lt-border)}
+  html[data-theme=lilac] header .poof-img-header-bg,html[data-theme=peachy] header .poof-img-header-bg,html[data-theme=minty] header .poof-img-header-bg,html[data-theme=sun] header .poof-img-header-bg{display:none}
+  html[data-theme=lilac] header::after,html[data-theme=peachy] header::after,html[data-theme=minty] header::after,html[data-theme=sun] header::after{display:none}
+  html[data-theme=lilac] #hSub,html[data-theme=peachy] #hSub,html[data-theme=minty] #hSub,html[data-theme=sun] #hSub{color:var(--lt-muted)}
+  html[data-theme=lilac] body:has(#s-read:not([hidden])) #readBg,html[data-theme=lilac] body:has(#s-review:not([hidden])) #reviewBg,html[data-theme=lilac] body:has(#s-cards:not([hidden])) #cardsBg,html[data-theme=lilac] body:has(#s-me:not([hidden])) #meBg,html[data-theme=lilac] body:has(#s-dict:not([hidden])) #dictBg,html[data-theme=peachy] body:has(#s-read:not([hidden])) #readBg,html[data-theme=peachy] body:has(#s-review:not([hidden])) #reviewBg,html[data-theme=peachy] body:has(#s-cards:not([hidden])) #cardsBg,html[data-theme=peachy] body:has(#s-me:not([hidden])) #meBg,html[data-theme=peachy] body:has(#s-dict:not([hidden])) #dictBg,html[data-theme=minty] body:has(#s-read:not([hidden])) #readBg,html[data-theme=minty] body:has(#s-review:not([hidden])) #reviewBg,html[data-theme=minty] body:has(#s-cards:not([hidden])) #cardsBg,html[data-theme=minty] body:has(#s-me:not([hidden])) #meBg,html[data-theme=minty] body:has(#s-dict:not([hidden])) #dictBg,html[data-theme=sun] body:has(#s-read:not([hidden])) #readBg,html[data-theme=sun] body:has(#s-review:not([hidden])) #reviewBg,html[data-theme=sun] body:has(#s-cards:not([hidden])) #cardsBg,html[data-theme=sun] body:has(#s-me:not([hidden])) #meBg,html[data-theme=sun] body:has(#s-dict:not([hidden])) #dictBg{display:none}
+  html[data-theme=lilac] nav,html[data-theme=peachy] nav,html[data-theme=minty] nav,html[data-theme=sun] nav{background:rgba(255,255,255,.88);border-color:var(--lt-border);box-shadow:0 12px 32px rgba(var(--lt-shadow),.18)}
+  html[data-theme=lilac] nav button,html[data-theme=peachy] nav button,html[data-theme=minty] nav button,html[data-theme=sun] nav button{color:var(--lt-muted)}
+  html[data-theme=lilac] nav button:hover,html[data-theme=peachy] nav button:hover,html[data-theme=minty] nav button:hover,html[data-theme=sun] nav button:hover{background:rgba(var(--lt-shadow),.08);color:var(--lt-link)}
+  html[data-theme=lilac] nav button.on,html[data-theme=peachy] nav button.on,html[data-theme=minty] nav button.on,html[data-theme=sun] nav button.on{color:var(--lt-primary)}
+  html[data-theme=lilac] nav button.on:hover,html[data-theme=peachy] nav button.on:hover,html[data-theme=minty] nav button.on:hover,html[data-theme=sun] nav button.on:hover{color:var(--lt-primary)}
+  html[data-theme=lilac] nav button::before,html[data-theme=peachy] nav button::before,html[data-theme=minty] nav button::before,html[data-theme=sun] nav button::before{background:var(--lt-card);border-color:var(--lt-border);box-shadow:0 10px 24px rgba(var(--lt-shadow),.25)}
+  html[data-theme=lilac] nav button::after,html[data-theme=peachy] nav button::after,html[data-theme=minty] nav button::after,html[data-theme=sun] nav button::after{border-color:var(--lt-border);box-shadow:inset 0 0 0 8px rgba(255,255,255,.88)}
+  html[data-theme=lilac] .card,html[data-theme=peachy] .card,html[data-theme=minty] .card,html[data-theme=sun] .card{background:var(--lt-card);border:3px solid var(--lt-border);border-radius:22px;box-shadow:inset -2px -2px 8px rgba(255,255,255,.9),4px 4px 8px rgba(var(--lt-shadow),.14);-webkit-backdrop-filter:none;backdrop-filter:none;color:var(--lt-text)}
+  html[data-theme=lilac] #s-review .card,html[data-theme=lilac] #s-cards .card,html[data-theme=lilac] #s-me .card,html[data-theme=lilac] #s-dict .card,html[data-theme=peachy] #s-review .card,html[data-theme=peachy] #s-cards .card,html[data-theme=peachy] #s-me .card,html[data-theme=peachy] #s-dict .card,html[data-theme=minty] #s-review .card,html[data-theme=minty] #s-cards .card,html[data-theme=minty] #s-me .card,html[data-theme=minty] #s-dict .card,html[data-theme=sun] #s-review .card,html[data-theme=sun] #s-cards .card,html[data-theme=sun] #s-me .card,html[data-theme=sun] #s-dict .card{background:var(--lt-card);border:3px solid var(--lt-border);border-radius:22px;box-shadow:inset -2px -2px 8px rgba(255,255,255,.9),4px 4px 8px rgba(var(--lt-shadow),.14);-webkit-backdrop-filter:none;backdrop-filter:none;color:var(--lt-text)}
+  html[data-theme=lilac] .card-bg-img,html[data-theme=peachy] .card-bg-img,html[data-theme=minty] .card-bg-img,html[data-theme=sun] .card-bg-img{display:none}
+  html[data-theme=lilac] #s-cards #list .card::after,html[data-theme=peachy] #s-cards #list .card::after,html[data-theme=minty] #s-cards #list .card::after,html[data-theme=sun] #s-cards #list .card::after{display:none}
+  html[data-theme=lilac] #wikiCard,html[data-theme=peachy] #wikiCard,html[data-theme=minty] #wikiCard,html[data-theme=sun] #wikiCard{background:var(--lt-card);border:3px solid var(--lt-border);border-radius:22px;box-shadow:inset -2px -2px 8px rgba(255,255,255,.9),4px 4px 8px rgba(var(--lt-shadow),.14);-webkit-backdrop-filter:none;backdrop-filter:none;color:var(--lt-text)}
+  html[data-theme=lilac] #lib .lib-card,html[data-theme=peachy] #lib .lib-card,html[data-theme=minty] #lib .lib-card,html[data-theme=sun] #lib .lib-card{-webkit-backdrop-filter:none;backdrop-filter:none}
+  html[data-theme=lilac] #lib .lib-card .lib-del,html[data-theme=peachy] #lib .lib-card .lib-del,html[data-theme=minty] #lib .lib-card .lib-del,html[data-theme=sun] #lib .lib-card .lib-del{border-color:var(--lt-border)}
+  html[data-theme=lilac] .lib-banner,html[data-theme=peachy] .lib-banner,html[data-theme=minty] .lib-banner,html[data-theme=sun] .lib-banner{background:var(--lt-card);border:3px solid var(--lt-border);border-radius:22px;box-shadow:inset -2px -2px 8px rgba(255,255,255,.9),4px 4px 8px rgba(var(--lt-shadow),.14)}
+  html[data-theme=lilac] .lib-banner .poof-img-library-banner,html[data-theme=peachy] .lib-banner .poof-img-library-banner,html[data-theme=minty] .lib-banner .poof-img-library-banner,html[data-theme=sun] .lib-banner .poof-img-library-banner{display:none}
+  html[data-theme=lilac] .lib-banner::before,html[data-theme=peachy] .lib-banner::before,html[data-theme=minty] .lib-banner::before,html[data-theme=sun] .lib-banner::before{display:none}
+  html[data-theme=lilac] .lib-banner-txt h2,html[data-theme=peachy] .lib-banner-txt h2,html[data-theme=minty] .lib-banner-txt h2,html[data-theme=sun] .lib-banner-txt h2{color:var(--lt-text);text-shadow:none}
+  html[data-theme=lilac] .lib-banner-txt p,html[data-theme=peachy] .lib-banner-txt p,html[data-theme=minty] .lib-banner-txt p,html[data-theme=sun] .lib-banner-txt p{color:var(--lt-muted);text-shadow:none}
+  html[data-theme=lilac] button.ghost,html[data-theme=peachy] button.ghost,html[data-theme=minty] button.ghost,html[data-theme=sun] button.ghost{color:var(--lt-link);border-color:var(--lt-border)}
+  html[data-theme=lilac] .ghost-label,html[data-theme=peachy] .ghost-label,html[data-theme=minty] .ghost-label,html[data-theme=sun] .ghost-label{color:var(--lt-link);border-color:var(--lt-border)}
+  html[data-theme=lilac] .vchip,html[data-theme=peachy] .vchip,html[data-theme=minty] .vchip,html[data-theme=sun] .vchip{color:var(--lt-link);border-color:var(--lt-border)}
+  html[data-theme=lilac] button.chip,html[data-theme=peachy] button.chip,html[data-theme=minty] button.chip,html[data-theme=sun] button.chip{color:var(--lt-link);border-color:var(--lt-border)}
+  html[data-theme=lilac] button.chip.on,html[data-theme=peachy] button.chip.on,html[data-theme=minty] button.chip.on,html[data-theme=sun] button.chip.on{background:rgba(var(--lt-shadow),.14);border-color:var(--lt-link)}
+  html[data-theme=lilac] .seg,html[data-theme=peachy] .seg,html[data-theme=minty] .seg,html[data-theme=sun] .seg{background:var(--lt-card);border-color:var(--lt-border)}
+  html[data-theme=lilac] .seg button,html[data-theme=peachy] .seg button,html[data-theme=minty] .seg button,html[data-theme=sun] .seg button{color:var(--lt-muted)}
+  html[data-theme=lilac] .seg button.on,html[data-theme=peachy] .seg button.on,html[data-theme=minty] .seg button.on,html[data-theme=sun] .seg button.on{background:rgba(var(--lt-shadow),.14);color:var(--lt-link)}
+  html[data-theme=lilac] button.ib,html[data-theme=peachy] button.ib,html[data-theme=minty] button.ib,html[data-theme=sun] button.ib{color:var(--lt-muted);border-color:var(--lt-border)}
+  html[data-theme=lilac] button.ib:hover,html[data-theme=peachy] button.ib:hover,html[data-theme=minty] button.ib:hover,html[data-theme=sun] button.ib:hover{color:var(--lt-link);border-color:var(--lt-link);background:rgba(var(--lt-shadow),.08)}
+  html[data-theme=lilac] .opt,html[data-theme=peachy] .opt,html[data-theme=minty] .opt,html[data-theme=sun] .opt{border-color:var(--lt-border);color:var(--lt-text)}
+  html[data-theme=lilac] .opt:hover,html[data-theme=peachy] .opt:hover,html[data-theme=minty] .opt:hover,html[data-theme=sun] .opt:hover{background:rgba(var(--lt-shadow),.08)}
+  html[data-theme=lilac] .opt.pick,html[data-theme=peachy] .opt.pick,html[data-theme=minty] .opt.pick,html[data-theme=sun] .opt.pick{border-color:var(--lt-link);background:rgba(var(--lt-shadow),.14)}
+  html[data-theme=lilac] .opt.right,html[data-theme=peachy] .opt.right,html[data-theme=minty] .opt.right,html[data-theme=sun] .opt.right{border-color:#166534;background:rgba(22,101,52,.10);color:#166534}
+  html[data-theme=lilac] .opt.wrong,html[data-theme=peachy] .opt.wrong,html[data-theme=minty] .opt.wrong,html[data-theme=sun] .opt.wrong{border-color:#B91C1C;background:rgba(185,28,28,.08);color:#B91C1C}
+  html[data-theme=lilac] .okmsg,html[data-theme=peachy] .okmsg,html[data-theme=minty] .okmsg,html[data-theme=sun] .okmsg{color:#166534}
+  html[data-theme=lilac] .badmsg,html[data-theme=peachy] .badmsg,html[data-theme=minty] .badmsg,html[data-theme=sun] .badmsg{color:#B91C1C}
+  html[data-theme=lilac] .state,html[data-theme=peachy] .state,html[data-theme=minty] .state,html[data-theme=sun] .state{color:var(--lt-muted)}
+  html[data-theme=lilac] .state.empty,html[data-theme=peachy] .state.empty,html[data-theme=minty] .state.empty,html[data-theme=sun] .state.empty{border-color:var(--lt-border)}
+  html[data-theme=lilac] .state.error,html[data-theme=peachy] .state.error,html[data-theme=minty] .state.error,html[data-theme=sun] .state.error{color:#B91C1C}
+  html[data-theme=lilac] .bx,html[data-theme=peachy] .bx,html[data-theme=minty] .bx,html[data-theme=sun] .bx{background:var(--lt-card);border-color:var(--lt-border)}
+  html[data-theme=lilac] #s-review .bx,html[data-theme=peachy] #s-review .bx,html[data-theme=minty] #s-review .bx,html[data-theme=sun] #s-review .bx{background:var(--lt-card);border-color:var(--lt-border)}
+  html[data-theme=lilac] .bx b,html[data-theme=peachy] .bx b,html[data-theme=minty] .bx b,html[data-theme=sun] .bx b{color:var(--lt-link)}
+  html[data-theme=lilac] .bx span,html[data-theme=peachy] .bx span,html[data-theme=minty] .bx span,html[data-theme=sun] .bx span{color:var(--lt-muted)}
+  html[data-theme=lilac] .stat b,html[data-theme=peachy] .stat b,html[data-theme=minty] .stat b,html[data-theme=sun] .stat b{color:var(--lt-link)}
+  html[data-theme=lilac] .lt-word,html[data-theme=peachy] .lt-word,html[data-theme=minty] .lt-word,html[data-theme=sun] .lt-word{color:var(--lt-link)}
+  html[data-theme=lilac] .wf,html[data-theme=peachy] .wf,html[data-theme=minty] .wf,html[data-theme=sun] .wf{color:var(--lt-link)}
+  html[data-theme=lilac] .badge,html[data-theme=peachy] .badge,html[data-theme=minty] .badge,html[data-theme=sun] .badge{color:var(--lt-link);border-color:var(--lt-link)}
+  html[data-theme=lilac] .cardnum,html[data-theme=peachy] .cardnum,html[data-theme=minty] .cardnum,html[data-theme=sun] .cardnum{background:var(--lt-card);border-color:var(--lt-link);color:var(--lt-text)}
+  html[data-theme=lilac] #s-me .cardnum,html[data-theme=peachy] #s-me .cardnum,html[data-theme=minty] #s-me .cardnum,html[data-theme=sun] #s-me .cardnum{background:var(--lt-card);border-color:var(--lt-link);color:var(--lt-text)}
+  html[data-theme=lilac] .feat li,html[data-theme=peachy] .feat li,html[data-theme=minty] .feat li,html[data-theme=sun] .feat li{background:var(--lt-card);border-color:var(--lt-border)}
+  html[data-theme=lilac] #s-me .feat li,html[data-theme=peachy] #s-me .feat li,html[data-theme=minty] #s-me .feat li,html[data-theme=sun] #s-me .feat li{background:var(--lt-card);border-color:var(--lt-border)}
+  html[data-theme=lilac] .plan.on,html[data-theme=peachy] .plan.on,html[data-theme=minty] .plan.on,html[data-theme=sun] .plan.on{background:rgba(var(--lt-shadow),.14);color:var(--lt-link)}
+  html[data-theme=lilac] .plan.hot,html[data-theme=peachy] .plan.hot,html[data-theme=minty] .plan.hot,html[data-theme=sun] .plan.hot{box-shadow:0 0 0 1px var(--lt-link)}
+  html[data-theme=lilac] .pbar,html[data-theme=peachy] .pbar,html[data-theme=minty] .pbar,html[data-theme=sun] .pbar{background:var(--lt-border)}
+  html[data-theme=lilac] .pbar i,html[data-theme=peachy] .pbar i,html[data-theme=minty] .pbar i,html[data-theme=sun] .pbar i{background:var(--lt-primary)}
+  html[data-theme=lilac] #s-me .bars div,html[data-theme=peachy] #s-me .bars div,html[data-theme=minty] #s-me .bars div,html[data-theme=sun] #s-me .bars div{background:var(--lt-primary)}
+  html[data-theme=lilac] .theme-option,html[data-theme=peachy] .theme-option,html[data-theme=minty] .theme-option,html[data-theme=sun] .theme-option{background:transparent;border-color:var(--lt-border);color:var(--lt-text)}
+  html[data-theme=lilac] .theme-option span,html[data-theme=peachy] .theme-option span,html[data-theme=minty] .theme-option span,html[data-theme=sun] .theme-option span{color:var(--lt-muted)}
+  html[data-theme=lilac] .theme-option.selected,html[data-theme=peachy] .theme-option.selected,html[data-theme=minty] .theme-option.selected,html[data-theme=sun] .theme-option.selected{background:rgba(var(--lt-shadow),.14);border-color:var(--lt-link);color:var(--lt-link)}
+  html[data-theme=lilac] .theme-option.selected span,html[data-theme=peachy] .theme-option.selected span,html[data-theme=minty] .theme-option.selected span,html[data-theme=sun] .theme-option.selected span{color:var(--lt-link)}
+  html[data-theme=lilac] .ask-word,html[data-theme=peachy] .ask-word,html[data-theme=minty] .ask-word,html[data-theme=sun] .ask-word{color:var(--lt-link)}
+  html[data-theme=lilac] .ask-sec>h4,html[data-theme=peachy] .ask-sec>h4,html[data-theme=minty] .ask-sec>h4,html[data-theme=sun] .ask-sec>h4{color:var(--lt-muted)}
+  html[data-theme=lilac] .ask-ex .t,html[data-theme=peachy] .ask-ex .t,html[data-theme=minty] .ask-ex .t,html[data-theme=sun] .ask-ex .t{color:var(--lt-muted)}
+  html[data-theme=lilac] .ask-load,html[data-theme=peachy] .ask-load,html[data-theme=minty] .ask-load,html[data-theme=sun] .ask-load{color:var(--lt-muted)}
+  html[data-theme=lilac] .ask-chip,html[data-theme=peachy] .ask-chip,html[data-theme=minty] .ask-chip,html[data-theme=sun] .ask-chip{border-color:var(--lt-border)}
+  html[data-theme=lilac] .reg-chip,html[data-theme=peachy] .reg-chip,html[data-theme=minty] .reg-chip,html[data-theme=sun] .reg-chip{color:var(--lt-link);border-color:var(--lt-border)}
+  html[data-theme=lilac] .ask-tip,html[data-theme=peachy] .ask-tip,html[data-theme=minty] .ask-tip,html[data-theme=sun] .ask-tip{border-color:var(--lt-link)}
+  html[data-theme=lilac] .raudio,html[data-theme=peachy] .raudio,html[data-theme=minty] .raudio,html[data-theme=sun] .raudio{border-color:var(--lt-border);background:rgba(var(--lt-shadow),.10);color:var(--lt-link)}
+  html[data-theme=lilac] .ctx,html[data-theme=peachy] .ctx,html[data-theme=minty] .ctx,html[data-theme=sun] .ctx{border-top-color:var(--lt-border)}
+  html[data-theme=lilac] details.adv,html[data-theme=peachy] details.adv,html[data-theme=minty] details.adv,html[data-theme=sun] details.adv{border-top-color:var(--lt-border)}
+  html[data-theme=lilac] #addPanel,html[data-theme=peachy] #addPanel,html[data-theme=minty] #addPanel,html[data-theme=sun] #addPanel{border-top-color:var(--lt-border)}
+  html[data-theme=lilac] #libZone #addPanel,html[data-theme=peachy] #libZone #addPanel,html[data-theme=minty] #libZone #addPanel,html[data-theme=sun] #libZone #addPanel{border-top-color:var(--lt-border)}
+  html[data-theme=lilac] .lbl,html[data-theme=peachy] .lbl,html[data-theme=minty] .lbl,html[data-theme=sun] .lbl{color:var(--lt-muted)}
+  html[data-theme=lilac] .ed-card label,html[data-theme=peachy] .ed-card label,html[data-theme=minty] .ed-card label,html[data-theme=sun] .ed-card label{color:var(--lt-muted)}
+  html[data-theme=lilac] #pop,html[data-theme=peachy] #pop,html[data-theme=minty] #pop,html[data-theme=sun] #pop{background:var(--lt-card);border-color:var(--lt-border);color:var(--lt-text);box-shadow:0 18px 40px rgba(var(--lt-shadow),.25)}
+  html[data-theme=lilac] .popT,html[data-theme=peachy] .popT,html[data-theme=minty] .popT,html[data-theme=sun] .popT{border-bottom-color:var(--lt-border)}
+  html[data-theme=lilac] .popB button,html[data-theme=peachy] .popB button,html[data-theme=minty] .popB button,html[data-theme=sun] .popB button{color:var(--lt-muted)}
+  html[data-theme=lilac] .peek-card,html[data-theme=peachy] .peek-card,html[data-theme=minty] .peek-card,html[data-theme=sun] .peek-card{background:var(--lt-card);border-color:var(--lt-border);color:var(--lt-text);box-shadow:0 18px 40px rgba(var(--lt-shadow),.25)}
+  html[data-theme=lilac] .um-sheet,html[data-theme=peachy] .um-sheet,html[data-theme=minty] .um-sheet,html[data-theme=sun] .um-sheet{background:var(--lt-card);border-color:var(--lt-border);color:var(--lt-text);box-shadow:0 18px 40px rgba(var(--lt-shadow),.25)}
+  html[data-theme=lilac] .ask-card,html[data-theme=peachy] .ask-card,html[data-theme=minty] .ask-card,html[data-theme=sun] .ask-card{background:var(--lt-card);border-color:var(--lt-border);color:var(--lt-text);box-shadow:0 18px 40px rgba(var(--lt-shadow),.25)}
+  html[data-theme=lilac] .ed-card,html[data-theme=peachy] .ed-card,html[data-theme=minty] .ed-card,html[data-theme=sun] .ed-card{background:var(--lt-card);border-color:var(--lt-border);color:var(--lt-text);box-shadow:0 18px 40px rgba(var(--lt-shadow),.25)}
+  html[data-theme=lilac] .um-btn.ghost,html[data-theme=peachy] .um-btn.ghost,html[data-theme=minty] .um-btn.ghost,html[data-theme=sun] .um-btn.ghost{background:transparent;border-color:var(--lt-border);color:var(--lt-text)}
+  html[data-theme=lilac] .lt-card,html[data-theme=peachy] .lt-card,html[data-theme=minty] .lt-card,html[data-theme=sun] .lt-card{background:var(--lt-card);border-color:var(--lt-border);color:var(--lt-text);box-shadow:0 10px 24px rgba(var(--lt-shadow),.18)}
+  html[data-theme=lilac] #lt,html[data-theme=peachy] #lt,html[data-theme=minty] #lt,html[data-theme=sun] #lt{background:var(--lt-bg)}
+  html[data-theme=lilac] .lt-hint,html[data-theme=peachy] .lt-hint,html[data-theme=minty] .lt-hint,html[data-theme=sun] .lt-hint{background:var(--lt-card)}
+  html[data-theme=lilac] .lt-hints .ok,html[data-theme=peachy] .lt-hints .ok,html[data-theme=minty] .lt-hints .ok,html[data-theme=sun] .lt-hints .ok{color:#166534}
+  html[data-theme=lilac] .lt-hints .no,html[data-theme=peachy] .lt-hints .no,html[data-theme=minty] .lt-hints .no,html[data-theme=sun] .lt-hints .no{color:#B91C1C}
+  html[data-theme=lilac] .ib.ok-b,html[data-theme=peachy] .ib.ok-b,html[data-theme=minty] .ib.ok-b,html[data-theme=sun] .ib.ok-b{color:#166534;border-color:#166534}
+  html[data-theme=lilac] .ib.no-b,html[data-theme=peachy] .ib.no-b,html[data-theme=minty] .ib.no-b,html[data-theme=sun] .ib.no-b{color:#B91C1C;border-color:#B91C1C}
+  html[data-theme=lilac] .movie-it,html[data-theme=peachy] .movie-it,html[data-theme=minty] .movie-it,html[data-theme=sun] .movie-it{background:var(--lt-card);border-color:var(--lt-border)}
+  html[data-theme=lilac] .movie-it .m,html[data-theme=peachy] .movie-it .m,html[data-theme=minty] .movie-it .m,html[data-theme=sun] .movie-it .m{color:var(--lt-muted)}
+  html[data-theme=lilac] .pod-scenic,html[data-theme=peachy] .pod-scenic,html[data-theme=minty] .pod-scenic,html[data-theme=sun] .pod-scenic{display:none}
+  html[data-theme=lilac] #zbSticky,html[data-theme=peachy] #zbSticky,html[data-theme=minty] #zbSticky,html[data-theme=sun] #zbSticky{background:var(--lt-card);border-color:var(--lt-border)}
+  html[data-theme=lilac] .tline.cur,html[data-theme=peachy] .tline.cur,html[data-theme=minty] .tline.cur,html[data-theme=sun] .tline.cur{background:rgba(var(--lt-shadow),.10)}
+  html[data-theme=lilac] .wp-t td,html[data-theme=lilac] .wp-t th,html[data-theme=peachy] .wp-t td,html[data-theme=peachy] .wp-t th,html[data-theme=minty] .wp-t td,html[data-theme=minty] .wp-t th,html[data-theme=sun] .wp-t td,html[data-theme=sun] .wp-t th{border-color:var(--lt-border)}
+  html[data-theme=lilac] .help-img img,html[data-theme=peachy] .help-img img,html[data-theme=minty] .help-img img,html[data-theme=sun] .help-img img{border-color:var(--lt-border)}
   
 /* ?v=108 review game circles + long-press shortcut menu */
 .rv-games{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:2px 0 14px}
@@ -578,16 +585,16 @@ html[data-theme=nebula] #nebulaHomeBanner{display:block}
 #rvNavMenu button:hover{background:var(--hover)}
 #rvNavMenu button .ic{width:22px;height:22px;flex:none}
 @media (prefers-reduced-motion:reduce){#rvNavMenu button{transition:none}}
-html[data-theme=lilac] .rv-game-ico,html[data-theme=peachy] .rv-game-ico,html[data-theme=minty] .rv-game-ico{border:3px solid var(--lt-border);box-shadow:0 8px 20px rgba(var(--lt-shadow),.20)}
-html[data-theme=lilac] .rv-game span,html[data-theme=peachy] .rv-game span,html[data-theme=minty] .rv-game span{color:var(--lt-text)}
-html[data-theme=lilac] #rvNavMenu,html[data-theme=peachy] #rvNavMenu,html[data-theme=minty] #rvNavMenu{background:var(--lt-card);border-color:var(--lt-border);box-shadow:0 12px 32px rgba(var(--lt-shadow),.18)}
-html[data-theme=lilac] #rvNavMenu button,html[data-theme=peachy] #rvNavMenu button,html[data-theme=minty] #rvNavMenu button{color:var(--lt-text)}
-html[data-theme=lilac] #rvNavMenu button:hover,html[data-theme=peachy] #rvNavMenu button:hover,html[data-theme=minty] #rvNavMenu button:hover{background:var(--lt-pastel)}
+html[data-theme=lilac] .rv-game-ico,html[data-theme=peachy] .rv-game-ico,html[data-theme=minty] .rv-game-ico,html[data-theme=sun] .rv-game-ico{border:3px solid var(--lt-border);box-shadow:0 8px 20px rgba(var(--lt-shadow),.20)}
+html[data-theme=lilac] .rv-game span,html[data-theme=peachy] .rv-game span,html[data-theme=minty] .rv-game span,html[data-theme=sun] .rv-game span{color:var(--lt-text)}
+html[data-theme=lilac] #rvNavMenu,html[data-theme=peachy] #rvNavMenu,html[data-theme=minty] #rvNavMenu,html[data-theme=sun] #rvNavMenu{background:var(--lt-card);border-color:var(--lt-border);box-shadow:0 12px 32px rgba(var(--lt-shadow),.18)}
+html[data-theme=lilac] #rvNavMenu button,html[data-theme=peachy] #rvNavMenu button,html[data-theme=minty] #rvNavMenu button,html[data-theme=sun] #rvNavMenu button{color:var(--lt-text)}
+html[data-theme=lilac] #rvNavMenu button:hover,html[data-theme=peachy] #rvNavMenu button:hover,html[data-theme=minty] #rvNavMenu button:hover,html[data-theme=sun] #rvNavMenu button:hover{background:var(--lt-pastel)}
   /* ===== ?v=109 Minty/Lilac scenic wiring: theme scenes behind content; existing glass wash kept, reader text preserved ===== */
   html[data-theme=minty] .lib-banner .poof-img-library-banner{background-image:url('pouf-minty-library.webp')}
   html[data-theme=minty] body:has(#s-read:not([hidden])) #readBg{display:block;background-image:url('pouf-minty-scene-read.webp')}
-  html[data-theme=lilac] body:has(#s-read:not([hidden])) #readBg{display:block;background-image:url('pouf-lilac-scene-read.webp')} /* ?v=111: rv-game circles sit on a light card under light themes (was dark --surface disc) */ html[data-theme=lilac] .rv-game-ico,html[data-theme=peachy] .rv-game-ico,html[data-theme=minty] .rv-game-ico{background:var(--lt-card, #fff)} /* ?v=111: light wash over the read-tab scenic under light themes (was a dark wash that hid the scene and read black) */ html[data-theme=lilac] #readBg::after,html[data-theme=peachy] #readBg::after,html[data-theme=minty] #readBg::after{background:rgba(255,255,255,.72)}
-html[data-theme=lilac] #text,html[data-theme=peachy] #text,html[data-theme=minty] #text{background:var(--lt-card);color:var(--lt-text);box-shadow:var(--shadow-card);border:1px solid var(--lt-border)} /* ?v=114: light-theme reader card (was dark wash under light themes) */ 
+  html[data-theme=lilac] body:has(#s-read:not([hidden])) #readBg{display:block;background-image:url('pouf-lilac-scene-read.webp')} /* ?v=111: rv-game circles sit on a light card under light themes (was dark --surface disc) */ html[data-theme=lilac] .rv-game-ico,html[data-theme=peachy] .rv-game-ico,html[data-theme=minty] .rv-game-ico,/* ?v=111: rv-game circles sit on a light card under light themes (was dark --surface disc) */ html[data-theme=sun] .rv-game-ico,html[data-theme=sun] .rv-game-ico{background:var(--lt-card, #fff)} /* ?v=111: light wash over the read-tab scenic under light themes (was a dark wash that hid the scene and read black) */ html[data-theme=lilac] #readBg::after,html[data-theme=peachy] #readBg::after,html[data-theme=minty] #readBg::after,/* ?v=111: light wash over the read-tab scenic under light themes (was a dark wash that hid the scene and read black) */ html[data-theme=sun] #readBg::after,html[data-theme=sun] #readBg::after{background:rgba(255,255,255,.72)}
+html[data-theme=lilac] #text,html[data-theme=peachy] #text,html[data-theme=minty] #text,html[data-theme=sun] #text{background:var(--lt-card);color:var(--lt-text);box-shadow:var(--shadow-card);border:1px solid var(--lt-border)} /* ?v=114: light-theme reader card (was dark wash under light themes) */ 
   /* ===== ?v=116 Ocean + Sun themes ===== */
   /* Ocean: DARK theme (deep blue). Tokens cascade via var(--*) to body/cards/nav/buttons; explicit rules below cover nav/muted/#text/readBg. */
   html[data-theme=ocean]{--bg:#0B1E3A;--surface:#12294D;--text:#E8F1FF;--muted:#A8BDD8;--accent:#38BDF8;--border:#2A4A73;--nav-bg:rgba(18,41,77,.85);--nav-border:rgba(56,189,248,.30);--hover:rgba(56,189,248,.10);--active:rgba(56,189,248,.15);--shadow-nav:0 12px 32px rgba(0,0,0,.45);--shadow-card:0 10px 24px rgba(0,0,0,.30);color-scheme:dark}
@@ -637,7 +644,7 @@ html[data-theme=lilac] #text,html[data-theme=peachy] #text,html[data-theme=minty
   html[data-theme=nebula] .lib-banner .poof-img-library-banner{background-image:url('pouf-nebula-library.webp')}
   html[data-theme=nebula] body:has(#s-read:not([hidden])) #readBg{display:block;background-image:url('pouf-nebula-scene-read.webp')}
 
-</style>
+ #readBg,#reviewBg,#cardsBg,#meBg,#dictBg{height:auto;transform:none;will-change:auto;background-size:cover;background-position:center top;background-repeat:no-repeat} html[data-theme=ocean] header .poof-img-header-bg{background-image:url('pouf-blue-banner.webp');background-size:cover;background-position:center} html[data-theme=nebula] header .poof-img-header-bg{background-image:url('pouf-nebula-banner.webp');background-size:cover;background-position:center}</style>
 </head>
 <body>
 <div id="readBg" class="poof-img-library-bg" aria-hidden="true"></div>
@@ -4952,7 +4959,7 @@ function renderMe(){
   ["مرور امروز",db.log[fmt(new Date())]||0],["روز پیاپی",streak()]];
  $("#stats").innerHTML=`<div class="grid">${st.map(([l,v])=>`<div class="card stat"><b>${v}</b><span class="mute">${l}</span></div>`).join("")}</div>
   <div class="card"><div class="mute">مرورهای ۷ روز اخیر</div><div class="bars">${days.map(n=>`<div title="${n}" style="height:${Math.min(60,n*4)+2}px"></div>`).join("")}</div></div>`;
- $$("#themeOpts .theme-option").forEach(b=>b.classList.toggle("selected",b.dataset.th===(["snowy","lilac","peachy","minty"].includes(db.theme)?db.theme:"classic")));$("#proxy").value=db.proxy||"";$("#wkey").value=db.wkey||"";try{$("#zbToken").value=localStorage.getItem("poof_zaban_token")||""}catch(e){}
+ $$("#themeOpts .theme-option").forEach(b=>b.classList.toggle("selected",b.dataset.th===(["snowy","lilac","peachy","minty","ocean","sun","nebula"].includes(db.theme)?db.theme:"classic")));$("#proxy").value=db.proxy||"";$("#wkey").value=db.wkey||"";try{$("#zbToken").value=localStorage.getItem("poof_zaban_token")||""}catch(e){}
 }
 
 /* ===== 9) Export / Import (با پشتیبان قبل از جایگزینی) ===== */
