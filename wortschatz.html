@@ -154,7 +154,7 @@ html[data-theme=snowy] .lk.esel{background:rgba(243,200,121,.30)}
 /* scrubbable reader progress bar: taller hit area, 6px visible track */
 #readerView .progbar{padding:8px 0;background-clip:content-box;cursor:pointer;touch-action:none}
 </style>
-</head>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800;900&family=DM+Sans:wght@400;500;700&family=Vazirmatn:wght@400;500;700;800&display=swap" rel="stylesheet"></head>
 <body>
 <div class="poof-img-library-bg" id="scenicBg" aria-hidden="true"></div>
 <a class="poof-back" href="./">← بازگشت به POOF</a>
@@ -396,7 +396,7 @@ html[data-theme=snowy] .lk.esel{background:rgba(243,200,121,.30)}
 <script src="poof-core.js"></script>
 <script>
 /* ===== POOF theme (shared key with the main app: poof_v2.theme) ===== */
-function applyPoofTheme(){var t='classic';try{t=(JSON.parse(localStorage.getItem('poof_v2')||'{}').theme==='snowy')?'snowy':'classic';}catch(e){}document.documentElement.dataset.theme=t;var tc=document.getElementById('themeCss');if(tc){var f='theme-'+t+'.css?v=16';if(tc.href&&!tc.href.endsWith(f))tc.href=f;}var m=document.querySelector('meta[name=theme-color]');if(m)m.content=(t==='snowy')?'#081421':'#111111';}
+function applyPoofTheme(){var t='classic';try{var _th=(JSON.parse(localStorage.getItem('poof_v2')||'{}').theme);t=(_th==='snowy'||_th==='lilac'||_th==='peachy'||_th==='minty')?_th:'classic';}catch(e){}document.documentElement.dataset.theme=t;var tc=document.getElementById('themeCss');if(tc){var f='theme-'+((t==='snowy')?'snowy':'classic')+'.css?v=16';if(tc.href&&!tc.href.endsWith(f))tc.href=f;}var m=document.querySelector('meta[name=theme-color]');if(m)m.content=(t==='snowy')?'#081421':(t==='lilac')?'#EEF2FF':(t==='peachy')?'#FFF7ED':(t==='minty')?'#F0FDF4':'#111111';}
 /* Theme is inherited from the main app (poof_v2.theme, chosen once in its Profile tab); this page has no theme toggle. */
 window.addEventListener('storage',function(e){if(e.key==='poof_v2')applyPoofTheme();});
 applyPoofTheme();
@@ -1115,5 +1115,25 @@ if(window.PoofPos){
 - گام دوم (فلش‌کارت) و گام سوم (آزمون) به‌صورت نمونهٔ عملی فعال‌اند.
 - در تسک ۲ به سراغ بانک کامل واژگان سطحی (A1 تا C1) می‌رویم.
 -->
+
+<style>
+/* ?v=103 light themes (lilac/peachy/minty) — additive only; dark themes untouched */
+html[data-theme=lilac]{color-scheme:light;--bg:#EEF2FF;--panel:#FFFFFF;--panel-2:#FFFFFF;--card:#FFFFFF;--soft:#E0E7FF;--line:#C7D2FE;--text:#1E1B4B;--muted:#55547E;--gold:#B45309;--gold-2:#92400E;--glass:rgba(255,255,255,.75);--glass-2:rgba(255,255,255,.6)}
+html[data-theme=peachy]{color-scheme:light;--bg:#FFF7ED;--panel:#FFFFFF;--panel-2:#FFFFFF;--card:#FFFFFF;--soft:#FFEDD5;--line:#FED7AA;--text:#1C1917;--muted:#57534E;--gold:#B45309;--gold-2:#92400E;--glass:rgba(255,255,255,.75);--glass-2:rgba(255,255,255,.6)}
+html[data-theme=minty]{color-scheme:light;--bg:#F0FDF4;--panel:#FFFFFF;--panel-2:#FFFFFF;--card:#FFFFFF;--soft:#DCFCE7;--line:#BBF7D0;--text:#052E16;--muted:#365314;--gold:#B45309;--gold-2:#92400E;--glass:rgba(255,255,255,.75);--glass-2:rgba(255,255,255,.6)}
+/* clay: Leitner boxes, game cards, stat cards, word panel, quiz option buttons (light themes only; search results + sheets + section lists excluded) */
+html[data-theme=lilac] .box,html[data-theme=peachy] .box,html[data-theme=minty] .box,html[data-theme=lilac] .quiz-card,html[data-theme=peachy] .quiz-card,html[data-theme=minty] .quiz-card,html[data-theme=lilac] .flash-card,html[data-theme=peachy] .flash-card,html[data-theme=minty] .flash-card,html[data-theme=lilac] .stat-card,html[data-theme=peachy] .stat-card,html[data-theme=minty] .stat-card,html[data-theme=lilac] .home-card,html[data-theme=peachy] .home-card,html[data-theme=minty] .home-card,html[data-theme=lilac] .word-panel,html[data-theme=peachy] .word-panel,html[data-theme=minty] .word-panel{background:#FFFFFF;border:3px solid var(--line);border-radius:22px;box-shadow:inset -2px -2px 8px rgba(255,255,255,.9),4px 4px 8px rgba(0,0,0,.14);backdrop-filter:none;-webkit-backdrop-filter:none}
+html[data-theme=lilac] .quiz-opts button,html[data-theme=peachy] .quiz-opts button,html[data-theme=minty] .quiz-opts button{border:3px solid var(--line);border-radius:22px;background:#FFFFFF;box-shadow:inset -2px -2px 8px rgba(255,255,255,.9),4px 4px 8px rgba(0,0,0,.14)}
+html[data-theme=lilac] .home-card .foot,html[data-theme=peachy] .home-card .foot,html[data-theme=minty] .home-card .foot{background:var(--soft)}
+/* correct/wrong feedback: same hues, darkened for light backgrounds (dark-theme values untouched) */
+html[data-theme=lilac] .quiz-opts button.is-correct,html[data-theme=peachy] .quiz-opts button.is-correct,html[data-theme=minty] .quiz-opts button.is-correct{border-color:#16A34A!important;color:#166534!important;animation:clayBounce .5s cubic-bezier(0.34,1.56)}
+html[data-theme=lilac] .quiz-opts button.is-wrong,html[data-theme=peachy] .quiz-opts button.is-wrong,html[data-theme=minty] .quiz-opts button.is-wrong{border-color:#DC2626!important;color:#B91C1C!important}
+@keyframes clayBounce{0%{transform:scale(1)}40%{transform:scale(1.05)}70%{transform:scale(.98)}100%{transform:scale(1)}}
+@media (prefers-reduced-motion:reduce){html[data-theme=lilac] .quiz-opts button.is-correct,html[data-theme=peachy] .quiz-opts button.is-correct,html[data-theme=minty] .quiz-opts button.is-correct{animation:none}}
+/* fonts (same stacks as ?v=102) */
+body{font-family:'DM Sans','Vazirmatn',sans-serif}
+h1,h2,h3{font-family:'Nunito','Vazirmatn',sans-serif;font-weight:800}
+.word-big,.flash-card .front,.quiz-q{font-family:'Nunito','Vazirmatn',sans-serif}
+</style>
 </body>
 </html>
