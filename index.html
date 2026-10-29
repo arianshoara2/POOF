@@ -438,7 +438,6 @@ html[data-theme=lilac] button:active,html[data-theme=peachy] button:active,html[
 /* Reduced motion: no bounce/float animations (game bounce itself arrives in ?v=103) */
 @media (prefers-reduced-motion:reduce){.poof-mascot,.brand-mascot{animation:none}}
 html[data-theme=lilac] .brand-mascot{display:block}
-.mascot-frame{border-radius:50%;background:#0b0b12}
 #lilacHomeBanner{display:none;width:100%;height:auto;border-radius:var(--r-md);margin-bottom:10px}
 html[data-theme=lilac] #lilacHomeBanner{display:block}
 
@@ -551,7 +550,32 @@ html[data-theme=lilac] #lilacHomeBanner{display:block}
   html[data-theme=lilac] .tline.cur,html[data-theme=peachy] .tline.cur,html[data-theme=minty] .tline.cur{background:rgba(var(--lt-shadow),.10)}
   html[data-theme=lilac] .wp-t td,html[data-theme=lilac] .wp-t th,html[data-theme=peachy] .wp-t td,html[data-theme=peachy] .wp-t th,html[data-theme=minty] .wp-t td,html[data-theme=minty] .wp-t th{border-color:var(--lt-border)}
   html[data-theme=lilac] .help-img img,html[data-theme=peachy] .help-img img,html[data-theme=minty] .help-img img{border-color:var(--lt-border)}
-  </style>
+  
+/* ?v=108 review game circles + long-press shortcut menu */
+.rv-games{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:2px 0 14px}
+.rv-game{background:transparent;border:0;padding:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--text);font:inherit}
+.rv-game-ico{width:68px;height:68px;border-radius:50%;object-fit:cover;border:2px solid rgba(230,185,111,.55);box-shadow:0 4px 14px rgba(0,0,0,.35);background:var(--surface)}
+.rv-game:active .rv-game-ico{transform:scale(.96)}
+.rv-game span{font-size:12px;text-align:center;line-height:1.4}
+#rvNavMenu{position:fixed;left:50%;transform:translateX(-50%);bottom:100px;z-index:101;display:flex;flex-direction:column;gap:6px;padding:8px;background:var(--surface);border:1px solid var(--nav-border);border-radius:20px;box-shadow:var(--shadow-nav);min-width:220px}
+#rvNavMenu[hidden]{display:none}
+#rvNavMenu button{display:flex;align-items:center;gap:10px;background:transparent;border:0;color:var(--text);padding:10px 12px;border-radius:12px;cursor:pointer;text-align:start;font:inherit;opacity:0;transform:translateY(14px) rotate(-6deg);transition:transform .38s cubic-bezier(.34,1.56,.64,1),opacity .25s ease}
+#rvNavMenu.open button{opacity:1;transform:translateY(0) rotate(0)}
+#rvNavMenu button:nth-child(1){transition-delay:.02s}
+#rvNavMenu button:nth-child(2){transition-delay:.04s}
+#rvNavMenu button:nth-child(3){transition-delay:.06s}
+#rvNavMenu button:nth-child(4){transition-delay:.08s}
+#rvNavMenu button:nth-child(5){transition-delay:.10s}
+#rvNavMenu button:nth-child(6){transition-delay:.12s}
+#rvNavMenu button:hover{background:var(--hover)}
+#rvNavMenu button .ic{width:22px;height:22px;flex:none}
+@media (prefers-reduced-motion:reduce){#rvNavMenu button{transition:none}}
+html[data-theme=lilac] .rv-game-ico,html[data-theme=peachy] .rv-game-ico,html[data-theme=minty] .rv-game-ico{border:3px solid var(--lt-border);box-shadow:0 8px 20px rgba(var(--lt-shadow),.20)}
+html[data-theme=lilac] .rv-game span,html[data-theme=peachy] .rv-game span,html[data-theme=minty] .rv-game span{color:var(--lt-text)}
+html[data-theme=lilac] #rvNavMenu,html[data-theme=peachy] #rvNavMenu,html[data-theme=minty] #rvNavMenu{background:var(--lt-card);border-color:var(--lt-border);box-shadow:0 12px 32px rgba(var(--lt-shadow),.18)}
+html[data-theme=lilac] #rvNavMenu button,html[data-theme=peachy] #rvNavMenu button,html[data-theme=minty] #rvNavMenu button{color:var(--lt-text)}
+html[data-theme=lilac] #rvNavMenu button:hover,html[data-theme=peachy] #rvNavMenu button:hover,html[data-theme=minty] #rvNavMenu button:hover{background:var(--lt-pastel)}
+</style>
 </head>
 <body>
 <div id="readBg" class="poof-img-library-bg" aria-hidden="true"></div>
@@ -764,6 +788,12 @@ html[data-theme=lilac] #lilacHomeBanner{display:block}
    </div>
   </div>
   </div>
+  <div id="rvGames" class="rv-games" aria-label="بازی‌ها و آزمون‌ها">
+  <button class="rv-game" onclick="location.href='der-die-das.html'"><img class="rv-game-ico" data-pose="wave" alt="" loading="lazy"><span>der · die · das</span></button>
+  <button class="rv-game" onclick="location.href='studienkolleg-trainer.html'"><img class="rv-game-ico" data-pose="read" alt="" loading="lazy"><span>Studienkolleg</span></button>
+  <button class="rv-game" onclick="location.href='placement-test.html'"><img class="rv-game-ico" data-pose="think" alt="" loading="lazy"><span>Placement</span></button>
+  <button class="rv-game" onclick="location.href='wortschatz.html'"><img class="rv-game-ico" data-pose="celebrate" alt="" loading="lazy"><span>Wortschatz</span></button>
+  </div>
   <div class="card leit"><div class="row"><div style="flex:1"><b>جعبه لایتنر</b><div class="mute" id="boxSub"></div></div><button id="openBox"><svg class="ic" aria-hidden="true"><use href="#i-box"/></svg> باز کردن</button></div><div class="boxes" id="boxes"></div></div>
   <div class="row" style="margin:10px 0"><span class="mute">دسته‌ی مرور:</span><select id="rvDeck" style="flex:1"></select></div>
   <div id="rv"></div></section>
@@ -838,6 +868,14 @@ html[data-theme=lilac] #lilacHomeBanner{display:block}
  <button data-t="review" aria-label="مرور و یادگیری" title="مرور و یادگیری"><svg class="ic" aria-hidden="true"><use href="#i-route"/></svg></button>
  <button data-t="me" aria-label="پروفایل" title="پروفایل"><svg class="ic" aria-hidden="true"><use href="#i-user"/></svg></button>
 </nav>
+<div id="rvNavMenu" hidden>
+  <button data-go="learn.html?v=6"><svg class="ic" aria-hidden="true"><use href="#i-route"/></svg><span>مسیر یادگیری</span></button>
+  <button data-go="practice.html"><svg class="ic" aria-hidden="true"><use href="#i-target"/></svg><span>تمرین</span></button>
+  <button data-go="der-die-das.html"><svg class="ic" aria-hidden="true"><use href="#i-cards"/></svg><span>der · die · das</span></button>
+  <button data-go="studienkolleg-trainer.html"><svg class="ic" aria-hidden="true"><use href="#i-doc"/></svg><span>Studienkolleg</span></button>
+  <button data-go="placement-test.html"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg><span>آزمون تعیین سطح</span></button>
+  <button data-go="wortschatz.html"><svg class="ic" aria-hidden="true"><use href="#i-dict"/></svg><span>Wortschatz</span></button>
+</div>
 <div class="hd" id="hs" hidden></div><div class="hd" id="he" hidden></div>
 <div id="pop" hidden><div id="popT" class="popT"></div><div id="popLangMenu" hidden></div><div class="popB">
  <button data-p="say" aria-label="تلفظ"><svg class="ic" aria-hidden="true"><use href="#i-sound"/></svg></button><button data-p="ask" aria-label="از پووف بپرس" style="font-size:20px">✨</button><button data-p="more" aria-label="جزئیات"><svg class="ic" aria-hidden="true"><use href="#i-expand"/></svg></button><button data-p="sent" aria-label="گسترش به جمله"><svg class="ic" aria-hidden="true"><use href="#i-sent"/></svg></button><button data-p="copy" aria-label="کپی"><svg class="ic" aria-hidden="true"><use href="#i-copy"/></svg></button><button data-p="edit" aria-label="ویرایش"><svg class="ic" aria-hidden="true"><use href="#i-edit"/></svg></button><button data-p="lang" id="popLang" class="popLang" aria-label="زبان ترجمه">فا</button><button data-p="add" class="plus" aria-label="افزودن به کارت‌ها"><svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></button></div></div>
@@ -4905,11 +4943,21 @@ $("#packDeDel").onclick=async()=>{if(await uiConfirm("دیکشنری آفلای�
 renderPackDE();
 
 /* ===== 10) Theme + tabs ===== */
-/* ?v=105 mascots: one <img> per slot, src set by theme (snowy/lilac only); other themes render nothing */
-const MASCOT_SRC={snowy:{wave:'snowy-wave.webp',celebrate:'snowy-celebrate.webp',read:'snowy-read.webp',sleep:'snowy-sleep.webp',think:'snowy-think.webp'},lilac:{wave:'pouf-lilac-wave.webp',celebrate:'pouf-lilac-celebrate.webp',read:'pouf-lilac-read.webp',sleep:'pouf-lilac-sleep.webp',think:'pouf-lilac-think.webp'}};
-function mascotImg(pose,cls){const t=document.documentElement.dataset.theme;const f=(MASCOT_SRC[t]||{})[pose];if(!f)return '';return `<img class="poof-mascot${cls?' '+cls:''}${t==='lilac'?' mascot-frame':''}" style="display:block" src="${f}" alt="" loading="lazy">`}
-function updateMascots(){const t=document.documentElement.dataset.theme;const bm=document.getElementById('brandMascot');if(bm){const f=(MASCOT_SRC[t]||{}).wave||MASCOT_SRC.snowy.wave;bm.src=f;bm.classList.toggle('mascot-frame',t==='lilac');bm.style.display=''}const bn=document.getElementById('lilacHomeBanner');if(bn){if(t==='lilac'){bn.src='pouf-lilac-banner.webp'}else{bn.removeAttribute('src')}}}
-function applyTheme(){const t=["snowy","lilac","peachy","minty"].includes(db.theme)?db.theme:"classic";document.documentElement.dataset.theme=t;const _swap=()=>{const tc=document.getElementById("themeCss");if(tc){const f="theme-"+(t==="snowy"?"snowy":"classic")+".css?v=16";if(!tc.href.endsWith(f))tc.href=f}};if(window.PoofPos){try{PoofPos.fadeThemeSwap(_swap)}catch(e){_swap()}}else{_swap()}const m=document.querySelector("meta[name=theme-color]");if(m)m.content={snowy:"#081421",lilac:"#EEF2FF",peachy:"#FFF7ED",minty:"#F0FDF4"}[t]||"#111111";updateMascots()}
+/* ?v=105 mascots: one <img> per slot, src set by theme via mascotSet(); transparent poses, no dark disc */
+const MASCOT_SRC={snowy:{wave:'snowy-wave.webp',celebrate:'snowy-celebrate.webp',read:'snowy-read.webp',sleep:'snowy-sleep.webp',think:'snowy-think.webp'},classic:{wave:'pouf-classic-wave.webp',celebrate:'pouf-classic-celebrate.webp',read:'pouf-classic-read.webp',sleep:'pouf-classic-sleep.webp',think:'pouf-classic-think.webp'},lilac:{wave:'pouf-lilac-wave.webp',celebrate:'pouf-lilac-celebrate.webp',read:'pouf-lilac-read.webp',sleep:'pouf-lilac-sleep.webp',think:'pouf-lilac-think.webp'},ocean:{wave:'pouf-ocean-smile.webp',celebrate:'pouf-ocean-celebrate.webp',read:'pouf-ocean-read.webp',sleep:'pouf-ocean-sleep.webp',think:'pouf-ocean-think.webp'},sun:{wave:'pouf-sun-wave.webp',celebrate:'pouf-sun-celebrate.webp',read:'pouf-sun-read.webp',sleep:'pouf-sun-sleep.webp',think:'pouf-sun-think.webp'}};
+/* Theme-pose resolver: Classic->classic, Lilac->lilac, Snowy->snowy; Peachy/Minty->snowy light-friendly fallback until Berry/Forest files are uploaded AND verified on main. Ocean/Sun entries exist for future themes only. */
+function mascotSet(t){if(t==='classic')return MASCOT_SRC.classic;if(t==='lilac')return MASCOT_SRC.lilac;if(t==='snowy')return MASCOT_SRC.snowy;return MASCOT_SRC.snowy;}
+function mascotImg(pose,cls){const t=document.documentElement.dataset.theme;const f=mascotSet(t)[pose];if(!f)return '';return `<img class="poof-mascot${cls?' '+cls:''}" style="display:block" src="${f}" alt="" loading="lazy">`}
+function updateMascots(){const t=document.documentElement.dataset.theme;const bm=document.getElementById('brandMascot');if(bm){const f=mascotSet(t).wave;bm.src=f;bm.style.display=''}const bn=document.getElementById('lilacHomeBanner');if(bn){if(t==='lilac'){bn.src='pouf-lilac-banner.webp'}else{bn.removeAttribute('src')}}}
+function updateRvGames(){const t=document.documentElement.dataset.theme;document.querySelectorAll('#rvGames .rv-game-ico').forEach(im=>{const pose=im.dataset.pose;im.src=mascotSet(t)[pose];})}
+let rvLpTimer=null,rvLpFired=false;
+const rvNavEl=document.getElementById('nav'),rvMenuEl=document.getElementById('rvNavMenu');
+function rvMenuClose(){if(!rvMenuEl||rvMenuEl.hidden)return;rvMenuEl.classList.remove('open');rvMenuEl.hidden=true;removeEventListener('scroll',rvMenuClose,{capture:true})}
+function rvMenuOpen(){if(!document.querySelector('#nav button[data-t="review"].on'))return;const nav=document.getElementById('nav');rvMenuEl.style.bottom=(nav.offsetHeight+28)+'px';rvMenuEl.hidden=false;void rvMenuEl.offsetWidth;rvMenuEl.classList.add('open');addEventListener('scroll',rvMenuClose,{passive:true,capture:true})}
+if(rvNavEl){rvNavEl.addEventListener('pointerdown',()=>{if(!document.querySelector('#nav button[data-t="review"].on'))return;rvLpFired=false;clearTimeout(rvLpTimer);rvLpTimer=setTimeout(()=>{rvLpFired=true;rvMenuOpen()},500)});['pointerup','pointercancel','pointerleave'].forEach(ev=>rvNavEl.addEventListener(ev,()=>clearTimeout(rvLpTimer)))}
+document.addEventListener('pointerdown',e=>{if(rvMenuEl&&!rvMenuEl.hidden&&!rvMenuEl.contains(e.target)&&!rvNavEl.contains(e.target))rvMenuClose()},{capture:true});
+if(rvMenuEl){rvMenuEl.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const go=b.dataset.go;rvMenuClose();if(go)location.href=go})}
+function applyTheme(){const t=["snowy","lilac","peachy","minty"].includes(db.theme)?db.theme:"classic";document.documentElement.dataset.theme=t;const _swap=()=>{const tc=document.getElementById("themeCss");if(tc){const f="theme-"+(t==="snowy"?"snowy":"classic")+".css?v=16";if(!tc.href.endsWith(f))tc.href=f}};if(window.PoofPos){try{PoofPos.fadeThemeSwap(_swap)}catch(e){_swap()}}else{_swap()}const m=document.querySelector("meta[name=theme-color]");if(m)m.content={snowy:"#081421",lilac:"#EEF2FF",peachy:"#FFF7ED",minty:"#F0FDF4"}[t]||"#111111";updateMascots();updateRvGames()}
 $("#proxyTest").onclick=async()=>{
  const _tb=$("#proxyTest"),_ol=_tb.textContent;_tb.disabled=true;_tb.textContent="در حال آزمایش…";toast("در حال آزمایش اتصال…");
  try{db.proxy=$("#proxy").value.trim();db.wkey=$("#wkey").value.trim();save();
@@ -4974,18 +5022,10 @@ function tab(t){$("#hSub").textContent=SUB[t];scrollTo(0,0);$("#nav").classList.
  if(t==="cards")renderCards();if(t==="review")startReview();if(t==="me")renderMe();if(t==="dict")renderRecent();
 }
 function goReviewTab(){
-  var m = null;
-  try { m = JSON.parse(localStorage.getItem('poof_practice_resume') || 'null'); } catch(e) { m = null; }
-  var PAGES = ['wortschatz.html','der-die-das.html','studienkolleg-trainer.html','placement-test.html','practice.html'];
-  if (m && typeof m.page === 'string' && PAGES.indexOf(m.page) >= 0) {
-    try{if(window.PoofPos)PoofPos.saveNow(PoofPos.make('index.html','tab:review',{}));}catch(e){}
-    location.href = './' + m.page;
-    return;
-  }
   tab('review');
   try{if(window.PoofPos)PoofPos.go(PoofPos.make('index.html','tab:review',{scrollY:0}));}catch(e){}
 }
-$("#nav").onclick=e=>{const b=e.target.closest("button");if(b){b.blur();if(b.dataset.t==="review")goReviewTab();else tab(b.dataset.t);saveState();pushNavState();if(window.PoofPos&&b.dataset.t!=="review"){try{PoofPos.go(PoofPos.make('index.html','tab:'+b.dataset.t,{cat:b.dataset.t==="read"?(db.textId||""):"",scrollY:0}));}catch(e){}}}};
+$("#nav").onclick=e=>{if(rvLpFired){rvLpFired=false;return;}rvMenuClose();const b=e.target.closest("button");if(b){b.blur();if(b.dataset.t==="review")goReviewTab();else tab(b.dataset.t);saveState();pushNavState();if(window.PoofPos&&b.dataset.t!=="review"){try{PoofPos.go(PoofPos.make('index.html','tab:'+b.dataset.t,{cat:b.dataset.t==="read"?(db.textId||""):"",scrollY:0}));}catch(e){}}}};
 /* ===== ثبت وضعیت + بازگشت سیستمی بین تب‌ها/متن‌ها (کلید جدا، بدون دست‌کاری poof_v2) ===== */
 const LS_STATE="poof_last_state";
 function curTab(){const v=[...document.querySelectorAll(".tab")].find(s=>!s.hidden);return v?v.id.replace(/^s-/,""):"read"}
