@@ -12,7 +12,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#111111">
-<title>poof</title>
+<title>poof</title> <link rel="preconnect" href="https://fonts.googleapis.com"> <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800;900&family=DM+Sans:wght@400;500;700&family=Vazirmatn:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
 /* ===== POOF design system: tokens (Classic / Snowy) ===== */
 :root{--bg:#111111;--surface:#1b1814;--text:#f5f1e8;--muted:#b8b0a4;--accent:#e6b96f;--error:#ff8f87;--ok:#9fd8a8;--border:#4a4032;
@@ -400,6 +400,39 @@ html:not([data-theme=snowy]) #s-review input,html:not([data-theme=snowy]) #s-rev
 #s-cards #list .card::after{content:"";position:absolute;inset:0;z-index:0;background:linear-gradient(160deg,rgba(8,20,33,.62),rgba(8,20,33,.34));pointer-events:none}
 html:not([data-theme=snowy]) #s-cards #list .card::after{background:linear-gradient(160deg,rgba(20,16,12,.66),rgba(20,16,12,.38))}
 #s-cards #list .card-in{position:relative;z-index:1}
+/* ===== POOF ?v=102: light clay themes (lilac / peachy / minty) — ADDITIVE ONLY ===== */
+/* Fonts (global, all themes): Nunito 800/900 headings, DM Sans body, Vazirmatn Persian fallback (per-glyph) */
+:root{--sans:'DM Sans','Vazirmatn',sans-serif}
+h1,h2,h3{font-family:'Nunito','Vazirmatn',sans-serif;font-weight:800}
+/* Light theme tokens (scoped to the theme attribute; dark themes untouched) */
+html[data-theme=lilac]{--lt-bg:#EEF2FF;--lt-text:#1E1B4B;--lt-muted:#55547E;--lt-card:#FFFFFF;--lt-border:#C7D2FE;--lt-primary:#4F46E5;--lt-shadow:79,70,229;--lt-pastel:#E6E6FA;color-scheme:light}
+html[data-theme=peachy]{--lt-bg:#FFF7ED;--lt-text:#1C1917;--lt-muted:#57534E;--lt-card:#FFFFFF;--lt-border:#FED7AA;--lt-primary:#F97316;--lt-shadow:249,115,22;--lt-pastel:#FDBCB4;color-scheme:light}
+html[data-theme=minty]{--lt-bg:#F0FDF4;--lt-text:#052E16;--lt-muted:#365314;--lt-card:#FFFFFF;--lt-border:#BBF7D0;--lt-primary:#166534;--lt-shadow:22,101,52;--lt-pastel:#98FF98;color-scheme:light}
+/* Page background under light themes (reader text area keeps its own dark wash; #text rules untouched) */
+html[data-theme=lilac] body,html[data-theme=peachy] body,html[data-theme=minty] body{background:var(--lt-bg)}
+/* Hide the dark scenic background layer of the read tab so the light bg shows (other tab layers untouched) */
+html[data-theme=lilac] body:has(#s-read:not([hidden])) #readBg,html[data-theme=peachy] body:has(#s-read:not([hidden])) #readBg,html[data-theme=minty] body:has(#s-read:not([hidden])) #readBg{display:none}
+/* Home cards: clay (scenic photo layer hidden; titles/mutes reset to dark, no text-shadow) */
+html[data-theme=lilac] #learnCard,html[data-theme=peachy] #learnCard,html[data-theme=minty] #learnCard,html[data-theme=lilac] #practiceCard,html[data-theme=peachy] #practiceCard,html[data-theme=minty] #practiceCard,html[data-theme=lilac] #movieCard,html[data-theme=peachy] #movieCard,html[data-theme=minty] #movieCard,html[data-theme=lilac] #podCard,html[data-theme=peachy] #podCard,html[data-theme=minty] #podCard,html[data-theme=lilac] #wortCard,html[data-theme=peachy] #wortCard,html[data-theme=minty] #wortCard{background:var(--lt-card);border:3px solid var(--lt-border);border-radius:22px;box-shadow:inset -2px -2px 8px rgba(255,255,255,.9),4px 4px 8px rgba(var(--lt-shadow),.18);color:var(--lt-text);-webkit-backdrop-filter:none;backdrop-filter:none}
+html[data-theme=lilac] #learnCard .card-bg-img,html[data-theme=peachy] #learnCard .card-bg-img,html[data-theme=minty] #learnCard .card-bg-img,html[data-theme=lilac] #practiceCard .card-bg-img,html[data-theme=peachy] #practiceCard .card-bg-img,html[data-theme=minty] #practiceCard .card-bg-img,html[data-theme=lilac] #movieCard .card-bg-img,html[data-theme=peachy] #movieCard .card-bg-img,html[data-theme=minty] #movieCard .card-bg-img,html[data-theme=lilac] #podCard .card-bg-img,html[data-theme=peachy] #podCard .card-bg-img,html[data-theme=minty] #podCard .card-bg-img,html[data-theme=lilac] #wortCard .card-bg-img,html[data-theme=peachy] #wortCard .card-bg-img,html[data-theme=minty] #wortCard .card-bg-img{display:none}
+html[data-theme=lilac] #learnCard b,html[data-theme=peachy] #learnCard b,html[data-theme=minty] #learnCard b,html[data-theme=lilac] #practiceCard b,html[data-theme=peachy] #practiceCard b,html[data-theme=minty] #practiceCard b,html[data-theme=lilac] #movieCard b,html[data-theme=peachy] #movieCard b,html[data-theme=minty] #movieCard b,html[data-theme=lilac] #podCard b,html[data-theme=peachy] #podCard b,html[data-theme=minty] #podCard b,html[data-theme=lilac] #wortCard b,html[data-theme=peachy] #wortCard b,html[data-theme=minty] #wortCard b{text-shadow:none}
+html[data-theme=lilac] #learnCard .mute,html[data-theme=peachy] #learnCard .mute,html[data-theme=minty] #learnCard .mute,html[data-theme=lilac] #practiceCard .mute,html[data-theme=peachy] #practiceCard .mute,html[data-theme=minty] #practiceCard .mute,html[data-theme=lilac] #movieCard .mute,html[data-theme=peachy] #movieCard .mute,html[data-theme=minty] #movieCard .mute,html[data-theme=lilac] #podCard .mute,html[data-theme=peachy] #podCard .mute,html[data-theme=minty] #podCard .mute,html[data-theme=lilac] #wortCard .mute,html[data-theme=peachy] #wortCard .mute,html[data-theme=minty] #wortCard .mute{color:var(--lt-muted);text-shadow:none}
+/* Library zone: clay panel (search inputs inside keep their existing glassy rules, untouched) */
+html[data-theme=lilac] #libZone,html[data-theme=peachy] #libZone,html[data-theme=minty] #libZone{background:var(--lt-bg);border:3px solid var(--lt-border);border-radius:22px;box-shadow:inset -2px -2px 8px rgba(255,255,255,.9),4px 4px 8px rgba(var(--lt-shadow),.18);color:var(--lt-text);-webkit-backdrop-filter:none;backdrop-filter:none}
+html[data-theme=lilac] #libZone .card-bg-img,html[data-theme=peachy] #libZone .card-bg-img,html[data-theme=minty] #libZone .card-bg-img{display:none}
+/* Library items: white clay cards, pastel icon chip with dark icon */
+html[data-theme=lilac] #lib .lib-card,html[data-theme=peachy] #lib .lib-card,html[data-theme=minty] #lib .lib-card{background:var(--lt-card);border:3px solid var(--lt-border);border-radius:22px;box-shadow:inset -2px -2px 8px rgba(255,255,255,.9),4px 4px 8px rgba(var(--lt-shadow),.14);color:var(--lt-text);-webkit-backdrop-filter:none;backdrop-filter:none}
+html[data-theme=lilac] #lib .lib-card .lib-tx b,html[data-theme=peachy] #lib .lib-card .lib-tx b,html[data-theme=minty] #lib .lib-card .lib-tx b{color:var(--lt-text)}
+html[data-theme=lilac] #lib .lib-card .lib-tx .mute,html[data-theme=peachy] #lib .lib-card .lib-tx .mute,html[data-theme=minty] #lib .lib-card .lib-tx .mute{color:var(--lt-muted)}
+html[data-theme=lilac] #lib .lib-card .lib-ic,html[data-theme=peachy] #lib .lib-card .lib-ic,html[data-theme=minty] #lib .lib-card .lib-ic{background:var(--lt-pastel)}
+html[data-theme=lilac] #lib .lib-card .lib-ic .ic,html[data-theme=peachy] #lib .lib-card .lib-ic .ic,html[data-theme=minty] #lib .lib-card .lib-ic .ic{color:var(--lt-text)}
+html[data-theme=lilac] #lib .lib-card .lib-del,html[data-theme=peachy] #lib .lib-card .lib-del,html[data-theme=minty] #lib .lib-card .lib-del{color:var(--lt-muted)}
+html[data-theme=lilac] #lib .lib-card.on,html[data-theme=peachy] #lib .lib-card.on,html[data-theme=minty] #lib .lib-card.on{border-color:var(--lt-primary);box-shadow:inset -2px -2px 8px rgba(255,255,255,.9),4px 4px 8px rgba(var(--lt-shadow),.14),0 0 0 1px var(--lt-primary)}
+/* Button press (light themes only): 200ms ease-out */
+html[data-theme=lilac] button,html[data-theme=peachy] button,html[data-theme=minty] button{transition:transform .2s ease-out}
+html[data-theme=lilac] button:active,html[data-theme=peachy] button:active,html[data-theme=minty] button:active{transform:scale(.97)}
+/* Reduced motion: no bounce/float animations (game bounce itself arrives in ?v=103) */
+@media (prefers-reduced-motion:reduce){.poof-mascot,.brand-mascot{animation:none}}
 </style>
 </head>
 <body>
@@ -618,7 +651,7 @@ html:not([data-theme=snowy]) #s-cards #list .card::after{background:linear-gradi
 
  <section id="s-me" class="tab" hidden>   <div class="card"><div class="row" style="justify-content:center"><button class="ghost" id="helpBtn">راهنمای استفاده</button></div></div>   <h2>تم</h2>
   <div class="card">
-   <div class="theme-options" id="themeOpts"><button class="theme-option" data-th="classic"><b>Classic</b><span>گرم، تیره و طلایی</span></button><button class="theme-option" data-th="snowy"><b>Snowy</b><span>آبی شبانه و آرام</span></button></div>
+   <div class="theme-options" id="themeOpts"><button class="theme-option" data-th="classic"><b>Classic</b><span>گرم، تیره و طلایی</span></button><button class="theme-option" data-th="snowy"><b>Snowy</b><span>آبی شبانه و آرام</span></button><button class="theme-option" data-th="lilac"><b>یاسی</b><span>روشن و لطیف</span></button><button class="theme-option" data-th="peachy"><b>هلویی</b><span>روشن و گرم</span></button><button class="theme-option" data-th="minty"><b>نعنایی</b><span>روشن و تازه</span></button></div>
   </div>
   <div class="card">
    <div class="row"><div style="flex:1"><b>حساب گوگل</b><div class="mute" id="gSub">کلمات و تاریخچه روی گوگل‌درایو شما ذخیره می‌شود؛ با هر گوشی که وارد شوید سر جایش است</div></div><span id="gSync" class="mute" style="font-size:12px"></span></div>
@@ -4559,7 +4592,7 @@ function renderMe(){
   ["مرور امروز",db.log[fmt(new Date())]||0],["روز پیاپی",streak()]];
  $("#stats").innerHTML=`<div class="grid">${st.map(([l,v])=>`<div class="card stat"><b>${v}</b><span class="mute">${l}</span></div>`).join("")}</div>
   <div class="card"><div class="mute">مرورهای ۷ روز اخیر</div><div class="bars">${days.map(n=>`<div title="${n}" style="height:${Math.min(60,n*4)+2}px"></div>`).join("")}</div></div>`;
- $$("#themeOpts .theme-option").forEach(b=>b.classList.toggle("selected",b.dataset.th===(db.theme==="snowy"?"snowy":"classic")));$("#proxy").value=db.proxy||"";$("#wkey").value=db.wkey||"";try{$("#zbToken").value=localStorage.getItem("poof_zaban_token")||""}catch(e){}
+ $$("#themeOpts .theme-option").forEach(b=>b.classList.toggle("selected",b.dataset.th===(["snowy","lilac","peachy","minty"].includes(db.theme)?db.theme:"classic")));$("#proxy").value=db.proxy||"";$("#wkey").value=db.wkey||"";try{$("#zbToken").value=localStorage.getItem("poof_zaban_token")||""}catch(e){}
 }
 
 /* ===== 9) Export / Import (با پشتیبان قبل از جایگزینی) ===== */
@@ -4616,7 +4649,7 @@ $("#packDeDel").onclick=async()=>{if(await uiConfirm("دیکشنری آفلای�
 renderPackDE();
 
 /* ===== 10) Theme + tabs ===== */
-function applyTheme(){const t=db.theme==="snowy"?"snowy":"classic";document.documentElement.dataset.theme=t;const _swap=()=>{const tc=document.getElementById("themeCss");if(tc){const f="theme-"+t+".css?v=16";if(!tc.href.endsWith(f))tc.href=f}};if(window.PoofPos){try{PoofPos.fadeThemeSwap(_swap)}catch(e){_swap()}}else{_swap()}const m=document.querySelector("meta[name=theme-color]");if(m)m.content=t==="snowy"?"#081421":"#111111"}
+function applyTheme(){const t=["snowy","lilac","peachy","minty"].includes(db.theme)?db.theme:"classic";document.documentElement.dataset.theme=t;const _swap=()=>{const tc=document.getElementById("themeCss");if(tc){const f="theme-"+(t==="snowy"?"snowy":"classic")+".css?v=16";if(!tc.href.endsWith(f))tc.href=f}};if(window.PoofPos){try{PoofPos.fadeThemeSwap(_swap)}catch(e){_swap()}}else{_swap()}const m=document.querySelector("meta[name=theme-color]");if(m)m.content={snowy:"#081421",lilac:"#EEF2FF",peachy:"#FFF7ED",minty:"#F0FDF4"}[t]||"#111111"}
 $("#proxyTest").onclick=async()=>{
  const _tb=$("#proxyTest"),_ol=_tb.textContent;_tb.disabled=true;_tb.textContent="در حال آزمایش…";toast("در حال آزمایش اتصال…");
  try{db.proxy=$("#proxy").value.trim();db.wkey=$("#wkey").value.trim();save();
