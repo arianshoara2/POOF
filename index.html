@@ -4959,7 +4959,7 @@ function updateMascots(){const t=document.documentElement.dataset.theme;const bm
 function updateRvGames(){const t=document.documentElement.dataset.theme;document.querySelectorAll('#rvGames .rv-game-ico').forEach(im=>{const pose=im.dataset.pose;im.src=mascotSet(t)[pose];})}
 let rvLpTimer=null,rvLpFired=false;
 const rvNavEl=document.getElementById('nav'),rvMenuEl=document.getElementById('rvNavMenu');
-function rvMenuClose(){if(!rvMenuEl||rvMenuEl.hidden)return;rvMenuEl.classList.remove('open');rvMenuEl.hidden=true;removeEventListener('scroll',rvMenuClose,{capture:true})}
+function rvMenuClose(){rvLpFired=false;if(!rvMenuEl||rvMenuEl.hidden)return;rvMenuEl.classList.remove('open');rvMenuEl.hidden=true;removeEventListener('scroll',rvMenuClose,{capture:true})}
 function rvMenuOpen(){if(!document.querySelector('#nav button[data-t="review"].on'))return;const nav=document.getElementById('nav');rvMenuEl.style.bottom=(nav.offsetHeight+28)+'px';rvMenuEl.hidden=false;void rvMenuEl.offsetWidth;rvMenuEl.classList.add('open');addEventListener('scroll',rvMenuClose,{passive:true,capture:true})}
 if(rvNavEl){rvNavEl.addEventListener('pointerdown',()=>{if(!document.querySelector('#nav button[data-t="review"].on'))return;rvLpFired=false;clearTimeout(rvLpTimer);rvLpTimer=setTimeout(()=>{rvLpFired=true;rvMenuOpen()},500)});['pointerup','pointercancel','pointerleave'].forEach(ev=>rvNavEl.addEventListener(ev,()=>clearTimeout(rvLpTimer)))}
 document.addEventListener('pointerdown',e=>{if(rvMenuEl&&!rvMenuEl.hidden&&!rvMenuEl.contains(e.target)&&!rvNavEl.contains(e.target))rvMenuClose()},{capture:true});
@@ -5032,7 +5032,7 @@ function goReviewTab(){
   tab('review');
   try{if(window.PoofPos)PoofPos.go(PoofPos.make('index.html','tab:review',{scrollY:0}));}catch(e){}
 }
-$("#nav").onclick=e=>{if(rvLpFired){rvLpFired=false;return;}rvMenuClose();const b=e.target.closest("button");if(b){b.blur();if(b.dataset.t==="review")goReviewTab();else tab(b.dataset.t);saveState();pushNavState();if(window.PoofPos&&b.dataset.t!=="review"){try{PoofPos.go(PoofPos.make('index.html','tab:'+b.dataset.t,{cat:b.dataset.t==="read"?(db.textId||""):"",scrollY:0}));}catch(e){}}}};
+$("#nav").onclick=e=>{if(rvLpFired){if(rvMenuEl&&!rvMenuEl.hidden){rvLpFired=false;rvMenuClose();return;}rvLpFired=false;}rvMenuClose();const b=e.target.closest("button");if(b){b.blur();if(b.dataset.t==="review")goReviewTab();else tab(b.dataset.t);saveState();pushNavState();if(window.PoofPos&&b.dataset.t!=="review"){try{PoofPos.go(PoofPos.make('index.html','tab:'+b.dataset.t,{cat:b.dataset.t==="read"?(db.textId||""):"",scrollY:0}));}catch(e){}}}};
 /* ===== ثبت وضعیت + بازگشت سیستمی بین تب‌ها/متن‌ها (کلید جدا، بدون دست‌کاری poof_v2) ===== */
 const LS_STATE="poof_last_state";
 function curTab(){const v=[...document.querySelectorAll(".tab")].find(s=>!s.hidden);return v?v.id.replace(/^s-/,""):"read"}
