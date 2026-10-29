@@ -644,7 +644,23 @@ html[data-theme=lilac] #text,html[data-theme=peachy] #text,html[data-theme=minty
   html[data-theme=nebula] .lib-banner .poof-img-library-banner{background-image:url('pouf-nebula-library.webp')}
   html[data-theme=nebula] body:has(#s-read:not([hidden])) #readBg{display:block;background-image:url('pouf-nebula-scene-read.webp')}
 
- #readBg,#reviewBg,#cardsBg,#meBg,#dictBg{height:auto;transform:none;will-change:auto;background-size:cover;background-position:center top;background-repeat:no-repeat} html[data-theme=ocean] header .poof-img-header-bg{background-image:url('pouf-blue-banner.webp');background-size:cover;background-position:center} html[data-theme=nebula] header .poof-img-header-bg{background-image:url('pouf-nebula-banner.webp');background-size:cover;background-position:center}</style>
+ #readBg,#reviewBg,#cardsBg,#meBg,#dictBg{height:auto;transform:none;will-change:auto;background-size:cover;background-position:center top;background-repeat:no-repeat} html[data-theme=ocean] header .poof-img-header-bg{background-image:url('pouf-blue-banner.webp');background-size:cover;background-position:center} html[data-theme=nebula] header .poof-img-header-bg{background-image:url('pouf-nebula-banner.webp');background-size:cover;background-position:center}
+/* ===== POOF ?v=119: photo upload + OCR (Tesseract.js, on-device) ===== */
+.ocr-box{margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
+.ocr-box .seg{margin-bottom:0}
+.ocr-prog{display:flex;align-items:center;gap:8px;margin-top:10px}
+.ocr-bar{flex:1;height:10px;border-radius:99px;background:var(--border);overflow:hidden}
+.ocr-bar i{display:block;height:100%;width:100%;background:var(--accent);border-radius:99px;transform-origin:left center;transform:scaleX(0);transition:transform .2s ease}
+.ocr-pct{font-size:13px;font-weight:700;white-space:nowrap}
+.ocr-note{margin:8px 0 0}
+#ocrPrev{width:100%}
+html[data-theme=lilac] .ocr-box,html[data-theme=peachy] .ocr-box,html[data-theme=minty] .ocr-box,html[data-theme=sun] .ocr-box{border-top-color:var(--lt-border)}
+html[data-theme=lilac] .ocr-bar,html[data-theme=peachy] .ocr-bar,html[data-theme=minty] .ocr-bar,html[data-theme=sun] .ocr-bar{background:var(--lt-border)}
+html[data-theme=lilac] .ocr-bar i,html[data-theme=peachy] .ocr-bar i,html[data-theme=minty] .ocr-bar i,html[data-theme=sun] .ocr-bar i{background:var(--lt-primary)}
+html[data-theme=lilac] .ocr-pct,html[data-theme=peachy] .ocr-pct,html[data-theme=minty] .ocr-pct,html[data-theme=sun] .ocr-pct{color:var(--lt-text)}
+html[data-theme=lilac] #ocrPrev,html[data-theme=peachy] #ocrPrev,html[data-theme=minty] #ocrPrev,html[data-theme=sun] #ocrPrev{background:var(--lt-card);border-color:var(--lt-border);color:var(--lt-text)}
+@media (prefers-reduced-motion:reduce){.ocr-bar i{transition:none}}
+</style>
 </head>
 <body>
 <div id="readBg" class="poof-img-library-bg" aria-hidden="true"></div>
@@ -734,7 +750,7 @@ html[data-theme=lilac] #text,html[data-theme=peachy] #text,html[data-theme=minty
    <div class="card-in">
    <button class="secHead" data-sec="lib"><span>📚 کتابخانه</span><span class="secChev">▾</span></button>
    <div id="secLibBody">
-  <div class="row" style="margin-bottom:10px"><input id="libQ" placeholder="جست‌وجو در کتابخانه…" style="flex:1"><button class="ib" id="libSort" aria-label="مرتب‌سازی" title="مرتب‌سازی">⇅</button><button class="ib pri" id="addTxt" aria-label="متن جدید"><svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></button></div>
+  <div class="row" style="margin-bottom:10px"><input id="libQ" placeholder="جست‌وجو در کتابخانه…" style="flex:1"><button class="ib" id="libSort" aria-label="مرتب‌سازی" title="مرتب‌سازی">⇅</button><button class="ib pri" id="addTxt" aria-label="متن جدید"><svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></button><button class="ib" id="ocrBtn" aria-label="آپلود عکس" title="آپلود عکس">📷</button></div>
   <div id="addPanel" hidden>
    <div class="searchbar"><input id="tUrl" dir="ltr" placeholder="لینک یوتیوب یا مقاله…"><button class="ib pri" id="tGet" aria-label="دریافت از لینک"><svg class="ic" aria-hidden="true"><use href="#i-link"/></svg></button></div>
    <div class="seg" id="slSeg" style="margin-top:10px"><button class="on" data-sl="">زیرنویس اصلی</button><button data-sl="en">EN</button><button data-sl="de">DE</button><button data-sl="fa">فا</button></div>
@@ -743,6 +759,14 @@ html[data-theme=lilac] #text,html[data-theme=peachy] #text,html[data-theme=minty
    <div class="seg" id="tlSeg"><button class="on" data-tl="auto">خودکار</button><button data-tl="de">DE</button><button data-tl="en">EN</button><button data-tl="fa">فا</button></div>
    <textarea id="tBody" dir="auto" rows="6" placeholder="هر متن فارسی، آلمانی یا انگلیسی را اینجا بنویسید یا بچسبانید"></textarea>
    <div class="row"><button class="ghost" id="tPaste">چسباندن</button><button id="tAdd" style="flex:1">ذخیره و خواندن</button></div>
+<div class="ocr-box" id="ocrBox" hidden>
+<div class="seg" id="ocrLangSeg"><button class="on" data-ocrl="deu">DE</button><button data-ocrl="eng">EN</button><button data-ocrl="fas">فا</button></div>
+<div class="row" style="margin-top:8px"><button class="ghost" id="ocrPick" style="flex:1">انتخاب عکس</button><input id="ocrFile" type="file" accept="image/*" hidden></div>
+<div class="ocr-prog" id="ocrProg" hidden><div class="ocr-bar" id="ocrBar"><i id="ocrBarFill"></i></div><span class="ocr-pct" id="ocrPct">۰٪</span><span class="mute" id="ocrStatus"></span></div>
+<div id="ocrPrevWrap" hidden><textarea id="ocrPrev" dir="auto" rows="8" placeholder="متن استخراج‌شده از عکس — قبل از ذخیره، خطاهای خواندن را اینجا اصلاح کنید"></textarea>
+<div class="row" style="margin-top:8px"><button class="ghost" id="ocrCancel">لغو</button><button id="ocrOk" style="flex:1">تأیید و ذخیره در کتابخانه</button></div></div>
+<p class="mute ocr-note" id="ocrErr" hidden></p>
+</div>
    <div class="row" style="margin-top:10px"><button class="ghost" id="subPick">وارد کردن زیرنویس (SRT/VTT)</button><input id="subFile" type="file" accept=".srt,.vtt" hidden><button class="ghost" id="zabanSearchBtn">جست‌وجو در زبان</button></div>
    <div class="seg" id="subLangSeg" style="margin-top:8px"><button class="on" data-subl="auto">خودکار</button><button data-subl="de">DE</button><button data-subl="en">EN</button></div>
   </div>
@@ -3361,6 +3385,25 @@ $("#tAdd").onclick=()=>{
  if(sg.length>=3){t.video={id:vid};t.segs=sg;t.body=sg.map(x=>x.t).join("\n");t.lang=tl==="auto"?detectLang(t.body):tl}
  db.texts.push(t);db.textId=t.id;save();$("#tTitle").value=$("#tBody").value="";$("#addPanel").hidden=true;renderReader();toast("متن ذخیره شد — زبان: "+LB[t.lang]);
 };
+/* ===== POOF ?v=119: photo upload + OCR =====
+   PRIVACY: the photo NEVER leaves the device. No upload, no fetch of image
+   bytes anywhere. Only the Tesseract.js library + language-model files are
+   downloaded from the CDN. OCR runs in a Web Worker (Tesseract.js worker)
+   so the UI never locks. Output is only a new input into the existing
+   add-text path: Confirm sets #tBody + tl and calls $("#tAdd").click(). */
+let ocrLang="deu",ocrBusy=false,ocrTessLoading=null;
+const ocrEl=id=>$(id);
+function ocrShowErr(m){const e=ocrEl("#ocrErr");e.textContent=m;e.hidden=false;toast(m,"bad")}
+function ocrSetBusy(b){ocrBusy=b;ocrEl("#ocrBtn").disabled=b;ocrEl("#ocrPick").disabled=b;ocrEl("#ocrBtn").style.opacity=b?.5:"";ocrEl("#ocrPick").style.opacity=b?.5:""}
+function ocrSetProg(pct,label){const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;ocrEl("#ocrBar").style.display=reduced?"none":"";ocrEl("#ocrBarFill").style.transform="scaleX("+(pct/100)+")";ocrEl("#ocrPct").textContent=pct+"٪";ocrEl("#ocrStatus").textContent=label||""}
+$("#ocrLangSeg").onclick=e=>{const b=e.target.closest("[data-ocrl]");if(!b||ocrBusy)return;ocrLang=b.dataset.ocrl;$$("#ocrLangSeg button").forEach(x=>x.classList.toggle("on",x===b))};
+$("#ocrBtn").onclick=()=>{const p=$("#addPanel");const box=$("#ocrBox");const wasVisible=!p.hidden&&!box.hidden;p.hidden=false;box.hidden=false;p.scrollIntoView({block:"nearest"});if(wasVisible)$("#ocrFile").click()};
+$("#ocrPick").onclick=()=>{if(!ocrBusy)$("#ocrFile").click()};
+$("#ocrCancel").onclick=()=>{$("#ocrPrevWrap").hidden=true;$("#ocrProg").hidden=true;$("#ocrErr").hidden=true;ocrSetBusy(false)};
+function ocrLoadTess(){if(window.Tesseract)return Promise.resolve();if(ocrTessLoading)return ocrTessLoading;ocrTessLoading=new Promise((res,rej)=>{const s=document.createElement("script");s.src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js";s.onload=()=>res();s.onerror=()=>rej(new Error("cdn"));document.head.appendChild(s)});return ocrTessLoading}
+async function ocrDownscale(file){let bmp=null;try{bmp=await createImageBitmap(file,{imageOrientation:"from-image"})}catch(e){bmp=null}let w,h,src=null;if(bmp){w=bmp.width;h=bmp.height}else{src=await new Promise((res,rej)=>{const u=URL.createObjectURL(file);const im=new Image();im.onload=()=>res(im);im.onerror=()=>rej(new Error("img"));im.src=u});w=src.naturalWidth;h=src.naturalHeight}const MAX=2000;const sc=Math.min(1,MAX/Math.max(w,h));const cw=Math.round(w*sc),ch=Math.round(h*sc);const cv=document.createElement("canvas");cv.width=cw;cv.height=ch;const ctx=cv.getContext("2d");if(bmp)ctx.drawImage(bmp,0,0,cw,ch);else ctx.drawImage(src,0,0,cw,ch);if(src)URL.revokeObjectURL(src.src);return cv}
+$("#ocrFile").addEventListener("change",async()=>{const f=$("#ocrFile").files[0];$("#ocrFile").value="";if(!f||ocrBusy)return;if(f.type&&!f.type.startsWith("image/")){ocrShowErr("فایل انتخاب‌شده عکس نیست");return}ocrSetBusy(true);$("#ocrErr").hidden=true;$("#ocrPrevWrap").hidden=true;$("#ocrProg").hidden=false;ocrSetProg(0,"در حال آماده‌سازی…");try{await ocrLoadTess();const cv=await ocrDownscale(f);ocrSetProg(5,"در حال دانلود مدل زبان…");const worker=await Tesseract.createWorker(ocrLang,1,{logger:m=>{if(m.status==="recognizing text")ocrSetProg(Math.round(50+m.progress*50),"در حال خواندن عکس…");else if(typeof m.progress==="number")ocrSetProg(Math.round(m.progress*50),"در حال دانلود مدل زبان…")}});let text="";try{const r=await worker.recognize(cv);text=(r&&r.data&&r.data.text)||""}finally{try{await worker.terminate()}catch(e){}}if(!text.trim()){ocrShowErr("متنی در عکس پیدا نشد");$("#ocrProg").hidden=true;ocrSetBusy(false);return}$("#ocrPrev").value=text;$("#ocrProg").hidden=true;$("#ocrPrevWrap").hidden=false;ocrSetBusy(false);$("#ocrPrev").focus()}catch(e){$("#ocrProg").hidden=true;ocrSetBusy(false);ocrShowErr("دانلود مدل ناموفق بود؛ اینترنت را بررسی کنید")}});
+$("#ocrOk").onclick=()=>{const txt=$("#ocrPrev").value.trim();if(!txt)return toast("متن خالی است","bad");tl={deu:"de",eng:"en",fas:"fa"}[ocrLang]||"auto";$$("#tlSeg button").forEach(x=>x.classList.toggle("on",x.dataset.tl===tl));$("#tBody").value=txt;$("#tTitle").value="";$("#tAdd").click();$("#ocrPrevWrap").hidden=true;$("#ocrErr").hidden=true};
 $("#wlSeg").onclick=e=>{const b=e.target.closest("[data-wl]");if(!b)return;wl=b.dataset.wl;$$("#wlSeg button").forEach(x=>x.classList.toggle("on",x===b));const q=$("#wq").value.trim();if(q)wpSearch(q)};
 $("#dlSeg").onclick=e=>{const b=e.target.closest("[data-dl]");if(!b)return;db.dictLang=b.dataset.dl;save();renderRecent();if($("#q").value.trim())dsearch()};
 
