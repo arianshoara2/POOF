@@ -1767,31 +1767,160 @@ function buildFa(e){
 /* اگر نمای دیکشنری هنوز همین کلمه را نشان می‌دهد، آن را دوباره رندر کن
    (برای اینکه پنل بیاموزِ تازه‌رسیده بدون جست‌وجوی دوباره دیده شود) */
 function rerenderDictIfShowing(w,lang){try{const de=$("#dentry");if(!de||$("#s-dict").hidden)return;if(!de._cur||String(de._cur.word).toLowerCase()!==String(w).toLowerCase())return;showEntry(de,w,"","dictionary",lang||"de")}catch(_){}}
+
+/* ===== ?v=104: دیکشنری دو مرحله‌ای — بخش‌های wort.app و بیاموز تنبل (lazy) =====
+   مرحله‌ی اول فقط منابع سریع/محلی را می‌آورد و کارت را فوری نشان می‌دهد؛
+   wort و بیاموز فقط وقتی دانلود می‌شوند که کاربر تیتر همان بخش را باز کند.
+   محتوای دانلودشده در حافظه‌ی نشست (lazyMemo) + کش پایدار می‌ماند؛ دانلود ناموفق
+   کش نمی‌شود تا «تلاش دوباره» دوباره بگیرد. رندر دوباره‌ی کارت پس از دانلود،
+   همان قالب امروز را با همان ورودی کامل اجرا می‌کند، پس محتوای نهایی عین امروز است. */
+const lazyMemo=new Map(),lazyInflight=new Map();
+const lazyKey=(w,lang,src)=>lang+"||"+w.toLowerCase()+"||"+src;
+const lazySpinnerHTML=`<div class="lazy-loading"><span class="lazy-spin" aria-hidden="true"></span><span>در حال دریافت…</span></div>`;
+function lazyErrorHTML(msg){return `<div class="lazy-err"><span>${esc(msg)}</span> <button class="ghost lazy-retry" type="button">تلاش دوباره</button></div>`}
+if(typeof document!=="undefined"&&!document.getElementById("lazy-css")){
+ const st=document.createElement("style");st.id="lazy-css";
+ st.textContent=`.lazy-body:empty{display:none}.lazy-loading{display:flex;align-items:center;gap:8px;padding:10px 2px;color:var(--muted)}.lazy-spin{width:16px;height:16px;flex:none;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:lazySpin .8s linear infinite}.lazy-err{display:flex;align-items:center;gap:8px;padding:10px 2px;color:var(--muted)}@keyframes lazySpin{to{transform:rotate(360deg)}}@media (prefers-reduced-motion:reduce){.lazy-spin{animation:none}}`;
+ document.head.appendChild(st);
+}
+/* کلید بخش تنبل از روی تیتر آن (پس از رندر دوباره، بخشِ محتوادار هم با همین تیتر پیدا می‌شود) */
+function lazySectionKey(sumText){
+ if(!sumText)return null;
+ if(sumText.includes("(wort.app)"))return "wort";
+ if(sumText.includes("(بیاموز)"))return "bamooz";
+ return null;
+}
+/* وضعیت قابل‌حفظ کارت هنگام رندر دوباره: معنی تایپ‌شده (فقط اگر کاربر عوضش کرده باشد)،
+   رادیوهای انتخاب‌شده، منوی دک و باز/بسته بودن دو بخش */
+function captureCardState(box,oldFa0){
+ const st={};
+ try{
+  const fa=$("#fa",box);st.fa=fa?fa.value:"";st.faEdited=st.fa!==((oldFa0||""));
+  const sn=$("input[name=sn]:checked",box);st.sn=sn?sn.value:null;
+  const ex=$("input[name=ex]:checked",box);st.ex=ex?ex.value:null;
+  const dk=$("#dk",box);st.dk=dk?dk.value:null;
+  st.open={};
+  box.querySelectorAll("details").forEach(d=>{
+   const sm=d.querySelector("summary");const k=sm?lazySectionKey(sm.textContent):null;
+   if(k)st.open[k]=!!d.open;
+  });
+ }catch(_){}
+ return st;
+}
+function restoreCardState(box,st){
+ try{
+  if(st.faEdited){const fa=$("#fa",box);if(fa)fa.value=st.fa}
+  if(st.sn!=null){const sn=$(`input[name=sn][value="${st.sn}"]`,box);if(sn)sn.checked=true}
+  if(st.ex!=null){const ex=$(`input[name=ex][value="${st.ex}"]`,box);if(ex)ex.checked=true}
+  if(st.dk!=null){const dk=$("#dk",box);if(dk)dk.value=st.dk}
+  box.querySelectorAll("details").forEach(d=>{
+   const sm=d.querySelector("summary");const k=sm?lazySectionKey(sm.textContent):null;
+   if(k&&st.open[k])d.open=true;
+  });
+ }catch(_){}
+}
+/* دانلود تنبل یک منبع؛ موفقیت (حتی null یعنی «چیزی نیست») برمی‌گردد، خطا throw می‌شود.
+   فقط موفقیتِ غیر-null در حافظه‌ی نشست می‌ماند؛ دانلودِ در حال انجام، مشترک است تا تکرار نشود. */
+async function lazyFetchSource(w,lang,srcKey){
+ const key=lazyKey(w,lang,srcKey);
+ if(lazyMemo.has(key))return lazyMemo.get(key);
+ if(lazyInflight.has(key))return lazyInflight.get(key);
+ const p=(async()=>{
+  let v;
+  if(srcKey==="wort")v=await Providers.wort(w);
+  else{
+   v=await bamoozTimed(w,lang);
+   if(v===BAMOOZ_TIMEOUT)throw new Error("timeout");
+  }
+  if(v!=null)lazyMemo.set(key,v);
+  return v;
+ })();
+ lazyInflight.set(key,p);
+ try{return await p}catch(e){throw e}finally{lazyInflight.delete(key)}
+}
+/* بازمحاسبه‌ی معنی‌ها/ریشه/منبع‌ها پس از دانلود تنبل — دقیقاً همان ترتیب lookup امروز
+   (buildFa، بعد ریشه، بعد منبع‌ها، بعد اثر لایه‌ی فارسی آفلاین) */
+function refreshDeMeta(e,w){
+ e.fa=buildFa(e);
+ const loc=LOCAL[w.toLowerCase()];
+ e.lemma=(e.wort&&(e.wort.card?e.wort.card.word:e.wort.dict.word))||(loc?loc[0]:guessLemma(e.senses));
+ e.src=[e.wort&&"wort.app",e.senses.length&&"Wiktionary",e.mm.length&&"MyMemory",loc&&"محلی",e.bamooz&&"بیاموز"].filter(Boolean);
+ if(e.faLayerRecs){
+  const s=[];for(const r of e.faLayerRecs)for(const x of r.senses)if(x.fa)s.push(x.fa);
+  e.fa=[...new Set([...s,...(e.fa||[])])];
+  if(!e.src.includes("لایه‌ی فارسی آفلاین"))e.src.unshift("لایه‌ی فارسی آفلاین");
+  if(e.faLayerVia!=="lemma")e.lemma=e.faLayerRecs[0].lemma;
+ }
+}
+/* اتصال دانلود تنبل به بخش‌های کارت: باز شدن تیتر → اسپینر → دانلود همان یک منبع →
+   ادغام در ورودی + کش → رندر دوباره با حفظ وضعیت (بدون چشمک لودینگ تمام‌کارت). */
+function bindLazySections(box,e,raw,ctx,src,lang){
+ const w=norm(raw),lg=lang||"de";
+ const run=async(d,srcKey)=>{
+  const body=d.querySelector(".lazy-body");if(!body)return;
+  if(body.dataset.loading==="1")return;
+  body.dataset.loading="1";
+  body.innerHTML=lazySpinnerHTML;
+  const key=lazyKey(w,lg,srcKey);
+  let v;
+  try{
+   if(lazyMemo.has(key))v=lazyMemo.get(key);
+   else v=await lazyFetchSource(w,lg,srcKey);
+  }catch(err){
+   if(!body.isConnected)return;
+   body.dataset.loading="0";
+   const msg=err&&err.message==="noproxy"?"واسط (پروکسی) تنظیم نشده؛ از تب «پیشرفت» آدرس واسط را وارد کنید.":(err&&err.message==="timeout"?"پاسخ بیاموز طول کشید؛ دوباره تلاش کنید.":"دریافت ناموفق بود؛ اتصال را بررسی کنید.");
+   body.innerHTML=lazyErrorHTML(msg);
+   const rb=body.querySelector(".lazy-retry");
+   if(rb)rb.onclick=()=>run(d,srcKey);
+   return;
+  }
+  if(box._cur&&norm(String(box._cur.word)).toLowerCase()!==w.toLowerCase())return;
+  const oldFa0=(e.fa||[])[0]||"";
+  const stt=captureCardState(box,oldFa0);
+  if(lg==="en"){
+   if(srcKey==="bamooz"){e.bamooz=v;e.bamoozFailed=false;e.bamoozLazy=false;}
+   if(v&&!(e.src||[]).includes("بیاموز"))e.src=[...(e.src||[]),"بیاموز"];
+   cache["en:"+w.toLowerCase()]=e;
+  }else{
+   if(srcKey==="wort"){e.wort=v;e.wortFailed=false;e.wortLazy=false;}
+   else{e.bamooz=v;e.bamoozFailed=false;e.bamoozLazy=false;}
+   refreshDeMeta(e,w);
+   cache[w.toLowerCase()]=e;
+  }
+  saveCache();
+  showEntry(box,raw,ctx,src,lang,e);
+  restoreCardState(box,stt);
+ };
+ box.querySelectorAll("details[data-lazy-src]").forEach(d=>{
+  const srcKey=d.dataset.lazySrc;
+  d.addEventListener("toggle",()=>{if(d.open)run(d,srcKey)});
+ });
+}
 async function lookup(raw,lang){
  const w=norm(raw);if(!w)return null;
  if(FA.test(w))return lookupFa(w);
  if(lang==="en")return lookupEn(w);
  const key=w.toLowerCase(),phrase=/\s/.test(w);let e=cache[key];
  const faL=!phrase?await faLookup(w).catch(()=>null):null;
- if(e&&!phrase&&(e.bamoozFailed||e.bamooz==null)){bamoozTimed(w).then(v=>{try{if(v===BAMOOZ_TIMEOUT){e.bamoozFailed=true}else if(v){e.bamooz=v;e.bamoozFailed=false;if(!(e.src||[]).includes("بیاموز"))(e.src=e.src||[]).push("بیاموز")}else{e.bamooz=null;e.bamoozFailed=false}saveCache();rerenderDictIfShowing(w,lang||"de")}catch(_){}});}
- if(e&&!(!phrase&&(e.wortFailed||e.wort==null||(e.wort&&!e.wort.dict)))){if(faL)attachFaLayer(e,faL);return e;}
- if(e){ // فقط منابع ناقص را دوباره امتحان کن
-  try{if(!phrase&&(e.wortFailed||e.wort==null||(e.wort&&!e.wort.dict))){e.wort=await Providers.wort(w);e.wortFailed=false;e.fa=buildFa(e);if(faL)attachFaLayer(e,faL);saveCache()}}catch(x){}
-  return e;
- }
+ // ?v=104: ورودی کش‌شده همان‌طور که هست برمی‌گردد؛ منابعِ ناقص دیگر در پس‌زمینه
+ // دوباره گرفته نمی‌شوند — دانلودشان کار بخش‌های تنبل است، فقط با باز کردن تیتر.
+ if(e){if(faL)attachFaLayer(e,faL);return e;}
  const loc=LOCAL[key];
- const [a,b,c,d,f]=await Promise.allSettled([phrase?Promise.resolve([]):Providers.wiktionary(w),Providers.mymemory(w),phrase?Promise.resolve(null):Providers.wort(w),tr(w,"de","en"),phrase?Promise.resolve(null):bamoozTimed(w)]);
+ // ?v=104: مرحله‌ی اول فقط منابع سریع/محلی را می‌آورد (Wiktionary، MyMemory، ترجمه)؛
+ // wort.app و بیاموز اینجا دیگر منتظر نمی‌مانند.
+ const [a,b,d]=await Promise.allSettled([phrase?Promise.resolve([]):Providers.wiktionary(w),Providers.mymemory(w),tr(w,"de","en")]);
  e={word:w,en:d.value||"",senses:a.status==="fulfilled"?a.value:[],mm:b.status==="fulfilled"?b.value:[],
-  wort:c.status==="fulfilled"?c.value:null,wortFailed:!phrase&&c.status==="rejected",bamooz:(f.status==="fulfilled"&&f.value!==BAMOOZ_TIMEOUT)?f.value:null,bamoozFailed:!phrase&&f.status==="fulfilled"&&f.value===BAMOOZ_TIMEOUT};
+  wort:null,wortFailed:false,wortLazy:!phrase,bamooz:null,bamoozFailed:false,bamoozLazy:!phrase};
  e.fa=buildFa(e);
- e.lemma=(e.wort&&(e.wort.card?e.wort.card.word:e.wort.dict.word))||(loc?loc[0]:guessLemma(e.senses));
- e.src=[e.wort&&"wort.app",e.senses.length&&"Wiktionary",e.mm.length&&"MyMemory",loc&&"محلی",e.bamooz&&"بیاموز"].filter(Boolean);
+ e.lemma=(loc?loc[0]:guessLemma(e.senses));
+ e.src=[e.senses.length&&"Wiktionary",e.mm.length&&"MyMemory",loc&&"محلی"].filter(Boolean);
  if(faL)attachFaLayer(e,faL);
- if(!e.senses.length&&!e.fa.length&&!e.wort&&!e.faLayer&&!e.bamooz){
-  if([a,b,c].every(x=>x.status==="rejected")&&!e.bamooz)throw new Error("offline");
+ if(!e.senses.length&&!e.fa.length&&!e.faLayer){
+  if([a,b,d].every(x=>x.status==="rejected"))throw new Error("offline");
   return {word:w,senses:[],fa:[],src:[]};
  }
- if([a,b,c,f].some(x=>x.status==="fulfilled")){cache[key]=e;saveCache()}
+ if([a,b,d].some(x=>x.status==="fulfilled")){cache[key]=e;saveCache()}
  return e;
 }
 /* صداها هر بار تازه خوانده می‌شوند (کشِ خالیِ صدا روی اندروید یعنی سکوت همیشگی)؛
@@ -2574,7 +2703,7 @@ window.addEventListener("popstate",(e)=>{
 
 /* ===== 3) Entry view: sense picker, lemma, listen, add to deck ===== */
 const deckOpts=sel=>db.decks.map(d=>`<option value="${d.id}" ${d.id===sel?"selected":""}>${esc(d.name)}</option>`).join("");
-async function showEntry(box,raw,ctx,src,lang){
+async function showEntry(box,raw,ctx,src,lang,preE){
  if(sel){sel=null;drawSel()}
  const t=box._t=(box._t||0)+1;box.hidden=false;
  if(!box._bk){box._bk=1;box.addEventListener("click",ev=>{const bb=ev.target.closest&&ev.target.closest("[data-pkback]");if(bb){ev.preventDefault();entBack(box)}})}
@@ -2591,14 +2720,17 @@ async function showEntry(box,raw,ctx,src,lang){
   const w=(c.dataset.w||"").trim();if(!w)return;
   openPeek(box,w,box._rl||"de",{src:"dictionary"});
  })}
- box.innerHTML=`<p class="state loading">در حال جست‌وجو…</p>`;
  let e;
+ if(preE){e=preE}
+ else{
+ box.innerHTML=`<p class="state loading">در حال جست‌وجو…</p>`;
  try{e=await lookup(raw,lang)}catch(err){
   if(t!==box._t)return;
   box.innerHTML=`<p class="state error">اتصال به دیکشنری برقرار نشد و این کلمه در کش نیست.</p><button class="ghost" id="rt">تلاش دوباره</button>`;
   $("#rt",box).onclick=()=>showEntry(box,raw,ctx,src,lang);return;
  }
  if(t!==box._t)return;
+ }
  if(!e){box.hidden=true;return}
  if(e.dir==="fa"||e.dir==="en"){
   const isFa=e.dir==="fa";box._l=isFa&&!e.de.length&&e.en.length?"en":isFa?"de":"en";
@@ -2606,7 +2738,8 @@ async function showEntry(box,raw,ctx,src,lang){
   const flat=(e.senses||[]).flatMap(s=>s.defs.map(d=>({pos:s.pos,...d}))).slice(0,10);
   const G=e.glosbe,exs=[];if(!isFa){if(ctx)exs.push({en:ctx,fa:""});if(G)G.ex.forEach(x=>exs.length<10&&exs.push(x))}
   const exh=x=>`<span>${sr(x.en,"en")}${x.fa?`<br>${sr(x.fa,"fa","mute")}`:""}</span>`;
-  box.innerHTML=`<div class="row"><span class="big2 ${isFa?"":"de"}" style="flex:1">${esc(e.word)}</span><button class="ib" data-a="sayv" aria-label="تلفظ">${ic("sound")}</button></div>
+  const bamSectionEn=(!isFa&&e.bamooz)?`<div style="border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin-top:8px"><details><summary>همه‌ی معنی‌ها و عبارت‌ها (بیاموز)</summary>${bamoozPanelSafe(e.bamooz,"en")}</details></div>`:(!isFa&&e.bamoozLazy!==false&&!/\s/.test(raw))?`<div style="border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin-top:8px"><details data-lazy-src="bamooz"><summary>همه‌ی معنی‌ها و عبارت‌ها (بیاموز)</summary><div class="lazy-body"></div></details></div>`:"";
+ box.innerHTML=`<div class="row"><span class="big2 ${isFa?"":"de"}" style="flex:1">${esc(e.word)}</span><button class="ib" data-a="sayv" aria-label="تلفظ">${ic("sound")}</button></div>
   ${isFa?`${e.de.length?`<p class="lbl">آلمانی</p><div class="row">${chips(e.de,"de",1)}</div>`:""}${e.en.length?`<p class="lbl">English</p><div class="row">${chips(e.en,"en",1)}</div>`:""}
   <input id="fa" class="de" value="${esc(e.de[0]||e.en[0]||"")}" placeholder="Deutsch / English" style="margin-top:12px">`
   :`${e.fa.length?`<p class="lbl">فارسی</p><div class="row">${chips(e.fa,"fa",0)}</div>`:""}${e.de.length?`<p class="lbl">Deutsch</p><div class="row">${e.de.map(x=>`<button class="chip de" data-a="cp">${esc(x)}</button>`).join("")}</div>`:""}
@@ -2615,7 +2748,7 @@ async function showEntry(box,raw,ctx,src,lang){
   ${!isFa&&exs.length?`<p class="lbl">جمله‌ی نمونه برای کارت</p><label class="sense"><input type="radio" name="ex" value="-1"><span class="mute">بدون جمله</span></label>`+exs.map((x,i)=>`<label class="sense"><input type="radio" name="ex" value="${i}" ${i?"":"checked"}>${exh(x)}</label>`).join(""):""}
   ${!isFa&&G&&G.tr.length?`<details style="margin-top:8px"><summary>ترجمه‌ها و تعریف‌ها (Glosbe)</summary>${G.tr.map(x=>`<div class="sense"><span><b>${esc(x.w)}</b> ${x.pos?`<i>${esc(x.pos)}</i>`:""} ${x.def?sr(x.def,"en","mute"):""}</span></div>`).join("")}</details>`:""}
   ${!isFa&&G&&G.phr.length?`<details style="margin-top:8px"><summary>عبارت‌های مشابه (Glosbe)</summary>${G.phr.map(x=>`<div class="sense">${exh(x)}</div>`).join("")}</details>`:""}
-  ${!isFa&&e.bamooz?`<div style="border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin-top:8px"><details><summary>همه‌ی معنی‌ها و عبارت‌ها (بیاموز)</summary>${bamoozPanelSafe(e.bamooz,"en")}</details></div>`:""}
+  ${bamSectionEn}
   ${isFa&&ctx?`<div class="mute" style="margin-top:8px">${sr(ctx,"fa")}</div>`:""}
   ${!(isFa?e.de.length+e.en.length:e.fa.length+e.de.length+flat.length)?`<p class="mute">نتیجه‌ای پیدا نشد؛ معنی را دستی بنویسید.</p>`:""}
   <div id="richSlot">${e.rich?richHTML(e.rich):""}</div>
@@ -2634,6 +2767,7 @@ async function showEntry(box,raw,ctx,src,lang){
     if(addCard({...c,source:src||"dictionary",deck_id:$("#dk",box).value})){b.textContent="اضافه شد ✓";b.disabled=true}
    }
   };
+  bindLazySections(box,e,raw,ctx,src,lang);
   entHead(box);
   fillRich(box,e,t);
   return;
@@ -2654,11 +2788,14 @@ async function showEntry(box,raw,ctx,src,lang){
    h+=`<details style="margin-top:8px"><summary>تصریف (${dk.kind?esc(dk.kind)+" · ":""}wort.app)</summary>${dk.note?`<div class="mute de" style="margin:6px 0">${esc(dk.note)}</div>`:""}${dk.praed?`<div class="mute de" style="margin:6px 0">${esc(dk.praed)}</div>`:""}${dk.rows.length?`<table class="de" dir="ltr" style="border-collapse:collapse;margin-top:6px">${headRow}${dk.rows.map(r=>`<tr>${r.map(c=>`<td style="border:1px solid var(--border);padding:4px 8px">${esc(c)}</td>`).join("")}</tr>`).join("")}</table>`:""}</details>`;
   }
   return h};
+ const wortSection=(dict||card)?`<div style="border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin-top:8px"><details><summary>همه‌ی معنی‌ها و عبارت‌ها (wort.app)</summary>${dict?dict.senses.map(s=>`<p><b>${sr(s.meaning,"fa")}</b>${s.note?` <span class="mute de">${esc(s.note)}</span>`:""}`+
+  [...s.ex,...s.ph].filter(x=>x.de).map(x=>`<span class="sense">${exHtml(x)}</span>`).join("")+`</p>`).join("")+wortExtraHTML(dict)+wortApiHTML(W):`<p><b>${sr(card.meaning,"fa")}</b>${card.defDe?`<br><span class="de">${sr(card.defDe,"de")}</span>`:""}${card.defFa?`<br>${sr(card.defFa,"fa")}`:""}</p>`+(card.ex||[]).filter(x=>x.de).map(x=>`<span class="sense">${exHtml(x)}</span>`).join("")+wortApiHTML(W)}</details></div>`:(e.wortLazy!==false&&!/\s/.test(raw))?`<div style="border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin-top:8px"><details data-lazy-src="wort"><summary>همه‌ی معنی‌ها و عبارت‌ها (wort.app)</summary><div class="lazy-body"></div></details></div>`:"";
+ const bamSection=e.bamooz?`<div style="border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin-top:8px"><details><summary>همه‌ی معنی‌ها و عبارت‌ها (بیاموز)</summary>${bamoozPanelSafe(e.bamooz,"de")}</details></div>`:(e.bamoozLazy!==false&&!/\s/.test(raw))?`<div style="border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin-top:8px"><details data-lazy-src="bamooz"><summary>همه‌ی معنی‌ها و عبارت‌ها (بیاموز)</summary><div class="lazy-body"></div></details></div>`:"";
  box.innerHTML=`<div class="row"><span class="big2 de" style="flex:1">${art?`<span style="color:var(--accent)">${esc(art)}</span> `:""}${esc(head)}</span><button class="ib" data-a="say" aria-label="تلفظ">${ic("sound")}</button><button class="ib" data-a="ask" aria-label="از پووف بپرس" style="font-size:18px">✨</button></div>
  ${plural?`<div class="mute de">Plural: ${esc(plural)}</div>`:""}
  ${e.en?`<div class="mute">English: <span class="de">${esc(e.en)}</span></div>`:""}
  ${!W.card&&!W.dict&&e.lemma&&e.lemma.toLowerCase()!==e.word.toLowerCase()?`<div class="mute">صورت صرف‌شده‌ی <button class="chip de" data-a="lemma">${esc(e.lemma)}</button></div>`:""}
- ${e.wortFailed?`<p class="mute">wort.app در دسترس نبود. آدرس واسط را در تب «پیشرفت» تنظیم کنید.</p>`:!/\s/.test(raw)&&!W.card&&!W.dict?`<p class="mute">wort.app برای این کلمه چیزی پیدا نکرد.</p>`:""}
+ ${e.wortLazy===false&&!W.card&&!W.dict&&!/\s/.test(raw)?`<p class="mute">wort.app برای این کلمه چیزی پیدا نکرد.</p>`:""}
  ${e.faLayer?faLayerHTML(e):""}
  <p style="margin:10px 0 4px">معنی فارسی:</p>
  <div class="row" style="margin-bottom:6px">${(e.fa||[]).map(x=>`<button class="chip" data-a="fa">${esc(x)}</button>`).join("")}</div>
@@ -2666,9 +2803,8 @@ async function showEntry(box,raw,ctx,src,lang){
  ${card&&(card.defDe||card.defFa)?`<div class="mute" style="margin-bottom:8px"><span class="de" style="display:block">${sr(card.defDe,"de")}</span>${sr(card.defFa,"fa")}</div>`:""}
  ${exs.length?`<p style="margin:10px 0 4px">جمله‌ی نمونه برای کارت:</p>
   <label class="sense"><input type="radio" name="ex" value="-1"><span class="mute">بدون جمله</span></label>`+exs.map((x,i)=>`<label class="sense"><input type="radio" name="ex" value="${i}" ${i?"":"checked"}>${exHtml(x)}</label>`).join(""):""}
- ${(dict||card)?`<div style="border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin-top:8px"><details><summary>همه‌ی معنی‌ها و عبارت‌ها (wort.app)</summary>${dict?dict.senses.map(s=>`<p><b>${sr(s.meaning,"fa")}</b>${s.note?` <span class="mute de">${esc(s.note)}</span>`:""}`+
-  [...s.ex,...s.ph].filter(x=>x.de).map(x=>`<span class="sense">${exHtml(x)}</span>`).join("")+`</p>`).join("")+wortExtraHTML(dict)+wortApiHTML(W):`<p><b>${sr(card.meaning,"fa")}</b>${card.defDe?`<br><span class="de">${sr(card.defDe,"de")}</span>`:""}${card.defFa?`<br>${sr(card.defFa,"fa")}`:""}</p>`+(card.ex||[]).filter(x=>x.de).map(x=>`<span class="sense">${exHtml(x)}</span>`).join("")+wortApiHTML(W)}}</details></div>`:""}
- ${e.bamooz?`<div style="border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin-top:8px"><details><summary>همه‌ی معنی‌ها و عبارت‌ها (بیاموز)</summary>${bamoozPanelSafe(e.bamooz,"de")}</details></div>`:""}
+ ${wortSection}
+ ${bamSection}
  ${flat.length?`<div style="border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin-top:8px"><p style="margin:0 0 4px">تعریف انگلیسی (Wiktionary):</p>`+flat.map((s,i)=>`<label class="sense"><input type="radio" name="sn" value="${i}" ${i?"":"checked"}><span><i>${esc(s.pos)}</i> — ${sr(s.def,"en")}</span></label>`).join("")+`</div>`:""}
  ${!flat.length&&!(e.fa||[]).length?`<p class="mute">نتیجه‌ای پیدا نشد؛ می‌توانید معنی را دستی بنویسید.</p>`:""}
  <div id="richSlot">${e.rich?richHTML(e.rich):""}</div>
@@ -2693,6 +2829,7 @@ async function showEntry(box,raw,ctx,src,lang){
     context:x?x.de:"",contextFa:x?x.fa:"",extra,...richFields(e),source:src||"dictionary",deck_id:$("#dk",box).value})){b.textContent="اضافه شد ✓";b.disabled=true}
   }
  };
+ bindLazySections(box,e,raw,ctx,src,lang);
  entHead(box);
  fillRich(box,e,t);
 }
@@ -2953,14 +3090,14 @@ Providers.glosbe=async(w,a,b)=>{const h=await fetchHTML("https://glosbe.com/"+a+
 async function lookupEn(w){
  const key="en:"+w.toLowerCase(),ph=/\s/.test(w);
  const ce=cache[key];
- if(ce&&ce.gl){if(!ph&&(ce.bamoozFailed||ce.bamooz==null)){bamoozTimed(w,"en").then(v=>{try{if(v===BAMOOZ_TIMEOUT){ce.bamoozFailed=true}else if(v){ce.bamooz=v;ce.bamoozFailed=false;if(!(ce.src||[]).includes("بیاموز"))(ce.src=ce.src||[]).push("بیاموز")}else{ce.bamooz=null;ce.bamoozFailed=false}saveCache();rerenderDictIfShowing(w,"en")}catch(_){}});}return ce;}
+ if(ce&&ce.gl){return ce;}
  const lw=w.toLowerCase(),ne=x=>x.toLowerCase()!==lw;
- const [s,g,m,gd,md,gl,bm]=await Promise.allSettled([ph?Promise.resolve([]):Providers.wiktionary(w,"en"),tr(w,"en","fa"),Providers.mymemory(w,"en|fa"),tr(w,"en","de"),Providers.mymemory(w,"en|de"),Providers.glosbe(w,"en","fa"),ph?Promise.resolve(null):bamoozTimed(w,"en")]);
- const _bm=bm.status==="fulfilled"?bm.value:null,bamooz=_bm===BAMOOZ_TIMEOUT?null:_bm,bamoozFailed=!ph&&_bm===BAMOOZ_TIMEOUT;
+ const [s,g,m,gd,md,gl]=await Promise.allSettled([ph?Promise.resolve([]):Providers.wiktionary(w,"en"),tr(w,"en","fa"),Providers.mymemory(w,"en|fa"),tr(w,"en","de"),Providers.mymemory(w,"en|de"),Providers.glosbe(w,"en","fa")]);
+ const bamooz=null,bamoozFailed=false;
  const G=gl.status==="fulfilled"?gl.value:null;
  const fa=uniq(G?G.tr.map(x=>x.w):[],G?G.less.slice(0,6):[],val(g),val(m)).filter(ne),de=uniq(val(gd),val(md)).filter(ne),senses=val(s);
- if(!fa.length&&!de.length&&!senses.length){if([s,m,md,gl].every(x=>x.status==="rejected"))throw new Error("offline");if(bamooz)return {word:w,dir:"en",fa:[],de:[],senses:[],bamooz,bamoozFailed:false,gl:true,src:["بیاموز"]};return {word:w,dir:"en",fa:[],de:[],senses:[],src:[],gl:true}}
- const e={word:w,dir:"en",fa,de,senses,glosbe:G,gl:gl.status==="fulfilled"||!db.proxy,bamooz,bamoozFailed,
+ if(!fa.length&&!de.length&&!senses.length){if([s,m,md,gl].every(x=>x.status==="rejected"))throw new Error("offline");return {word:w,dir:"en",fa:[],de:[],senses:[],bamooz:null,bamoozFailed:false,bamoozLazy:!ph,gl:true,src:[]}}
+ const e={word:w,dir:"en",fa,de,senses,glosbe:G,gl:gl.status==="fulfilled"||!db.proxy,bamooz,bamoozFailed,bamoozLazy:!ph,
   src:[G&&"Glosbe",senses.length&&"Wiktionary",(val(g).length||val(gd).length)&&"Google",(val(m).length||val(md).length)&&"MyMemory",bamooz&&"بیاموز"].filter(Boolean)};
  cache[key]=e;saveCache();return e;
 }
