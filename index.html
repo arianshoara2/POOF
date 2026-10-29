@@ -433,6 +433,10 @@ html[data-theme=lilac] button,html[data-theme=peachy] button,html[data-theme=min
 html[data-theme=lilac] button:active,html[data-theme=peachy] button:active,html[data-theme=minty] button:active{transform:scale(.97)}
 /* Reduced motion: no bounce/float animations (game bounce itself arrives in ?v=103) */
 @media (prefers-reduced-motion:reduce){.poof-mascot,.brand-mascot{animation:none}}
+html[data-theme=lilac] .brand-mascot{display:block}
+.mascot-frame{border-radius:50%;background:#0b0b12}
+#lilacHomeBanner{display:none;width:100%;height:auto;border-radius:var(--r-md);margin-bottom:10px}
+html[data-theme=lilac] #lilacHomeBanner{display:block}
 </style>
 </head>
 <body>
@@ -469,9 +473,10 @@ html[data-theme=lilac] button:active,html[data-theme=peachy] button:active,html[
 <symbol id="i-mic" viewBox="0 0 24 24"><path d="M12 2.5a3 3 0 0 0-3 3v6.5a3 3 0 0 0 6 0V5.5a3 3 0 0 0-3-3z"/><path d="M18.5 10.5v1.5a6.5 6.5 0 0 1-13 0v-1.5"/><path d="M12 18.5V21"/><path d="M8.5 21h7"/></symbol>
 <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></symbol>
 </defs></svg>
-<header><div class="poof-img-header-bg" aria-hidden="true" style="position:absolute;inset:0;z-index:0"></div><div class="brand"><span class="mark" aria-hidden="true">P</span><div class="poof-mascot brand-mascot poof-img-snowy-wave" aria-hidden="true"></div><div><h1>POOF</h1><p id="hSub">بخوان، انتخاب کن، یاد بگیر</p></div></div></header>
+<header><div class="poof-img-header-bg" aria-hidden="true" style="position:absolute;inset:0;z-index:0"></div><div class="brand"><span class="mark" aria-hidden="true">P</span><img id="brandMascot" class="poof-mascot brand-mascot" alt="" aria-hidden="true"><div><h1>POOF</h1><p id="hSub">بخوان، انتخاب کن، یاد بگیر</p></div></div></header>
 <main>
  <section id="s-read" class="tab">
+  <img id="lilacHomeBanner" alt="" loading="lazy">
   <div class="lib-banner"><div class="poof-img-library-banner"></div><div class="lib-banner-txt"><h2><svg class="ic ic-inline" aria-hidden="true"><use href="#i-doc"/></svg> کتابخانه</h2><p>دنیای متن‌ها، ویدیوها و داستان‌ها — هر چیزی که یادگیری‌ات را زنده می‌کند.</p></div></div>
   <div class="card" id="movieCard" style="cursor:pointer">
    <div class="card-bg-img poof-img-card-bg-snowy" aria-hidden="true"></div>
@@ -651,7 +656,7 @@ html[data-theme=lilac] button:active,html[data-theme=peachy] button:active,html[
 
  <section id="s-me" class="tab" hidden>   <div class="card"><div class="row" style="justify-content:center"><button class="ghost" id="helpBtn">راهنمای استفاده</button></div></div>   <h2>تم</h2>
   <div class="card">
-   <div class="theme-options" id="themeOpts"><button class="theme-option" data-th="classic"><b>Classic</b><span>گرم، تیره و طلایی</span></button><button class="theme-option" data-th="snowy"><b>Snowy</b><span>آبی شبانه و آرام</span></button><button class="theme-option" data-th="lilac"><b>یاسی</b><span>روشن و لطیف</span></button><button class="theme-option" data-th="peachy"><b>هلویی</b><span>روشن و گرم</span></button><button class="theme-option" data-th="minty"><b>نعنایی</b><span>روشن و تازه</span></button></div>
+   <div class="theme-options" id="themeOpts"><button class="theme-option" data-th="classic"><b>Classic</b><span>گرم، تیره و طلایی</span></button><button class="theme-option" data-th="snowy"><b>Snowy</b><span>آبی شبانه و آرام</span></button><button class="theme-option" data-th="lilac"><b>Lilac</b><span>روشن و لطیف</span></button><button class="theme-option" data-th="peachy"><b>Peachy</b><span>روشن و گرم</span></button><button class="theme-option" data-th="minty"><b>Minty</b><span>روشن و تازه</span></button></div>
   </div>
   <div class="card">
    <div class="row"><div style="flex:1"><b>حساب گوگل</b><div class="mute" id="gSub">کلمات و تاریخچه روی گوگل‌درایو شما ذخیره می‌شود؛ با هر گوشی که وارد شوید سر جایش است</div></div><span id="gSync" class="mute" style="font-size:12px"></span></div>
@@ -2977,7 +2982,7 @@ function renderLib(){
   const del=db.texts.some(x=>x.id===t.id)?`<button class="lib-del" data-del="${t.id}" aria-label="حذف">×</button>`:"";
   const pc=progPct(t);
   return `<div class="lib-card${on?" on":""}" data-id="${t.id}">${th}<div class="lib-tx"><b>${esc(t.title||"بدون عنوان")}</b><span class="mute">${meta}</span>${pc>0?`<div class="pbar"><i style="width:${Math.round(pc*100)}%"></i></div>`:""}</div>${del}</div>`;
- }).join("")||(libFilter!=="all"?`<p class="mute" style="text-align:center;padding:16px 0">در این دسته چیزی نیست.</p>`:`<div class="empty-wrap"><div class="poof-mascot poof-img-snowy-wave"></div><p class="mute" style="text-align:center">چیزی نیست — با + یک متن اضافه کن.</p></div>`);
+ }).join("")||(libFilter!=="all"?`<p class="mute" style="text-align:center;padding:16px 0">در این دسته چیزی نیست.</p>`:`<div class="empty-wrap">${mascotImg('wave')}<p class="mute" style="text-align:center">چیزی نیست — با + یک متن اضافه کن.</p></div>`);
 }
 $("#lib").onclick=async e=>{
  const d=e.target.closest("[data-del]");
@@ -4389,7 +4394,7 @@ async function wpSearch(q){
  q=q.trim();if(!q)return;const box=$("#wRes");box.innerHTML=`<p class="state loading">در حال جست‌وجو…</p>`;
  try{
   const l=(await wp("action=query&list=search&srlimit=8&srsearch="+encodeURIComponent(q))).query.search;
-  box.innerHTML=l.length?l.map(x=>`<button class="chip ${wl==="fa"?"":"de"}" data-t="${esc(x.title)}" style="display:block;width:100%;text-align:start;margin-top:6px;border-radius:8px;padding:6px 10px"><b>${esc(x.title)}</b><br><span class="mute">${esc(strip(x.snippet))}…</span></button>`).join(""):`<div class="empty-wrap"><div class="poof-mascot small poof-img-snowy-think"></div><p class="state empty">نتیجه‌ای پیدا نشد.</p></div>`;
+  box.innerHTML=l.length?l.map(x=>`<button class="chip ${wl==="fa"?"":"de"}" data-t="${esc(x.title)}" style="display:block;width:100%;text-align:start;margin-top:6px;border-radius:8px;padding:6px 10px"><b>${esc(x.title)}</b><br><span class="mute">${esc(strip(x.snippet))}…</span></button>`).join(""):`<div class="empty-wrap">${mascotImg('think','small')}<p class="state empty">نتیجه‌ای پیدا نشد.</p></div>`;
  }catch(e){box.innerHTML=`<p class="state error">اتصال به ویکی‌پدیا برقرار نشد.</p>`}
 }
 const WP_SKIP_SEC=/^(references|external links|see also|weblinks|literatur|einzelnachweise|siehe auch|\u0645\u0646\u0627\u0628\u0639|\u067e\u06cc\u0648\u0646\u062f \u0628\u0647 \u0628\u06cc\u0631\u0648\u0646|\u062c\u0633\u062a\u0627\u0631\u0647\u0627\u06cc \u0648\u0627\u0628\u0633\u062a\u0647)$/i;
@@ -4515,7 +4520,7 @@ function renderCards(){
   ${c.extra&&c.extra.senses.length?`<details class="mute"><summary>معنی‌ها و مثال‌ها</summary>${c.extra.senses.map(z=>`<p><b>${esc(z.meaning)}</b>`+[...z.ex,...z.ph].map(q=>`<span class="de" style="display:block">${esc(q.de)}</span>${esc(q.fa||"")}`).join("")+`</p>`).join("")}</details>`:""}
   <div class="row" style="margin-top:8px"><span class="mute" style="flex:1">${c.due<=Date.now()?"آماده‌ی مرور":"مرور بعدی: "+new Date(c.due).toLocaleDateString("fa-IR")}</span>
    <button class="ib" data-a="say" aria-label="تلفظ">${ic("sound")}</button><button class="ib" data-a="edit" aria-label="ویرایش">${ic("edit")}</button><button class="ib danger" data-a="del" aria-label="حذف">${ic("trash")}</button></div></div></div>`}).join("")
-  :`<div class="empty-wrap"><div class="poof-mascot poof-img-snowy-read"></div><p class="state empty">کارتی در این دسته نیست. از «خواندن» یا «دیکشنری» اضافه کنید.</p></div>`;
+  :`<div class="empty-wrap">${mascotImg('read')}<p class="state empty">کارتی در این دسته نیست. از «خواندن» یا «دیکشنری» اضافه کنید.</p></div>`;
 }
 $("#list").onclick=async e=>{
  const card=e.target.closest(".card");if(!card)return;
@@ -4547,7 +4552,7 @@ $("#rvDeck").onchange=e=>{db.reviewDeck=e.target.value;save();startReview()};
 function startReview(){renderBoxes();renderRvDecks();const rd=db.reviewDeck||"all";queue=db.cards.filter(c=>c.due<=Date.now()&&(rd==="all"||c.deck_id===rd)).sort((a,b)=>a.due-b.due);next()}
 function next(){
  cur=queue.shift();shown=false;const b=$("#rv");
- if(!cur){b.innerHTML=`<div class="card"><div class="empty-wrap"><div class="poof-mascot ${db.cards.length?"poof-img-snowy-sleep":"poof-img-snowy-wave"}"></div><p>${db.cards.length?"مرور امروز تمام شد ✓ پووف هم خوابش برد 😴":"هنوز کارتی ندارید. از تب «خواندن» یا «دیکشنری» اضافه کنید."}</p></div></div>`;return}
+ if(!cur){b.innerHTML=`<div class="card"><div class="empty-wrap">${mascotImg(db.cards.length?'sleep':'wave')}<p>${db.cards.length?"مرور امروز تمام شد ✓ پووف هم خوابش برد 😴":"هنوز کارتی ندارید. از تب «خواندن» یا «دیکشنری» اضافه کنید."}</p></div></div>`;return}
 
  b.innerHTML=`<div class="card"><p class="mute">${queue.length+1} کارت مانده · کارت</p>
   <div class="big de">${emojiFor(cur.front)?`<span style="font-size:30px">${emojiFor(cur.front)}</span><br>`:""}${esc(cur.front)} <button class="ib" id="sayb" aria-label="تلفظ">${ic("sound")}</button></div>
@@ -4625,7 +4630,7 @@ function renderLt(){
  $("#ltBtns").hidden=!c;
  if(!c){
   $("#ltBox").textContent="";
-  el.innerHTML=`<div class="lt-done"><div class="poof-mascot celebrate poof-img-snowy-celebrate"></div><div class="big">آفرین</div><p>بلد بودم: ${lt.ok} · بلد نبودم: ${lt.no}</p><button id="ltEnd">بازگشت</button></div>`;
+  el.innerHTML=`<div class="lt-done">${mascotImg('celebrate','celebrate')}<div class="big">آفرین</div><p>بلد بودم: ${lt.ok} · بلد نبودم: ${lt.no}</p><button id="ltEnd">بازگشت</button></div>`;
   $("#ltEnd").onclick=closeBox;return;
  }
  $("#ltBox").textContent="جعبه "+boxOf(c);
@@ -4786,7 +4791,11 @@ $("#packDeDel").onclick=async()=>{if(await uiConfirm("دیکشنری آفلای�
 renderPackDE();
 
 /* ===== 10) Theme + tabs ===== */
-function applyTheme(){const t=["snowy","lilac","peachy","minty"].includes(db.theme)?db.theme:"classic";document.documentElement.dataset.theme=t;const _swap=()=>{const tc=document.getElementById("themeCss");if(tc){const f="theme-"+(t==="snowy"?"snowy":"classic")+".css?v=16";if(!tc.href.endsWith(f))tc.href=f}};if(window.PoofPos){try{PoofPos.fadeThemeSwap(_swap)}catch(e){_swap()}}else{_swap()}const m=document.querySelector("meta[name=theme-color]");if(m)m.content={snowy:"#081421",lilac:"#EEF2FF",peachy:"#FFF7ED",minty:"#F0FDF4"}[t]||"#111111"}
+/* ?v=105 mascots: one <img> per slot, src set by theme (snowy/lilac only); other themes render nothing */
+const MASCOT_SRC={snowy:{wave:'snowy-wave.webp',celebrate:'snowy-celebrate.webp',read:'snowy-read.webp',sleep:'snowy-sleep.webp',think:'snowy-think.webp'},lilac:{wave:'pouf-lilac-wave.webp',celebrate:'pouf-lilac-celebrate.webp',read:'pouf-lilac-read.webp',sleep:'pouf-lilac-sleep.webp',think:'pouf-lilac-think.webp'}};
+function mascotImg(pose,cls){const t=document.documentElement.dataset.theme;const f=(MASCOT_SRC[t]||{})[pose];if(!f)return '';return `<img class="poof-mascot${cls?' '+cls:''}${t==='lilac'?' mascot-frame':''}" style="display:block" src="${f}" alt="" loading="lazy">`}
+function updateMascots(){const t=document.documentElement.dataset.theme;const bm=document.getElementById('brandMascot');if(bm){const f=(MASCOT_SRC[t]||{}).wave;if(f){bm.src=f;bm.classList.toggle('mascot-frame',t==='lilac')}else{bm.removeAttribute('src');bm.classList.remove('mascot-frame')}}const bn=document.getElementById('lilacHomeBanner');if(bn){if(t==='lilac'){bn.src='pouf-lilac-banner.webp'}else{bn.removeAttribute('src')}}}
+function applyTheme(){const t=["snowy","lilac","peachy","minty"].includes(db.theme)?db.theme:"classic";document.documentElement.dataset.theme=t;const _swap=()=>{const tc=document.getElementById("themeCss");if(tc){const f="theme-"+(t==="snowy"?"snowy":"classic")+".css?v=16";if(!tc.href.endsWith(f))tc.href=f}};if(window.PoofPos){try{PoofPos.fadeThemeSwap(_swap)}catch(e){_swap()}}else{_swap()}const m=document.querySelector("meta[name=theme-color]");if(m)m.content={snowy:"#081421",lilac:"#EEF2FF",peachy:"#FFF7ED",minty:"#F0FDF4"}[t]||"#111111";updateMascots()}
 $("#proxyTest").onclick=async()=>{
  const _tb=$("#proxyTest"),_ol=_tb.textContent;_tb.disabled=true;_tb.textContent="در حال آزمایش…";toast("در حال آزمایش اتصال…");
  try{db.proxy=$("#proxy").value.trim();db.wkey=$("#wkey").value.trim();save();
