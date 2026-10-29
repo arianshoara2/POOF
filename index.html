@@ -660,6 +660,24 @@ html[data-theme=lilac] .ocr-bar i,html[data-theme=peachy] .ocr-bar i,html[data-t
 html[data-theme=lilac] .ocr-pct,html[data-theme=peachy] .ocr-pct,html[data-theme=minty] .ocr-pct,html[data-theme=sun] .ocr-pct{color:var(--lt-text)}
 html[data-theme=lilac] #ocrPrev,html[data-theme=peachy] #ocrPrev,html[data-theme=minty] #ocrPrev,html[data-theme=sun] #ocrPrev{background:var(--lt-card);border-color:var(--lt-border);color:var(--lt-text)}
 @media (prefers-reduced-motion:reduce){.ocr-bar i{transition:none}}
+
+/* ?v=120: per-theme tab backgrounds for Ocean + Nebula (readBg already had them; review/dict/cards/me showed Classic art) */
+html[data-theme=ocean] body:has(#s-review:not([hidden])) #reviewBg{display:block;background-image:url('pouf-blue-scene-boardwalk.webp')}
+html[data-theme=ocean] body:has(#s-dict:not([hidden])) #dictBg{display:block;background-image:url('pouf-blue-scene-books.webp')}
+html[data-theme=ocean] body:has(#s-cards:not([hidden])) #cardsBg{display:block;background-image:url('pouf-blue-scene-rock.webp')}
+html[data-theme=ocean] body:has(#s-me:not([hidden])) #meBg{display:block;background-image:url('pouf-blue-banner.webp')}
+html[data-theme=nebula] body:has(#s-review:not([hidden])) #reviewBg{display:block;background-image:url('pouf-nebula-scene-path.webp')}
+html[data-theme=nebula] body:has(#s-dict:not([hidden])) #dictBg{display:block;background-image:url('pouf-nebula-library.webp')}
+html[data-theme=nebula] body:has(#s-cards:not([hidden])) #cardsBg{display:block;background-image:url('pouf-nebula-scene-falls.webp')}
+html[data-theme=nebula] body:has(#s-me:not([hidden])) #meBg{display:block;background-image:url('pouf-nebula-banner.webp')}
+html[data-theme=ocean] #reviewBg::after{background:rgba(8,20,40,.80)}
+html[data-theme=ocean] #dictBg::after{background:rgba(8,20,40,.80)}
+html[data-theme=ocean] #cardsBg::after{background:rgba(8,20,40,.80)}
+html[data-theme=ocean] #meBg::after{background:rgba(8,20,40,.80)}
+html[data-theme=nebula] #reviewBg::after{background:rgba(26,11,46,.80)}
+html[data-theme=nebula] #dictBg::after{background:rgba(26,11,46,.80)}
+html[data-theme=nebula] #cardsBg::after{background:rgba(26,11,46,.80)}
+html[data-theme=nebula] #meBg::after{background:rgba(26,11,46,.80)}
 </style>
 </head>
 <body>
