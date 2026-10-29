@@ -409,9 +409,9 @@ html:not([data-theme=snowy]) #s-cards #list .card::after{background:linear-gradi
 :root{--sans:'DM Sans','Vazirmatn',sans-serif}
 h1,h2,h3{font-family:'Nunito','Vazirmatn',sans-serif;font-weight:800}
 /* Light theme tokens (scoped to the theme attribute; dark themes untouched) */
-html[data-theme=lilac]{--lt-bg:#EEF2FF;--lt-text:#1E1B4B;--lt-muted:#55547E;--lt-card:#FFFFFF;--lt-border:#C7D2FE;--lt-primary:#4F46E5;--lt-shadow:79,70,229;--lt-pastel:#E6E6FA;color-scheme:light}
-html[data-theme=peachy]{--lt-bg:#FFF7ED;--lt-text:#1C1917;--lt-muted:#57534E;--lt-card:#FFFFFF;--lt-border:#FED7AA;--lt-primary:#F97316;--lt-shadow:249,115,22;--lt-pastel:#FDBCB4;color-scheme:light}
-html[data-theme=minty]{--lt-bg:#F0FDF4;--lt-text:#052E16;--lt-muted:#365314;--lt-card:#FFFFFF;--lt-border:#BBF7D0;--lt-primary:#166534;--lt-shadow:22,101,52;--lt-pastel:#98FF98;color-scheme:light}
+html[data-theme=lilac]{--lt-bg:#EEF2FF;--lt-text:#1E1B4B;--lt-muted:#55547E;--lt-card:#FFFFFF;--lt-border:#C7D2FE;--lt-primary:#4F46E5;--lt-shadow:79,70,229;--lt-pastel:#E6E6FA;--lt-link:#4F46E5;color-scheme:light}
+html[data-theme=peachy]{--lt-bg:#FFF7ED;--lt-text:#1C1917;--lt-muted:#57534E;--lt-card:#FFFFFF;--lt-border:#FED7AA;--lt-primary:#F97316;--lt-shadow:249,115,22;--lt-pastel:#FDBCB4;--lt-link:#C2410C;color-scheme:light}
+html[data-theme=minty]{--lt-bg:#F0FDF4;--lt-text:#052E16;--lt-muted:#365314;--lt-card:#FFFFFF;--lt-border:#BBF7D0;--lt-primary:#166534;--lt-shadow:22,101,52;--lt-pastel:#98FF98;--lt-link:#166534;color-scheme:light}
 /* Page background under light themes (reader text area keeps its own dark wash; #text rules untouched) */
 html[data-theme=lilac] body,html[data-theme=peachy] body,html[data-theme=minty] body{background:var(--lt-bg)}
 /* Hide the dark scenic background layer of the read tab so the light bg shows (other tab layers untouched) */
@@ -441,7 +441,117 @@ html[data-theme=lilac] .brand-mascot{display:block}
 .mascot-frame{border-radius:50%;background:#0b0b12}
 #lilacHomeBanner{display:none;width:100%;height:auto;border-radius:var(--r-md);margin-bottom:10px}
 html[data-theme=lilac] #lilacHomeBanner{display:block}
-</style>
+
+  /* ===== ?v=107 light-theme consistency: clay everywhere under Lilac/Peachy/Minty; dark themes untouched; reader keeps dark wash ===== */
+  html[data-theme=lilac] body,html[data-theme=peachy] body,html[data-theme=minty] body{color:var(--lt-text)}
+  html[data-theme=lilac] #text,html[data-theme=peachy] #text,html[data-theme=minty] #text{color:var(--text)}
+  html[data-theme=lilac] .mute,html[data-theme=peachy] .mute,html[data-theme=minty] .mute{color:var(--lt-muted)}
+  html[data-theme=lilac] a,html[data-theme=peachy] a,html[data-theme=minty] a{color:var(--lt-link)}
+  html[data-theme=lilac] input::placeholder,html[data-theme=lilac] textarea::placeholder,html[data-theme=peachy] input::placeholder,html[data-theme=peachy] textarea::placeholder,html[data-theme=minty] input::placeholder,html[data-theme=minty] textarea::placeholder{color:var(--lt-muted);opacity:1}
+  html[data-theme=lilac] input,html[data-theme=lilac] select,html[data-theme=lilac] textarea,html[data-theme=peachy] input,html[data-theme=peachy] select,html[data-theme=peachy] textarea,html[data-theme=minty] input,html[data-theme=minty] select,html[data-theme=minty] textarea{background:var(--lt-card);color:var(--lt-text);border-color:var(--lt-border)}
+  html[data-theme=lilac] input:focus,html[data-theme=lilac] select:focus,html[data-theme=lilac] textarea:focus,html[data-theme=peachy] input:focus,html[data-theme=peachy] select:focus,html[data-theme=peachy] textarea:focus,html[data-theme=minty] input:focus,html[data-theme=minty] select:focus,html[data-theme=minty] textarea:focus{border-color:var(--lt-link);outline-color:var(--lt-link)}
+  html[data-theme=lilac] header,html[data-theme=peachy] header,html[data-theme=minty] header{background:var(--lt-card);border-bottom-color:var(--lt-border)}
+  html[data-theme=lilac] header .poof-img-header-bg,html[data-theme=peachy] header .poof-img-header-bg,html[data-theme=minty] header .poof-img-header-bg{display:none}
+  html[data-theme=lilac] header::after,html[data-theme=peachy] header::after,html[data-theme=minty] header::after{display:none}
+  html[data-theme=lilac] #hSub,html[data-theme=peachy] #hSub,html[data-theme=minty] #hSub{color:var(--lt-muted)}
+  html[data-theme=lilac] body:has(#s-read:not([hidden])) #readBg,html[data-theme=lilac] body:has(#s-review:not([hidden])) #reviewBg,html[data-theme=lilac] body:has(#s-cards:not([hidden])) #cardsBg,html[data-theme=lilac] body:has(#s-me:not([hidden])) #meBg,html[data-theme=lilac] body:has(#s-dict:not([hidden])) #dictBg,html[data-theme=peachy] body:has(#s-read:not([hidden])) #readBg,html[data-theme=peachy] body:has(#s-review:not([hidden])) #reviewBg,html[data-theme=peachy] body:has(#s-cards:not([hidden])) #cardsBg,html[data-theme=peachy] body:has(#s-me:not([hidden])) #meBg,html[data-theme=peachy] body:has(#s-dict:not([hidden])) #dictBg,html[data-theme=minty] body:has(#s-read:not([hidden])) #readBg,html[data-theme=minty] body:has(#s-review:not([hidden])) #reviewBg,html[data-theme=minty] body:has(#s-cards:not([hidden])) #cardsBg,html[data-theme=minty] body:has(#s-me:not([hidden])) #meBg,html[data-theme=minty] body:has(#s-dict:not([hidden])) #dictBg{display:none}
+  html[data-theme=lilac] nav,html[data-theme=peachy] nav,html[data-theme=minty] nav{background:rgba(255,255,255,.88);border-color:var(--lt-border);box-shadow:0 12px 32px rgba(var(--lt-shadow),.18)}
+  html[data-theme=lilac] nav button,html[data-theme=peachy] nav button,html[data-theme=minty] nav button{color:var(--lt-muted)}
+  html[data-theme=lilac] nav button:hover,html[data-theme=peachy] nav button:hover,html[data-theme=minty] nav button:hover{background:rgba(var(--lt-shadow),.08);color:var(--lt-link)}
+  html[data-theme=lilac] nav button.on,html[data-theme=peachy] nav button.on,html[data-theme=minty] nav button.on{color:var(--lt-primary)}
+  html[data-theme=lilac] nav button.on:hover,html[data-theme=peachy] nav button.on:hover,html[data-theme=minty] nav button.on:hover{color:var(--lt-primary)}
+  html[data-theme=lilac] nav button::before,html[data-theme=peachy] nav button::before,html[data-theme=minty] nav button::before{background:var(--lt-card);border-color:var(--lt-border);box-shadow:0 10px 24px rgba(var(--lt-shadow),.25)}
+  html[data-theme=lilac] nav button::after,html[data-theme=peachy] nav button::after,html[data-theme=minty] nav button::after{border-color:var(--lt-border);box-shadow:inset 0 0 0 8px rgba(255,255,255,.88)}
+  html[data-theme=lilac] .card,html[data-theme=peachy] .card,html[data-theme=minty] .card{background:var(--lt-card);border:3px solid var(--lt-border);border-radius:22px;box-shadow:inset -2px -2px 8px rgba(255,255,255,.9),4px 4px 8px rgba(var(--lt-shadow),.14);-webkit-backdrop-filter:none;backdrop-filter:none;color:var(--lt-text)}
+  html[data-theme=lilac] #s-review .card,html[data-theme=lilac] #s-cards .card,html[data-theme=lilac] #s-me .card,html[data-theme=lilac] #s-dict .card,html[data-theme=peachy] #s-review .card,html[data-theme=peachy] #s-cards .card,html[data-theme=peachy] #s-me .card,html[data-theme=peachy] #s-dict .card,html[data-theme=minty] #s-review .card,html[data-theme=minty] #s-cards .card,html[data-theme=minty] #s-me .card,html[data-theme=minty] #s-dict .card{background:var(--lt-card);border:3px solid var(--lt-border);border-radius:22px;box-shadow:inset -2px -2px 8px rgba(255,255,255,.9),4px 4px 8px rgba(var(--lt-shadow),.14);-webkit-backdrop-filter:none;backdrop-filter:none;color:var(--lt-text)}
+  html[data-theme=lilac] .card-bg-img,html[data-theme=peachy] .card-bg-img,html[data-theme=minty] .card-bg-img{display:none}
+  html[data-theme=lilac] #s-cards #list .card::after,html[data-theme=peachy] #s-cards #list .card::after,html[data-theme=minty] #s-cards #list .card::after{display:none}
+  html[data-theme=lilac] #wikiCard,html[data-theme=peachy] #wikiCard,html[data-theme=minty] #wikiCard{background:var(--lt-card);border:3px solid var(--lt-border);border-radius:22px;box-shadow:inset -2px -2px 8px rgba(255,255,255,.9),4px 4px 8px rgba(var(--lt-shadow),.14);-webkit-backdrop-filter:none;backdrop-filter:none;color:var(--lt-text)}
+  html[data-theme=lilac] #lib .lib-card,html[data-theme=peachy] #lib .lib-card,html[data-theme=minty] #lib .lib-card{-webkit-backdrop-filter:none;backdrop-filter:none}
+  html[data-theme=lilac] #lib .lib-card .lib-del,html[data-theme=peachy] #lib .lib-card .lib-del,html[data-theme=minty] #lib .lib-card .lib-del{border-color:var(--lt-border)}
+  html[data-theme=lilac] .lib-banner,html[data-theme=peachy] .lib-banner,html[data-theme=minty] .lib-banner{background:var(--lt-card);border:3px solid var(--lt-border);border-radius:22px;box-shadow:inset -2px -2px 8px rgba(255,255,255,.9),4px 4px 8px rgba(var(--lt-shadow),.14)}
+  html[data-theme=lilac] .lib-banner .poof-img-library-banner,html[data-theme=peachy] .lib-banner .poof-img-library-banner,html[data-theme=minty] .lib-banner .poof-img-library-banner{display:none}
+  html[data-theme=lilac] .lib-banner::before,html[data-theme=peachy] .lib-banner::before,html[data-theme=minty] .lib-banner::before{display:none}
+  html[data-theme=lilac] .lib-banner-txt h2,html[data-theme=peachy] .lib-banner-txt h2,html[data-theme=minty] .lib-banner-txt h2{color:var(--lt-text);text-shadow:none}
+  html[data-theme=lilac] .lib-banner-txt p,html[data-theme=peachy] .lib-banner-txt p,html[data-theme=minty] .lib-banner-txt p{color:var(--lt-muted);text-shadow:none}
+  html[data-theme=lilac] button.ghost,html[data-theme=peachy] button.ghost,html[data-theme=minty] button.ghost{color:var(--lt-link);border-color:var(--lt-border)}
+  html[data-theme=lilac] .ghost-label,html[data-theme=peachy] .ghost-label,html[data-theme=minty] .ghost-label{color:var(--lt-link);border-color:var(--lt-border)}
+  html[data-theme=lilac] .vchip,html[data-theme=peachy] .vchip,html[data-theme=minty] .vchip{color:var(--lt-link);border-color:var(--lt-border)}
+  html[data-theme=lilac] button.chip,html[data-theme=peachy] button.chip,html[data-theme=minty] button.chip{color:var(--lt-link);border-color:var(--lt-border)}
+  html[data-theme=lilac] button.chip.on,html[data-theme=peachy] button.chip.on,html[data-theme=minty] button.chip.on{background:rgba(var(--lt-shadow),.14);border-color:var(--lt-link)}
+  html[data-theme=lilac] .seg,html[data-theme=peachy] .seg,html[data-theme=minty] .seg{background:var(--lt-card);border-color:var(--lt-border)}
+  html[data-theme=lilac] .seg button,html[data-theme=peachy] .seg button,html[data-theme=minty] .seg button{color:var(--lt-muted)}
+  html[data-theme=lilac] .seg button.on,html[data-theme=peachy] .seg button.on,html[data-theme=minty] .seg button.on{background:rgba(var(--lt-shadow),.14);color:var(--lt-link)}
+  html[data-theme=lilac] button.ib,html[data-theme=peachy] button.ib,html[data-theme=minty] button.ib{color:var(--lt-muted);border-color:var(--lt-border)}
+  html[data-theme=lilac] button.ib:hover,html[data-theme=peachy] button.ib:hover,html[data-theme=minty] button.ib:hover{color:var(--lt-link);border-color:var(--lt-link);background:rgba(var(--lt-shadow),.08)}
+  html[data-theme=lilac] .opt,html[data-theme=peachy] .opt,html[data-theme=minty] .opt{border-color:var(--lt-border);color:var(--lt-text)}
+  html[data-theme=lilac] .opt:hover,html[data-theme=peachy] .opt:hover,html[data-theme=minty] .opt:hover{background:rgba(var(--lt-shadow),.08)}
+  html[data-theme=lilac] .opt.pick,html[data-theme=peachy] .opt.pick,html[data-theme=minty] .opt.pick{border-color:var(--lt-link);background:rgba(var(--lt-shadow),.14)}
+  html[data-theme=lilac] .opt.right,html[data-theme=peachy] .opt.right,html[data-theme=minty] .opt.right{border-color:#166534;background:rgba(22,101,52,.10);color:#166534}
+  html[data-theme=lilac] .opt.wrong,html[data-theme=peachy] .opt.wrong,html[data-theme=minty] .opt.wrong{border-color:#B91C1C;background:rgba(185,28,28,.08);color:#B91C1C}
+  html[data-theme=lilac] .okmsg,html[data-theme=peachy] .okmsg,html[data-theme=minty] .okmsg{color:#166534}
+  html[data-theme=lilac] .badmsg,html[data-theme=peachy] .badmsg,html[data-theme=minty] .badmsg{color:#B91C1C}
+  html[data-theme=lilac] .state,html[data-theme=peachy] .state,html[data-theme=minty] .state{color:var(--lt-muted)}
+  html[data-theme=lilac] .state.empty,html[data-theme=peachy] .state.empty,html[data-theme=minty] .state.empty{border-color:var(--lt-border)}
+  html[data-theme=lilac] .state.error,html[data-theme=peachy] .state.error,html[data-theme=minty] .state.error{color:#B91C1C}
+  html[data-theme=lilac] .bx,html[data-theme=peachy] .bx,html[data-theme=minty] .bx{background:var(--lt-card);border-color:var(--lt-border)}
+  html[data-theme=lilac] #s-review .bx,html[data-theme=peachy] #s-review .bx,html[data-theme=minty] #s-review .bx{background:var(--lt-card);border-color:var(--lt-border)}
+  html[data-theme=lilac] .bx b,html[data-theme=peachy] .bx b,html[data-theme=minty] .bx b{color:var(--lt-link)}
+  html[data-theme=lilac] .bx span,html[data-theme=peachy] .bx span,html[data-theme=minty] .bx span{color:var(--lt-muted)}
+  html[data-theme=lilac] .stat b,html[data-theme=peachy] .stat b,html[data-theme=minty] .stat b{color:var(--lt-link)}
+  html[data-theme=lilac] .lt-word,html[data-theme=peachy] .lt-word,html[data-theme=minty] .lt-word{color:var(--lt-link)}
+  html[data-theme=lilac] .wf,html[data-theme=peachy] .wf,html[data-theme=minty] .wf{color:var(--lt-link)}
+  html[data-theme=lilac] .badge,html[data-theme=peachy] .badge,html[data-theme=minty] .badge{color:var(--lt-link);border-color:var(--lt-link)}
+  html[data-theme=lilac] .cardnum,html[data-theme=peachy] .cardnum,html[data-theme=minty] .cardnum{background:var(--lt-card);border-color:var(--lt-link);color:var(--lt-text)}
+  html[data-theme=lilac] #s-me .cardnum,html[data-theme=peachy] #s-me .cardnum,html[data-theme=minty] #s-me .cardnum{background:var(--lt-card);border-color:var(--lt-link);color:var(--lt-text)}
+  html[data-theme=lilac] .feat li,html[data-theme=peachy] .feat li,html[data-theme=minty] .feat li{background:var(--lt-card);border-color:var(--lt-border)}
+  html[data-theme=lilac] #s-me .feat li,html[data-theme=peachy] #s-me .feat li,html[data-theme=minty] #s-me .feat li{background:var(--lt-card);border-color:var(--lt-border)}
+  html[data-theme=lilac] .plan.on,html[data-theme=peachy] .plan.on,html[data-theme=minty] .plan.on{background:rgba(var(--lt-shadow),.14);color:var(--lt-link)}
+  html[data-theme=lilac] .plan.hot,html[data-theme=peachy] .plan.hot,html[data-theme=minty] .plan.hot{box-shadow:0 0 0 1px var(--lt-link)}
+  html[data-theme=lilac] .pbar,html[data-theme=peachy] .pbar,html[data-theme=minty] .pbar{background:var(--lt-border)}
+  html[data-theme=lilac] .pbar i,html[data-theme=peachy] .pbar i,html[data-theme=minty] .pbar i{background:var(--lt-primary)}
+  html[data-theme=lilac] #s-me .bars div,html[data-theme=peachy] #s-me .bars div,html[data-theme=minty] #s-me .bars div{background:var(--lt-primary)}
+  html[data-theme=lilac] .theme-option,html[data-theme=peachy] .theme-option,html[data-theme=minty] .theme-option{background:transparent;border-color:var(--lt-border);color:var(--lt-text)}
+  html[data-theme=lilac] .theme-option span,html[data-theme=peachy] .theme-option span,html[data-theme=minty] .theme-option span{color:var(--lt-muted)}
+  html[data-theme=lilac] .theme-option.selected,html[data-theme=peachy] .theme-option.selected,html[data-theme=minty] .theme-option.selected{background:rgba(var(--lt-shadow),.14);border-color:var(--lt-link);color:var(--lt-link)}
+  html[data-theme=lilac] .theme-option.selected span,html[data-theme=peachy] .theme-option.selected span,html[data-theme=minty] .theme-option.selected span{color:var(--lt-link)}
+  html[data-theme=lilac] .ask-word,html[data-theme=peachy] .ask-word,html[data-theme=minty] .ask-word{color:var(--lt-link)}
+  html[data-theme=lilac] .ask-sec>h4,html[data-theme=peachy] .ask-sec>h4,html[data-theme=minty] .ask-sec>h4{color:var(--lt-muted)}
+  html[data-theme=lilac] .ask-ex .t,html[data-theme=peachy] .ask-ex .t,html[data-theme=minty] .ask-ex .t{color:var(--lt-muted)}
+  html[data-theme=lilac] .ask-load,html[data-theme=peachy] .ask-load,html[data-theme=minty] .ask-load{color:var(--lt-muted)}
+  html[data-theme=lilac] .ask-chip,html[data-theme=peachy] .ask-chip,html[data-theme=minty] .ask-chip{border-color:var(--lt-border)}
+  html[data-theme=lilac] .reg-chip,html[data-theme=peachy] .reg-chip,html[data-theme=minty] .reg-chip{color:var(--lt-link);border-color:var(--lt-border)}
+  html[data-theme=lilac] .ask-tip,html[data-theme=peachy] .ask-tip,html[data-theme=minty] .ask-tip{border-color:var(--lt-link)}
+  html[data-theme=lilac] .raudio,html[data-theme=peachy] .raudio,html[data-theme=minty] .raudio{border-color:var(--lt-border);background:rgba(var(--lt-shadow),.10);color:var(--lt-link)}
+  html[data-theme=lilac] .ctx,html[data-theme=peachy] .ctx,html[data-theme=minty] .ctx{border-top-color:var(--lt-border)}
+  html[data-theme=lilac] details.adv,html[data-theme=peachy] details.adv,html[data-theme=minty] details.adv{border-top-color:var(--lt-border)}
+  html[data-theme=lilac] #addPanel,html[data-theme=peachy] #addPanel,html[data-theme=minty] #addPanel{border-top-color:var(--lt-border)}
+  html[data-theme=lilac] #libZone #addPanel,html[data-theme=peachy] #libZone #addPanel,html[data-theme=minty] #libZone #addPanel{border-top-color:var(--lt-border)}
+  html[data-theme=lilac] .lbl,html[data-theme=peachy] .lbl,html[data-theme=minty] .lbl{color:var(--lt-muted)}
+  html[data-theme=lilac] .ed-card label,html[data-theme=peachy] .ed-card label,html[data-theme=minty] .ed-card label{color:var(--lt-muted)}
+  html[data-theme=lilac] #pop,html[data-theme=peachy] #pop,html[data-theme=minty] #pop{background:var(--lt-card);border-color:var(--lt-border);color:var(--lt-text);box-shadow:0 18px 40px rgba(var(--lt-shadow),.25)}
+  html[data-theme=lilac] .popT,html[data-theme=peachy] .popT,html[data-theme=minty] .popT{border-bottom-color:var(--lt-border)}
+  html[data-theme=lilac] .popB button,html[data-theme=peachy] .popB button,html[data-theme=minty] .popB button{color:var(--lt-muted)}
+  html[data-theme=lilac] .peek-card,html[data-theme=peachy] .peek-card,html[data-theme=minty] .peek-card{background:var(--lt-card);border-color:var(--lt-border);color:var(--lt-text);box-shadow:0 18px 40px rgba(var(--lt-shadow),.25)}
+  html[data-theme=lilac] .um-sheet,html[data-theme=peachy] .um-sheet,html[data-theme=minty] .um-sheet{background:var(--lt-card);border-color:var(--lt-border);color:var(--lt-text);box-shadow:0 18px 40px rgba(var(--lt-shadow),.25)}
+  html[data-theme=lilac] .ask-card,html[data-theme=peachy] .ask-card,html[data-theme=minty] .ask-card{background:var(--lt-card);border-color:var(--lt-border);color:var(--lt-text);box-shadow:0 18px 40px rgba(var(--lt-shadow),.25)}
+  html[data-theme=lilac] .ed-card,html[data-theme=peachy] .ed-card,html[data-theme=minty] .ed-card{background:var(--lt-card);border-color:var(--lt-border);color:var(--lt-text);box-shadow:0 18px 40px rgba(var(--lt-shadow),.25)}
+  html[data-theme=lilac] .um-btn.ghost,html[data-theme=peachy] .um-btn.ghost,html[data-theme=minty] .um-btn.ghost{background:transparent;border-color:var(--lt-border);color:var(--lt-text)}
+  html[data-theme=lilac] .lt-card,html[data-theme=peachy] .lt-card,html[data-theme=minty] .lt-card{background:var(--lt-card);border-color:var(--lt-border);color:var(--lt-text);box-shadow:0 10px 24px rgba(var(--lt-shadow),.18)}
+  html[data-theme=lilac] #lt,html[data-theme=peachy] #lt,html[data-theme=minty] #lt{background:var(--lt-bg)}
+  html[data-theme=lilac] .lt-hint,html[data-theme=peachy] .lt-hint,html[data-theme=minty] .lt-hint{background:var(--lt-card)}
+  html[data-theme=lilac] .lt-hints .ok,html[data-theme=peachy] .lt-hints .ok,html[data-theme=minty] .lt-hints .ok{color:#166534}
+  html[data-theme=lilac] .lt-hints .no,html[data-theme=peachy] .lt-hints .no,html[data-theme=minty] .lt-hints .no{color:#B91C1C}
+  html[data-theme=lilac] .ib.ok-b,html[data-theme=peachy] .ib.ok-b,html[data-theme=minty] .ib.ok-b{color:#166534;border-color:#166534}
+  html[data-theme=lilac] .ib.no-b,html[data-theme=peachy] .ib.no-b,html[data-theme=minty] .ib.no-b{color:#B91C1C;border-color:#B91C1C}
+  html[data-theme=lilac] .movie-it,html[data-theme=peachy] .movie-it,html[data-theme=minty] .movie-it{background:var(--lt-card);border-color:var(--lt-border)}
+  html[data-theme=lilac] .movie-it .m,html[data-theme=peachy] .movie-it .m,html[data-theme=minty] .movie-it .m{color:var(--lt-muted)}
+  html[data-theme=lilac] .pod-scenic,html[data-theme=peachy] .pod-scenic,html[data-theme=minty] .pod-scenic{display:none}
+  html[data-theme=lilac] #zbSticky,html[data-theme=peachy] #zbSticky,html[data-theme=minty] #zbSticky{background:var(--lt-card);border-color:var(--lt-border)}
+  html[data-theme=lilac] .tline.cur,html[data-theme=peachy] .tline.cur,html[data-theme=minty] .tline.cur{background:rgba(var(--lt-shadow),.10)}
+  html[data-theme=lilac] .wp-t td,html[data-theme=lilac] .wp-t th,html[data-theme=peachy] .wp-t td,html[data-theme=peachy] .wp-t th,html[data-theme=minty] .wp-t td,html[data-theme=minty] .wp-t th{border-color:var(--lt-border)}
+  html[data-theme=lilac] .help-img img,html[data-theme=peachy] .help-img img,html[data-theme=minty] .help-img img{border-color:var(--lt-border)}
+  </style>
 </head>
 <body>
 <div id="readBg" class="poof-img-library-bg" aria-hidden="true"></div>
@@ -4798,7 +4908,7 @@ renderPackDE();
 /* ?v=105 mascots: one <img> per slot, src set by theme (snowy/lilac only); other themes render nothing */
 const MASCOT_SRC={snowy:{wave:'snowy-wave.webp',celebrate:'snowy-celebrate.webp',read:'snowy-read.webp',sleep:'snowy-sleep.webp',think:'snowy-think.webp'},lilac:{wave:'pouf-lilac-wave.webp',celebrate:'pouf-lilac-celebrate.webp',read:'pouf-lilac-read.webp',sleep:'pouf-lilac-sleep.webp',think:'pouf-lilac-think.webp'}};
 function mascotImg(pose,cls){const t=document.documentElement.dataset.theme;const f=(MASCOT_SRC[t]||{})[pose];if(!f)return '';return `<img class="poof-mascot${cls?' '+cls:''}${t==='lilac'?' mascot-frame':''}" style="display:block" src="${f}" alt="" loading="lazy">`}
-function updateMascots(){const t=document.documentElement.dataset.theme;const bm=document.getElementById('brandMascot');if(bm){const f=(MASCOT_SRC[t]||{}).wave;if(f){bm.src=f;bm.classList.toggle('mascot-frame',t==='lilac');bm.style.display=''}else{bm.removeAttribute('src');bm.classList.remove('mascot-frame');bm.style.display='none'}}const bn=document.getElementById('lilacHomeBanner');if(bn){if(t==='lilac'){bn.src='pouf-lilac-banner.webp'}else{bn.removeAttribute('src')}}}
+function updateMascots(){const t=document.documentElement.dataset.theme;const bm=document.getElementById('brandMascot');if(bm){const f=(MASCOT_SRC[t]||{}).wave||MASCOT_SRC.snowy.wave;bm.src=f;bm.classList.toggle('mascot-frame',t==='lilac');bm.style.display=''}const bn=document.getElementById('lilacHomeBanner');if(bn){if(t==='lilac'){bn.src='pouf-lilac-banner.webp'}else{bn.removeAttribute('src')}}}
 function applyTheme(){const t=["snowy","lilac","peachy","minty"].includes(db.theme)?db.theme:"classic";document.documentElement.dataset.theme=t;const _swap=()=>{const tc=document.getElementById("themeCss");if(tc){const f="theme-"+(t==="snowy"?"snowy":"classic")+".css?v=16";if(!tc.href.endsWith(f))tc.href=f}};if(window.PoofPos){try{PoofPos.fadeThemeSwap(_swap)}catch(e){_swap()}}else{_swap()}const m=document.querySelector("meta[name=theme-color]");if(m)m.content={snowy:"#081421",lilac:"#EEF2FF",peachy:"#FFF7ED",minty:"#F0FDF4"}[t]||"#111111";updateMascots()}
 $("#proxyTest").onclick=async()=>{
  const _tb=$("#proxyTest"),_ol=_tb.textContent;_tb.disabled=true;_tb.textContent="در حال آزمایش…";toast("در حال آزمایش اتصال…");
