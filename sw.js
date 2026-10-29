@@ -1,6 +1,6 @@
 // POOF service worker — اسناد HTML همیشه شبکه‌اول (network-first)، بقیه با fallback آفلاین
 // فقط برای فایل‌های خودِ اپ (same-origin) — درخواست‌های خارجی دست‌نخورده می‌مانند
-const CACHE = 'poof-v82';
+const CACHE = 'poof-v83';
 const CORE = ['./', './index.html', './poof-core.js', './dict-fa.jsonl', './learn.html', './practice.html', './theme-snowy.css', './theme-classic.css', './manifest.webmanifest', './icon.svg', './icon-192.png', './icon-512.png', './icon-maskable-512.png'];
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(CORE)).then(() => self.skipWaiting()));
