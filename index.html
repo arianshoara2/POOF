@@ -248,14 +248,18 @@ background:var(--nav-bg);border:1px solid var(--nav-border);box-shadow:var(--sha
 transition:transform .42s cubic-bezier(.4,0,.2,1),opacity .35s ease,background-color .3s ease}
 nav.nav-hidden{opacity:0;transform:translateY(calc(100% + 48px));pointer-events:none}
 nav:focus-within{opacity:1;transform:none;pointer-events:auto}
-nav button{padding:10px 2px;border:0;border-radius:16px;background:transparent;color:var(--muted)}
+/* ===== Animated BottomBar (?v=106): active tab pops into a floating circle framed by a notch ring — transitions only, no keyframes ===== */
+nav button{position:relative;padding:10px 2px;border:0;border-radius:16px;background:transparent;color:var(--muted)}
 nav button:hover{background:var(--hover);color:var(--accent);filter:none}
-nav button.on{background:var(--active);color:var(--accent)}
-nav .ic{width:24px;height:24px}
-nav button.hero{width:54px;height:54px;padding:0;border-radius:50%;background:linear-gradient(135deg,var(--accent),#caa25e);color:var(--bg);justify-self:center;align-self:center;transform:translateY(-12px);box-shadow:0 0 0 3px var(--bg),0 8px 20px rgba(0,0,0,.45)}
-nav button.hero:hover{background:linear-gradient(135deg,var(--accent),#caa25e);color:var(--bg);filter:brightness(1.06)}
-nav button.hero .ic{width:26px;height:26px}
-nav button.hero.on{background:linear-gradient(135deg,var(--accent),#caa25e);color:var(--bg);filter:brightness(1.08);box-shadow:0 0 0 3px var(--bg),0 10px 26px rgba(0,0,0,.55),0 0 20px var(--active)}
+nav button.on{background:transparent;color:var(--accent)}
+nav button.on:hover{background:transparent;color:var(--accent)}
+nav .ic{width:24px;height:24px;transition:transform .38s cubic-bezier(.34,1.56,.64,1)}
+nav button::before{content:"";position:absolute;left:50%;top:50%;width:56px;height:56px;border-radius:50%;background:var(--surface);border:1px solid var(--nav-border);box-shadow:0 10px 24px rgba(0,0,0,.35);transform:translate(-50%,-50%) scale(.6);opacity:0;pointer-events:none;transition:transform .38s cubic-bezier(.34,1.56,.64,1),opacity .25s ease}
+nav button::after{content:"";position:absolute;left:50%;top:50%;width:72px;height:72px;border-radius:50%;border:1px solid var(--nav-border);box-shadow:inset 0 0 0 8px var(--nav-bg);transform:translate(-50%,-50%) scale(.7);opacity:0;pointer-events:none;transition:transform .38s cubic-bezier(.34,1.56,.64,1),opacity .25s ease}
+nav button.on::before{transform:translate(-50%,-50%) translateY(-22px) scale(1);opacity:1;pointer-events:auto}
+nav button.on::after{transform:translate(-50%,-50%) translateY(-22px) scale(1);opacity:1;pointer-events:auto}
+nav button.on .ic{transform:translateY(-22px)}
+@media (prefers-reduced-motion:reduce){nav button .ic,nav button::before,nav button::after{transition:none}nav button.on::before{transform:translate(-50%,-50%)}nav button.on::after{display:none}nav button.on .ic{transform:none}}
 /* ===== popover + toast ===== */
 #pop{position:fixed;z-index:270;width:min(372px,94vw);padding:12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);box-shadow:var(--shadow-pop)}
 .popB .popLang{width:auto;min-width:30px;height:30px;align-self:center;font-size:11px;font-weight:700;padding:0 6px;border:1px solid var(--border);border-radius:999px;flex:none}
@@ -473,7 +477,7 @@ html[data-theme=lilac] #lilacHomeBanner{display:block}
 <symbol id="i-mic" viewBox="0 0 24 24"><path d="M12 2.5a3 3 0 0 0-3 3v6.5a3 3 0 0 0 6 0V5.5a3 3 0 0 0-3-3z"/><path d="M18.5 10.5v1.5a6.5 6.5 0 0 1-13 0v-1.5"/><path d="M12 18.5V21"/><path d="M8.5 21h7"/></symbol>
 <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></symbol>
 </defs></svg>
-<header><div class="poof-img-header-bg" aria-hidden="true" style="position:absolute;inset:0;z-index:0"></div><div class="brand"><span class="mark" aria-hidden="true">P</span><img id="brandMascot" class="poof-mascot brand-mascot" alt="" aria-hidden="true"><div><h1>POOF</h1><p id="hSub">بخوان، انتخاب کن، یاد بگیر</p></div></div></header>
+<header><div class="poof-img-header-bg" aria-hidden="true" style="position:absolute;inset:0;z-index:0"></div><div class="brand"><span class="mark" aria-hidden="true">P</span><img id="brandMascot" class="poof-mascot brand-mascot" alt="" aria-hidden="true" style="display:none"><div><h1>POOF</h1><p id="hSub">بخوان، انتخاب کن، یاد بگیر</p></div></div></header>
 <main>
  <section id="s-read" class="tab">
   <img id="lilacHomeBanner" alt="" loading="lazy">
@@ -720,7 +724,7 @@ html[data-theme=lilac] #lilacHomeBanner{display:block}
 <nav id="nav" aria-label="ناوبری اصلی">
  <button data-t="cards" aria-label="کارت‌ها" title="کارت‌ها"><svg class="ic" aria-hidden="true"><use href="#i-cards"/></svg></button>
  <button data-t="dict" aria-label="دیکشنری" title="دیکشنری"><svg class="ic" aria-hidden="true"><use href="#i-dict"/></svg></button>
- <button data-t="read" class="hero on" aria-label="خواندنی" title="خواندنی"><svg class="ic" aria-hidden="true"><use href="#i-read"/></svg></button>
+ <button data-t="read" class="on" aria-label="خواندنی" title="خواندنی"><svg class="ic" aria-hidden="true"><use href="#i-read"/></svg></button>
  <button data-t="review" aria-label="مرور و یادگیری" title="مرور و یادگیری"><svg class="ic" aria-hidden="true"><use href="#i-route"/></svg></button>
  <button data-t="me" aria-label="پروفایل" title="پروفایل"><svg class="ic" aria-hidden="true"><use href="#i-user"/></svg></button>
 </nav>
@@ -4794,7 +4798,7 @@ renderPackDE();
 /* ?v=105 mascots: one <img> per slot, src set by theme (snowy/lilac only); other themes render nothing */
 const MASCOT_SRC={snowy:{wave:'snowy-wave.webp',celebrate:'snowy-celebrate.webp',read:'snowy-read.webp',sleep:'snowy-sleep.webp',think:'snowy-think.webp'},lilac:{wave:'pouf-lilac-wave.webp',celebrate:'pouf-lilac-celebrate.webp',read:'pouf-lilac-read.webp',sleep:'pouf-lilac-sleep.webp',think:'pouf-lilac-think.webp'}};
 function mascotImg(pose,cls){const t=document.documentElement.dataset.theme;const f=(MASCOT_SRC[t]||{})[pose];if(!f)return '';return `<img class="poof-mascot${cls?' '+cls:''}${t==='lilac'?' mascot-frame':''}" style="display:block" src="${f}" alt="" loading="lazy">`}
-function updateMascots(){const t=document.documentElement.dataset.theme;const bm=document.getElementById('brandMascot');if(bm){const f=(MASCOT_SRC[t]||{}).wave;if(f){bm.src=f;bm.classList.toggle('mascot-frame',t==='lilac')}else{bm.removeAttribute('src');bm.classList.remove('mascot-frame')}}const bn=document.getElementById('lilacHomeBanner');if(bn){if(t==='lilac'){bn.src='pouf-lilac-banner.webp'}else{bn.removeAttribute('src')}}}
+function updateMascots(){const t=document.documentElement.dataset.theme;const bm=document.getElementById('brandMascot');if(bm){const f=(MASCOT_SRC[t]||{}).wave;if(f){bm.src=f;bm.classList.toggle('mascot-frame',t==='lilac');bm.style.display=''}else{bm.removeAttribute('src');bm.classList.remove('mascot-frame');bm.style.display='none'}}const bn=document.getElementById('lilacHomeBanner');if(bn){if(t==='lilac'){bn.src='pouf-lilac-banner.webp'}else{bn.removeAttribute('src')}}}
 function applyTheme(){const t=["snowy","lilac","peachy","minty"].includes(db.theme)?db.theme:"classic";document.documentElement.dataset.theme=t;const _swap=()=>{const tc=document.getElementById("themeCss");if(tc){const f="theme-"+(t==="snowy"?"snowy":"classic")+".css?v=16";if(!tc.href.endsWith(f))tc.href=f}};if(window.PoofPos){try{PoofPos.fadeThemeSwap(_swap)}catch(e){_swap()}}else{_swap()}const m=document.querySelector("meta[name=theme-color]");if(m)m.content={snowy:"#081421",lilac:"#EEF2FF",peachy:"#FFF7ED",minty:"#F0FDF4"}[t]||"#111111";updateMascots()}
 $("#proxyTest").onclick=async()=>{
  const _tb=$("#proxyTest"),_ol=_tb.textContent;_tb.disabled=true;_tb.textContent="در حال آزمایش…";toast("در حال آزمایش اتصال…");
