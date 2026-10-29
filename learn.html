@@ -234,6 +234,7 @@ function viewPath(){
  $("#tabEn").onclick=()=>setTrack("en");
  $("#tabDe").onclick=()=>setTrack("de");
  $$(".pnode").forEach(el=>el.onclick=()=>{const l=byId(el.dataset.id);status(l)==="locked"?toast("اول درس قبلی را تمام کن"):go(l)});
+ applyLearnMascots();
 }
 function viewLesson(l){
  if(!(db.learn[l.id]&&db.learn[l.id].startedAt))commit(d=>{d.learn[l.id]={...(d.learn[l.id]||{}),startedAt:Date.now()}});
