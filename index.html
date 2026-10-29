@@ -440,6 +440,8 @@ html[data-theme=lilac] button:active,html[data-theme=peachy] button:active,html[
 html[data-theme=lilac] .brand-mascot{display:block}
 #lilacHomeBanner{display:none;width:100%;height:auto;border-radius:var(--r-md);margin-bottom:10px}
 html[data-theme=lilac] #lilacHomeBanner{display:block}
+#mintyHomeBanner{display:none;width:100%;height:auto;border-radius:var(--r-md);margin-bottom:10px}
+html[data-theme=minty] #mintyHomeBanner{display:block}
 
   /* ===== ?v=107 light-theme consistency: clay everywhere under Lilac/Peachy/Minty; dark themes untouched; reader keeps dark wash ===== */
   html[data-theme=lilac] body,html[data-theme=peachy] body,html[data-theme=minty] body{color:var(--lt-text)}
@@ -575,6 +577,10 @@ html[data-theme=lilac] .rv-game span,html[data-theme=peachy] .rv-game span,html[
 html[data-theme=lilac] #rvNavMenu,html[data-theme=peachy] #rvNavMenu,html[data-theme=minty] #rvNavMenu{background:var(--lt-card);border-color:var(--lt-border);box-shadow:0 12px 32px rgba(var(--lt-shadow),.18)}
 html[data-theme=lilac] #rvNavMenu button,html[data-theme=peachy] #rvNavMenu button,html[data-theme=minty] #rvNavMenu button{color:var(--lt-text)}
 html[data-theme=lilac] #rvNavMenu button:hover,html[data-theme=peachy] #rvNavMenu button:hover,html[data-theme=minty] #rvNavMenu button:hover{background:var(--lt-pastel)}
+  /* ===== ?v=109 Minty/Lilac scenic wiring: theme scenes behind content; existing glass wash kept, reader text preserved ===== */
+  html[data-theme=minty] .lib-banner .poof-img-library-banner{background-image:url('pouf-minty-library.webp')}
+  html[data-theme=minty] body:has(#s-read:not([hidden])) #readBg{display:block;background-image:url('pouf-minty-scene-read.webp')}
+  html[data-theme=lilac] body:has(#s-read:not([hidden])) #readBg{display:block;background-image:url('pouf-lilac-scene-read.webp')}
 </style>
 </head>
 <body>
@@ -615,6 +621,7 @@ html[data-theme=lilac] #rvNavMenu button:hover,html[data-theme=peachy] #rvNavMen
 <main>
  <section id="s-read" class="tab">
   <img id="lilacHomeBanner" alt="" loading="lazy">
+   <img id="mintyHomeBanner" alt="" loading="lazy">
   <div class="lib-banner"><div class="poof-img-library-banner"></div><div class="lib-banner-txt"><h2><svg class="ic ic-inline" aria-hidden="true"><use href="#i-doc"/></svg> کتابخانه</h2><p>دنیای متن‌ها، ویدیوها و داستان‌ها — هر چیزی که یادگیری‌ات را زنده می‌کند.</p></div></div>
   <div class="card" id="movieCard" style="cursor:pointer">
    <div class="card-bg-img poof-img-card-bg-snowy" aria-hidden="true"></div>
@@ -4944,11 +4951,11 @@ renderPackDE();
 
 /* ===== 10) Theme + tabs ===== */
 /* ?v=105 mascots: one <img> per slot, src set by theme via mascotSet(); transparent poses, no dark disc */
-const MASCOT_SRC={snowy:{wave:'snowy-wave.webp',celebrate:'snowy-celebrate.webp',read:'snowy-read.webp',sleep:'snowy-sleep.webp',think:'snowy-think.webp'},classic:{wave:'pouf-classic-wave.webp',celebrate:'pouf-classic-celebrate.webp',read:'pouf-classic-read.webp',sleep:'pouf-classic-sleep.webp',think:'pouf-classic-think.webp'},lilac:{wave:'pouf-lilac-wave.webp',celebrate:'pouf-lilac-celebrate.webp',read:'pouf-lilac-read.webp',sleep:'pouf-lilac-sleep.webp',think:'pouf-lilac-think.webp'},ocean:{wave:'pouf-ocean-smile.webp',celebrate:'pouf-ocean-celebrate.webp',read:'pouf-ocean-read.webp',sleep:'pouf-ocean-sleep.webp',think:'pouf-ocean-think.webp'},sun:{wave:'pouf-sun-wave.webp',celebrate:'pouf-sun-celebrate.webp',read:'pouf-sun-read.webp',sleep:'pouf-sun-sleep.webp',think:'pouf-sun-think.webp'}};
-/* Theme-pose resolver: Classic->classic, Lilac->lilac, Snowy->snowy; Peachy/Minty->snowy light-friendly fallback until Berry/Forest files are uploaded AND verified on main. Ocean/Sun entries exist for future themes only. */
-function mascotSet(t){if(t==='classic')return MASCOT_SRC.classic;if(t==='lilac')return MASCOT_SRC.lilac;if(t==='snowy')return MASCOT_SRC.snowy;return MASCOT_SRC.snowy;}
+const MASCOT_SRC={snowy:{wave:'snowy-wave.webp',celebrate:'snowy-celebrate.webp',read:'snowy-read.webp',sleep:'snowy-sleep.webp',think:'snowy-think.webp'},classic:{wave:'pouf-classic-wave.webp',celebrate:'pouf-classic-celebrate.webp',read:'pouf-classic-read.webp',sleep:'pouf-classic-sleep.webp',think:'pouf-classic-think.webp'},lilac:{wave:'pouf-lilac-wave.webp',celebrate:'pouf-lilac-celebrate.webp',read:'pouf-lilac-read.webp',sleep:'pouf-lilac-sleep.webp',think:'pouf-lilac-think.webp'},minty:{wave:'pouf-minty-wave.webp',celebrate:'pouf-minty-celebrate.webp',read:'pouf-minty-read.webp',sleep:'pouf-minty-sleep.webp',think:'pouf-minty-think.webp'},ocean:{wave:'pouf-ocean-smile.webp',celebrate:'pouf-ocean-celebrate.webp',read:'pouf-ocean-read.webp',sleep:'pouf-ocean-sleep.webp',think:'pouf-ocean-think.webp'},sun:{wave:'pouf-sun-wave.webp',celebrate:'pouf-sun-celebrate.webp',read:'pouf-sun-read.webp',sleep:'pouf-sun-sleep.webp',think:'pouf-sun-think.webp'}};
+/* Theme-pose resolver (?v=109): Classic->classic, Lilac->lilac, Minty->minty (verified on main), Snowy->snowy; Peachy->snowy light-friendly fallback until Berry files arrive. Ocean/Sun entries exist for future themes only. */
+function mascotSet(t){if(t==='classic')return MASCOT_SRC.classic;if(t==='lilac')return MASCOT_SRC.lilac;if(t==='minty')return MASCOT_SRC.minty;if(t==='snowy')return MASCOT_SRC.snowy;return MASCOT_SRC.snowy;}
 function mascotImg(pose,cls){const t=document.documentElement.dataset.theme;const f=mascotSet(t)[pose];if(!f)return '';return `<img class="poof-mascot${cls?' '+cls:''}" style="display:block" src="${f}" alt="" loading="lazy">`}
-function updateMascots(){const t=document.documentElement.dataset.theme;const bm=document.getElementById('brandMascot');if(bm){const f=mascotSet(t).wave;bm.src=f;bm.style.display=''}const bn=document.getElementById('lilacHomeBanner');if(bn){if(t==='lilac'){bn.src='pouf-lilac-banner.webp'}else{bn.removeAttribute('src')}}}
+function updateMascots(){const t=document.documentElement.dataset.theme;const bm=document.getElementById('brandMascot');if(bm){const f=mascotSet(t).wave;bm.src=f;bm.style.display=''}const bn=document.getElementById('lilacHomeBanner');if(bn){if(t==='lilac'){bn.src='pouf-lilac-banner.webp'}else{bn.removeAttribute('src')}}const mn=document.getElementById('mintyHomeBanner');if(mn){if(t==='minty'){mn.src='pouf-minty-banner.webp'}else{mn.removeAttribute('src')}}}
 function updateRvGames(){const t=document.documentElement.dataset.theme;document.querySelectorAll('#rvGames .rv-game-ico').forEach(im=>{const pose=im.dataset.pose;im.src=mascotSet(t)[pose];})}
 let rvLpTimer=null,rvLpFired=false;
 const rvNavEl=document.getElementById('nav'),rvMenuEl=document.getElementById('rvNavMenu');
