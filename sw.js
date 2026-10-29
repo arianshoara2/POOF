@@ -1,6 +1,6 @@
-// POOF service worker — اسناد HTML همیشه شبکه‌اول (network-first)، بقیه با fallback آفلاین
+// POOF service worker — اسناد HTML شبکه‌اول (network-first)، بقیه‌ی فایل‌های خودِ اپ کش‌اول (cache-first)
 // فقط برای فایل‌های خودِ اپ (same-origin) — درخواست‌های خارجی دست‌نخورده می‌مانند
-const CACHE = 'poof-v93';
+const CACHE = 'poof-v94';
 const CORE = ['./', './index.html', './poof-core.js', './dict-fa.jsonl', './learn.html', './practice.html', './theme-snowy.css', './theme-classic.css', './manifest.webmanifest', './icon.svg', './icon-192.png', './icon-512.png', './icon-maskable-512.png'];
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(CORE)).then(() => self.skipWaiting()));
@@ -36,12 +36,14 @@ self.addEventListener('fetch', (e) => {
     return;
   }
   e.respondWith(
-    fetch(e.request).then((r) => {
-      const copy = r.clone();
-      caches.open(CACHE).then((c) => c.put(e.request, copy));
-      return r;
-    }).catch(() =>
-      caches.match(e.request).then((m) => m || caches.match('./index.html'))
-    )
+    caches.match(e.request).then((m) => {
+      if (m) return m;
+      return fetch(e.request).then((r) => {
+        if (r.ok) { const copy = r.clone(); caches.open(CACHE).then((c) => c.put(e.request, copy)); }
+        return r;
+      }).catch(() =>
+        caches.match(e.request).then((mm) => mm || caches.match('./index.html'))
+      );
+    })
   );
 });
