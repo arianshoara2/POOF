@@ -682,6 +682,9 @@ html[data-theme=nebula] #meBg::after{background:rgba(26,11,46,.80)}
  html[data-theme=ocean] #movieCard .card-bg-img,html[data-theme=ocean] #wikiCard .card-bg-img,html[data-theme=ocean] #podCard .card-bg-img,html[data-theme=ocean] #wortCard .card-bg-img,html[data-theme=ocean] #libZone .card-bg-img{background-image:url('pouf-blue-scene-books.webp')} html[data-theme=nebula] #movieCard .card-bg-img,html[data-theme=nebula] #wikiCard .card-bg-img,html[data-theme=nebula] #podCard .card-bg-img,html[data-theme=nebula] #wortCard .card-bg-img,html[data-theme=nebula] #libZone .card-bg-img{background-image:url('pouf-nebula-library.webp')}
 /* ?v=126: متن پس‌زمینه‌ی خیلی طولانی در کارت مرور، کارت را از وسط قیچی نکند — حداکثر ۸ خط + … */
 .lt-face .lt-ctx{display:-webkit-box;-webkit-line-clamp:8;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:break-word}
+/* ?v=127: کلمه‌ی کارت در متن پس‌زمینه‌ی مرور طلایی شود */
+.lt-face .w.hlt{color:var(--accent);font-weight:700}
+html[data-theme=lilac] .lt-face .w.hlt,html[data-theme=peachy] .lt-face .w.hlt,html[data-theme=minty] .lt-face .w.hlt,html[data-theme=sun] .lt-face .w.hlt{color:var(--lt-link)}
 </style>
 </head>
 <body>
@@ -4927,6 +4930,23 @@ async function openBox(all){
 }
 function closeBox(){$("#lt").hidden=true;document.body.style.overflow="";startReview()}
 function ltHint(kind,a){const h=$("#ltHint");if(!h)return;h.className="lt-hint "+kind;h.style.opacity=a;h.textContent=({ok:"بلد بودم ✓",no:"بلد نبودم ✗",del:"حذف"})[kind]||""}
+function ctxWindow(ctx, word){
+ if(!ctx) return "";
+ const parts = ctx.match(/[^.!?…]+[.!?…]+["»”)\]]*\s*/g) || [ctx];
+ const list = parts.map(s=>s.trim()).filter(Boolean);
+ if(list.length<=1) return ctx;
+ const w = (word||"").trim();
+ let idx = -1;
+ if(w && !/\s/.test(w)){
+   const lw = w.toLowerCase();
+   idx = list.findIndex(s => s.split(/\s+/).some(tok => tok.replace(/^[^\p{L}\p{N}]+|[^\p{L}\p{N}]+$/gu,'').toLowerCase() === lw));
+ } else if(w){
+   const lw = w.toLowerCase();
+   idx = list.findIndex(s => s.toLowerCase().includes(lw));
+ }
+ if(idx<0) return list.slice(0,3).join(" ");
+ return list.slice(Math.max(0,idx-2), Math.min(list.length, idx+3)).join(" ");
+}
 function renderLt(){
  const el=$("#ltStage"),c=lt.pile[0];
  sel=null;W=[];drawSel();$("#pop").hidden=true;$("#ltEntry").hidden=true;
@@ -4940,7 +4960,8 @@ function renderLt(){
  $("#ltBox").textContent="جعبه "+boxOf(c);
  const nxt=lt.pile.slice(1,3);
  const L=c.lang||"de";
- const ctxH=c.context?`<div class="de ctx lt-ctx" data-ctx="${esc(c.context)}">${wrapWords(c.context)}</div>`:"";
+ const ctxW=c.context?ctxWindow(c.context,c.front):"";
+ const ctxH=ctxW?`<div class="de ctx lt-ctx" data-ctx="${esc(ctxW)}">${wrapWords(ctxW,c.front)}</div>`:"";
  el.innerHTML=nxt.map((_,i)=>`<div class="lt-card back" style="--k:${nxt.length-i}"></div>`).join("")+
  `<div class="lt-card top" id="ltTop"><div class="lt-in" id="ltIn">
    <div class="lt-face" data-lang="${L}"><div class="lt-word de">${esc(c.front)}</div><button class="ib" data-a="say" aria-label="تلفظ">${ic("sound")}</button>${ctxH}<p class="mute">برای دیدن جواب بزنید</p></div>
@@ -5028,7 +5049,7 @@ $("#ed").onclick=e=>{if(e.target.id==="ed")$("#ed").hidden=true};
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("#ed").hidden)$("#ed").hidden=true});
 $("#lt").addEventListener("click",e=>{if(!e.target.closest("#ltEntry,#pop,.hd,.w"))$("#ltEntry").hidden=true});
 const sr=(t,l,x,src)=>`<span class="sr ${x||""}" data-ctx="${esc(t)}" data-lang="${l}" data-src="${esc(src||"dictionary")}">${wrapWords(t)}</span>`;
-const wrapWords=t=>t.split(/(?<=\s)(?=\S)/).map(w=>norm(w)?`<span class="w" data-w="${esc(norm(w))}">${esc(w)}</span>`:esc(w)).join("");
+const wrapWords=(t,hi)=>t.split(/(?<=\s)(?=\S)/).map(w=>norm(w)?`<span class="w${hi&&!/\s/.test(hi)&&norm(w).toLowerCase()===norm(hi).toLowerCase()?" hlt":""}" data-w="${esc(norm(w))}">${esc(w)}</span>`:esc(w)).join("");
 
 /* ===== 8) Stats ===== */
 function streak(){let n=0,d=new Date();if(!db.log[fmt(d)])d.setDate(d.getDate()-1);while(db.log[fmt(d)]){n++;d.setDate(d.getDate()-1)}return n}
