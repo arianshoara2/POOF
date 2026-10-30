@@ -680,6 +680,8 @@ html[data-theme=nebula] #cardsBg::after{background:rgba(26,11,46,.80)}
 html[data-theme=nebula] #meBg::after{background:rgba(26,11,46,.80)}
  html[data-theme=lilac] #popLangMenu button,html[data-theme=peachy] #popLangMenu button,html[data-theme=minty] #popLangMenu button,html[data-theme=sun] #popLangMenu button{background:rgba(var(--lt-shadow),.10);border-color:var(--lt-border);color:var(--lt-text)}
  html[data-theme=ocean] #movieCard .card-bg-img,html[data-theme=ocean] #wikiCard .card-bg-img,html[data-theme=ocean] #podCard .card-bg-img,html[data-theme=ocean] #wortCard .card-bg-img,html[data-theme=ocean] #libZone .card-bg-img{background-image:url('pouf-blue-scene-books.webp')} html[data-theme=nebula] #movieCard .card-bg-img,html[data-theme=nebula] #wikiCard .card-bg-img,html[data-theme=nebula] #podCard .card-bg-img,html[data-theme=nebula] #wortCard .card-bg-img,html[data-theme=nebula] #libZone .card-bg-img{background-image:url('pouf-nebula-library.webp')}
+/* ?v=126: متن پس‌زمینه‌ی خیلی طولانی در کارت مرور، کارت را از وسط قیچی نکند — حداکثر ۸ خط + … */
+.lt-face .lt-ctx{display:-webkit-box;-webkit-line-clamp:8;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:break-word}
 </style>
 </head>
 <body>
@@ -3428,7 +3430,7 @@ $("#wlSeg").onclick=e=>{const b=e.target.closest("[data-wl]");if(!b)return;wl=b.
 $("#dlSeg").onclick=e=>{const b=e.target.closest("[data-dl]");if(!b)return;db.dictLang=b.dataset.dl;save();renderRecent();if($("#q").value.trim())dsearch()};
 
 /* ===== پاپ‌آور کنار کلمه (مثل Deucards) ===== */
-const pop={n:0,text:"",tr:"",trg:"fa",_explang:null,ctx:"",src:"",textId:null,ts:null,video:null};
+const pop={n:0,text:"",tr:"",trg:"fa",_explang:null,ctx:"",src:"",textId:null,ts:null,video:null,word:""};
 const popVideo=()=>{if(!pop.video)return undefined;const v={...pop.video};if(pop.ts!=null)v.t=Math.floor(pop.ts);return v};
 function placePop(r){
  const p=$("#pop");p.hidden=false;const w=p.offsetWidth,h=p.offsetHeight,top=8;
@@ -3450,6 +3452,10 @@ function renderPopLangMenu(){
 }
 async function showPop(rect,text,ctx,src,lang){
  const n=++pop.n;Object.assign(pop,{text,ctx,src,tr:"",lang:lang||curLang()});
+ /* پاپ‌آپ تازه = نشست تازه: کلمه‌ی پاپ‌آپ قبلی نباید به عبارت جدید بچسبد */
+ if($("#pop").hidden)pop.word="";
+ /* برای موارد خارج از متن (دیکشنری/زبان): اگر تک‌کلمه است همان را نگه دار؛ اگر عبارت/جمله است قبلی را دست نزن */
+ if(!/\s/.test(text.trim()))pop.word=text.trim();
  pop._rect=rect;pop._ebox=null;pop._espans=null;
  pop._explang=(lang&&lang!=="auto")?lang:null;
  pop.trg=FA.test(text)?"de":"fa";const _pl=$("#popLang");if(_pl)_pl.textContent=LB[pop.trg];const _lm=$("#popLangMenu");if(_lm)_lm.hidden=true;
@@ -3504,7 +3510,7 @@ $("#pop").onclick=async ev=>{
   if(lo===sel.a&&hi===sel.b)return toast("همین حالا یک جمله‌ی کامل انتخاب شده");
   setSel(lo,hi,true);
  }
- else if(a==="edit"){const fa=FA.test(pop.text);openEditor(null,{front:fa?pop.tr:pop.text,back:fa?pop.text:pop.tr,context:fa?"":pop.ctx,contextFa:fa?pop.ctx:"",lang:fa?"de":pop.lang,video:popVideo(),textId:pop.textId||undefined})}
+ else if(a==="edit"){const fa=FA.test(pop.text);const w=pop.word||pop.text;openEditor(null,{front:fa?pop.tr:w,back:fa?w:pop.tr,context:fa?"":pop.ctx,contextFa:fa?pop.ctx:"",lang:fa?"de":pop.lang,video:popVideo(),textId:pop.textId||undefined})}
  else if(a==="more"){
   if(pop._ebox){const bx=pop._ebox;pop._ebox=null;$("#pop").hidden=true;entNav(bx,pop.text,pop.ctx,"dictionary",pop.lang,"push");eClearHi();return}
   $("#pop").hidden=true;const lb=!$("#lt").hidden,dt=!$("#s-dict").hidden,bx=lb?$("#ltEntry"):dt?$("#dentry"):$("#entry");
@@ -3513,7 +3519,14 @@ $("#pop").onclick=async ev=>{
  else if(a==="add"){
   if(!pop.tr)return toast("ترجمه‌ای برای ذخیره نیست","bad");
   const fa=FA.test(pop.text);
-  if(addCard({front:fa?pop.tr:pop.text,back:fa?pop.text:pop.tr,context:fa?"":pop.ctx,contextFa:fa?pop.ctx:"",lang:fa?"de":pop.lang,source:pop.src,deck_id:db.active,video:popVideo(),textId:pop.textId||undefined}))$("#pop").hidden=true;
+  /* اگر جمله/عبارت چندکلمه‌ای انتخاب شده (+ یا درگ)، کلمه‌ی اولیه را به‌جای کل جمله ذخیره کن */
+  const w=pop.word||pop.text,isPhrase=w!==pop.text;
+  const doAdd=back=>{
+   const ctx=isPhrase?pop.text:pop.ctx;
+   if(addCard({front:fa?back:w,back:fa?w:back,context:fa?"":ctx,contextFa:fa?ctx:"",lang:fa?"de":pop.lang,source:pop.src,deck_id:db.active,video:popVideo(),textId:pop.textId||undefined}))$("#pop").hidden=true;
+  };
+  if(isPhrase)tr(w,pop.lang,pop.trg).then(r=>doAdd(r||pop.tr)).catch(()=>doAdd(pop.tr));
+  else doAdd(pop.tr);
  }
 };
 /* ===== ✨ از پووف بپرس (Workers AI) ===== */
@@ -3627,7 +3640,10 @@ function setSel(a,b,withPop){
  const line=inReader&&W[a].closest(".tline"),tsB=line&&line.querySelector("[data-ts]");
  pop.textId=inReader?db.textId:null;pop.ts=tsB?+tsB.dataset.ts:null;
  pop.video=t&&t.video?{id:t.video.id,ig:t.video.ig,path:t.video.path}:null;
- showPop({top:f.top,bottom:l.bottom,left:L,width:R-L},selText(),r?r.dataset.ctx:sents[W[a].dataset.i],r?(r.dataset.src||"leitner"):"text:"+db.textId,g?g.dataset.lang:undefined);
+ const selTxt=selText();
+ /* کلمه‌ی اولیه‌ی انتخاب را جدا نگه دار تا + همیشه کلمه (نه جمله) را ذخیره کند */
+ if(!/\s/.test(selTxt.trim()))pop.word=selTxt.trim();
+ showPop({top:f.top,bottom:l.bottom,left:L,width:R-L},selTxt,r?r.dataset.ctx:sents[W[a].dataset.i],r?(r.dataset.src||"leitner"):"text:"+db.textId,g?g.dataset.lang:undefined);
 }
 function pick(el,shift){
  if(igListen){
