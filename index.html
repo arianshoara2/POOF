@@ -685,6 +685,13 @@ html[data-theme=nebula] #meBg::after{background:rgba(26,11,46,.80)}
 /* ?v=127: کلمه‌ی کارت در متن پس‌زمینه‌ی مرور طلایی شود */
 .lt-face .w.hlt{color:var(--accent);font-weight:700}
 html[data-theme=lilac] .lt-face .w.hlt,html[data-theme=peachy] .lt-face .w.hlt,html[data-theme=minty] .lt-face .w.hlt,html[data-theme=sun] .lt-face .w.hlt{color:var(--lt-link)}
+/* ?v=129: skeleton placeholders while theme-switch pouf images load (no more blank pouf spots) */
+img.pouf-skel,img.rv-game-ico.pouf-skel{background:linear-gradient(110deg,rgba(128,128,128,.28) 25%,rgba(255,255,255,.45) 50%,rgba(128,128,128,.28) 75%);background-size:200% 100%;animation:pouf-skel-shimmer 1.2s linear infinite}
+img.rv-game-ico.pouf-skel{border-radius:50%}
+@keyframes pouf-skel-shimmer{from{background-position:200% 0}to{background-position:-200% 0}}
+@media (prefers-reduced-motion: reduce){img.pouf-skel{animation:none}}
+/* ?v=129b: banner imgs are width:100%/height:auto, so give the skeleton a box while loading (all 5 wired banners are 2047x585; the rule dies with the class, so the loaded image is never distorted) */
+img[id$="HomeBanner"].pouf-skel{aspect-ratio:2047/585}
 </style>
 </head>
 <body>
@@ -5146,8 +5153,32 @@ try{addEventListener('load',()=>{setTimeout(()=>{try{const th=document.documentE
 /* Theme-pose resolver (?v=116): Classic->classic, Lilac->lilac, Minty->minty, Snowy->snowy, Ocean->ocean, Sun->sun; Peachy->snowy light-friendly fallback until Berry files arrive. */
 function mascotSet(t){if(t==='classic')return MASCOT_SRC.classic;if(t==='lilac')return MASCOT_SRC.lilac;if(t==='minty')return MASCOT_SRC.minty;if(t==='snowy')return MASCOT_SRC.snowy;if(t==='ocean')return MASCOT_SRC.ocean;if(t==='sun')return MASCOT_SRC.sun;if(t==='nebula')return MASCOT_SRC.nebula;return MASCOT_SRC.snowy;}
 function mascotImg(pose,cls){const t=document.documentElement.dataset.theme;const f=mascotSet(t)[pose];if(!f)return '';return `<img class="poof-mascot${cls?' '+cls:''}" style="display:block" src="${f}" alt="" loading="lazy">`}
-function updateMascots(){const t=document.documentElement.dataset.theme;const bm=document.getElementById('brandMascot');if(bm){const f=mascotSet(t).wave;bm.src=f;bm.style.display=''}const bn=document.getElementById('lilacHomeBanner');if(bn){if(t==='lilac'){bn.src='pouf-lilac-banner.webp'}else{bn.removeAttribute('src')}}const mn=document.getElementById('mintyHomeBanner');if(mn){if(t==='minty'){mn.src='pouf-minty-banner.webp'}else{mn.removeAttribute('src')}}const oc=document.getElementById('oceanHomeBanner');if(oc){if(t==='ocean'){oc.src='pouf-blue-banner.webp'}else{oc.removeAttribute('src')}}const sn=document.getElementById('sunHomeBanner');if(sn){if(t==='sun'){sn.src='pouf-sun-banner.webp'}else{sn.removeAttribute('src')}}const nb=document.getElementById('nebulaHomeBanner');if(nb){if(t==='nebula'){nb.src='pouf-nebula-banner.webp'}else{nb.removeAttribute('src')}} /* ?v=111 portal icons: inline per-theme transparent poses override the theme-CSS dark art */ const lc=document.querySelector('#learnCard .round-ico');if(lc){const f=mascotSet(t).read;lc.style.backgroundImage=`url('${f}')`;}const pc=document.querySelector('#practiceCard .round-ico');if(pc){const f=mascotSet(t).celebrate;pc.style.backgroundImage=`url('${f}')`;}}
-function updateRvGames(){const t=document.documentElement.dataset.theme;document.querySelectorAll('#rvGames .rv-game-ico').forEach(im=>{const pose=im.dataset.pose;const f=mascotSet(t)[pose];im.src=f;})}
+/* ?v=129: skeleton swap for theme-switch pouf images — blank spots become a shimmer until the
+   new theme's image arrives; a stale load never clears a newer skeleton (rapid theme switching). */
+let _skelTok=0;
+function swapImg(img,src){
+ if(!img||!src)return;
+ if(img.dataset.skelSrc===src)return;
+ const tok=++_skelTok;
+ img.dataset.skelTok=tok;img.dataset.skelSrc=src;
+ img.classList.add('pouf-skel');
+ const fin=()=>{if(+img.dataset.skelTok===tok)img.classList.remove('pouf-skel')};
+ img.onload=fin;img.onerror=fin;
+ img.src=src;
+ if(img.complete&&img.naturalWidth>0)fin();
+}
+function swapBg(el,url){
+ if(!el||!url)return;
+ if(el.dataset.bgUrl===url)return;
+ const tok=++_skelTok;
+ el.dataset.bgTok=tok;el.dataset.bgUrl=url;
+ const im=new Image();
+ im.onload=()=>{if(+el.dataset.bgTok===tok)el.style.backgroundImage="url('"+url+"')"};
+ im.onerror=()=>{};
+ im.src=url;
+}
+function updateMascots(){const t=document.documentElement.dataset.theme;const bm=document.getElementById('brandMascot');if(bm){const f=mascotSet(t).wave;swapImg(bm,f);bm.style.display=''}const bn=document.getElementById('lilacHomeBanner');if(bn){if(t==='lilac'){swapImg(bn,'pouf-lilac-banner.webp')}else{bn.removeAttribute('src');bn.classList.remove('pouf-skel');delete bn.dataset.skelSrc}}const mn=document.getElementById('mintyHomeBanner');if(mn){if(t==='minty'){swapImg(mn,'pouf-minty-banner.webp')}else{mn.removeAttribute('src');mn.classList.remove('pouf-skel');delete mn.dataset.skelSrc}}const oc=document.getElementById('oceanHomeBanner');if(oc){if(t==='ocean'){swapImg(oc,'pouf-blue-banner.webp')}else{oc.removeAttribute('src');oc.classList.remove('pouf-skel');delete oc.dataset.skelSrc}}const sn=document.getElementById('sunHomeBanner');if(sn){if(t==='sun'){swapImg(sn,'pouf-sun-banner.webp')}else{sn.removeAttribute('src');sn.classList.remove('pouf-skel');delete sn.dataset.skelSrc}}const nb=document.getElementById('nebulaHomeBanner');if(nb){if(t==='nebula'){swapImg(nb,'pouf-nebula-banner.webp')}else{nb.removeAttribute('src');nb.classList.remove('pouf-skel');delete nb.dataset.skelSrc}} /* ?v=111 portal icons: inline per-theme transparent poses override the theme-CSS dark art */ const lc=document.querySelector('#learnCard .round-ico');if(lc){const f=mascotSet(t).read;swapBg(lc,f);}const pc=document.querySelector('#practiceCard .round-ico');if(pc){const f=mascotSet(t).celebrate;swapBg(pc,f);}}
+function updateRvGames(){const t=document.documentElement.dataset.theme;document.querySelectorAll('#rvGames .rv-game-ico').forEach(im=>{const pose=im.dataset.pose;const f=mascotSet(t)[pose];swapImg(im,f);})}
 let rvLpTimer=null,rvLpFired=false;
 const rvNavEl=document.getElementById('nav'),rvMenuEl=document.getElementById('rvNavMenu');
 function rvMenuClose(){rvLpFired=false;if(!rvMenuEl||rvMenuEl.hidden)return;rvMenuEl.classList.remove('open');rvMenuEl.hidden=true;removeEventListener('scroll',rvMenuClose,{capture:true})}
