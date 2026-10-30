@@ -4932,20 +4932,44 @@ function closeBox(){$("#lt").hidden=true;document.body.style.overflow="";startRe
 function ltHint(kind,a){const h=$("#ltHint");if(!h)return;h.className="lt-hint "+kind;h.style.opacity=a;h.textContent=({ok:"بلد بودم ✓",no:"بلد نبودم ✗",del:"حذف"})[kind]||""}
 function ctxWindow(ctx, word){
  if(!ctx) return "";
- const parts = ctx.match(/[^.!?…]+[.!?…]+["»”)\]]*\s*/g) || [ctx];
+ const parts = ctx.match(/[^.!?…]+[.!?…]+["»”\])\]]*\s*/g) || [ctx];
  const list = parts.map(s=>s.trim()).filter(Boolean);
  if(list.length<=1) return ctx;
  const w = (word||"").trim();
- let idx = -1;
+ let idx = -1, wpos = -1;
  if(w && !/\s/.test(w)){
    const lw = w.toLowerCase();
    idx = list.findIndex(s => s.split(/\s+/).some(tok => tok.replace(/^[^\p{L}\p{N}]+|[^\p{L}\p{N}]+$/gu,'').toLowerCase() === lw));
+   if(idx>=0){
+     const s = list[idx], escW = w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+     const m = s.match(new RegExp('(^|[^\\p{L}\\p{N}])'+escW, 'iu'));
+     wpos = m ? m.index + (m[1]?m[1].length:0) : s.toLowerCase().indexOf(lw);
+   }
  } else if(w){
    const lw = w.toLowerCase();
    idx = list.findIndex(s => s.toLowerCase().includes(lw));
+   if(idx>=0) wpos = list[idx].toLowerCase().indexOf(lw);
  }
  if(idx<0) return list.slice(0,3).join(" ");
- return list.slice(Math.max(0,idx-2), Math.min(list.length, idx+3)).join(" ");
+ /* ?v=128: the word itself must land inside the visible lines. The ?v=126 8-line clamp
+    still guards the card, so "before" sentences are prepended only while the word stays
+    within the first BUDGET chars of the window (~6 display lines); older ones are dropped. */
+ const BUDGET = 200;
+ let lo = idx, used = wpos<0 ? 0 : wpos;
+ while(lo-1>=0 && idx-lo<2){
+   const add = list[lo-1].length + 1;
+   if(used + add > BUDGET) break;
+   used += add; lo--;
+ }
+ let win = list.slice(lo, Math.min(list.length, idx+3)).join(" ");
+ /* Safety: if the word sits too deep inside its own long sentence, trim the window start
+    to a word boundary ~120 chars before the word and mark the cut with … */
+ if(used > BUDGET){
+   let cut = used - 120;
+   while(cut < used && win[cut] !== ' ') cut++;
+   if(cut < used) win = '…' + win.slice(cut+1);
+ }
+ return win;
 }
 function renderLt(){
  const el=$("#ltStage"),c=lt.pile[0];
