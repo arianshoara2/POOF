@@ -4939,23 +4939,27 @@ function closeBox(){$("#lt").hidden=true;document.body.style.overflow="";startRe
 function ltHint(kind,a){const h=$("#ltHint");if(!h)return;h.className="lt-hint "+kind;h.style.opacity=a;h.textContent=({ok:"بلد بودم ✓",no:"بلد نبودم ✗",del:"حذف"})[kind]||""}
 function ctxWindow(ctx, word){
  if(!ctx) return "";
- const parts = ctx.match(/[^.!?…]+[.!?…]+["»”\])\]]*\s*/g) || [ctx];
+ const parts = ctx.match(/[^.!?…]+[.!?…]+["»”)\]]*\s*/g) || [ctx];
+ /* ?v=130: a trailing fragment without a terminator (e.g. ending in ,») is a sentence too — keep it */
+ const tail = ctx.slice(parts.join('').length).trim();
+ if(tail) parts.push(tail);
  const list = parts.map(s=>s.trim()).filter(Boolean);
  if(list.length<=1) return ctx;
  const w = (word||"").trim();
+ /* ?v=130: normalize the card's front the same way tokens are normalized — strip edge
+    punctuation and lowercase — so a saved front like "zurück." still matches "zurück" */
+ const nw = w.replace(/^[^\p{L}\p{N}]+|[^\p{L}\p{N}]+$/gu,'').toLowerCase();
  let idx = -1, wpos = -1;
- if(w && !/\s/.test(w)){
-   const lw = w.toLowerCase();
-   idx = list.findIndex(s => s.split(/\s+/).some(tok => tok.replace(/^[^\p{L}\p{N}]+|[^\p{L}\p{N}]+$/gu,'').toLowerCase() === lw));
+ if(nw && !/\s/.test(nw)){
+   idx = list.findIndex(s => s.split(/\s+/).some(tok => tok.replace(/^[^\p{L}\p{N}]+|[^\p{L}\p{N}]+$/gu,'').toLowerCase() === nw));
    if(idx>=0){
-     const s = list[idx], escW = w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+     const s = list[idx], escW = nw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
      const m = s.match(new RegExp('(^|[^\\p{L}\\p{N}])'+escW, 'iu'));
-     wpos = m ? m.index + (m[1]?m[1].length:0) : s.toLowerCase().indexOf(lw);
+     wpos = m ? m.index + (m[1]?m[1].length:0) : s.toLowerCase().indexOf(nw);
    }
- } else if(w){
-   const lw = w.toLowerCase();
-   idx = list.findIndex(s => s.toLowerCase().includes(lw));
-   if(idx>=0) wpos = list[idx].toLowerCase().indexOf(lw);
+ } else if(nw){
+   idx = list.findIndex(s => s.toLowerCase().includes(nw));
+   if(idx>=0) wpos = list[idx].toLowerCase().indexOf(nw);
  }
  if(idx<0) return list.slice(0,3).join(" ");
  /* ?v=128: the word itself must land inside the visible lines. The ?v=126 8-line clamp
