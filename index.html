@@ -5298,6 +5298,49 @@ function goReviewTab(){
   try{if(window.PoofPos)PoofPos.go(PoofPos.make('index.html','tab:review',{scrollY:0}));}catch(e){}
 }
 $("#nav").onclick=e=>{if(rvLpFired){if(rvMenuEl&&!rvMenuEl.hidden){rvLpFired=false;rvMenuClose();return;}rvLpFired=false;}rvMenuClose();const b=e.target.closest("button");if(b){b.blur();if(b.dataset.t==="review")goReviewTab();else tab(b.dataset.t);saveState();pushNavState();if(window.PoofPos&&b.dataset.t!=="review"){try{PoofPos.go(PoofPos.make('index.html','tab:'+b.dataset.t,{cat:b.dataset.t==="read"?(db.textId||""):"",scrollY:0}));}catch(e){}}}};
+
+/* ===== ?v=134: swipe between tabs (touch/pen only; never blocks scroll, selection, or taps) ===== */
+try{
+(function(){
+var SW_ORDER=['cards','dict','read','review','me'],sw=null;
+function swipeExcluded(t){
+ if(!t||!t.closest)return true;
+ if(t.closest('#nav,#ltStage,#text,#rvNavMenu'))return true;
+ if(t.closest('input,textarea,select,[contenteditable]'))return true;
+ if(t.closest('a,button'))return true;
+ var ov=t.closest('#pop,#peek,#uiModal,#ask,#about,#help,#coach,#ed,#moviePick,#podPick,#cdetail,[role="dialog"]');
+ if(ov&&!ov.hidden)return true;
+ return false;
+}
+function swipeCurrent(){
+ var b=document.querySelector('#nav button.on');
+ if(b&&b.dataset.t)return b.dataset.t;
+ var s=document.querySelector('.tab:not([hidden])');
+ return s?s.id.replace(/^s-/,''):'read';
+}
+document.addEventListener('pointerdown',function(e){
+ try{
+  if(e.pointerType==='mouse')return;
+  if(sw&&e.pointerId!==undefined&&e.pointerId!==sw.id){sw=null;return;}
+  if(swipeExcluded(e.target))return;
+  sw={id:e.pointerId,x:e.clientX,y:e.clientY,t:Date.now()};
+ }catch(err){sw=null;}
+});
+document.addEventListener('pointerup',function(e){
+ try{
+  if(!sw)return;
+  if(e.pointerId!==undefined&&sw.id!==undefined&&e.pointerId!==sw.id)return;
+  var dx=e.clientX-sw.x,dy=e.clientY-sw.y,dt=Date.now()-sw.t;sw=null;
+  if(Math.abs(dx)<80||Math.abs(dx)<=Math.abs(dy)*1.5||dt>800)return;
+  var cur=swipeCurrent(),i=SW_ORDER.indexOf(cur);if(i<0)return;
+  var ni=dx<0?i+1:i-1;if(ni<0||ni>=SW_ORDER.length)return;
+  var btn=document.querySelector('#nav button[data-t="'+SW_ORDER[ni]+'"]');
+  if(btn)btn.click();
+ }catch(err){}
+});
+document.addEventListener('pointercancel',function(){sw=null;});
+})();
+}catch(e){}
 /* ===== ثبت وضعیت + بازگشت سیستمی بین تب‌ها/متن‌ها (کلید جدا، بدون دست‌کاری poof_v2) ===== */
 const LS_STATE="poof_last_state";
 function curTab(){const v=[...document.querySelectorAll(".tab")].find(s=>!s.hidden);return v?v.id.replace(/^s-/,""):"read"}
