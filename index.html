@@ -5307,7 +5307,6 @@ function swipeExcluded(t){
  if(!t||!t.closest)return true;
  if(t.closest('#nav,#ltStage,#text,#rvNavMenu'))return true;
  if(t.closest('input,textarea,select,[contenteditable]'))return true;
- if(t.closest('a,button'))return true;
  var ov=t.closest('#pop,#peek,#uiModal,#ask,#about,#help,#coach,#ed,#moviePick,#podPick,#cdetail,[role="dialog"]');
  if(ov&&!ov.hidden)return true;
  return false;
