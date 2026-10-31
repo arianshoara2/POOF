@@ -5299,10 +5299,10 @@ function goReviewTab(){
 }
 $("#nav").onclick=e=>{if(rvLpFired){if(rvMenuEl&&!rvMenuEl.hidden){rvLpFired=false;rvMenuClose();return;}rvLpFired=false;}rvMenuClose();const b=e.target.closest("button");if(b){b.blur();if(b.dataset.t==="review")goReviewTab();else tab(b.dataset.t);saveState();pushNavState();if(window.PoofPos&&b.dataset.t!=="review"){try{PoofPos.go(PoofPos.make('index.html','tab:'+b.dataset.t,{cat:b.dataset.t==="read"?(db.textId||""):"",scrollY:0}));}catch(e){}}}};
 
-/* ===== ?v=134: swipe between tabs (touch/pen only; never blocks scroll, selection, or taps) ===== */
+/* ===== ?v=134: swipe between tabs (touch/pen only; never blocks scroll, selection, or taps; swipe left -> visually-right tab, swipe right -> visually-left tab) ===== */
 try{
 (function(){
-var SW_ORDER=['cards','dict','read','review','me'],sw=null;
+var SW_ORDER=['cards','dict','read','review','me'],sw=null,lastSw=0;
 function swipeExcluded(t){
  if(!t||!t.closest)return true;
  if(t.closest('#nav,#ltStage,#text,#rvNavMenu'))return true;
@@ -5333,7 +5333,9 @@ document.addEventListener('pointerup',function(e){
   var dx=e.clientX-sw.x,dy=e.clientY-sw.y,dt=Date.now()-sw.t;sw=null;
   if(Math.abs(dx)<80||Math.abs(dx)<=Math.abs(dy)*1.5||dt>1500)return;
   var cur=swipeCurrent(),i=SW_ORDER.indexOf(cur);if(i<0)return;
-  var ni=dx<0?i+1:i-1;if(ni<0||ni>=SW_ORDER.length)return;
+  var ni=dx<0?i-1:i+1;if(ni<0||ni>=SW_ORDER.length)return;
+  if(Date.now()-lastSw<200)return;
+  lastSw=Date.now();
   var btn=document.querySelector('#nav button[data-t="'+SW_ORDER[ni]+'"]');
   if(btn)btn.click();
  }catch(err){}
