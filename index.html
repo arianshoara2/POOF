@@ -32,7 +32,7 @@ header{padding:calc(20px + env(safe-area-inset-top,0px)) 24px 14px;background:va
 .mark{display:grid;place-items:center;width:44px;height:44px;border-radius:14px;background:var(--accent);color:var(--bg);font:700 26px/1 var(--serif)}
 h1{margin:0;font:600 22px/1.2 var(--serif);letter-spacing:.16em;color:var(--accent)}
 #hSub{color:var(--muted);font-size:14px}
-main{max-width:720px;margin:0 auto;padding:24px 20px calc(144px + env(safe-area-inset-bottom,0px));transition:padding-bottom .3s}body.nav-down main{padding-bottom:calc(144px + env(safe-area-inset-bottom,0px))}
+main{max-width:720px;margin:0 auto;padding:24px 20px calc(144px + env(safe-area-inset-bottom,0px));transition:padding-bottom .3s;touch-action:pan-y}body.nav-down main{padding-bottom:calc(144px + env(safe-area-inset-bottom,0px))}
 h2{margin:4px 0 16px;font-size:18px;font-weight:600}
 a{color:var(--accent)}
 /* ===== surfaces ===== */
@@ -5331,7 +5331,7 @@ document.addEventListener('pointerup',function(e){
   if(!sw)return;
   if(e.pointerId!==undefined&&sw.id!==undefined&&e.pointerId!==sw.id)return;
   var dx=e.clientX-sw.x,dy=e.clientY-sw.y,dt=Date.now()-sw.t;sw=null;
-  if(Math.abs(dx)<80||Math.abs(dx)<=Math.abs(dy)*1.5||dt>800)return;
+  if(Math.abs(dx)<80||Math.abs(dx)<=Math.abs(dy)*1.5||dt>1500)return;
   var cur=swipeCurrent(),i=SW_ORDER.indexOf(cur);if(i<0)return;
   var ni=dx<0?i+1:i-1;if(ni<0||ni>=SW_ORDER.length)return;
   var btn=document.querySelector('#nav button[data-t="'+SW_ORDER[ni]+'"]');
