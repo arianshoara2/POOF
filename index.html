@@ -4941,7 +4941,7 @@ async function openBox(all){
 }
 function closeBox(){$("#lt").hidden=true;document.body.style.overflow="";startReview()}
 function ltHint(kind,a){const h=$("#ltHint");if(!h)return;h.className="lt-hint "+kind;h.style.opacity=a;h.textContent=({ok:"بلد بودم ✓",no:"بلد نبودم ✗",del:"حذف"})[kind]||""}
-function ctxWindow(ctx, word){
+function ctxWindow(ctx, word, maxBefore){
  if(!ctx) return "";
  const parts = ctx.match(/[^.!?…]+[.!?…]+["»”)\]]*\s*/g) || [ctx];
  /* ?v=130: a trailing fragment without a terminator (e.g. ending in ,») is a sentence too — keep it */
@@ -4971,7 +4971,7 @@ function ctxWindow(ctx, word){
     within the first BUDGET chars of the window (~6 display lines); older ones are dropped. */
  const BUDGET = 200;
  let lo = idx, used = wpos<0 ? 0 : wpos;
- while(lo-1>=0 && idx-lo<2){
+ while(lo-1>=0 && idx-lo<(maxBefore==null?2:maxBefore)){
    const add = list[lo-1].length + 1;
    if(used + add > BUDGET) break;
    used += add; lo--;
@@ -4999,14 +4999,16 @@ function renderLt(){
  $("#ltBox").textContent="جعبه "+boxOf(c);
  const nxt=lt.pile.slice(1,3);
  const L=c.lang||"de";
- const ctxW=c.context?ctxWindow(c.context,c.front):"";
- const ctxH=ctxW?`<div class="de ctx lt-ctx" data-ctx="${esc(ctxW)}">${wrapWords(ctxW,c.front)}</div>`:"";
  /* ?v=131: a phrase/sentence front (e.g. saved before ?v=126) must not render at the 36px
     single-word size — it becomes a wall of text and pushes the context off the card */
  const _ft=(c.front||"").trim();
  const _isPh=/\s/.test(_ft);
  const _phFace=_isPh?" lt-phrase-face":"";
  const _phWord=!_isPh?"":(_ft.length>90?" lt-phrase-long":" lt-phrase");
+ /* ?v=132: for phrase fronts the window starts AT the phrase's sentence (no before-sentences),
+    so the golden phrase is visible instead of being pushed past the 4-line phrase clamp */
+ const ctxW=c.context?ctxWindow(c.context,c.front,_isPh?0:2):"";
+ const ctxH=ctxW?`<div class="de ctx lt-ctx" data-ctx="${esc(ctxW)}">${wrapWords(ctxW,c.front)}</div>`:"";
  el.innerHTML=nxt.map((_,i)=>`<div class="lt-card back" style="--k:${nxt.length-i}"></div>`).join("")+
  `<div class="lt-card top" id="ltTop"><div class="lt-in" id="ltIn">
    <div class="lt-face${_phFace}" data-lang="${L}"><div class="lt-word de${_phWord}">${esc(c.front)}</div><button class="ib" data-a="say" aria-label="تلفظ">${ic("sound")}</button>${ctxH}<p class="mute">برای دیدن جواب بزنید</p></div>
@@ -5094,7 +5096,25 @@ $("#ed").onclick=e=>{if(e.target.id==="ed")$("#ed").hidden=true};
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("#ed").hidden)$("#ed").hidden=true});
 $("#lt").addEventListener("click",e=>{if(!e.target.closest("#ltEntry,#pop,.hd,.w"))$("#ltEntry").hidden=true});
 const sr=(t,l,x,src)=>`<span class="sr ${x||""}" data-ctx="${esc(t)}" data-lang="${l}" data-src="${esc(src||"dictionary")}">${wrapWords(t)}</span>`;
-const wrapWords=(t,hi)=>t.split(/(?<=\s)(?=\S)/).map(w=>norm(w)?`<span class="w${hi&&!/\s/.test(hi)&&norm(w).toLowerCase()===norm(hi).toLowerCase()?" hlt":""}" data-w="${esc(norm(w))}">${esc(w)}</span>`:esc(w)).join("");
+const wrapWords=(t,hi)=>{
+ const parts=t.split(/(?<=\s)(?=\S)/);
+ const nws=parts.map(w=>norm(w)?norm(w).toLowerCase():"");
+ /* ?v=132: highlight the front inside the example — single word as before, or a whole phrase
+    as a consecutive run of normalized tokens (case-insensitive, edge punctuation ignored) */
+ let ph=[];
+ if(hi) ph=hi.trim().split(/\s+/).map(x=>x.replace(/^[^\p{L}\p{N}]+|[^\p{L}\p{N}]+$/gu,'').toLowerCase()).filter(Boolean);
+ const hlt=new Set();
+ if(ph.length===1){nws.forEach((n,i)=>{if(n===ph[0])hlt.add(i)})}
+ else if(ph.length>1){
+   const wpos=[];nws.forEach((n,i)=>{if(n)wpos.push(i)});
+   for(let p=0;p+ph.length<=wpos.length;p++){
+     let ok=true;
+     for(let k=0;k<ph.length;k++)if(nws[wpos[p+k]]!==ph[k]){ok=false;break}
+     if(ok)for(let k=0;k<ph.length;k++)hlt.add(wpos[p+k]);
+   }
+ }
+ return parts.map((w,i)=>nws[i]?`<span class="w${hlt.has(i)?" hlt":""}" data-w="${esc(norm(w))}">${esc(w)}</span>`:esc(w)).join("");
+};
 
 /* ===== 8) Stats ===== */
 function streak(){let n=0,d=new Date();if(!db.log[fmt(d)])d.setDate(d.getDate()-1);while(db.log[fmt(d)]){n++;d.setDate(d.getDate()-1)}return n}
