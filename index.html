@@ -1541,8 +1541,24 @@ async function loadManualDict(){
   if(plain.length)_manRange=plain[0].headword+" تا "+plain[plain.length-1].headword;
   for(const e of j.entries){
    const k=String(e.headword||"").toLowerCase();
-   if(!byKey.has(k))byKey.set(k,[]);
-   byKey.get(k).push(e);
+   let arr=byKey.get(k);
+   if(String(e.info||"").includes("(Fortsetzung)")&&arr&&arr.length){
+    const p=arr[arr.length-1];
+    for(const x of (e.senses||[])){
+     const last=(p.senses||[])[(p.senses||[]).length-1];
+     if(x.number!=null&&last&&last.number===x.number&&!x.context_de&&!x.persian){
+      last.examples=[...(last.examples||[]),...(x.examples||[])];
+     } else {
+      (p.senses=p.senses||[]).push(x);
+     }
+    }
+    p.examples=[...(p.examples||[]),...(e.examples||[])];
+    p.idioms=[...(p.idioms||[]),...(e.idioms||[])];
+    if(!p.persian&&e.persian)p.persian=e.persian;
+    continue;
+   }
+   if(!arr){arr=[];byKey.set(k,arr);}
+   arr.push(e);
   }
   return {byKey};
  })().catch(err=>{_manDictP=null;throw err});
@@ -1585,6 +1601,9 @@ function manEntryHTML(e){
   }
  } else if(e.persian){
   h+=`<div><b>${esc(e.persian)}</b></div>`;
+ }
+ for(const y of (e.examples||[])){
+  h+=`<div style="margin:4px 0 4px 12px">${sr(manExp(y.de,e),"de","","manual")}<br><span>${esc(y.fa||"")}</span></div>`;
  }
  for(const y of (e.idioms||[])){
   h+=`<div style="margin:6px 0">${sr(manExp(y.de,e),"de","","manual")}<br><span>${esc(y.fa||"")}</span></div>`;
