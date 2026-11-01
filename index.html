@@ -2892,8 +2892,22 @@ function fillRich(box,e,t){
 
 /* ===== پیش‌نمایش سریع کلمه (Peek) + پشته‌ی ناوبری مدخل‌ها و برگشت درون‌برنامه‌ای =====
    لمس کلمه‌ی .lk اول Peek را باز می‌کند (بدون خروج از روند خواندن)؛ «مشاهده کامل»
-   ناوبری واقعی را با push روی پشته انجام می‌دهد و دکمه‌ی «‹ برگشت» پشته را برمی‌گرداند. */
+   از خواندنی به تب دیکشنری می‌رود (?v=163) و در بقیه‌ی نماها ناوبری واقعی را با push
+   روی پشته انجام می‌دهد و دکمه‌ی «‹ برگشت» پشته را برمی‌گرداند. */
 let _rdScrollY=null;
+/* ===== ?v=163: بازگشت دقیق به خواندنی پس از دیکشنری =====
+   تب خواندنی با تغییر تب بازرندر نمی‌شود (فقط پنهان/آشکار می‌شود) ولی tab() همیشه
+   scrollTo(0,0) می‌کند؛ پس هنگام خروج از خواندنی جای اسکرول + شناسه‌ی متن ذخیره و
+   هنگام ورود دوباره به خواندنی — با همان الگوی poofApplyIdx (rAF + تایمر ۳۵۰ms) —
+   برگردانده می‌شود. یک‌بارمصرف و مشروط به یکسان‌بودن متن است. */
+let _rdReturnY=null,_rdReturnTextId=null;
+function saveReadReturn(){try{_rdReturnY=Math.round(scrollY)||0;_rdReturnTextId=db.textId||null;}catch(e){}}
+function restoreReadReturn(){try{
+ if(_rdReturnY==null||_rdReturnTextId==null)return;
+ if((db.textId||null)!==_rdReturnTextId){_rdReturnY=null;_rdReturnTextId=null;return;}
+ const y=_rdReturnY;_rdReturnY=null;_rdReturnTextId=null;
+ if(y>0){requestAnimationFrame(()=>scrollTo(0,y));setTimeout(()=>scrollTo(0,y),350);}
+}catch(e){}}
 function pushHist(){try{history.pushState({poof:1},"")}catch(e){}}
 function entNav(box,raw,ctx,src,lang,mode){
  try{
@@ -2986,6 +3000,16 @@ $("#peekBody").addEventListener("click",e=>{const b=e.target.closest("[data-pkau
 $("#peekFull").onclick=()=>{
  const c=peekCtx;if(!c)return;closePeek();
  if(c.root){
+  if(c.box===$("#entry")&&!c.lb&&!c.dt){
+   /* ?v=163: مشاهده کامل از خواندنی → تب دیکشنری با همان مدخل؛ جای خواندنی ذخیره می‌شود تا بازگشت دقیق باشد */
+   saveReadReturn();
+   const dbtn=document.querySelector('#nav button[data-t="dict"]');
+   if(dbtn)dbtn.click();else tab("dict");
+   $("#q").value=norm(c.word);
+   entNav($("#dentry"),c.word,c.ctx,c.src,c.lang,"root");
+   saveState();try{if(window.PoofPos&&!poofRestoringIdx){var _pq=$("#q")?$("#q").value:"";PoofPos.track(PoofPos.make('index.html','tab:dict',{q:_pq,scrollY:Math.round(scrollY)||0}));}}catch(e){}
+   return;
+  }
   if(c.box===$("#entry")&&!c.lb)_rdScrollY=window.scrollY;
   entNav(c.box,c.word,c.ctx,c.src,c.lang,"root");
   if(c.dt){$("#q").value=norm(c.word);scrollTo({top:0,behavior:"smooth"})}
@@ -5379,10 +5403,10 @@ $("#bulkKeysBtn").onclick=()=>{
 $("#zbToken").onchange=()=>{const v=($("#zbToken").value||"").trim().replace(/^bearer\s+/i,"");$("#zbToken").value=v;try{localStorage.setItem("poof_zaban_token",v)}catch(e){}toast("توکن زبان ذخیره شد")};
 $("#themeOpts").onclick=e=>{const b=e.target.closest("[data-th]");if(!b)return;db.theme=b.dataset.th;save();applyTheme();renderMe()};
 function tab(t){$("#hSub").textContent=SUB[t];scrollTo(0,0);$("#nav").classList.remove("nav-hidden");$("#pop").hidden=true;sel=null;drawSel();
- if(!$("#s-read").hidden&&t!=="read")saveProgress();
+ if(!$("#s-read").hidden&&t!=="read"){saveProgress();saveReadReturn();}
  $$("#nav button").forEach(b=>b.classList.toggle("on",b.dataset.t===t));
  $$(".tab").forEach(s=>s.hidden=s.id!=="s-"+t);
- if(t==="cards")renderCards();if(t==="review")startReview();if(t==="me")renderMe();if(t==="dict")renderRecent();
+ if(t==="cards")renderCards();if(t==="review")startReview();if(t==="me")renderMe();if(t==="dict")renderRecent();if(t==="read")restoreReadReturn();
 }
 function goReviewTab(){
   tab('review');
