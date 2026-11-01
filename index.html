@@ -3088,8 +3088,10 @@ async function showEntry(box,raw,ctx,src,lang,preE){
    h+=`<details style="margin-top:8px"><summary>تصریف (${dk.kind?esc(dk.kind)+" · ":""}wort.app)</summary>${dk.note?`<div class="mute de" style="margin:6px 0">${esc(dk.note)}</div>`:""}${dk.praed?`<div class="mute de" style="margin:6px 0">${esc(dk.praed)}</div>`:""}${dk.rows.length?`<table class="de" dir="ltr" style="border-collapse:collapse;margin-top:6px">${headRow}${dk.rows.map(r=>`<tr>${r.map(c=>`<td style="border:1px solid var(--border);padding:4px 8px">${esc(c)}</td>`).join("")}</tr>`).join("")}</table>`:""}</details>`;
   }
   return h};
+ const wortApiEmpty=!W.api&&!W.ai&&!W.verb&&!W.conj;
+ const wortRetryRow=(dict||card)&&wortApiEmpty?`<div class="wort-retry-row" style="margin-top:8px;border-top:1px dashed var(--border);padding-top:8px"><span class="mute">بخش‌های بیشتر wort.app (جمله‌ها، ترکیب‌ها، توضیح هوش مصنوعی) دریافت نشد.</span> <button class="ghost" type="button" data-a="wortretry">تلاش دوباره</button></div>`:"";
  const wortSection=(dict||card)?`<div style="border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin-top:8px"><details><summary>همه‌ی معنی‌ها و عبارت‌ها (wort.app)</summary>${dict?dict.senses.map(s=>`<p><b>${sr(s.meaning,"fa")}</b>${s.note?` <span class="mute de">${esc(s.note)}</span>`:""}`+
-  [...s.ex,...s.ph].filter(x=>x.de).map(x=>`<span class="sense">${exHtml(x)}</span>`).join("")+`</p>`).join("")+wortExtraHTML(dict)+wortApiHTML(W):`<p><b>${sr(card.meaning,"fa")}</b>${card.defDe?`<br><span class="de">${sr(card.defDe,"de")}</span>`:""}${card.defFa?`<br>${sr(card.defFa,"fa")}`:""}</p>`+(card.ex||[]).filter(x=>x.de).map(x=>`<span class="sense">${exHtml(x)}</span>`).join("")+wortApiHTML(W)}</details></div>`:(e.wortLazy!==false&&!/\s/.test(raw))?`<div style="border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin-top:8px"><details data-lazy-src="wort"><summary>همه‌ی معنی‌ها و عبارت‌ها (wort.app)</summary><div class="lazy-body"></div></details></div>`:"";
+  [...s.ex,...s.ph].filter(x=>x.de).map(x=>`<span class="sense">${exHtml(x)}</span>`).join("")+`</p>`).join("")+wortExtraHTML(dict)+wortApiHTML(W)+wortRetryRow:`<p><b>${sr(card.meaning,"fa")}</b>${card.defDe?`<br><span class="de">${sr(card.defDe,"de")}</span>`:""}${card.defFa?`<br>${sr(card.defFa,"fa")}`:""}</p>`+(card.ex||[]).filter(x=>x.de).map(x=>`<span class="sense">${exHtml(x)}</span>`).join("")+wortApiHTML(W)+wortRetryRow}</details></div>`:(e.wortLazy!==false&&!/\s/.test(raw))?`<div style="border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin-top:8px"><details data-lazy-src="wort"><summary>همه‌ی معنی‌ها و عبارت‌ها (wort.app)</summary><div class="lazy-body"></div></details></div>`:"";
  const bamSection=e.bamooz?`<div style="border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin-top:8px"><details><summary>همه‌ی معنی‌ها و عبارت‌ها (بیاموز)</summary>${bamoozPanelSafe(e.bamooz,"de")}</details></div>`:(e.bamoozLazy!==false&&!/\s/.test(raw))?`<div style="border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin-top:8px"><details data-lazy-src="bamooz"><summary>همه‌ی معنی‌ها و عبارت‌ها (بیاموز)</summary><div class="lazy-body"></div></details></div>`:"";
  box.innerHTML=`<div class="row"><span class="big2 de" style="flex:1">${art?`<span style="color:var(--accent)">${esc(art)}</span> `:""}${esc(head)}</span><button class="ib" data-a="say" aria-label="تلفظ">${ic("sound")}</button><button class="ib" data-a="ask" aria-label="از پووف بپرس" style="font-size:18px">✨</button></div>
  ${plural?`<div class="mute de">Plural: ${esc(plural)}</div>`:""}
@@ -3110,6 +3112,36 @@ async function showEntry(box,raw,ctx,src,lang,preE){
  <div id="richSlot">${e.rich?richHTML(e.rich):""}</div>
  <div class="row" style="margin-top:10px"><select id="dk" style="flex:1">${deckOpts(db.active)}</select><button data-a="add">افزودن به کارت‌ها</button></div>
  <p class="mute">منبع: ${(e.src||[]).join("، ")||"—"}</p>`;
+ const runWortRetry=async()=>{
+  const row=box.querySelector(".wort-retry-row");if(!row||row.dataset.loading==="1")return;
+  const rt=box._t;row.dataset.loading="1";row.innerHTML=lazySpinnerHTML;
+  lazyMemo.delete(lazyKey(norm(raw),"de","wort"));
+  let v;
+  try{v=await Providers.wort(norm(raw));}
+  catch(err){
+   if(rt!==box._t||!row.isConnected)return;
+   row.dataset.loading="0";
+   const msg=err&&err.message==="noproxy"?"واسط (پروکسی) تنظیم نشده؛ از تب «پیشرفت» آدرس واسط را وارد کنید.":"دریافت ناموفق بود؛ اتصال را بررسی کنید.";
+   row.innerHTML=lazyErrorHTML(msg);
+   const rb=row.querySelector(".lazy-retry");if(rb)rb.onclick=()=>runWortRetry();
+   return;
+  }
+  if(rt!==box._t||!row.isConnected)return;
+  if(v==null){
+   row.dataset.loading="0";
+   row.innerHTML=lazyErrorHTML("دریافت ناموفق بود؛ اتصال را بررسی کنید.");
+   const rb=row.querySelector(".lazy-retry");if(rb)rb.onclick=()=>runWortRetry();
+   return;
+  }
+  const oldFa0=(e.fa||[])[0]||"";
+  const stt=captureCardState(box,oldFa0);
+  e.wort=v;e.wortFailed=false;e.wortLazy=false;
+  refreshDeMeta(e,norm(raw));
+  cache[norm(raw).toLowerCase()]=e;
+  saveCache();
+  showEntry(box,raw,ctx,src,lang,e);
+  restoreCardState(box,stt);
+ };
  box.onclick=ev=>{
   const b=ev.target.closest("button");if(!b)return;
   const a=b.dataset.a;
@@ -3118,6 +3150,7 @@ async function showEntry(box,raw,ctx,src,lang,preE){
   else if(a==="ask")askPOOF((art?art+" ":"")+head);
   else if(a==="lemma")entNav(box,e.lemma,ctx,src,"de","push");
   else if(a==="wortgo")dsearch(b.dataset.w);
+   else if(a==="wortretry")runWortRetry();
   else if(a==="fa")$("#fa",box).value=b.textContent;
   else if(a==="add"){
    const sn=$("input[name=sn]:checked",box),s=sn?flat[+sn.value]:null;
