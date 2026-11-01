@@ -281,7 +281,7 @@ body,header,.card,button,input,select,textarea,.w{transition:color .3s ease,back
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 @media (max-width:480px){main{padding-inline:16px}.card{padding:14px}}
 @media (max-width:520px){#addPanel{padding:11px}#addPanel input,#addPanel textarea{padding:7px 9px;margin-bottom:5px}#addPanel .searchbar,#addPanel .row{gap:5px}#addPanel .mute{margin-bottom:7px}}
-.secHead{display:flex;justify-content:space-between;align-items:center;width:100%;background:none;border:0;padding:6px 2px;font:inherit;font-weight:700;cursor:pointer;color:inherit;text-align:start}.secChev{opacity:.7;flex:none}#libZone #addPanel{margin-top:10px;padding-top:12px;border-top:1px solid var(--border)}.wp-h{margin:14px 0 6px;font-size:18px}.wp-scroll{overflow-x:auto;margin:10px 0}.wp-t{border-collapse:collapse;font-size:14px}.wp-t td,.wp-t th{border:1px solid var(--border);padding:6px 8px;vertical-align:top}.wp-f{margin:12px 0;text-align:center}.wp-f img{max-width:100%;height:auto;border-radius:10px}.wp-f figcaption{font-size:12px;opacity:.75;margin-top:4px}
+.secHead{display:flex;justify-content:space-between;align-items:center;width:100%;background:none;border:0;padding:6px 2px;font:inherit;font-weight:700;cursor:pointer;color:inherit;text-align:start}.secChev{opacity:.7;flex:none}#libZone #addPanel{margin-top:10px;padding-top:12px;border-top:1px solid var(--border)}.wp-h{margin:14px 0 6px;font-size:18px}.wp-scroll{overflow-x:auto;margin:10px 0;touch-action:pan-x pan-y}.wp-t{border-collapse:collapse;font-size:14px}.wp-t td,.wp-t th{border:1px solid var(--border);padding:6px 8px;vertical-align:top}.wp-f{margin:12px 0;text-align:center}.wp-f img{max-width:100%;height:auto;border-radius:10px}.wp-f figcaption{font-size:12px;opacity:.75;margin-top:4px}
 
 </style>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
@@ -5419,7 +5419,7 @@ try{
 var SW_ORDER=['cards','dict','read','review','me'],sw=null,lastSw=0;
 function swipeExcluded(t){
  if(!t||!t.closest)return true;
- if(t.closest('#nav,#ltStage,#text,#rvNavMenu,.hd,.sr,#dentry,#entry'))return true;
+ if(t.closest('#nav,#ltStage,#text,#rvNavMenu,.hd,.sr'))return true;
  if(t.closest('input,textarea,select,[contenteditable]'))return true;
  var ov=t.closest('#pop,#peek,#uiModal,#ask,#about,#help,#coach,#ed,#moviePick,#podPick,#cdetail,[role="dialog"]');
  if(ov&&!ov.hidden)return true;
@@ -5436,14 +5436,14 @@ document.addEventListener('pointerdown',function(e){
   if(e.pointerType==='mouse')return;
   if(sw&&e.pointerId!==undefined&&e.pointerId!==sw.id){sw=null;return;}
   if(swipeExcluded(e.target))return;
-  sw={id:e.pointerId,x:e.clientX,y:e.clientY,t:Date.now()};
+  sw={id:e.pointerId,x:e.clientX,y:e.clientY,t:Date.now(),sel:(window.getSelection?window.getSelection().toString().length:0)};
  }catch(err){sw=null;}
 });
 document.addEventListener('pointerup',function(e){
  try{
   if(!sw)return;
   if(e.pointerId!==undefined&&sw.id!==undefined&&e.pointerId!==sw.id)return;
-  var dx=e.clientX-sw.x,dy=e.clientY-sw.y,dt=Date.now()-sw.t;sw=null;
+  var dx=e.clientX-sw.x,dy=e.clientY-sw.y,dt=Date.now()-sw.t;var sel0=sw.sel;sw=null;try{var sel1=window.getSelection?window.getSelection().toString().length:0;if(sel1>0&&sel1!==sel0)return;}catch(err){}
   if(Math.abs(dx)<80||Math.abs(dx)<=Math.abs(dy)*1.5||dt>1500)return;
   var cur=swipeCurrent(),i=SW_ORDER.indexOf(cur);if(i<0)return;
   var ni=dx<0?i-1:i+1;if(ni<0||ni>=SW_ORDER.length)return;
