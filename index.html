@@ -5402,8 +5402,7 @@ $("#bulkKeysBtn").onclick=()=>{
 /* توکن زبان: فقط روی همین دستگاه می‌ماند، هرگز در مخزن نیست؛ «Bearer …» کامل هم پذیرفته می‌شود */
 $("#zbToken").onchange=()=>{const v=($("#zbToken").value||"").trim().replace(/^bearer\s+/i,"");$("#zbToken").value=v;try{localStorage.setItem("poof_zaban_token",v)}catch(e){}toast("توکن زبان ذخیره شد")};
 $("#themeOpts").onclick=e=>{const b=e.target.closest("[data-th]");if(!b)return;db.theme=b.dataset.th;save();applyTheme();renderMe()};
-function tab(t){$("#hSub").textContent=SUB[t];scrollTo(0,0);$("#nav").classList.remove("nav-hidden");$("#pop").hidden=true;sel=null;drawSel();
- if(!$("#s-read").hidden&&t!=="read"){saveProgress();saveReadReturn();}
+function tab(t){if(!$("#s-read").hidden&&t!=="read"){saveProgress();saveReadReturn();} $("#hSub").textContent=SUB[t];scrollTo(0,0);$("#nav").classList.remove("nav-hidden");$("#pop").hidden=true;sel=null;drawSel();
  $$("#nav button").forEach(b=>b.classList.toggle("on",b.dataset.t===t));
  $$(".tab").forEach(s=>s.hidden=s.id!=="s-"+t);
  if(t==="cards")renderCards();if(t==="review")startReview();if(t==="me")renderMe();if(t==="dict")renderRecent();if(t==="read")restoreReadReturn();
