@@ -1529,6 +1529,74 @@ function attachFaLayer(e,faL){
  if(!e.src)e.src=[];
  if(!e.src.includes("لایه‌ی فارسی آفلاین"))e.src.unshift("لایه‌ی فارسی آفلاین");
 }
+/* ===== فرهنگ دستی آفلاین (manual-dict.json) ===== */
+let _manDict=null,_manDictP=null,_manConj={},_manRange="";
+async function loadManualDict(){
+ if(_manDict)return _manDict;
+ if(!_manDictP)_manDictP=(async()=>{
+  const r=await fetch("./manual-dict.json");if(!r.ok)throw new Error("manual-dict "+r.status);
+  const j=await r.json(),byKey=new Map();
+  _manConj=j.conjugations||{};
+  const plain=j.entries.filter(e=>!String(e.headword||"").includes("~"));
+  if(plain.length)_manRange=plain[0].headword+" تا "+plain[plain.length-1].headword;
+  for(const e of j.entries){
+   const k=String(e.headword||"").toLowerCase();
+   if(!byKey.has(k))byKey.set(k,[]);
+   byKey.get(k).push(e);
+  }
+  return {byKey};
+ })().catch(err=>{_manDictP=null;throw err});
+ _manDict=await _manDictP;return _manDict;
+}
+async function manualLookup(w){
+ const d=await loadManualDict(),arr=d.byKey.get(w.toLowerCase());
+ return arr?{recs:arr}:null;
+}
+function attachManualLayer(e,manL){
+ if(!manL||e.manualRecs)return;
+ e.manualRecs=manL.recs;
+ if(!e.src)e.src=[];
+ if(!e.src.includes("فرهنگ دستی آفلاین"))e.src.unshift("فرهنگ دستی آفلاین");
+}
+const manBase=e=>String(e.headword||"").replace(/~/g,"").replace(/\s+/g," ").trim().replace(/!$/,"");
+const manExp=(t,e)=>String(t||"").split("~").join(manBase(e));
+const manCode=e=>{const m=String(e.info||"").match(/<(\d+[a-z])>/);return m?m[1]:null};
+function manConjHTML(code){
+ const c=_manConj[code];if(!c)return "";
+ const rows=c.rows.map(r=>`<div class="de" dir="ltr" style="margin:4px 0"><b>${esc(r.tense)}:</b> ${esc(r.forms)}</div>`).join("");
+ return `<details style="margin:8px 0"><summary>صرف <span class="de" dir="ltr">${esc(c.base)}</span> · جدول ${esc(code)}</summary><div class="mute">${esc(c.note_fa||"")}</div>${rows}</details>`;
+}
+function manEntryHTML(e){
+ let h=`<div style="margin:10px 0"><div><b>${sr(e.headword,"de","","manual")}</b></div>`;
+ if(e.info){
+  const info=esc(manExp(e.info,e)).replace(/&lt;(\d+[a-z])&gt;/g,'<span class="chip de" dir="ltr">$1</span>');
+  h+=`<div class="mute" dir="ltr">${info}</div>`;
+ }
+ if(e.senses&&e.senses.length){
+  for(const x of e.senses){
+   h+=`<div style="margin:8px 0">`;
+   if(x.number)h+=`<b>${esc(String(x.number))}.</b> `;
+   if(x.context_de)h+=`${sr(manExp(x.context_de,e),"de","","manual")} `;
+   if(x.persian)h+=`<b>${esc(x.persian)}</b>`;
+   for(const y of (x.examples||[])){
+    h+=`<div style="margin:4px 0 4px 12px">${sr(manExp(y.de,e),"de","","manual")}<br><span>${esc(y.fa||"")}</span></div>`;
+   }
+   h+=`</div>`;
+  }
+ } else if(e.persian){
+  h+=`<div><b>${esc(e.persian)}</b></div>`;
+ }
+ for(const y of (e.idioms||[])){
+  h+=`<div style="margin:6px 0">${sr(manExp(y.de,e),"de","","manual")}<br><span>${esc(y.fa||"")}</span></div>`;
+ }
+ const code=manCode(e);
+ if(code)h+=manConjHTML(code);
+ return h+`</div>`;
+}
+function manualDictHTML(e){
+ const recs=e.manualRecs||[];
+ return `<div style="border:1px solid var(--accent);border-radius:12px;padding:10px 12px;margin:10px 0"><div class="mute">فرهنگ دستی آفلاین${_manRange?` · ${_manRange}`:""}</div>${recs.map(manEntryHTML).join("")}</div>`;
+}
 const FA_POS={verb:"فعل",noun:"اسم",adjective:"صفت",adverb:"قید",pronoun:"ضمیر",preposition:"حرف اضافه",conjunction:"حرف ربط",numeral:"عدد",interjection:"صوت"};
 function faLayerRecHTML(r){
  const art=r.art?`<span style="color:var(--accent)">${esc(r.art)}</span> `:"";
@@ -2180,7 +2248,7 @@ function refreshDeMeta(e,w){
   e.fa=[...new Set([...s,...(e.fa||[])])];
   if(!e.src.includes("لایه‌ی فارسی آفلاین"))e.src.unshift("لایه‌ی فارسی آفلاین");
   if(e.faLayerVia!=="lemma")e.lemma=e.faLayerRecs[0].lemma;
- }
+ }  if(e.manualRecs&&!e.src.includes("فرهنگ دستی آفلاین"))e.src.unshift("فرهنگ دستی آفلاین");
 }
 /* اتصال دانلود تنبل به بخش‌های کارت: باز شدن تیتر → اسپینر → دانلود همان یک منبع →
    ادغام در ورودی + کش → رندر دوباره با حفظ وضعیت (بدون چشمک لودینگ تمام‌کارت). */
@@ -2233,9 +2301,10 @@ async function lookup(raw,lang){
  if(lang==="en")return lookupEn(w);
  const key=w.toLowerCase(),phrase=/\s/.test(w);let e=cache[key];
  const faL=!phrase?await faLookup(w).catch(()=>null):null;
+ const manL=!phrase?await manualLookup(w).catch(()=>null):null;
  // ?v=104: ورودی کش‌شده همان‌طور که هست برمی‌گردد؛ منابعِ ناقص دیگر در پس‌زمینه
  // دوباره گرفته نمی‌شوند — دانلودشان کار بخش‌های تنبل است، فقط با باز کردن تیتر.
- if(e){if(faL)attachFaLayer(e,faL);return e;}
+ if(e){if(faL)attachFaLayer(e,faL);if(manL)attachManualLayer(e,manL);return e;}
  const loc=LOCAL[key];
  // ?v=104: مرحله‌ی اول فقط منابع سریع/محلی را می‌آورد (Wiktionary، MyMemory، ترجمه)؛
  // wort.app و بیاموز اینجا دیگر منتظر نمی‌مانند.
@@ -2246,7 +2315,7 @@ async function lookup(raw,lang){
  e.lemma=(loc?loc[0]:guessLemma(e.senses));
  e.src=[e.senses.length&&"Wiktionary",e.mm.length&&"MyMemory",loc&&"محلی"].filter(Boolean);
  if(faL)attachFaLayer(e,faL);
- if(!e.senses.length&&!e.fa.length&&!e.faLayer){
+ if(manL)attachManualLayer(e,manL);if(!e.senses.length&&!e.fa.length&&!e.faLayer&&!e.manualRecs){
   if([a,b,d].every(x=>x.status==="rejected"))throw new Error("offline");
   return {word:w,senses:[],fa:[],src:[]};
  }
@@ -3153,7 +3222,7 @@ async function showEntry(box,raw,ctx,src,lang,preE){
  ${e.en?`<div class="mute">English: <span class="de">${esc(e.en)}</span></div>`:""}
  ${!W.card&&!W.dict&&e.lemma&&e.lemma.toLowerCase()!==e.word.toLowerCase()?`<div class="mute">صورت صرف‌شده‌ی <button class="chip de" data-a="lemma">${esc(e.lemma)}</button></div>`:""}
  ${e.wortLazy===false&&!W.card&&!W.dict&&!/\s/.test(raw)?`<p class="mute">wort.app برای این کلمه چیزی پیدا نکرد.</p>`:""}
- ${e.faLayer?faLayerHTML(e):""}
+ ${e.faLayer?faLayerHTML(e):""}${e.manualRecs?manualDictHTML(e):""}
  <p style="margin:10px 0 4px">معنی فارسی:</p>
  <div class="row" style="margin-bottom:6px">${(e.fa||[]).map(x=>`<button class="chip" data-a="fa">${esc(x)}</button>`).join("")}</div>
  <input id="fa" value="${esc((e.fa||[])[0]||"")}" placeholder="معنی را بنویسید">
