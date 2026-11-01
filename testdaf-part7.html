@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#111111">
+<meta name="description" content="راهنمای جامع آزمون TestDaF — پارت ۷: نظام نمره‌دهی، معنای سطوح TDN، نتایج، تکرار آزمون، اعتراض و اعتبار گواهی">
+<script>try{var _t=(JSON.parse(localStorage.getItem('poof_v2')||'{}').theme==='snowy')?'snowy':'classic';document.write('<link rel="stylesheet" id="themeCss" href="theme-'+_t+'.css?v=16">')}catch(e){document.write('<link rel="stylesheet" id="themeCss" href="theme-classic.css?v=16">')}</script>
+<script src="poof-core.js"></script><script>try{var _pv={};try{_pv=JSON.parse(localStorage.getItem('poof_v2')||'{}')||{};}catch(e){}var _th=(_pv.theme==='snowy'||_pv.theme==='classic'||_pv.theme==='lilac'||_pv.theme==='peachy'||_pv.theme==='minty'||_pv.theme==='ocean'||_pv.theme==='sun'||_pv.theme==='nebula')?_pv.theme:null;if(!_th){var _old=null;try{_old=localStorage.getItem('ddd_theme');}catch(e){}_th=(_old==='light')?'snowy':(_old==='dark')?'classic':'classic';}document.documentElement.dataset.theme=_th;var _m=document.querySelector('meta[name="theme-color"]');if(_m)_m.content=_th==='snowy'?'#081421':_th==='classic'?'#111111':_th==='lilac'?'#EEF2FF':_th==='peachy'?'#FFF7ED':_th==='minty'?'#F0FDF4':_th==='ocean'?'#0B1E3A':_th==='sun'?'#FFF7E0':_th==='nebula'?'#1A0B2E':'#111111';}catch(e){}</script><title>TestDaF | راهنمای جامع آزمون</title>
+<style>
+:root{color-scheme:dark;--bg:#111111;--card:#1b1814;--glass:rgba(27,24,20,.72);--ink:#f5f1e8;--muted:#b8b0a4;--border:#4a4032;--primary:#e6b96f;--primary-on:#1b1814;--soft:rgba(255,255,255,.06)}
+html[data-theme="snowy"]{color-scheme:dark;--bg:#081421;--card:#10263a;--glass:rgba(16,38,58,.72);--ink:#f3f8fc;--muted:#b8c7d3;--border:#294861;--primary:#f3c879;--primary-on:#081421;--soft:rgba(243,200,121,.08)}
+html[data-theme="classic"]{color-scheme:dark;--bg:#111111;--card:#1b1814;--glass:rgba(27,24,20,.72);--ink:#f5f1e8;--muted:#b8b0a4;--border:#4a4032;--primary:#e6b96f;--primary-on:#1b1814;--soft:rgba(255,255,255,.06)}
+html[data-theme="lilac"]{color-scheme:light;--bg:#EEF2FF;--card:#FFFFFF;--glass:rgba(255,255,255,.75);--ink:#1E1B4B;--muted:#55547E;--border:#C7D2FE;--primary:#4F46E5;--primary-on:#FFFFFF;--soft:rgba(79,70,229,.06)}
+html[data-theme="peachy"]{color-scheme:light;--bg:#FFF7ED;--card:#FFFFFF;--glass:rgba(255,255,255,.75);--ink:#1C1917;--muted:#57534E;--border:#FED7AA;--primary:#F97316;--primary-on:#1C1917;--soft:rgba(249,115,22,.06)}
+html[data-theme="minty"]{color-scheme:light;--bg:#F0FDF4;--card:#FFFFFF;--glass:rgba(255,255,255,.75);--ink:#052E16;--muted:#365314;--border:#BBF7D0;--primary:#166534;--primary-on:#FFFFFF;--soft:rgba(22,101,52,.06)}
+html[data-theme="ocean"]{color-scheme:dark;--bg:#0B1E3A;--card:#12294D;--glass:rgba(18,41,77,.72);--ink:#E8F1FF;--muted:#A8BDD8;--border:#2A4A73;--primary:#38BDF8;--primary-on:#0B1E3A;--soft:rgba(56,189,248,.08)}
+html[data-theme="sun"]{color-scheme:light;--bg:#FFF7E0;--card:#FFFFFF;--glass:rgba(255,255,255,.75);--ink:#3B2A00;--muted:#6B5A2E;--border:#F5D67B;--primary:#B45309;--primary-on:#FFFFFF;--soft:rgba(180,83,9,.06)}
+html[data-theme="nebula"]{color-scheme:dark;--bg:#1A0B2E;--card:#2A1650;--glass:rgba(42,22,80,.72);--ink:#F3EFFF;--muted:#C9B8E8;--border:#4C2E85;--primary:#F5C97B;--primary-on:#1A0B2E;--soft:rgba(245,201,123,.08)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100svh;background:var(--bg);color:var(--ink);font:16px/1.9 "DM Sans",Vazirmatn,system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;padding:env(safe-area-inset-top) 12px calc(48px + env(safe-area-inset-bottom))}
+#tdScenic{position:fixed;inset:0;z-index:0;pointer-events:none;display:none;background-size:cover;background-position:center;background-repeat:no-repeat}
+html[data-theme="ocean"] #tdScenic{display:block;background-image:url('pouf-blue-scene-read.webp')}
+html[data-theme="nebula"] #tdScenic{display:block;background-image:url('pouf-nebula-scene-read.webp')}
+body>*{position:relative;z-index:1}
+main{max-width:760px;margin:0 auto}
+a{color:var(--primary)}
+header{position:relative;overflow:hidden;border:1px solid var(--border);border-radius:20px;background:var(--glass);backdrop-filter:blur(10px) saturate(1.25);-webkit-backdrop-filter:blur(10px) saturate(1.25);padding:18px 16px 16px;margin-bottom:15px;text-align:center}
+header::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.18),rgba(0,0,0,.55));z-index:0;pointer-events:none}
+.td-head{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:2px}
+.poof-mascot{width:56px;height:56px;flex:none;background-size:cover;background-repeat:no-repeat;background-position:center}
+header h1{margin:8px 0 2px;font-size:1.6rem}
+header p{margin:0;color:var(--muted)}
+section.pane{background:var(--glass);backdrop-filter:blur(10px) saturate(1.25);-webkit-backdrop-filter:blur(10px) saturate(1.25);border:1px solid var(--border);border-radius:20px;padding:18px 16px;margin-bottom:15px}
+h2{font-size:1.3rem;margin:0 0 10px;padding-bottom:8px;border-bottom:2px solid var(--primary)}
+h3{font-size:1.1rem;margin:22px 0 8px;color:var(--primary)}
+p{margin:10px 0}
+ul,ol{margin:8px 0;padding-inline-start:22px}
+li{margin:4px 0}
+.de{direction:ltr;unicode-bidi:embed;font-family:Georgia,"Times New Roman",serif}
+blockquote.ex{margin:14px 0;padding:12px 14px;border-inline-start:3px solid var(--primary);background:var(--soft);border-radius:12px;font-family:Georgia,"Times New Roman",serif}
+blockquote.ex p{margin:0}
+p.tr{color:var(--muted);font-size:.95rem}
+.tbl{overflow-x:auto;margin:12px 0}
+table{border-collapse:collapse;width:100%;min-width:520px}
+th,td{border:1px solid var(--border);padding:8px 10px;text-align:start;vertical-align:top}
+th{background:var(--soft);font-weight:700}
+.small{color:var(--muted);font-size:.9rem}
+.note{border:1px dashed var(--border);border-radius:14px;padding:12px 14px;background:var(--soft)}
+@media(min-width:540px){body{padding-inline:22px}section.pane{padding:22px 20px}}
+h1,h2,h3{font-family:"Nunito",Vazirmatn,sans-serif}
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800;900&family=DM+Sans:wght@400;500;700&family=Vazirmatn:wght@400;500;700;800&display=swap" rel="stylesheet"></head>
+<body>
+<div id="tdScenic" aria-hidden="true"></div>
+<div style="padding:14px 16px 0"><a href="testdaf.html" style="color:var(--primary);text-decoration:none;font-size:14px">← همه پارت‌ها</a></div>
+<main>
+<header><div class="poof-img-header-bg" style="position:absolute;inset:0;z-index:0" aria-hidden="true"></div><div class="td-head"><div class="poof-mascot" id="tdMascot" style="width:56px;height:56px" aria-hidden="true"></div><h1>TestDaF</h1><p>راهنمای مطالعه آزمون — پارت ۷ از ۱۱: نظام نمره‌دهی، معنای سطوح TDN، نتایج، تکرار آزمون، اعتراض و اعتبار گواهی</p></div></header><script>(function(){try{var _t=document.documentElement.dataset.theme||'classic';var _f={snowy:'snowy-wave.webp',classic:'pouf-classic-wave.webp',lilac:'pouf-lilac-wave.webp',peachy:'snowy-wave.webp',minty:'pouf-minty-wave.webp',ocean:'pouf-ocean-smile.webp',sun:'pouf-sun-wave.webp',nebula:'pouf-nebula-wave.webp'}[_t]||'pouf-classic-wave.webp';var _m=document.getElementById('tdMascot');if(_m)_m.style.backgroundImage="url('"+_f+"')";}catch(e){}})();</script><section class="pane"><h2>بخش‌های این پارت</h2><ul><li><a href="#s1">۱. TestDaF دقیقاً چه نوع نمره‌ای صادر می‌کند؟</a></li><li><a href="#s2">۲. سه مفهوم متفاوت در محاسبهٔ نمره</a></li><li><a href="#s3">۳. نمره‌دهی نسخهٔ کاغذی چگونه انجام می‌شود؟</a></li><li><a href="#s4">۴. نمره‌دهی نسخهٔ دیجیتال</a></li><li><a href="#s5">۵. TDN 3، TDN 4 و TDN 5 در عمل چه معنایی دارند؟</a></li><li><a href="#s6">۶. چرا دقیقاً TDN 4 معیار عمومی پذیرش دانشگاه‌هاست؟</a></li><li><a href="#s7">۷. آیا TDN 5 می‌تواند TDN 3 را جبران کند؟</a></li><li><a href="#s8">۸. اگر نتیجهٔ دلخواهم را نگیرم، آیا می‌توانم دوباره در TestDaF شرکت کنم؟</a></li><li><a href="#s9">۹. تغییر مهم سال ۲۰۲۶: Kombiniertes Zertifikat</a></li><li><a href="#s10">۱۰. نتیجهٔ TestDaF چه زمانی اعلام می‌شود؟</a></li><li><a href="#s11">۱۱. گواهی رسمی TestDaF چه شکلی است؟</a></li><li><a href="#s12">۱۲. اعتبار زمانی گواهی TestDaF</a></li><li><a href="#s13">۱۳. اگر به نمرهٔ TestDaF اعتراض داشته باشم چه می‌شود؟</a></li><li><a href="#s14">۱۴. اگر نقص فنی باعث شود یکی از بخش‌ها قابل‌ارزیابی نباشد چه؟</a></li><li><a href="#s15">۱۵. پس از دریافت نتیجه چه تصمیمی باید بگیری؟</a></li><li><a href="#s16">۱۶. چند سؤال مهم دربارهٔ نمره و کارنامه</a></li><li><a href="#s17">۱۷. مهم‌ترین اصطلاحات آلمانی مرتبط با نتایج</a></li><li><a href="#s18">۱۸. منابع رسمی پارت هفتم</a></li></ul></section>
+
+<section class="pane">
+<p>در شش پارت گذشته، ساختار TestDaF و نحوهٔ اجرای چهار مهارت Lesen، Hören، Schreiben و Sprechen را بررسی کردیم.</p>
+<p>در این پارت به پرسش‌های تعیین‌کنندهٔ بعد از آزمون می‌پردازیم: نمره چگونه محاسبه می‌شود؟ دانشگاه دقیقاً چه نتیجه‌ای را قبول می‌کند؟ اگر در یک مهارت TDN 3 بگیری و در سه مهارت دیگر TDN 5، چه اتفاقی می‌افتد؟ آیا باید دوباره در تمام بخش‌ها شرکت کنی؟ و اگر به نتیجهٔ تصحیح اعتراض داشته باشی، چه حقوقی داری؟</p>
+<p>یک تغییر مهم مربوط به سال ۲۰۲۶ نیز وجود دارد: از ۱۲ مهٔ ۲۰۲۶، امکان صدور گواهی ترکیبی برای چند نوبت TestDaF دیجیتال فراهم شده است. این امکان قواعد مشخصی دارد و پذیرش آن در تمام دانشگاه‌ها تضمین‌شده نیست.</p>
+</section>
+
+<section class="pane">
+<h2 id="s1">۱. TestDaF دقیقاً چه نوع نمره‌ای صادر می‌کند؟</h2>
+<p>نظام نمره‌دهی TestDaF با بسیاری از آزمون‌های زبان متفاوت است.</p>
+<p>در آزمون‌هایی مانند IELTS ممکن است یک نمرهٔ کلی در کنار نمرهٔ مهارت‌های جداگانه گزارش شود. اما در TestDaF، معیار اصلی گزارش نتیجه، سطح مستقل هر مهارت است.</p>
+<p>به این روش <span class="de">Getrennte Bewertung der Prüfungsteile</span> (ارزیابی جداگانهٔ بخش‌های آزمون) گفته می‌شود.</p>
+<p>چهار مهارت عبارت‌اند از:</p>
+<div class="tbl"><table>
+<tr><th>نسخهٔ کاغذی</th><th>نسخهٔ دیجیتال</th><th>مهارت</th></tr>
+<tr><td>Leseverstehen</td><td>Lesen</td><td>خواندن</td></tr>
+<tr><td>Hörverstehen</td><td>Hören</td><td>شنیدن</td></tr>
+<tr><td>Schriftlicher Ausdruck</td><td>Schreiben</td><td>نوشتن</td></tr>
+<tr><td>Mündlicher Ausdruck</td><td>Sprechen</td><td>صحبت‌کردن</td></tr>
+</table></div>
+<p>برای هر یک از این بخش‌ها نتیجه‌ای در مقیاس <span class="de">TestDaF-Niveaustufen (TDN)</span>، یعنی «سطوح مهارتی TestDaF»، تعیین می‌شود.</p>
+<p>چهار وضعیت ممکن وجود دارد:</p>
+<p><strong>U3</strong> — زیر TDN 3</p>
+<p><strong>3</strong> — TDN 3</p>
+<p><strong>4</strong> — TDN 4</p>
+<p><strong>5</strong> — TDN 5</p>
+<p>U3 یا <span class="de">unter TDN 3</span> نشان می‌دهد عملکرد داوطلب به حداقل سطح قابل‌گزارش در مقیاس TDN 3 تا 5 نرسیده است.</p>
+<h3>۱.۱. آیا TestDaF نمرهٔ کلی دارد؟</h3>
+<p>باید دو اصطلاح را از یکدیگر جدا کنیم.</p>
+<p><span class="de">Gesamtniveau</span>: سطح مهارتی کلی واحد.</p>
+<p><span class="de">Gesamtpunktzahl</span>: مجموع امتیازهای عددی.</p>
+<p>TestDaF یک Gesamtniveau مانند «C1 نهایی» یا «TDN 4 کلی» صادر نمی‌کند.</p>
+<p>اما نسخهٔ دیجیتال علاوه بر سطوح TDN، امتیازهایی در مقیاس ۰ تا ۲۰ برای هر مهارت ارائه می‌دهد؛ مجموع این امتیازها می‌تواند ۰ تا ۸۰ باشد.</p>
+<p>بنابراین جملهٔ «TestDaF هیچ نمرهٔ عددی ندارد» برای نسخهٔ دیجیتال درست نیست.</p>
+<p>عبارت دقیق‌تر چنین است:</p>
+<p>TestDaF نتیجهٔ سطحیِ واحد برای کل آزمون صادر نمی‌کند؛ ولی نسخهٔ دیجیتال امتیاز مقیاس‌بندی‌شدهٔ هر چهار مهارت را گزارش می‌کند.</p>
+<h3>۱.۲. یک کارنامهٔ فرضی</h3>
+<p>نمونهٔ آموزشی کارنامه — غیررسمی</p>
+<div class="tbl"><table>
+<tr><th>مهارت</th><th>سطح</th></tr>
+<tr><td>Lesen</td><td>TDN 5</td></tr>
+<tr><td>Hören</td><td>TDN 4</td></tr>
+<tr><td>Schreiben</td><td>TDN 3</td></tr>
+<tr><td>Sprechen</td><td>TDN 4</td></tr>
+</table></div>
+<p>این داوطلب در خواندن قوی‌تر بوده، در شنیدن و صحبت‌کردن سطح معیار عمومی دانشگاهی را به دست آورده، اما در نوشتن به TDN 3 رسیده است.</p>
+<p>نکته این است که کارنامه هیچ‌جا نمی‌گوید: «میانگین شما TDN 4 است، پس قبول شده‌اید.»</p>
+<p>دانشگاه مقصد بر اساس شرایط پذیرش رشته بررسی می‌کند آیا چنین ترکیبی کافی است یا نه.</p>
+</section>
+
+<section class="pane">
+<h2 id="s2">۲. سه مفهوم متفاوت در محاسبهٔ نمره</h2>
+<p>برای فهم دقیق نظام ارزیابی TestDaF باید میان سه مرحله فرق بگذاریم.</p>
+<h3>۲.۱. Rohpunkte — امتیاز خام</h3>
+<p><span class="de">Rohpunkt</span> یعنی امتیازی که داوطلب مستقیماً از پاسخ‌های خود به دست می‌آورد.</p>
+<p>در نسخهٔ کاغذی، در بخش خواندن ۳۰ سؤال وجود دارد.</p>
+<p>هر سؤال درست یک امتیاز دارد.</p>
+<p>بنابراین حداکثر امتیاز خام خواندن ۳۰ است.</p>
+<p>در شنیدن ۲۵ سؤال وجود دارد و حداکثر امتیاز خام ۲۵ است.</p>
+<p>برای مثال:</p>
+<div class="tbl"><table>
+<tr><th>مهارت کاغذی</th><th>تعداد پاسخ درست فرضی</th><th>امتیاز خام</th></tr>
+<tr><td>Lesen</td><td>۲۳ از ۳۰</td><td>۲۳</td></tr>
+<tr><td>Hören</td><td>۱۸ از ۲۵</td><td>۱۸</td></tr>
+</table></div>
+<p>اما این اعداد به‌تنهایی سطح TDN را تعیین نمی‌کنند.</p>
+<h3>۲.۲. Skalierte Punkte — امتیازهای مقیاس‌بندی‌شده</h3>
+<p>این اصطلاح در نسخهٔ دیجیتال اهمیت دارد.</p>
+<p>امتیاز مقیاس‌بندی‌شده، نتیجهٔ تبدیل عملکرد داوطلب به مقیاسی مشترک است تا بتوان عملکرد آزمون‌های مختلف را بهتر مقایسه کرد.</p>
+<p>در نسخهٔ دیجیتال، برای هر مهارت امتیازی از صفر تا ۲۰ گزارش می‌شود.</p>
+<p>برای مثال، ممکن است داوطلب در Lesen امتیاز ۱۴ دریافت کند و در Hören امتیاز ۱۷.</p>
+<p>این اعداد را نباید با تعداد پاسخ‌های درست یکی دانست.</p>
+<h3>۲.۳. TestDaF-Niveau — سطح نهایی مهارت</h3>
+<p>آخرین مرحله، تعیین سطح TDN است.</p>
+<p>در نسخهٔ دیجیتال، امتیاز ۱۴ در محدودهٔ TDN 4 قرار دارد و امتیاز ۱۷ در محدودهٔ TDN 5.</p>
+<p>در نسخهٔ کاغذی، امتیاز خام خواندن و شنیدن بر اساس تحلیل آماری و دشواری مجموعهٔ سؤال‌ها به سطح TDN تبدیل می‌شود.</p>
+<h3>مسیر کلی نمره‌دهی</h3>
+<ol>
+<li><span class="de">Prüfungsleistung</span> — عملکرد در آزمون: پاسخ‌ها یا تولیدات نوشتاری و گفتاری</li>
+<li><span class="de">Auswertung</span> — ارزیابی: محاسبهٔ پاسخ‌های درست یا تصحیح بر اساس معیارهای مشخص</li>
+<li><span class="de">Standardisierung / Skalierung</span> — استانداردسازی و مقیاس‌بندی: تبدیل عملکرد به مقیاس قابل‌مقایسه</li>
+<li><span class="de">TestDaF-Niveaustufe</span> — سطح TDN: گزارش نتیجه در کارنامه</li>
+</ol>
+<p>این نمودار، توضیح مفهومی فرایند است و نباید به این معنا برداشت شود که همهٔ مهارت‌ها دقیقاً با یک الگوریتم واحد و کاملاً خودکار تصحیح می‌شوند.</p>
+<p>برای مثال، نوشتن و صحبت‌کردن نیازمند ارزیابی انسانی‌اند.</p>
+</section>
+
+<section class="pane">
+<h2 id="s3">۳. نمره‌دهی نسخهٔ کاغذی چگونه انجام می‌شود؟</h2>
+<p>در نسخهٔ کاغذی، دو مهارت دریافت زبان و دو مهارت تولید زبان روش ارزیابی متفاوتی دارند.</p>
+<h3>۳.۱. Leseverstehen و Hörverstehen</h3>
+<p>در خواندن و شنیدن، پاسخ‌ها روی برگهٔ رسمی ثبت می‌شوند.</p>
+<p>پاسخ‌نامه‌ها با اسکنر پردازش می‌شوند.</p>
+<p>در شنیدن، پاسخ‌های کوتاه ابتدا توسط ارزیابان آموزش‌دیده بررسی می‌شوند تا مشخص شود آیا محتوای لازم را منتقل کرده‌اند یا نه.</p>
+<p>سپس مجموع پاسخ‌های درست محاسبه می‌شود.</p>
+<p>اما مرحلهٔ مهم بعدی، تعیین سطح TDN است.</p>
+<h3>آیا همیشه ۲۳ پاسخ درست از ۳۰ سؤال برابر TDN 4 است؟</h3>
+<p>خیر.</p>
+<p>این یکی از تصورات نادرست دربارهٔ TestDaF است.</p>
+<p>مجموعه‌های سؤال در نوبت‌های مختلف ممکن است از نظر دشواری کمی متفاوت باشند.</p>
+<p>در آلمانی به مجموعهٔ سؤال‌های یک نوبت، <span class="de">Testsatz</span> گفته می‌شود.</p>
+<p>برای اینکه یک سطح TDN در نوبت‌های مختلف معنای قابل‌مقایسه‌ای داشته باشد، حداقل امتیاز لازم برای سطوح بر اساس تحلیل‌های آماری تعیین می‌شود.</p>
+<p>اصطلاح این حداقل، <span class="de">Grenzwert</span> یا <span class="de">Schwellenwert</span> است؛ یعنی مرز امتیازی.</p>
+<p>در نتیجه، نمی‌توان یک جدول جهانی و دائمی نوشت که بگوید:</p>
+<ul>
+<li>۱۵ پاسخ درست همیشه TDN 3 است.</li>
+<li>۲۱ پاسخ درست همیشه TDN 4 است.</li>
+<li>۲۷ پاسخ درست همیشه TDN 5 است.</li>
+</ul>
+<p>چنین جدول ثابتی وجود ندارد.</p>
+<p>TestDaF صریحاً توضیح داده که حداقل تعداد پاسخ‌های درست برای TDN 3، 4 و 5 می‌تواند با توجه به Testsatz تغییر کند.</p>
+<h3>چرا استانداردسازی اهمیت دارد؟</h3>
+<p>فرض کن دو نسخهٔ فرضی از آزمون طراحی شده‌اند.</p>
+<p>در نسخهٔ A متن‌ها کمی دشوارترند.</p>
+<p>در نسخهٔ B متن‌ها اندکی ساده‌ترند.</p>
+<p>اگر برای هر دو نسخه بدون توجه به دشواری، تعداد یکسانی از پاسخ‌های درست لازم باشد، ممکن است داوطلب نسخهٔ دشوارتر در موقعیت نامناسب‌تری قرار بگیرد.</p>
+<p>استانداردسازی برای کاهش چنین تفاوت‌هایی استفاده می‌شود.</p>
+<p>هدف آن این است که TDN 4 نشان‌دهندهٔ سطح مهارت مشخصی باشد، نه صرفاً تعداد ثابت پاسخ‌های درست.</p>
+<h3>۳.۲. Schriftlicher Ausdruck</h3>
+<p>در بخش نوشتاری کاغذی، یک متن ترکیبی شامل پردازش نمودار و استدلال نوشته می‌شود.</p>
+<p>متن توسط ارزیابان متخصص بررسی می‌شود.</p>
+<p>آن‌ها به سه جنبهٔ اصلی توجه می‌کنند:</p>
+<div class="tbl"><table>
+<tr><th>حوزه</th><th>پرسش اصلی</th></tr>
+<tr><td>Wirkung auf die Lesenden</td><td>آیا متن روشن و قابل‌دنبال‌کردن است؟</td></tr>
+<tr><td>Inhaltliche Bearbeitung</td><td>آیا دستورهای سؤال و محتوای نمودار درست پردازش شده‌اند؟</td></tr>
+<tr><td>Sprachliche Mittel</td><td>آیا واژگان، ساختار و دستور زبان مناسب هستند؟</td></tr>
+</table></div>
+<p>بنابراین تعداد خطاهای گرامری تنها عامل تعیین‌کننده نیست.</p>
+<p>ممکن است متنی از نظر دستور زبان نسبتاً درست باشد، اما به دلیل توصیف نادرست نمودار یا نادیده‌گرفتن بخشی از صورت سؤال، ارزیابی ضعیف‌تری دریافت کند.</p>
+<p>برعکس، متنی که چند خطای جزئی دارد اما محتوا و استدلال آن روشن و منسجم است، لزوماً عملکرد ضعیفی محسوب نمی‌شود.</p>
+<h3>۳.۳. Mündlicher Ausdruck</h3>
+<p>در نسخهٔ کاغذی، هفت پاسخ شفاهی ضبط می‌شوند.</p>
+<p>هر تکلیف از نظر دشواری و سطح هدف یکسان نیست.</p>
+<p>برخی تکالیف متناسب با TDN 3، برخی با TDN 4 و برخی با TDN 5 طراحی شده‌اند.</p>
+<p>ارزیابان بررسی می‌کنند:</p>
+<ul>
+<li>آیا پاسخ قابل‌فهم است؟</li>
+<li>آیا داوطلب وظیفهٔ ارتباطی را انجام داده است؟</li>
+<li>آیا گفتار با مخاطب و موقعیت تناسب دارد؟</li>
+<li>آیا ساختار و استدلال روشن‌اند؟</li>
+<li>آیا واژگان و دستور زبان برای انتقال محتوا کافی هستند؟</li>
+<li>آیا تلفظ و روانی، فهم گفتار را دشوار می‌کنند؟</li>
+</ul>
+<p>در نهایت، نتیجهٔ مهارت شفاهی به‌صورت یک سطح TDN گزارش می‌شود.</p>
+<p>نکته: این‌طور نیست که صرفاً با موفقیت در چهار تکلیف از هفت تکلیف، خودکار به TDN 4 برسی. ارزیابی، مبتنی بر عملکرد در تکالیف با دشواری‌ها و معیارهای متفاوت است.</p>
+</section>
+<section class="pane">
+<h2 id="s4">۴. نمره‌دهی نسخهٔ دیجیتال</h2>
+<p>در نسخهٔ دیجیتال، برای هر مهارت امتیازی در مقیاس ۰ تا ۲۰ تعیین می‌شود.</p>
+<p>چهار مهارت مجموعاً می‌توانند تا ۸۰ امتیاز داشته باشند.</p>
+<p>جدول رسمی تبدیل امتیاز به سطح در همهٔ چهار مهارت یکسان است.</p>
+<div class="tbl"><table>
+<tr><th>امتیاز مقیاس‌بندی‌شده</th><th>نتیجهٔ TDN</th></tr>
+<tr><td>۰ تا ۴</td><td>unter TDN 3</td></tr>
+<tr><td>۵ تا ۹</td><td>TDN 3</td></tr>
+<tr><td>۱۰ تا ۱۵</td><td>TDN 4</td></tr>
+<tr><td>۱۶ تا ۲۰</td><td>TDN 5</td></tr>
+</table></div>
+<h3>۴.۱. منظور از امتیاز مقیاس‌بندی‌شده چیست؟</h3>
+<p>فرض کن در بخش Hören دیجیتال ۳۰ سؤال اصلی وجود دارد.</p>
+<p>عدد ۱۵ از ۲۰ در کارنامه به معنای آن نیست که تو دقیقاً ۱۵ سؤال از ۲۰ سؤال را درست پاسخ داده‌ای.</p>
+<p>بلکه نتیجهٔ ارزیابی به مقیاس استاندارد ۰ تا ۲۰ تبدیل شده است.</p>
+<p>این مقیاس برای قابل‌مقایسه‌کردن نتایج در مجموعه‌سؤال‌های مختلف استفاده می‌شود.</p>
+<h3>۴.۲. آیا امتیاز ۱۰ و ۱۵ با وجود یکسان بودن TDN تفاوت دارند؟</h3>
+<p>بله.</p>
+<p>هر دو امتیاز در محدودهٔ TDN 4 قرار دارند، اما امتیاز ۱۵ در بالای این محدوده و امتیاز ۱۰ در پایین آن است.</p>
+<p>امتیاز عددی اطلاعات دقیق‌تری دربارهٔ موقعیت عملکرد در همان سطح ارائه می‌کند.</p>
+<p>بااین‌حال، اگر دانشگاه فقط شرط <span class="de">mindestens TDN 4</span>، یعنی حداقل TDN 4، را اعلام کرده باشد، هر دو از نظر آن شرط حداقلی یک سطح پذیرفته‌شده دارند.</p>
+<p>نباید نتیجه گرفت که دانشگاه الزاماً برای امتیاز ۱۵ مزیت جداگانه‌ای نسبت به امتیاز ۱۰ قائل می‌شود.</p>
+<p>این موضوع به ضوابط پذیرش دانشگاه بستگی دارد.</p>
+<h3>۴.۳. مثال یک کارنامهٔ دیجیتال</h3>
+<p>کارنامهٔ فرضی A — نسخهٔ دیجیتال</p>
+<div class="tbl"><table>
+<tr><th>مهارت</th><th>امتیاز</th><th>سطح</th></tr>
+<tr><td>Lesen</td><td>16/20</td><td>TDN 5</td></tr>
+<tr><td>Hören</td><td>12/20</td><td>TDN 4</td></tr>
+<tr><td>Schreiben</td><td>15/20</td><td>TDN 4</td></tr>
+<tr><td>Sprechen</td><td>10/20</td><td>TDN 4</td></tr>
+</table></div>
+<p>مجموع عددی: <strong>۵۳ از ۸۰</strong></p>
+<p>شرط عمومی 4×4: برآورده شده</p>
+<p>با این کارنامه، داوطلب در همهٔ چهار مهارت حداقل TDN 4 دارد.</p>
+<p>اما اگر فقط امتیاز Sprechen از ۱۰ به ۹ تغییر کند، سطح آن از TDN 4 به TDN 3 کاهش می‌یابد.</p>
+<p>این تفاوت یک‌امتیازی می‌تواند در نتیجهٔ پذیرش دانشگاهی بسیار مهم باشد.</p>
+<h3>۴.۴. آیا مجموع ۶۰ از ۸۰ قبولی دانشگاه را تضمین می‌کند؟</h3>
+<p>خیر.</p>
+<p>مثلاً:</p>
+<div class="tbl"><table>
+<tr><th>مهارت</th><th>امتیاز</th><th>TDN</th></tr>
+<tr><td>Lesen</td><td>۲۰</td><td>۵</td></tr>
+<tr><td>Hören</td><td>۲۰</td><td>۵</td></tr>
+<tr><td>Schreiben</td><td>۱۵</td><td>۴</td></tr>
+<tr><td>Sprechen</td><td>۵</td><td>۳</td></tr>
+<tr><td>مجموع</td><td>۶۰</td><td>—</td></tr>
+</table></div>
+<p>این کارنامه مجموع ۶۰ از ۸۰ دارد، اما شرط معمول 4×4 را برآورده نمی‌کند.</p>
+<p>در مقابل، کسی ممکن است در هر چهار مهارت امتیاز ۱۰ بگیرد، مجموعاً ۴۰ از ۸۰ داشته باشد و شرط 4×4 را برآورده کند.</p>
+<p>این مثال نشان می‌دهد چرا مجموع عددی، جایگزین بررسی جداگانهٔ سطوح نیست.</p>
+<h3>۴.۵. تکالیف آزمایشی چه تأثیری بر نمره دارند؟</h3>
+<p>در نسخهٔ دیجیتال، <span class="de">Erprobungsaufgaben</span> یا تکالیف آزمایشی نیز ارائه می‌شوند.</p>
+<p>این تکالیف برای بررسی کیفیت سؤال‌هایی استفاده می‌شوند که ممکن است در آزمون‌های آینده به کار بروند.</p>
+<p>طبق توضیح رسمی TestDaF، نتیجهٔ این تکالیف در امتیاز نهایی داوطلب محاسبه نمی‌شود.</p>
+<p>اما داوطلب ممکن است نتواند هنگام آزمون تشخیص دهد کدام سؤال آزمایشی است.</p>
+<p>بنابراین باید تمام سؤال‌ها را با دقت یکسان پاسخ بدهد.</p>
+</section>
+
+<section class="pane">
+<h2 id="s5">۵. TDN 3، TDN 4 و TDN 5 در عمل چه معنایی دارند؟</h2>
+<p>در پارت اول، رابطهٔ کلی این سطوح با CEFR را بررسی کردیم. اکنون آن‌ها را از دید نتیجهٔ آزمون و انتظارات دانشگاهی دقیق‌تر توضیح می‌دهیم.</p>
+<p><span class="de">Kann-Beschreibungen</span> به معنای «توصیف توانایی‌هایی که فرد قادر به انجام آن‌هاست» است.</p>
+<p>این توصیف‌ها نشان می‌دهند هر سطح TDN در چهار مهارت چه توانایی‌هایی را تأیید می‌کند.</p>
+<h3>۵.۱. TDN 3 — توانایی دانشگاهی همراه با محدودیت</h3>
+<p>TDN 3 در محدودهٔ B2 قرار می‌گیرد.</p>
+<p>این سطح نشان می‌دهد فرد می‌تواند بخش مهمی از وظایف زبانی زندگی معمول دانشجویی را انجام دهد، اما در برخورد با مطالب علمی پیچیده‌تر هنوز محدودیت‌هایی دارد.</p>
+<div class="tbl"><table>
+<tr><th>مهارت</th><th>معنای عملی TDN 3</th></tr>
+<tr><td>Lesen</td><td>فهم کلی و جزئیات مهم متن‌های معمول دانشجویی؛ فهم بخشی از متن‌های علمی</td></tr>
+<tr><td>Hören</td><td>دنبال‌کردن گفت‌وگوهای معمول دانشگاه و فهم بخش‌هایی از گفتار علمی</td></tr>
+<tr><td>Schreiben</td><td>نوشتن متن نسبتاً قابل‌فهم دربارهٔ امور دانشگاه؛ محدودیت در ساختاردهی متن علمی</td></tr>
+<tr><td>Sprechen</td><td>ارتباط در موقعیت‌های معمول دانشگاهی؛ دشواری در بیان کامل مسائل علمی و استدلالی</td></tr>
+</table></div>
+<h3>مثال عملی</h3>
+<p>فرض کن استادی در کلاس از تو می‌خواهد یک مقالهٔ علمی را بخوانی و دیدگاه اصلی نویسنده را توضیح بدهی.</p>
+<p>در سطح TDN 3 ممکن است موضوع کلی مقاله و تعدادی از استدلال‌ها را تشخیص بدهی، اما در توضیح ارتباط دقیق میان استدلال‌ها، محدودیت‌ها یا نتایج پژوهش دچار مشکل شوی.</p>
+<p>این سطح به معنای ناتوانی در تحصیل نیست؛ بلکه نشان می‌دهد عملکرد زبانی تو هنوز به معیار عمومی پذیرش بدون محدودیت نرسیده است.</p>
+<h3>آیا TDN 3 بی‌ارزش است؟</h3>
+<p>خیر.</p>
+<p>بعضی دانشگاه‌ها و رشته‌ها ممکن است TDN 3 را در یک یا چند مهارت بپذیرند.</p>
+<p>اما این پذیرش باید در مقررات رشته پیش‌بینی شده باشد.</p>
+<p>برای مثال، ممکن است دانشگاهی در رشته‌ای مشخص، سطح TDN 3 در نوشتن را بپذیرد؛ درحالی‌که برای رشته‌ای با حجم بالای تولید متن علمی، معیار بالاتری تعیین کند.</p>
+<p>بنابراین ارزش عملی TDN 3 به <span class="de">Zulassungsvoraussetzungen</span>، یعنی پیش‌شرط‌های پذیرش دانشگاه مقصد، بستگی دارد.</p>
+<h3>۵.۲. TDN 4 — سطح معیار پذیرش دانشگاهی</h3>
+<p>TDN 4 مهم‌ترین سطح TestDaF برای بسیاری از متقاضیان تحصیل است.</p>
+<p>در این سطح، داوطلب باید بتواند وظایف اصلی زبان دانشگاهی را به‌شکل کافی، قابل‌فهم و نسبتاً مستقل انجام دهد.</p>
+<div class="tbl"><table>
+<tr><th>مهارت</th><th>معنای عملی TDN 4</th></tr>
+<tr><td>Lesen</td><td>فهم کلیت و جزئیات مهم متن‌های دانشگاهی و علمی با ساختار قابل‌پیگیری</td></tr>
+<tr><td>Hören</td><td>فهم پیام‌ها و استدلال‌های اصلی در گفتار مرتبط با دانشگاه</td></tr>
+<tr><td>Schreiben</td><td>تولید متن نسبتاً منسجم، ساختاریافته و متناسب با تکلیف؛ بدون اختلال جدی در فهم</td></tr>
+<tr><td>Sprechen</td><td>صحبت‌کردن متناسب با بیشتر موقعیت‌های دانشگاهی؛ بدون اختلال مؤثر خطاها در ارتباط</td></tr>
+</table></div>
+<h3>مثال عملی در نوشتن</h3>
+<p>فرض کن از تو خواسته می‌شود دربارهٔ تأثیر کار دانشجویی بر موفقیت تحصیلی بنویسی.</p>
+<p>در سطح TDN 4 انتظار می‌رود بتوانی مسئله را معرفی کنی، استدلال‌های موافق و مخالف ارائه بدهی و نتیجه‌گیری مشخصی داشته باشی.</p>
+<p>مثلاً:</p>
+<blockquote class="ex"><p class="de">Eine Nebentätigkeit kann Studierenden helfen, finanziell unabhängiger zu werden. Allerdings besteht bei einer hohen Arbeitsbelastung die Gefahr, dass weniger Zeit für das Studium bleibt.</p></blockquote>
+<p class="tr">ترجمه: کار دانشجویی می‌تواند به دانشجویان کمک کند از نظر مالی مستقل‌تر شوند. بااین‌حال، در صورت فشار کاری زیاد، این خطر وجود دارد که زمان کمتری برای تحصیل باقی بماند.</p>
+<p>این دو جمله از نظر معنا روشن‌اند، اما یک متن کامل TDN 4 نیازمند بسط استدلال، سازمان‌دهی و پاسخ‌گویی به تمام دستورهای تکلیف نیز هست.</p>
+<h3>آیا TDN 4 یعنی زبان آلمانی بدون اشتباه؟</h3>
+<p>خیر.</p>
+<p>در توصیف رسمی TDN 4 برای نوشتن و صحبت‌کردن، خطاهای زبانی به‌طور کامل منتفی نیستند.</p>
+<p>معیار مهم این است که کاستی‌های زبانی، فهم متن یا ارتباط گفتاری را مختل نکنند.</p>
+<p>بنابراین ممکن است در سطح TDN 4 همچنان اشتباهاتی در Artikel، پایان صفت‌ها، انتخاب حرف اضافه یا بعضی ساختارهای دستوری وجود داشته باشد.</p>
+<p>اما کیفیت کلی بیان باید برای انتقال وظایف دانشگاهی کافی باشد.</p>
+<h3>۵.۳. TDN 5 — توانایی پیشرفته‌تر و دقیق‌تر</h3>
+<p>TDN 5 بالاترین سطح TestDaF است.</p>
+<p>این سطح در محدودهٔ C1 قرار می‌گیرد و توانایی بیشتری در پردازش اطلاعات پیچیده و بیان دقیق آن‌ها نشان می‌دهد.</p>
+<div class="tbl"><table>
+<tr><th>مهارت</th><th>معنای عملی TDN 5</th></tr>
+<tr><td>Lesen</td><td>فهم متن‌های علمی پیچیده، جزئیات و اطلاعات ضمنی</td></tr>
+<tr><td>Hören</td><td>دنبال‌کردن گفتار پیچیده از نظر زبان و محتوا</td></tr>
+<tr><td>Schreiben</td><td>تولید متن دقیق، منسجم، ساختاریافته و دارای تمایزهای معنایی</td></tr>
+<tr><td>Sprechen</td><td>بیان روشن، دقیق و متناسب با موقعیت، حتی در مسائل علمی و انتزاعی</td></tr>
+</table></div>
+<h3>تفاوت ظریف TDN 4 و TDN 5</h3>
+<p>فرض کن دربارهٔ یک پژوهش علمی صحبت می‌کنی.</p>
+<p>یک پاسخ نسبتاً ساده:</p>
+<blockquote class="ex"><p class="de">Die Untersuchung zeigt, dass die neue Methode Vorteile hat.</p></blockquote>
+<p class="tr">ترجمه: پژوهش نشان می‌دهد روش جدید مزایایی دارد.</p>
+<p>اما اگر داده‌ها فقط از احتمال مؤثربودن روش پشتیبانی کنند، بیان دقیق‌تر چنین خواهد بود:</p>
+<blockquote class="ex"><p class="de">Die Untersuchung deutet darauf hin, dass die neue Methode unter bestimmten Bedingungen Vorteile bieten könnte. Allerdings sind weitere Studien erforderlich, um die langfristigen Auswirkungen zu beurteilen.</p></blockquote>
+<p class="tr">ترجمه: این پژوهش نشان می‌دهد که روش جدید ممکن است تحت شرایط مشخص مزایایی داشته باشد. البته برای ارزیابی پیامدهای بلندمدت، مطالعات بیشتری لازم است.</p>
+<p>جملهٔ دوم تمایز میان یافتهٔ احتمالی، شرایط کاربرد و محدودیت پژوهش را حفظ می‌کند.</p>
+<p>بااین‌حال، صرف استفاده از چنین عباراتی به معنای دریافت TDN 5 نیست؛ ارزیابی براساس عملکرد کامل در تکلیف انجام می‌شود.</p>
+<h3>آیا TestDaF می‌تواند C2 را تأیید کند؟</h3>
+<p>خیر.</p>
+<p>بالاترین سطح گزارش‌شدهٔ TestDaF، یعنی TDN 5، در محدودهٔ C1 قرار دارد.</p>
+<p>حتی اگر داوطلب در هر چهار مهارت TDN 5 بگیرد، مدرک او به‌صورت خودکار معادل Goethe-Zertifikat C2 نیست.</p>
+</section>
+
+<section class="pane">
+<h2 id="s6">۶. چرا دقیقاً TDN 4 معیار عمومی پذیرش دانشگاه‌هاست؟</h2>
+<p>این موضوع فقط یک رویهٔ غیررسمی یا توصیهٔ آموزشگاه‌ها نیست.</p>
+<p>مبنای حقوقی آن <span class="de">Rahmenordnung über deutsche Sprachprüfungen für das deutschsprachige Studium an deutschen Hochschulen (RO-DT)</span> است.</p>
+<p>این مقررات چارچوب اثبات مهارت زبان آلمانی برای تحصیل دانشگاهی را تعیین می‌کنند.</p>
+<p>طبق §4 این مقررات، رسیدن به حداقل TDN 4 در هر چهار بخش TestDaF به‌عنوان اثبات توانایی زبانی برای پذیرش یا ثبت‌نام بدون محدودیت زبانی شناخته می‌شود.</p>
+<h3>۶.۱. منظور از uneingeschränkte Zulassung چیست؟</h3>
+<p><span class="de">Uneingeschränkte Zulassung</span> در این زمینه به معنای پذیرش بدون محدودیت ناشی از شرط زبان است.</p>
+<p>به بیان ساده، وقتی نتیجهٔ تو 4×4 باشد، شرط عمومی زبان دانشگاهی را برآورده کرده‌ای.</p>
+<p>اما این موضوع به معنای پذیرش تضمینی در رشته نیست.</p>
+<p>ممکن است همچنان به موارد زیر نیاز داشته باشی: مدارک تحصیلی قابل‌قبول، معدل لازم، شرایط اختصاصی رشته یا رعایت مهلت درخواست پذیرش.</p>
+<h3>مثال آلمانی</h3>
+<blockquote class="ex"><p class="de">Mit einem TestDaF-Ergebnis von mindestens TDN 4 in allen vier Prüfungsteilen erfüllen Sie die allgemeinen sprachlichen Voraussetzungen für ein deutschsprachiges Hochschulstudium.</p></blockquote>
+<p class="tr">ترجمه: با نتیجهٔ حداقل TDN 4 در هر چهار بخش TestDaF، شرایط عمومی زبانی برای تحصیل دانشگاهی به زبان آلمانی را برآورده می‌کنید.</p>
+<p>اما:</p>
+<blockquote class="ex"><p class="de">Die Erfüllung der sprachlichen Voraussetzungen garantiert keine Zulassung zum gewünschten Studiengang.</p></blockquote>
+<p class="tr">ترجمه: برآورده‌کردن شرایط زبانی، پذیرش در رشتهٔ موردنظر را تضمین نمی‌کند.</p>
+<p>این دو گزاره کاملاً با هم سازگارند.</p>
+<h3>۶.۲. آیا هر چهار نمره باید دقیقاً ۴ باشند؟</h3>
+<p>خیر.</p>
+<p>عبارت رسمی <span class="de">mindestens TDN 4</span> یعنی «حداقل TDN 4».</p>
+<p>بنابراین:</p>
+<div class="tbl"><table>
+<tr><th>Lesen</th><th>Hören</th><th>Schreiben</th><th>Sprechen</th><th>معیار عمومی 4×4</th></tr>
+<tr><td>4</td><td>4</td><td>4</td><td>4</td><td>برآورده شده</td></tr>
+<tr><td>5</td><td>4</td><td>4</td><td>4</td><td>برآورده شده</td></tr>
+<tr><td>5</td><td>5</td><td>4</td><td>4</td><td>برآورده شده</td></tr>
+<tr><td>4</td><td>5</td><td>5</td><td>5</td><td>برآورده شده</td></tr>
+<tr><td>5</td><td>5</td><td>5</td><td>5</td><td>برآورده شده</td></tr>
+<tr><td>5</td><td>5</td><td>3</td><td>5</td><td>برآورده نشده</td></tr>
+<tr><td>4</td><td>4</td><td>4</td><td>3</td><td>برآورده نشده</td></tr>
+</table></div>
+<h3>۶.۳. آیا دانشگاه می‌تواند TDN 5 بخواهد؟</h3>
+<p>طبق توضیح رسمی TestDaF، TDN 5 نشان‌دهندهٔ توانایی بالاتر از سطح موردنیاز عمومی برای پذیرش دانشگاهی است.</p>
+<p>بااین‌حال، دانشگاه‌ها و رشته‌ها می‌توانند بر اساس نیازهای آموزشی خود، شرایط زبانی متفاوتی داشته باشند.</p>
+<p>برای نمونه، در حوزه‌هایی که دقت بسیار بالای نوشتار یا گفتار ضروری است، ممکن است برای مهارتی مشخص معیار بالاتری مطرح شود.</p>
+<p>اما نباید فرض کرد که تمام رشته‌های پزشکی، حقوق، مهندسی یا ترجمه در تمام دانشگاه‌ها دقیقاً یک شرط زبانی دارند.</p>
+<p>ملاک، متن رسمی شرایط پذیرش رشتهٔ موردنظر است.</p>
+</section>
+<section class="pane">
+<h2 id="s7">۷. آیا TDN 5 می‌تواند TDN 3 را جبران کند؟</h2>
+<p>پاسخ عمومی: خیر، مگر اینکه دانشگاه مقصد چنین جبرانی را بپذیرد.</p>
+<p>در آلمانی به جبران ضعف یک نمره با نمرهٔ قوی‌تر، <span class="de">Ausgleich</span> گفته می‌شود.</p>
+<p>مثلاً:</p>
+<div class="tbl"><table>
+<tr><th>مهارت</th><th>نتیجه</th></tr>
+<tr><td>Lesen</td><td>TDN 5</td></tr>
+<tr><td>Hören</td><td>TDN 5</td></tr>
+<tr><td>Schreiben</td><td>TDN 3</td></tr>
+<tr><td>Sprechen</td><td>TDN 5</td></tr>
+</table></div>
+<p>اگر دانشگاه شرط 4×4 داشته باشد، این ترکیب کافی نیست.</p>
+<p>اما بعضی دانشگاه‌ها مدل پذیرش متفاوتی دارند.</p>
+<p>برای مثال، ممکن است جمع سطوح چهار مهارت را بررسی کنند.</p>
+<h3>۷.۱. Punktemodell — مدل مبتنی بر مجموع سطوح</h3>
+<p>در برخی دانشگاه‌ها، به‌جای شرط سخت‌گیرانهٔ 4×4، مجموع چهار سطح TDN در کنار محدودیت‌های دیگر بررسی می‌شود.</p>
+<p>سایت رسمی TestDaF اشاره می‌کند که بعضی دانشگاه‌ها مدل‌هایی با مجموع ۱۴ تا ۱۶ را می‌پذیرند.</p>
+<p>اما این موضوع یک قانون سراسری نیست.</p>
+<h3>مثال</h3>
+<p>فرض کنیم یک دانشگاه به‌صراحت اعلام کرده باشد:</p>
+<blockquote class="ex"><p class="de">Für den Studiengang werden insgesamt mindestens 16 TDN-Punkte akzeptiert. Kein Prüfungsteil darf unter TDN 3 liegen.</p></blockquote>
+<p class="tr">ترجمه: برای این رشته، مجموع حداقل ۱۶ امتیاز TDN پذیرفته می‌شود. هیچ بخشی نباید پایین‌تر از TDN 3 باشد.</p>
+<p>این شرط یک مثال فرضی است، نه نقل‌قول از دانشگاه مشخص.</p>
+<p>کارنامهٔ زیر را در نظر بگیر:</p>
+<div class="tbl"><table>
+<tr><th>مهارت</th><th>TDN</th></tr>
+<tr><td>Lesen</td><td>۵</td></tr>
+<tr><td>Hören</td><td>۵</td></tr>
+<tr><td>Schreiben</td><td>۳</td></tr>
+<tr><td>Sprechen</td><td>۴</td></tr>
+<tr><td>مجموع</td><td>۱۷</td></tr>
+</table></div>
+<p>در مدل فرضی بالا، داوطلب شرط مجموع را برآورده می‌کند و هیچ مهارتی زیر TDN 3 ندارد.</p>
+<p>اما همین کارنامه در دانشگاهی با شرط 4×4 کافی نیست.</p>
+<h3>یک نکتهٔ مهم دربارهٔ جمع نمرات</h3>
+<p>وقتی چهار سطح TDN را جمع می‌کنی، مثلاً به عدد ۱۷ می‌رسی.</p>
+<p>این عدد Gesamtpunktzahl دیجیتال از ۸۰ نیست.</p>
+<p>مجموع TDNها و مجموع امتیازهای مقیاس‌بندی‌شده دو چیز متفاوت‌اند.</p>
+<div class="tbl"><table>
+<tr><th>اصطلاح</th><th>نمونه</th><th>معنی</th></tr>
+<tr><td>Summe der TDN</td><td>۵+۵+۳+۴ = ۱۷</td><td>جمع سطوح چهار مهارت</td></tr>
+<tr><td>Digitale Gesamtpunktzahl</td><td>۱۷+۱۸+۹+۱۲ = ۵۶</td><td>جمع امتیازهای دیجیتال از ۸۰</td></tr>
+</table></div>
+<p>این دو نظام نباید با یکدیگر اشتباه گرفته شوند.</p>
+</section>
+
+<section class="pane">
+<h2 id="s8">۸. اگر نتیجهٔ دلخواهم را نگیرم، آیا می‌توانم دوباره در TestDaF شرکت کنم؟</h2>
+<p>بله.</p>
+<p><span class="de">Wiederholung der Prüfung</span> یعنی تکرار آزمون.</p>
+<p>طبق مقررات رسمی TestDaF، محدودیت عددی مشخصی برای تعداد دفعات شرکت مجدد وجود ندارد.</p>
+<p>بنابراین می‌توانی آزمون را به دفعات لازم تکرار کنی.</p>
+<p>اما دو نکته بسیار مهم وجود دارد.</p>
+<h3>۸.۱. در حالت عادی باید دوباره هر چهار بخش را امتحان بدهی</h3>
+<p>TestDaF برخلاف بعضی آزمون‌های ماژولار، امکان ثبت‌نام عادی صرفاً برای یک مهارت را ندارد.</p>
+<p>فرض کن چنین نتیجه‌ای گرفته‌ای:</p>
+<div class="tbl"><table>
+<tr><th>مهارت</th><th>نتیجه</th></tr>
+<tr><td>Lesen</td><td>۵</td></tr>
+<tr><td>Hören</td><td>۵</td></tr>
+<tr><td>Schreiben</td><td>۳</td></tr>
+<tr><td>Sprechen</td><td>۵</td></tr>
+</table></div>
+<p>اگر بخواهی در نوبت بعدی نتیجهٔ بهتری بگیری، در حالت عادی نمی‌توانی فقط Schreiben را انتخاب کنی.</p>
+<p>باید مجدداً در چهار بخش شرکت کنی.</p>
+<p>این قاعده هم برای آزمون کاغذی و هم برای آزمون دیجیتال برقرار است.</p>
+<h3>چرا این نکته مهم است؟</h3>
+<p>زیرا ممکن است زبان‌آموزی تصور کند:</p>
+<p>«سه بخش را به سطح موردنیاز رسانده‌ام؛ فقط هزینهٔ بخش نوشتن را می‌دهم و همان را تکرار می‌کنم.»</p>
+<p>در TestDaF چنین ثبت‌نام عادیِ تک‌مهارتی وجود ندارد.</p>
+<p>البته از سال ۲۰۲۶ برای نسخهٔ دیجیتال امکان صدور گواهی ترکیبی فراهم شده که در بخش بعدی دقیقاً توضیح می‌دهم.</p>
+<h3>۸.۲. آیا نمرات قبلی را از دست می‌دهم؟</h3>
+<p>نتیجهٔ هر نوبت، کارنامهٔ همان آزمون است.</p>
+<p>شرکت مجدد در آزمون به معنای حذف خودکار گواهی معتبر قبلی نیست.</p>
+<p>مثلاً اگر قبلاً نتیجهٔ 4×4 گرفته‌ای و برای دستیابی به TDN 5 دوباره شرکت کنی، نتیجهٔ جدید و قبلی، نتایج دو نوبت مستقل هستند.</p>
+<p>اما نباید تصور کنی که در گواهی عادی جدید، به‌صورت خودکار بهترین نمرات نوبت‌های قبلی جایگزین می‌شوند.</p>
+<p>این ویژگی فقط در قالب مشخص Kombiniertes Zertifikat دیجیتال و با رعایت شرایط آن وجود دارد.</p>
+<h3>۸.۳. آیا لازم است بین دو آزمون فاصلهٔ مشخصی باشد؟</h3>
+<p>مقررات رسمی محدودیت ثابتی مانند «حداقل سه ماه فاصله بین دو آزمون» تعیین نکرده‌اند.</p>
+<p>بااین‌حال، شرکت مجدد به زمان‌های برگزاری، ظرفیت مراکز و مهلت ثبت‌نام بستگی دارد.</p>
+<p>در FAQ رسمی TestDaF توصیه شده است که داوطلب پیش از ثبت‌نام مجدد، زمان کافی برای آمادگی اختصاص دهد.</p>
+<p>این توصیه از نظر آموزشی منطقی است.</p>
+<p>اگر بدون تغییر در سطح زبان یا روش تمرین، در فاصله‌ای کوتاه آزمون را تکرار کنی، دلیلی وجود ندارد که انتظار پیشرفت قابل‌توجهی داشته باشی.</p>
+<h3>مثال عملی</h3>
+<p>فرض کن در آزمون اول این نمرات را گرفته‌ای:</p>
+<p><span class="de">Lesen 5 — Hören 4 — Schreiben 3 — Sprechen 4</span></p>
+<p>در این وضعیت، تکرار کامل تمرین‌های Lesen احتمالاً بهترین استفاده از وقت نیست.</p>
+<p>باید بررسی کنی ضعف Schreiben دقیقاً کجاست: انجام ناقص صورت سؤال، ساختار استدلال، دقت گرامری، سرعت نوشتن یا پردازش نمودار.</p>
+<p>بنابراین تمرین پیش از آزمون دوم باید <span class="de">gezielte Vorbereitung</span> (آمادگی هدفمند) باشد.</p>
+</section>
+
+<section class="pane">
+<h2 id="s9">۹. تغییر مهم سال ۲۰۲۶: Kombiniertes Zertifikat</h2>
+<p>قابلیتی مخصوص TestDaF دیجیتال</p>
+<p>تا پیش از معرفی این امکان، هر گواهی عادی TestDaF نتیجهٔ یک نوبت آزمون را نشان می‌داد.</p>
+<p>اما از ۱۲ مهٔ ۲۰۲۶، TestDaF یک خدمت جدید برای شرکت‌کنندگان نسخهٔ دیجیتال معرفی کرده است.</p>
+<p>نام رسمی آن:</p>
+<p><span class="de">Kombiniertes Zertifikat für den digitalen TestDaF</span></p>
+<p>ترجمه: «گواهی ترکیبی آزمون دیجیتال TestDaF».</p>
+<p>این امکان به داوطلب اجازه می‌دهد بهترین نتایج هر مهارت را از چند نوبت آزمون دیجیتال، تحت شرایط مشخص، در یک گواهی ترکیبی قرار دهد.</p>
+<h3>۹.۱. این گواهی چگونه کار می‌کند؟</h3>
+<p>فرض کن دو بار در نسخهٔ دیجیتال TestDaF شرکت کرده‌ای.</p>
+<p>نتایج به این شکل هستند:</p>
+<div class="tbl"><table>
+<tr><th>مهارت</th><th>آزمون اول</th><th>آزمون دوم</th></tr>
+<tr><td>Lesen</td><td>TDN 5</td><td>TDN 4</td></tr>
+<tr><td>Hören</td><td>TDN 4</td><td>TDN 5</td></tr>
+<tr><td>Schreiben</td><td>TDN 3</td><td>TDN 4</td></tr>
+<tr><td>Sprechen</td><td>TDN 4</td><td>TDN 5</td></tr>
+</table></div>
+<p>در گواهی ترکیبی، می‌توان بهترین نتایج واجد شرایط را انتخاب کرد.</p>
+<p>در این مثال، نتیجهٔ ترکیبی چنین می‌شود:</p>
+<p>مثال فرضی از نتیجهٔ ترکیبی</p>
+<div class="tbl"><table>
+<tr><th>مهارت</th><th>TDN</th></tr>
+<tr><td>Lesen</td><td>۵</td></tr>
+<tr><td>Hören</td><td>۵</td></tr>
+<tr><td>Schreiben</td><td>۴</td></tr>
+<tr><td>Sprechen</td><td>۵</td></tr>
+</table></div>
+<p>در این مثال هر چهار مهارت حداقل TDN 4 دارند؛ اما پذیرش گواهی ترکیبی به دانشگاه مقصد بستگی دارد.</p>
+<p>این مثال اهمیت دارد، زیرا اکنون برای داوطلب نسخهٔ دیجیتال امکان استفاده از پیشرفت در نوبت‌های مختلف وجود دارد.</p>
+<p>اما باید محدودیت‌ها را دقیق شناخت.</p>
+<h3>۹.۲. شرایط رسمی گواهی ترکیبی</h3>
+<p>طبق توضیحات رسمی TestDaF:</p>
+<div class="tbl"><table>
+<tr><th>شرط</th><th>توضیح</th></tr>
+<tr><td>نوع آزمون</td><td>فقط دیجیتال</td></tr>
+<tr><td>دورهٔ مجاز</td><td>آزمون‌های برگزارشده در یک بازهٔ حداکثر شش‌ماهه</td></tr>
+<tr><td>قدیمی‌ترین نوبت قابل‌بررسی</td><td>از نوامبر ۲۰۲۵</td></tr>
+<tr><td>شناسهٔ داوطلب</td><td>آزمون‌ها باید با همان Teilnehmendennummer ثبت شده باشند</td></tr>
+<tr><td>انتخاب نمرات</td><td>از طریق درگاه داوطلبان</td></tr>
+<tr><td>دریافت گواهی</td><td>پس از درخواست و پرداخت هزینه</td></tr>
+<tr><td>اعتبارسنجی</td><td>با QR-Code یا فرم آنلاین</td></tr>
+<tr><td>پذیرش دانشگاهی</td><td>وابسته به تصمیم دانشگاه یا مؤسسهٔ مقصد</td></tr>
+</table></div>
+<p>هزینهٔ جاری درخواست: [بررسی در testdaf.de]</p>
+<p>این شرایط مربوط به قابلیت معرفی‌شده در سال ۲۰۲۶ هستند.</p>
+<h3>مثال دربارهٔ محدودیت شش‌ماهه</h3>
+<p>اگر دو آزمون دیجیتال خارج از بازهٔ شش‌ماههٔ مجاز برگزار شده باشند، نمی‌توان صرفاً به این دلیل که هر دو نتیجه در حساب داوطلب وجود دارند، آن‌ها را در یک گواهی ترکیبی قرار داد.</p>
+<p>همچنین نتیجهٔ نسخهٔ کاغذی را نمی‌توان با نتیجهٔ نسخهٔ دیجیتال در این سازوکار ترکیب کرد.</p>
+<h3>۹.۳. تفاوت گواهی عادی و ترکیبی</h3>
+<div class="tbl"><table>
+<tr><th>ویژگی</th><th>گواهی عادی</th><th>گواهی ترکیبی دیجیتال</th></tr>
+<tr><td>نتایج از چند نوبت</td><td>خیر</td><td>بله</td></tr>
+<tr><td>نشان‌دهندهٔ یک نوبت مشخص</td><td>بله</td><td>خیر، حاصل انتخاب نتایج چند نوبت است</td></tr>
+<tr><td>مختص نسخهٔ دیجیتال</td><td>خیر</td><td>بله</td></tr>
+<tr><td>هزینهٔ صدور جداگانه</td><td>برای دریافت معمول گواهی، خیر</td><td>بله</td></tr>
+<tr><td>پذیرش عمومی به‌عنوان گواهی استاندارد TestDaF</td><td>مطابق مقررات TestDaF</td><td>پذیرش ترکیب نتایج به تشخیص دانشگاه</td></tr>
+<tr><td>راستی‌آزمایی آنلاین</td><td>بله</td><td>بله</td></tr>
+</table></div>
+<h3>۹.۴. آیا دانشگاه‌ها موظف‌اند گواهی ترکیبی را بپذیرند؟</h3>
+<p>خیر؛ دست‌کم چنین پذیرش اجباری و عمومی از سوی TestDaF اعلام نشده است.</p>
+<p>وب‌سایت رسمی صریحاً توضیح می‌دهد که قبول‌کردن گواهی ترکیبی بر عهدهٔ دانشگاه یا مؤسسهٔ دریافت‌کننده است.</p>
+<p>این تفاوت بسیار مهم است.</p>
+<p>گواهی عادی با 4×4 در چارچوب مقررات استاندارد پذیرش جایگاه مشخصی دارد.</p>
+<p>اما برای یک گواهی ترکیبی باید بررسی کنی آیا دانشگاه موردنظر، استفاده از نتایج چند نوبت را مجاز می‌داند.</p>
+<h3>یک پیام آلمانی برای پرسیدن از دانشگاه</h3>
+<p>ترجمهٔ فارسی:</p>
+<p>با سلام و احترام،</p>
+<p>من قصد دارم برای رشتهٔ [نام رشته] درخواست پذیرش بدهم.</p>
+<p>مایلم بدانم آیا دانشگاه شما گواهی ترکیبی TestDaF دیجیتال را که بهترین نتایج چند آزمون در یک بازهٔ شش‌ماهه را در بر می‌گیرد، می‌پذیرد یا نه.</p>
+<p>آیا چنین گواهی‌ای با حداقل TDN 4 در هر چهار بخش برای اثبات مهارت زبان این رشته کافی محسوب می‌شود؟</p>
+<p>از پاسخ شما سپاسگزارم.</p>
+<p>با احترام، [نام]</p>
+<p>از نظر برنامه‌ریزی، تا زمانی که پاسخ روشن از دانشگاه نگرفته‌ای، نباید موفقیت در گواهی ترکیبی را معادل پذیرش قطعی شرط زبان فرض کنی.</p>
+</section>
+
+<section class="pane">
+<h2 id="s10">۱۰. نتیجهٔ TestDaF چه زمانی اعلام می‌شود؟</h2>
+<p>پس از آزمون، پاسخ‌ها باید پردازش و ارزیابی شوند.</p>
+<p>این فرایند را <span class="de">Auswertungszeit</span> می‌نامند؛ یعنی زمان لازم برای تصحیح و تعیین نتایج.</p>
+<p>بر اساس اطلاعات رسمی جاری TestDaF:</p>
+<div class="tbl"><table>
+<tr><th>نسخه</th><th>زمان معمول اعلام نتیجه</th></tr>
+<tr><td>Digitaler TestDaF</td><td>حدود ۳ هفته پس از آزمون</td></tr>
+<tr><td>Papierbasierter TestDaF</td><td>حدود ۶ هفته پس از آزمون</td></tr>
+</table></div>
+<p>این زمان‌ها تقریبی‌اند، نه ضمانت دریافت نتیجه در یک روز مشخص.</p>
+<p>برای هر نوبت آزمون، تاریخ برنامه‌ریزی‌شدهٔ اعلام نتایج در اطلاعات رسمی ثبت‌نام مشخص می‌شود.</p>
+<p>تاریخ دقیق اعلام نتیجه برای نوبت انتخابی: [بررسی در testdaf.de]</p>
+<h3>۱۰.۱. نتیجه را از کجا دریافت می‌کنی؟</h3>
+<p>نتایج در <span class="de">g.a.s.t.-Teilnehmenden-Portal</span>، یعنی درگاه اینترنتی داوطلبان، قرار می‌گیرند.</p>
+<p><a href="https://account.gast.de/">ورود به درگاه رسمی g.a.s.t.</a></p>
+<p>برای دسترسی باید با حساب داوطلبی خود وارد شوی.</p>
+<p>در این محیط می‌توانی نتیجهٔ چهار مهارت و گواهی مربوط را مشاهده و دریافت کنی.</p>
+<p>TestDaF اعلام کرده که نتایج پیش از تاریخ رسمی، از طریق تماس تلفنی یا ایمیل به داوطلبان ارائه نمی‌شوند.</p>
+<h3>۱۰.۲. چرا زمان اعلام نتیجه در برنامهٔ مهاجرت و دانشگاه مهم است؟</h3>
+<p>فرض کن دانشگاه برای دریافت مدرک زبان یک مهلت مشخص تعیین کرده است.</p>
+<p>اگر نسخهٔ کاغذی را نزدیک آن مهلت بدهی، ممکن است نتیجه‌ات هنوز منتشر نشده باشد.</p>
+<p>از طرف دیگر، اگر بخواهی بعد از یک نتیجهٔ نامناسب دوباره در آزمون شرکت کنی، باید فرصت کافی برای ثبت‌نام مجدد و دریافت نتیجهٔ دوم داشته باشی.</p>
+<p>در آلمانی:</p>
+<p><span class="de">Bewerbungsfrist</span>: مهلت درخواست پذیرش.</p>
+<p><span class="de">Nachreichfrist</span>: مهلت ارائهٔ تکمیلی مدرک.</p>
+<p><span class="de">Einschreibungsfrist</span>: مهلت ثبت‌نام قطعی.</p>
+<p>این سه مهلت ممکن است متفاوت باشند.</p>
+<p>بعضی دانشگاه‌ها اجازه می‌دهند مدرک زبان بعد از ارسال درخواست اولیه ارائه شود؛ برخی دیگر ممکن است آن را در همان مهلت درخواست لازم بدانند.</p>
+<p>نباید بدون بررسی فرض کنی که امکان <span class="de">Nachreichen</span>، یعنی تحویل دیرتر مدرک، همیشه وجود دارد.</p>
+<h3>مثال آلمانی</h3>
+<blockquote class="ex"><p class="de">Kann ich den TestDaF-Sprachnachweis nach Ablauf der Bewerbungsfrist nachreichen?</p></blockquote>
+<p class="tr">ترجمه: آیا می‌توانم مدرک زبان TestDaF را پس از پایان مهلت درخواست پذیرش ارائه کنم؟</p>
+<p>این پرسش باید از دانشگاه یا صفحهٔ رسمی پذیرش رشته پاسخ داده شود.</p>
+</section>
+<section class="pane">
+<h2 id="s11">۱۱. گواهی رسمی TestDaF چه شکلی است؟</h2>
+<p><span class="de">TestDaF-Zertifikat</span> به معنای گواهی رسمی نتیجهٔ آزمون است.</p>
+<p>این گواهی نشان می‌دهد در کدام نسخه و نوبت آزمون شرکت کرده‌ای و در هر چهار مهارت چه نتیجه‌ای گرفته‌ای.</p>
+<h3>۱۱.۱. آیا هنوز گواهی کاغذی با مهر و امضا صادر می‌شود؟</h3>
+<p>برای آزمون‌هایی که تا اوت ۲۰۲۰ برگزار شدند، گواهی‌های چاپی همراه با امضا و مهر برجسته صادر می‌شدند.</p>
+<p>اما از سپتامبر ۲۰۲۰، TestDaF گواهی‌های دیجیتال با طراحی جدید ارائه می‌کند.</p>
+<p>این گواهی‌ها بدون امضای دستی نیز معتبر هستند.</p>
+<p>بنابراین نباید تصور کنی که یک فایل PDF رسمی فقط به دلیل نداشتن مهر برجسته یا امضای دستی فاقد اعتبار است.</p>
+<p>در حال حاضر، هر دو نسخهٔ دیجیتال و کاغذی TestDaF گواهی دیجیتال دارند.</p>
+<h3>۱۱.۲. چه اطلاعاتی در گواهی وجود دارد؟</h3>
+<p>گواهی‌های جدید اطلاعات لازم برای شناسایی داوطلب، نوبت آزمون و نتایج مهارت‌ها را نشان می‌دهند.</p>
+<p>مهم‌ترین اطلاعاتی که باید بررسی کنی عبارت‌اند از:</p>
+<div class="tbl"><table>
+<tr><th>اطلاعات</th><th>کاربرد</th></tr>
+<tr><td>نام و مشخصات داوطلب</td><td>تطبیق هویت</td></tr>
+<tr><td>اطلاعات آزمون</td><td>شناسایی نوبت امتحان</td></tr>
+<tr><td>Testvariante</td><td>مشخص‌کردن نسخهٔ دیجیتال یا کاغذی</td></tr>
+<tr><td>نتیجهٔ Lesen</td><td>سطح خواندن</td></tr>
+<tr><td>نتیجهٔ Hören</td><td>سطح شنیدن</td></tr>
+<tr><td>نتیجهٔ Schreiben</td><td>سطح نوشتن</td></tr>
+<tr><td>نتیجهٔ Sprechen</td><td>سطح صحبت‌کردن</td></tr>
+<tr><td>امتیازهای مقیاس‌بندی‌شده در نسخهٔ دیجیتال</td><td>گزارش دقیق‌تر عملکرد</td></tr>
+<tr><td>QR-Code</td><td>راستی‌آزمایی اصالت گواهی</td></tr>
+</table></div>
+<p>ساختار رسمی و تصاویر نمونهٔ گواهی‌ها در صفحهٔ راستی‌آزمایی TestDaF قابل مشاهده‌اند.</p>
+<h3>۱۱.۳. دانشگاه چگونه اصالت گواهی را بررسی می‌کند؟</h3>
+<p>به این فرایند <span class="de">Zertifikatsverifikation</span> (راستی‌آزمایی گواهی) گفته می‌شود.</p>
+<p>دانشگاه می‌تواند از طریق QR-Code روی گواهی یا فرم آنلاین رسمی، اصالت آن را بررسی کند.</p>
+<p>این فرایند کمک می‌کند دانشگاه مطمئن شود اطلاعات ارائه‌شده با سوابق ثبت‌شده نزد g.a.s.t. مطابقت دارند.</p>
+<p><a href="https://www.testdaf.de/de/hochschulen/der-testdaf-und-hochschulen/verifikation-des-testdaf-zertifikats/">صفحهٔ رسمی راستی‌آزمایی TestDaF</a></p>
+<h3>آیا چاپ‌کردن PDF کافی است؟</h3>
+<p>از نظر خود TestDaF، گواهی دیجیتال معتبر است و می‌توان آن را چاپ کرد.</p>
+<p>اما شیوهٔ ارسال آن به دانشگاه به مقررات پذیرش بستگی دارد.</p>
+<p>ممکن است دانشگاه از تو بخواهد:</p>
+<ul>
+<li>فایل PDF را در سامانهٔ درخواست پذیرش آپلود کنی.</li>
+<li>آن را از طریق uni-assist ارائه کنی.</li>
+<li>نسخهٔ چاپی را همراه سایر مدارک تحویل بدهی.</li>
+</ul>
+<p>بنابراین باید میان اعتبار گواهی و روش تحویل گواهی تفاوت بگذاری.</p>
+</section>
+
+<section class="pane">
+<h2 id="s12">۱۲. اعتبار زمانی گواهی TestDaF</h2>
+<p>TestDaF طبق اعلام رسمی، اعتبار زمانی نامحدود دارد.</p>
+<p>اصطلاح آلمانی:</p>
+<p><span class="de">Unbegrenzt gültig</span> — معتبر بدون محدودیت زمانی.</p>
+<p>مثلاً اگر چند سال قبل TestDaF گرفته باشی، خود مدرک صرفاً به دلیل گذشت زمان منقضی نمی‌شود.</p>
+<p>اما بعضی دانشگاه‌ها ممکن است برای پذیرش، مدرک زبان جدیدتری درخواست کنند.</p>
+<p>پس دو وضعیت داریم:</p>
+<div class="tbl"><table>
+<tr><th>مسئله</th><th>پاسخ</th></tr>
+<tr><td>آیا خود گواهی TestDaF تاریخ انقضا دارد؟</td><td>خیر</td></tr>
+<tr><td>آیا تمام دانشگاه‌ها باید هر گواهی قدیمی را در هر شرایطی بپذیرند؟</td><td>چنین تضمینی وجود ندارد</td></tr>
+<tr><td>آیا شرکت مجدد باعث بی‌اعتبارشدن خودکار گواهی قبلی می‌شود؟</td><td>خیر</td></tr>
+<tr><td>آیا مدت اعتبار گواهی ترکیبی همانند گواهی معمولی نامحدود است؟</td><td>خود گواهی معتبر است؛ پذیرش ترکیب نتایج همچنان به دانشگاه بستگی دارد</td></tr>
+</table></div>
+<h3>مثال آلمانی</h3>
+<blockquote class="ex"><p class="de">Mein TestDaF-Zertifikat wurde vor mehreren Jahren ausgestellt. Wird es für die Bewerbung weiterhin anerkannt?</p></blockquote>
+<p class="tr">ترجمه: گواهی TestDaF من چند سال قبل صادر شده است. آیا همچنان برای درخواست پذیرش پذیرفته می‌شود؟</p>
+<p>اگر مدرک قدیمی داری، چنین پرسشی را باید از دانشگاه مقصد بپرسی.</p>
+</section>
+
+<section class="pane">
+<h2 id="s13">۱۳. اگر به نمرهٔ TestDaF اعتراض داشته باشم چه می‌شود؟</h2>
+<p>سه فرایند متفاوت وجود دارد که نباید آن‌ها را با هم اشتباه بگیری.</p>
+<p><span class="de">Ergebnisüberprüfung</span>: درخواست بازبینی نتیجه.</p>
+<p><span class="de">Einsichtnahme</span>: درخواست مشاهدهٔ عملکرد یا مدارک آزمون.</p>
+<p><span class="de">Beschwerde über die Prüfungsdurchführung</span>: شکایت از نحوهٔ برگزاری آزمون.</p>
+<p>هرکدام هدف و مهلت مخصوص خود را دارند.</p>
+<h3>۱۳.۱. Ergebnisüberprüfung — بازبینی نمره</h3>
+<p>اگر معتقد باشی نتیجهٔ یکی از مهارت‌ها اشتباه تعیین شده است، می‌توانی درخواست بازبینی بدهی.</p>
+<p>طبق مقررات رسمی، مهلت این درخواست چهار هفته پس از اعلام نتیجه است.</p>
+<p>درخواست باید از طریق درگاه داوطلبان g.a.s.t. ثبت شود.</p>
+<p>بررسی نتیجه هزینه دارد:</p>
+<p>هزینهٔ جاری بازبینی: [بررسی در testdaf.de]</p>
+<h3>چه چیزی بررسی می‌شود؟</h3>
+<p>کمیتهٔ آزمون، <span class="de">Prüfungsausschuss</span>، فرایند ارزیابی نتیجهٔ مورداعتراض را بررسی می‌کند.</p>
+<p>اگر بررسی باعث اصلاح گواهی شود، طبق مقررات اعلام‌شده، هزینهٔ پرداخت‌شده برای بازبینی بازگردانده می‌شود.</p>
+<p>اما اعتراض به معنای تغییر قطعی نتیجه نیست.</p>
+<p>ممکن است نتیجه پس از بازبینی بدون تغییر باقی بماند.</p>
+<h3>مثال</h3>
+<p>فرض کن در بخش Schreiben دیجیتال امتیاز ۹ گرفته‌ای که معادل TDN 3 است.</p>
+<p>مرز شروع TDN 4 در نسخهٔ دیجیتال امتیاز ۱۰ است.</p>
+<p>ممکن است به دلیل نزدیک‌بودن نتیجه به مرز سطح بعدی، بخواهی بازبینی درخواست کنی.</p>
+<p>اما نزدیک‌بودن به مرز به‌تنهایی اثبات نمی‌کند که نمره اشتباه است.</p>
+<p>در چنین شرایطی بهتر است درخواست را براساس وجود دلیل واقعی برای تردید در تصحیح مطرح کنی، نه صرفاً امید به دریافت یک امتیاز بیشتر.</p>
+<h3>۱۳.۲. Einsichtnahme — مشاهدهٔ مدارک یا عملکرد آزمون</h3>
+<p>این گزینه با بازبینی نمره متفاوت است.</p>
+<p>ممکن است بخواهی عملکرد ثبت‌شدهٔ خودت را بررسی کنی.</p>
+<p>طبق FAQ رسمی TestDaF می‌توانی حداکثر چهار هفته پس از اعلام نتیجه برای مشاهدهٔ عملکرد آزمون درخواست بدهی.</p>
+<p>درخواست باید با ایمیل به نشانی زیر ارسال شود:</p>
+<p>kontakt@gast.de</p>
+<p>لازم است اطلاعات زیر را مشخص کنی:</p>
+<div class="tbl"><table>
+<tr><th>اطلاعات</th><th>توضیح</th></tr>
+<tr><td>Prüfungstermin</td><td>نوبت آزمون</td></tr>
+<tr><td>Teilnehmenden-Nummer</td><td>شمارهٔ داوطلبی</td></tr>
+<tr><td>Prüfungsteil / Modul</td><td>مهارت یا بخشی که درخواست مشاهدهٔ آن را داری</td></tr>
+</table></div>
+<p>طبق FAQ، برای این درخواست فرم ویژه‌ای لازم نیست.</p>
+<h3>تفاوت مشاهده و بازبینی</h3>
+<div class="tbl"><table>
+<tr><th>موضوع</th><th>Einsichtnahme</th><th>Ergebnisüberprüfung</th></tr>
+<tr><td>هدف</td><td>مشاهدهٔ عملکرد و مدارک</td><td>بررسی درستی نتیجهٔ اعلام‌شده</td></tr>
+<tr><td>تغییر مستقیم نمره</td><td>هدف فرایند نیست</td><td>ممکن است در صورت تشخیص خطا رخ دهد</td></tr>
+<tr><td>مهلت</td><td>۴ هفته پس از اعلام نتیجه</td><td>۴ هفته پس از اعلام نتیجه</td></tr>
+<tr><td>روش درخواست</td><td>ایمیل به g.a.s.t.</td><td>درگاه داوطلبان</td></tr>
+<tr><td>هزینه</td><td>شرایط مراجعه را با g.a.s.t. بررسی کن</td><td>بازبینی هزینه دارد</td></tr>
+</table></div>
+<p>این دو فرایند جایگزین یکدیگر نیستند.</p>
+<p>اگر هدف تو اعتراض رسمی به نتیجه است، صرف ارسال درخواست مشاهده نباید به‌عنوان ثبت خودکار اعتراض تلقی شود.</p>
+<h3>۱۳.۳. Beschwerde über die Prüfungsdurchführung — شکایت از برگزاری</h3>
+<p>این نوع شکایت مربوط به مشکلات اجرایی روز امتحان است.</p>
+<p>برای مثال:</p>
+<ul>
+<li>اختلال جدی در پخش فایل صوتی</li>
+<li>مشکل فنی رایانه یا میکروفون</li>
+<li>شرایط نامناسبی که اجرای تکلیف را مختل کرده</li>
+<li>برخورد غیرمنصفانه یا تخلف از مقررات اجرا</li>
+</ul>
+<p>طبق مقررات رسمی، مهلت شکایت از نحوهٔ برگزاری پنج روز کاری پس از امتحان است.</p>
+<p>در آلمانی:</p>
+<p><span class="de">Fünf Werktage nach der Prüfung</span></p>
+<p>یعنی پنج روز کاری پس از آزمون.</p>
+<p>این مهلت از روز آزمون محاسبه می‌شود، نه از روز اعلام نتیجه.</p>
+<h3>مثال آلمانی برای توضیح مشکل</h3>
+<blockquote class="ex"><p class="de">Während des Prüfungsteils Hören kam es wiederholt zu technischen Störungen. Dadurch konnte ich mehrere Abschnitte der Tonaufnahme nicht vollständig verstehen.</p></blockquote>
+<p class="tr">ترجمه: در طول بخش شنیداری چند بار اختلال فنی رخ داد. به همین دلیل نتوانستم چند قسمت از فایل صوتی را به‌طور کامل بفهمم.</p>
+<h3>چه اطلاعاتی باید در شکایت باشد؟</h3>
+<p>باید بتوانی مشخص کنی مشکل چه زمانی و در کدام بخش رخ داده، چگونه بر عملکردت تأثیر گذاشته و مربوط به کدام مرکز بوده است.</p>
+<p>همچنین بهتر است مشکل فنی را همان روز به مسئول مرکز اطلاع داده باشی.</p>
+<p>اطلاع‌دادن فوری و شکایت رسمی بعدی دو مرحلهٔ متفاوت‌اند.</p>
+</section>
+
+<section class="pane">
+<h2 id="s14">۱۴. اگر نقص فنی باعث شود یکی از بخش‌ها قابل‌ارزیابی نباشد چه؟</h2>
+<p>این وضعیت با دریافت نمرهٔ پایین فرق دارد.</p>
+<p>فرض کن در بخش Sprechen مشکلی فنی رخ داده و پاسخ‌های ضبط‌شده به‌دلیل نقص فنی قابل‌ارزیابی نباشند.</p>
+<p>طبق شرایط رسمی g.a.s.t.، اگر یک بخش به دلیل مشکل فنی قابل‌تصحیح نباشد، مؤسسه موضوع را به داوطلب اطلاع می‌دهد و <span class="de">Teilzeugnis</span> صادر می‌کند.</p>
+<p><span class="de">Teilzeugnis</span> یعنی گواهی یا کارنامهٔ بخشی.</p>
+<p>در این شرایط، برای داوطلب حق تکرار همان بخش در یکی از نوبت‌های بعدی پیش‌بینی شده است.</p>
+<p>این یک استثنای مشخص است.</p>
+<p>نباید آن را با امکان معمول تکرار انتخابی یک مهارت اشتباه گرفت.</p>
+<h3>مقایسهٔ دو موقعیت</h3>
+<div class="tbl"><table>
+<tr><th>وضعیت</th><th>امکان تکرار فقط یک بخش</th></tr>
+<tr><td>Schreiben را امتحان داده‌ای و TDN 3 گرفته‌ای</td><td>در حالت عادی خیر</td></tr>
+<tr><td>Sprechen به دلیل نقص فنی قابل‌ارزیابی نیست و g.a.s.t. این موضوع را تأیید کرده</td><td>طبق مقررات خاص نقص فنی، بله</td></tr>
+</table></div>
+<p>اگر چنین وضعیتی رخ دهد، باید مطابق اطلاع‌رسانی رسمی g.a.s.t. اقدام کنی.</p>
+</section>
+<section class="pane">
+<h2 id="s15">۱۵. پس از دریافت نتیجه چه تصمیمی باید بگیری؟</h2>
+<p>برای تصمیم‌گیری بهتر، می‌توان کارنامه‌ها را به چهار وضعیت تقسیم کرد.</p>
+<h3>وضعیت اول: چهار مهارت حداقل TDN 4 دارند</h3>
+<p>مثلاً:</p>
+<p><span class="de">4 — 4 — 4 — 4</span></p>
+<p>در این حالت شرط عمومی زبان دانشگاهی را برآورده کرده‌ای.</p>
+<p>اگر دانشگاه مقصد همین معیار را داشته باشد، نیازی نیست صرفاً برای افزایش نمره دوباره در TestDaF شرکت کنی.</p>
+<p>در این وضعیت باید توجهت را بر تکمیل مدارک و سایر شرایط پذیرش بگذاری.</p>
+<h3>وضعیت دوم: فقط یک مهارت TDN 3 است</h3>
+<p>مثلاً:</p>
+<p><span class="de">5 — 4 — 3 — 5</span></p>
+<p>در این حالت سه مسیر ممکن وجود دارد.</p>
+<p>اول، بررسی کنی آیا دانشگاه مقصد همین ترکیب را می‌پذیرد.</p>
+<p>دوم، اگر نسخهٔ دیجیتال داده‌ای، بررسی کنی آیا می‌توانی در آینده از گواهی ترکیبی استفاده کنی و آیا دانشگاه آن را قبول دارد.</p>
+<p>سوم، در صورت نیاز برای تکرار آزمون آماده شوی.</p>
+<p>اولویت آموزشی باید مهارتی باشد که به معیار موردنیاز نرسیده است.</p>
+<h3>وضعیت سوم: دو یا چند مهارت TDN 3 هستند</h3>
+<p>مثلاً:</p>
+<p><span class="de">3 — 4 — 3 — 4</span></p>
+<p>در چنین وضعیتی، علاوه بر تمرین قالب آزمون، باید بررسی کنی آیا ضعف عمومی‌تری در زبان دانشگاهی وجود دارد.</p>
+<p>ممکن است در خواندن و نوشتن با واژگان علمی، ساختارهای پیچیده یا پردازش متن مشکل داشته باشی.</p>
+<p>در این حالت تمرین صرف تکنیک‌های تست‌زنی احتمالاً کافی نیست.</p>
+<h3>وضعیت چهارم: یک یا چند مهارت زیر TDN 3 هستند</h3>
+<p>این نتیجه نشان می‌دهد عملکرد در آن مهارت به حداقل سطح گزارش‌شدهٔ TestDaF نرسیده است.</p>
+<p>در چنین وضعیتی باید ابتدا مشخص کنی مشکل از ضعف پایه‌ای زبان است یا از ناآشنایی شدید با قالب آزمون و محدودیت زمانی.</p>
+<p>اگر مثلاً در Hörverstehen زیر TDN 3 گرفته‌ای، بهتر است پیش از تکرار آزمون توانایی فهم گفتار طبیعی آلمانی را تقویت کنی و سپس به تمرین سؤال‌های TestDaF برگردی.</p>
+<h3>جدول تصمیم‌گیری</h3>
+<div class="tbl"><table>
+<tr><th>وضعیت نتیجه</th><th>اقدام منطقی</th></tr>
+<tr><td>همهٔ مهارت‌ها TDN 4 یا 5</td><td>بررسی شرایط رشته و ارائهٔ مدرک</td></tr>
+<tr><td>یک مهارت TDN 3</td><td>بررسی امکان پذیرش استثنایی یا تکرار هدفمند</td></tr>
+<tr><td>چند مهارت TDN 3</td><td>تقویت مهارت‌ها همراه با تمرین آزمون</td></tr>
+<tr><td>یک یا چند مهارت زیر TDN 3</td><td>بازبینی جدی‌تر آمادگی زبانی</td></tr>
+<tr><td>نتیجهٔ نزدیک به مرز و احتمال خطای ارزیابی</td><td>بررسی امکان درخواست بازبینی در مهلت رسمی</td></tr>
+<tr><td>نقص فنی ثبت‌شده</td><td>پیگیری طبق مقررات مربوط به مشکلات اجرایی</td></tr>
+</table></div>
+</section>
+
+<section class="pane">
+<h2 id="s16">۱۶. چند سؤال مهم دربارهٔ نمره و کارنامه</h2>
+<h3>آیا TestDaF نتیجهٔ «قبول» یا «رد» دارد؟</h3>
+<p>TestDaF در درجهٔ اول توانایی هر مهارت را با سطح TDN گزارش می‌کند.</p>
+<p>برای پذیرش دانشگاهی، معیار قبولی یا کافی‌بودن نتیجه را دانشگاه تعیین می‌کند.</p>
+<p>پس بهتر است به‌جای پرسیدن «آیا TestDaF را قبول شدم؟»، بپرسی:</p>
+<p>«آیا نتیجهٔ من شرط زبانی رشتهٔ موردنظرم را برآورده می‌کند؟»</p>
+<h3>آیا اگر در هر چهار بخش TDN 3 بگیرم، گواهی بی‌فایده است؟</h3>
+<p>خیر، اما چنین نتیجه‌ای معیار عمومی 4×4 را برآورده نمی‌کند.</p>
+<p>ممکن است در برخی موقعیت‌ها یا مراکز برای اثبات سطح فعلی زبان مفید باشد.</p>
+<h3>آیا TDN 5 در یک مهارت به معنای سطح C2 آن مهارت است؟</h3>
+<p>خیر. TDN 5 بالاترین سطح TestDaF است و در محدودهٔ C1 قرار دارد.</p>
+<h3>آیا می‌توانم فقط با مجموع ۱۶ سطح TDN وارد تمام دانشگاه‌ها شوم؟</h3>
+<p>خیر.</p>
+<p>مجموع ۱۶، بدون بررسی ترکیب مهارت‌ها و مقررات دانشگاه، پذیرش را تضمین نمی‌کند.</p>
+<p>مثلاً 4+4+4+4 با 5+5+3+3 از نظر شرط 4×4 یکسان نیست.</p>
+<h3>آیا امتیاز ۱۵ از ۲۰ در TestDaF دیجیتال معادل TDN 5 است؟</h3>
+<p>خیر. امتیاز ۱۵ در محدودهٔ TDN 4 است.</p>
+<p>TDN 5 در مقیاس دیجیتال از امتیاز ۱۶ شروع می‌شود.</p>
+<h3>آیا ممکن است در آزمون دوم نمره‌ام کمتر شود؟</h3>
+<p>بله، چون هر نوبت عملکرد همان روز را می‌سنجد.</p>
+<p>اما این موضوع گواهی معتبر قبلی را به‌طور خودکار باطل نمی‌کند.</p>
+<h3>آیا نتایج نسخهٔ کاغذی و دیجیتال از نظر سطح TDN هم‌ارزند؟</h3>
+<p>بله.</p>
+<p>وب‌سایت رسمی TestDaF تصریح می‌کند که سطوح TDN در هر دو نسخه نشان‌دهندهٔ توانایی‌های زبانی معادل هستند.</p>
+<p>تفاوت در ساختار سؤال‌ها و نحوهٔ گزارش امتیاز است، نه اعتبار خود سطح TDN.</p>
+<h3>آیا اگر نتیجهٔ من پایین باشد، بهتر است فوراً اعتراض کنم؟</h3>
+<p>نه لزوماً.</p>
+<p>ابتدا باید تفاوت میان نارضایتی از نمره و وجود احتمال خطا در ارزیابی را مشخص کنی.</p>
+<p>اگر عملکرد خودت در آزمون به‌وضوح ضعیف بوده، تکرار آزمون پس از تمرین هدفمند ممکن است مسیر مناسب‌تری باشد.</p>
+<p>در مقابل، اگر دلیل مشخصی برای تردید دربارهٔ ارزیابی داری، باید مهلت چهار هفته‌ای اعتراض را رعایت کنی.</p>
+</section>
+
+<section class="pane">
+<h2 id="s17">۱۷. مهم‌ترین اصطلاحات آلمانی مرتبط با نتایج</h2>
+<div class="tbl"><table>
+<tr><th>اصطلاح</th><th>معنی فارسی</th></tr>
+<tr><td>Prüfungsergebnis</td><td>نتیجهٔ آزمون</td></tr>
+<tr><td>Prüfungsteil</td><td>بخش آزمون</td></tr>
+<tr><td>TestDaF-Niveaustufe</td><td>سطح مهارتی TestDaF</td></tr>
+<tr><td>Rohpunkte</td><td>امتیازهای خام</td></tr>
+<tr><td>Skalierte Punkte</td><td>امتیازهای مقیاس‌بندی‌شده</td></tr>
+<tr><td>Gesamtpunktzahl</td><td>مجموع امتیازهای عددی</td></tr>
+<tr><td>Mindestanforderung</td><td>حداقل شرط</td></tr>
+<tr><td>Sprachnachweis</td><td>مدرک اثبات مهارت زبان</td></tr>
+<tr><td>Uneingeschränkte Zulassung</td><td>پذیرش بدون محدودیت مربوط به شرط زبان</td></tr>
+<tr><td>Ausgleich</td><td>جبران نمره با عملکرد قوی‌تر</td></tr>
+<tr><td>Wiederholung</td><td>تکرار آزمون</td></tr>
+<tr><td>Ergebnisbekanntgabe</td><td>اعلام نتیجه</td></tr>
+<tr><td>Auswertungszeit</td><td>مدت تصحیح و ارزیابی</td></tr>
+<tr><td>Zertifikat</td><td>گواهی</td></tr>
+<tr><td>Kombiniertes Zertifikat</td><td>گواهی ترکیبی</td></tr>
+<tr><td>Zertifikatsverifikation</td><td>راستی‌آزمایی گواهی</td></tr>
+<tr><td>Ergebnisüberprüfung</td><td>بازبینی نتیجه</td></tr>
+<tr><td>Einsichtnahme</td><td>مشاهدهٔ عملکرد یا مدارک آزمون</td></tr>
+<tr><td>Prüfungsausschuss</td><td>کمیتهٔ آزمون</td></tr>
+<tr><td>Teilzeugnis</td><td>گواهی بخشی</td></tr>
+<tr><td>Gültigkeitsdauer</td><td>مدت اعتبار</td></tr>
+</table></div>
+<h3>نمونهٔ کاربرد این اصطلاحات</h3>
+<blockquote class="ex"><p class="de">Mein Ergebnis im Prüfungsteil Schreiben liegt bei TDN 3. Ich möchte wissen, ob ein Ausgleich durch mein Ergebnis im Lesen möglich ist.</p></blockquote>
+<p class="tr">ترجمه: نتیجهٔ من در بخش نوشتن TDN 3 است. می‌خواهم بدانم آیا امکان جبران آن با نتیجهٔ بخش خواندن وجود دارد یا نه.</p>
+<blockquote class="ex"><p class="de">Ich möchte innerhalb der vorgesehenen Frist eine Überprüfung meines Prüfungsergebnisses beantragen.</p></blockquote>
+<p class="tr">ترجمه: می‌خواهم در مهلت تعیین‌شده درخواست بازبینی نتیجهٔ آزمونم را ثبت کنم.</p>
+<blockquote class="ex"><p class="de">Das digitale TestDaF-Zertifikat ist unbegrenzt gültig und kann online verifiziert werden.</p></blockquote>
+<p class="tr">ترجمه: گواهی دیجیتال TestDaF اعتبار زمانی نامحدود دارد و می‌توان اصالت آن را به‌صورت آنلاین بررسی کرد.</p>
+</section>
+
+<section class="pane">
+<h2 id="s18">۱۸. منابع رسمی پارت هفتم</h2>
+<p>تمام مقررات اصلی این پارت از وب‌سایت TestDaF و g.a.s.t. بررسی شده‌اند.</p>
+<p>Auswertung des digitalen TestDaF</p>
+<p>تبدیل امتیازهای ۰ تا ۲۰ به TDN و شیوهٔ تصحیح دیجیتال.</p>
+<p><a href="https://www.testdaf.de/de/teilnehmende/der-digitale-testdaf/auswertung-des-digitalen-testdaf/">منبع رسمی</a></p>
+<p>Auswertung des papierbasierten TestDaF</p>
+<p>امتیاز خام خواندن و شنیدن، استانداردسازی و ارزیابی نوشتن و صحبت‌کردن.</p>
+<p><a href="https://www.testdaf.de/de/teilnehmende/der-papierbasierte-testdaf/auswertung-des-papierbasierten-testdaf/">منبع رسمی</a></p>
+<p>TestDaF-Niveaustufen (TDN)</p>
+<p>توصیف رسمی توانایی‌های TDN 3، 4 و 5 در هر چهار مهارت.</p>
+<p><a href="https://www.testdaf.de/de/teilnehmende/warum-testdaf/testdaf-niveaus-tdn/">منبع رسمی</a></p>
+<p>FAQ: TestDaF-Ergebnisse und Zertifikat</p>
+<p>اعلام نتایج، پذیرش دانشگاهی، درخواست بازبینی، مشاهدهٔ عملکرد و گواهی ترکیبی.</p>
+<p><a href="https://www.testdaf.de/de/teilnehmende/mein-testdaf/faq/faq-ergebnisse-und-zertifikat/">پرسش‌های رسمی</a></p>
+<p>Verifikation des TestDaF-Zertifikats</p>
+<p>اعتبارسنجی، نمونهٔ گواهی‌ها و جزئیات گواهی ترکیبی ۲۰۲۶.</p>
+<p><a href="https://www.testdaf.de/de/hochschulen/der-testdaf-und-hochschulen/verifikation-des-testdaf-zertifikats/">منبع رسمی</a></p>
+<p>AGB — مقررات رسمی g.a.s.t.</p>
+<p>مهلت اعتراض، هزینه‌های بازبینی، مشکلات فنی و حقوق داوطلب بعد از آزمون.</p>
+<p><a href="https://www.testdaf.de/de/agb/">مقررات رسمی</a></p>
+<p>TestDaF-Termine und Anmeldung</p>
+<p>زمان‌های رسمی آزمون، مهلت ثبت‌نام و تاریخ برنامه‌ریزی‌شدهٔ نتایج.</p>
+<p><a href="https://www.testdaf.de/de/teilnehmende/mein-testdaf/testdaf-termine-und-anmeldung/">مشاهده</a></p>
+</section>
+
+<section class="pane">
+<h2>جمع‌بندی پارت هفتم</h2>
+<p>نظام نمره‌دهی TestDaF براساس ارزیابی جداگانهٔ چهار مهارت است و برای کل آزمون یک سطح نهایی واحد صادر نمی‌شود.</p>
+<p>در نسخهٔ کاغذی، امتیاز خام خواندن و شنیدن به سطح TDN تبدیل می‌شود و حداقل تعداد پاسخ‌های درست برای هر سطح در تمام نوبت‌ها ثابت نیست.</p>
+<p>در نسخهٔ دیجیتال، امتیاز هر مهارت از صفر تا ۲۰ است. امتیازهای ۱۰ تا ۱۵ معادل TDN 4 و امتیازهای ۱۶ تا ۲۰ معادل TDN 5 هستند.</p>
+<p>حداقل TDN 4 در هر چهار مهارت، معیار عمومی اثبات زبان برای تحصیل دانشگاهی در آلمان است. بعضی دانشگاه‌ها ممکن است ترکیب‌های متفاوتی را بپذیرند، اما این استثنا باید در مقررات همان رشته بررسی شود.</p>
+<p>TestDaF را می‌توان به دفعات لازم تکرار کرد، ولی در حالت عادی باید هر چهار مهارت را دوباره امتحان داد. از مهٔ ۲۰۲۶، گواهی ترکیبی نسخهٔ دیجیتال امکان استفاده از بهترین نتایج چند نوبتِ واجد شرایط را فراهم کرده است؛ پذیرش این گواهی به دانشگاه بستگی دارد.</p>
+<p>نتایج معمولاً حدود سه هفته پس از نسخهٔ دیجیتال و شش هفته پس از نسخهٔ کاغذی منتشر می‌شوند. گواهی‌ها دیجیتال و دارای اعتبار زمانی نامحدود هستند.</p>
+<p>برای اعتراض به نتیجه چهار هفته پس از اعلام نمره فرصت وجود دارد؛ شکایت از مشکلات اجرایی روز امتحان نیز مهلت جداگانهٔ پنج روز کاری دارد.</p>
+<p>در پارت هشتم سراغ ثبت‌نام و اجرای TestDaF می‌رویم: ساخت حساب کاربری، انتخاب نسخه و مرکز، مدارک هویتی، هزینه و شیوهٔ پرداخت، مهلت‌های ثبت‌نام، مقررات انصراف، وسایل مجاز و ممنوع، شرایط ویژهٔ داوطلبان و جزئیات مهم اجرای دیجیتال و کاغذی.</p>
+</section>
+
+<section class="pane note">
+<p><a href="testdaf.html">پارت‌های دیگر ←</a></p>
+</section>
+</main>
+</body>
+</html>
