@@ -1,7 +1,7 @@
 // POOF service worker — اسناد HTML شبکه‌اول (network-first)، بقیه‌ی فایل‌های خودِ اپ کش‌اول (cache-first)
 // فقط برای فایل‌های خودِ اپ (same-origin) — درخواست‌های خارجی دست‌نخورده می‌مانند
-const CACHE = 'poof-v110';
-const CORE = ['./', './index.html', './poof-core.js', './dict-fa.jsonl', './learn.html', './practice.html', './testdaf.html', './testdaf-part1.html', './theme-snowy.css', './theme-classic.css', './manifest.webmanifest', './icon.svg', './icon-192.png', './icon-512.png', './icon-maskable-512.png'];
+const CACHE = 'poof-v111';
+const CORE = ['./', './index.html', './poof-core.js', './dict-fa.jsonl', './learn.html', './practice.html', './testdaf.html', './testdaf-part1.html', './testdaf-part2.html', './theme-snowy.css', './theme-classic.css', './manifest.webmanifest', './icon.svg', './icon-192.png', './icon-512.png', './icon-maskable-512.png'];
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(CORE)).then(() => self.skipWaiting()));
 });
