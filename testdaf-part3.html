@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#111111">
+<meta name="description" content="راهنمای جامع آزمون TestDaF — پارت ۳: Leseverstehen: درک مطلب، ساختار سؤال‌ها، تکنیک‌های خواندن، مدیریت زمان و روش تمرین">
+<script>try{var _t=(JSON.parse(localStorage.getItem('poof_v2')||'{}').theme==='snowy')?'snowy':'classic';document.write('<link rel="stylesheet" id="themeCss" href="theme-'+_t+'.css?v=16">')}catch(e){document.write('<link rel="stylesheet" id="themeCss" href="theme-classic.css?v=16">')}</script>
+<script src="poof-core.js"></script><script>try{var _pv={};try{_pv=JSON.parse(localStorage.getItem('poof_v2')||'{}')||{};}catch(e){}var _th=(_pv.theme==='snowy'||_pv.theme==='classic'||_pv.theme==='lilac'||_pv.theme==='peachy'||_pv.theme==='minty'||_pv.theme==='ocean'||_pv.theme==='sun'||_pv.theme==='nebula')?_pv.theme:null;if(!_th){var _old=null;try{_old=localStorage.getItem('ddd_theme');}catch(e){}_th=(_old==='light')?'snowy':(_old==='dark')?'classic':'classic';}document.documentElement.dataset.theme=_th;var _m=document.querySelector('meta[name="theme-color"]');if(_m)_m.content=_th==='snowy'?'#081421':_th==='classic'?'#111111':_th==='lilac'?'#EEF2FF':_th==='peachy'?'#FFF7ED':_th==='minty'?'#F0FDF4':_th==='ocean'?'#0B1E3A':_th==='sun'?'#FFF7E0':_th==='nebula'?'#1A0B2E':'#111111';}catch(e){}</script><title>TestDaF | راهنمای جامع آزمون</title>
+<style>
+:root{color-scheme:dark;--bg:#111111;--card:#1b1814;--glass:rgba(27,24,20,.72);--ink:#f5f1e8;--muted:#b8b0a4;--border:#4a4032;--primary:#e6b96f;--primary-on:#1b1814;--soft:rgba(255,255,255,.06)}
+html[data-theme="snowy"]{color-scheme:dark;--bg:#081421;--card:#10263a;--glass:rgba(16,38,58,.72);--ink:#f3f8fc;--muted:#b8c7d3;--border:#294861;--primary:#f3c879;--primary-on:#081421;--soft:rgba(243,200,121,.08)}
+html[data-theme="classic"]{color-scheme:dark;--bg:#111111;--card:#1b1814;--glass:rgba(27,24,20,.72);--ink:#f5f1e8;--muted:#b8b0a4;--border:#4a4032;--primary:#e6b96f;--primary-on:#1b1814;--soft:rgba(255,255,255,.06)}
+html[data-theme="lilac"]{color-scheme:light;--bg:#EEF2FF;--card:#FFFFFF;--glass:rgba(255,255,255,.75);--ink:#1E1B4B;--muted:#55547E;--border:#C7D2FE;--primary:#4F46E5;--primary-on:#FFFFFF;--soft:rgba(79,70,229,.06)}
+html[data-theme="peachy"]{color-scheme:light;--bg:#FFF7ED;--card:#FFFFFF;--glass:rgba(255,255,255,.75);--ink:#1C1917;--muted:#57534E;--border:#FED7AA;--primary:#F97316;--primary-on:#1C1917;--soft:rgba(249,115,22,.06)}
+html[data-theme="minty"]{color-scheme:light;--bg:#F0FDF4;--card:#FFFFFF;--glass:rgba(255,255,255,.75);--ink:#052E16;--muted:#365314;--border:#BBF7D0;--primary:#166534;--primary-on:#FFFFFF;--soft:rgba(22,101,52,.06)}
+html[data-theme="ocean"]{color-scheme:dark;--bg:#0B1E3A;--card:#12294D;--glass:rgba(18,41,77,.72);--ink:#E8F1FF;--muted:#A8BDD8;--border:#2A4A73;--primary:#38BDF8;--primary-on:#0B1E3A;--soft:rgba(56,189,248,.08)}
+html[data-theme="sun"]{color-scheme:light;--bg:#FFF7E0;--card:#FFFFFF;--glass:rgba(255,255,255,.75);--ink:#3B2A00;--muted:#6B5A2E;--border:#F5D67B;--primary:#B45309;--primary-on:#FFFFFF;--soft:rgba(180,83,9,.06)}
+html[data-theme="nebula"]{color-scheme:dark;--bg:#1A0B2E;--card:#2A1650;--glass:rgba(42,22,80,.72);--ink:#F3EFFF;--muted:#C9B8E8;--border:#4C2E85;--primary:#F5C97B;--primary-on:#1A0B2E;--soft:rgba(245,201,123,.08)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100svh;background:var(--bg);color:var(--ink);font:16px/1.9 "DM Sans",Vazirmatn,system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;padding:env(safe-area-inset-top) 12px calc(48px + env(safe-area-inset-bottom))}
+#tdScenic{position:fixed;inset:0;z-index:0;pointer-events:none;display:none;background-size:cover;background-position:center;background-repeat:no-repeat}
+html[data-theme="ocean"] #tdScenic{display:block;background-image:url('pouf-blue-scene-read.webp')}
+html[data-theme="nebula"] #tdScenic{display:block;background-image:url('pouf-nebula-scene-read.webp')}
+body>*{position:relative;z-index:1}
+main{max-width:760px;margin:0 auto}
+a{color:var(--primary)}
+header{position:relative;overflow:hidden;border:1px solid var(--border);border-radius:20px;background:var(--glass);backdrop-filter:blur(10px) saturate(1.25);-webkit-backdrop-filter:blur(10px) saturate(1.25);padding:18px 16px 16px;margin-bottom:15px;text-align:center}
+header::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.18),rgba(0,0,0,.55));z-index:0;pointer-events:none}
+.td-head{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:2px}
+.poof-mascot{width:56px;height:56px;flex:none;background-size:cover;background-repeat:no-repeat;background-position:center}
+header h1{margin:8px 0 2px;font-size:1.6rem}
+header p{margin:0;color:var(--muted)}
+section.pane{background:var(--glass);backdrop-filter:blur(10px) saturate(1.25);-webkit-backdrop-filter:blur(10px) saturate(1.25);border:1px solid var(--border);border-radius:20px;padding:18px 16px;margin-bottom:15px}
+h2{font-size:1.3rem;margin:0 0 10px;padding-bottom:8px;border-bottom:2px solid var(--primary)}
+h3{font-size:1.1rem;margin:22px 0 8px;color:var(--primary)}
+p{margin:10px 0}
+ul,ol{margin:8px 0;padding-inline-start:22px}
+li{margin:4px 0}
+.de{direction:ltr;unicode-bidi:embed;font-family:Georgia,"Times New Roman",serif}
+blockquote.ex{margin:14px 0;padding:12px 14px;border-inline-start:3px solid var(--primary);background:var(--soft);border-radius:12px;font-family:Georgia,"Times New Roman",serif}
+blockquote.ex p{margin:0}
+p.tr{color:var(--muted);font-size:.95rem}
+.tbl{overflow-x:auto;margin:12px 0}
+table{border-collapse:collapse;width:100%;min-width:520px}
+th,td{border:1px solid var(--border);padding:8px 10px;text-align:start;vertical-align:top}
+th{background:var(--soft);font-weight:700}
+.small{color:var(--muted);font-size:.9rem}
+.note{border:1px dashed var(--border);border-radius:14px;padding:12px 14px;background:var(--soft)}
+@media(min-width:540px){body{padding-inline:22px}section.pane{padding:22px 20px}}
+h1,h2,h3{font-family:"Nunito",Vazirmatn,sans-serif}
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800;900&family=DM+Sans:wght@400;500;700&family=Vazirmatn:wght@400;500;700;800&display=swap" rel="stylesheet"></head>
+<body>
+<div id="tdScenic" aria-hidden="true"></div>
+<div style="padding:14px 16px 0"><a href="testdaf.html" style="color:var(--primary);text-decoration:none;font-size:14px">← همه پارت‌ها</a></div>
+<main>
+<header><div class="poof-img-header-bg" style="position:absolute;inset:0;z-index:0" aria-hidden="true"></div><div class="td-head"><div class="poof-mascot" id="tdMascot" style="width:56px;height:56px" aria-hidden="true"></div><h1>TestDaF</h1><p>راهنمای مطالعه آزمون — پارت ۳ از ۱۱: Leseverstehen: درک مطلب، ساختار سؤال‌ها، تکنیک‌های خواندن، مدیریت زمان و روش تمرین</p></div></header><script>(function(){try{var _t=document.documentElement.dataset.theme||'classic';var _f={snowy:'snowy-wave.webp',classic:'pouf-classic-wave.webp',lilac:'pouf-lilac-wave.webp',peachy:'snowy-wave.webp',minty:'pouf-minty-wave.webp',ocean:'pouf-ocean-smile.webp',sun:'pouf-sun-wave.webp',nebula:'pouf-nebula-wave.webp'}[_t]||'pouf-classic-wave.webp';var _m=document.getElementById('tdMascot');if(_m)_m.style.backgroundImage="url('"+_f+"')";}catch(e){}})();</script>
+<section class="pane"><h2>بخش‌های این پارت</h2><ul><li><a href="#s1">۱. ساختار رسمی Leseverstehen در نسخهٔ کاغذی</a></li><li><a href="#s2">۲. پیش از حل سؤال: سه روش اصلی خواندن</a></li><li><a href="#s3">۳. Lesetext 1 — متن‌های کوتاه و سؤال‌های تطبیقی</a></li><li><a href="#s4">۴. Lesetext 2 — متن روزنامه‌نگارانه و سؤال‌های چندگزینه‌ای</a></li><li><a href="#s5">۵. Lesetext 3 — متن علمی و سؤال‌های Ja / Nein / Text sagt dazu nichts</a></li><li><a href="#s6">۶. Leseverstehen در نسخهٔ دیجیتال: هفت نوع تکلیف</a></li><li><a href="#s7">۷. زمان‌بندی هفت تکلیف نسخهٔ دیجیتال</a></li><li><a href="#s8">۸. مهم‌ترین تله‌های مشترک در بخش خواندن TestDaF</a></li><li><a href="#s9">۹. اشتباهات پرتکرار زبان‌آموزان فارسی‌زبان</a></li><li><a href="#s10">۱۰. چگونه بخش خواندن را به‌صورت مؤثر تمرین کنیم؟</a></li><li><a href="#s11">۱۱. خودارزیابی: از کجا بفهمیم برای TDN 4 آماده‌ایم؟</a></li><li><a href="#s12">۱۲. منابع رسمی برای تمرین Leseverstehen</a></li></ul></section>
+
+<section class="pane">
+<p>در بخش <span class="de" lang="de">Leseverstehen</span> (درک مطلب نوشتاری)، فقط توانایی ترجمهٔ جملات آلمانی ارزیابی نمی‌شود. باید بتوانی از میان اطلاعات یک متن، مطالب مرتبط با سؤال را شناسایی کنی، رابطهٔ منطقی جمله‌ها را بفهمی، دیدگاه نویسنده را تشخیص بدهی و میان اطلاعات موجود در متن و نتیجه‌گیری‌های خودت تفاوت بگذاری.</p>
+<p>برای یک زبان‌آموز دارای مدرک B2، چالش اصلی معمولاً فقط ناشناخته‌بودن واژگان نیست؛ بلکه خواندن دقیق در زمان محدود و تشخیص تفاوت‌های معنایی ظریف است.</p>
+<p>در این پارت، ابتدا نسخهٔ کاغذی را کامل بررسی می‌کنیم؛ زیرا ساختار سه‌متنی آن برای آموزش مهارت‌های بنیادین خواندن بسیار مناسب است. سپس به هفت نوع تکلیف نسخهٔ دیجیتال می‌پردازیم.</p>
+<p>تمام مثال‌های آلمانی این پارت تألیفی و آموزشی هستند، نه سؤال‌های کپی‌شده از آزمون واقعی.</p>
+</section>
+
+<section class="pane">
+<h2 id="s1">۱. ساختار رسمی Leseverstehen در نسخهٔ کاغذی</h2>
+<p>بخش خواندن نسخهٔ کاغذی TestDaF دارای سه مجموعهٔ متن و ۳۰ سؤال است.</p>
+<div class="tbl"><table>
+<tr><th>ویژگی</th><th>Lesetext 1</th><th>Lesetext 2</th><th>Lesetext 3</th></tr>
+<tr><td>نوع متن</td><td>چند متن کوتاه</td><td>متن روزنامه‌نگارانه</td><td>متن علمی یا تخصصی</td></tr>
+<tr><td>موضوع</td><td>زندگی روزمرهٔ دانشگاهی</td><td>موضوعات اجتماعی و علمی</td><td>پژوهش و مسائل علمی</td></tr>
+<tr><td>نوع سؤال</td><td>Zuordnung، تطبیق</td><td>Multiple Choice، چندگزینه‌ای</td><td>Ja / Nein / Text sagt dazu nichts</td></tr>
+<tr><td>تعداد سؤال</td><td>۱۰</td><td>۱۰</td><td>۱۰</td></tr>
+<tr><td>دشواری نسبی</td><td>معمولاً آسان‌تر</td><td>متوسط</td><td>معمولاً پیچیده‌تر</td></tr>
+<tr><td>مهارت محوری</td><td>یافتن اطلاعات مشخص</td><td>درک جزئیات و مفهوم کلی</td><td>استنباط و ارزیابی گزاره‌ها</td></tr>
+<tr><td>زمان پیشنهادی آموزشی</td><td>۱۰ دقیقه</td><td>۲۰ دقیقه</td><td>۲۰ دقیقه</td></tr>
+</table></div>
+<p class="note">تقسیم زمان رسمی: ۶۰ دقیقه = متن ۱: ۱۰ دقیقه + متن ۲: ۲۰ دقیقه + متن ۳: ۲۰ دقیقه + انتقال: ۱۰ دقیقه.</p>
+<p>تقسیم ۱۰/۲۰/۲۰ یک پیشنهاد آموزشی است. قانون رسمی، ۵۰ دقیقه برای پاسخ‌گویی و سپس ۱۰ دقیقه برای انتقال پاسخ‌هاست.</p>
+<p>در دفترچهٔ آزمون، شماره‌های سؤال به این صورت توزیع می‌شوند:</p>
+<ul>
+<li>Lesetext 1: سؤال‌های ۱ تا ۱۰</li>
+<li>Lesetext 2: سؤال‌های ۱۱ تا ۲۰</li>
+<li>Lesetext 3: سؤال‌های ۲۱ تا ۳۰</li>
+</ul>
+<p>برای هر پاسخ درست، یک امتیاز خام دریافت می‌کنی. پاسخ غلط یا بی‌پاسخ امتیازی ندارد و برای پاسخ غلط جریمهٔ منفی جداگانه در نظر گرفته نمی‌شود.</p>
+<p>اما تعداد پاسخ‌های درست لازم برای رسیدن به TDN 4 در تمام نوبت‌های آزمون ثابت نیست. نتیجهٔ خام بر اساس دشواری و استانداردسازی مجموعهٔ سؤال‌ها به سطح TDN تبدیل می‌شود.</p>
+<p>اطلاعات ساختار و زمان‌بندی از وب‌سایت رسمی TestDaF گرفته شده‌اند.</p>
+</section>
+
+<section class="pane">
+<h2 id="s2">۲. پیش از حل سؤال: سه روش اصلی خواندن</h2>
+<p>در آموزش زبان دانشگاهی سه روش خواندن اهمیت ویژه‌ای دارند.</p>
+<h3>۲.۱. Globales Lesen — خواندن کلی</h3>
+<p>هدف این روش فهمیدن موضوع و پیام اصلی متن است، نه تک‌تک جزئیات.</p>
+<p>مثلاً:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Immer mehr Hochschulen setzen digitale Lernplattformen ein. Während einige Forschende darin eine Chance für individuelles Lernen sehen, warnen andere vor einer zunehmenden sozialen Ungleichheit.</p></blockquote>
+<p class="tr">ترجمه: دانشگاه‌های بیشتری از سامانه‌های یادگیری دیجیتال استفاده می‌کنند. درحالی‌که برخی پژوهشگران این موضوع را فرصتی برای یادگیری فردی می‌دانند، برخی دیگر دربارهٔ افزایش نابرابری اجتماعی هشدار می‌دهند.</p>
+<p>در خواندن کلی باید بتوانی بگویی:</p>
+<p>«متن دربارهٔ گسترش آموزش دیجیتال و اختلاف‌نظر دربارهٔ پیامدهای آن است.»</p>
+<p>لازم نیست در نخستین خواندن معنای تمام واژه‌ها را بررسی کنی.</p>
+<h3>۲.۲. Selektives Lesen — خواندن انتخابی</h3>
+<p>در این روش به دنبال اطلاعات مشخصی می‌گردی.</p>
+<p>مثلاً سؤال این است:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Welche Gruppe befürchtet eine Zunahme sozialer Ungleichheit?</p></blockquote>
+<p class="tr">ترجمه: کدام گروه نگران افزایش نابرابری اجتماعی است؟</p>
+<p>در متن باید عبارت andere را در تضاد با einige Forschende تفسیر کنی؛ یعنی گروه دوم پژوهشگران.</p>
+<p>این روش به‌خصوص در Lesetext 1 اهمیت دارد.</p>
+<h3>۲.۳. Detailliertes Lesen — خواندن دقیق</h3>
+<p>در این حالت لازم است معنای جمله، استثناها، محدودیت‌ها و روابط منطقی را به‌دقت بررسی کنی.</p>
+<p>مثلاً:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Die Untersuchung deutet auf einen Zusammenhang hin, liefert jedoch keinen eindeutigen Nachweis für einen ursächlichen Einfluss.</p></blockquote>
+<p class="tr">ترجمه: این بررسی به وجود یک ارتباط اشاره می‌کند، اما مدرک قطعی برای اثبات تأثیر علّی ارائه نمی‌دهد.</p>
+<p>در این جمله، تفاوت میان Zusammenhang (ارتباط) و ursächlicher Einfluss (تأثیر علّی) تعیین‌کننده است.</p>
+<p>اگر سؤال بگوید «پژوهش رابطهٔ علت و معلولی را اثبات کرده است»، پاسخ غلط خواهد بود.</p>
+<p>این نوع خواندن در Lesetext 3 بسیار مهم است.</p>
+<div class="tbl"><table>
+<tr><th>روش خواندن</th><th>پرسش اصلی</th><th>کاربرد مهم</th></tr>
+<tr><td>Globales Lesen</td><td>متن در کل دربارهٔ چیست؟</td><td>عنوان، موضوع و نتیجهٔ اصلی</td></tr>
+<tr><td>Selektives Lesen</td><td>اطلاعات مشخص کجاست؟</td><td>تطبیق و یافتن جزئیات</td></tr>
+<tr><td>Detailliertes Lesen</td><td>جمله دقیقاً چه ادعایی دارد؟</td><td>استدلال، استنباط و تشخیص گزاره‌های غلط</td></tr>
+</table></div>
+<p>این سه روش جایگزین یکدیگر نیستند. داوطلب قوی می‌تواند بسته به نوع سؤال، میان آن‌ها جابه‌جا شود.</p>
+</section>
+
+<section class="pane">
+<h2 id="s3">۳. Lesetext 1 — متن‌های کوتاه و سؤال‌های تطبیقی</h2>
+<h3>Kurztexte und Zuordnungsaufgaben</h3>
+<p>۱۰ سؤال</p>
+<p>هدف: یافتن سریع اطلاعات مرتبط در چند متن کوتاه</p>
+<h3>۳.۱. ماهیت متن اول</h3>
+<p>در این بخش با یک مقالهٔ پیوسته مواجه نیستی.</p>
+<p>مجموعه‌ای از متن‌های کوتاه به تو داده می‌شود. این متن‌ها می‌توانند شامل موارد زیر باشند:</p>
+<ul>
+<li>معرفی درس‌های دانشگاهی</li>
+<li>کارگاه‌ها و دوره‌های آموزشی</li>
+<li>برنامه‌های علمی</li>
+<li>اطلاعات کتاب‌ها</li>
+<li>فرصت‌های تحصیلی یا پژوهشی</li>
+<li>خدمات دانشگاه</li>
+</ul>
+<p>در سوی دیگر، توصیف نیازهای چند فرد یا موقعیت مطرح می‌شود.</p>
+<p>باید تعیین کنی کدام متن با نیاز کدام فرد مطابقت دارد.</p>
+<h3>۳.۲. ساختار سؤال</h3>
+<p>در نمونهٔ رسمی TestDaF، معمولاً ۱۰ موقعیت و ۸ متن با حروف A تا H وجود دارد.</p>
+<p>یکی از متن‌ها قبلاً در مثال استفاده شده و دیگر نباید انتخاب شود.</p>
+<p>در نتیجه، هفت متن باقی‌مانده می‌توانند به هفت سؤال اختصاص یابند و برای سه سؤال پاسخ مناسبی وجود ندارد. در نمونه‌های رسمی این وضعیت با انتخاب گزینهٔ مشخصِ «هیچ‌کدام» نشان داده می‌شود.</p>
+<p>هنگام تمرین، دستورالعمل همان نمونه‌آزمون را مبنا قرار بده.</p>
+<p>در راهنمای رسمی Modelltest 01 نیز به این نکته تأکید شده که اشتراک واژگان میان سؤال و متن، برای انتخاب پاسخ کافی نیست.</p>
+<h3>۳.۳. مثال تألیفی</h3>
+<p>فرض کن سه دانشجو به دنبال یک دورهٔ آموزشی هستند.</p>
+<p>نیاز دانشجوی اول:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Sara studiert Biologie im zweiten Semester und möchte lernen, wie sie wissenschaftliche Daten mit einem Statistikprogramm auswerten kann.</p></blockquote>
+<p class="tr">ترجمه: سارا در ترم دوم زیست‌شناسی تحصیل می‌کند و می‌خواهد یاد بگیرد چگونه داده‌های علمی را با یک نرم‌افزار آماری تحلیل کند.</p>
+<p>نیاز دانشجوی دوم:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Amir hat sein Masterstudium abgeschlossen und sucht nach Möglichkeiten, eine Promotion im Bereich der Umweltwissenschaften zu beginnen.</p></blockquote>
+<p class="tr">ترجمه: امیر دورهٔ کارشناسی‌ارشدش را تمام کرده و به دنبال فرصت‌هایی برای آغاز دکتری در حوزهٔ علوم محیط‌زیست است.</p>
+<p>سه دوره در اختیار داریم:</p>
+<p>A — Wissenschaftliches Schreiben</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>In diesem Kurs lernen Studierende, wie man wissenschaftliche Arbeiten strukturiert, Quellen korrekt angibt und Forschungsergebnisse verständlich darstellt.</p></blockquote>
+<p class="tr">ترجمه: در این دوره دانشجویان یاد می‌گیرند چگونه مقاله‌های علمی را ساختاربندی کنند، منابع را درست ارجاع دهند و نتایج پژوهش را قابل‌فهم ارائه کنند.</p>
+<p>B — Einführung in die Datenanalyse</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Der Kurs richtet sich an Studierende naturwissenschaftlicher Fächer, die statistische Verfahren kennenlernen und Daten mithilfe einer speziellen Software auswerten möchten.</p></blockquote>
+<p class="tr">ترجمه: این دوره برای دانشجویان رشته‌های علوم طبیعی است که می‌خواهند با روش‌های آماری آشنا شوند و داده‌ها را با نرم‌افزاری تخصصی تحلیل کنند.</p>
+<p>C — Forschungsförderung für Promovierende</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Die Veranstaltung informiert Hochschulabsolventinnen und Hochschulabsolventen über Promotionsmöglichkeiten, Forschungsprojekte und Finanzierungsmöglichkeiten im Umweltbereich.</p></blockquote>
+<p class="tr">ترجمه: این برنامه به فارغ‌التحصیلان دانشگاه دربارهٔ فرصت‌های دکتری، پروژه‌های پژوهشی و امکان تأمین مالی در حوزهٔ محیط‌زیست اطلاع می‌دهد.</p>
+<p>پاسخ‌ها:</p>
+<div class="tbl"><table>
+<tr><th>دانشجو</th><th>پاسخ</th><th>دلیل</th></tr>
+<tr><td>سارا</td><td>B</td><td>نیاز او یادگیری تحلیل آماری با نرم‌افزار است</td></tr>
+<tr><td>امیر</td><td>C</td><td>او به دنبال فرصت شروع دکتری در حوزهٔ محیط‌زیست است</td></tr>
+</table></div>
+<h3>۳.۴. دام اصلی این بخش: تشابه موضوعی بدون تطابق واقعی</h3>
+<p>فرض کن در معرفی دورهٔ A نیز کلمهٔ Forschung (پژوهش) آمده است.</p>
+<p>این موضوع به‌تنهایی باعث نمی‌شود دوره برای امیر مناسب باشد.</p>
+<p>امیر به دنبال فرصت دکتری و اطلاعات مربوط به آن است؛ نه صرفاً یادگیری نوشتن مقالهٔ علمی.</p>
+<p>در آزمون واقعی ممکن است چند متن از یک حوزهٔ علمی باشند، اما از نظر هدف، پیش‌نیاز یا مخاطب تفاوت داشته باشند.</p>
+<h3>۳.۵. کدام اطلاعات باید دقیق بررسی شوند؟</h3>
+<p>به این گروه از اطلاعات توجه ویژه داشته باش:</p>
+<div class="tbl"><table>
+<tr><th>نوع اطلاعات</th><th>واژه‌های نمونه</th><th>دلیل اهمیت</th></tr>
+<tr><td>پیش‌نیاز</td><td>Voraussetzung, erforderlich</td><td>ممکن است فرد شرایط شرکت را نداشته باشد</td></tr>
+<tr><td>مخاطب</td><td>richtet sich an, geeignet für</td><td>دوره برای گروه خاصی طراحی شده است</td></tr>
+<tr><td>هدف</td><td>Ziel, Zweck, dient dazu</td><td>تعیین می‌کند دوره چه نیازی را برطرف می‌کند</td></tr>
+<tr><td>زمان</td><td>während, vor, nach, ab</td><td>ممکن است با موقعیت فرد ناسازگار باشد</td></tr>
+<tr><td>محدودیت</td><td>ausschließlich, nur, mindestens</td><td>ممکن است گزینهٔ ظاهراً مناسب را رد کند</td></tr>
+<tr><td>نوع فعالیت</td><td>theoretisch, praktisch, online</td><td>تفاوت میان روش آموزش و خواستهٔ داوطلب</td></tr>
+</table></div>
+<p>مثلاً:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Der Workshop richtet sich ausschließlich an Studierende, die bereits erste Erfahrungen mit statistischen Methoden gesammelt haben.</p></blockquote>
+<p class="tr">ترجمه: این کارگاه صرفاً برای دانشجویانی است که قبلاً تجربهٔ اولیه در روش‌های آماری داشته‌اند.</p>
+<p>اگر فردی کاملاً مبتدی باشد، حتی با وجود تناسب موضوع کارگاه، پاسخ مناسب نخواهد بود.</p>
+<h3>۳.۶. روش پیشنهادی حل در ۱۰ دقیقه</h3>
+<p>برای مدیریت زمان می‌توان از یک فرایند چهارمرحله‌ای استفاده کرد.</p>
+<p>مرحلهٔ اول — حدود ۲ دقیقه: موقعیت‌ها را مرور کن و برای هرکدام خواستهٔ اصلی را مشخص کن.</p>
+<p>مرحلهٔ دوم — حدود ۲ دقیقه: متن‌های A تا H را سریع مرور کن و موضوع، مخاطب و هدف هرکدام را شناسایی کن.</p>
+<p>مرحلهٔ سوم — حدود ۴ دقیقه: تطبیق‌ها را انجام بده. هر انتخاب باید با تمام شرایط اصلی سؤال سازگار باشد.</p>
+<p>مرحلهٔ چهارم — حدود ۲ دقیقه: موارد مشکوک را بررسی و تعداد گزینه‌های استفاده‌شده را کنترل کن.</p>
+<p>اگر گزینه‌ای را انتخاب کرده‌ای که قبلاً در مثال استفاده شده، یا متنی را دو بار به دو فرد اختصاص داده‌ای درحالی‌که دستور آزمون این کار را مجاز نمی‌داند، باید پاسخ را اصلاح کنی.</p>
+<h3>۳.۷. روش تمرین مؤثر برای Lesetext 1</h3>
+<p>یک تمرین مناسب این است که ۸ معرفی کوتاه از دوره‌ها یا خدمات دانشگاهی تهیه کنی و برای آن‌ها ۱۰ موقعیت طراحی کنی.</p>
+<p>ابتدا بدون زمان محدود پاسخ بده.</p>
+<p>سپس همین ساختار را با محدودیت ۱۰ دقیقه حل کن.</p>
+<p>هنگام تحلیل پاسخ‌های غلط، فقط ننویس «متن را اشتباه فهمیدم». علت را مشخص کن:</p>
+<ul>
+<li>آیا پیش‌نیاز را ندیدم؟</li>
+<li>آیا بین هدف و موضوع اشتباه کردم؟</li>
+<li>آیا محدودیت زمانی را نادیده گرفتم؟</li>
+<li>آیا فقط به یک واژهٔ مشابه اعتماد کردم؟</li>
+</ul>
+<p>هدف این تمرین، افزایش سرعت همراه با حفظ دقت است.</p>
+</section>
+
+<section class="pane">
+<h2 id="s4">۴. Lesetext 2 — متن روزنامه‌نگارانه و سؤال‌های چندگزینه‌ای</h2>
+<h3>Journalistischer Text — ۱۰ سؤال — زمان پیشنهادی: ۲۰ دقیقه</h3>
+<h3>۴.۱. متن دوم چه ویژگی‌هایی دارد؟</h3>
+<p>در این قسمت با یک متن پیوسته مواجه می‌شوی که معمولاً از نظر سبک شبیه مقاله‌های روزنامه‌ها یا مجلات علمی عمومی است.</p>
+<p>در راهنمای رسمی Modelltest 01 طول معمول این متن حدود ۴۵۰ تا ۵۵۰ واژه معرفی شده است.</p>
+<p>موضوع می‌تواند دربارهٔ یک مسئلهٔ علمی، اجتماعی، آموزشی یا پیامدهای یک پژوهش باشد.</p>
+<p>این متن معمولاً از Lesetext 1 پیچیده‌تر است، اما لزوماً مانند مقالهٔ علمی تخصصی نوشته نشده است.</p>
+<p>برای مثال، ممکن است دربارهٔ یکی از این موضوعات باشد:</p>
+<ul>
+<li>اثر شبکه‌های اجتماعی بر تمرکز</li>
+<li>تغییرات اقلیمی و رفتار مصرف‌کنندگان</li>
+<li>نقش خواب در حافظه</li>
+<li>آموزش آنلاین</li>
+<li>تغییرات جمعیتی</li>
+<li>استفاده از هوش مصنوعی در پزشکی</li>
+</ul>
+<h3>۴.۲. ساختار سؤال‌ها</h3>
+<p>نوع سؤال Multiple Choice (چندگزینه‌ای) است.</p>
+<p>در نسخهٔ کاغذی برای هر سؤال سه گزینهٔ A، B و C ارائه می‌شود و دقیقاً یکی درست است.</p>
+<p>در نمونه‌های رسمی، بیشتر سؤال‌ها مطابق ترتیب اطلاعات متن مطرح می‌شوند. به این معنا که معمولاً پاسخ سؤال ۱۲ بعد از اطلاعات مربوط به سؤال ۱۱ قرار دارد.</p>
+<p>اما سؤال مربوط به پیام اصلی متن ممکن است به درک کل مقاله وابسته باشد؛ در راهنمای رسمی، سؤال پایانی این مجموعه معمولاً چنین نقشی دارد.</p>
+<h3>۴.۳. مثال تألیفی: سؤال دربارهٔ پیام دقیق متن</h3>
+<p>متن آلمانی:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Eine Untersuchung an mehreren Hochschulen zeigt, dass Studierende, die regelmäßig kurze Lernpausen einlegen, häufig bessere Konzentrationswerte erreichen. Allerdings konnten die Forschenden nicht eindeutig feststellen, ob die Pausen selbst für die Verbesserung verantwortlich sind oder ob andere Faktoren eine Rolle spielen.</p></blockquote>
+<p class="tr">ترجمه: یک پژوهش در چند دانشگاه نشان می‌دهد دانشجویانی که به‌طور منظم استراحت‌های کوتاه در حین مطالعه دارند، اغلب به نتایج بهتری در سنجش تمرکز می‌رسند. بااین‌حال، پژوهشگران نتوانستند به‌طور قطعی مشخص کنند که آیا خود این استراحت‌ها مسئول بهبود تمرکز هستند یا عوامل دیگری نیز نقش دارند.</p>
+<p>سؤال:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Was lässt sich aus der Untersuchung schließen?</p></blockquote>
+<p class="tr">ترجمه: از این پژوهش چه نتیجه‌ای می‌توان گرفت؟</p>
+<p>A) Kurze Lernpausen führen nachweislich zu einer besseren Konzentration.</p>
+<p>B) Zwischen regelmäßigen Lernpausen und besseren Konzentrationswerten wurde ein Zusammenhang beobachtet.</p>
+<p>C) Die Forschenden konnten keinen Zusammenhang zwischen Pausen und Konzentration feststellen.</p>
+<h3>۴.۴. تلهٔ اول: تبدیل احتمال به قطعیت</h3>
+<p>در متن‌های دانشگاهی، نویسندگان معمولاً ادعاها را با درجهٔ مشخصی از اطمینان مطرح می‌کنند.</p>
+<p>به این تفاوت‌ها توجه کن:</p>
+<div class="tbl"><table>
+<tr><th>عبارت آلمانی</th><th>ترجمه</th><th>درجهٔ قطعیت</th></tr>
+<tr><td>möglicherweise</td><td>احتمالاً / ممکن است</td><td>پایین</td></tr>
+<tr><td>vermutlich</td><td>به احتمال زیاد</td><td>فرض یا احتمال</td></tr>
+<tr><td>könnte</td><td>ممکن است / می‌تواند</td><td>غیرقطعی</td></tr>
+<tr><td>deutet darauf hin</td><td>به این موضوع اشاره دارد</td><td>نشانه، نه اثبات</td></tr>
+<tr><td>legt nahe</td><td>این نتیجه را محتمل می‌سازد</td><td>استنباط محتاطانه</td></tr>
+<tr><td>zeigt</td><td>نشان می‌دهد</td><td>ادعای مبتنی بر یافته</td></tr>
+<tr><td>weist eindeutig nach</td><td>به‌طور قطعی اثبات می‌کند</td><td>ادعای اثبات قوی</td></tr>
+</table></div>
+<p>اگر متن بنویسد:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Die Ergebnisse deuten darauf hin, dass regelmäßige Bewegung das Gedächtnis unterstützen könnte.</p></blockquote>
+<p class="tr">ترجمه: نتایج نشان می‌دهند که فعالیت بدنی منظم ممکن است به حافظه کمک کند.</p>
+<p>اما گزینهٔ سؤال بنویسد:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Regelmäßige Bewegung verbessert nachweislich bei allen Menschen das Gedächtnis.</p></blockquote>
+<p class="tr">ترجمه: فعالیت بدنی منظم به‌طور اثبات‌شده حافظهٔ تمام انسان‌ها را بهبود می‌دهد.</p>
+<p>گزینه از متن نتیجه نمی‌شود.</p>
+<p>سه تغییر اتفاق افتاده است:</p>
+<ol>
+<li>könnte به nachweislich تبدیل شده است.</li>
+<li>«ممکن است کمک کند» به «بهبود می‌دهد» تبدیل شده است.</li>
+<li>bei allen Menschen، یعنی «در همهٔ انسان‌ها»، به ادعا اضافه شده است.</li>
+</ol>
+<p>هر سه می‌توانند پاسخ را نادرست کنند.</p>
+<h3>۴.۵. تلهٔ دوم: پاسخ درست‌نما ولی بی‌ارتباط با متن</h3>
+<p>گزینه‌ها گاهی از نظر دانش عمومی منطقی هستند.</p>
+<p>مثلاً ممکن است بدانی خواب کافی برای حافظه مفید است.</p>
+<p>اما اگر متن فقط دربارهٔ تأثیر استراحت کوتاه هنگام مطالعه باشد، نباید بر اساس دانش عمومی خودت گزینه‌ای دربارهٔ خواب انتخاب کنی.</p>
+<p>در TestDaF ملاک Textbeleg (شاهد موجود در متن) است.</p>
+<p>برای بیشتر سؤال‌های جزئی باید بتوانی جمله یا بخشی از متن را مشخص کنی که پاسخ تو را پشتیبانی می‌کند.</p>
+<h3>۴.۶. تلهٔ سوم: جابه‌جایی علت و معلول</h3>
+<p>متن:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Aufgrund der steigenden Energiekosten wurden mehrere Labore vorübergehend geschlossen.</p></blockquote>
+<p class="tr">ترجمه: به دلیل افزایش هزینه‌های انرژی، چند آزمایشگاه موقتاً تعطیل شدند.</p>
+<p>گزینهٔ غلط:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Die Schließung mehrerer Labore führte zu steigenden Energiekosten.</p></blockquote>
+<p class="tr">ترجمه: تعطیلی چند آزمایشگاه باعث افزایش هزینه‌های انرژی شد.</p>
+<p>واژه‌های اصلی در هر دو جمله تقریباً یکسان هستند.</p>
+<p>اما جهت رابطهٔ علت و معلول برعکس شده است.</p>
+<p>به همین دلیل، حفظ‌کردن واژگان بدون فهم روابط منطقی، برای این بخش کافی نیست.</p>
+<h3>۴.۷. تلهٔ چهارم: اشتباه‌گرفتن موضوع متن با پیام اصلی</h3>
+<p>فرض کن مقاله‌ای دربارهٔ فرصت‌ها و خطرات استفاده از هوش مصنوعی در دانشگاه نوشته شده باشد.</p>
+<p>پرسش:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Was ist die zentrale Aussage des Textes?</p></blockquote>
+<p class="tr">ترجمه: پیام اصلی متن چیست؟</p>
+<p>ممکن است سه گزینه به این شکل باشند:</p>
+<p>A. هوش مصنوعی در دانشگاه‌ها گسترش یافته است.</p>
+<p>B. استفاده از هوش مصنوعی می‌تواند مفید باشد، اما نیازمند قواعد روشن است.</p>
+<p>C. بیشتر دانشجویان از هوش مصنوعی برای ترجمه استفاده می‌کنند.</p>
+<p>اگر متن دربارهٔ ضرورت استفادهٔ مسئولانه از هوش مصنوعی استدلال کرده باشد، پاسخ B مناسب‌تر است.</p>
+<p>گزینهٔ A ممکن است واقعیتی درست و حتی در متن مطرح‌شده باشد، اما به‌تنهایی پیام اصلی مقاله نیست.</p>
+<p>گزینهٔ C ممکن است جزئیاتی از متن باشد.</p>
+<p>تفاوت این سه مفهوم را باید بشناسی:</p>
+<p>Thema: موضوع متن</p>
+<p>Hauptaussage: پیام یا ادعای اصلی</p>
+<p>Einzelinformation: اطلاعات جزئی</p>
+<h3>۴.۸. استراتژی حل Lesetext 2 در ۲۰ دقیقه</h3>
+<div class="tbl"><table>
+<tr><th>مرحله</th><th>زمان پیشنهادی</th><th>فعالیت</th></tr>
+<tr><td>۱</td><td>۲ دقیقه</td><td>خواندن عنوان و مرور سریع سؤال‌ها</td></tr>
+<tr><td>۲</td><td>۳ دقیقه</td><td>خواندن کلی متن و تشخیص ساختار</td></tr>
+<tr><td>۳</td><td>۱۲ دقیقه</td><td>پاسخ‌گویی به سؤال‌ها و تطبیق گزینه‌ها</td></tr>
+<tr><td>۴</td><td>۳ دقیقه</td><td>بررسی سؤال‌های مشکوک و پیام اصلی متن</td></tr>
+</table></div>
+<p>این تقسیم‌بندی روش تمرینی است، نه دستور رسمی مرکز آزمون.</p>
+<p>نکتهٔ اصلی این است که پیش از خواندن دقیق، بدانی به دنبال چه اطلاعاتی هستی.</p>
+<p>در سؤال‌های جزئی، معمولاً بهتر است پس از یافتن قسمت مرتبط، همان چند جمله را دقیق بخوانی.</p>
+<p>برای سؤال پیام اصلی، به مجموعهٔ استدلال‌ها، پاراگراف آغازین، نتیجه‌گیری و جهت‌گیری کلی نویسنده توجه کن.</p>
+<h3>۴.۹. روش تمرین مؤثر برای Lesetext 2</h3>
+<p>برای این نوع متن، روش Belegmethode (روش استناد به شاهد) مفید است.</p>
+<p>هر بار که سؤال چندگزینه‌ای حل می‌کنی:</p>
+<ol>
+<li>گزینهٔ انتخابی را مشخص کن.</li>
+<li>عبارت مرتبط در متن را زیر خط بکش.</li>
+<li>توضیح بده چرا گزینه‌های دیگر غلط‌اند.</li>
+<li>مشخص کن خطای آن‌ها از چه نوعی است: ادعای بیش‌ازحد قطعی، اطلاعات اضافه، برداشت غلط، جابه‌جایی علت و معلول یا ارتباط ناکافی با متن.</li>
+</ol>
+<p>برای سطح B2، این مرحلهٔ چهارم بسیار مهم است؛ زیرا توانایی تشخیص گزینهٔ غلط را از حد حدس‌زدن بالاتر می‌برد.</p>
+</section>
+
+<section class="pane">
+<h2 id="s5">۵. Lesetext 3 — متن علمی و سؤال‌های Ja / Nein / Text sagt dazu nichts</h2>
+<h3>Wissenschaftssprachlicher Text — ۱۰ سؤال — زمان پیشنهادی: ۲۰ دقیقه</h3>
+<h3>۵.۱. ماهیت متن سوم</h3>
+<p>در راهنمای رسمی TestDaF، طول معمول متن سوم حدود ۵۵۰ تا ۶۰۰ واژه معرفی شده است.</p>
+<p>این متن غالباً از یک مجلهٔ علمی یا نشریهٔ دانشگاهی انتخاب می‌شود و موضوع آن می‌تواند یک مسئلهٔ پژوهشی یا یک پیشرفت علمی باشد.</p>
+<p>اما توجه کن: متن سوم لزوماً یک مقالهٔ پژوهشی کامل با بخش‌های روش‌شناسی، نتایج و بحث نیست.</p>
+<p>ممکن است گزارشی دربارهٔ یافته‌های یک پژوهش باشد که با سبک علمی و ساختار استدلالی پیچیده نوشته شده است.</p>
+<p>در این متن، سه توانایی اهمیت دارند:</p>
+<p>Explizite Informationen erkennen: تشخیص اطلاعات صریح</p>
+<p>Implizite Informationen erschließen: استنباط اطلاعات ضمنی</p>
+<p>Aussagen auf ihre Textgrundlage prüfen: بررسی اینکه آیا گزاره‌ها از متن پشتیبانی می‌شوند یا نه</p>
+<h3>۵.۲. سه پاسخ ممکن</h3>
+<p>در این بخش هر سؤال شامل یک گزاره است و باید یکی از سه گزینهٔ زیر را انتخاب کنی:</p>
+<div class="tbl"><table>
+<tr><th>گزینهٔ رسمی</th><th>معنی</th><th>معیار انتخاب</th></tr>
+<tr><td>Ja</td><td>بله، درست است</td><td>متن مستقیماً یا به‌طور منطقی گزاره را تأیید می‌کند</td></tr>
+<tr><td>Nein</td><td>نه، نادرست است</td><td>متن اطلاعاتی ارائه می‌دهد که با گزاره ناسازگار است</td></tr>
+<tr><td>Text sagt dazu nichts</td><td>متن در این باره چیزی نمی‌گوید</td><td>متن نه گزاره را تأیید می‌کند و نه رد می‌کند</td></tr>
+</table></div>
+<p>تفاوت Nein و Text sagt dazu nichts یکی از مهم‌ترین نقاط دشوار بخش خواندن TestDaF است.</p>
+<h3>۵.۳. مثال: تفاوت سه نوع پاسخ</h3>
+<p>متن آلمانی:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>In einer Studie wurden 120 Studierende untersucht. Die Forschenden stellten fest, dass Teilnehmende, die regelmäßig Sport trieben, im Durchschnitt weniger Stresssymptome berichteten. Ob die sportliche Aktivität selbst für diesen Unterschied verantwortlich war, konnte die Studie jedoch nicht klären.</p></blockquote>
+<p class="tr">ترجمه: در یک پژوهش ۱۲۰ دانشجو بررسی شدند. پژوهشگران دریافتند شرکت‌کنندگانی که به‌طور منظم ورزش می‌کردند، به‌طور میانگین نشانه‌های استرس کمتری گزارش می‌دادند. بااین‌حال، پژوهش نتوانست روشن کند که آیا خود فعالیت ورزشی مسئول این تفاوت بوده است یا نه.</p>
+<p>اکنون سه گزاره را بررسی کنیم.</p>
+<p>گزارهٔ اول:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Die Untersuchung umfasste 120 Studierende.</p></blockquote>
+<p class="tr">ترجمه: این پژوهش شامل ۱۲۰ دانشجو بود.</p>
+<p>پاسخ: Ja</p>
+<p>چون متن این اطلاعات را صریحاً بیان کرده است.</p>
+<p>گزارهٔ دوم:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Sportlich aktive Studierende berichteten im Durchschnitt mehr Stresssymptome.</p></blockquote>
+<p class="tr">ترجمه: دانشجویان فعال از نظر ورزشی به‌طور میانگین نشانه‌های استرس بیشتری گزارش می‌دادند.</p>
+<p>پاسخ: Nein</p>
+<p>زیرا متن می‌گوید weniger Stresssymptome، یعنی نشانه‌های کمتر، نه بیشتر.</p>
+<p>گزارهٔ سوم:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Die sportlich aktiven Studierenden trainierten mindestens viermal pro Woche.</p></blockquote>
+<p class="tr">ترجمه: دانشجویان ورزشکار حداقل چهار بار در هفته تمرین می‌کردند.</p>
+<p>پاسخ: Text sagt dazu nichts</p>
+<p>چون متن فقط می‌گوید regelmäßig، یعنی منظم.</p>
+<p>از این عبارت نمی‌توان نتیجه گرفت که تعداد جلسات تمرین حداقل چهار بار در هفته بوده است.</p>
+<h3>۵.۴. تفاوت حیاتی Nein و Text sagt dazu nichts</h3>
+<p>یک قانون تحلیلی ساده:</p>
+<p>اگر متن نشان دهد که گزاره غلط است، Nein.</p>
+<p>اگر متن اطلاعات کافی برای تصمیم‌گیری دربارهٔ درستی یا نادرستی گزاره ندهد، Text sagt dazu nichts.</p>
+<p>برای درک دقیق‌تر، این مثال را بررسی کن:</p>
+<p>متن:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Das neue Verfahren wurde an der Universität Leipzig eingesetzt.</p></blockquote>
+<p class="tr">ترجمه: این روش جدید در دانشگاه لایپزیگ به کار گرفته شد.</p>
+<p>گزارهٔ A:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Das Verfahren wurde an der Universität Leipzig verwendet.</p></blockquote>
+<p class="tr">ترجمه: این روش در دانشگاه لایپزیگ استفاده شد.</p>
+<p>پاسخ: Ja.</p>
+<p>گزارهٔ B:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Das Verfahren wurde ausschließlich an der Universität Leipzig eingesetzt.</p></blockquote>
+<p class="tr">ترجمه: این روش منحصراً در دانشگاه لایپزیگ استفاده شد.</p>
+<p>پاسخ: Text sagt dazu nichts.</p>
+<p>دلیل: متن نگفته است که روش در دانشگاه دیگری استفاده نشده است.</p>
+<p>گزارهٔ C:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Das Verfahren kam an der Universität Leipzig nicht zum Einsatz.</p></blockquote>
+<p class="tr">ترجمه: این روش در دانشگاه لایپزیگ استفاده نشد.</p>
+<p>پاسخ: Nein.</p>
+<p>زیرا متن صریحاً استفاده از روش در این دانشگاه را تأیید می‌کند.</p>
+<p>این تفاوت در آزمون می‌تواند با تنها یک کلمه ایجاد شود.</p>
+<h3>۵.۵. واژه‌های محدودکننده که باید مراقبشان باشی</h3>
+<div class="tbl"><table>
+<tr><th>عبارت آلمانی</th><th>معنی</th></tr>
+<tr><td>alle</td><td>همه</td></tr>
+<tr><td>ausschließlich</td><td>منحصراً</td></tr>
+<tr><td>nur</td><td>فقط</td></tr>
+<tr><td>immer</td><td>همیشه</td></tr>
+<tr><td>nie</td><td>هرگز</td></tr>
+<tr><td>mindestens</td><td>حداقل</td></tr>
+<tr><td>höchstens</td><td>حداکثر</td></tr>
+<tr><td>erstmals</td><td>برای اولین بار</td></tr>
+<tr><td>vollständig</td><td>به‌طور کامل</td></tr>
+<tr><td>grundsätzlich</td><td>اصولاً</td></tr>
+<tr><td>in jedem Fall</td><td>در تمام موارد</td></tr>
+<tr><td>ohne Ausnahme</td><td>بدون استثنا</td></tr>
+</table></div>
+<p>وجود این کلمات به معنای غلط‌بودن خودکار گزینه نیست.</p>
+<p>اما اگر یک گزینهٔ آزمون چنین محدودیتی داشته باشد، باید ببینی آیا متن نیز آن را پشتیبانی می‌کند.</p>
+<p>برای مثال، تفاوت زیادی وجود دارد میان:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Die Methode wurde in mehreren Ländern angewendet.</p></blockquote>
+<p class="tr">ترجمه: این روش در چند کشور به کار گرفته شد.</p>
+<p>و:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Die Methode wurde in allen europäischen Ländern angewendet.</p></blockquote>
+<p class="tr">ترجمه: این روش در تمام کشورهای اروپایی به کار گرفته شد.</p>
+<p>گزارهٔ دوم از اولی نتیجه نمی‌شود.</p>
+<h3>۵.۶. اطلاعات ضمنی؛ چیزی که مستقیماً نوشته نشده است</h3>
+<p>در متن سوم، همیشه پاسخ به‌صورت یک جملهٔ آماده در متن قرار ندارد.</p>
+<p>گاهی باید از چند جمله یک نتیجهٔ منطقی استخراج کنی.</p>
+<p>متن:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Die Zahl der Studienanfänger ist in den vergangenen fünf Jahren deutlich gestiegen. Die Anzahl der verfügbaren Wohnheimplätze blieb im gleichen Zeitraum nahezu unverändert.</p></blockquote>
+<p class="tr">ترجمه: تعداد دانشجویان تازه‌وارد در پنج سال گذشته به‌وضوح افزایش یافته است. تعداد جایگاه‌های موجود در خوابگاه‌های دانشجویی در همین بازه تقریباً بدون تغییر مانده است.</p>
+<p>گزاره:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Der Anteil der Studienanfänger, für die ein Wohnheimplatz zur Verfügung steht, ist gesunken.</p></blockquote>
+<p class="tr">ترجمه: سهم دانشجویان تازه‌واردی که برایشان جای خوابگاه وجود دارد کاهش یافته است.</p>
+<p>اگر این گزاره را به‌عنوان مقایسهٔ ظرفیت ثابت با جمعیت رو‌به‌رشد در نظر بگیریم، نتیجه از داده‌های متن پشتیبانی می‌شود: صورت کسر تقریباً ثابت مانده، اما مخرج افزایش یافته است.</p>
+<p>درک این نوع رابطه، بخشی از logisches Schlussfolgern (استنتاج منطقی) است.</p>
+<p>البته توجه کن که افزایش تعداد دانشجویان به‌تنهایی به معنای افزایش قطعی تقاضا برای خوابگاه نیست؛ چنین ادعایی به اطلاعات بیشتری نیاز دارد.</p>
+<p>در نتیجه باید دقیقاً همان چیزی را استنباط کنی که داده‌ها اجازه می‌دهند، نه بیشتر.</p>
+<h3>۵.۷. تله‌های اصلی Lesetext 3</h3>
+<p>تلهٔ اول: افزودن اطلاعات جدید</p>
+<p>متن می‌گوید یک پژوهش در سال ۲۰۲۴ انجام شده است.</p>
+<p>گزینه می‌گوید این نخستین پژوهش در آن موضوع بوده است.</p>
+<p>اگر متن دربارهٔ نخستین‌بودن پژوهش چیزی نگفته باشد، پاسخ Text sagt dazu nichts است.</p>
+<p>تلهٔ دوم: اشتباه‌گرفتن فرضیه و نتیجه</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Die Forschenden vermuten, dass soziale Isolation das Schlafverhalten beeinflusst.</p></blockquote>
+<p class="tr">ترجمه: پژوهشگران گمان می‌کنند انزوای اجتماعی بر الگوی خواب تأثیر می‌گذارد.</p>
+<p>این جمله به معنای اثبات علمی رابطه نیست.</p>
+<p>تلهٔ سوم: اشتباه‌گرفتن رابطهٔ آماری و علیت</p>
+<p>متن دربارهٔ ارتباط میان دو متغیر صحبت می‌کند، اما گزینه رابطهٔ علت و معلولی را قطعی معرفی می‌کند.</p>
+<p>تلهٔ چهارم: تغییر گروه مورد مطالعه</p>
+<p>متن دربارهٔ دانشجویان یک دانشگاه است، اما گزاره دربارهٔ تمام جوانان آلمان صحبت می‌کند.</p>
+<p>در این حالت، تعمیم نتیجه نیازمند شواهد جداگانه است.</p>
+<p>تلهٔ پنجم: تغییر جهت مقایسه</p>
+<p>متن می‌گوید گروه A نسبت به B عملکرد بالاتری داشته است، اما گزینه می‌گوید B بهتر بوده است.</p>
+<p>تلهٔ ششم: نتیجه‌گیری از سکوت متن</p>
+<p>اگر متن دربارهٔ یک ویژگی چیزی نگفته، نمی‌توان نتیجه گرفت که آن ویژگی وجود ندارد.</p>
+<p>برای مثال، «پژوهش به هزینه اشاره نکرده» با «پژوهش هیچ هزینه‌ای نداشته» متفاوت است.</p>
+<h3>۵.۸. استراتژی حل متن سوم</h3>
+<p>برای این بخش پیشنهاد می‌کنم هر سؤال را با یک الگوی سه‌مرحله‌ای حل کنی:</p>
+<p>مرحلهٔ اول: گزاره را به اجزای معنایی تقسیم کن.</p>
+<p>فاعل، فعل، رابطهٔ منطقی، زمان و هر واژهٔ محدودکننده را مشخص کن.</p>
+<p>مرحلهٔ دوم: قسمت مرتبط متن را پیدا کن.</p>
+<p>در نمونه‌های رسمی کاغذی، سؤال‌های متن سوم عمدتاً مطابق ترتیب اطلاعات متن قرار می‌گیرند. از این ویژگی برای سریع‌تر پیدا کردن محل پاسخ استفاده کن.</p>
+<p>مرحلهٔ سوم: تصمیم بگیر.</p>
+<p>ابتدا بپرس: «آیا متن این گزاره را تأیید می‌کند؟»</p>
+<p>اگر نه، بپرس: «آیا متن آن را رد می‌کند؟»</p>
+<p>اگر هیچ‌کدام، پاسخ Text sagt dazu nichts است.</p>
+<p>این فرایند از اشتباه رایج «اگر در متن نبود، پس غلط است» جلوگیری می‌کند.</p>
+<h3>۵.۹. تمرین مؤثر برای متن سوم</h3>
+<p>برای هر متن علمی، یک جدول تحلیل بساز:</p>
+<div class="tbl"><table>
+<tr><th>شماره</th><th>پاسخ من</th><th>عبارت پشتیبان در متن</th><th>علت پاسخ</th></tr>
+<tr><td>۲۱</td><td>Ja</td><td>جمله یا پاراگراف مرتبط</td><td>تأیید مستقیم</td></tr>
+<tr><td>۲۲</td><td>Nein</td><td>جملهٔ مخالف گزاره</td><td>تناقض</td></tr>
+<tr><td>۲۳</td><td>Text sagt dazu nichts</td><td>بخش مرتبط با موضوع</td><td>نبود اطلاعات لازم</td></tr>
+<tr><td>۲۴</td><td>Ja</td><td>چند جملهٔ مرتبط</td><td>استنباط منطقی</td></tr>
+</table></div>
+<p>پس از تصحیح، خطاها را بر اساس نوعشان دسته‌بندی کن.</p>
+<p>این روش مخصوصاً برای زبان‌آموزانی مؤثر است که متن را می‌فهمند اما همچنان در سؤال‌های سه‌گزینه‌ای اشتباه می‌کنند.</p>
+</section>
+
+<section class="pane">
+<h2 id="s6">۶. Leseverstehen در نسخهٔ دیجیتال: هفت نوع تکلیف</h2>
+<p>نسخهٔ دیجیتال از نظر محتوای مهارتی با نسخهٔ کاغذی ارتباط دارد، اما شیوهٔ طراحی سؤال‌های آن متفاوت است.</p>
+<p>به‌جای سه مجموعهٔ اصلی خواندن، با هفت Aufgabentypen (نوع تکلیف) مواجه می‌شوی.</p>
+<p>در ساختار رسمی پایه، این بخش شامل ۳۴ سؤال و حدود ۵۵ دقیقه زمان است.</p>
+<p>جدول زیر دقیقاً بر اساس ساختار رسمی TestDaF تنظیم شده است.</p>
+<div class="tbl"><table>
+<tr><th>شماره</th><th>نوع تکلیف</th><th>تعداد سؤال</th></tr>
+<tr><td>۱</td><td>Lückentext ergänzen</td><td>۵</td></tr>
+<tr><td>۲</td><td>Textabschnitte ordnen</td><td>۴</td></tr>
+<tr><td>۳</td><td>Multiple-Choice</td><td>۷</td></tr>
+<tr><td>۴</td><td>Sprachhandlungen zuordnen</td><td>۴</td></tr>
+<tr><td>۵</td><td>Aussagen Kategorien zuordnen</td><td>۷</td></tr>
+<tr><td>۶</td><td>Aussagen einem Begriffspaar zuordnen</td><td>۴</td></tr>
+<tr><td>۷</td><td>Fehler in Zusammenfassung erkennen</td><td>۳</td></tr>
+<tr><td></td><td>مجموع</td><td>۳۴</td></tr>
+</table></div>
+<p>دو نکتهٔ اجرایی مهم:</p>
+<p>اول اینکه زمان هر تکلیف به‌صورت جداگانه تعیین می‌شود و زمان باقی‌مانده روی نمایشگر نشان داده می‌شود.</p>
+<p>دوم اینکه پس از پایان زمان یک تکلیف، سیستم به تکلیف بعدی می‌رود؛ همچنین پس از عبور از یک تکلیف نمی‌توانی به آن بازگردی.</p>
+<p>به‌علاوه، ممکن است تکالیف آزمایشی اضافه دریافت کنی. این تکالیف برای ارزیابی کیفیت سؤال‌های آینده استفاده می‌شوند و در نمرهٔ تو محاسبه نمی‌شوند.</p>
+<h3>۶.۱. تکلیف اول: Lückentext ergänzen</h3>
+<p>معنی: کامل‌کردن متن دارای جای خالی</p>
+<p>این نوع تکلیف دانش واژگانی و توانایی انتخاب کلمهٔ مناسب در بافت متن را می‌سنجد.</p>
+<p>در نمونهٔ رسمی، پنج جای خالی وجود دارد و برای هر جای خالی باید یکی از چهار گزینه را انتخاب کنی.</p>
+<p>مثال تألیفی:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Die Forschenden haben einen deutlichen Zusammenhang zwischen Schlafdauer und Konzentrationsfähigkeit _____.</p></blockquote>
+<p class="tr">ترجمه: پژوهشگران ارتباط آشکاری میان مدت خواب و توانایی تمرکز ... .</p>
+<p>گزینه‌ها:</p>
+<p>A. durchgeführt — انجام داده‌اند</p>
+<p>B. festgestellt — تشخیص داده‌اند / مشاهده کرده‌اند</p>
+<p>C. bestanden — وجود داشته‌اند / قبول شده‌اند</p>
+<p>D. aufgenommen — ثبت یا دریافت کرده‌اند</p>
+<p>پاسخ درست: B — festgestellt</p>
+<p>جملهٔ کامل:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Die Forschenden haben einen deutlichen Zusammenhang zwischen Schlafdauer und Konzentrationsfähigkeit festgestellt.</p></blockquote>
+<p class="tr">ترجمه: پژوهشگران ارتباط آشکاری میان مدت خواب و توانایی تمرکز مشاهده کرده‌اند.</p>
+<h3>چرا این سؤال دشوار است؟</h3>
+<p>ممکن است هر چهار واژه را بشناسی، اما تنها یکی با ساختار معنایی و دستوری جمله سازگار باشد.</p>
+<p>در آلمانی، ترکیب‌های واژگانی رایج یا Kollokationen اهمیت زیادی دارند.</p>
+<p>مثلاً:</p>
+<div class="tbl"><table>
+<tr><th>ترکیب آلمانی</th><th>معنی فارسی</th></tr>
+<tr><td>einen Zusammenhang feststellen</td><td>ارتباطی را شناسایی کردن</td></tr>
+<tr><td>eine Untersuchung durchführen</td><td>پژوهشی را انجام دادن</td></tr>
+<tr><td>eine Hypothese aufstellen</td><td>فرضیه‌ای مطرح کردن</td></tr>
+<tr><td>Ergebnisse auswerten</td><td>نتایج را تحلیل کردن</td></tr>
+<tr><td>Schlussfolgerungen ziehen</td><td>نتیجه‌گیری کردن</td></tr>
+<tr><td>eine Entscheidung treffen</td><td>تصمیم گرفتن</td></tr>
+<tr><td>Maßnahmen ergreifen</td><td>اقداماتی انجام دادن</td></tr>
+<tr><td>eine Entwicklung beobachten</td><td>روندی را مشاهده کردن</td></tr>
+</table></div>
+<p>بهتر است واژگان را در چنین ترکیب‌هایی یاد بگیری، نه صرفاً به‌صورت کلمات منفرد.</p>
+<h3>استراتژی</h3>
+<p>ابتدا جمله را بدون توجه به گزینه‌ها بخوان.</p>
+<p>معنای موردنیاز را در ذهن مشخص کن.</p>
+<p>سپس گزینه‌ها را با توجه به معنا، دستور زبان و ترکیب واژگانی بررسی کن.</p>
+<p>تلهٔ رایج این است که کلمه‌ای را فقط به دلیل آشنابودن انتخاب کنی، بدون اینکه ببینی با اسم یا فعل جمله ترکیب طبیعی می‌سازد یا نه.</p>
+<h3>۶.۲. تکلیف دوم: Textabschnitte ordnen</h3>
+<p>معنی: مرتب‌کردن بخش‌های یک متن</p>
+<p>در این قسمت چند بخش از یک متن به‌هم‌ریخته ارائه می‌شوند و باید ترتیب منطقی آن‌ها را تشخیص بدهی.</p>
+<p>طبق ساختار رسمی، چهار مورد ارزیابی‌شده وجود دارد. در نمونهٔ رسمی دیجیتال، پنج قطعهٔ متنی باید در ترتیب درست قرار بگیرند که نتیجهٔ چهار ارتباط ترتیبی میان آن‌ها را مشخص می‌کند.</p>
+<h3>مثال تألیفی</h3>
+<p>قطعه‌های زیر را در ترتیب منطقی قرار بده:</p>
+<p>A</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Anschließend verglichen die Forschenden die Ergebnisse der beiden Gruppen.</p></blockquote>
+<p class="tr">ترجمه: سپس پژوهشگران نتایج دو گروه را مقایسه کردند.</p>
+<p>B</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>In den vergangenen Jahren hat das Interesse an digitalen Lernmethoden deutlich zugenommen.</p></blockquote>
+<p class="tr">ترجمه: در سال‌های گذشته علاقه به روش‌های یادگیری دیجیتال به‌وضوح افزایش یافته است.</p>
+<p>C</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Dafür wurden 200 Studierende in zwei Gruppen aufgeteilt.</p></blockquote>
+<p class="tr">ترجمه: برای این منظور، ۲۰۰ دانشجو به دو گروه تقسیم شدند.</p>
+<p>D</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Eine aktuelle Untersuchung sollte deshalb klären, ob digitale Übungen den Lernerfolg verbessern.</p></blockquote>
+<p class="tr">ترجمه: به همین دلیل، یک پژوهش جدید قرار بود روشن کند آیا تمرین‌های دیجیتال موفقیت یادگیری را بهبود می‌دهند یا نه.</p>
+<p>ترتیب درست:</p>
+<p>B</p>
+<p>D</p>
+<p>C</p>
+<p>A</p>
+<p>زمینهٔ موضوع ← پرسش پژوهش ← روش پژوهش ← مقایسهٔ نتایج</p>
+<h3>نشانه‌های مهم برای تشخیص ترتیب</h3>
+<p>به کلمات ربط و ارجاعات توجه کن:</p>
+<div class="tbl"><table>
+<tr><th>واژه یا عبارت</th><th>نقش در متن</th></tr>
+<tr><td>zunächst</td><td>معرفی مرحلهٔ نخست</td></tr>
+<tr><td>anschließend</td><td>بیان مرحلهٔ بعد</td></tr>
+<tr><td>danach</td><td>ترتیب زمانی</td></tr>
+<tr><td>deshalb</td><td>بیان پیامد یا نتیجه</td></tr>
+<tr><td>hingegen</td><td>تضاد با گزارهٔ قبلی</td></tr>
+<tr><td>darüber hinaus</td><td>اضافه‌کردن اطلاعات</td></tr>
+<tr><td>diese Ergebnisse</td><td>ارجاع به نتایج قبلی</td></tr>
+<tr><td>ein solches Verfahren</td><td>اشاره به روشی که قبلاً معرفی شده</td></tr>
+<tr><td>abschließend</td><td>پایان‌بندی</td></tr>
+</table></div>
+<p>اما این واژه‌ها نباید به‌تنهایی مبنای پاسخ باشند.</p>
+<p>برای مثال، قطعه‌ای که با diese Ergebnisse آغاز می‌شود، باید بعد از بخشی قرار بگیرد که نتایج موردنظر را معرفی کرده است.</p>
+<p>اگر دو قسمت از نظر دستوری به یکدیگر متصل باشند، اما از نظر معنایی ارتباط منطقی نداشته باشند، آن ترتیب احتمالاً غلط است.</p>
+<h3>روش تمرین</h3>
+<p>پاراگراف‌های یک متن توضیحی یا علمی را جدا کن.</p>
+<p>ترتیب آن‌ها را تغییر بده و سعی کن با استفاده از پیوندهای منطقی دوباره مرتبشان کنی.</p>
+<p>بعد از حل، برای هر اتصال یک دلیل بنویس؛ مثلاً «ضمیر diese به پژوهشِ پاراگراف قبل اشاره می‌کند».</p>
+<h3>۶.۳. تکلیف سوم: Multiple-Choice</h3>
+<p>معنی: سؤال‌های چندگزینه‌ای</p>
+<p>در نسخهٔ دیجیتال، طبق نمونهٔ رسمی، هفت سؤال با چهار گزینه مطرح می‌شوند.</p>
+<p>این تفاوت را به خاطر داشته باش:</p>
+<ul>
+<li>در متن دوم نسخهٔ کاغذی: ۱۰ سؤال با سه گزینه</li>
+<li>در این تکلیف دیجیتال: ۷ سؤال با چهار گزینه</li>
+</ul>
+<h3>چه چیزی سنجیده می‌شود؟</h3>
+<ul>
+<li>فهم اطلاعات مهم متن</li>
+<li>تشخیص پیام اصلی پاراگراف</li>
+<li>تفسیر استدلال‌ها</li>
+<li>فهم دیدگاه نویسنده</li>
+<li>تشخیص هدف ارتباطی متن</li>
+</ul>
+<p>مثلاً:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Welches Ziel verfolgt der Autor mit diesem Text?</p></blockquote>
+<p class="tr">ترجمه: نویسنده با این متن چه هدفی را دنبال می‌کند؟</p>
+<p>برای پاسخ باید میان «موضوع نوشته» و «قصد نویسنده» تفاوت قائل شوی.</p>
+<p>ممکن است متن دربارهٔ انرژی هسته‌ای باشد، اما هدف نویسنده معرفی بی‌طرفانهٔ آن نباشد؛ بلکه بخواهد دربارهٔ پیامدهای اقتصادی یک تصمیم هشدار بدهد.</p>
+<h3>روش تمرین</h3>
+<p>برای هر پاراگراف یک جمله به آلمانی بنویس که کارکرد آن را توضیح بدهد.</p>
+<p>مثلاً:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>In diesem Abschnitt erläutert der Autor die wirtschaftlichen Folgen der Maßnahme.</p></blockquote>
+<p class="tr">ترجمه: نویسنده در این بخش پیامدهای اقتصادی این اقدام را توضیح می‌دهد.</p>
+<p>این کار هم درک متن را تقویت می‌کند و هم برای نوشتن و صحبت‌کردن TestDaF مفید است.</p>
+<h3>۶.۴. تکلیف چهارم: Sprachhandlungen zuordnen</h3>
+<p>معنی: تشخیص و تطبیق کنش‌های زبانی</p>
+<p>این نوع سؤال برای بسیاری از زبان‌آموزان B2 نسبتاً ناآشناست.</p>
+<p>Sprachhandlung یعنی کاری که فرد با زبان انجام می‌دهد؛ مثلاً توصیه‌کردن، انتقادکردن، هشدار‌دادن، ابراز تردید یا پیش‌بینی‌کردن.</p>
+<p>در این تکلیف باید تشخیص بدهی هر بخش مشخص‌شده از متن چه کارکرد ارتباطی دارد.</p>
+<h3>مثال تألیفی</h3>
+<p>جملهٔ اول:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Es ist bedauerlich, dass viele Hochschulen noch immer nicht ausreichend barrierefrei sind.</p></blockquote>
+<p class="tr">ترجمه: تأسف‌آور است که بسیاری از دانشگاه‌ها هنوز به‌اندازهٔ کافی برای افراد دارای محدودیت‌های حرکتی یا سایر نیازهای دسترس‌پذیری مناسب‌سازی نشده‌اند.</p>
+<p>کنش زبانی: etwas bedauern — از چیزی ابراز تأسف کردن.</p>
+<p>جملهٔ دوم:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Die Hochschulen sollten deshalb zusätzliche Mittel für barrierefreie Einrichtungen bereitstellen.</p></blockquote>
+<p class="tr">ترجمه: بنابراین دانشگاه‌ها باید بودجهٔ بیشتری برای امکانات دسترس‌پذیر اختصاص بدهند.</p>
+<p>کنش زبانی: etwas empfehlen / fordern — توصیه یا مطالبه‌کردن.</p>
+<p>جملهٔ سوم:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Es ist fraglich, ob diese Maßnahmen allein ausreichen werden.</p></blockquote>
+<p class="tr">ترجمه: جای تردید است که آیا این اقدامات به‌تنهایی کافی خواهند بود یا نه.</p>
+<p>کنش زبانی: an etwas zweifeln — دربارهٔ چیزی تردید داشتن.</p>
+<h3>واژگان مهم این نوع تکلیف</h3>
+<div class="tbl"><table>
+<tr><th>کنش زبانی</th><th>معنی</th></tr>
+<tr><td>etwas kritisieren</td><td>از چیزی انتقاد کردن</td></tr>
+<tr><td>etwas begrüßen</td><td>از چیزی استقبال کردن</td></tr>
+<tr><td>etwas bedauern</td><td>از چیزی ابراز تأسف کردن</td></tr>
+<tr><td>vor etwas warnen</td><td>دربارهٔ چیزی هشدار دادن</td></tr>
+<tr><td>etwas empfehlen</td><td>چیزی را توصیه کردن</td></tr>
+<tr><td>etwas prognostizieren</td><td>چیزی را پیش‌بینی کردن</td></tr>
+<tr><td>etwas vermuten</td><td>چیزی را حدس زدن</td></tr>
+<tr><td>an etwas zweifeln</td><td>دربارهٔ چیزی تردید داشتن</td></tr>
+<tr><td>etwas einräumen</td><td>چیزی را پذیرفتن یا به آن اذعان کردن</td></tr>
+<tr><td>etwas hervorheben</td><td>بر چیزی تأکید کردن</td></tr>
+</table></div>
+<h3>تلهٔ رایج</h3>
+<p>ممکن است جمله از نظر موضوعی دربارهٔ خطر باشد، اما نویسنده در حال هشدار دادن نباشد.</p>
+<p>مثلاً:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Die Forschenden untersuchten die Risiken digitaler Lernplattformen.</p></blockquote>
+<p class="tr">ترجمه: پژوهشگران خطرات سامانه‌های یادگیری دیجیتال را بررسی کردند.</p>
+<p>این جمله صرفاً دربارهٔ خطرات گزارش می‌دهد.</p>
+<p>اما:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Ohne ausreichenden Datenschutz könnten digitale Lernplattformen erhebliche Risiken mit sich bringen.</p></blockquote>
+<p class="tr">ترجمه: بدون حفاظت کافی از داده‌ها، سامانه‌های یادگیری دیجیتال ممکن است خطرات قابل‌توجهی ایجاد کنند.</p>
+<p>این جمله می‌تواند کارکرد هشداردهنده داشته باشد.</p>
+<p>پس کارکرد زبانی را از لحن و قصد جمله تشخیص بده، نه صرفاً از موضوع آن.</p>
+<h3>۶.۵. تکلیف پنجم: Aussagen Kategorien zuordnen</h3>
+<p>معنی: نسبت‌دادن گزاره‌ها به دسته‌های مشخص</p>
+<p>در این قسمت باید هفت گزاره را در دسته‌های مناسب قرار بدهی.</p>
+<p>در نمونهٔ رسمی، دسته‌ها می‌توانند چنین باشند:</p>
+<p>Stadt — شهر</p>
+<p>Land — روستا یا مناطق روستایی</p>
+<p>beide — هر دو</p>
+<p>passt nicht — هیچ‌کدام / با اطلاعات ارائه‌شده سازگار نیست</p>
+<h3>مثال تألیفی</h3>
+<p>متن:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Sowohl Online-Seminare als auch Präsenzseminare ermöglichen den Austausch zwischen Studierenden. Online-Seminare bieten jedoch mehr räumliche Flexibilität, während Präsenzseminare den direkten persönlichen Kontakt erleichtern.</p></blockquote>
+<p class="tr">ترجمه: هم سمینارهای آنلاین و هم سمینارهای حضوری امکان تبادل نظر میان دانشجویان را فراهم می‌کنند. بااین‌حال، سمینارهای آنلاین انعطاف‌پذیری مکانی بیشتری دارند، درحالی‌که سمینارهای حضوری ارتباط شخصی مستقیم را آسان‌تر می‌کنند.</p>
+<p>حال باید گزاره‌ها را دسته‌بندی کنی.</p>
+<div class="tbl"><table>
+<tr><th>گزاره</th><th>دستهٔ درست</th></tr>
+<tr><td>Mehr räumliche Flexibilität</td><td>Online</td></tr>
+<tr><td>Direkter persönlicher Kontakt wird erleichtert</td><td>Präsenz</td></tr>
+<tr><td>Austausch zwischen Studierenden ist möglich</td><td>هر دو</td></tr>
+<tr><td>Die Teilnahme ist grundsätzlich kostenlos</td><td>اطلاعات کافی وجود ندارد</td></tr>
+</table></div>
+<p>ترجمهٔ گزینهٔ آخر: «شرکت در دوره اصولاً رایگان است.»</p>
+<p>متن دربارهٔ رایگان‌بودن اطلاعاتی ارائه نکرده است.</p>
+<h3>تلهٔ رایج</h3>
+<p>وجود یک ویژگی در یک دسته، لزوماً به معنای نبودن آن ویژگی در دستهٔ دیگر نیست.</p>
+<p>اگر متن بگوید آموزش حضوری امکان گفت‌وگو را فراهم می‌کند، نباید نتیجه بگیری که آموزش آنلاین چنین امکانی ندارد؛ مگر متن این تفاوت را مطرح کرده باشد.</p>
+<p>در نمونهٔ رسمی، گزاره‌ها لزوماً به ترتیب بخش‌های متن قرار ندارند. بنابراین باید اطلاعات را در سراسر متن جست‌وجو کنی.</p>
+<h3>۶.۶. تکلیف ششم: Aussagen einem Begriffspaar zuordnen</h3>
+<p>معنی: تطبیق گزاره‌های درست با یک جفت مفهوم یا دو عنوان اصلی</p>
+<p>این تکلیف با سؤال قبلی شباهت دارد، اما ساختار آن متفاوت است.</p>
+<p>در نمونهٔ رسمی، پس از خواندن متن باید از میان گزاره‌های ارائه‌شده، گزاره‌های درست را انتخاب کنی و آن‌ها را به یکی از دو عنوان مرتبط نسبت بدهی.</p>
+<p>چهار گزاره باید به‌درستی جای‌گذاری شوند.</p>
+<h3>مثال تألیفی</h3>
+<p>فرض کن متن دربارهٔ پیامدهای افزایش گردشگری باشد.</p>
+<p>دو عنوان اصلی:</p>
+<p>Wirtschaftliche Auswirkungen — پیامدهای اقتصادی</p>
+<p>Ökologische Auswirkungen — پیامدهای زیست‌محیطی</p>
+<p>گزاره‌ها:</p>
+<p>A. Durch zusätzliche Besucher entstehen neue Arbeitsplätze.</p>
+<p class="tr">ترجمه: به‌واسطهٔ بازدیدکنندگان بیشتر، فرصت‌های شغلی جدید ایجاد می‌شوند.</p>
+<p>B. Der Wasserverbrauch in beliebten Urlaubsregionen steigt.</p>
+<p class="tr">ترجمه: مصرف آب در مناطق گردشگری محبوب افزایش می‌یابد.</p>
+<p>C. Alle einheimischen Unternehmen profitieren gleichermaßen vom Tourismus.</p>
+<p class="tr">ترجمه: تمام شرکت‌های محلی به یک اندازه از گردشگری سود می‌برند.</p>
+<p>فرض کنیم متن دو مورد A و B را تأیید می‌کند، اما دربارهٔ سود یکسان تمام شرکت‌ها چیزی نگفته است.</p>
+<p>در این حالت:</p>
+<div class="tbl"><table>
+<tr><th>گزاره</th><th>دسته</th></tr>
+<tr><td>A</td><td>Wirtschaftliche Auswirkungen</td></tr>
+<tr><td>B</td><td>Ökologische Auswirkungen</td></tr>
+<tr><td>C</td><td>نباید انتخاب شود</td></tr>
+</table></div>
+<p>این مثال فقط سازوکار انتخاب و دسته‌بندی را نشان می‌دهد؛ تعداد واقعی گزاره‌ها در نمونهٔ رسمی بیشتر است.</p>
+<h3>تلهٔ رایج</h3>
+<p>در این سؤال دو تصمیم باید به‌درستی گرفته شود:</p>
+<ol>
+<li>آیا گزاره از نظر محتوایی درست و مطابق متن است؟</li>
+<li>اگر درست است، به کدام دسته تعلق دارد؟</li>
+</ol>
+<p>ممکن است گزاره از نظر موضوعی کاملاً به یک دسته مربوط باشد، اما محتوای آن در متن تأیید نشده باشد.</p>
+<p>در چنین حالتی نباید آن را فقط به دلیل ارتباط موضوعی انتخاب کنی.</p>
+<h3>۶.۷. تکلیف هفتم: Fehler in Zusammenfassung erkennen</h3>
+<p>معنی: شناسایی خطاها در خلاصهٔ متن</p>
+<p>این نوع تکلیف به توانایی فهم عمیق متن و مقایسهٔ منابع نیاز دارد.</p>
+<p>در نمونهٔ رسمی دیجیتال، یک متن و یک نمودار ارائه می‌شود.</p>
+<p>در کنار آن‌ها، خلاصه‌ای قرار دارد که باید سه جملهٔ نادرست از نظر محتوایی را در آن پیدا کنی.</p>
+<h3>مثال تألیفی</h3>
+<p>اطلاعات اصلی:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Eine Umfrage unter 500 Studierenden ergab, dass 60 Prozent mindestens einmal pro Woche die Universitätsbibliothek besuchen. Weitere 25 Prozent nutzen die Bibliothek seltener. Die übrigen 15 Prozent gaben an, sie nie zu besuchen.</p></blockquote>
+<p class="tr">ترجمه: یک نظرسنجی میان ۵۰۰ دانشجو نشان داد ۶۰ درصد حداقل هفته‌ای یک‌بار به کتابخانهٔ دانشگاه می‌روند. ۲۵ درصد دیگر کمتر از این میزان از کتابخانه استفاده می‌کنند. ۱۵ درصد باقی‌مانده اعلام کردند هرگز از کتابخانه استفاده نمی‌کنند.</p>
+<p>حالا یک خلاصه شامل این جمله است:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Mehr als die Hälfte der Studierenden besucht die Universitätsbibliothek mindestens einmal pro Woche.</p></blockquote>
+<p class="tr">ترجمه: بیش از نیمی از دانشجویان حداقل هفته‌ای یک‌بار به کتابخانهٔ دانشگاه مراجعه می‌کنند.</p>
+<p>این جمله درست است.</p>
+<p>اما اگر خلاصه بنویسد:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Ein Viertel der Studierenden nutzt die Bibliothek überhaupt nicht.</p></blockquote>
+<p class="tr">ترجمه: یک‌چهارم دانشجویان اصلاً از کتابخانه استفاده نمی‌کنند.</p>
+<p>این جمله نادرست است.</p>
+<p>زیرا یک‌چهارم، یعنی ۲۵ درصد، کمتر از هفته‌ای یک‌بار از کتابخانه استفاده می‌کند؛ گروهی که اصلاً استفاده نمی‌کنند ۱۵ درصد هستند.</p>
+<h3>چه خطاهایی ممکن است در خلاصه وجود داشته باشند؟</h3>
+<ul>
+<li>جابه‌جایی اعداد و درصدها</li>
+<li>تغییر گروه‌های مورد مقایسه</li>
+<li>تبدیل احتمال به قطعیت</li>
+<li>اشتباه در نسبت علت و معلول</li>
+<li>تغییر زمان رویداد</li>
+<li>تعمیم نتیجه به جمعیتی بزرگ‌تر</li>
+<li>بیان نتیجه‌ای که داده‌ها پشتیبانی نمی‌کنند</li>
+</ul>
+<p>در این تکلیف باید به اطلاعات نمودار به‌اندازهٔ اطلاعات متن توجه کنی.</p>
+<p>همچنین طبق نمونهٔ رسمی، جمله‌های خلاصه لزوماً به ترتیب اطلاعات متن نیستند. بنابراین باید هر جمله را به‌صورت مستقل با منبع مربوط تطبیق بدهی.</p>
+</section>
+
+<section class="pane">
+<h2 id="s7">۷. زمان‌بندی هفت تکلیف نسخهٔ دیجیتال</h2>
+<p>در نسخهٔ دیجیتال، برخلاف آزمون کاغذی، زمان‌ها درون تکالیف مدیریت می‌شوند.</p>
+<p>در نمونهٔ رسمی منتشرشده برای آشنایی با آزمون، زمان‌ها به این شکل تعیین شده‌اند:</p>
+<div class="tbl"><table>
+<tr><th>تکلیف</th><th>زمان در نمونهٔ رسمی</th></tr>
+<tr><td>Lückentext ergänzen</td><td>۴ دقیقه</td></tr>
+<tr><td>Textabschnitte ordnen</td><td>۵ دقیقه</td></tr>
+<tr><td>Multiple-Choice</td><td>۱۵ دقیقه</td></tr>
+<tr><td>Sprachhandlungen zuordnen</td><td>۶ دقیقه</td></tr>
+<tr><td>Aussagen Kategorien zuordnen</td><td>۹ دقیقه</td></tr>
+<tr><td>Aussagen einem Begriffspaar zuordnen</td><td>۷ دقیقه</td></tr>
+<tr><td>Fehler in Zusammenfassung erkennen</td><td>۷ دقیقه</td></tr>
+<tr><td>مجموع زمان نمونه</td><td>۵۳ دقیقه</td></tr>
+</table></div>
+<p>این جدول مربوط به نمونه‌آزمون رسمی است، نه تضمین زمان ثابت تمام نوبت‌های آینده.</p>
+<p>سایت TestDaF زمان بخش Lesen را حدود ۵۵ دقیقه اعلام می‌کند و تصریح می‌کند زمان و تعداد تکالیف ممکن است تغییر کند.</p>
+<p>در آزمون دیجیتال باید به زمان‌سنج همان تکلیف توجه کنی.</p>
+</section>
+
+<section class="pane">
+<h2 id="s8">۸. مهم‌ترین تله‌های مشترک در بخش خواندن TestDaF</h2>
+<p>تا اینجا انواع سؤال را شناختیم. اما بسیاری از اشتباهات خواندن از چند الگوی زبانی مشترک ناشی می‌شوند.</p>
+<h3>۸.۱. Paraphrasierung — بازنویسی معنا با کلمات متفاوت</h3>
+<p>در TestDaF معمولاً قرار نیست کلمات سؤال عیناً در متن تکرار شوند.</p>
+<p>برای نمونه:</p>
+<p>متن:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Aufgrund finanzieller Schwierigkeiten sind viele Studierende gezwungen, neben dem Studium einer Erwerbstätigkeit nachzugehen.</p></blockquote>
+<p class="tr">ترجمه: به دلیل مشکلات مالی، بسیاری از دانشجویان مجبورند در کنار تحصیل به فعالیت شغلی بپردازند.</p>
+<p>گزارهٔ هم‌معنا:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Geldprobleme führen dazu, dass zahlreiche Studierende während des Studiums arbeiten müssen.</p></blockquote>
+<p class="tr">ترجمه: مشکلات مالی باعث می‌شوند دانشجویان زیادی مجبور باشند هنگام تحصیل کار کنند.</p>
+<p>در اینجا چند تغییر زبانی رخ داده است:</p>
+<div class="tbl"><table>
+<tr><th>عبارت متن</th><th>عبارت سؤال</th></tr>
+<tr><td>aufgrund</td><td>führt dazu, dass</td></tr>
+<tr><td>finanzielle Schwierigkeiten</td><td>Geldprobleme</td></tr>
+<tr><td>viele</td><td>zahlreiche</td></tr>
+<tr><td>gezwungen sein</td><td>müssen</td></tr>
+<tr><td>einer Erwerbstätigkeit nachgehen</td><td>arbeiten</td></tr>
+</table></div>
+<p>اگر فقط به دنبال تکرار عین کلمات بگردی، ممکن است پاسخ را از دست بدهی.</p>
+<p>تمرین مهم این است که هنگام مطالعه، جمله‌های علمی را بدون تغییر معنا به شکل دیگری بنویسی.</p>
+<h3>۸.۲. Nominalisierung — اسمی‌سازی</h3>
+<p>زبان علمی آلمانی از ساختارهای اسمی فراوان استفاده می‌کند.</p>
+<p>مثلاً:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Die Universität erweitert die Bibliothek.</p></blockquote>
+<p class="tr">ترجمه: دانشگاه کتابخانه را توسعه می‌دهد.</p>
+<p>شکل اسمی:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Die Erweiterung der Bibliothek durch die Universität ...</p></blockquote>
+<p class="tr">ترجمه: توسعهٔ کتابخانه توسط دانشگاه ...</p>
+<p>یا:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Weil die Bevölkerung altert, steigt der Bedarf an Pflegekräften.</p></blockquote>
+<p class="tr">ترجمه: چون جمعیت پیرتر می‌شود، نیاز به نیروهای مراقبتی افزایش می‌یابد.</p>
+<p>شکل علمی‌تر:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Aufgrund der Alterung der Bevölkerung steigt der Bedarf an Pflegekräften.</p></blockquote>
+<p class="tr">ترجمه: به دلیل پیرشدن جمعیت، نیاز به نیروهای مراقبتی افزایش می‌یابد.</p>
+<p>اگرچه معنا تقریباً ثابت مانده، ساختار جمله تغییر کرده است.</p>
+<p>درک سریع این تبدیل‌ها برای خواندن متن‌های دانشگاهی ضروری است.</p>
+<h3>۸.۳. Passiv — ساخت مجهول</h3>
+<p>مثلاً:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Die Wissenschaftler untersuchten die Proben.</p></blockquote>
+<p class="tr">ترجمه: دانشمندان نمونه‌ها را بررسی کردند.</p>
+<p>شکل مجهول:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Die Proben wurden untersucht.</p></blockquote>
+<p class="tr">ترجمه: نمونه‌ها بررسی شدند.</p>
+<p>در متن علمی، انجام‌دهندهٔ کار ممکن است حذف شود؛ زیرا تمرکز روی فرایند یا نتیجه است.</p>
+<p>داوطلب باید بتواند بدون نیاز به ترجمهٔ کامل، تشخیص دهد چه عملی روی چه چیزی انجام شده است.</p>
+<h3>۸.۴. Konnektoren — ابزارهای پیوند منطقی</h3>
+<p>کلمات ربط می‌توانند جهت معنای جمله را تغییر دهند.</p>
+<div class="tbl"><table>
+<tr><th>عبارت</th><th>رابطهٔ منطقی</th><th>معنی</th></tr>
+<tr><td>weil / da</td><td>علت</td><td>زیرا / چون</td></tr>
+<tr><td>deshalb / daher</td><td>نتیجه</td><td>بنابراین</td></tr>
+<tr><td>obwohl</td><td>تضاد و امتیاز</td><td>اگرچه</td></tr>
+<tr><td>dennoch / trotzdem</td><td>تضاد با انتظار</td><td>بااین‌حال</td></tr>
+<tr><td>hingegen / dagegen</td><td>تقابل</td><td>در مقابل</td></tr>
+<tr><td>während</td><td>هم‌زمانی یا تقابل</td><td>درحالی‌که</td></tr>
+<tr><td>außerdem</td><td>افزودن اطلاعات</td><td>علاوه بر این</td></tr>
+<tr><td>folglich</td><td>نتیجه‌گیری</td><td>در نتیجه</td></tr>
+<tr><td>sofern</td><td>شرط</td><td>به شرط آنکه</td></tr>
+<tr><td>es sei denn</td><td>استثنا</td><td>مگر اینکه</td></tr>
+<tr><td>einerseits ... andererseits</td><td>دو سوی یک بحث</td><td>از یک طرف ... از طرف دیگر</td></tr>
+</table></div>
+<p>مثلاً:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Obwohl die neue Methode kostengünstiger ist, wird sie bisher nur selten eingesetzt.</p></blockquote>
+<p class="tr">ترجمه: اگرچه روش جدید کم‌هزینه‌تر است، تاکنون به‌ندرت استفاده شده است.</p>
+<p>اگر نقش obwohl را درست نفهمی، ممکن است نتیجه بگیری که روش جدید به دلیل هزینهٔ بالا کمتر استفاده می‌شود؛ درحالی‌که متن خلاف آن را می‌گوید.</p>
+</section>
+
+<section class="pane">
+<h2 id="s9">۹. اشتباهات پرتکرار زبان‌آموزان فارسی‌زبان</h2>
+<p>این موارد دشواری‌های احتمالی ناشی از تفاوت ساختار فارسی و آلمانی هستند، نه ویژگی قطعی تمام فارسی‌زبانان.</p>
+<h3>۹.۱. وابستگی زیاد به ترجمهٔ کلمه‌به‌کلمه</h3>
+<p>در جملات طولانی آلمانی، به‌ویژه جملاتی با چند بند وابسته، ترجمهٔ ترتیبی واژه‌ها به فارسی ممکن است فهم رابطهٔ منطقی را دشوار کند.</p>
+<p>مثلاً:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Die Ergebnisse, die im Rahmen einer mehrjährigen Untersuchung gewonnen wurden, lassen darauf schließen, dass soziale Faktoren eine größere Rolle spielen als bisher angenommen.</p></blockquote>
+<p class="tr">ترجمه: نتایجی که در چارچوب یک پژوهش چندساله به دست آمده‌اند، نشان می‌دهند که عوامل اجتماعی نقش مهم‌تری از آنچه تاکنون تصور می‌شد دارند.</p>
+<p>ساختار اصلی جمله در واقع این است:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Die Ergebnisse lassen darauf schließen, dass ...</p></blockquote>
+<p class="tr">ترجمه: نتایج این استنباط را ممکن می‌سازند که ...</p>
+<p>بخش:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>die im Rahmen einer mehrjährigen Untersuchung gewonnen wurden</p></blockquote>
+<p class="tr">ترجمه: فقط یک بند توضیحی دربارهٔ نتایج است.</p>
+<p>برای خواندن سریع باید بتوانی Hauptsatz (جملهٔ اصلی) را از Nebensatz (جملهٔ وابسته) تشخیص بدهی.</p>
+<h3>۹.۲. اشتباه در افعال دارای پیشوند جداشدنی</h3>
+<p>مثلاً:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Die Studie weist auf erhebliche Unterschiede hin.</p></blockquote>
+<p class="tr">ترجمه: پژوهش به تفاوت‌های قابل‌توجهی اشاره می‌کند.</p>
+<p>فعل در اصل hinweisen auf است.</p>
+<p>اگر هنگام خواندن، بخش weist را مستقل از hin درک کنی، معنای جمله از دست می‌رود.</p>
+<p>همین موضوع در فعل‌هایی مانند ausgehen von، zurückführen auf، beitragen zu و hervorgehen aus اهمیت دارد.</p>
+<h3>۹.۳. اشتباه در دامنهٔ منفی‌سازی</h3>
+<p>به این دو جمله توجه کن:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Nicht alle Studierenden nutzen digitale Lernangebote.</p></blockquote>
+<p class="tr">ترجمه: همهٔ دانشجویان از امکانات یادگیری دیجیتال استفاده نمی‌کنند؛ یعنی دست‌کم بعضی استفاده نمی‌کنند.</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Alle Studierenden nutzen keine digitalen Lernangebote.</p></blockquote>
+<p class="tr">ترجمه: این جمله در آلمانی طبیعی و دقیق نیست و می‌تواند از نظر دامنهٔ نفی مبهم باشد. برای بیان اینکه «هیچ دانشجویی استفاده نمی‌کند»، شکل روشن‌تر چنین است:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Kein Studierender nutzt digitale Lernangebote.</p></blockquote>
+<p class="tr">ترجمه: هیچ دانشجویی از امکانات یادگیری دیجیتال استفاده نمی‌کند.</p>
+<p>تفاوت «همه استفاده نمی‌کنند» با «هیچ‌کس استفاده نمی‌کند» در سؤال‌های TestDaF تعیین‌کننده است.</p>
+<h3>۹.۴. برداشت اشتباه از واژگان نزدیک به هم</h3>
+<div class="tbl"><table>
+<tr><th>واژهٔ اول</th><th>واژهٔ دوم</th><th>تفاوت</th></tr>
+<tr><td>vermutlich</td><td>nachweislich</td><td>احتمالاً / به‌طور اثبات‌شده</td></tr>
+<tr><td>häufig</td><td>regelmäßig</td><td>اغلب / به‌صورت منظم</td></tr>
+<tr><td>ermöglichen</td><td>gewährleisten</td><td>امکان‌پذیرکردن / تضمین‌کردن</td></tr>
+<tr><td>erhöhen</td><td>verbessern</td><td>افزایش کمّی / بهبود کیفیت</td></tr>
+<tr><td>erforderlich</td><td>empfehlenswert</td><td>ضروری / توصیه‌شده</td></tr>
+<tr><td>Ursache</td><td>Folge</td><td>علت / پیامد</td></tr>
+<tr><td>Zusammenhang</td><td>Einfluss</td><td>ارتباط / تأثیر</td></tr>
+<tr><td>ähnlich</td><td>identisch</td><td>مشابه / یکسان</td></tr>
+</table></div>
+<p>این واژه‌ها همیشه جانشین یکدیگر نمی‌شوند.</p>
+<p>به‌ویژه تفاوت ermöglichen و gewährleisten مهم است.</p>
+<p>مثال:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Die neue Plattform ermöglicht den Zugang zu digitalen Lernmaterialien.</p></blockquote>
+<p class="tr">ترجمه: سامانهٔ جدید دسترسی به منابع آموزشی دیجیتال را امکان‌پذیر می‌کند.</p>
+<p>این جمله تضمین نمی‌کند که همهٔ دانشجویان بدون مشکل از آن منابع استفاده خواهند کرد.</p>
+</section>
+
+<section class="pane">
+<h2 id="s10">۱۰. چگونه بخش خواندن را به‌صورت مؤثر تمرین کنیم؟</h2>
+<p>تمرین TestDaF باید دو هدف جداگانه داشته باشد:</p>
+<p>Sprachkompetenz verbessern: تقویت توانایی واقعی زبان</p>
+<p>Prüfungskompetenz verbessern: تقویت توانایی انجام تکالیف آزمون</p>
+<p>اگر فقط سؤال تستی حل کنی، ممکن است تکنیک آزمونت بهتر شود اما ضعف واژگان و ساختارهای علمی پابرجا بماند.</p>
+<p>اگر فقط مقاله بخوانی، ممکن است فهم زبانت قوی‌تر شود اما در زمان‌بندی و قالب آزمون ضعف داشته باشی.</p>
+<p>بنابراین هر دو نوع تمرین لازم‌اند.</p>
+<h3>۱۰.۱. تمرین بدون محدودیت زمان</h3>
+<p>در مرحلهٔ نخست، یک متن را بدون زمان‌سنج بخوان.</p>
+<p>سؤال‌ها را حل کن و برای هر پاسخ شاهد مشخص پیدا کن.</p>
+<p>واژه‌های کلیدی، روابط منطقی و ساختار جمله‌ها را تحلیل کن.</p>
+<p>هدف این مرحله کیفیت فهم است، نه سرعت.</p>
+<h3>۱۰.۲. تمرین زمان‌دار</h3>
+<p>پس از آشنایی با قالب سؤال‌ها، همان نوع تکلیف را تحت محدودیت زمانی انجام بده.</p>
+<p>برای نسخهٔ کاغذی، می‌توانی ابتدا هر مجموعه را جداگانه تمرین کنی و بعد یک آزمون کامل ۵۰ دقیقه‌ای حل کنی.</p>
+<p>برای نسخهٔ دیجیتال، زمان‌سنج مخصوص هر نوع تکلیف را به کار ببر. مهم است که بعد از پایان زمان، به پاسخ‌های قبلی بازنگردی؛ چون در امتحان چنین امکانی نداری.</p>
+<h3>۱۰.۳. Fehleranalyse — تحلیل خطا</h3>
+<p>این مرحله از خود حل سؤال مهم‌تر است، به‌خصوص زمانی که چند بار یک نوع اشتباه را تکرار می‌کنی.</p>
+<p>برای هر سؤال غلط، علت واقعی را ثبت کن.</p>
+<h3>فرم ثبت خطا در تمرین Lesen</h3>
+<p>نوع خطا:</p>
+<ul>
+<li>معنی یک واژه یا ترکیب را نمی‌دانستم</li>
+<li>بازنویسی معنایی را تشخیص ندادم</li>
+<li>رابطهٔ منطقی یا علت و معلول را اشتباه فهمیدم</li>
+<li>محدودیت، کمیت یا دامنهٔ گزاره را ندیدم</li>
+<li>به‌دلیل محدودیت زمان اشتباه کردم</li>
+<li>دستور سؤال یا شیوهٔ پاسخ‌گویی را اشتباه فهمیدم</li>
+</ul>
+<p>توضیح خطا و نکته‌ای که باید دوباره تمرین کنم:</p>
+<p>اگر خطاها را دسته‌بندی کنی، پس از چند آزمون متوجه می‌شوی آیا مشکل اصلی تو دانش زبان است، فهم سؤال یا مدیریت زمان.</p>
+<h3>۱۰.۴. روتین پیشنهادی روزانه</h3>
+<p>برای زبان‌آموز سطح B2، یک جلسهٔ هدفمند ۶۰ دقیقه‌ای می‌تواند چنین ساختاری داشته باشد:</p>
+<div class="tbl"><table>
+<tr><th>زمان</th><th>فعالیت</th></tr>
+<tr><td>۱۵ دقیقه</td><td>خواندن یک متن دانشگاهی و مشخص‌کردن پیام اصلی</td></tr>
+<tr><td>۱۵ دقیقه</td><td>حل یک مجموعه سؤال یا چند سؤال مشابه TestDaF</td></tr>
+<tr><td>۱۵ دقیقه</td><td>تحلیل پاسخ‌های غلط و یافتن شواهد متن</td></tr>
+<tr><td>۱۰ دقیقه</td><td>بررسی واژگان علمی و ترکیب‌های پرتکرار</td></tr>
+<tr><td>۵ دقیقه</td><td>خلاصه‌کردن متن در دو یا سه جملهٔ آلمانی</td></tr>
+</table></div>
+<p>این روتین یک پیشنهاد آموزشی است و زمان‌بندی رسمی TestDaF محسوب نمی‌شود.</p>
+<p>خلاصه‌نویسی کوتاه در پایان تمرین، علاوه بر خواندن، به تقویت Schreiben و Sprechen نیز کمک می‌کند.</p>
+<h3>۱۰.۵. روش تمرین اختصاصی برای هر قالب</h3>
+<div class="tbl"><table>
+<tr><th>نوع سؤال</th><th>تمرین مؤثر</th></tr>
+<tr><td>تطبیق متن‌های کوتاه</td><td>مقایسهٔ خواسته‌ها با پیش‌نیازها و ویژگی‌های متن</td></tr>
+<tr><td>چندگزینه‌ای</td><td>مشخص‌کردن شاهد پاسخ و علت رد سایر گزینه‌ها</td></tr>
+<tr><td>Ja / Nein / Text sagt dazu nichts</td><td>تشخیص تأیید، تناقض و نبود اطلاعات</td></tr>
+<tr><td>تکمیل جای خالی</td><td>یادگیری ترکیب‌های واژگانی در جمله</td></tr>
+<tr><td>مرتب‌سازی متن</td><td>تمرین روابط ارجاعی و ساختار پاراگراف</td></tr>
+<tr><td>تشخیص کنش زبانی</td><td>تعیین قصد نویسنده در هر جمله</td></tr>
+<tr><td>دسته‌بندی گزاره‌ها</td><td>مقایسهٔ نظام‌مند ویژگی‌های دو یا چند گروه</td></tr>
+<tr><td>جفت‌مفهوم‌ها</td><td>کنترل جداگانهٔ صحت گزاره و دستهٔ مناسب</td></tr>
+<tr><td>تشخیص خطای خلاصه</td><td>مقایسهٔ خط‌به‌خط خلاصه با متن و نمودار</td></tr>
+</table></div>
+</section>
+
+<section class="pane">
+<h2 id="s11">۱۱. خودارزیابی: از کجا بفهمیم برای TDN 4 آماده‌ایم؟</h2>
+<p>برای رسیدن به TDN 4، صرفاً «فهمیدن بیشتر متن» کافی نیست.</p>
+<p>باید بتوانی این فهم را در قالب پاسخ‌های درست و در زمان تعیین‌شده نشان بدهی.</p>
+<p>چند شاخص عملی برای خودارزیابی:</p>
+<ul>
+<li>می‌توانی پیام اصلی یک متن علمی را بدون ترجمهٔ کامل توضیح بدهی.</li>
+<li>برای بیشتر پاسخ‌ها شاهد مشخص در متن پیدا می‌کنی.</li>
+<li>فرق میان Nein و Text sagt dazu nichts را با استدلال توضیح می‌دهی.</li>
+<li>با کلمات ناشناخته، توانایی فهم کلی جمله را از دست نمی‌دهی.</li>
+<li>در تمرین زمان‌دار، معمولاً تمام سؤال‌ها را بررسی می‌کنی.</li>
+<li>بعد از تصحیح می‌توانی دلیل غلط‌بودن پاسخ‌هایت را مشخص کنی.</li>
+<li>در آزمون‌های آزمایشی رسمی، عملکردت در چند نوبت نسبتاً پایدار است.</li>
+</ul>
+<p>اما هیچ درصد ثابت و جهانی از پاسخ‌های درست وجود ندارد که تضمین کند TDN 4 می‌گیری.</p>
+<p>در نسخهٔ کاغذی، تبدیل تعداد پاسخ‌های درست به TDN به مجموعهٔ سؤال‌ها و دشواری آن‌ها بستگی دارد.</p>
+<p>در نسخهٔ دیجیتال نیز امتیاز خام ابتدا به مقیاس استاندارد تبدیل می‌شود.</p>
+<p>به همین دلیل بهتر است عملکردت را با چند نمونه‌آزمون رسمی و با شرایط واقعی زمان‌بندی مقایسه کنی، نه اینکه مثلاً فرض کنی «۲۴ پاسخ درست از ۳۰ سؤال حتماً TDN 4 است».</p>
+</section>
+
+<section class="pane">
+<h2 id="s12">۱۲. منابع رسمی برای تمرین Leseverstehen</h2>
+<p>منابع زیر از خود TestDaF-Institut و وب‌سایت رسمی TestDaF هستند.</p>
+<p>Modelltest 1 و Modelltest 2 — نسخهٔ کاغذی</p>
+<p>نمونه‌آزمون‌های رسمی همراه با پاسخ‌ها و راهنماهای حل سؤال.</p>
+<ul>
+<li><a href="https://www.testdaf.de/de/teilnehmende/der-papierbasierte-testdaf/vorbereitung-auf-den-papierbasierten-testdaf/modelltests/">نمونه‌آزمون‌های رسمی کاغذی</a></li>
+</ul>
+<p>Vorbereitung auf den digitalen TestDaF</p>
+<p>توضیحات رسمی هفت نوع سؤال خواندن و راهنمای آمادگی دیجیتال.</p>
+<ul>
+<li><a href="https://www.testdaf.de/de/teilnehmende/der-digitale-testdaf/vorbereitung-auf-den-digitalen-testdaf">آمادگی رسمی نسخهٔ دیجیتال</a></li>
+</ul>
+<p>Beispielaufgaben — Digitaler TestDaF, Lesen</p>
+<p>فایل رسمی PDF شامل نمونهٔ هفت نوع تکلیف خواندن، دستورالعمل‌ها، زمان‌ها و پاسخ‌ها.</p>
+<ul>
+<li><a href="https://www.testdaf.de/fileadmin/testdaf/downloads/Demo_Version_digitaler_TestDaF/Beispielaufgaben_Demo-Version_digitaler_TestDaF_Lesen.pdf">مشاهدهٔ نمونه‌سؤال‌های دیجیتال</a></li>
+</ul>
+<p>Hinweise und Tipps zu Modelltest 01</p>
+<p>توضیح رسمی تله‌ها و استراتژی‌های سه متن نسخهٔ کاغذی با تحلیل نمونه‌سؤال‌ها.</p>
+<ul>
+<li><a href="https://www.testdaf.de/fileadmin/testdaf/downloads/Modelltests_papierbasierter_TestDaF/HinweiseTipps/Hinweise-und-Tipps_zu-Modelltest-01.pdf">راهنمای رسمی تحلیل سؤال‌ها</a></li>
+</ul>
+</section>
+
+<section class="pane">
+<h2>جمع‌بندی پارت سوم</h2>
+<p>در نسخهٔ کاغذی، Leseverstehen از سه مجموعه تشکیل شده است: تطبیق متن‌های کوتاه، درک مطلب روزنامه‌نگارانه با سؤال‌های چندگزینه‌ای، و متن علمی با سؤال‌های Ja / Nein / Text sagt dazu nichts.</p>
+<p>مجموع زمان ۶۰ دقیقه است: ۵۰ دقیقه حل سؤال و ۱۰ دقیقه انتقال پاسخ‌ها.</p>
+<p>نسخهٔ دیجیتال هفت نوع تکلیف اصلی با مجموع ۳۴ سؤال دارد و توانایی‌های بیشتری مانند مرتب‌سازی متن، تشخیص کنش زبانی، طبقه‌بندی گزاره‌ها و شناسایی خطا در خلاصه را ارزیابی می‌کند.</p>
+<p>برای عملکرد مناسب در هر دو نسخه، سه مهارت تعیین‌کننده‌اند: شناخت بازنویسی معنایی، فهم روابط منطقی و تشخیص دقیق آنچه متن واقعاً اثبات یا بیان می‌کند.</p>
+<p>در پارت چهارم سراغ Hörverstehen می‌رویم: هر سه بخش شنیداری نسخهٔ کاغذی، تعداد دفعات پخش، نوع سؤال‌ها، تفاوت نسخهٔ دیجیتال، روش یادداشت‌برداری هنگام گوش‌دادن و استراتژی‌های فهم سخنرانی علمی در زمان واقعی.</p>
+</section>
+
+<section class="pane note">
+<p><a href="testdaf.html">پارت‌های دیگر ←</a></p>
+</section>
+</main>
+</body>
+</html>
