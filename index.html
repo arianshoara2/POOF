@@ -1292,6 +1292,7 @@ function parseJSONSegs(txt){
  }
  return out;
 }
+function mergeWordSegs(segs){let single=0;for(const g of segs){if(!/\s/.test((g.t||"").trim()))single++}if(segs.length<4||single/segs.length<0.7)return null;const out=[],map=[];let cur=null;const flush=()=>{if(cur){out.push(cur);cur=null}};for(let k=0;k<segs.length;k++){const g=segs[k];if(!cur)cur={s:g.s,t:""};map[k]=out.length;cur.t=cur.t?cur.t+" "+g.t:g.t;const words=cur.t.split(/\s+/).length;const gap=(k+1<segs.length)?segs[k+1].s-g.s:0;if(/[.!…?]$/.test(g.t.trim())||words>=12||gap>3)flush()}flush();return {segs:out,map};}
 async function podImport(ep,btn){
  if(!podShow)return;
  const sid="pod_"+podHash(podShow.feed+"|"+ep.audio);
@@ -1315,9 +1316,9 @@ async function podImport(ep,btn){
    if(j.segments&&j.segments.length){segs=j.segments.map(x=>({s:x.s,t:x.t}));if(j.lang){const lg=String(j.lang).slice(0,2);if(lg==="de"||lg==="en")item.lang=lg}}
   }catch(e){toast("ترنسکریپت خودکار بعد از آپدیت ورکر فعال می‌شود")}
  }
- if(segs&&segs.length){item.segs=segs;item.body=segs.map(x=>x.t).join("\n")}
+ if(segs&&segs.length){const mg=mergeWordSegs(segs);if(mg)segs=mg.segs;item.segs=segs;item.body=segs.map(x=>x.t).join("\n")}
  else item.body=ep.desc||podShow.name;
- db.texts.push(item);db.textId=item.id;save();$("#podPick").hidden=true;$("#entry").hidden=true;renderReader();
+ db.texts.push(item);db.textId=item.id;save();$("#podPick").hidden=true;$("#entry").hidden=true;renderReader();$("#text").scrollIntoView({behavior:"smooth"});
  toast(segs?"اپیزود با متن اضافه شد":"اپیزود اضافه شد (فقط صوت)");
  if(btn){btn.style.opacity="";btn.style.pointerEvents=""}
 }
@@ -1336,7 +1337,7 @@ $("#podRes").onclick=e=>{
  if(ep)podImport(podEps[+ep.dataset.ep],ep);
 };
 $("#text").addEventListener("click",e=>{const b=e.target.closest("[data-pod-yt]");if(!b)return;podYtFetch();});
-async function podYtFetch(){const t=curText();if(!t||!t.pod||(t.segs&&t.segs.length))return;const m=(t.body||"").match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?[^#]*v=|embed\/|shorts\/))([A-Za-z0-9_-]{11})/);if(!m){toast("در توضیحات این قسمت لینک یوتیوب پیدا نشد","bad");return}const id=m[1],btn=document.querySelector("[data-pod-yt]");if(btn){btn.disabled=true;btn.textContent="در حال دریافت متن گفتگو…"}const want=(t.lang==="de"||t.lang==="en")?t.lang:"";let data=null;const tries=[()=>fetchT(workerURL({yt:id,lang:want})),()=>fetchT(workerURL({yta:id})),()=>fetchT(workerURL({supa:id,lang:want})),()=>fetchT(workerURL({ytapi:id,lang:want}))];for(const fn of tries){try{const r=await fn(),j=await r.json();if(!r.ok||j.error||!j.segments||!j.segments.length)continue;data={segments:j.segments,lang:j.lang};break}catch(e){}}if(!data){try{const d=await ytTimedText(id,want);if(d&&d.segments&&d.segments.length)data=d}catch(e){}}if(!data){toast("زیرنویس این ویدیو پیدا نشد؛ ممکن است ویدیو زیرنویس نداشته باشد","bad");if(btn){btn.disabled=false;btn.textContent="▶ دریافت متن گفتگو از یوتیوب"}return}t.segs=data.segments.map(x=>({s:x.s,t:x.t}));t.body=t.segs.map(x=>x.t).join("\n");if(data.lang)t.lang=data.lang;save();renderReader();toast("متن گفتگو از یوتیوب اضافه شد");}
+async function podYtFetch(){const t=curText();if(!t||!t.pod||(t.segs&&t.segs.length))return;const m=(t.body||"").match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?[^#]*v=|embed\/|shorts\/))([A-Za-z0-9_-]{11})/);if(!m){toast("در توضیحات این قسمت لینک یوتیوب پیدا نشد","bad");return}const id=m[1],btn=document.querySelector("[data-pod-yt]");if(btn){btn.disabled=true;btn.textContent="در حال دریافت متن گفتگو…"}const want=(t.lang==="de"||t.lang==="en")?t.lang:"";let data=null;const tries=[()=>fetchT(workerURL({yt:id,lang:want})),()=>fetchT(workerURL({yta:id})),()=>fetchT(workerURL({supa:id,lang:want})),()=>fetchT(workerURL({ytapi:id,lang:want}))];for(const fn of tries){try{const r=await fn(),j=await r.json();if(!r.ok||j.error||!j.segments||!j.segments.length)continue;data={segments:j.segments,lang:j.lang};break}catch(e){}}if(!data){try{const d=await ytTimedText(id,want);if(d&&d.segments&&d.segments.length)data=d}catch(e){}}if(!data){toast("زیرنویس این ویدیو پیدا نشد؛ ممکن است ویدیو زیرنویس نداشته باشد","bad");if(btn){btn.disabled=false;btn.textContent="▶ دریافت متن گفتگو از یوتیوب"}return}t.segs=data.segments.map(x=>({s:x.s,t:x.t}));{const mg=mergeWordSegs(t.segs);if(mg)t.segs=mg.segs}t.body=t.segs.map(x=>x.t).join("\n");if(data.lang)t.lang=data.lang;save();renderReader();toast("متن گفتگو از یوتیوب اضافه شد");}
 /* --- پخش‌کننده‌ی صوتی پادکست: هم‌زمان با متن، ذخیره‌ی جای پخش، ادامه --- */
 let audEl=null,audFor="",audSaveAt=0;let igListen=false;const igAudRefreshed=new Set();function igPlayAt(s){if(!audEl)return;try{audEl.currentTime=s}catch(e){}const pr=audEl.play();if(pr&&pr.catch)pr.catch(()=>{})}
 function audSavePos(t){
@@ -3289,6 +3290,7 @@ function renderReader(){
  const all=allTexts(),t=all.find(x=>x.id===db.textId)||all[0];db.textId=t.id;
  if(t.video&&t.video.ig&&t.lang==="en"&&t.body&&detectLang(t.body)==="de"){t.lang="de";save();}
  sents=[];
+ if(t.pod&&t.segs&&t.segs.length){const mg=mergeWordSegs(t.segs);if(mg){t.segs=mg.segs;t.body=mg.segs.map(x=>x.t).join("\n");if(t.progress&&typeof t.progress.seg==="number")t.progress.seg=Math.min(mg.map[t.progress.seg]??0,mg.segs.length-1);save();}}
  if(t.segs){
   const igv=t.video&&t.video.ig;
   const srcOf=g=>t.pod?("podcast:"+t.id+"@"+Math.floor(g.s)):igv?("ig:"+t.video.ig+"@"+Math.floor(g.s)):t.video?("video:"+t.video.id+"@"+Math.floor(g.s)):("local:"+Math.floor(g.s));
@@ -4078,7 +4080,7 @@ const isNetErr=e=>!!e&&(e.name==="AbortError"||e instanceof TypeError||/timeout|
 async function importYT(id,want){
  const sid="yt_"+id+"_"+(want||"auto");
  let t=db.texts.find(x=>x.id===sid);
- if(t&&t.segs&&t.segs.length){db.textId=t.id;save();$("#addPanel").hidden=true;renderReader();toast("این ویدیو قبلاً اضافه شده بود — باز شد");return}
+ if(t&&t.segs&&t.segs.length){db.textId=t.id;save();$("#addPanel").hidden=true;renderReader();$("#text").scrollIntoView({behavior:"smooth"});toast("این ویدیو قبلاً اضافه شده بود — باز شد");return}
  let data=null,err=null,fbErr=null;
  try{
   const r=await fetchT(workerURL({yt:id,lang:want||""})),j=await r.json();
@@ -4112,7 +4114,7 @@ async function importYT(id,want){
   const segs=data.segments.map(x=>({s:x.s,t:x.t})),body=segs.map(x=>x.t).join("\n");
   if(t){t.segs=segs;t.body=body;if(data.title)t.title="YouTube · "+data.title;if(data.lang)t.lang=data.lang}
   else{t={id:sid,added:Date.now(),title:"YouTube · "+(data.title||id),lang:data.lang||want||"en",want:want||"",body,video:{id},segs};db.texts.push(t)}
-  db.textId=t.id;save();$("#addPanel").hidden=true;renderReader();toast("زیرنویس آماده شد");
+  db.textId=t.id;save();$("#addPanel").hidden=true;renderReader();$("#text").scrollIntoView({behavior:"smooth"});toast("زیرنویس آماده شد");
   return;
  }
  if(isNetErr(err)&&isNetErr(fbErr))throw err;   // مشکل واقعی اتصال: همان پیام‌های قبلی friendly
@@ -4122,8 +4124,8 @@ async function importYT(id,want){
   t={id:sid,added:Date.now(),title:"YouTube · "+(kn.title||id),lang:(want&&want!=="auto")?want:(kn.lang||"en"),want:want||"",body:"",video:{id},segs:[]};
   db.texts.push(t);
  }
- db.textId=t.id;save();$("#addPanel").hidden=true;renderReader();
- toast(YT_BOT_MSG,"bad");
+ db.textId=t.id;save();$("#addPanel").hidden=true;renderReader();$("#text").scrollIntoView({behavior:"smooth"});
+  toast(YT_BOT_MSG,"bad");
 }
 function extractArticle(html){
  const d=new DOMParser().parseFromString(html,"text/html");
