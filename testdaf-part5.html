@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#111111">
+<meta name="description" content="راهنمای جامع آزمون TestDaF — پارت ۴: Hörverstehen: درک شنیداری، ساختار سه فایل صوتی، هفت تکلیف دیجیتال، یادداشت‌برداری و روش تمرین">
+<script>try{var _t=(JSON.parse(localStorage.getItem('poof_v2')||'{}').theme==='snowy')?'snowy':'classic';document.write('<link rel="stylesheet" id="themeCss" href="theme-'+_t+'.css?v=16">')}catch(e){document.write('<link rel="stylesheet" id="themeCss" href="theme-classic.css?v=16">')}</script>
+<script src="poof-core.js"></script><script>try{var _pv={};try{_pv=JSON.parse(localStorage.getItem('poof_v2')||'{}')||{};}catch(e){}var _th=(_pv.theme==='snowy'||_pv.theme==='classic'||_pv.theme==='lilac'||_pv.theme==='peachy'||_pv.theme==='minty'||_pv.theme==='ocean'||_pv.theme==='sun'||_pv.theme==='nebula')?_pv.theme:null;if(!_th){var _old=null;try{_old=localStorage.getItem('ddd_theme');}catch(e){}_th=(_old==='light')?'snowy':(_old==='dark')?'classic':'classic';}document.documentElement.dataset.theme=_th;var _m=document.querySelector('meta[name="theme-color"]');if(_m)_m.content=_th==='snowy'?'#081421':_th==='classic'?'#111111':_th==='lilac'?'#EEF2FF':_th==='peachy'?'#FFF7ED':_th==='minty'?'#F0FDF4':_th==='ocean'?'#0B1E3A':_th==='sun'?'#FFF7E0':_th==='nebula'?'#1A0B2E':'#111111';}catch(e){}</script><title>TestDaF | راهنمای جامع آزمون</title>
+<style>
+:root{color-scheme:dark;--bg:#111111;--card:#1b1814;--glass:rgba(27,24,20,.72);--ink:#f5f1e8;--muted:#b8b0a4;--border:#4a4032;--primary:#e6b96f;--primary-on:#1b1814;--soft:rgba(255,255,255,.06)}
+html[data-theme="snowy"]{color-scheme:dark;--bg:#081421;--card:#10263a;--glass:rgba(16,38,58,.72);--ink:#f3f8fc;--muted:#b8c7d3;--border:#294861;--primary:#f3c879;--primary-on:#081421;--soft:rgba(243,200,121,.08)}
+html[data-theme="classic"]{color-scheme:dark;--bg:#111111;--card:#1b1814;--glass:rgba(27,24,20,.72);--ink:#f5f1e8;--muted:#b8b0a4;--border:#4a4032;--primary:#e6b96f;--primary-on:#1b1814;--soft:rgba(255,255,255,.06)}
+html[data-theme="lilac"]{color-scheme:light;--bg:#EEF2FF;--card:#FFFFFF;--glass:rgba(255,255,255,.75);--ink:#1E1B4B;--muted:#55547E;--border:#C7D2FE;--primary:#4F46E5;--primary-on:#FFFFFF;--soft:rgba(79,70,229,.06)}
+html[data-theme="peachy"]{color-scheme:light;--bg:#FFF7ED;--card:#FFFFFF;--glass:rgba(255,255,255,.75);--ink:#1C1917;--muted:#57534E;--border:#FED7AA;--primary:#F97316;--primary-on:#1C1917;--soft:rgba(249,115,22,.06)}
+html[data-theme="minty"]{color-scheme:light;--bg:#F0FDF4;--card:#FFFFFF;--glass:rgba(255,255,255,.75);--ink:#052E16;--muted:#365314;--border:#BBF7D0;--primary:#166534;--primary-on:#FFFFFF;--soft:rgba(22,101,52,.06)}
+html[data-theme="ocean"]{color-scheme:dark;--bg:#0B1E3A;--card:#12294D;--glass:rgba(18,41,77,.72);--ink:#E8F1FF;--muted:#A8BDD8;--border:#2A4A73;--primary:#38BDF8;--primary-on:#0B1E3A;--soft:rgba(56,189,248,.08)}
+html[data-theme="sun"]{color-scheme:light;--bg:#FFF7E0;--card:#FFFFFF;--glass:rgba(255,255,255,.75);--ink:#3B2A00;--muted:#6B5A2E;--border:#F5D67B;--primary:#B45309;--primary-on:#FFFFFF;--soft:rgba(180,83,9,.06)}
+html[data-theme="nebula"]{color-scheme:dark;--bg:#1A0B2E;--card:#2A1650;--glass:rgba(42,22,80,.72);--ink:#F3EFFF;--muted:#C9B8E8;--border:#4C2E85;--primary:#F5C97B;--primary-on:#1A0B2E;--soft:rgba(245,201,123,.08)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100svh;background:var(--bg);color:var(--ink);font:16px/1.9 "DM Sans",Vazirmatn,system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;padding:env(safe-area-inset-top) 12px calc(48px + env(safe-area-inset-bottom))}
+#tdScenic{position:fixed;inset:0;z-index:0;pointer-events:none;display:none;background-size:cover;background-position:center;background-repeat:no-repeat}
+html[data-theme="ocean"] #tdScenic{display:block;background-image:url('pouf-blue-scene-read.webp')}
+html[data-theme="nebula"] #tdScenic{display:block;background-image:url('pouf-nebula-scene-read.webp')}
+body>*{position:relative;z-index:1}
+main{max-width:760px;margin:0 auto}
+a{color:var(--primary)}
+header{position:relative;overflow:hidden;border:1px solid var(--border);border-radius:20px;background:var(--glass);backdrop-filter:blur(10px) saturate(1.25);-webkit-backdrop-filter:blur(10px) saturate(1.25);padding:18px 16px 16px;margin-bottom:15px;text-align:center}
+header::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.18),rgba(0,0,0,.55));z-index:0;pointer-events:none}
+.td-head{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:2px}
+.poof-mascot{width:56px;height:56px;flex:none;background-size:cover;background-repeat:no-repeat;background-position:center}
+header h1{margin:8px 0 2px;font-size:1.6rem}
+header p{margin:0;color:var(--muted)}
+section.pane{background:var(--glass);backdrop-filter:blur(10px) saturate(1.25);-webkit-backdrop-filter:blur(10px) saturate(1.25);border:1px solid var(--border);border-radius:20px;padding:18px 16px;margin-bottom:15px}
+h2{font-size:1.3rem;margin:0 0 10px;padding-bottom:8px;border-bottom:2px solid var(--primary)}
+h3{font-size:1.1rem;margin:22px 0 8px;color:var(--primary)}
+p{margin:10px 0}
+ul,ol{margin:8px 0;padding-inline-start:22px}
+li{margin:4px 0}
+.de{direction:ltr;unicode-bidi:embed;font-family:Georgia,"Times New Roman",serif}
+blockquote.ex{margin:14px 0;padding:12px 14px;border-inline-start:3px solid var(--primary);background:var(--soft);border-radius:12px;font-family:Georgia,"Times New Roman",serif}
+blockquote.ex p{margin:0}
+p.tr{color:var(--muted);font-size:.95rem}
+.tbl{overflow-x:auto;margin:12px 0}
+table{border-collapse:collapse;width:100%;min-width:520px}
+th,td{border:1px solid var(--border);padding:8px 10px;text-align:start;vertical-align:top}
+th{background:var(--soft);font-weight:700}
+.small{color:var(--muted);font-size:.9rem}
+.note{border:1px dashed var(--border);border-radius:14px;padding:12px 14px;background:var(--soft)}
+@media(min-width:540px){body{padding-inline:22px}section.pane{padding:22px 20px}}
+h1,h2,h3{font-family:"Nunito",Vazirmatn,sans-serif}
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800;900&family=DM+Sans:wght@400;500;700&family=Vazirmatn:wght@400;500;700;800&display=swap" rel="stylesheet"></head>
+<body>
+<div id="tdScenic" aria-hidden="true"></div>
+<div style="padding:14px 16px 0"><a href="testdaf.html" style="color:var(--primary);text-decoration:none;font-size:14px">← همه پارت‌ها</a></div>
+<main>
+<header><div class="poof-img-header-bg" style="position:absolute;inset:0;z-index:0" aria-hidden="true"></div><div class="td-head"><div class="poof-mascot" id="tdMascot" style="width:56px;height:56px" aria-hidden="true"></div><h1>TestDaF</h1><p>راهنمای مطالعه آزمون — پارت ۵ از ۱۱: Schriftlicher Ausdruck / Schreiben: نوشتن دانشگاهی، توصیف نمودار، استدلال، خلاصه‌نویسی، عبارات کاربردی و معیارهای تصحیح</p></div></header><script>(function(){try{var _t=document.documentElement.dataset.theme||'classic';var _f={snowy:'snowy-wave.webp',classic:'pouf-classic-wave.webp',lilac:'pouf-lilac-wave.webp',peachy:'snowy-wave.webp',minty:'pouf-minty-wave.webp',ocean:'pouf-ocean-smile.webp',sun:'pouf-sun-wave.webp',nebula:'pouf-nebula-wave.webp'}[_t]||'pouf-classic-wave.webp';var _m=document.getElementById('tdMascot');if(_m)_m.style.backgroundImage="url('"+_f+"')";}catch(e){}})();</script>
+<section class="pane"><h2>بخش‌های این پارت</h2><ul><li><a href="#s1">۱. ساختار رسمی بخش نوشتاری</a></li><li><a href="#s2">۲. نسخهٔ کاغذی: Schriftlicher Ausdruck</a></li><li><a href="#s3">۳. ساختار کامل یک متن کاغذی</a></li><li><a href="#s4">۴. Grafikbeschreibung — توصیف نمودار و جدول</a></li><li><a href="#s5">۵. Argumentation — نوشتن متن استدلالی</a></li><li><a href="#s6">۶. Eigene Stellungnahme — بیان موضع شخصی</a></li><li><a href="#s7">۷. Schluss — نتیجه‌گیری</a></li><li><a href="#s8">۸. نمونهٔ ساختار کامل متن کاغذی</a></li><li><a href="#s9">۹. زمان‌بندی نوشتن در نسخهٔ کاغذی</a></li><li><a href="#s10">۱۰. نسخهٔ دیجیتال: Schreiben</a></li><li><a href="#s11">۱۱. تکلیف دوم دیجیتال: خلاصهٔ متن و نمودار</a></li><li><a href="#s12">۱۲. Redemittel ویژهٔ خلاصه‌نویسی و ترکیب منابع</a></li><li><a href="#s13">۱۳. مدیریت زمان در نسخهٔ دیجیتال</a></li><li><a href="#s14">۱۴. معیارهای رسمی تصحیح بخش نوشتاری</a></li><li><a href="#s15">۱۵. TDN 3، TDN 4 و TDN 5 در نوشتن چه تفاوتی دارند؟</a></li><li><a href="#s16">۱۶. اشتباهات پرتکرار در نوشتن، به‌ویژه از سطح B2</a></li><li><a href="#s17">۱۷. چگونه متن خودت را در پنج دقیقهٔ پایانی اصلاح کنی؟</a></li><li><a href="#s18">۱۸. برنامهٔ تمرین نوشتن برای سطح B2</a></li><li><a href="#s19">۱۹. منابع رسمی پارت پنجم</a></li></ul></section>
+
+<section class="pane">
+<p>بخش نوشتاری TestDaF یکی از بخش‌هایی است که در آن تفاوت میان دانستن زبان آلمانی و توانایی استفادهٔ دانشگاهی از آن آشکار می‌شود.</p>
+<p>ممکن است زبان‌آموزی در سطح B2 بتواند یک ایمیل رسمی بنویسد، تجربه‌ای شخصی را توضیح دهد یا دربارهٔ موضوعی نظر بدهد، اما همچنان در نگارش متن دانشگاهی با مشکلاتی مانند توصیف نادقیق آمار، استدلال سطحی، تکرار واژگان و نبود انسجام روبه‌رو شود.</p>
+<p>در TestDaF، از تو انتظار می‌رود بتوانی اطلاعات را انتخاب، سازمان‌دهی، بازنویسی، تحلیل و در قالب متن منسجم ارائه کنی.</p>
+<p>این پارت سه مهارت اصلی را پوشش می‌دهد:</p>
+<ul>
+<li><span class="de" lang="de">Grafikbeschreibung</span>: توصیف نمودار و داده‌های آماری</li>
+<li><span class="de" lang="de">Argumentation</span>: استدلال و بررسی دیدگاه‌های مختلف</li>
+<li><span class="de" lang="de">Zusammenfassung</span>: خلاصه‌نویسی اطلاعات از منابع مختلف</li>
+</ul>
+<p>هر سه مهارت اهمیت دارند، اما جایگاهشان در نسخهٔ کاغذی و دیجیتال متفاوت است.</p>
+</section>
+
+<section class="pane">
+<h2 id="s1">۱. ساختار رسمی بخش نوشتاری</h2>
+<p>مهم‌ترین نکته این است که TestDaF کاغذی و دیجیتال دو قالب نوشتاری متفاوت دارند.</p>
+<div class="tbl"><table>
+<tr><th>ویژگی</th><th>نسخهٔ کاغذی</th><th>نسخهٔ دیجیتال</th></tr>
+<tr><td>نام رسمی</td><td>Schriftlicher Ausdruck</td><td>Schreiben</td></tr>
+<tr><td>مدت</td><td>۶۰ دقیقه</td><td>حدود ۶۰ دقیقه</td></tr>
+<tr><td>تعداد تکلیف اصلی</td><td>۱</td><td>۲</td></tr>
+<tr><td>شیوهٔ نوشتن</td><td>دست‌نویس</td><td>تایپ با رایانه</td></tr>
+<tr><td>توصیف نمودار</td><td>بخشی از متن واحد</td><td>بخشی از تکلیف خلاصه‌سازی منابع</td></tr>
+<tr><td>استدلال</td><td>بخشی از همان متن واحد</td><td>تکلیف مستقل</td></tr>
+<tr><td>خلاصه‌سازی متن و نمودار</td><td>تکلیف مستقل ندارد</td><td>تکلیف مستقل</td></tr>
+<tr><td>تعداد واژه</td><td>حداقل ثابت رسمی در ساختار عمومی اعلام نشده</td><td>حداقل ۲۰۰ واژه برای استدلال؛ حدود ۱۰۰ تا ۱۵۰ برای خلاصه</td></tr>
+<tr><td>ارزیابی</td><td>ارزیابان آموزش‌دیده</td><td>ارزیابان آموزش‌دیده</td></tr>
+<tr><td>نتیجه</td><td>TDN مستقل برای نوشتن</td><td>امتیاز ۰ تا ۲۰ و سطح TDN</td></tr>
+</table></div>
+<p>در نسخهٔ دیجیتال، امکان ارائهٔ تکلیف آزمایشی اضافی نیز وجود دارد که در نتیجهٔ نهایی محاسبه نمی‌شود.</p>
+<h3>۱.۱. تفاوت ساختاری اصلی</h3>
+<p>TestDaF کاغذی: یک متن منسجم — توصیف و مقایسهٔ نمودار + بحث استدلالی و نتیجه‌گیری — ۶۰ دقیقه برای کل متن.</p>
+<p>TestDaF دیجیتال: تکلیف اول — متن استدلالی، حداقل ۲۰۰ واژه، ۳۰ دقیقه؛ تکلیف دوم — خلاصهٔ متن و نمودار، حدود ۱۰۰ تا ۱۵۰ واژه، ۳۰ دقیقه.</p>
+<p>زمان‌های ۳۰ دقیقه‌ای در نمونه‌آزمون رسمی دیجیتال تأیید شده‌اند.</p>
+<p>در نسخهٔ کاغذی، دو مهارت توصیف و استدلال باید در یک متن به هم متصل شوند؛ در نسخهٔ دیجیتال، هرکدام از دو تکلیف هدف ارتباطی مستقل دارد.</p>
+</section>
+
+<section class="pane">
+<h2 id="s2">۲. نسخهٔ کاغذی: Schriftlicher Ausdruck</h2>
+<h3>۲.۱. صورت سؤال چگونه ارائه می‌شود؟</h3>
+<p>در نسخهٔ کاغذی با یک موضوع مرتبط با زندگی اجتماعی یا دانشگاهی مواجه می‌شوی.</p>
+<p>مواد آزمون می‌توانند شامل موارد زیر باشند:</p>
+<ul>
+<li>یک متن کوتاه برای معرفی موضوع</li>
+<li>یک یا چند نمودار یا جدول آماری</li>
+<li>یک پرسش بحث‌برانگیز</li>
+<li>دیدگاه‌ها یا گزاره‌هایی دربارهٔ موضوع</li>
+<li>دستورهای مشخص برای توصیف، مقایسه، استدلال و نتیجه‌گیری</li>
+</ul>
+<p>برای نمونه، در Modelltest 01 رسمی موضوع مربوط به تناسب‌اندام و بیمهٔ سلامت است. دو نمودار ارائه می‌شود و داوطلب باید دربارهٔ امکان کاهش حق بیمه برای افراد ورزشکار بحث کند؛ همچنین باید به وضعیت کشور خود اشاره کند.</p>
+<p>نکتهٔ مهم این است که تعداد نمودارها یا جزئیات دستور در تمام موضوعات الزاماً یکسان نیستند. باید هر بار تمام قسمت‌های صورت سؤال را بخوانی.</p>
+<h3>۲.۲. دستورهای آلمانی چه معنایی دارند؟</h3>
+<p>در TestDaF، <span class="de" lang="de">Operatoren</span> (فعل‌های دستوری سؤال که نوع پاسخ موردانتظار را مشخص می‌کنند) اهمیت زیادی دارند.</p>
+<div class="tbl"><table>
+<tr><th>دستور آلمانی</th><th>معنی فارسی</th><th>آنچه باید انجام دهی</th></tr>
+<tr><td>Beschreiben Sie ...</td><td>توصیف کنید</td><td>اطلاعات اصلی را بدون قضاوت شخصی توضیح بده</td></tr>
+<tr><td>Vergleichen Sie ...</td><td>مقایسه کنید</td><td>شباهت‌ها و تفاوت‌ها را مشخص کن</td></tr>
+<tr><td>Erläutern Sie ...</td><td>توضیح و تشریح کنید</td><td>مفهوم را روشن کن و در صورت لزوم مثال بیاور</td></tr>
+<tr><td>Begründen Sie ...</td><td>دلیل بیاورید</td><td>ادعا را با استدلال پشتیبانی کن</td></tr>
+<tr><td>Diskutieren Sie ...</td><td>بحث و بررسی کنید</td><td>جنبه‌های مختلف را تحلیل کن</td></tr>
+<tr><td>Nehmen Sie Stellung ...</td><td>موضع خود را بیان کنید</td><td>دیدگاه روشن و مستدل ارائه بده</td></tr>
+<tr><td>Gehen Sie auf ... ein</td><td>به ... بپردازید</td><td>موضوع تعیین‌شده را حتماً در پاسخ پوشش بده</td></tr>
+<tr><td>Wägen Sie ... ab</td><td>جوانب را بسنجید</td><td>مزایا و معایب را با هم مقایسه کن</td></tr>
+<tr><td>Fassen Sie ... zusammen</td><td>خلاصه کنید</td><td>نکات اصلی را فشرده و وفادار به منبع ارائه کن</td></tr>
+</table></div>
+<p>مثلاً اگر سؤال نوشته باشد:</p>
+<blockquote class="ex"><p class="de" lang="de">Vergleichen Sie die Entwicklung in den beiden untersuchten Gruppen.</p></blockquote>
+<p class="tr">ترجمه: روند تغییرات در دو گروه بررسی‌شده را مقایسه کنید.</p>
+<p>نوشتن فقط اعداد گروه اول، انجام کامل دستور نیست.</p>
+<p>باید رابطهٔ میان دو گروه را توضیح بدهی؛ مثلاً اینکه یکی رشد بیشتری داشته یا روند هر دو مشابه بوده است.</p>
+</section>
+
+<section class="pane">
+<h2 id="s3">۳. ساختار کامل یک متن کاغذی</h2>
+<p>برای پاسخ‌گویی منسجم، می‌توان متن را در شش قسمت سازمان‌دهی کرد.</p>
+<p>این تقسیم‌بندی یک الگوی پیشنهادی آموزشی است، نه قالب اجباری TestDaF.</p>
+<div class="tbl"><table>
+<tr><th>بخش</th><th>کارکرد</th></tr>
+<tr><td>Einleitung</td><td>معرفی موضوع و زمینهٔ بحث</td></tr>
+<tr><td>Grafikbeschreibung</td><td>ارائهٔ اطلاعات اصلی نمودار</td></tr>
+<tr><td>Überleitung</td><td>ایجاد ارتباط میان داده‌ها و پرسش بحث</td></tr>
+<tr><td>Argumentation</td><td>بررسی مزایا و معایب با دلیل</td></tr>
+<tr><td>Eigene Stellungnahme</td><td>بیان و دفاع از موضع شخصی</td></tr>
+<tr><td>Schluss</td><td>جمع‌بندی نهایی</td></tr>
+</table></div>
+<p>در نمونهٔ رسمی، لازم نیست الزاماً شش پاراگراف مستقل داشته باشی، اما متن باید به‌وضوح سازمان‌دهی شده باشد.</p>
+<h3>۳.۱. Einleitung — مقدمه</h3>
+<p>مقدمه باید موضوع را معرفی کند و روشن سازد متن قرار است چه مسئله‌ای را بررسی کند.</p>
+<p>بهتر است کوتاه، مرتبط و مشخص باشد.</p>
+<p><b>نمونهٔ ضعیف</b></p>
+<blockquote class="ex"><p class="de" lang="de">Heutzutage ist Sport sehr wichtig. Alle Menschen brauchen Sport. Sport ist gut für die Gesundheit.</p></blockquote>
+<p class="tr">ترجمه: امروزه ورزش خیلی مهم است. همهٔ انسان‌ها به ورزش نیاز دارند. ورزش برای سلامتی خوب است.</p>
+<p>مشکل این مقدمه آن است که چند جملهٔ کلی و تکراری دارد، بدون اینکه موضوع دقیق بحث را معرفی کند.</p>
+<p><b>نمونهٔ مناسب‌تر</b></p>
+<blockquote class="ex"><p class="de" lang="de">Die Bedeutung regelmäßiger körperlicher Aktivität für die Gesundheit wird seit Jahren diskutiert. In diesem Zusammenhang stellt sich die Frage, ob gesundheitsbewusstes Verhalten auch bei der Berechnung von Krankenversicherungsbeiträgen berücksichtigt werden sollte.</p></blockquote>
+<p class="tr">ترجمه: اهمیت فعالیت بدنی منظم برای سلامت سال‌هاست که مورد بحث قرار دارد. در این زمینه این پرسش مطرح می‌شود که آیا رفتارهای سلامت‌محور باید در محاسبهٔ حق بیمهٔ درمانی نیز در نظر گرفته شوند یا نه.</p>
+<p>این مقدمه سه ویژگی دارد: موضوع را معرفی می‌کند، مسئلهٔ اصلی را مشخص می‌کند و لحن نسبتاً دانشگاهی دارد.</p>
+<h3>Redemittel — عبارات کاربردی مقدمه</h3>
+<div class="tbl"><table>
+<tr><th>عبارت آلمانی</th><th>ترجمهٔ فارسی</th></tr>
+<tr><td>In den vergangenen Jahren hat die Bedeutung von ... zugenommen.</td><td>در سال‌های گذشته اهمیتِ ... افزایش یافته است.</td></tr>
+<tr><td>Die Frage, ob ..., wird zunehmend diskutiert.</td><td>این پرسش که آیا ...، بیش‌ازپیش مورد بحث قرار می‌گیرد.</td></tr>
+<tr><td>Ein häufig diskutiertes Thema ist ...</td><td>یکی از موضوعات پر‌بحث ... است.</td></tr>
+<tr><td>Im Mittelpunkt der Diskussion steht die Frage, ob ...</td><td>محور بحث این پرسش است که آیا ...</td></tr>
+<tr><td>Vor diesem Hintergrund stellt sich die Frage, ...</td><td>با توجه به این زمینه، این پرسش مطرح می‌شود که ...</td></tr>
+<tr><td>Im Folgenden werden ... betrachtet.</td><td>در ادامه ... بررسی خواهند شد.</td></tr>
+</table></div>
+<p>نکتهٔ زبانی: عبارت <span class="de" lang="de">Heutzutage</span> به‌خودی‌خود غلط نیست، اما استفادهٔ مکانیکی از آن در ابتدای تمام متن‌ها، بدون معرفی مسئلهٔ واقعی، کیفیت متن را بالا نمی‌برد.</p>
+</section>
+
+<section class="pane">
+<h2 id="s4">۴. Grafikbeschreibung — توصیف نمودار و جدول</h2>
+<p>این قسمت توانایی تبدیل اطلاعات تصویری و عددی به زبان دقیق را ارزیابی می‌کند.</p>
+<p>هدف این نیست که تمام اعداد نمودار را به‌ترتیب رونویسی کنی.</p>
+<p>باید مهم‌ترین اطلاعات را انتخاب کنی و رابطهٔ آن‌ها را توضیح بدهی.</p>
+<h3>۴.۱. انواع نمودارهایی که باید بشناسی</h3>
+<ul>
+<li><span class="de" lang="de">Liniendiagramm</span> — نمودار خطی؛ معمولاً برای تغییرات در طول زمان</li>
+<li><span class="de" lang="de">Säulendiagramm</span> — نمودار ستونی؛ برای مقایسهٔ مقادیر</li>
+<li><span class="de" lang="de">Balkendiagramm</span> — نمودار میله‌ای افقی؛ برای مقایسهٔ گروه‌ها</li>
+<li><span class="de" lang="de">Kreisdiagramm</span> — نمودار دایره‌ای؛ برای نمایش سهم بخش‌ها از کل</li>
+</ul>
+<p>ممکن است داده‌ها در قالب یک <span class="de" lang="de">Tabelle</span> (جدول) نیز ارائه شوند.</p>
+<p>در هر حالت، روش تحلیل مهم‌تر از شکل ظاهری نمودار است.</p>
+<h3>۴.۲. پنج پرسش پیش از شروع توصیف</h3>
+<p>پیش از نوشتن باید مشخص کنی:</p>
+<ol>
+<li>نمودار دربارهٔ چه موضوعی است؟</li>
+<li>داده‌ها مربوط به چه جامعه، گروه یا محدوده‌ای هستند؟</li>
+<li>واحد اندازه‌گیری چیست: درصد، تعداد افراد، میلیون نفر یا چیز دیگر؟</li>
+<li>چه بازهٔ زمانی یا چه گروه‌هایی مقایسه شده‌اند؟</li>
+<li>مهم‌ترین روند، بالاترین مقدار و پایین‌ترین مقدار کدام‌اند؟</li>
+</ol>
+<p>اگر این پنج سؤال را جواب نداده باشی، احتمال اشتباه در توصیف بالا می‌رود.</p>
+<h3>۴.۳. یک نمودار تألیفی برای تمرین</h3>
+<p>فرض کنیم آمار زیر دربارهٔ سهم دانشجویانی است که در کنار تحصیل کار می‌کنند.</p>
+<p>داده‌ها کاملاً فرضی و صرفاً برای آموزش‌اند؛ آمار واقعی آلمان نیستند.</p>
+<p>عنوان آلمانی نمودار: <span class="de" lang="de">Anteil erwerbstätiger Studierender</span></p>
+<p>ترجمه: سهم دانشجویان شاغل.</p>
+<p>بر اساس این داده‌های فرضی، سهم دانشجویان شاغل از ۴۰ درصد در سال ۲۰۱۸ به ۵۲ درصد در سال ۲۰۲۴ رسیده است.</p>
+<p>اما چگونه باید این اطلاعات را در قالب متن آلمانی ارائه کرد؟</p>
+<p><b>گام اول: معرفی نمودار</b></p>
+<blockquote class="ex"><p class="de" lang="de">Das Liniendiagramm veranschaulicht die Entwicklung des Anteils erwerbstätiger Studierender zwischen 2018 und 2024.</p></blockquote>
+<p class="tr">ترجمه: نمودار خطی روند تغییر سهم دانشجویان شاغل را میان سال‌های ۲۰۱۸ و ۲۰۲۴ نشان می‌دهد.</p>
+<p><b>گام دوم: توصیف روند اصلی</b></p>
+<blockquote class="ex"><p class="de" lang="de">Insgesamt ist ein kontinuierlicher Anstieg zu erkennen.</p></blockquote>
+<p class="tr">ترجمه: در مجموع، روند افزایشی پیوسته‌ای مشاهده می‌شود.</p>
+<p><b>گام سوم: ارائهٔ اعداد مهم</b></p>
+<blockquote class="ex"><p class="de" lang="de">Während der Anteil im Jahr 2018 bei 40 Prozent lag, erreichte er 2024 einen Wert von 52 Prozent.</p></blockquote>
+<p class="tr">ترجمه: درحالی‌که این سهم در سال ۲۰۱۸ برابر با ۴۰ درصد بود، در سال ۲۰۲۴ به ۵۲ درصد رسید.</p>
+<p><b>گام چهارم: بیان تغییر دقیق</b></p>
+<blockquote class="ex"><p class="de" lang="de">Damit erhöhte sich der Anteil innerhalb von sechs Jahren um zwölf Prozentpunkte.</p></blockquote>
+<p class="tr">ترجمه: بنابراین این سهم طی شش سال، دوازده واحد درصد افزایش یافته است.</p>
+<p><b>گام پنجم: جمع‌بندی داده‌ها</b></p>
+<blockquote class="ex"><p class="de" lang="de">Die Daten zeigen somit einen stetig wachsenden Anteil erwerbstätiger Studierender im dargestellten Zeitraum.</p></blockquote>
+<p class="tr">ترجمه: بنابراین داده‌ها نشان‌دهندهٔ افزایش پیوستهٔ سهم دانشجویان شاغل در بازهٔ نمایش‌داده‌شده هستند.</p>
+<p>در این پنج جمله، هم موضوع مشخص شده، هم روند، هم مقادیر مهم و هم جمع‌بندی.</p>
+<h3>۴.۴. تفاوت درصد و واحد درصد</h3>
+<p>این یکی از خطاهای جدی در توصیف آمار است.</p>
+<p>فرض کن سهم یک گروه از ۴۰ درصد به ۵۲ درصد افزایش یابد.</p>
+<p>دو بیان متفاوت داریم.</p>
+<p>افزایش برحسب واحد درصد:</p>
+<blockquote class="ex"><p class="de" lang="de">Der Anteil ist um zwölf Prozentpunkte gestiegen.</p></blockquote>
+<p class="tr">ترجمه: سهم گروه دوازده واحد درصد افزایش یافته است.</p>
+<p>افزایش نسبی:</p>
+<blockquote class="ex"><p class="de" lang="de">Der Anteil ist um 30 Prozent gestiegen.</p></blockquote>
+<p class="tr">ترجمه: این سهم نسبت به مقدار اولیه ۳۰ درصد افزایش یافته است.</p>
+<p>هر دو می‌توانند درست باشند، اما معنای متفاوتی دارند.</p>
+<p>تفاوت محاسباتی: 52 - 40 = 12 Prozentpunkte؛ و (52 - 40) / 40 × 100 = 30%.</p>
+<p>در TestDaF باید مشخص کنی کدام نوع تغییر را توصیف می‌کنی.</p>
+<p>جملهٔ «از ۴۰ درصد به ۵۲ درصد، یعنی ۱۲ درصد افزایش» از نظر بیان آماری دقیق نیست، مگر منظورت را روشن کرده باشی.</p>
+<h3>۴.۵. Redemittel برای معرفی و توصیف نمودار</h3>
+<div class="tbl"><table>
+<tr><th>کارکرد</th><th>عبارت آلمانی</th><th>ترجمهٔ فارسی</th></tr>
+<tr><td>معرفی</td><td>Die Grafik zeigt ...</td><td>نمودار ... را نشان می‌دهد.</td></tr>
+<tr><td>معرفی</td><td>Das Diagramm veranschaulicht ...</td><td>نمودار ... را به تصویر می‌کشد.</td></tr>
+<tr><td>منبع</td><td>Die Daten stammen aus ...</td><td>داده‌ها از ... گرفته شده‌اند.</td></tr>
+<tr><td>بازه</td><td>Die Angaben beziehen sich auf den Zeitraum von ... bis ...</td><td>اطلاعات به بازهٔ ... تا ... مربوط‌اند.</td></tr>
+<tr><td>واحد</td><td>Die Werte werden in Prozent angegeben.</td><td>مقادیر برحسب درصد ارائه شده‌اند.</td></tr>
+<tr><td>روند افزایشی</td><td>Der Anteil ist gestiegen.</td><td>سهم افزایش یافته است.</td></tr>
+<tr><td>روند کاهشی</td><td>Die Zahl ist zurückgegangen.</td><td>تعداد کاهش یافته است.</td></tr>
+<tr><td>ثبات</td><td>Der Wert blieb nahezu unverändert.</td><td>مقدار تقریباً ثابت مانده است.</td></tr>
+<tr><td>اوج</td><td>Der Höchstwert wurde im Jahr ... erreicht.</td><td>بیشترین مقدار در سال ... ثبت شده است.</td></tr>
+<tr><td>کمینه</td><td>Den niedrigsten Wert weist ... auf.</td><td>کمترین مقدار مربوط به ... است.</td></tr>
+<tr><td>مقایسه</td><td>Im Vergleich zu ...</td><td>در مقایسه با ...</td></tr>
+<tr><td>تفاوت</td><td>Während ..., liegt ...</td><td>درحالی‌که ...، مقدار ... قرار دارد.</td></tr>
+<tr><td>نتیجه</td><td>Insgesamt lässt sich feststellen, dass ...</td><td>در مجموع می‌توان نتیجه گرفت که ...</td></tr>
+</table></div>
+<p>لازم نیست همهٔ این عبارات را در یک متن به کار ببری. باید آن‌هایی را انتخاب کنی که واقعاً برای اطلاعات نمودار مناسب‌اند.</p>
+<h3>۴.۶. افعال دقیق برای بیان تغییرات</h3>
+<div class="tbl"><table>
+<tr><th>فعل</th><th>کاربرد</th></tr>
+<tr><td>steigen</td><td>افزایش یافتن</td></tr>
+<tr><td>zunehmen</td><td>بیشتر شدن</td></tr>
+<tr><td>wachsen</td><td>رشد کردن</td></tr>
+<tr><td>sich erhöhen</td><td>افزایش پیدا کردن</td></tr>
+<tr><td>sinken</td><td>کاهش یافتن</td></tr>
+<tr><td>abnehmen</td><td>کمتر شدن</td></tr>
+<tr><td>zurückgehen</td><td>کاهش پیدا کردن</td></tr>
+<tr><td>sich verringern</td><td>کاهش پیدا کردن</td></tr>
+<tr><td>schwanken</td><td>نوسان داشتن</td></tr>
+<tr><td>stagnieren</td><td>راکد ماندن</td></tr>
+<tr><td>konstant bleiben</td><td>ثابت ماندن</td></tr>
+<tr><td>sich verdoppeln</td><td>دو برابر شدن</td></tr>
+<tr><td>sich halbieren</td><td>نصف شدن</td></tr>
+</table></div>
+<p>به دو ساختار زیر دقت کن:</p>
+<blockquote class="ex"><p class="de" lang="de">Die Zahl der Teilnehmenden ist gestiegen.</p></blockquote>
+<p class="tr">ترجمه: تعداد شرکت‌کنندگان افزایش یافته است.</p>
+<p>اما:</p>
+<blockquote class="ex"><p class="de" lang="de">Die Universität hat die Zahl der Studienplätze erhöht.</p></blockquote>
+<p class="tr">ترجمه: دانشگاه تعداد ظرفیت‌های تحصیلی را افزایش داده است.</p>
+<p>در جملهٔ اول تغییر را توصیف می‌کنی؛ در جملهٔ دوم فاعلی وجود دارد که باعث تغییر شده است.</p>
+<p>استفادهٔ نادرست از فعل‌های گذرا و ناگذر در زبان آلمانی خطای رایجی است.</p>
+<h3>۴.۷. چطور از نمودار نتیجه‌گیری نادرست نکنیم؟</h3>
+<p>توصیف داده‌ها با توضیح علت آن‌ها متفاوت است.</p>
+<p>فرض کن نمودار نشان می‌دهد تعداد دانشجویان شاغل افزایش یافته است.</p>
+<p>این جمله درست است:</p>
+<blockquote class="ex"><p class="de" lang="de">Der Anteil erwerbstätiger Studierender hat im untersuchten Zeitraum zugenommen.</p></blockquote>
+<p class="tr">ترجمه: سهم دانشجویان شاغل در بازهٔ بررسی‌شده افزایش یافته است.</p>
+<p>اما این جمله، بدون شواهد تکمیلی، نتیجه‌گیری موجهی نیست:</p>
+<blockquote class="ex"><p class="de" lang="de">Der Anteil erwerbstätiger Studierender ist wegen der steigenden Mietpreise gewachsen.</p></blockquote>
+<p class="tr">ترجمه: سهم دانشجویان شاغل به دلیل افزایش اجاره‌بها رشد کرده است.</p>
+<p>چرا؟</p>
+<p>زیرا نمودار فقط افزایش سهم دانشجویان شاغل را نشان می‌دهد؛ نه دلیل آن را.</p>
+<p>ممکن است افزایش اجاره‌بها یک توضیح احتمالی باشد، اما نمی‌توان آن را صرفاً از داده‌های نمودار اثبات کرد.</p>
+<p>اگر صورت سؤال از تو بخواهد دربارهٔ دلایل احتمالی نیز بحث کنی، می‌توانی بنویسی:</p>
+<blockquote class="ex"><p class="de" lang="de">Ein möglicher Grund dafür könnten steigende Lebenshaltungskosten sein.</p></blockquote>
+<p class="tr">ترجمه: یکی از دلایل احتمالی این موضوع می‌تواند افزایش هزینه‌های زندگی باشد.</p>
+<p>در اینجا از <span class="de" lang="de">vorsichtige Formulierung</span> (بیان محتاطانه) استفاده کرده‌ای و ادعای خود را به‌عنوان احتمال مطرح کرده‌ای.</p>
+<p>این تمایز برای زبان علمی بسیار مهم است.</p>
+</section>
+
+<section class="pane">
+<h2 id="s5">۵. Argumentation — نوشتن متن استدلالی</h2>
+<p>بخش استدلالی جایی است که باید نشان بدهی می‌توانی یک مسئله را از چند زاویه بررسی کنی و موضعی قابل‌دفاع داشته باشی.</p>
+<p>صرف اینکه دربارهٔ موضوع نظر شخصی داشته باشی، کافی نیست.</p>
+<p>در آلمانی باید میان سه مفهوم تمایز بگذاریم:</p>
+<ul>
+<li><span class="de" lang="de">Behauptung</span>: ادعا</li>
+<li><span class="de" lang="de">Begründung</span>: دلیل یا توجیه ادعا</li>
+<li><span class="de" lang="de">Beispiel / Beleg</span>: مثال یا شاهد پشتیبان</li>
+</ul>
+<h3>۵.۱. تفاوت نظر شخصی و استدلال</h3>
+<p><b>نمونهٔ ضعیف:</b></p>
+<blockquote class="ex"><p class="de" lang="de">Ich finde Online-Unterricht gut, weil er gut ist und viele Vorteile hat.</p></blockquote>
+<p class="tr">ترجمه: به نظرم آموزش آنلاین خوب است، چون خوب است و مزایای زیادی دارد.</p>
+<p>این جمله از نظر استدلالی تقریباً اطلاعاتی ارائه نمی‌کند.</p>
+<p><b>نمونهٔ بهتر:</b></p>
+<blockquote class="ex"><p class="de" lang="de">Ein wesentlicher Vorteil digitaler Lehrveranstaltungen besteht darin, dass Studierende unabhängig von ihrem Wohnort teilnehmen können. Dadurch lassen sich lange Anfahrtswege vermeiden, was insbesondere für Berufstätige eine erhebliche Entlastung darstellen kann.</p></blockquote>
+<p class="tr">ترجمه: یکی از مزایای اصلی کلاس‌های دیجیتال این است که دانشجویان می‌توانند مستقل از محل سکونت خود در آن‌ها شرکت کنند. از این طریق می‌توان از مسیرهای رفت‌وآمد طولانی جلوگیری کرد؛ موضوعی که به‌ویژه برای افراد شاغل می‌تواند کاهش فشار قابل‌توجهی به همراه داشته باشد.</p>
+<p>در جملهٔ دوم، زنجیرهٔ منطقی روشن است:</p>
+<ul>
+<li><span class="de" lang="de">Behauptung</span> — ادعا: آموزش دیجیتال انعطاف مکانی ایجاد می‌کند.</li>
+<li><span class="de" lang="de">Begründung</span> — دلیل: دانشجو مجبور نیست برای هر کلاس به دانشگاه برود.</li>
+<li><span class="de" lang="de">Folge</span> — پیامد: زمان و فشار رفت‌وآمد کاهش می‌یابد.</li>
+</ul>
+<p>این ساختار را می‌توان برای تقریباً تمام موضوعات استدلالی TestDaF به کار برد.</p>
+<h3>۵.۲. ساختار پیشنهادی یک پاراگراف استدلالی</h3>
+<p>یک پاراگراف مناسب معمولاً چهار جزء دارد:</p>
+<ol>
+<li>جملهٔ اصلی یا <span class="de" lang="de">Themensatz</span> که ادعا را معرفی می‌کند.</li>
+<li>توضیح دلیل.</li>
+<li>مثال یا پیامد مرتبط.</li>
+<li>ارتباط با پرسش اصلی بحث.</li>
+</ol>
+<p><b>نمونهٔ کامل تألیفی</b></p>
+<p>موضوع: آیا دانشجویان باید در کنار تحصیل کار کنند؟</p>
+<blockquote class="ex"><p class="de" lang="de">Ein wesentlicher Vorteil einer Nebentätigkeit während des Studiums besteht darin, dass Studierende frühzeitig berufliche Erfahrungen sammeln können. Insbesondere wenn die Tätigkeit einen Bezug zum Studienfach hat, erhalten sie die Möglichkeit, theoretisches Wissen in der Praxis anzuwenden. Beispielsweise kann eine Informatikstudentin durch die Mitarbeit in einem Softwareunternehmen bereits während ihres Studiums lernen, wie Entwicklungsprojekte organisiert werden. Solche Erfahrungen können den späteren Berufseinstieg erleichtern. Allerdings setzt dieser Vorteil voraus, dass die Arbeitszeit nicht zulasten wichtiger Studienleistungen geht.</p></blockquote>
+<p class="tr">ترجمه: یکی از مزایای اصلی کار دانشجویی در دوران تحصیل این است که دانشجویان می‌توانند از همان ابتدا تجربهٔ کاری کسب کنند. به‌ویژه زمانی که فعالیت شغلی با رشتهٔ تحصیلی ارتباط داشته باشد، این امکان را پیدا می‌کنند که دانش نظری خود را در عمل به کار بگیرند. برای مثال، یک دانشجوی رشتهٔ انفورماتیک می‌تواند از طریق همکاری با یک شرکت نرم‌افزاری، در همان دوران تحصیل یاد بگیرد پروژه‌های توسعهٔ نرم‌افزار چگونه سازمان‌دهی می‌شوند. چنین تجربه‌هایی می‌توانند ورود بعدی به بازار کار را آسان‌تر کنند. البته این مزیت به شرطی برقرار است که ساعات کاری به عملکرد تحصیلی مهم لطمه نزند.</p>
+<p>این پاراگراف از یک ادعای عمومی آغاز می‌شود، با توضیح و مثال ادامه پیدا می‌کند و در پایان محدودیت ادعا را بیان می‌کند.</p>
+<p>وجود جملهٔ پایانی باعث می‌شود استدلال از حالت مطلق و یک‌طرفه خارج شود.</p>
+<h3>۵.۳. Pro und Contra — بررسی مزایا و معایب</h3>
+<p><span class="de" lang="de">Vorteil</span> یعنی مزیت.</p>
+<p><span class="de" lang="de">Nachteil</span> یعنی عیب یا پیامد منفی.</p>
+<p>اما متن استدلالی نباید به فهرستی از مزایا و معایب بدون ارتباط منطقی تبدیل شود.</p>
+<p>برای هر ادعا باید توضیح بدهی چرا آن ویژگی مثبت یا منفی است.</p>
+<div class="tbl"><table>
+<tr><th>موضوع</th><th>ادعا</th><th>توضیح لازم</th></tr>
+<tr><td>آموزش آنلاین</td><td>انعطاف زمانی بیشتر</td><td>دانشجویان می‌توانند برنامهٔ یادگیری خود را بهتر تنظیم کنند</td></tr>
+<tr><td>آموزش آنلاین</td><td>ارتباط اجتماعی کمتر</td><td>فرصت تعامل مستقیم با استاد و هم‌دانشگاهی کاهش می‌یابد</td></tr>
+<tr><td>کار دانشجویی</td><td>تجربهٔ شغلی</td><td>آشنایی با محیط واقعی کار</td></tr>
+<tr><td>کار دانشجویی</td><td>فشار زمانی</td><td>زمان کمتر برای مطالعه و استراحت</td></tr>
+<tr><td>هوش مصنوعی</td><td>کمک به یادگیری</td><td>امکان دریافت توضیح و بازخورد</td></tr>
+<tr><td>هوش مصنوعی</td><td>وابستگی احتمالی</td><td>خطر کاهش تمرین مستقل در صورت استفادهٔ نامناسب</td></tr>
+</table></div>
+<p>این جدول فقط طرح ایده است.</p>
+<p>در متن نهایی باید هر مورد را با جمله‌های پیوسته و استدلال روشن بنویسی.</p>
+<h3>۵.۴. Redemittel برای بیان مزایا</h3>
+<div class="tbl"><table>
+<tr><th>آلمانی</th><th>فارسی</th></tr>
+<tr><td>Ein wesentlicher Vorteil besteht darin, dass ...</td><td>یکی از مزایای اصلی در این است که ...</td></tr>
+<tr><td>Für diese Maßnahme spricht, dass ...</td><td>یکی از دلایل موافق این اقدام این است که ...</td></tr>
+<tr><td>Ein weiterer positiver Aspekt ist ...</td><td>جنبهٔ مثبت دیگر ... است.</td></tr>
+<tr><td>Dies bietet die Möglichkeit, ...</td><td>این امکان را فراهم می‌کند که ...</td></tr>
+<tr><td>Dadurch können ...</td><td>از این طریق ... می‌توانند</td></tr>
+<tr><td>Besonders hervorzuheben ist ...</td><td>نکته‌ای که به‌ویژه باید بر آن تأکید کرد ... است.</td></tr>
+</table></div>
+<h3>۵.۵. Redemittel برای بیان معایب</h3>
+<div class="tbl"><table>
+<tr><th>آلمانی</th><th>فارسی</th></tr>
+<tr><td>Dem steht jedoch entgegen, dass ...</td><td>در مقابل، این مسئله وجود دارد که ...</td></tr>
+<tr><td>Problematisch ist dabei, dass ...</td><td>مشکل اینجاست که ...</td></tr>
+<tr><td>Ein möglicher Nachteil besteht darin, dass ...</td><td>یکی از معایب احتمالی در این است که ...</td></tr>
+<tr><td>Dies könnte dazu führen, dass ...</td><td>این موضوع ممکن است باعث شود که ...</td></tr>
+<tr><td>Dabei darf nicht außer Acht gelassen werden, dass ...</td><td>نباید از نظر دور داشت که ...</td></tr>
+<tr><td>Kritisch zu betrachten ist ...</td><td>... باید با نگاه انتقادی بررسی شود.</td></tr>
+</table></div>
+<h3>۵.۶. Redemittel برای مقایسه و سنجش دو طرف</h3>
+<div class="tbl"><table>
+<tr><th>آلمانی</th><th>فارسی</th></tr>
+<tr><td>Einerseits ..., andererseits ...</td><td>از یک طرف ...، از طرف دیگر ...</td></tr>
+<tr><td>Während ... , ...</td><td>درحالی‌که ...، ...</td></tr>
+<tr><td>Im Gegensatz dazu ...</td><td>در مقابل آن ...</td></tr>
+<tr><td>Allerdings muss berücksichtigt werden, dass ...</td><td>البته باید در نظر گرفت که ...</td></tr>
+<tr><td>Zwar ..., jedoch ...</td><td>اگرچه ...، اما ...</td></tr>
+<tr><td>Unter bestimmten Voraussetzungen ...</td><td>تحت شرایط مشخص ...</td></tr>
+<tr><td>Entscheidend ist dabei, ob ...</td><td>مسئلهٔ تعیین‌کننده این است که آیا ...</td></tr>
+<tr><td>Dies hängt maßgeblich davon ab, ...</td><td>این موضوع تا حد زیادی به ... بستگی دارد.</td></tr>
+</table></div>
+<p>مثلاً:</p>
+<blockquote class="ex"><p class="de" lang="de">Zwar bietet eine Nebentätigkeit finanzielle Vorteile, jedoch kann eine zu hohe Arbeitsbelastung den Studienerfolg beeinträchtigen.</p></blockquote>
+<p class="tr">ترجمه: اگرچه کار دانشجویی مزایای مالی دارد، اما فشار کاری بیش از حد می‌تواند به موفقیت تحصیلی آسیب برساند.</p>
+<p>در این جمله از دو طرف بحث صحبت می‌کنی، بدون اینکه صرفاً دو جملهٔ مستقل و بی‌ارتباط بنویسی.</p>
+</section>
+
+<section class="pane">
+<h2 id="s6">۶. Eigene Stellungnahme — بیان موضع شخصی</h2>
+<p>در این قسمت باید دیدگاه خودت را روشن و با دلیل بیان کنی.</p>
+<p>اما منظور از موضع شخصی، نوشتن خاطرات یا تجربه‌های کاملاً نامرتبط نیست.</p>
+<p>در TestDaF، <span class="de" lang="de">sachlich argumentieren</span> یعنی استدلال‌کردن با لحنی موضوعی و قابل‌دفاع.</p>
+<p><b>نمونهٔ ضعیف</b></p>
+<blockquote class="ex"><p class="de" lang="de">Ich finde, dass alle Studierenden arbeiten sollten, weil ich Arbeit mag und meine Freunde auch arbeiten.</p></blockquote>
+<p class="tr">ترجمه: فکر می‌کنم همهٔ دانشجویان باید کار کنند، چون من کار را دوست دارم و دوستانم هم کار می‌کنند.</p>
+<p>این استدلال ضعیف است؛ زیرا تجربهٔ شخصی محدود را به حکمی عمومی تبدیل کرده است.</p>
+<p><b>نمونهٔ مناسب‌تر</b></p>
+<blockquote class="ex"><p class="de" lang="de">Meiner Ansicht nach kann eine Nebentätigkeit während des Studiums sinnvoll sein, sofern der zeitliche Umfang überschaubar bleibt. Entscheidend ist dabei nicht nur die finanzielle Entlastung, sondern auch die Frage, ob die Tätigkeit wertvolle praktische Erfahrungen ermöglicht.</p></blockquote>
+<p class="tr">ترجمه: از نظر من، کار دانشجویی می‌تواند در دوران تحصیل مفید باشد، مشروط بر اینکه حجم زمانی آن قابل‌کنترل باقی بماند. در اینجا فقط کاهش فشار مالی اهمیت ندارد، بلکه این پرسش نیز تعیین‌کننده است که آیا فعالیت شغلی تجربه‌های عملی ارزشمندی فراهم می‌کند یا نه.</p>
+<p>در این پاسخ، موضع وجود دارد، اما مشروط و همراه با معیارهای روشن است.</p>
+<h3>عبارات کاربردی</h3>
+<div class="tbl"><table>
+<tr><th>آلمانی</th><th>فارسی</th></tr>
+<tr><td>Meiner Ansicht nach ...</td><td>از دید من ...</td></tr>
+<tr><td>Ich vertrete die Auffassung, dass ...</td><td>من بر این باورم که ...</td></tr>
+<tr><td>Aus meiner Sicht überwiegen ...</td><td>از دید من ... برتری دارند.</td></tr>
+<tr><td>Unter diesen Bedingungen halte ich ... für sinnvoll.</td><td>تحت این شرایط، ... را منطقی می‌دانم.</td></tr>
+<tr><td>Entscheidend ist aus meiner Sicht, dass ...</td><td>از نظر من نکتهٔ تعیین‌کننده این است که ...</td></tr>
+<tr><td>Insgesamt sprechen die genannten Gründe eher für / gegen ...</td><td>در مجموع، دلایل مطرح‌شده بیشتر به نفع / علیه ... هستند.</td></tr>
+</table></div>
+<p>لازم نیست در هر جمله تکرار کنی <span class="de" lang="de">Ich denke</span> یا <span class="de" lang="de">Meiner Meinung nach</span>.</p>
+<p>یک‌بار بیان موضع روشن، همراه با استدلال‌های بعدی، معمولاً مؤثرتر است.</p>
+</section>
+
+<section class="pane">
+<h2 id="s7">۷. Schluss — نتیجه‌گیری</h2>
+<p>نتیجه‌گیری باید به پرسش اصلی متن پاسخ دهد.</p>
+<p>نباید موضوع جدید و بزرگی را در آخرین پاراگراف مطرح کنی که فرصت توضیحش وجود ندارد.</p>
+<p><b>نمونهٔ مناسب</b></p>
+<blockquote class="ex"><p class="de" lang="de">Zusammenfassend lässt sich sagen, dass eine Nebentätigkeit sowohl Chancen als auch Risiken mit sich bringt. Ob sie sich positiv auf die persönliche und berufliche Entwicklung auswirkt, hängt vor allem vom zeitlichen Umfang und von der Vereinbarkeit mit dem Studium ab.</p></blockquote>
+<p class="tr">ترجمه: در جمع‌بندی می‌توان گفت که کار دانشجویی هم فرصت‌هایی فراهم می‌کند و هم خطراتی دارد. اینکه این کار بر رشد شخصی و حرفه‌ای تأثیر مثبتی بگذارد، بیش از همه به حجم ساعات کاری و امکان هماهنگ‌کردن آن با تحصیل بستگی دارد.</p>
+<p>این نتیجه‌گیری مطالب اصلی را جمع‌بندی می‌کند و پاسخ متعادلی به مسئله می‌دهد.</p>
+<h3>عبارات کاربردی پایان متن</h3>
+<div class="tbl"><table>
+<tr><th>آلمانی</th><th>فارسی</th></tr>
+<tr><td>Zusammenfassend lässt sich feststellen, dass ...</td><td>در جمع‌بندی می‌توان نتیجه گرفت که ...</td></tr>
+<tr><td>Abschließend ist festzuhalten, dass ...</td><td>در پایان باید تأکید کرد که ...</td></tr>
+<tr><td>Insgesamt überwiegen meiner Ansicht nach ...</td><td>در مجموع، از دید من ... برتری دارند.</td></tr>
+<tr><td>Eine sinnvolle Lösung könnte darin bestehen, ...</td><td>یک راه‌حل مناسب می‌تواند این باشد که ...</td></tr>
+<tr><td>Voraussetzung dafür ist jedoch, dass ...</td><td>البته پیش‌شرط آن این است که ...</td></tr>
+</table></div>
+</section>
+
+<section class="pane">
+<h2 id="s8">۸. نمونهٔ ساختار کامل متن کاغذی</h2>
+<p>در این مثال از داده‌های فرضی بخش قبل دربارهٔ کار دانشجویی استفاده می‌کنیم.</p>
+<p>فرض کنیم سؤال تألیفی چنین است:</p>
+<blockquote class="ex"><p class="de" lang="de">Beschreiben Sie die Entwicklung des Anteils erwerbstätiger Studierender. Diskutieren Sie anschließend, welche Vor- und Nachteile eine Nebentätigkeit während des Studiums haben kann. Nehmen Sie begründet Stellung.</p></blockquote>
+<p class="tr">ترجمه: روند تغییر سهم دانشجویان شاغل را توصیف کنید. سپس بررسی کنید کار دانشجویی چه مزایا و معایبی در طول تحصیل می‌تواند داشته باشد. موضع خود را با ذکر دلیل بیان کنید.</p>
+<h3>طرح پاسخ</h3>
+<div class="tbl"><table>
+<tr><th>پاراگراف</th><th>محتوای موردنظر</th></tr>
+<tr><td>۱</td><td>معرفی کار دانشجویی به‌عنوان یک مسئلهٔ دانشگاهی</td></tr>
+<tr><td>۲</td><td>معرفی نمودار و بازهٔ زمانی</td></tr>
+<tr><td>۳</td><td>افزایش از ۴۰ به ۵۲ درصد و نتیجهٔ اصلی</td></tr>
+<tr><td>۴</td><td>گذار از داده‌ها به بحث دربارهٔ مزایا و معایب</td></tr>
+<tr><td>۵</td><td>مزیت مالی و کسب تجربهٔ کاری</td></tr>
+<tr><td>۶</td><td>فشار زمانی، خستگی و احتمال تأثیر منفی بر تحصیل</td></tr>
+<tr><td>۷</td><td>دیدگاه شخصی با شرط یا معیار روشن</td></tr>
+<tr><td>۸</td><td>نتیجه‌گیری فشرده</td></tr>
+</table></div>
+<p>این هشت پاراگراف صرفاً یک الگوی تفصیلی هستند؛ در یک متن ۶۰ دقیقه‌ای می‌توان برخی از آن‌ها را به‌صورت منطقی ادغام کرد.</p>
+<h3>یک نمونهٔ گذار از نمودار به استدلال</h3>
+<blockquote class="ex"><p class="de" lang="de">Der dargestellte Anstieg zeigt, dass Erwerbstätigkeit unter Studierenden im untersuchten Zeitraum zunehmend verbreitet war. Aus den Daten allein lässt sich jedoch nicht ableiten, weshalb mehr Studierende gearbeitet haben. Unabhängig von den Ursachen stellt sich die Frage, welche Auswirkungen eine Nebentätigkeit auf den Studienalltag haben kann. Einerseits bietet sie finanzielle Vorteile und die Möglichkeit, praktische Erfahrungen zu sammeln. Andererseits kann sie die verfügbare Lernzeit erheblich einschränken.</p></blockquote>
+<p class="tr">ترجمه: افزایش نمایش‌داده‌شده نشان می‌دهد که اشتغال در میان دانشجویان طی بازهٔ بررسی‌شده گسترش یافته است. بااین‌حال، فقط از این داده‌ها نمی‌توان نتیجه گرفت که چرا دانشجویان بیشتری کار کرده‌اند. مستقل از دلایل این روند، این پرسش مطرح می‌شود که کار دانشجویی چه تأثیراتی می‌تواند بر زندگی تحصیلی داشته باشد. از یک سو، کار دانشجویی مزایای مالی و امکان کسب تجربه‌های عملی فراهم می‌کند. از سوی دیگر، ممکن است زمان در دسترس برای مطالعه را به‌شدت محدود کند.</p>
+<p>این پاراگراف دو کار مهم انجام می‌دهد: نتیجهٔ آماری را از تفسیر علت جدا می‌کند و سپس به‌صورت طبیعی بحث استدلالی را آغاز می‌کند.</p>
+</section>
+
+<section class="pane">
+<h2 id="s9">۹. زمان‌بندی نوشتن در نسخهٔ کاغذی</h2>
+<p>در نمونه‌آزمون رسمی TestDaF توصیه شده که داوطلب برای توصیف نمودار حداکثر ۲۰ دقیقه و برای بخش استدلالی حداکثر ۴۰ دقیقه در نظر بگیرد.</p>
+<p>این تقسیم‌بندی نشان می‌دهد که نوشتن مقالهٔ استدلالی نباید قربانی توصیف بیش‌ازحد جزئیات نمودار شود.</p>
+<p>برای مدیریت دقیق‌تر، می‌توان آن را به شکل زیر اجرا کرد:</p>
+<div class="tbl"><table>
+<tr><th>دقیقه</th><th>فعالیت</th></tr>
+<tr><td>۰–۵</td><td>خواندن دستورها، نمودار و مشخص‌کردن ساختار</td></tr>
+<tr><td>۵–۲۰</td><td>نوشتن مقدمه و توصیف نمودار</td></tr>
+<tr><td>۲۰–۴۵</td><td>نوشتن مزایا، معایب و استدلال‌ها</td></tr>
+<tr><td>۴۵–۵۵</td><td>موضع شخصی و نتیجه‌گیری</td></tr>
+<tr><td>۵۵–۶۰</td><td>مرور متن، اصلاح خطاها و اطمینان از کامل‌بودن پاسخ</td></tr>
+</table></div>
+<p>این زمان‌بندی جزئی، پیشنهاد آموزشی است.</p>
+<p>نکتهٔ بسیار مهم: در نسخهٔ کاغذی، فقط متن نوشته‌شده روی <span class="de" lang="de">Schreibbogen</span> (برگهٔ رسمی نوشتن) تصحیح می‌شود.</p>
+<p><span class="de" lang="de">Konzeptpapier</span> (کاغذ پیش‌نویس) برای طرح ایده و یادداشت است؛ نه محل نگارش نسخهٔ نهایی.</p>
+<p>بنابراین نوشتن تمام متن در پیش‌نویس و سپس انتقال آن می‌تواند ریسک بزرگی باشد.</p>
+<p>بهتر است طرح را کوتاه بنویسی و متن اصلی را مستقیماً در برگهٔ نهایی تولید کنی.</p>
+</section>
+
+<section class="pane">
+<h2 id="s10">۱۰. نسخهٔ دیجیتال: Schreiben</h2>
+<p>در نسخهٔ دیجیتال، بخش <span class="de" lang="de">Schreiben</span> به دو تکلیف مستقل تقسیم می‌شود.</p>
+<p>در نمونه‌آزمون رسمی، هر تکلیف ۳۰ دقیقه زمان دارد.</p>
+<p>بهتر است این دو تکلیف را مانند دو فعالیت متفاوت دانشگاهی در نظر بگیری:</p>
+<ul>
+<li>در اولی باید موضع و استدلال‌های خودت را تولید کنی.</li>
+<li>در دومی باید اطلاعات منابع موجود را به‌درستی و بدون افزودن نظر شخصی خلاصه کنی.</li>
+</ul>
+<p>این تفاوت در هدف نوشتن، اهمیت اساسی دارد.</p>
+<h3>۱۰.۱. تکلیف اول: Argumentativen Text schreiben</h3>
+<p>معنی: نوشتن متن استدلالی</p>
+<p><span class="de" lang="de">Schreiben</span> — <span class="de" lang="de">Aufgabentyp 1</span> — دیجیتال — ۳۰ دقیقه زمان نمونهٔ رسمی — حداقل ۲۰۰ واژه.</p>
+<h3>موقعیت آزمون چیست؟</h3>
+<p>در نمونهٔ رسمی، فرض می‌شود در یک محیط یادگیری دانشگاهی، همراه استاد و دیگر شرکت‌کنندگان سمینار دربارهٔ موضوعی بحث می‌کنی.</p>
+<p>از تو خواسته می‌شود متنی بنویسی که موضوع را از جنبه‌های مختلف بررسی کند.</p>
+<p>در نمونهٔ رسمی منتشرشده، موضوع <span class="de" lang="de">Berufliche Mobilität</span>، یعنی جابه‌جایی شغلی، است. داوطلب باید پیامدهای مثبت و منفی تغییر مکرر شغل را برای کارکنان و شرکت‌ها توضیح بدهد.</p>
+<p>این نکته نشان می‌دهد که ممکن است صورت سؤال از تو بخواهد چند گروه یا چند زاویهٔ مشخص را بررسی کنی.</p>
+<p>اگر فقط یک زاویه را توضیح بدهی، حتی با وجود متن روان و کم‌خطا، پاسخ ناقص خواهد بود.</p>
+<h3>نمونهٔ تکلیف تألیفی</h3>
+<blockquote class="ex"><p class="de" lang="de">In Ihrem Seminar diskutieren Sie über den Einsatz künstlicher Intelligenz an Hochschulen.</p><p class="de" lang="de">Schreiben Sie einen argumentativen Beitrag.</p><p class="de" lang="de">Erläutern und begründen Sie, welche Chancen und Risiken die Nutzung von KI für Studierende und Lehrende mit sich bringen kann.</p><p class="de" lang="de">Schreiben Sie mindestens 200 Wörter.</p></blockquote>
+<p class="tr">ترجمه: در سمینار خود دربارهٔ استفاده از هوش مصنوعی در دانشگاه‌ها بحث می‌کنید. یک متن استدلالی بنویسید. توضیح دهید و با دلیل بیان کنید که استفاده از هوش مصنوعی چه فرصت‌ها و خطراتی برای دانشجویان و استادان می‌تواند به همراه داشته باشد. حداقل ۲۰۰ واژه بنویسید.</p>
+<h3>۱۰.۲. تحلیل دستور سؤال</h3>
+<p>در این تکلیف، چهار محور اصلی وجود دارد:</p>
+<div class="tbl"><table>
+<tr><th>گروه</th><th>فرصت‌ها</th><th>خطرات</th></tr>
+<tr><td>Studierende — دانشجویان</td><td>یادگیری فردی و بازخورد سریع</td><td>وابستگی و پذیرش اطلاعات نادرست</td></tr>
+<tr><td>Lehrende — استادان</td><td>کاهش زمان بعضی فعالیت‌های تکراری</td><td>دشواری ارزیابی عملکرد مستقل دانشجو</td></tr>
+</table></div>
+<p>اگر تنها دربارهٔ مزایای هوش مصنوعی برای دانشجویان بنویسی، سه محور دیگر را نادیده گرفته‌ای.</p>
+<p>این مسئله مستقیماً به معیار <span class="de" lang="de">Aufgabenerfüllung</span> (انجام کامل خواسته‌های تکلیف) مربوط است.</p>
+<h3>۱۰.۳. ساختار پیشنهادی متن دیجیتال</h3>
+<div class="tbl"><table>
+<tr><th>بخش</th><th>محتوای پیشنهادی</th></tr>
+<tr><td>Einleitung</td><td>معرفی موضوع و اهمیت مسئله</td></tr>
+<tr><td>Chancen für Studierende</td><td>توضیح مزایا برای دانشجویان</td></tr>
+<tr><td>Risiken für Studierende</td><td>توضیح خطرات برای دانشجویان</td></tr>
+<tr><td>Chancen und Risiken für Lehrende</td><td>بررسی دیدگاه استادان</td></tr>
+<tr><td>Abwägung und Schluss</td><td>سنجش نتایج و جمع‌بندی</td></tr>
+</table></div>
+<p>در متن ۲۰۰ واژه‌ای، معمولاً لازم نیست هر جزء یک پاراگراف بسیار طولانی داشته باشد.</p>
+<p>ساختار باید متناسب با زمان و تعداد واژه باشد.</p>
+<h3>نمونهٔ متن استدلالی تألیفی</h3>
+<p>متن زیر یک پاسخ آموزشی برای نشان‌دادن ساختار است، نه نمونه‌ای با نمرهٔ رسمی تضمین‌شده.</p>
+<p>موضوع: <span class="de" lang="de">Künstliche Intelligenz im Hochschulstudium</span></p>
+<blockquote class="ex"><p class="de" lang="de">Der Einsatz künstlicher Intelligenz an Hochschulen wird zunehmend diskutiert. KI-Anwendungen können sowohl für Studierende als auch für Lehrende neue Möglichkeiten eröffnen. Gleichzeitig entstehen Herausforderungen, die nicht unterschätzt werden sollten.</p><p class="de" lang="de">Ein wesentlicher Vorteil für Studierende besteht darin, dass KI komplexe Inhalte verständlicher erklären kann. Dadurch können sie schwierige Themen selbstständig wiederholen und individuelle Unterstützung erhalten. Besonders hilfreich ist dies, wenn außerhalb der Lehrveranstaltungen keine direkte Betreuung verfügbar ist.</p><p class="de" lang="de">Allerdings besteht die Gefahr, dass Studierende die Ergebnisse solcher Systeme ungeprüft übernehmen. Da KI-Anwendungen auch falsche Informationen liefern können, ist ein kritischer Umgang mit den Antworten erforderlich. Außerdem könnte eine übermäßige Nutzung dazu führen, dass wichtige Fähigkeiten wie selbstständiges Recherchieren und Argumentieren weniger geübt werden.</p><p class="de" lang="de">Auch für Lehrende bietet KI Chancen. Beispielsweise können bestimmte organisatorische Aufgaben vereinfacht und Lehrmaterialien schneller vorbereitet werden. Andererseits wird es schwieriger festzustellen, ob schriftliche Arbeiten tatsächlich die eigenständige Leistung der Studierenden widerspiegeln.</p><p class="de" lang="de">Meiner Ansicht nach sollte KI an Hochschulen weder grundsätzlich verboten noch uneingeschränkt eingesetzt werden. Sinnvoller wären klare Regeln, die festlegen, für welche Aufgaben solche Anwendungen genutzt werden dürfen. Gleichzeitig sollten Studierende lernen, KI-generierte Informationen kritisch zu überprüfen.</p><p class="de" lang="de">Zusammenfassend lässt sich sagen, dass KI die Hochschullehre sinnvoll unterstützen kann, sofern ihr Einsatz transparent erfolgt und das eigenständige Lernen weiterhin im Mittelpunkt steht.</p></blockquote>
+<h3>ترجمهٔ کامل فارسی</h3>
+<p>استفاده از هوش مصنوعی در دانشگاه‌ها بیش‌ازپیش مورد بحث قرار می‌گیرد. ابزارهای هوش مصنوعی می‌توانند هم برای دانشجویان و هم برای استادان امکانات جدیدی فراهم کنند. هم‌زمان چالش‌هایی نیز ایجاد می‌شوند که نباید دست‌کم گرفته شوند.</p>
+<p>یکی از مزایای اصلی برای دانشجویان این است که هوش مصنوعی می‌تواند موضوعات پیچیده را قابل‌فهم‌تر توضیح دهد. از این طریق، آن‌ها می‌توانند مطالب دشوار را به‌صورت مستقل مرور کنند و کمک متناسب با نیاز خود دریافت کنند. این موضوع به‌ویژه زمانی مفید است که خارج از کلاس، امکان دریافت راهنمایی مستقیم وجود نداشته باشد.</p>
+<p>بااین‌حال، این خطر وجود دارد که دانشجویان نتایج چنین سامانه‌هایی را بدون بررسی بپذیرند. ازآنجاکه ابزارهای هوش مصنوعی ممکن است اطلاعات نادرست نیز ارائه کنند، برخورد انتقادی با پاسخ‌های آن‌ها ضروری است. علاوه بر این، استفادهٔ بیش‌ازحد ممکن است باعث شود مهارت‌های مهمی مانند پژوهش مستقل و استدلال‌کردن کمتر تمرین شوند.</p>
+<p>هوش مصنوعی برای استادان نیز فرصت‌هایی فراهم می‌کند. برای مثال، برخی وظایف سازمانی می‌توانند ساده‌تر شوند و منابع آموزشی سریع‌تر آماده شوند. از سوی دیگر، تشخیص اینکه آیا تکالیف نوشتاری واقعاً حاصل کار مستقل دانشجویان هستند دشوارتر می‌شود.</p>
+<p>از نظر من، استفاده از هوش مصنوعی در دانشگاه‌ها نه باید به‌طور کلی ممنوع شود و نه بدون محدودیت مجاز باشد. راه‌حل مناسب‌تر، وضع قواعد روشنی است که مشخص کنند این ابزارها در چه فعالیت‌هایی می‌توانند استفاده شوند. هم‌زمان دانشجویان باید یاد بگیرند اطلاعات تولیدشده توسط هوش مصنوعی را با نگاه انتقادی بررسی کنند.</p>
+<p>در جمع‌بندی می‌توان گفت هوش مصنوعی می‌تواند به شکل مفیدی از آموزش دانشگاهی پشتیبانی کند، مشروط بر اینکه استفاده از آن شفاف باشد و یادگیری مستقل همچنان در مرکز توجه قرار بگیرد.</p>
+<h3>بررسی ساختاری نمونه</h3>
+<p>این متن از چند جهت مناسب یک تمرین جدی است:</p>
+<p>اول اینکه موضوع را به‌روشنی معرفی می‌کند.</p>
+<p>دوم، مزایا و خطرات را برای هر دو گروه خواسته‌شده بررسی می‌کند.</p>
+<p>سوم، ادعاها با توضیح و پیامد همراه شده‌اند.</p>
+<p>چهارم، موضع نهایی صرفاً تکرار یک نظر نیست؛ بلکه راه‌حلی مشروط ارائه می‌کند.</p>
+<p>پنجم، از واژگان دانشگاهی مانند <span class="de" lang="de">eigenständiges Lernen</span>، <span class="de" lang="de">kritischer Umgang</span>، <span class="de" lang="de">transparente Regeln</span> و <span class="de" lang="de">schriftliche Arbeiten</span> استفاده شده است.</p>
+<p>نکتهٔ مهم: طولانی‌تر بودن متن به‌خودی‌خود باعث افزایش نمره نمی‌شود. هنگام تمرین باید بتوانی پاسخی کامل و متناسب با حداقل تعداد واژه در ۳۰ دقیقه تولید کنی.</p>
+</section>
+
+<section class="pane">
+<h2 id="s11">۱۱. تکلیف دوم دیجیتال: Informationen aus Lesetext und Grafik zusammenfassen</h2>
+<p>معنی: خلاصه‌کردن اطلاعات یک متن خواندنی و یک نمودار</p>
+<p>این تکلیف از نظر ماهیت با مقالهٔ استدلالی تفاوت دارد.</p>
+<p>در اینجا از تو خواسته نمی‌شود نظر شخصی خودت را دربارهٔ موضوع بیان کنی.</p>
+<p>باید اطلاعات مرتبط با یک <span class="de" lang="de">Fragestellung</span> (پرسش محوری) را از منابع داده‌شده استخراج و به شکل متنی فشرده، دقیق و منسجم بازنویسی کنی.</p>
+<p><span class="de" lang="de">Schreiben</span> — <span class="de" lang="de">Aufgabentyp 2</span> — دیجیتال — ۳۰ دقیقه زمان نمونهٔ رسمی — حدود ۱۰۰ تا ۱۵۰ واژه.</p>
+<p>در نمونهٔ رسمی TestDaF، موضوع این تکلیف دربارهٔ کاهش جمعیت زنبورهاست. متن، برخی علت‌های این پدیده را توضیح می‌دهد و نمودار نشان می‌دهد کاهش گرده‌افشانی چه تأثیری بر بازده بعضی محصولات کشاورزی دارد.</p>
+<p>داوطلب باید اطلاعات دو منبع را برای پاسخ به یک پرسش مشخص ترکیب کند.</p>
+<p>در خود دستور رسمی بر استفاده از <span class="de" lang="de">eigene Formulierungen</span> (عبارت‌بندی خود داوطلب) تأکید شده و کپی‌کردن بخش‌های متن مجاز نیست.</p>
+<h3>۱۱.۱. تفاوت خلاصه‌نویسی با رونویسی</h3>
+<p>فرض کن در متن اصلی نوشته شده باشد:</p>
+<blockquote class="ex"><p class="de" lang="de">Die steigenden Mietpreise führen dazu, dass viele Studierende einen größeren Teil ihres monatlichen Budgets für die Unterkunft ausgeben müssen.</p></blockquote>
+<p class="tr">ترجمه: افزایش اجاره‌بها باعث می‌شود بسیاری از دانشجویان بخش بزرگ‌تری از بودجهٔ ماهانهٔ خود را صرف محل سکونت کنند.</p>
+<p>رونویسی عبارت اصلی، مهارت خلاصه‌نویسی را نشان نمی‌دهد.</p>
+<p>اما می‌توان همان اطلاعات را این‌گونه بازنویسی کرد:</p>
+<blockquote class="ex"><p class="de" lang="de">Durch höhere Wohnkosten steigt die finanzielle Belastung vieler Studierender.</p></blockquote>
+<p class="tr">ترجمه: افزایش هزینه‌های مسکن، فشار مالی بسیاری از دانشجویان را بیشتر می‌کند.</p>
+<p>معنای اصلی حفظ شده، اما ساختار و انتخاب واژگان تغییر کرده است.</p>
+<p>این همان <span class="de" lang="de">Paraphrasieren</span> (بازنویسی با حفظ معنا) است.</p>
+<h3>۱۱.۲. فقط اطلاعات مرتبط با پرسش را انتخاب کن</h3>
+<p>یکی از مهم‌ترین خطاها این است که داوطلب تلاش می‌کند همهٔ اطلاعات متن و نمودار را وارد خلاصه کند.</p>
+<p>اما خلاصه‌نویسی دانشگاهی یک فرایند انتخابی است.</p>
+<p>اگر سؤال بپرسد:</p>
+<blockquote class="ex"><p class="de" lang="de">Welche Auswirkungen hat der Ausbau digitaler Lehrangebote auf den Studienalltag?</p></blockquote>
+<p class="tr">ترجمه: گسترش امکانات آموزش دیجیتال چه تأثیراتی بر زندگی تحصیلی دارد؟</p>
+<p>باید اطلاعات مرتبط با پیامدها را انتخاب کنی.</p>
+<p>اگر متن دربارهٔ تاریخ تأسیس دانشگاه، نام پژوهشگران یا سابقهٔ فناوری نیز صحبت کند، آن اطلاعات ممکن است برای پاسخ به پرسش اصلی ضروری نباشند.</p>
+<h3>۱۱.۳. یک نمونهٔ تألیفی کامل برای خلاصه‌سازی</h3>
+<h3>صورت سؤال</h3>
+<blockquote class="ex"><p class="de" lang="de">Sie schreiben in einem Seminar einen kurzen Abschnitt über die Nutzung öffentlicher Verkehrsmittel durch Studierende.</p><p class="de" lang="de">Fassen Sie anhand des Textes und der Tabelle zusammen, welche Gründe für die Nutzung öffentlicher Verkehrsmittel genannt werden und wie sich deren Nutzung entwickelt hat.</p><p class="de" lang="de">Schreiben Sie etwa 100 bis 150 Wörter.</p></blockquote>
+<p class="tr">ترجمه: در یک سمینار، بخش کوتاهی دربارهٔ استفادهٔ دانشجویان از حمل‌ونقل عمومی می‌نویسید. بر اساس متن و جدول خلاصه کنید چه دلایلی برای استفاده از حمل‌ونقل عمومی مطرح شده و میزان استفاده از آن چگونه تغییر کرده است. حدود ۱۰۰ تا ۱۵۰ واژه بنویسید.</p>
+<h3>متن منبع — تألیفی</h3>
+<blockquote class="ex"><p class="de" lang="de">Für viele Studierende sind öffentliche Verkehrsmittel ein wichtiger Bestandteil des Alltags. Besonders die vergleichsweise niedrigen Kosten und die Möglichkeit, die Fahrzeit zum Lesen oder Lernen zu nutzen, werden häufig als Vorteile genannt. Gleichzeitig kritisieren einige Studierende unzuverlässige Verbindungen und lange Wartezeiten. In einer beispielhaften Befragung wurde außerdem untersucht, wie sich die Nutzung verschiedener Verkehrsmittel im Laufe mehrerer Jahre verändert hat.</p></blockquote>
+<p class="tr">ترجمه: برای بسیاری از دانشجویان، حمل‌ونقل عمومی بخش مهمی از زندگی روزمره است. به‌ویژه هزینه‌های نسبتاً پایین و امکان استفاده از زمان سفر برای خواندن یا مطالعه، اغلب به‌عنوان مزیت مطرح می‌شوند. هم‌زمان برخی دانشجویان از نامطمئن‌بودن ارتباطات حمل‌ونقلی و زمان‌های انتظار طولانی انتقاد می‌کنند. در یک نظرسنجی نمونه نیز بررسی شد که استفاده از وسایل حمل‌ونقل مختلف طی چند سال چگونه تغییر کرده است.</p>
+<h3>جدول داده‌ها — کاملاً فرضی</h3>
+<div class="tbl"><table>
+<tr><th>وسیلهٔ رفت‌وآمد</th><th>۲۰۲۰</th><th>۲۰۲۴</th></tr>
+<tr><td>Öffentliche Verkehrsmittel — حمل‌ونقل عمومی</td><td>۴۵٪</td><td>۵۸٪</td></tr>
+<tr><td>Fahrrad — دوچرخه</td><td>۳۰٪</td><td>۲۷٪</td></tr>
+<tr><td>Auto — خودرو</td><td>۲۵٪</td><td>۱۵٪</td></tr>
+</table></div>
+<p>این داده‌ها واقعی نیستند و صرفاً برای تمرین ساخته شده‌اند.</p>
+<h3>الگوی خلاصهٔ مناسب</h3>
+<p>برای این سؤال می‌توان ساختار زیر را به کار برد:</p>
+<div class="tbl"><table>
+<tr><th>قسمت</th><th>اطلاعات</th></tr>
+<tr><td>معرفی</td><td>موضوع استفادهٔ دانشجویان از حمل‌ونقل عمومی</td></tr>
+<tr><td>اطلاعات متن</td><td>هزینهٔ پایین‌تر، امکان مطالعه در مسیر، مشکلات تأخیر</td></tr>
+<tr><td>اطلاعات جدول</td><td>افزایش استفاده از حمل‌ونقل عمومی و کاهش استفاده از خودرو</td></tr>
+<tr><td>جمع‌بندی</td><td>بیان روند کلی بدون نسبت‌دادن علت اثبات‌نشده</td></tr>
+</table></div>
+<h3>نمونهٔ خلاصهٔ تألیفی</h3>
+<blockquote class="ex"><p class="de" lang="de">Die vorliegenden Informationen befassen sich mit der Nutzung öffentlicher Verkehrsmittel durch Studierende und deren Entwicklung zwischen 2020 und 2024.</p><p class="de" lang="de">Dem Text zufolge entscheiden sich viele Studierende wegen der vergleichsweise geringen Kosten für Busse und Bahnen. Ein weiterer Vorteil besteht darin, dass sie die Fahrzeit zum Lernen oder Lesen nutzen können. Allerdings werden unzuverlässige Verbindungen und längere Wartezeiten als Nachteile genannt.</p><p class="de" lang="de">Die Tabelle zeigt, dass der Anteil der Studierenden, die öffentliche Verkehrsmittel nutzen, von 45 Prozent im Jahr 2020 auf 58 Prozent im Jahr 2024 gestiegen ist. Gleichzeitig sank der Anteil der Autofahrenden von 25 auf 15 Prozent. Auch die Nutzung des Fahrrads ging leicht zurück.</p><p class="de" lang="de">Insgesamt ist somit eine zunehmende Bedeutung öffentlicher Verkehrsmittel im dargestellten Zeitraum erkennbar.</p></blockquote>
+<h3>ترجمهٔ کامل</h3>
+<p>اطلاعات ارائه‌شده دربارهٔ استفادهٔ دانشجویان از حمل‌ونقل عمومی و روند تغییر آن میان سال‌های ۲۰۲۰ و ۲۰۲۴ است.</p>
+<p>طبق متن، بسیاری از دانشجویان به دلیل هزینه‌های نسبتاً پایین، اتوبوس و قطار را انتخاب می‌کنند. مزیت دیگر این است که می‌توانند از زمان سفر برای مطالعه یا خواندن استفاده کنند. البته نامطمئن‌بودن سرویس‌ها و زمان انتظار طولانی‌تر به‌عنوان معایب مطرح می‌شوند.</p>
+<p>جدول نشان می‌دهد که سهم دانشجویانی که از حمل‌ونقل عمومی استفاده می‌کنند، از ۴۵ درصد در سال ۲۰۲۰ به ۵۸ درصد در سال ۲۰۲۴ افزایش یافته است. هم‌زمان سهم استفاده‌کنندگان از خودرو از ۲۵ درصد به ۱۵ درصد کاهش یافته است. استفاده از دوچرخه نیز اندکی کاهش داشته است.</p>
+<p>در مجموع، اهمیت فزایندهٔ حمل‌ونقل عمومی در بازهٔ نمایش‌داده‌شده قابل مشاهده است.</p>
+<h3>بررسی کیفیت نمونه</h3>
+<p>این متن چند ویژگی ضروری دارد:</p>
+<ul>
+<li>اطلاعات هر دو منبع را وارد کرده است.</li>
+<li>مستقیماً به پرسش اصلی پاسخ می‌دهد.</li>
+<li>داده‌های مهم را انتخاب کرده است.</li>
+<li>دربارهٔ دلایل مطرح‌شده در متن صحبت می‌کند.</li>
+<li>میان داده‌های نمودار و علت‌های احتمالی تمایز می‌گذارد.</li>
+<li>نظر شخصی یا اطلاعات خارجی اضافه نمی‌کند.</li>
+</ul>
+<p>نکتهٔ ظریف: متن نمونه نمی‌گوید افزایش استفاده از حمل‌ونقل عمومی «قطعاً به دلیل پایین‌بودن هزینه‌ها» اتفاق افتاده است؛ زیرا دو منبع چنین رابطهٔ علّی را اثبات نمی‌کنند.</p>
+<p>این احتیاط از ویژگی‌های نوشتار علمی دقیق است.</p>
+</section>
+
+<section class="pane">
+<h2 id="s12">۱۲. Redemittel ویژهٔ خلاصه‌نویسی و ترکیب منابع</h2>
+<p>در این تکلیف باید اطلاعات را به منبع نسبت بدهی.</p>
+<p>یعنی مشخص کنی کدام یافته از متن و کدام از نمودار استخراج شده است.</p>
+<div class="tbl"><table>
+<tr><th>آلمانی</th><th>معنی فارسی</th></tr>
+<tr><td>Dem Text zufolge ...</td><td>طبق متن ...</td></tr>
+<tr><td>Im Text wird erläutert, dass ...</td><td>در متن توضیح داده می‌شود که ...</td></tr>
+<tr><td>Aus der Grafik geht hervor, dass ...</td><td>از نمودار برمی‌آید که ...</td></tr>
+<tr><td>Die Tabelle zeigt hingegen ...</td><td>در مقابل، جدول نشان می‌دهد ...</td></tr>
+<tr><td>Beide Quellen verdeutlichen, dass ...</td><td>هر دو منبع روشن می‌کنند که ...</td></tr>
+<tr><td>Während der Text ... beschreibt, zeigt die Grafik ...</td><td>درحالی‌که متن ... را توصیف می‌کند، نمودار ... را نشان می‌دهد.</td></tr>
+<tr><td>Die dargestellten Daten lassen erkennen, dass ...</td><td>داده‌های ارائه‌شده نشان می‌دهند که ...</td></tr>
+<tr><td>Insgesamt ergibt sich daraus ...</td><td>در مجموع از این اطلاعات ... نتیجه می‌شود.</td></tr>
+</table></div>
+<h3>تفاوت مهم: Zusammenfassen و Stellung nehmen</h3>
+<p>این دو کارکرد را نباید با هم مخلوط کرد.</p>
+<p><span class="de" lang="de">Zusammenfassen</span>: خلاصه‌کردن اطلاعات داده‌شده.</p>
+<p><span class="de" lang="de">Stellung nehmen</span>: بیان موضع شخصی.</p>
+<p>در تکلیف دوم دیجیتال، اگر دستور فقط خلاصه‌سازی منابع را بخواهد، نوشتن جمله‌هایی مانند:</p>
+<blockquote class="ex"><p class="de" lang="de">Ich persönlich finde dieses Thema sehr interessant.</p></blockquote>
+<p class="tr">ترجمه: من شخصاً این موضوع را خیلی جالب می‌دانم.</p>
+<p>به هدف تکلیف کمک نمی‌کند.</p>
+<p>در عوض باید فضای محدود متن را صرف اطلاعات مرتبط و دقیق کنی.</p>
+</section>
+
+<section class="pane">
+<h2 id="s13">۱۳. مدیریت زمان در نسخهٔ دیجیتال</h2>
+<p>در نمونهٔ رسمی، زمان هر تکلیف ۳۰ دقیقه است.</p>
+<p>با توجه به ساختار و تعداد واژهٔ متفاوت، مدیریت زمان آن‌ها نیز باید متفاوت باشد.</p>
+<h3>تکلیف اول: مقالهٔ استدلالی</h3>
+<div class="tbl"><table>
+<tr><th>زمان</th><th>فعالیت</th></tr>
+<tr><td>۰–۴ دقیقه</td><td>خواندن کامل صورت سؤال و استخراج محورهای ضروری</td></tr>
+<tr><td>۴–۷ دقیقه</td><td>طراحی ساختار و انتخاب استدلال‌ها</td></tr>
+<tr><td>۷–۲۵ دقیقه</td><td>تایپ متن</td></tr>
+<tr><td>۲۵–۳۰ دقیقه</td><td>اصلاح و بررسی پوشش تمام محورهای سؤال</td></tr>
+</table></div>
+<h3>تکلیف دوم: خلاصهٔ متن و نمودار</h3>
+<div class="tbl"><table>
+<tr><th>زمان</th><th>فعالیت</th></tr>
+<tr><td>۰–۶ دقیقه</td><td>خواندن پرسش و متن منبع</td></tr>
+<tr><td>۶–۱۰ دقیقه</td><td>تحلیل نمودار و انتخاب اطلاعات ضروری</td></tr>
+<tr><td>۱۰–۱۴ دقیقه</td><td>ساخت طرح خلاصه</td></tr>
+<tr><td>۱۴–۲۶ دقیقه</td><td>تایپ خلاصه</td></tr>
+<tr><td>۲۶–۳۰ دقیقه</td><td>بررسی دقت داده‌ها و اصلاح نهایی</td></tr>
+</table></div>
+<p>این جدول‌ها توصیهٔ آموزشی هستند؛ زمان‌های رسمی نمونه، ۳۰ دقیقه برای هر تکلیف است.</p>
+<h3>چند نکتهٔ اجرایی مهم</h3>
+<p>در آزمون دیجیتال، تعداد واژه‌های نوشته‌شده به‌طور خودکار نمایش داده می‌شود.</p>
+<p>پس لازم نیست زمان زیادی برای شمارش دستی واژه‌ها صرف کنی.</p>
+<p>همچنین پس از رفتن به تکلیف بعدی، امکان بازگشت به پاسخ تکلیف قبلی وجود ندارد.</p>
+<p>اگر در تکلیف اول ۲۰۰ واژه نوشته‌ای اما هنوز دو محور ضروری را پوشش نداده‌ای، صرف رسیدن به حداقل واژه به معنای کامل‌شدن پاسخ نیست.</p>
+<p>برعکس، نوشتن ۳۰۰ واژه نیز به‌خودی‌خود نشانهٔ عملکرد بهتر نیست.</p>
+<p>تعداد واژه شرط کمّی تکلیف است؛ کیفیت محتوا و زبان معیارهای مستقل ارزیابی هستند.</p>
+</section>
+
+<section class="pane">
+<h2 id="s14">۱۴. معیارهای رسمی تصحیح بخش نوشتاری</h2>
+<p>در TestDaF، متن‌های نوشتاری توسط <span class="de" lang="de">geschulte Beurteilende</span> (ارزیابان آموزش‌دیده) بررسی می‌شوند.</p>
+<p>تصحیح صرفاً بر اساس شمارش غلط‌های گرامری یا املایی انجام نمی‌شود.</p>
+<p>طبق توضیحات رسمی TestDaF، چند محور اصلی در ارزیابی اهمیت دارند.</p>
+<h3>۱۴.۱. Aufgabenerfüllung — انجام کامل تکلیف</h3>
+<p>مهم‌ترین سؤال این است:</p>
+<p>آیا واقعاً همان کاری را انجام داده‌ای که از تو خواسته شده است؟</p>
+<p>برای مثال، اگر سؤال چهار جنبهٔ مثبت و منفی را دربارهٔ دو گروه خواسته باشد، باید همهٔ آن‌ها را پوشش بدهی.</p>
+<p>متن ۳۰۰ واژه‌ای که فقط یک جنبه را توضیح می‌دهد، از این نظر ناقص است.</p>
+<h3>۱۴.۲. Inhaltliche Angemessenheit — تناسب و صحت محتوا</h3>
+<p>آیا اطلاعات مرتبط هستند؟</p>
+<p>آیا داده‌های نمودار درست منتقل شده‌اند؟</p>
+<p>آیا در خلاصه‌نویسی اطلاعات جدید یا ساختگی اضافه شده‌اند؟</p>
+<p>آیا در استدلال، دلیل‌ها واقعاً از ادعا حمایت می‌کنند؟</p>
+<p>در نسخهٔ کاغذی، توصیف نادرست نمودار یا بیان اشتباه روندها بر ارزیابی اثر منفی می‌گذارد.</p>
+<p>در نسخهٔ دیجیتال نیز بازنویسی نادقیق منابع یکی از مشکلات اساسی است.</p>
+<h3>۱۴.۳. Kohärenz und Textaufbau — انسجام و ساختار متن</h3>
+<p><span class="de" lang="de">Kohärenz</span> یعنی انسجام معنایی.</p>
+<p><span class="de" lang="de">Kohäsion</span> یعنی پیوستگی زبانی میان جمله‌ها و بخش‌های متن.</p>
+<p>یک متن ممکن است جمله‌های نسبتاً درست داشته باشد، اما از نظر منطقی پراکنده باشد.</p>
+<p>مثلاً:</p>
+<blockquote class="ex"><p class="de" lang="de">Viele Studierende arbeiten. Die Universität ist groß. Außerdem ist die Miete teuer. Online-Unterricht ist modern.</p></blockquote>
+<p class="tr">ترجمه: بسیاری از دانشجویان کار می‌کنند. دانشگاه بزرگ است. علاوه بر این، اجاره‌بها گران است. آموزش آنلاین مدرن است.</p>
+<p>این جمله‌ها الزاماً از نظر گرامری غلط نیستند، اما در کنار یکدیگر متن منسجمی نمی‌سازند.</p>
+<p>در مقابل:</p>
+<blockquote class="ex"><p class="de" lang="de">Da die Lebenshaltungskosten für viele Studierende eine finanzielle Belastung darstellen, gehen manche von ihnen neben dem Studium einer Erwerbstätigkeit nach. Dadurch können sie einen Teil ihrer Ausgaben decken, müssen jedoch häufig weniger Zeit für das Lernen einplanen.</p></blockquote>
+<p class="tr">ترجمه: ازآنجاکه هزینه‌های زندگی برای بسیاری از دانشجویان فشار مالی ایجاد می‌کند، برخی از آن‌ها در کنار تحصیل کار می‌کنند. از این طریق می‌توانند بخشی از هزینه‌هایشان را تأمین کنند، اما اغلب مجبور می‌شوند زمان کمتری برای مطالعه در نظر بگیرند.</p>
+<p>در مثال دوم، جمله‌ها از نظر معنایی به یکدیگر متصل هستند.</p>
+<h3>۱۴.۴. Wortschatz — دامنه و دقت واژگان</h3>
+<p>ارزیاب بررسی می‌کند آیا واژگان تو برای موضوع و موقعیت مناسب هستند یا نه.</p>
+<p>استفاده از واژگان پیچیده بدون درک دقیق معنای آن‌ها، لزوماً امتیاز مثبتی ندارد.</p>
+<p>مثلاً:</p>
+<blockquote class="ex"><p class="de" lang="de">Die Grafik macht einen riesigen Sprung nach oben.</p></blockquote>
+<p class="tr">ترجمه: نمودار یک جهش عظیم به بالا می‌کند.</p>
+<p>این عبارت ممکن است در گفتار غیررسمی قابل‌فهم باشد، اما برای توصیف دقیق دادهٔ آماری مناسب‌ترین انتخاب نیست.</p>
+<p>جملهٔ دقیق‌تر:</p>
+<blockquote class="ex"><p class="de" lang="de">Der dargestellte Wert steigt deutlich an.</p></blockquote>
+<p class="tr">ترجمه: مقدار نمایش‌داده‌شده به‌وضوح افزایش می‌یابد.</p>
+<p>دقت و تناسب واژه، مهم‌تر از پیچیدگی ظاهری آن است.</p>
+<h3>۱۴.۵. Grammatische Vielfalt und Korrektheit — تنوع و درستی دستوری</h3>
+<p>در سطح پیشرفته‌تر انتظار می‌رود بتوانی از ساختارهای متنوع استفاده کنی.</p>
+<p>برای مثال:</p>
+<ul>
+<li>جمله‌های وابسته با <span class="de" lang="de">weil</span>، <span class="de" lang="de">obwohl</span>، <span class="de" lang="de">während</span></li>
+<li>ساختارهای مجهول</li>
+<li>اسمی‌سازی</li>
+<li>جمله‌های موصولی</li>
+<li>ساختارهای شرطی</li>
+<li>ترکیب‌های مناسب اسم و فعل</li>
+</ul>
+<p>اما تنوع دستوری نباید به قیمت ازدست‌رفتن وضوح متن باشد.</p>
+<p>جملهٔ کوتاه و دقیق بهتر از جملهٔ بسیار طولانی و نامفهوم است.</p>
+<h3>۱۴.۶. Verständlichkeit — قابل‌فهم‌بودن</h3>
+<p>این معیار اهمیت ویژه‌ای دارد.</p>
+<p>در راهنمای رسمی نسخهٔ کاغذی، تأکید شده است که قابل‌فهم‌بودن متن از درستی صوری محض زبان مهم‌تر است.</p>
+<p>این جمله به معنای بی‌اهمیت‌بودن دستور زبان نیست.</p>
+<p>بلکه نشان می‌دهد ارزیابی به کیفیت ارتباط زبانی توجه دارد.</p>
+<p>برای مثال، چند اشتباه کوچک در حرف تعریف یا پایان صفت، اگر مانع فهم نشوند، الزاماً به اندازهٔ جابه‌جایی علت و معلول یا گنگ‌بودن استدلال مشکل‌ساز نیستند.</p>
+<h3>خلاصهٔ معیارهای رسمی</h3>
+<div class="tbl"><table>
+<tr><th>معیار</th><th>پرسش ارزیاب</th></tr>
+<tr><td>Aufgabenerfüllung</td><td>آیا همهٔ دستورهای سؤال اجرا شده‌اند؟</td></tr>
+<tr><td>Inhalt</td><td>آیا محتوا درست، مرتبط و کافی است؟</td></tr>
+<tr><td>Quellenverarbeitung</td><td>آیا منابع به‌درستی و با بیان خود داوطلب بازنویسی شده‌اند؟</td></tr>
+<tr><td>Textaufbau</td><td>آیا ساختار و ترتیب متن روشن است؟</td></tr>
+<tr><td>Kohärenz</td><td>آیا ارتباط منطقی میان جمله‌ها وجود دارد؟</td></tr>
+<tr><td>Wortschatz</td><td>آیا واژگان دقیق، متنوع و مناسب‌اند؟</td></tr>
+<tr><td>Grammatik</td><td>آیا ساختارهای دستوری مناسب و قابل‌فهم هستند؟</td></tr>
+<tr><td>Verständlichkeit</td><td>آیا خواننده می‌تواند بدون زحمت نامتعارف، پیام متن را دنبال کند؟</td></tr>
+</table></div>
+<p>این جدول، خلاصهٔ آموزشی معیارهای منتشرشده است؛ یک جدول نمره‌دهی عددی رسمی یا وزن‌دهی درصدی به معیارها نیست.</p>
+</section>
+
+<section class="pane">
+<h2 id="s15">۱۵. TDN 3، TDN 4 و TDN 5 در نوشتن چه تفاوتی دارند؟</h2>
+<p>سطح نوشتن فقط بر اساس تعداد غلط‌ها تعیین نمی‌شود.</p>
+<p>دو متن ممکن است تعداد اشتباهات دستوری مشابهی داشته باشند، اما از نظر انجام تکلیف، سازمان‌دهی و دقت استدلال تفاوت زیادی داشته باشند.</p>
+<div class="tbl"><table>
+<tr><th>ویژگی</th><th>نزدیک به TDN 3</th><th>نزدیک به TDN 4</th><th>نزدیک به TDN 5</th></tr>
+<tr><td>پوشش سؤال</td><td>ممکن است ناقص باشد</td><td>محورهای اصلی به‌قدر کافی پوشش داده شده‌اند</td><td>پوشش دقیق و متناسب با تمام ابعاد</td></tr>
+<tr><td>استدلال</td><td>گاهی ساده یا کم‌توضیح</td><td>روشن، مرتبط و دارای دلیل</td><td>دقیق‌تر، متنوع و دارای تمایزهای مفهومی</td></tr>
+<tr><td>داده‌ها</td><td>ممکن است توصیف ناقص یا مبهم باشند</td><td>اطلاعات اصلی درست منتقل می‌شوند</td><td>داده‌ها دقیق و هدفمند انتخاب و مقایسه می‌شوند</td></tr>
+<tr><td>ساختار</td><td>قابل تشخیص، اما همراه با ضعف</td><td>عموماً منسجم و روشن</td><td>روان و با پیوندهای منطقی قوی</td></tr>
+<tr><td>واژگان</td><td>نسبتاً محدود</td><td>مناسب و با تنوع کافی</td><td>دقیق، منعطف و متناسب با معنا</td></tr>
+<tr><td>دستور زبان</td><td>خطاهایی که گاهی فهم را دشوار می‌کنند</td><td>خطاهای قابل‌تحمل، بدون اختلال جدی در ارتباط</td><td>کنترل بالاتر و ساختارهای متنوع‌تر</td></tr>
+</table></div>
+<p>این جدول توصیف آموزشی است، نه جدول رسمی تبدیل عملکرد به نمره.</p>
+<p>در نسخهٔ دیجیتال، ارزیابی نوشتن به امتیاز مقیاس‌بندی‌شدهٔ صفر تا ۲۰ تبدیل می‌شود:</p>
+<div class="tbl"><table>
+<tr><th>امتیاز دیجیتال</th><th>سطح</th></tr>
+<tr><td>۰–۴</td><td>زیر TDN 3</td></tr>
+<tr><td>۵–۹</td><td>TDN 3</td></tr>
+<tr><td>۱۰–۱۵</td><td>TDN 4</td></tr>
+<tr><td>۱۶–۲۰</td><td>TDN 5</td></tr>
+</table></div>
+<p>این مقادیر امتیاز نهایی مقیاس‌بندی‌شده‌اند؛ نه تعداد خطاهای مجاز یا امتیاز خام هر تکلیف.</p>
+</section>
+
+<section class="pane">
+<h2 id="s16">۱۶. اشتباهات پرتکرار در نوشتن، به‌ویژه از سطح B2</h2>
+<h3>۱۶.۱. استفادهٔ مکانیکی از Redemittel</h3>
+<p>حفظ‌کردن عبارات کاربردی مفید است، اما نباید متن را صرفاً با عبارت‌های آماده پُر کنی.</p>
+<p>برای مثال:</p>
+<blockquote class="ex"><p class="de" lang="de">Heutzutage ist dieses Thema sehr wichtig. Es gibt viele Vorteile und Nachteile. Meiner Meinung nach ist das sehr interessant.</p></blockquote>
+<p class="tr">ترجمه: امروزه این موضوع خیلی مهم است. مزایا و معایب زیادی وجود دارد. به نظر من این موضوع بسیار جالب است.</p>
+<p>این جملات از نظر اطلاعاتی تقریباً خالی‌اند.</p>
+<p>بهتر است از عبارت‌های آماده برای سازمان‌دهی اطلاعات واقعی و استدلال مشخص استفاده کنی.</p>
+<h3>۱۶.۲. تکرار بیش‌ازحد یک فعل</h3>
+<p>مثلاً:</p>
+<blockquote class="ex"><p class="de" lang="de">Die Grafik zeigt ... Die Grafik zeigt auch ... Außerdem zeigt die Grafik ...</p></blockquote>
+<p class="tr">ترجمه: نمودار نشان می‌دهد ... نمودار همچنین نشان می‌دهد ... علاوه بر این نمودار نشان می‌دهد ...</p>
+<p>بهتر است ترکیب‌های متنوع و طبیعی استفاده کنی:</p>
+<blockquote class="ex"><p class="de" lang="de">Die Grafik veranschaulicht ...</p><p class="de" lang="de">Aus den Daten geht hervor ...</p><p class="de" lang="de">Besonders auffällig ist ...</p><p class="de" lang="de">Im Vergleich dazu ...</p></blockquote>
+<p>تنوع باید طبیعی باشد، نه اجباری.</p>
+<h3>۱۶.۳. استفادهٔ نادرست از weil و deshalb</h3>
+<p>این دو ساختار متفاوت‌اند.</p>
+<p>درست:</p>
+<blockquote class="ex"><p class="de" lang="de">Viele Studierende arbeiten, weil die Lebenshaltungskosten hoch sind.</p></blockquote>
+<p class="tr">ترجمه: بسیاری از دانشجویان کار می‌کنند، زیرا هزینه‌های زندگی بالاست.</p>
+<p>درست:</p>
+<blockquote class="ex"><p class="de" lang="de">Die Lebenshaltungskosten sind hoch. Deshalb arbeiten viele Studierende.</p></blockquote>
+<p class="tr">ترجمه: هزینه‌های زندگی بالاست. به همین دلیل بسیاری از دانشجویان کار می‌کنند.</p>
+<p>بعد از <span class="de" lang="de">weil</span>، فعل صرف‌شده معمولاً در پایان بند وابسته قرار می‌گیرد.</p>
+<p>اما <span class="de" lang="de">deshalb</span> قید پیوندی است و می‌تواند در جایگاه نخست جملهٔ اصلی قرار بگیرد؛ در این صورت فعل صرف‌شده بلافاصله بعد از آن می‌آید.</p>
+<h3>۱۶.۴. اشتباه در ساختار einerseits ... andererseits</h3>
+<p>درست:</p>
+<blockquote class="ex"><p class="de" lang="de">Einerseits ermöglicht die Digitalisierung mehr Flexibilität, andererseits kann sie den persönlichen Austausch einschränken.</p></blockquote>
+<p class="tr">ترجمه: از یک سو دیجیتالی‌شدن انعطاف بیشتری فراهم می‌کند، از سوی دیگر ممکن است ارتباط شخصی را محدود کند.</p>
+<p>این دو بخش باید واقعاً دو جنبهٔ مرتبط و متفاوت را نشان دهند.</p>
+<p>استفاده از این عبارت برای وصل‌کردن دو نکتهٔ مشابه، از نظر استدلالی مناسب نیست.</p>
+<h3>۱۶.۵. مشکل در حرف اضافهٔ فعل‌ها</h3>
+<p>برخی ترکیب‌های مهم نوشتار دانشگاهی:</p>
+<div class="tbl"><table>
+<tr><th>ترکیب آلمانی</th><th>معنی</th></tr>
+<tr><td>sich auf etwas auswirken</td><td>بر چیزی تأثیر گذاشتن</td></tr>
+<tr><td>zu etwas beitragen</td><td>در چیزی نقش داشتن</td></tr>
+<tr><td>von etwas abhängen</td><td>به چیزی بستگی داشتن</td></tr>
+<tr><td>sich mit etwas beschäftigen</td><td>به چیزی پرداختن</td></tr>
+<tr><td>auf etwas hinweisen</td><td>به چیزی اشاره‌کردن</td></tr>
+<tr><td>einen Einfluss auf etwas haben</td><td>بر چیزی تأثیر داشتن</td></tr>
+<tr><td>sich für / gegen etwas aussprechen</td><td>موضع موافق / مخالف گرفتن</td></tr>
+<tr><td>etwas auf etwas zurückführen</td><td>چیزی را ناشی از عامل دیگری دانستن</td></tr>
+</table></div>
+<p>مثلاً:</p>
+<blockquote class="ex"><p class="de" lang="de">Die Arbeitsbelastung kann sich negativ auf den Studienerfolg auswirken.</p></blockquote>
+<p class="tr">ترجمه: فشار کاری می‌تواند بر موفقیت تحصیلی تأثیر منفی بگذارد.</p>
+<p>بهتر است چنین ترکیب‌هایی را کامل یاد بگیری، نه صرفاً معنای فعل اصلی را.</p>
+<h3>۱۶.۶. شروع چند جملهٔ پشت سر هم با Ich denke</h3>
+<p>یک متن استدلالی می‌تواند موضع شخصی داشته باشد، اما نباید همهٔ جمله‌های آن با «من فکر می‌کنم» آغاز شوند.</p>
+<p>به‌جای تکرار:</p>
+<blockquote class="ex"><p class="de" lang="de">Ich denke, dass ...</p></blockquote>
+<p>می‌توانی بسته به کارکرد جمله از این ساختارها استفاده کنی:</p>
+<blockquote class="ex"><p class="de" lang="de">Ein wichtiger Grund dafür ist ...</p><p class="de" lang="de">Daraus ergibt sich ...</p><p class="de" lang="de">Problematisch erscheint ...</p><p class="de" lang="de">Meiner Ansicht nach überwiegen ...</p></blockquote>
+<h3>۱۶.۷. نوشتن نتیجه‌گیری متناقض</h3>
+<p>اگر در طول متن استدلال کرده‌ای که یک اقدام فقط تحت شرایط مشخص مفید است، نباید در پایان ناگهان بنویسی:</p>
+<blockquote class="ex"><p class="de" lang="de">Deshalb sollte diese Maßnahme überall und ohne Einschränkungen eingeführt werden.</p></blockquote>
+<p class="tr">ترجمه: بنابراین این اقدام باید در همه‌جا و بدون هیچ محدودیتی اجرا شود.</p>
+<p>نتیجه‌گیری باید با استدلال‌های قبلی سازگار باشد.</p>
+</section>
+
+<section class="pane">
+<h2 id="s17">۱۷. چگونه متن خودت را در پنج دقیقهٔ پایانی اصلاح کنی؟</h2>
+<p><span class="de" lang="de">Korrekturlesen</span> یعنی بازخوانی و اصلاح متن.</p>
+<p>در مرحلهٔ بازخوانی بهتر است به‌جای تلاش برای پیداکردن همهٔ ایرادهای ممکن، اولویت‌بندی داشته باشی.</p>
+<p><b>فهرست کنترل پیش از تحویل</b></p>
+<ul>
+<li>آیا همهٔ محورهای سؤال را پاسخ داده‌ام؟</li>
+<li>آیا اعداد و واحدهای نمودار درست نوشته شده‌اند؟</li>
+<li>آیا نتیجه‌گیری با استدلال‌ها سازگار است؟</li>
+<li>آیا جمله‌های طولانی، فعل و ساختار درست دارند؟</li>
+<li>آیا حروف اضافه، Artikel و پایان صفت‌ها را بررسی کرده‌ام؟</li>
+<li>آیا متن خوانا و پاراگراف‌بندی‌شده است؟</li>
+</ul>
+<p>از نظر اولویت، اشتباه محتوایی بزرگ یا حذف یکی از خواسته‌های سؤال مهم‌تر از یک ایراد کوچک املایی است.</p>
+<p>بنابراین در زمان محدود، ابتدا خطاهای محتوایی و ساختاری را بررسی کن و سپس به جزئیات زبانی بپرداز.</p>
+</section>
+
+<section class="pane">
+<h2 id="s18">۱۸. برنامهٔ تمرین نوشتن برای سطح B2</h2>
+<p>اگر هدف رسیدن به عملکرد مناسب در TestDaF باشد، تمرین باید هم مهارت تولید متن و هم توانایی مدیریت زمان را تقویت کند.</p>
+<h3>مرحلهٔ اول: تمرین اجزای مستقل</h3>
+<p>در ابتدا لازم نیست هر بار متن کامل بنویسی.</p>
+<p>می‌توانی یک جلسه را فقط به توصیف نمودار اختصاص بدهی، جلسهٔ دیگر را به ساختار پاراگراف استدلالی و جلسهٔ بعدی را به خلاصه‌نویسی.</p>
+<p>برای مثال:</p>
+<div class="tbl"><table>
+<tr><th>روز تمرین</th><th>موضوع</th></tr>
+<tr><td>روز اول</td><td>معرفی و توصیف یک نمودار</td></tr>
+<tr><td>روز دوم</td><td>نوشتن دو پاراگراف استدلالی</td></tr>
+<tr><td>روز سوم</td><td>بازنویسی و خلاصه‌سازی یک متن</td></tr>
+<tr><td>روز چهارم</td><td>تمرین واژگان و ساختارهای علمی</td></tr>
+<tr><td>روز پنجم</td><td>نگارش یک تکلیف کامل زمان‌دار</td></tr>
+<tr><td>روز ششم</td><td>تحلیل و بازنویسی پاسخ قبلی</td></tr>
+</table></div>
+<p>این یک چرخهٔ تمرینی پیشنهادی است؛ برنامهٔ کامل چند هفته‌ای در پارت نهم ارائه می‌شود.</p>
+<h3>مرحلهٔ دوم: بازنویسی پس از دریافت بازخورد</h3>
+<p>صرفاً نوشتن متن جدید کافی نیست.</p>
+<p>اگر در یک نوشته با مشکل انسجام، استفادهٔ نادرست از حروف اضافه یا استدلال ناقص مواجه شدی، باید همان نوشته را یک‌بار دیگر اصلاح کنی.</p>
+<p>فرایند پیشنهادی:</p>
+<ul>
+<li><span class="de" lang="de">Erstfassung</span>: نسخهٔ اول</li>
+<li><span class="de" lang="de">Fehleranalyse</span>: تحلیل خطاها</li>
+<li><span class="de" lang="de">Überarbeitung</span>: بازنویسی</li>
+<li><span class="de" lang="de">Zweitfassung</span>: نسخهٔ اصلاح‌شده</li>
+</ul>
+<p>این روش کمک می‌کند خطاهای تکرارشونده را به‌صورت مشخص هدف قرار بدهی.</p>
+<h3>مرحلهٔ سوم: تمرین در شرایط واقعی</h3>
+<p>برای نسخهٔ کاغذی، متن را با دست و روی برگهٔ مشابه پاسخ‌نامه بنویس.</p>
+<p>برای نسخهٔ دیجیتال، با صفحه‌کلید آلمانی و در کادر متنی تمرین کن.</p>
+<p>در هر دو حالت زمان‌سنج داشته باش و پس از پایان زمان نوشتن را متوقف کن.</p>
+<p>اگر همیشه با ۲۰ یا ۳۰ دقیقه زمان اضافه تمرین کنی، کیفیت متن تمرینی‌ات لزوماً نشان‌دهندهٔ عملکرد روز آزمون نخواهد بود.</p>
+</section>
+
+<section class="pane">
+<h2 id="s19">۱۹. منابع رسمی پارت پنجم</h2>
+<p>منابع زیر برای بررسی ساختار و تصحیح بخش <span class="de" lang="de">Schreiben</span> مناسب‌اند.</p>
+<p>ساختار TestDaF کاغذی — تعداد تکلیف و زمان رسمی نوشتن</p>
+<ul>
+<li><a href="https://www.testdaf.de/de/teilnehmende/der-papierbasierte-testdaf/aufbau-des-papierbasierten-testdaf/">مشاهده</a></li>
+</ul>
+<p>ارزیابی نوشتن در نسخهٔ کاغذی — معیارهای رسمی ارزیابی متن، نمودار و استدلال</p>
+<ul>
+<li><a href="https://www.testdaf.de/de/teilnehmende/der-papierbasierte-testdaf/auswertung-des-papierbasierten-testdaf/">مشاهده</a></li>
+</ul>
+<p>ساختار نوشتن دیجیتال — دو نوع تکلیف و تعداد واژه‌های موردنیاز</p>
+<ul>
+<li><a href="https://www.testdaf.de/de/teilnehmende/der-digitale-testdaf/aufbau-des-digitalen-testdaf/">مشاهده</a></li>
+</ul>
+<p>معیارهای تصحیح دیجیتال — ارزیابی محتوا، منابع و دقت زبان</p>
+<ul>
+<li><a href="https://www.testdaf.de/de/teilnehmende/der-digitale-testdaf/auswertung-des-digitalen-testdaf/">مشاهده</a></li>
+</ul>
+<p>نمونه‌آزمون رسمی دیجیتال — دو تکلیف نوشتن همراه با دستور و زمان رسمی در صفحات ۲۴ تا ۲۷</p>
+<ul>
+<li><a href="https://www.testdaf.de/fileadmin/testdaf/downloads/Demo_Version_digitaler_TestDaF/Beispielaufgaben_Demo-Version_digitaler_TestDaF.pdf">فایل PDF</a></li>
+</ul>
+<p>Modelltest 01 — Schriftlicher Ausdruck — نمونهٔ رسمی نوشتن کاغذی، نمودار و دستور استدلال</p>
+<ul>
+<li><a href="https://www.testdaf.de/fileadmin/testdaf/downloads/Modelltests_papierbasierter_TestDaF/Modelltest_1/Schreiben/Modelltest_01_SA_Heft.pdf">فایل PDF</a></li>
+</ul>
+</section>
+
+<section class="pane">
+<h2>جمع‌بندی پارت پنجم</h2>
+<p>در TestDaF کاغذی، یک متن منسجم می‌نویسی که توصیف داده‌های نموداری و بحث استدلالی را ترکیب می‌کند. زمان آن ۶۰ دقیقه است و ارزیابی فقط بر اساس متن نوشته‌شده در برگهٔ رسمی انجام می‌شود.</p>
+<p>در TestDaF دیجیتال، دو تکلیف اصلی وجود دارد: مقالهٔ استدلالی حداقل ۲۰۰ واژه‌ای و خلاصهٔ حدود ۱۰۰ تا ۱۵۰ واژه‌ای از یک متن و نمودار. در نمونهٔ رسمی برای هرکدام ۳۰ دقیقه زمان در نظر گرفته شده است.</p>
+<p>برای رسیدن به عملکرد مناسب، پنج توانایی اهمیت اساسی دارند: انجام کامل دستورها، توصیف دقیق داده‌ها، استدلال با دلیل، پیوند منطقی جمله‌ها و استفاده از واژگان و دستور زبان مناسب.</p>
+<p>مهم‌ترین اصل نوشتن TestDaF این است که متن پیچیدهٔ نامفهوم، ارزشمندتر از متن روشن و دقیق نیست. کیفیت پاسخ از ترکیب محتوای درست، ساختار منسجم و زبان مناسب به دست می‌آید.</p>
+<p>در پارت ششم وارد Mündlicher Ausdruck / Sprechen می‌شویم: هر هفت نوع تکلیف شفاهی در نسخهٔ کاغذی و دیجیتال، زمان‌های آماده‌سازی و صحبت، روش ضبط صدا، معیارهای ارزیابی، عبارات کاربردی و تمرین عملی با صدای ضبط‌شده.</p>
+</section>
+
+<section class="pane note">
+<p><a href="testdaf.html">پارت‌های دیگر ←</a></p>
+</section>
+</main>
+</body>
+</html>
