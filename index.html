@@ -3114,8 +3114,9 @@ async function showEntry(box,raw,ctx,src,lang,preE){
   return h};
  const wortApiEmpty=!W.api&&!W.ai&&!W.verb&&!W.conj;
  const wortRetryRow=(dict||card)&&wortApiEmpty?`<div class="wort-retry-row" style="margin-top:8px;border-top:1px dashed var(--border);padding-top:8px"><span class="mute">دریافت بخش‌های زنده wort.app ناموفق بود.</span> <button class="ghost" type="button" data-a="wortretry">تلاش دوباره</button></div>`:"";
+ const tatoebaBox=`<div class="tatoeba-box" style="margin-top:8px;border-top:1px dashed var(--border);padding-top:8px"><p class="mute">در حال بارگیری جمله‌ها…</p></div>`;
  const wortSection=(dict||card)?`<div style="border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin-top:8px"><details><summary>همه‌ی معنی‌ها و عبارت‌ها (wort.app)</summary>${dict?dict.senses.map(s=>`<p><b>${sr(s.meaning,"fa")}</b>${s.note?` <span class="mute de">${esc(s.note)}</span>`:""}`+
-  [...s.ex,...s.ph].filter(x=>x.de).map(x=>`<span class="sense">${exHtml(x)}</span>`).join("")+`</p>`).join("")+wortExtraHTML(dict)+wortApiHTML(W)+wortRetryRow:`<p><b>${sr(card.meaning,"fa")}</b>${card.defDe?`<br><span class="de">${sr(card.defDe,"de")}</span>`:""}${card.defFa?`<br>${sr(card.defFa,"fa")}`:""}</p>`+(card.ex||[]).filter(x=>x.de).map(x=>`<span class="sense">${exHtml(x)}</span>`).join("")+wortApiHTML(W)+wortRetryRow}</details></div>`:(e.wortLazy!==false&&!/\s/.test(raw))?`<div style="border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin-top:8px"><details data-lazy-src="wort"><summary>همه‌ی معنی‌ها و عبارت‌ها (wort.app)</summary><div class="lazy-body"></div></details></div>`:"";
+  [...s.ex,...s.ph].filter(x=>x.de).map(x=>`<span class="sense">${exHtml(x)}</span>`).join("")+`</p>`).join("")+wortExtraHTML(dict)+wortApiHTML(W)+wortRetryRow+tatoebaBox:`<p><b>${sr(card.meaning,"fa")}</b>${card.defDe?`<br><span class="de">${sr(card.defDe,"de")}</span>`:""}${card.defFa?`<br>${sr(card.defFa,"fa")}`:""}</p>`+(card.ex||[]).filter(x=>x.de).map(x=>`<span class="sense">${exHtml(x)}</span>`).join("")+wortApiHTML(W)+wortRetryRow+tatoebaBox}</details></div>`:(e.wortLazy!==false&&!/\s/.test(raw))?`<div style="border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin-top:8px"><details data-lazy-src="wort"><summary>همه‌ی معنی‌ها و عبارت‌ها (wort.app)</summary><div class="lazy-body"></div></details></div>`:"";
  const bamSection=e.bamooz?`<div style="border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin-top:8px"><details><summary>همه‌ی معنی‌ها و عبارت‌ها (بیاموز)</summary>${bamoozPanelSafe(e.bamooz,"de")}</details></div>`:(e.bamoozLazy!==false&&!/\s/.test(raw))?`<div style="border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin-top:8px"><details data-lazy-src="bamooz"><summary>همه‌ی معنی‌ها و عبارت‌ها (بیاموز)</summary><div class="lazy-body"></div></details></div>`:"";
  box.innerHTML=`<div class="row"><span class="big2 de" style="flex:1">${art?`<span style="color:var(--accent)">${esc(art)}</span> `:""}${esc(head)}</span><button class="ib" data-a="say" aria-label="تلفظ">${ic("sound")}</button><button class="ib" data-a="ask" aria-label="از پووف بپرس" style="font-size:18px">✨</button></div>
  ${plural?`<div class="mute de">Plural: ${esc(plural)}</div>`:""}
@@ -3166,6 +3167,29 @@ async function showEntry(box,raw,ctx,src,lang,preE){
   showEntry(box,raw,ctx,src,lang,e);
   restoreCardState(box,stt);
  };
+ const loadTatoeba=async()=>{
+  const slot=box.querySelector(".tatoeba-box");if(!slot)return;
+  const rt=box._t,tw=(head||"").trim();if(!tw){slot.innerHTML="";return}
+  try{
+   const ctl=new AbortController(),to=setTimeout(()=>ctl.abort(),8000);
+   const r=await fetch("https://tatoeba.org/api_v0/search?from=deu&to=pes&query="+encodeURIComponent(tw),{signal:ctl.signal});
+   clearTimeout(to);
+   if(rt!==box._t||!slot.isConnected)return;
+   if(!r.ok){slot.innerHTML="";return}
+   const j=await r.json();
+   if(rt!==box._t||!slot.isConnected)return;
+   const items=[];
+   for(const res of (j&&j.results)||[]){
+    if(items.length>=10)break;
+    const trs=Array.isArray(res.translations)?res.translations.flatMap(a=>Array.isArray(a)?a:[a]):[];
+    const fa=trs.find(x=>x&&x.lang==="pes");
+    if(res&&res.text&&fa&&fa.text)items.push({de:res.text,fa:fa.text});
+   }
+   if(rt!==box._t||!slot.isConnected)return;
+   slot.innerHTML=items.length?`<p style="margin:0 0 4px"><b>جمله‌ها (Tatoeba)</b></p>`+items.map(x=>`<span class="sense">${sr(x.de,"de")}<br>${sr(x.fa,"fa","mute")}</span>`).join(""):`<p class="mute">جمله‌ای پیدا نشد</p>`;
+  }catch(err){if(slot.isConnected)slot.innerHTML=""}
+ };
+ loadTatoeba();
  box.onclick=ev=>{
   const b=ev.target.closest("button");if(!b)return;
   const a=b.dataset.a;
