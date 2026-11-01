@@ -3293,7 +3293,7 @@ function renderReader(){
   const igv=t.video&&t.video.ig;
   const srcOf=g=>t.pod?("podcast:"+t.id+"@"+Math.floor(g.s)):igv?("ig:"+t.video.ig+"@"+Math.floor(g.s)):t.video?("video:"+t.video.id+"@"+Math.floor(g.s)):("local:"+Math.floor(g.s));
   $("#text").innerHTML=t.video&&t.video.id&&!t.segs.length?`<div class="empty-wrap"><p class="state empty">${YT_BOT_MSG}</p></div>`:t.segs.map((g,k)=>`<div class="tline" id="sg${k}">${`<button class="ts" data-ts="${g.s}">${mmss(g.s)}</button>`}${sr(g.t,t.lang,"",srcOf(g))}</div>`).join("");
- }else if(t.pod){const ytm=(t.body||"").match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?[^#]*v=|embed\/|shorts\/))([A-Za-z0-9_-]{11})/);$("#text").innerHTML=((t.body||"")?`<p class="mute">توضیحات قسمت — متن گفتگو برای این قسمت موجود نیست.</p>`:"")+((t.body||"")&&ytm?`<p><button class="btn sm" data-pod-yt>▶ دریافت متن گفتگو از یوتیوب</button></p>`:"")+(t.body||"").split(/\n\s*\n/).map(p=>"<p>"+esc(p).replace(/\n/g,"<br>")+"</p>").join("")||`<p class="state empty">بدون متن — فقط صوت.</p>`;}else if(t.wpBlocks&&t.wpBlocks.length){
+ }else if(t.pod){const ytm=(t.body||"").match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?[^#]*v=|embed\/|shorts\/))([A-Za-z0-9_-]{11})/);$("#text").innerHTML=((t.body||"")?`<p class="mute">توضیحات قسمت — متن گفتگو برای این قسمت موجود نیست.</p>`:"")+((t.body||"")&&ytm?`<p><button class="btn sm" data-pod-yt>▶ دریافت متن گفتگو از یوتیوب</button></p>`:"")+(t.body||"").split(/\n\s*\n/).map(txtParaHTML).join("")||`<p class="state empty">بدون متن — فقط صوت.</p>`;}else if(t.wpBlocks&&t.wpBlocks.length){
   const rich=wpRichHTML(t);
   if(rich)$("#text").innerHTML=rich;
   else $("#text").innerHTML=t.body.split(/\n\s*\n/).map(txtParaHTML).join("");
