@@ -1335,6 +1335,8 @@ $("#podRes").onclick=e=>{
  const ep=e.target.closest("[data-ep]");
  if(ep)podImport(podEps[+ep.dataset.ep],ep);
 };
+$("#text").addEventListener("click",e=>{const b=e.target.closest("[data-pod-yt]");if(!b)return;podYtFetch();});
+async function podYtFetch(){const t=curText();if(!t||!t.pod||(t.segs&&t.segs.length))return;const m=(t.body||"").match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?[^#]*v=|embed\/|shorts\/))([A-Za-z0-9_-]{11})/);if(!m){toast("در توضیحات این قسمت لینک یوتیوب پیدا نشد","bad");return}const id=m[1],btn=document.querySelector("[data-pod-yt]");if(btn){btn.disabled=true;btn.textContent="در حال دریافت متن گفتگو…"}const want=(t.lang==="de"||t.lang==="en")?t.lang:"";let data=null;const tries=[()=>fetchT(workerURL({yt:id,lang:want})),()=>fetchT(workerURL({yta:id})),()=>fetchT(workerURL({supa:id,lang:want})),()=>fetchT(workerURL({ytapi:id,lang:want}))];for(const fn of tries){try{const r=await fn(),j=await r.json();if(!r.ok||j.error||!j.segments||!j.segments.length)continue;data={segments:j.segments,lang:j.lang};break}catch(e){}}if(!data){try{const d=await ytTimedText(id,want);if(d&&d.segments&&d.segments.length)data=d}catch(e){}}if(!data){toast("زیرنویس این ویدیو پیدا نشد؛ ممکن است ویدیو زیرنویس نداشته باشد","bad");if(btn){btn.disabled=false;btn.textContent="▶ دریافت متن گفتگو از یوتیوب"}return}t.segs=data.segments.map(x=>({s:x.s,t:x.t}));t.body=t.segs.map(x=>x.t).join("\n");if(data.lang)t.lang=data.lang;save();renderReader();toast("متن گفتگو از یوتیوب اضافه شد");}
 /* --- پخش‌کننده‌ی صوتی پادکست: هم‌زمان با متن، ذخیره‌ی جای پخش، ادامه --- */
 let audEl=null,audFor="",audSaveAt=0;let igListen=false;const igAudRefreshed=new Set();function igPlayAt(s){if(!audEl)return;try{audEl.currentTime=s}catch(e){}const pr=audEl.play();if(pr&&pr.catch)pr.catch(()=>{})}
 function audSavePos(t){
@@ -3291,8 +3293,7 @@ function renderReader(){
   const igv=t.video&&t.video.ig;
   const srcOf=g=>t.pod?("podcast:"+t.id+"@"+Math.floor(g.s)):igv?("ig:"+t.video.ig+"@"+Math.floor(g.s)):t.video?("video:"+t.video.id+"@"+Math.floor(g.s)):("local:"+Math.floor(g.s));
   $("#text").innerHTML=t.video&&t.video.id&&!t.segs.length?`<div class="empty-wrap"><p class="state empty">${YT_BOT_MSG}</p></div>`:t.segs.map((g,k)=>`<div class="tline" id="sg${k}">${`<button class="ts" data-ts="${g.s}">${mmss(g.s)}</button>`}${sr(g.t,t.lang,"",srcOf(g))}</div>`).join("");
- }else if(t.pod)$("#text").innerHTML=((t.body||"")?`<p class="mute">توضیحات قسمت — متن گفتگو برای این قسمت موجود نیست.</p>`:"")+(t.body||"").split(/\n\s*\n/).map(p=>"<p>"+esc(p).replace(/\n/g,"<br>")+"</p>").join("")||`<p class="state empty">بدون متن — فقط صوت.</p>`;
- else if(t.wpBlocks&&t.wpBlocks.length){
+ }else if(t.pod){const ytm=(t.body||"").match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?[^#]*v=|embed\/|shorts\/))([A-Za-z0-9_-]{11})/);$("#text").innerHTML=((t.body||"")?`<p class="mute">توضیحات قسمت — متن گفتگو برای این قسمت موجود نیست.</p>`:"")+((t.body||"")&&ytm?`<p><button class="btn sm" data-pod-yt>▶ دریافت متن گفتگو از یوتیوب</button></p>`:"")+(t.body||"").split(/\n\s*\n/).map(p=>"<p>"+esc(p).replace(/\n/g,"<br>")+"</p>").join("")||`<p class="state empty">بدون متن — فقط صوت.</p>`;}else if(t.wpBlocks&&t.wpBlocks.length){
   const rich=wpRichHTML(t);
   if(rich)$("#text").innerHTML=rich;
   else $("#text").innerHTML=t.body.split(/\n\s*\n/).map(txtParaHTML).join("");
@@ -3343,7 +3344,7 @@ function hlApply(){
 }
 const hlTogEl=$("#hlTog");
 if(hlTogEl)hlTogEl.onclick=()=>{try{localStorage.setItem("poof_hl",hlOn()?"0":"1")}catch(_){ } hlApply()};
-$("#text").onclick=e=>{if(lpSuppress)return;const el=e.target.closest(".w");if(el&&!el.closest(".sr"))pick(el,e.shiftKey)};
+$("#text").onclick=e=>{if(lpSuppress)return;const el=e.target.closest(".w");if(el)pick(el,e.shiftKey)};
 $("#text").onkeydown=e=>{if(e.key==="Enter"||e.key===" "){const el=e.target.closest(".w");if(el){e.preventDefault();pick(el)}}};
 /* ===== کتابخانه‌ی متن‌ها: تاریخچه‌ی تمیز لینک‌ها و متن‌ها ===== */
 const kindOf=t=>t.pod?"pod":t.video&&t.video.id?"yt":t.video&&t.video.ig?"ig":t.wp?"wp":t.url?"web":"txt";
