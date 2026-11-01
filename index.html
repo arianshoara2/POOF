@@ -1530,15 +1530,13 @@ function attachFaLayer(e,faL){
  if(!e.src.includes("لایه‌ی فارسی آفلاین"))e.src.unshift("لایه‌ی فارسی آفلاین");
 }
 /* ===== فرهنگ دستی آفلاین (manual-dict.json) ===== */
-let _manDict=null,_manDictP=null,_manConj={},_manRange="";
+let _manDict=null,_manDictP=null,_manConj={};
 async function loadManualDict(){
  if(_manDict)return _manDict;
  if(!_manDictP)_manDictP=(async()=>{
   const r=await fetch("./manual-dict.json");if(!r.ok)throw new Error("manual-dict "+r.status);
   const j=await r.json(),byKey=new Map();
   _manConj=j.conjugations||{};
-  const plain=j.entries.filter(e=>!String(e.headword||"").includes("~"));
-  if(plain.length)_manRange=plain[0].headword+" تا "+plain[plain.length-1].headword;
   for(const e of j.entries){
    const k=String(e.headword||"").toLowerCase();
    let arr=byKey.get(k);
@@ -1571,8 +1569,6 @@ async function manualLookup(w){
 function attachManualLayer(e,manL){
  if(!manL||e.manualRecs)return;
  e.manualRecs=manL.recs;
- if(!e.src)e.src=[];
- if(!e.src.includes("فرهنگ دستی آفلاین"))e.src.unshift("فرهنگ دستی آفلاین");
 }
 const manBase=e=>String(e.headword||"").replace(/~/g,"").replace(/\s+/g," ").trim().replace(/!$/,"");
 const manExp=(t,e)=>String(t||"").split("~").join(manBase(e));
@@ -1580,33 +1576,32 @@ const manCode=e=>{const m=String(e.info||"").match(/<(\d+[a-z])>/);return m?m[1]
 function manConjHTML(code){
  const c=_manConj[code];if(!c)return "";
  const rows=c.rows.map(r=>`<div class="de" dir="ltr" style="margin:4px 0"><b>${esc(r.tense)}:</b> ${esc(r.forms)}</div>`).join("");
- return `<details style="margin:8px 0"><summary>صرف <span class="de" dir="ltr">${esc(c.base)}</span> · جدول ${esc(code)}</summary><div class="mute">${esc(c.note_fa||"")}</div>${rows}</details>`;
+ return `<details style="margin:8px 0"><summary>صرف <span class="de" dir="ltr">${esc(c.base)}</span></summary><div class="mute">${esc(c.note_fa||"")}</div>${rows}</details>`;
 }
 function manEntryHTML(e){
- let h=`<div style="margin:10px 0"><div><b>${sr(e.headword,"de","","manual")}</b></div>`;
+ const row=(de,fa,margin)=>`<div dir="ltr" style="display:flex;gap:10px;margin:${margin}"><div style="flex:1;min-width:0;text-align:left;overflow-wrap:break-word">${de}</div><div dir="rtl" style="flex:1;min-width:0;text-align:right">${fa}</div></div>`;
+ let h=`<div style="margin:10px 0"><div dir="ltr" style="text-align:left"><b>${sr(e.headword,"de","","manual")}</b></div>`;
  if(e.info){
-  const info=esc(manExp(e.info,e)).replace(/&lt;(\d+[a-z])&gt;/g,'<span class="chip de" dir="ltr">$1</span>');
-  h+=`<div class="mute" dir="ltr">${info}</div>`;
+  const info=esc(manExp(e.info,e).replace(/<\d+[a-z]>/g,"").replace(/\s+/g," ").trim());
+  if(info)h+=`<div dir="ltr" style="text-align:left" class="mute">${info}</div>`;
  }
  if(e.senses&&e.senses.length){
   for(const x of e.senses){
-   h+=`<div style="margin:8px 0">`;
-   if(x.number)h+=`<b>${esc(String(x.number))}.</b> `;
-   if(x.context_de)h+=`${sr(manExp(x.context_de,e),"de","","manual")} `;
-   if(x.persian)h+=`<b>${esc(x.persian)}</b>`;
+   const de=`${x.number?`<b>${esc(String(x.number))}.</b> `:""}${x.context_de?sr(manExp(x.context_de,e),"de","","manual"):""}`;
+   const fa=x.persian?`<b>${esc(x.persian)}</b>`:"";
+   h+=row(de,fa,"8px 0");
    for(const y of (x.examples||[])){
-    h+=`<div style="margin:4px 0 4px 12px">${sr(manExp(y.de,e),"de","","manual")}<br><span>${esc(y.fa||"")}</span></div>`;
+    h+=row(sr(manExp(y.de,e),"de","","manual"),esc(y.fa||""),"4px 0 4px 12px");
    }
-   h+=`</div>`;
   }
  } else if(e.persian){
-  h+=`<div><b>${esc(e.persian)}</b></div>`;
+  h+=`<div dir="rtl" style="text-align:right"><b>${esc(e.persian)}</b></div>`;
  }
  for(const y of (e.examples||[])){
-  h+=`<div style="margin:4px 0 4px 12px">${sr(manExp(y.de,e),"de","","manual")}<br><span>${esc(y.fa||"")}</span></div>`;
+  h+=row(sr(manExp(y.de,e),"de","","manual"),esc(y.fa||""),"4px 0 4px 12px");
  }
  for(const y of (e.idioms||[])){
-  h+=`<div style="margin:6px 0">${sr(manExp(y.de,e),"de","","manual")}<br><span>${esc(y.fa||"")}</span></div>`;
+  h+=row(sr(manExp(y.de,e),"de","","manual"),esc(y.fa||""),"6px 0");
  }
  const code=manCode(e);
  if(code)h+=manConjHTML(code);
@@ -1614,7 +1609,7 @@ function manEntryHTML(e){
 }
 function manualDictHTML(e){
  const recs=e.manualRecs||[];
- return `<div style="border:1px solid var(--accent);border-radius:12px;padding:10px 12px;margin:10px 0"><div class="mute">فرهنگ دستی آفلاین${_manRange?` · ${_manRange}`:""}</div>${recs.map(manEntryHTML).join("")}</div>`;
+ return `<div style="border:1px solid var(--accent);border-radius:12px;padding:10px 12px;margin:10px 0">${recs.map(manEntryHTML).join(`<div style="height:1px;background:currentColor;opacity:.15;margin:10px 0"></div>`)}</div>`;
 }
 const FA_POS={verb:"فعل",noun:"اسم",adjective:"صفت",adverb:"قید",pronoun:"ضمیر",preposition:"حرف اضافه",conjunction:"حرف ربط",numeral:"عدد",interjection:"صوت"};
 function faLayerRecHTML(r){
@@ -2267,8 +2262,7 @@ function refreshDeMeta(e,w){
   e.fa=[...new Set([...s,...(e.fa||[])])];
   if(!e.src.includes("لایه‌ی فارسی آفلاین"))e.src.unshift("لایه‌ی فارسی آفلاین");
   if(e.faLayerVia!=="lemma")e.lemma=e.faLayerRecs[0].lemma;
- }  if(e.manualRecs&&!e.src.includes("فرهنگ دستی آفلاین"))e.src.unshift("فرهنگ دستی آفلاین");
-}
+ }}
 /* اتصال دانلود تنبل به بخش‌های کارت: باز شدن تیتر → اسپینر → دانلود همان یک منبع →
    ادغام در ورودی + کش → رندر دوباره با حفظ وضعیت (بدون چشمک لودینگ تمام‌کارت). */
 function bindLazySections(box,e,raw,ctx,src,lang){
