@@ -1616,7 +1616,7 @@ function wortHeaderMode(rest){
 // صفحه‌ی دیکشنری: /woerterbuch/deutsch-persisch/Word
 function parseWortDict(html){
  const r=wortLines(html);if(!r)return null;
- const L=r.lines,e={word:r.word,article:"",plural:"",senses:[],sentences:[],collocations:[],dekl:null,v:5};
+ const L=r.lines,e={word:r.word,article:"",plural:"",senses:[],sentences:[],daily:[],collocations:[],ai:null,dekl:null,v:5};
  let i=0;
  for(;i<L.length&&!WORT_NUM.test(L[i]);i++){
   if(WORT_STOP.test(L[i]))break;
@@ -1642,14 +1642,18 @@ function parseWortDict(html){
  e.senses=e.senses.map(s=>({meaning:(/^[0-9۰-۹\s.)(]+$/.test(s.meaning)?"":s.meaning),note:s.r.n.join(" "),ex:pairUp(s.r.ex),ph:pairUp(s.r.ph)})).filter(s=>(s.meaning&&!/^[0-9۰-۹\s.)(]+$/.test(s.meaning))||s.ex.length||s.ph.length);
  const si=L.findIndex(t=>/^SÄTZE MIT/i.test(t));
  if(si>=0){
-  const seg=[];
+  const seg=[],dseg=[];let tab="s",seenContent=false;
   for(let j=si+1;j<L.length;j++){
    const t=L[j];
    if(/^(VERBINDUNGEN|KI-Erklärung|Häufigkeit|Als Radar|Premium|Deklination|🔒)/i.test(t))break;
-   if(/^(Sätze|Im Gespräch)$/i.test(t)||WORT_BRACE.test(t))continue;
-   seg.push(t);
+   if(/^Sätze$/i.test(t)){if(seenContent)tab="s";continue}
+   if(/^Im Gespräch$/i.test(t)){if(seenContent)tab="d";continue}
+   if(WORT_BRACE.test(t))continue;
+   seenContent=true;
+   (tab==="d"?dseg:seg).push(t);
   }
   e.sentences=pairUp(seg).filter(x=>x.de);
+  e.daily=pairUp(dseg).filter(x=>x.de);
  }
  const vi=L.findIndex(t=>/^VERBINDUNGEN$/i.test(t));
  if(vi>=0){
@@ -1658,13 +1662,31 @@ function parseWortDict(html){
   for(let j=vi+1;j<L.length;j++){
    const t=L[j];
    if(/^(KI-Erklärung|Häufigkeit|Premium|Deklination|🔒)/i.test(t))break;
-   if(/^(Als Radar|5 weitere Verbindungen.*)$/i.test(t)||WORT_BRACE.test(t))continue;
+   if(/^(Als Radar|\d+ weitere Verbindungen.*)$/i.test(t)||WORT_BRACE.test(t))continue;
    if(WORT_GROUPS.test(t)){flush();g=t;continue}
    if(g===null)g="";
    raw.push(t);
   }
   flush();
   e.collocations=groups.filter(g=>g.items.length);
+ }
+ // ?v=144: KI-Erklärung از صفحه‌ی ایستا (API آن مسدود است): گلس + مثال‌ها؛ قفل/فوتر هرگز رندر نمی‌شوند
+ const ki=L.findIndex(t=>/^KI-Erklärung$/i.test(t));
+ if(ki>=0){
+  const seg=[];
+  for(let j=ki+1;j<L.length;j++){
+   const t=L[j];
+   if(/^(Häufigkeit|Als Radar|Premium|Deklination|Konjugation|SÄTZE MIT|VERBINDUNGEN|🔒)/i.test(t))break;
+   if(/^KI$/i.test(t)||/^Von der KI ergänzt/i.test(t)||WORT_BRACE.test(t))continue;
+   seg.push(t);
+  }
+  const bi=seg.findIndex(t=>/^Beispiele$/i.test(t));
+  const gp=pairUp(bi>=0?seg.slice(0,bi):seg).filter(x=>x.de||x.fa);
+  const ep=pairUp(bi>=0?seg.slice(bi+1):[]).filter(x=>x.de);
+  if(gp.length||ep.length){
+   const g0=gp[0]||{};
+   e.ai={gloss:g0.fa||"",definitionDe:g0.de||"",definitionFa:"",examples:[...gp.slice(1),...ep]};
+  }
  }
  // ?v=93: Deklination/Konjugation — جدول ایستا + «Nach …» + «Prädikativ» به‌صورت بلوکِ خودش (هرگز محتوای معنی‌ها نیست؛ برگه‌های ایستا فقط گونه‌ی پیش‌فرض جدول را دارند، زبانه‌های JS مثل Positiv/Komparativ یا «mit ein…» در متن ایستا نیستند)
  const di=L.findIndex(t=>/^(Deklination|Konjugation)$/i.test(t));
@@ -1702,7 +1724,7 @@ function parseWortDict(html){
   }
   if(header.length||rows.length||note||praed)e.dekl={kind,header,rows,note,praed};
  }
- return e.senses.length||e.sentences.length||e.collocations.length||(e.dekl&&(e.dekl.rows.length||e.dekl.note||e.dekl.praed))?e:null;
+ return e.senses.length||e.sentences.length||e.daily.length||e.collocations.length||e.ai||(e.dekl&&(e.dekl.rows.length||e.dekl.note||e.dekl.praed))?e:null;
 }
 // صفحه‌ی جست‌وجو: /suchen?q=Word (کارت خلاصه + جمله‌های نمونه؛ صورت‌های صرف‌شده را هم به ریشه می‌رساند)
 function parseWortSearch(html){
@@ -1865,15 +1887,17 @@ function wortApiHTML(W){
  if(!W)return"";
  const seen=new Set(),add=x=>{if(x&&x.de)seen.add(x.de)};
  (W.dict&&W.dict.sentences||[]).forEach(add);
+ (W.dict&&W.dict.daily||[]).forEach(add);
  (W.dict&&W.dict.senses||[]).forEach(s=>{[...(s.ex||[]),...(s.ph||[])].forEach(add)});
  (W.dict&&W.dict.collocations||[]).forEach(g=>(g.items||[]).forEach(add));
+ if(W.dict&&W.dict.ai&&Array.isArray(W.dict.ai.examples))W.dict.ai.examples.forEach(add);
  (W.card&&W.card.ex||[]).forEach(add);
  const ex=x=>`<span>${sr(x.de,"de")}${x.fa?`<br>${sr(x.fa,"fa","mute")}`:""}</span>`;
  let h="";const api=W.api,ai=W.ai,verb=W.verb;
  if(api){
   const ph=(api.phrases||[]).filter(x=>x&&x.de&&x.forPremium===false&&!seen.has(x.de));
   if(ph.length)h+=`<p style="margin-top:8px"><b>جمله‌ها (wort.app)</b></p>`+ph.map(x=>`<span class="sense">${ex(x)}</span>`).join("");
-  const dy=(api.daily||[]).filter(x=>x&&x.de&&x.forPremium===false);
+  const dy=(api.daily||[]).filter(x=>x&&x.de&&x.forPremium===false&&!seen.has(x.de));
   if(dy.length)h+=`<p style="margin-top:8px"><b>در گفت‌وگو (wort.app)</b></p>`+dy.map(x=>`<span class="sense">${ex(x)}${x.subcategoryFa?`<div class="mute">${esc(x.subcategoryFa)}</div>`:""}</span>`).join("");
   const ws=(api.words||[]).filter(x=>x&&x.forPremium===false&&(x.slug||x.title)).slice(0,3);
   if(ws.length)h+=`<p style="margin-top:8px"><b>نتایج دیگر (wort.app)</b></p><div class="row">`+ws.map(x=>{const sg=x.slug||x.title,ti=x.title||x.slug,ty=x.type&&x.type!=="Unbekannt"?x.type:"";return`<button class="chip de" data-a="wortgo" data-w="${esc(sg)}">${esc(ti)}${ty?` <span class="mute">${esc(ty)}</span>`:""}</button>`}).join("")+`</div>`;
@@ -1881,7 +1905,7 @@ function wortApiHTML(W){
   if(ch)h+=ch;
   else if(api.cons&&api.cons.verb)h+=`<p style="margin-top:8px"><b>صرف فعل مرتبط (wort.app)</b></p><div class="row"><button class="chip de" data-a="wortgo" data-w="${esc(api.cons.verb)}">صرف فعل: ${esc(api.cons.verb)}</button></div>`;
  }
- if(ai){
+ if(ai&&!(W.dict&&W.dict.ai)){
   const exs=Array.isArray(ai.examples)?ai.examples.filter(x=>x&&x.de):[];
   if(ai.gloss||ai.definitionDe||ai.definitionFa||exs.length){
    h+=`<p style="margin-top:8px"><b>توضیح هوش مصنوعی (wort.app)</b></p>`;
@@ -3080,7 +3104,7 @@ async function showEntry(box,raw,ctx,src,lang,preE){
  if(card)card.ex.forEach(x=>x.de&&exs.push(x));
  if(dict)dict.senses.forEach(s=>s.ex.forEach(x=>x.de&&exs.length<12&&exs.push(x)));
  const exHtml=x=>`<span>${sr(x.de,"de")}${x.fa?`<br>${sr(x.fa,"fa","mute")}`:""}</span>`;
- const wortExtraHTML=d=>{let h="";if(d.sentences&&d.sentences.length)h+=`<p style="margin-top:8px"><b>جمله‌ها (wort.app)</b></p>`+d.sentences.map(x=>`<span class="sense">${exHtml(x)}</span>`).join("");if(d.collocations&&d.collocations.length)h+=`<p style="margin-top:8px"><b>ترکیب‌ها (wort.app)</b></p>`+d.collocations.map(g=>`${g.label?`<div class="mute">${esc(g.label)}</div>`:""}`+g.items.map(x=>`<span class="sense">${exHtml(x)}</span>`).join("")).join("");
+ const wortExtraHTML=d=>{let h="";if(d.sentences&&d.sentences.length)h+=`<p style="margin-top:8px"><b>جمله‌ها (wort.app)</b></p>`+d.sentences.map(x=>`<span class="sense">${exHtml(x)}</span>`).join("");if(d.daily&&d.daily.length)h+=`<p style="margin-top:8px"><b>در گفت‌وگو (wort.app)</b></p>`+d.daily.map(x=>`<span class="sense">${exHtml(x)}</span>`).join("");if(d.collocations&&d.collocations.length)h+=`<p style="margin-top:8px"><b>ترکیب‌ها (wort.app)</b></p>`+d.collocations.map(g=>`${g.label?`<div class="mute">${esc(g.label)}</div>`:""}`+g.items.map(x=>`<span class="sense">${exHtml(x)}</span>`).join("")).join("");if(d.ai&&(d.ai.gloss||d.ai.definitionDe||d.ai.definitionFa||(d.ai.examples&&d.ai.examples.length))){h+=`<p style="margin-top:8px"><b>توضیح هوش مصنوعی (wort.app)</b></p>`;if(d.ai.gloss)h+=`<p><b>معنی: ${sr(d.ai.gloss,"fa")}</b></p>`;if(d.ai.definitionDe)h+=`<span class="de" style="display:block">${sr(d.ai.definitionDe,"de")}</span>`;if(d.ai.definitionFa)h+=`<span>${sr(d.ai.definitionFa,"fa")}</span>`;if(d.ai.examples&&d.ai.examples.length)h+=d.ai.examples.map(x=>`<span class="sense">${exHtml(x)}</span>`).join("");h+=`<p class="mute">Von der KI ergänzt, nicht geprüft.</p>`;}
   // ?v=93: بلوک تصریف (فقط گونه‌ی ایستای جدول؛ زبانه‌های JS ادعا نمی‌شوند)
   if(d.dekl&&(d.dekl.rows.length||d.dekl.note||d.dekl.praed)){
    const dk=d.dekl,hd=dk.header,hasCorner=hd.length&&dk.rows.length&&hd.length===dk.rows[0].length;
@@ -3089,7 +3113,7 @@ async function showEntry(box,raw,ctx,src,lang,preE){
   }
   return h};
  const wortApiEmpty=!W.api&&!W.ai&&!W.verb&&!W.conj;
- const wortRetryRow=(dict||card)&&wortApiEmpty?`<div class="wort-retry-row" style="margin-top:8px;border-top:1px dashed var(--border);padding-top:8px"><span class="mute">بخش‌های بیشتر wort.app (جمله‌ها، ترکیب‌ها، توضیح هوش مصنوعی) دریافت نشد.</span> <button class="ghost" type="button" data-a="wortretry">تلاش دوباره</button></div>`:"";
+ const wortRetryRow=(dict||card)&&wortApiEmpty?`<div class="wort-retry-row" style="margin-top:8px;border-top:1px dashed var(--border);padding-top:8px"><span class="mute">دریافت بخش‌های زنده wort.app ناموفق بود.</span> <button class="ghost" type="button" data-a="wortretry">تلاش دوباره</button></div>`:"";
  const wortSection=(dict||card)?`<div style="border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin-top:8px"><details><summary>همه‌ی معنی‌ها و عبارت‌ها (wort.app)</summary>${dict?dict.senses.map(s=>`<p><b>${sr(s.meaning,"fa")}</b>${s.note?` <span class="mute de">${esc(s.note)}</span>`:""}`+
   [...s.ex,...s.ph].filter(x=>x.de).map(x=>`<span class="sense">${exHtml(x)}</span>`).join("")+`</p>`).join("")+wortExtraHTML(dict)+wortApiHTML(W)+wortRetryRow:`<p><b>${sr(card.meaning,"fa")}</b>${card.defDe?`<br><span class="de">${sr(card.defDe,"de")}</span>`:""}${card.defFa?`<br>${sr(card.defFa,"fa")}`:""}</p>`+(card.ex||[]).filter(x=>x.de).map(x=>`<span class="sense">${exHtml(x)}</span>`).join("")+wortApiHTML(W)+wortRetryRow}</details></div>`:(e.wortLazy!==false&&!/\s/.test(raw))?`<div style="border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin-top:8px"><details data-lazy-src="wort"><summary>همه‌ی معنی‌ها و عبارت‌ها (wort.app)</summary><div class="lazy-body"></div></details></div>`:"";
  const bamSection=e.bamooz?`<div style="border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin-top:8px"><details><summary>همه‌ی معنی‌ها و عبارت‌ها (بیاموز)</summary>${bamoozPanelSafe(e.bamooz,"de")}</details></div>`:(e.bamoozLazy!==false&&!/\s/.test(raw))?`<div style="border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin-top:8px"><details data-lazy-src="bamooz"><summary>همه‌ی معنی‌ها و عبارت‌ها (بیاموز)</summary><div class="lazy-body"></div></details></div>`:"";
