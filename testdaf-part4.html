@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#111111">
+<meta name="description" content="راهنمای جامع آزمون TestDaF — پارت ۴: Hörverstehen: درک شنیداری، ساختار سه فایل صوتی، هفت تکلیف دیجیتال، یادداشت‌برداری و روش تمرین">
+<script>try{var _t=(JSON.parse(localStorage.getItem('poof_v2')||'{}').theme==='snowy')?'snowy':'classic';document.write('<link rel="stylesheet" id="themeCss" href="theme-'+_t+'.css?v=16">')}catch(e){document.write('<link rel="stylesheet" id="themeCss" href="theme-classic.css?v=16">')}</script>
+<script src="poof-core.js"></script><script>try{var _pv={};try{_pv=JSON.parse(localStorage.getItem('poof_v2')||'{}')||{};}catch(e){}var _th=(_pv.theme==='snowy'||_pv.theme==='classic'||_pv.theme==='lilac'||_pv.theme==='peachy'||_pv.theme==='minty'||_pv.theme==='ocean'||_pv.theme==='sun'||_pv.theme==='nebula')?_pv.theme:null;if(!_th){var _old=null;try{_old=localStorage.getItem('ddd_theme');}catch(e){}_th=(_old==='light')?'snowy':(_old==='dark')?'classic':'classic';}document.documentElement.dataset.theme=_th;var _m=document.querySelector('meta[name="theme-color"]');if(_m)_m.content=_th==='snowy'?'#081421':_th==='classic'?'#111111':_th==='lilac'?'#EEF2FF':_th==='peachy'?'#FFF7ED':_th==='minty'?'#F0FDF4':_th==='ocean'?'#0B1E3A':_th==='sun'?'#FFF7E0':_th==='nebula'?'#1A0B2E':'#111111';}catch(e){}</script><title>TestDaF | راهنمای جامع آزمون</title>
+<style>
+:root{color-scheme:dark;--bg:#111111;--card:#1b1814;--glass:rgba(27,24,20,.72);--ink:#f5f1e8;--muted:#b8b0a4;--border:#4a4032;--primary:#e6b96f;--primary-on:#1b1814;--soft:rgba(255,255,255,.06)}
+html[data-theme="snowy"]{color-scheme:dark;--bg:#081421;--card:#10263a;--glass:rgba(16,38,58,.72);--ink:#f3f8fc;--muted:#b8c7d3;--border:#294861;--primary:#f3c879;--primary-on:#081421;--soft:rgba(243,200,121,.08)}
+html[data-theme="classic"]{color-scheme:dark;--bg:#111111;--card:#1b1814;--glass:rgba(27,24,20,.72);--ink:#f5f1e8;--muted:#b8b0a4;--border:#4a4032;--primary:#e6b96f;--primary-on:#1b1814;--soft:rgba(255,255,255,.06)}
+html[data-theme="lilac"]{color-scheme:light;--bg:#EEF2FF;--card:#FFFFFF;--glass:rgba(255,255,255,.75);--ink:#1E1B4B;--muted:#55547E;--border:#C7D2FE;--primary:#4F46E5;--primary-on:#FFFFFF;--soft:rgba(79,70,229,.06)}
+html[data-theme="peachy"]{color-scheme:light;--bg:#FFF7ED;--card:#FFFFFF;--glass:rgba(255,255,255,.75);--ink:#1C1917;--muted:#57534E;--border:#FED7AA;--primary:#F97316;--primary-on:#1C1917;--soft:rgba(249,115,22,.06)}
+html[data-theme="minty"]{color-scheme:light;--bg:#F0FDF4;--card:#FFFFFF;--glass:rgba(255,255,255,.75);--ink:#052E16;--muted:#365314;--border:#BBF7D0;--primary:#166534;--primary-on:#FFFFFF;--soft:rgba(22,101,52,.06)}
+html[data-theme="ocean"]{color-scheme:dark;--bg:#0B1E3A;--card:#12294D;--glass:rgba(18,41,77,.72);--ink:#E8F1FF;--muted:#A8BDD8;--border:#2A4A73;--primary:#38BDF8;--primary-on:#0B1E3A;--soft:rgba(56,189,248,.08)}
+html[data-theme="sun"]{color-scheme:light;--bg:#FFF7E0;--card:#FFFFFF;--glass:rgba(255,255,255,.75);--ink:#3B2A00;--muted:#6B5A2E;--border:#F5D67B;--primary:#B45309;--primary-on:#FFFFFF;--soft:rgba(180,83,9,.06)}
+html[data-theme="nebula"]{color-scheme:dark;--bg:#1A0B2E;--card:#2A1650;--glass:rgba(42,22,80,.72);--ink:#F3EFFF;--muted:#C9B8E8;--border:#4C2E85;--primary:#F5C97B;--primary-on:#1A0B2E;--soft:rgba(245,201,123,.08)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100svh;background:var(--bg);color:var(--ink);font:16px/1.9 "DM Sans",Vazirmatn,system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;padding:env(safe-area-inset-top) 12px calc(48px + env(safe-area-inset-bottom))}
+#tdScenic{position:fixed;inset:0;z-index:0;pointer-events:none;display:none;background-size:cover;background-position:center;background-repeat:no-repeat}
+html[data-theme="ocean"] #tdScenic{display:block;background-image:url('pouf-blue-scene-read.webp')}
+html[data-theme="nebula"] #tdScenic{display:block;background-image:url('pouf-nebula-scene-read.webp')}
+body>*{position:relative;z-index:1}
+main{max-width:760px;margin:0 auto}
+a{color:var(--primary)}
+header{position:relative;overflow:hidden;border:1px solid var(--border);border-radius:20px;background:var(--glass);backdrop-filter:blur(10px) saturate(1.25);-webkit-backdrop-filter:blur(10px) saturate(1.25);padding:18px 16px 16px;margin-bottom:15px;text-align:center}
+header::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.18),rgba(0,0,0,.55));z-index:0;pointer-events:none}
+.td-head{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:2px}
+.poof-mascot{width:56px;height:56px;flex:none;background-size:cover;background-repeat:no-repeat;background-position:center}
+header h1{margin:8px 0 2px;font-size:1.6rem}
+header p{margin:0;color:var(--muted)}
+section.pane{background:var(--glass);backdrop-filter:blur(10px) saturate(1.25);-webkit-backdrop-filter:blur(10px) saturate(1.25);border:1px solid var(--border);border-radius:20px;padding:18px 16px;margin-bottom:15px}
+h2{font-size:1.3rem;margin:0 0 10px;padding-bottom:8px;border-bottom:2px solid var(--primary)}
+h3{font-size:1.1rem;margin:22px 0 8px;color:var(--primary)}
+p{margin:10px 0}
+ul,ol{margin:8px 0;padding-inline-start:22px}
+li{margin:4px 0}
+.de{direction:ltr;unicode-bidi:embed;font-family:Georgia,"Times New Roman",serif}
+blockquote.ex{margin:14px 0;padding:12px 14px;border-inline-start:3px solid var(--primary);background:var(--soft);border-radius:12px;font-family:Georgia,"Times New Roman",serif}
+blockquote.ex p{margin:0}
+p.tr{color:var(--muted);font-size:.95rem}
+.tbl{overflow-x:auto;margin:12px 0}
+table{border-collapse:collapse;width:100%;min-width:520px}
+th,td{border:1px solid var(--border);padding:8px 10px;text-align:start;vertical-align:top}
+th{background:var(--soft);font-weight:700}
+.small{color:var(--muted);font-size:.9rem}
+.note{border:1px dashed var(--border);border-radius:14px;padding:12px 14px;background:var(--soft)}
+@media(min-width:540px){body{padding-inline:22px}section.pane{padding:22px 20px}}
+h1,h2,h3{font-family:"Nunito",Vazirmatn,sans-serif}
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800;900&family=DM+Sans:wght@400;500;700&family=Vazirmatn:wght@400;500;700;800&display=swap" rel="stylesheet"></head>
+<body>
+<div id="tdScenic" aria-hidden="true"></div>
+<div style="padding:14px 16px 0"><a href="testdaf.html" style="color:var(--primary);text-decoration:none;font-size:14px">← همه پارت‌ها</a></div>
+<main>
+<header><div class="poof-img-header-bg" style="position:absolute;inset:0;z-index:0" aria-hidden="true"></div><div class="td-head"><div class="poof-mascot" id="tdMascot" style="width:56px;height:56px" aria-hidden="true"></div><h1>TestDaF</h1><p>راهنمای مطالعه آزمون — پارت ۴ از ۱۱: Hörverstehen: درک شنیداری، ساختار سه فایل صوتی، هفت تکلیف دیجیتال، یادداشت‌برداری و روش تمرین</p></div></header><script>(function(){try{var _t=document.documentElement.dataset.theme||'classic';var _f={snowy:'snowy-wave.webp',classic:'pouf-classic-wave.webp',lilac:'pouf-lilac-wave.webp',peachy:'snowy-wave.webp',minty:'pouf-minty-wave.webp',ocean:'pouf-ocean-smile.webp',sun:'pouf-sun-wave.webp',nebula:'pouf-nebula-wave.webp'}[_t]||'pouf-classic-wave.webp';var _m=document.getElementById('tdMascot');if(_m)_m.style.backgroundImage="url('"+_f+"')";}catch(e){}})();</script>
+<section class="pane"><h2>بخش‌های این پارت</h2><ul><li><a href="#s1">۱. ساختار رسمی Hörverstehen در نسخهٔ کاغذی</a></li><li><a href="#s2">۲. Hörtext 1 — مکالمهٔ روزمرهٔ دانشگاهی</a></li><li><a href="#s3">۳. Hörtext 2 — مصاحبه و تشخیص درستی گزاره‌ها</a></li><li><a href="#s4">۴. Hörtext 3 — سخنرانی یا مصاحبهٔ علمی</a></li><li><a href="#s5">۵. یادداشت‌برداری مؤثر هنگام شنیدن</a></li><li><a href="#s6">۶. Hören در نسخهٔ دیجیتال: هفت نوع تکلیف</a></li><li><a href="#s7">۷. تفاوت اساسی شنیداری دو نسخه</a></li><li><a href="#s8">۸. اشتباهات پرتکرار در Hörverstehen</a></li><li><a href="#s9">۹. مشکلات خاصی که زبان‌آموز فارسی‌زبان ممکن است تجربه کند</a></li><li><a href="#s10">۱۰. برنامهٔ تمرین هدفمند Hörverstehen</a></li><li><a href="#s11">۱۱. یک روتین روزانهٔ ۶۰ دقیقه‌ای</a></li><li><a href="#s12">۱۲. خودارزیابی: آمادگی برای TDN 4 در شنیدن</a></li><li><a href="#s13">۱۳. منابع رسمی Hörverstehen و Hören</a></li></ul></section>
+
+<section class="pane">
+<p>بخش <span class="de" lang="de">Hörverstehen</span> (درک شنیداری) توانایی فهم زبان آلمانی گفتاری را در موقعیت‌های دانشگاهی ارزیابی می‌کند.</p>
+<p>تفاوت اصلی این بخش با <span class="de" lang="de">Leseverstehen</span> آن است که در خواندن می‌توانی مکث کنی، جمله‌ای را دوباره بخوانی و ساختار آن را تحلیل کنی؛ اما در شنیدن، اطلاعات با سرعت گوینده پیش می‌روند. اگر بخشی را از دست بدهی، ممکن است فرصت بازگشت به آن وجود نداشته باشد.</p>
+<p>در TestDaF فقط تشخیص کلمات کافی نیست. باید بتوانی اطلاعات ضروری را هنگام شنیدن استخراج کنی، تغییر دیدگاه گوینده را تشخیص بدهی و روابط میان ایده‌ها را بفهمی.</p>
+<p>پنج توانایی اصلی مورد ارزیابی عبارت‌اند از:</p>
+<ol>
+<li><span class="de" lang="de">Globales Hörverstehen</span>: درک کلی موضوع و پیام اصلی گفتار.</li>
+<li><span class="de" lang="de">Selektives Hörverstehen</span>: دریافت اطلاعات مشخص و موردنیاز.</li>
+<li><span class="de" lang="de">Detailliertes Hörverstehen</span>: درک دقیق جزئیات و تفاوت‌های معنایی.</li>
+<li><span class="de" lang="de">Inferierendes Hören</span>: استنباط منظور گوینده از اطلاعات صریح و ضمنی.</li>
+<li><span class="de" lang="de">Strukturierendes Hören</span>: تشخیص ساختار گفتار و رابطهٔ میان ادعاها، دلایل و نتایج.</li>
+</ol>
+<p>این مهارت‌ها در هر دو نسخهٔ TestDaF سنجیده می‌شوند، اما نوع تکالیف و شیوهٔ پاسخ‌گویی متفاوت است.</p>
+</section>
+
+<section class="pane">
+<h2 id="s1">۱. ساختار رسمی Hörverstehen در نسخهٔ کاغذی</h2>
+<p>در نسخهٔ کاغذی TestDaF سه فایل صوتی وجود دارد. این سه فایل در مجموع ۲۵ سؤال دارند و مدت کل بخش ۴۰ دقیقه است.</p>
+<div class="tbl"><table>
+<tr><th>ویژگی</th><th>Hörtext 1</th><th>Hörtext 2</th><th>Hörtext 3</th></tr>
+<tr><td>نوع فایل</td><td>مکالمه</td><td>مصاحبه یا گفت‌وگو</td><td>سخنرانی یا مصاحبهٔ علمی</td></tr>
+<tr><td>موضوع</td><td>زندگی دانشجویی</td><td>مسائل دانشگاهی و عمومی</td><td>موضوع علمی یا پژوهشی</td></tr>
+<tr><td>تعداد سؤال</td><td>۸</td><td>۱۰</td><td>۷</td></tr>
+<tr><td>نوع پاسخ</td><td>Kurzantworten</td><td>Richtig / Falsch</td><td>Kurzantworten</td></tr>
+<tr><td>تعداد پخش</td><td>یک‌بار</td><td>یک‌بار</td><td>دوبار</td></tr>
+<tr><td>دشواری معمول</td><td>نسبتاً آسان‌تر</td><td>متوسط</td><td>پیچیده‌تر</td></tr>
+<tr><td>مهارت اصلی</td><td>استخراج جزئیات</td><td>ارزیابی درستی گزاره‌ها</td><td>درک روابط علمی و استدلال‌ها</td></tr>
+</table></div>
+<p><span class="de" lang="de">Kurzantworten</span> یعنی پاسخ‌های کوتاه؛ معمولاً یک کلمه، عبارت یا توضیح مختصر.</p>
+<p><span class="de" lang="de">Richtig / Falsch</span> یعنی درست یا نادرست.</p>
+<p>نکتهٔ مهم: در Hörtext 2 فقط دو گزینهٔ Richtig و Falsch وجود دارد؛ برخلاف متن سوم بخش خواندن که گزینهٔ Text sagt dazu nichts نیز دارد.</p>
+<p>این ساختار در وب‌سایت رسمی TestDaF تأیید شده است.</p>
+<h3>۱.۱. زمان‌بندی ۴۰ دقیقه</h3>
+<p>بخش شنیداری برخلاف خواندن، سه محدودهٔ زمانی مستقل که خودت بتوانی آزادانه مدیریت کنی ندارد.</p>
+<p>فایل‌های صوتی و دستورالعمل‌ها طبق توالی تعیین‌شده پخش می‌شوند.</p>
+<p class="note">مدت رسمی Hörverstehen: ۴۰ دقیقه = ۳۰ دقیقه پخش صوت، دستورالعمل‌ها و پاسخ‌گویی + ۱۰ دقیقه انتقال پاسخ‌ها.</p>
+<p>این ۳۰ دقیقه یک بازهٔ کلی است و به معنای دقیقاً ۱۰ دقیقه برای هر فایل صوتی نیست.</p>
+<p>در پایان Hörtext 3، ده دقیقه برای انتقال پاسخ‌های هر سه بخش به Antwortbogen (پاسخ‌نامهٔ رسمی) در نظر گرفته شده است.</p>
+<p>فقط پاسخ‌هایی که به Antwortbogen منتقل شده‌اند ارزیابی می‌شوند. پاسخ‌های موجود در دفترچه یا برگهٔ یادداشت به‌تنهایی نمره نمی‌گیرند.</p>
+</section>
+
+<section class="pane">
+<h2 id="s2">۲. Hörtext 1 — مکالمهٔ روزمرهٔ دانشگاهی</h2>
+<p><span class="de" lang="de">Gespräch aus dem Studienalltag</span></p>
+<p>۸ سؤال پاسخ‌کوتاه — یک‌بار پخش</p>
+<h3>۲.۱. موضوع فایل اول چیست؟</h3>
+<p>در این قسمت معمولاً مکالمه‌ای دربارهٔ یکی از موقعیت‌های عادی زندگی دانشجویی می‌شنوی.</p>
+<p>برای مثال:</p>
+<ul>
+<li>انتخاب درس یا برنامه‌ریزی ترم</li>
+<li>ثبت‌نام در یک کارگاه</li>
+<li>صحبت دربارهٔ کارآموزی</li>
+<li>پرسش دربارهٔ یک دورهٔ دانشگاهی</li>
+<li>فعالیت‌های فوق‌برنامه</li>
+<li>برنامهٔ یک همایش</li>
+<li>درخواست راهنمایی از دانشجوی دیگر</li>
+</ul>
+<p>ممکن است دو دانشجو دربارهٔ تجربهٔ تحصیلی خود صحبت کنند، یا یکی از آن‌ها اطلاعاتی دربارهٔ یک موقعیت دانشگاهی بدهد.</p>
+<p>زبان این قسمت معمولاً نسبت به متن علمی رسمی‌ترِ Hörtext 3 ساده‌تر است، اما سرعت طبیعی گفت‌وگو، اصلاح جمله‌ها و اطلاعات جزئی می‌توانند آن را دشوار کنند.</p>
+<h3>۲.۲. از تو دقیقاً چه می‌خواهند؟</h3>
+<p>باید به هشت پرسش کوتاه پاسخ بدهی.</p>
+<p>برای مثال:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Warum möchte die Studentin an dem Workshop teilnehmen?</p></blockquote>
+<p class="tr">ترجمه: چرا دانشجو می‌خواهد در این کارگاه شرکت کند؟</p>
+<p>یا:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Was muss der Student zur Veranstaltung mitbringen?</p></blockquote>
+<p class="tr">ترجمه: دانشجو باید چه چیزی با خود به برنامه بیاورد؟</p>
+<p>پاسخ باید همان اطلاعاتی را منتقل کند که در فایل صوتی بیان شده است.</p>
+<p>لازم نیست جمله‌ای ادبی یا طولانی بنویسی.</p>
+<h3>مثال تألیفی</h3>
+<p>فرض کن گفت‌وگوی زیر پخش می‌شود:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Lena: Hast du dich schon für das Statistikseminar angemeldet?</p><p>Tobias: Noch nicht. Ich wollte das eigentlich gestern machen, aber die Anmeldung beginnt erst am Montag. Außerdem brauche ich vorher noch die Bestätigung meines Dozenten.</p></blockquote>
+<p class="tr">ترجمه: لنا: برای سمینار آمار ثبت‌نام کرده‌ای؟ توبیاس: هنوز نه. در واقع می‌خواستم دیروز این کار را انجام بدهم، اما ثبت‌نام تازه از دوشنبه شروع می‌شود. علاوه بر این، قبلش هنوز به تأیید استادم نیاز دارم.</p>
+<p>سؤال اول:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Ab wann kann sich Tobias anmelden?</p></blockquote>
+<p class="tr">ترجمه: توبیاس از چه زمانی می‌تواند ثبت‌نام کند؟</p>
+<p>پاسخ کافی:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Ab Montag.</p></blockquote>
+<p class="tr">ترجمه: از دوشنبه.</p>
+<p>سؤال دوم:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Was benötigt Tobias vor der Anmeldung?</p></blockquote>
+<p class="tr">ترجمه: توبیاس پیش از ثبت‌نام به چه چیزی نیاز دارد؟</p>
+<p>پاسخ کافی:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Die Bestätigung seines Dozenten.</p></blockquote>
+<p class="tr">ترجمه: تأیید استادش.</p>
+<h3>۲.۳. تلهٔ مهم: اطلاعات اولیه که بعداً اصلاح می‌شوند</h3>
+<p>در گفت‌وگوهای طبیعی، افراد همیشه اطلاعات را مستقیم و بدون تغییر بیان نمی‌کنند.</p>
+<p>مثلاً:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Ich dachte zuerst, die Veranstaltung findet am Dienstag statt, aber sie wurde auf Donnerstag verschoben.</p></blockquote>
+<p class="tr">ترجمه: ابتدا فکر می‌کردم برنامه سه‌شنبه برگزار می‌شود، اما به پنجشنبه منتقل شده است.</p>
+<p>اگر سؤال دربارهٔ روز نهایی برنامه باشد، پاسخ Donnerstag است.</p>
+<p>شنیدن اولین روز کافی نیست.</p>
+<p>به این عبارت‌ها توجه کن:</p>
+<div class="tbl"><table>
+<tr><th>عبارت آلمانی</th><th>معنی فارسی</th><th>کارکرد</th></tr>
+<tr><td>ursprünglich</td><td>در ابتدا / طبق برنامهٔ اولیه</td><td>اشاره به وضعیت قبلی</td></tr>
+<tr><td>zunächst</td><td>در آغاز</td><td>ترتیب زمانی</td></tr>
+<tr><td>inzwischen</td><td>در این فاصله / اکنون دیگر</td><td>تغییر وضعیت</td></tr>
+<tr><td>stattdessen</td><td>در عوض</td><td>جایگزینی</td></tr>
+<tr><td>allerdings</td><td>البته / بااین‌حال</td><td>محدودکردن یا اصلاح</td></tr>
+<tr><td>eigentlich</td><td>در اصل / در واقع</td><td>تفاوت با وضعیت ظاهری</td></tr>
+<tr><td>doch</td><td>اما / بااین‌حال</td><td>گاهی اصلاح یا تقابل</td></tr>
+<tr><td>sich verschieben</td><td>جابه‌جا شدن زمان</td><td>تغییر برنامه</td></tr>
+<tr><td>ausfallen</td><td>لغو شدن یا برگزارنشدن</td><td>حذف یک برنامه</td></tr>
+<tr><td>nachholen</td><td>بعداً جبران یا برگزار کردن</td><td>انجام در زمان بعد</td></tr>
+</table></div>
+<h3>۲.۴. روش حل Hörtext 1</h3>
+<p>پیش از پخش: سؤال‌ها را بخوان و نوع اطلاعات موردنیاز را مشخص کن.</p>
+<p>مثلاً:</p>
+<div class="tbl"><table>
+<tr><th>کلمهٔ پرسشی</th><th>اطلاعات موردنیاز</th></tr>
+<tr><td>Wer?</td><td>شخص</td></tr>
+<tr><td>Wann?</td><td>زمان</td></tr>
+<tr><td>Wo?</td><td>مکان</td></tr>
+<tr><td>Warum?</td><td>دلیل</td></tr>
+<tr><td>Wozu?</td><td>هدف</td></tr>
+<tr><td>Wie lange?</td><td>مدت</td></tr>
+<tr><td>Welche Voraussetzung?</td><td>پیش‌نیاز</td></tr>
+<tr><td>Was muss man mitbringen?</td><td>وسیله یا مدرک لازم</td></tr>
+</table></div>
+<p>هنگام پخش: پاسخ را با کلمه یا عبارت کوتاه بنویس.</p>
+<p>اگر عبارت را کامل نشنیدی، چند واژهٔ کلیدی یادداشت کن و توجهت را به سؤال بعدی برگردان.</p>
+<p>بعد از پخش: پاسخ‌ها را از نظر محتوا بررسی کن. اگر واژه‌ای مبهم است، شکل خوانا و درست آن را تکمیل کن؛ اما اطلاعات جدید را از حدس خودت اضافه نکن.</p>
+<h3>۲.۵. آیا غلط گرامری باعث از دست رفتن نمره می‌شود؟</h3>
+<p>در سؤال‌های پاسخ‌کوتاه، اولویت با درست‌بودن محتواست.</p>
+<p>طبق راهنمای رسمی TestDaF، پاسخ‌هایی که از نظر معنا درست‌اند نیز پذیرفته می‌شوند و خطاهای دستوری یا املایی زمانی مشکل‌ساز هستند که فهم پاسخ را به‌شدت مختل کنند یا ناممکن سازند.</p>
+<p>برای مثال، اگر پاسخ موردنظر این باشد:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Wegen finanzieller Schwierigkeiten.</p></blockquote>
+<p class="tr">ترجمه: به دلیل مشکلات مالی.</p>
+<p>و تو بنویسی:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Geldprobleme.</p></blockquote>
+<p class="tr">ترجمه: مشکلات مالی.</p>
+<p>ممکن است پاسخ از نظر معنایی کاملاً کافی باشد، مشروط بر اینکه سؤال صرفاً همین دلیل را بخواهد.</p>
+<p>اما اگر پاسخ تو دو دلیل متفاوت را به‌اشتباه با هم ترکیب کند، ممکن است دیگر قابل‌قبول نباشد.</p>
+<p>اصل کاربردی: پاسخ کوتاه، دقیق و بدون اطلاعات اضافی بنویس.</p>
+</section>
+
+<section class="pane">
+<h2 id="s3">۳. Hörtext 2 — مصاحبه و تشخیص درستی گزاره‌ها</h2>
+<p><span class="de" lang="de">Interview / Diskussion</span></p>
+<p>۱۰ سؤال درست یا نادرست — یک‌بار پخش</p>
+<h3>۳.۱. موضوع و سطح دشواری</h3>
+<p>در این قسمت معمولاً یک مصاحبه یا گفت‌وگوی نسبتاً رسمی دربارهٔ موضوعی مرتبط با دانشگاه، آموزش، جامعه یا پژوهش می‌شنوی.</p>
+<p>برخلاف مکالمهٔ اول، ممکن است صحبت‌ها طولانی‌تر باشند و افراد دربارهٔ دلایل، پیامدها یا دیدگاه‌های متفاوت توضیح بدهند.</p>
+<p>برای مثال، موضوع می‌تواند چنین باشد:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Sollten Vorlesungen grundsätzlich aufgezeichnet werden?</p></blockquote>
+<p class="tr">ترجمه: آیا سخنرانی‌های دانشگاهی اصولاً باید ضبط شوند؟</p>
+<p>ممکن است مصاحبه‌کننده از یک استاد دربارهٔ مزایا و معایب ضبط کلاس‌ها سؤال کند.</p>
+<h3>۳.۲. ساختار سؤال</h3>
+<p>۱۰ گزاره ارائه می‌شود و باید مشخص کنی هرکدام Richtig یا Falsch هستند.</p>
+<p>در اینجا سؤال معمولاً کلمه‌به‌کلمه از فایل صوتی تکرار نمی‌شود.</p>
+<p>بلکه از روش Paraphrasierung (بازنویسی معنا با عبارت‌های دیگر) استفاده می‌شود.</p>
+<h3>مثال تألیفی</h3>
+<p>فایل صوتی فرضی:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Interviewer: Glauben Sie, dass digitale Vorlesungen die Präsenzlehre vollständig ersetzen können?</p><p>Professorin: Nein, das halte ich nicht für sinnvoll. Digitale Angebote können die Lehre hervorragend ergänzen, aber der direkte Austausch im Seminar bleibt aus meiner Sicht unverzichtbar.</p></blockquote>
+<p class="tr">ترجمه: مصاحبه‌کننده: آیا فکر می‌کنید سخنرانی‌های دیجیتال می‌توانند آموزش حضوری را کاملاً جایگزین کنند؟ استاد: نه، این کار را منطقی نمی‌دانم. امکانات دیجیتال می‌توانند آموزش را به‌خوبی تکمیل کنند، اما به نظر من ارتباط مستقیم در سمینار همچنان ضروری است.</p>
+<p>گزارهٔ اول:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Die Professorin hält digitale Lehrangebote grundsätzlich für nutzlos.</p></blockquote>
+<p class="tr">ترجمه: استاد معتقد است امکانات آموزشی دیجیتال اصولاً بی‌فایده‌اند.</p>
+<p>پاسخ: Falsch</p>
+<p>زیرا او استفادهٔ مکمل از این امکانات را مفید می‌داند.</p>
+<p>گزارهٔ دوم:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Nach Ansicht der Professorin sollte der persönliche Austausch weiterhin Teil der Hochschullehre sein.</p></blockquote>
+<p class="tr">ترجمه: از دید استاد، ارتباط شخصی باید همچنان بخشی از آموزش دانشگاهی باشد.</p>
+<p>پاسخ: Richtig</p>
+<p>این گزاره با عبارت der direkte Austausch ... bleibt ... unverzichtbar هم‌معناست.</p>
+<h3>۳.۳. مهم‌ترین تله‌ها</h3>
+<p>تلهٔ اول: تغییر شدت ادعا</p>
+<p>متن می‌گوید:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Einige Studierende haben Schwierigkeiten mit dem neuen System.</p></blockquote>
+<p class="tr">ترجمه: برخی دانشجویان با سامانهٔ جدید مشکل دارند.</p>
+<p>گزاره می‌گوید:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Die meisten Studierenden kommen mit dem neuen System nicht zurecht.</p></blockquote>
+<p class="tr">ترجمه: بیشتر دانشجویان نمی‌توانند با سامانهٔ جدید کار کنند.</p>
+<p>این گزاره از متن نتیجه نمی‌شود.</p>
+<p>تلهٔ دوم: تغییر دیدگاه افراد</p>
+<p>مصاحبه‌کننده می‌گوید:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Kritiker behaupten, dass Online-Prüfungen weniger zuverlässig seien.</p></blockquote>
+<p class="tr">ترجمه: منتقدان ادعا می‌کنند که آزمون‌های آنلاین از اعتبار کمتری برخوردارند.</p>
+<p>سپس کارشناس پاسخ می‌دهد:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Diese Einschätzung kann ich nicht teilen.</p></blockquote>
+<p class="tr">ترجمه: من با این ارزیابی موافق نیستم.</p>
+<p>اگر گزاره بگوید کارشناس با منتقدان موافق است، پاسخ غلط خواهد بود.</p>
+<p>نکتهٔ مهم این است که تشخیص بدهی هر ادعا متعلق به چه کسی است.</p>
+<p>تلهٔ سوم: نشنیدن نفی</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Das ist nicht unbedingt erforderlich.</p></blockquote>
+<p class="tr">ترجمه: این موضوع لزوماً ضروری نیست.</p>
+<p>این جمله با:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Das ist erforderlich.</p></blockquote>
+<p class="tr">ترجمه: این موضوع ضروری است.</p>
+<p>کاملاً متفاوت است.</p>
+<p>تلهٔ چهارم: پاسخ‌دادن بر اساس دانش عمومی</p>
+<p>ممکن است گزاره‌ای از نظر علمی درست به نظر برسد، اما با محتوای مشخص مصاحبه سازگار نباشد.</p>
+<p>در TestDaF باید پاسخ را بر اساس آنچه واقعاً شنیدی انتخاب کنی.</p>
+<h3>۳.۴. استراتژی پاسخ‌گویی</h3>
+<p>قبل از شنیدن، گزاره‌ها را سریع مرور کن و روی واژه‌هایی تمرکز کن که امکان تغییر معنای سؤال را دارند:</p>
+<ul>
+<li>alle / einige / die meisten</li>
+<li>immer / häufig / selten</li>
+<li>muss / kann / sollte</li>
+<li>ausschließlich / hauptsächlich</li>
+<li>Ursache / Folge</li>
+</ul>
+<p>در حین شنیدن، برای هر گزاره یک تصمیم موقت بگیر و بلافاصله به گزارهٔ بعدی برو.</p>
+<p>اگر متوجه شدی بخشی از اطلاعات را از دست داده‌ای، روی همان سؤال متوقف نشو؛ زیرا فایل دوباره پخش نمی‌شود.</p>
+<h3>۳.۵. آیا گزینهٔ «متن دراین‌باره چیزی نمی‌گوید» وجود دارد؟</h3>
+<p>خیر.</p>
+<p>در Hörtext 2 نسخهٔ کاغذی فقط Richtig و Falsch وجود دارد.</p>
+<p>این موضوع با Leseverstehen 3 تفاوت دارد.</p>
+<p>بنابراین در تمرین باید دقیقاً از قالب رسمی استفاده کنی و گزینهٔ سومی به سؤال‌ها اضافه نکنی.</p>
+</section>
+
+<section class="pane">
+<h2 id="s4">۴. Hörtext 3 — سخنرانی یا مصاحبهٔ علمی</h2>
+<p><span class="de" lang="de">Wissenschaftlicher Vortrag / Experteninterview</span></p>
+<p>۷ سؤال پاسخ‌کوتاه — دوبار پخش</p>
+<h3>۴.۱. متن سوم چرا معمولاً دشوارتر است؟</h3>
+<p>در این قسمت موضوع مشخصی از یک حوزهٔ علمی مطرح می‌شود.</p>
+<p>بر اساس راهنمای رسمی TestDaF، فایل سوم معمولاً حدود ۵ دقیقه و تقریباً ۶۰۰ واژه دارد.</p>
+<p>این فایل می‌تواند به یکی از دو شکل باشد:</p>
+<ul>
+<li>Fachvortrag: سخنرانی تخصصی یا علمی</li>
+<li>Experteninterview: مصاحبه با یک متخصص</li>
+</ul>
+<p>ممکن است دربارهٔ موضوعاتی مانند حافظه، سلامت عمومی، اقتصاد، علوم محیط‌زیست، روان‌شناسی یا فناوری صحبت شود.</p>
+<p>نیازی به دانش تخصصی قبلی نداری؛ اما باید بتوانی نحوهٔ توضیح مفاهیم علمی را دنبال کنی.</p>
+<p>برای مثال، در یک سخنرانی ممکن است گوینده ابتدا مسئله‌ای را معرفی کند، سپس فرضیه‌ای ارائه دهد، روش پژوهش را توضیح دهد و در پایان به نتایج و محدودیت‌های آن اشاره کند.</p>
+<p>اگر فقط کلمات جداگانه را بشنوی، ممکن است متوجه نشوی هر بخش چه نقشی در استدلال علمی دارد.</p>
+<p>در راهنمای رسمی، سؤال‌های این بخش معمولاً با ترتیب اطلاعات فایل صوتی پیش می‌روند و هنگام خواندن آن‌ها فرصت داری واژه‌های کلیدی، اصطلاحات علمی و نام‌ها را شناسایی کنی.</p>
+<h3>۴.۲. دو بار پخش، دو هدف متفاوت</h3>
+<p>این مهم‌ترین فرصت بخش سوم است.</p>
+<p>بهتر است از دو بار پخش برای دو کار متفاوت استفاده کنی.</p>
+<h3>پخش اول: ساختن تصویر کلی و ثبت پاسخ‌های اولیه</h3>
+<p>در اولین بار تلاش کن این موارد را تشخیص بدهی:</p>
+<ul>
+<li>موضوع اصلی سخنرانی چیست؟</li>
+<li>چه پرسش علمی مطرح شده است؟</li>
+<li>گوینده چه توضیح یا فرضیه‌ای ارائه می‌کند؟</li>
+<li>چه نتایجی بیان می‌شوند؟</li>
+<li>پاسخ احتمالی هر سؤال کجای فایل قرار دارد؟</li>
+</ul>
+<p>پاسخ‌های اولیه را به‌صورت کوتاه بنویس.</p>
+<p>اگر برای یک سؤال دو نکته لازم است، جای هر دو را مشخص کن.</p>
+<h3>پخش دوم: بررسی و تکمیل پاسخ‌ها</h3>
+<p>در دومین بار دیگر لازم نیست تمام اطلاعات را از ابتدا کشف کنی.</p>
+<p>می‌توانی توجهت را به قسمت‌هایی معطوف کنی که:</p>
+<ul>
+<li>هنگام پخش اول متوجه نشده‌ای.</li>
+<li>دربارهٔ معنای آن‌ها تردید داری.</li>
+<li>ممکن است پاسخ تو در آن‌ها ناقص باشد.</li>
+<li>از نظر علت و معلول یا مقایسه نیاز به بررسی بیشتری دارند.</li>
+</ul>
+<p>البته همچنان باید جریان فایل را دنبال کنی؛ چون اگر بیش از حد درگیر نوشتن یک پاسخ شوی، ممکن است اطلاعات سؤال بعدی را از دست بدهی.</p>
+<h3>۴.۳. مثال تألیفی دربارهٔ یک پژوهش علمی</h3>
+<p>فرض کن سخنران دربارهٔ تأثیر خواب بر یادگیری توضیح می‌دهد.</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>In einer Untersuchung wurden zwei Gruppen von Studierenden verglichen. Beide Gruppen lernten dieselben Informationen. Während die erste Gruppe anschließend acht Stunden schlafen konnte, blieb die zweite Gruppe mehrere Stunden wach. Am folgenden Tag erinnerte sich die erste Gruppe an deutlich mehr Einzelheiten. Die Forschenden vermuten deshalb, dass Schlaf eine wichtige Rolle bei der Festigung neuer Gedächtnisinhalte spielt.</p></blockquote>
+<p class="tr">ترجمه: در یک پژوهش دو گروه دانشجو مقایسه شدند. هر دو گروه اطلاعات یکسانی را یاد گرفتند. درحالی‌که گروه اول توانست پس از آن هشت ساعت بخوابد، گروه دوم چند ساعت بیدار ماند. روز بعد، گروه اول جزئیات بسیار بیشتری را به یاد آورد. بنابراین پژوهشگران احتمال می‌دهند خواب نقش مهمی در تثبیت اطلاعات جدید در حافظه دارد.</p>
+<p>اکنون دو سؤال فرضی داریم.</p>
+<p>سؤال اول:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Worin unterschieden sich die beiden Versuchsgruppen?</p></blockquote>
+<p class="tr">ترجمه: دو گروه آزمایشی در چه چیزی با یکدیگر تفاوت داشتند؟</p>
+<p>پاسخ مناسب:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>In der Schlafdauer nach dem Lernen.</p></blockquote>
+<p class="tr">ترجمه: در مدت خواب پس از یادگیری.</p>
+<p>سؤال دوم:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Welche Funktion könnte Schlaf laut den Forschenden haben?</p></blockquote>
+<p class="tr">ترجمه: از نظر پژوهشگران، خواب ممکن است چه عملکردی داشته باشد؟</p>
+<p>پاسخ مناسب:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Festigung neuer Gedächtnisinhalte.</p></blockquote>
+<p class="tr">ترجمه: تثبیت اطلاعات جدید در حافظه.</p>
+<h3>نکتهٔ تحلیلی</h3>
+<p>در سؤال دوم، استفاده از könnte اهمیت دارد.</p>
+<p>متن ادعا نمی‌کند که این پژوهش به‌تنهایی تمام سازوکارهای خواب و حافظه را به‌طور قطعی اثبات کرده است.</p>
+<p>می‌گوید پژوهشگران از نتایج چنین احتمالی را مطرح می‌کنند.</p>
+<p>بنابراین پاسخ باید با همان درجهٔ قطعیت سازگار باشد.</p>
+<h3>۴.۴. تشخیص ساختار علمی سخنرانی</h3>
+<p>یکی از بهترین روش‌های گوش‌دادن به فایل سوم این است که گفتار را به بخش‌های مفهومی تقسیم کنی.</p>
+<ol>
+<li>Problemstellung — طرح مسئله: چه موضوع یا مشکلی بررسی می‌شود؟</li>
+<li>Forschungsfrage / Hypothese — پرسش پژوهش یا فرضیه: پژوهشگران می‌خواهند چه چیزی را بررسی کنند؟</li>
+<li>Methode — روش پژوهش: داده‌ها چگونه جمع‌آوری یا بررسی شده‌اند؟</li>
+<li>Ergebnisse — نتایج: چه یافته‌هایی به دست آمده است؟</li>
+<li>Interpretation / Einschränkungen — تفسیر و محدودیت‌ها: نتایج چه معنایی دارند و چه چیزی را هنوز نمی‌توان نتیجه گرفت؟</li>
+</ol>
+<p>این ساختار یک الگوی رایج علمی است، نه قالبی که تمام فایل‌های TestDaF الزاماً از آن پیروی کنند.</p>
+<p>ممکن است سخنرانی از نتیجه شروع شود و سپس به روش پژوهش برگردد، یا به‌جای یک پژوهش مشخص چند نظریه را مقایسه کند.</p>
+<p>اما شناخت این الگو کمک می‌کند نقش اطلاعات را سریع‌تر بفهمی.</p>
+<h3>۴.۵. واژه‌هایی که ساختار سخنرانی را آشکار می‌کنند</h3>
+<p>این عبارت‌ها را Gliederungssignale (نشانه‌های ساختاری گفتار) می‌نامیم.</p>
+<div class="tbl"><table>
+<tr><th>عبارت آلمانی</th><th>معنی فارسی</th><th>نقش</th></tr>
+<tr><td>Zunächst möchte ich ...</td><td>ابتدا می‌خواهم ...</td><td>آغاز موضوع</td></tr>
+<tr><td>Dabei stellt sich die Frage, ob ...</td><td>در این میان این پرسش مطرح می‌شود که آیا ...</td><td>طرح پرسش</td></tr>
+<tr><td>Um dies zu untersuchen, ...</td><td>برای بررسی این موضوع ...</td><td>معرفی روش</td></tr>
+<tr><td>Die Ergebnisse zeigen, dass ...</td><td>نتایج نشان می‌دهند که ...</td><td>بیان یافته</td></tr>
+<tr><td>Bemerkenswert ist dabei, dass ...</td><td>نکتهٔ قابل‌توجه این است که ...</td><td>برجسته‌کردن یک یافته</td></tr>
+<tr><td>Im Gegensatz dazu ...</td><td>برخلاف آن ...</td><td>تقابل</td></tr>
+<tr><td>Daraus lässt sich schließen, dass ...</td><td>از این موضوع می‌توان نتیجه گرفت که ...</td><td>نتیجه‌گیری</td></tr>
+<tr><td>Allerdings muss berücksichtigt werden, dass ...</td><td>البته باید در نظر گرفت که ...</td><td>بیان محدودیت</td></tr>
+<tr><td>Zusammenfassend lässt sich sagen, dass ...</td><td>در جمع‌بندی می‌توان گفت که ...</td><td>جمع‌بندی</td></tr>
+</table></div>
+<p>هنگام شنیدن این عبارت‌ها، احتمالاً ساختار استدلال در حال تغییر است.</p>
+<p>برای مثال، پس از Allerdings muss berücksichtigt werden, dass ... ممکن است محدودیتی مطرح شود که پاسخ یکی از سؤال‌ها را تغییر دهد.</p>
+<h3>۴.۶. وقتی سؤال دو نکته می‌خواهد چه کار کنیم؟</h3>
+<p>این موضوع از مهم‌ترین جزئیات نمره‌دهی فایل سوم است.</p>
+<p>فرض کن سؤال بگوید:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Nennen Sie zwei Gründe, weshalb das Verfahren noch nicht allgemein eingesetzt wird.</p></blockquote>
+<p class="tr">ترجمه: دو دلیل نام ببرید که چرا این روش هنوز به‌طور عمومی به کار گرفته نمی‌شود.</p>
+<p>و در فایل بشنوی:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Das Verfahren ist derzeit noch sehr kostenintensiv. Hinzu kommt, dass für seinen Einsatz speziell ausgebildetes Personal benötigt wird.</p></blockquote>
+<p class="tr">ترجمه: این روش در حال حاضر همچنان بسیار پرهزینه است. علاوه بر این، برای استفاده از آن به نیروی انسانی دارای آموزش تخصصی نیاز است.</p>
+<p>پاسخ باید هر دو نکته را داشته باشد:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Hohe Kosten; Bedarf an Fachpersonal.</p></blockquote>
+<p class="tr">ترجمه: هزینهٔ بالا؛ نیاز به نیروی متخصص.</p>
+<p>اگر فقط hohe Kosten را بنویسی، پاسخ ناقص است.</p>
+<p>طبق راهنمای رسمی TestDaF، وقتی در صورت سؤال به‌صراحت دو نکته خواسته می‌شود، ارائهٔ تنها یکی از آن‌ها برای درست محسوب‌شدن آن مورد کافی نیست.</p>
+<p>بنابراین هنگام مرور سؤال‌ها، عبارت‌هایی مانند zwei Gründe، zwei Beispiele، zwei Aspekte را مشخص کن.</p>
+<h3>۴.۷. پاسخ کوتاه نباید بیش از حد کلی باشد</h3>
+<p>یک اشتباه دیگر این است که اطلاعات درست را به شکلی چنان کلی بنویسی که دیگر معلوم نباشد دقیقاً چه چیزی را شنیده‌ای.</p>
+<p>مثلاً اگر سؤال دربارهٔ اثر یک روش بر Immunsystem (دستگاه ایمنی) باشد، پاسخ:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Es ist gut für den Körper.</p></blockquote>
+<p class="tr">ترجمه: برای بدن خوب است.</p>
+<p>ممکن است بیش از حد کلی باشد.</p>
+<p>پاسخ دقیق‌تر:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Es unterstützt das Immunsystem.</p></blockquote>
+<p class="tr">ترجمه: از دستگاه ایمنی پشتیبانی می‌کند.</p>
+<p>در راهنمای رسمی نیز تأکید شده که پاسخ‌های هم‌معنا پذیرفتنی‌اند، اما باید عناصر محتوایی مهم سؤال را حفظ کنند.</p>
+</section>
+
+<section class="pane">
+<h2 id="s5">۵. یادداشت‌برداری مؤثر هنگام شنیدن</h2>
+<p><span class="de" lang="de">Notizen machen</span> یعنی یادداشت‌برداری.</p>
+<p>در TestDaF، یادداشت‌برداری باید به فهم و پاسخ‌گویی کمک کند، نه اینکه به یک فعالیت مستقل و زمان‌بر تبدیل شود.</p>
+<p>باید میان دو کار تفاوت بگذاری:</p>
+<ul>
+<li>Transkribieren: پیاده‌سازی تقریباً کلمه‌به‌کلمهٔ گفتار</li>
+<li>Stichpunkte notieren: ثبت نکات اصلی به‌صورت کوتاه و فهرست‌وار</li>
+</ul>
+<p>برای آزمون، دومی معمولاً کاربردی‌تر است.</p>
+<h3>۵.۱. چرا نوشتن جمله‌های کامل هنگام شنیدن مشکل‌ساز است؟</h3>
+<p>فرض کن استاد می‌گوید:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Aufgrund der gestiegenen Energiekosten mussten mehrere Forschungseinrichtungen ihren Betrieb vorübergehend einschränken.</p></blockquote>
+<p class="tr">ترجمه: به دلیل افزایش هزینه‌های انرژی، چند مؤسسهٔ پژوهشی مجبور شدند فعالیت خود را موقتاً محدود کنند.</p>
+<p>اگر بخواهی این جمله را کامل بنویسی، ممکن است چند ثانیه درگیر نوشتن باشی و جملهٔ بعدی را نشنوی.</p>
+<p>درحالی‌که یادداشت زیر اطلاعات اصلی را حفظ می‌کند:</p>
+<p class="note" dir="ltr">↑ Energiekosten → Forschungseinrichtungen: Betrieb vorübergehend ↓</p>
+<p>معنای یادداشت: افزایش هزینه‌های انرژی ← محدودشدن موقت فعالیت مؤسسات پژوهشی.</p>
+<p>لازم نیست یادداشت‌ها از نظر گرامری کامل باشند، زیرا قرار نیست به همین شکل تحویل داده شوند.</p>
+<h3>۵.۲. یک نظام سادهٔ علامت‌گذاری</h3>
+<div class="tbl"><table>
+<tr><th>علامت</th><th>معنای پیشنهادی</th></tr>
+<tr><td>↑</td><td>افزایش</td></tr>
+<tr><td>↓</td><td>کاهش</td></tr>
+<tr><td>→</td><td>پیامد یا نتیجه</td></tr>
+<tr><td>←</td><td>ناشی از / علت قبلی</td></tr>
+<tr><td>+</td><td>مزیت، افزایش یا افزودن</td></tr>
+<tr><td>−</td><td>عیب، کاهش یا محدودیت</td></tr>
+<tr><td>≠</td><td>تفاوت</td></tr>
+<tr><td>=</td><td>برابری یا هم‌معنایی</td></tr>
+<tr><td>?</td><td>سؤال یا نکتهٔ نامطمئن</td></tr>
+<tr><td>!</td><td>نکتهٔ مهم</td></tr>
+<tr><td>ca.</td><td>حدوداً</td></tr>
+<tr><td>z. B.</td><td>برای مثال</td></tr>
+<tr><td>vs.</td><td>در مقایسه با</td></tr>
+<tr><td>u. a.</td><td>از جمله / در میان موارد دیگر</td></tr>
+</table></div>
+<p>این‌ها علائم شخصی پیشنهادی‌اند، نه نمادهای رسمی TestDaF.</p>
+<p>مهم این است که هنگام مرور بتوانی معنایشان را سریع بازیابی کنی.</p>
+<h3>۵.۳. سه شیوهٔ یادداشت‌برداری</h3>
+<h3>روش اول: سؤال‌محور</h3>
+<p>این روش به‌خصوص برای Hörtext 1 و Hörtext 3 کاغذی مناسب است.</p>
+<p>قبل از شنیدن، شمارهٔ سؤال‌ها را آماده کن.</p>
+<div class="tbl"><table>
+<tr><th>سؤال</th><th>یادداشت فرضی</th></tr>
+<tr><td>۱۹</td><td>Ziel: Konzentration</td></tr>
+<tr><td>۲۰</td><td>2 Gruppen / 120 Pers.</td></tr>
+<tr><td>۲۱</td><td>Gruppe A: 8 Std. Schlaf</td></tr>
+<tr><td>۲۲</td><td>Gruppe B: 4 Std. Schlaf</td></tr>
+<tr><td>۲۳</td><td>Ergebnis: A besser</td></tr>
+<tr><td>۲۴</td><td>Ursache: nicht eindeutig</td></tr>
+<tr><td>۲۵</td><td>weitere Forschung nötig</td></tr>
+</table></div>
+<p>در طول فایل فقط اطلاعات مرتبط را جلوی سؤال‌ها ثبت می‌کنی.</p>
+<h3>روش دوم: ساختاری</h3>
+<p>این روش برای شنیدن سخنرانی‌های علمی، به‌ویژه زمانی که پرسش‌ها کلی‌تر هستند، مفید است.</p>
+<p>نمونهٔ یادداشت فرضی دربارهٔ یک پژوهش:</p>
+<p class="note" dir="ltr">Thema: Schlaf &amp; Lernen<br>Frage: Einfluss auf Gedächtnis?<br><br>Methode:<br>A: 8 h Schlaf<br>B: 4 h Schlaf<br><br>Ergebnis:<br>A &gt; B (Erinnerung)<br><br>Interpretation:<br>Schlaf → mögliche Festigung<br>Achtung: Kausalität nicht eindeutig</p>
+<p>ترجمهٔ خلاصه: موضوع رابطهٔ خواب و یادگیری است؛ پژوهش دو گروه با مدت خواب متفاوت را مقایسه کرده؛ گروه A یادآوری بهتری داشته، اما دربارهٔ اثبات رابطهٔ علّی باید محتاط بود.</p>
+<h3>روش سوم: مقایسه‌ای</h3>
+<p>در مصاحبه یا بحث چندنفره، بهتر است نظر افراد را در ستون‌های جداگانه ثبت کنی.</p>
+<div class="tbl"><table>
+<tr><th>گوینده</th><th>موضع</th><th>دلیل</th></tr>
+<tr><td>Person A</td><td>موافق آموزش آنلاین</td><td>انعطاف بیشتر</td></tr>
+<tr><td>Person B</td><td>مخالف جایگزینی کامل</td><td>اهمیت ارتباط مستقیم</td></tr>
+<tr><td>Person C</td><td>موافق روش ترکیبی</td><td>استفاده از مزایای هر دو</td></tr>
+</table></div>
+<p>این روش در نسخهٔ دیجیتال اهمیت ویژه‌ای دارد، زیرا چند تکلیف رسمی از تو می‌خواهند اطلاعات را به افراد یا موضع‌های مختلف نسبت بدهی.</p>
+<h3>۵.۴. چه چیزهایی را یادداشت نکنیم؟</h3>
+<p>معمولاً لازم نیست تمام مثال‌های فرعی، کلمات انتقالی یا تکرارهای گوینده را ثبت کنی.</p>
+<p>برای تصمیم‌گیری، سه سؤال مفید است:</p>
+<ul>
+<li>آیا این اطلاعات به یکی از سؤال‌ها پاسخ می‌دهد؟</li>
+<li>آیا بدون ثبت آن، رابطهٔ منطقی مهمی را فراموش می‌کنم؟</li>
+<li>آیا بعداً برای تشخیص دیدگاه گوینده به آن نیاز دارم؟</li>
+</ul>
+<p>اگر پاسخ هر سه منفی باشد، احتمالاً یادداشت‌نکردن آن بهتر است.</p>
+<p>اصل اصلی یادداشت‌برداری: اطلاعات کمتر، اما دقیق‌تر و قابل‌بازیابی‌تر.</p>
+</section>
+
+<section class="pane">
+<h2 id="s6">۶. Hören در نسخهٔ دیجیتال: هفت نوع تکلیف</h2>
+<p>نسخهٔ دیجیتال TestDaF فقط شکل رایانه‌ای سه فایل شنیداری نسخهٔ کاغذی نیست.</p>
+<p>در این نسخه، بخش Hören شامل هفت نوع تکلیف و مجموعاً ۳۰ مورد سؤال اصلی است. زمان پایهٔ آن حدود ۴۰ دقیقه است.</p>
+<p>در برخی تکالیف فقط صدا می‌شنوی؛ در بعضی دیگر ویدئو می‌بینی. پاسخ‌ها نیز می‌توانند به‌صورت انتخاب گزینه، شناسایی خطا یا تایپ پاسخ کوتاه باشند.</p>
+<h3>جدول رسمی هفت تکلیف دیجیتال</h3>
+<div class="tbl"><table>
+<tr><th>شماره</th><th>نوع تکلیف</th><th>رسانه</th><th>تعداد سؤال</th></tr>
+<tr><td>۱</td><td>Kurzantwort: Übersicht ergänzen</td><td>صوت</td><td>۵</td></tr>
+<tr><td>۲</td><td>Kurzantwort: Textstellen zu Begriffspaar notieren</td><td>صوت</td><td>۴</td></tr>
+<tr><td>۳</td><td>Fehler in Zusammenfassung erkennen</td><td>صوت</td><td>۲</td></tr>
+<tr><td>۴</td><td>Aussagen Personen zuordnen</td><td>ویدئو</td><td>۶</td></tr>
+<tr><td>۵</td><td>Kurzantwort: Gliederungspunkte zu Vortrag ergänzen</td><td>ویدئو</td><td>۴</td></tr>
+<tr><td>۶</td><td>Multiple-Choice</td><td>صوت</td><td>۵</td></tr>
+<tr><td>۷</td><td>Laut- und Schriftbild abgleichen</td><td>صوت همراه با متن</td><td>۴</td></tr>
+<tr><td></td><td>مجموع</td><td></td><td>۳۰</td></tr>
+</table></div>
+<p>در راهنمای رسمی نمونه‌آزمون دیجیتال تصریح شده که هر فایل یک‌بار پخش می‌شود.</p>
+<p>این تفاوتی اساسی با Hörtext 3 نسخهٔ کاغذی دارد که دوبار پخش می‌شود.</p>
+<h3>۶.۱. تکلیف اول: Kurzantwort — Übersicht ergänzen</h3>
+<p>معنی: تکمیل یک جدول یا نمای کلی با پاسخ‌های کوتاه.</p>
+<p>پنج جای خالی وجود دارد که باید هنگام شنیدن تکمیل شوند.</p>
+<p>در نمونهٔ رسمی، یک گفت‌وگو دربارهٔ برنامهٔ نمایشگاه کاری مهندسان پخش می‌شود و داوطلب باید اطلاعات مربوط به برنامه‌ها، مکان‌ها و شرایط شرکت را در جدول وارد کند.</p>
+<h3>مثال تألیفی</h3>
+<p>فرض کن چنین اطلاعاتی را می‌شنوی:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Der Workshop zur wissenschaftlichen Datenanalyse findet am Mittwochvormittag im Gebäude C statt. Die Teilnehmenden müssen ihren eigenen Laptop mitbringen.</p></blockquote>
+<p class="tr">ترجمه: کارگاه تحلیل داده‌های علمی، صبح چهارشنبه در ساختمان C برگزار می‌شود. شرکت‌کنندگان باید لپ‌تاپ شخصی خود را همراه بیاورند.</p>
+<p>جدول:</p>
+<div class="tbl"><table>
+<tr><th>موضوع</th><th>پاسخ</th></tr>
+<tr><td>Veranstaltung</td><td>Datenanalyse</td></tr>
+<tr><td>Tag</td><td>Mittwoch</td></tr>
+<tr><td>Tageszeit</td><td>Vormittag</td></tr>
+<tr><td>Gebäude</td><td>C</td></tr>
+<tr><td>Mitbringen</td><td>Laptop</td></tr>
+</table></div>
+<p>در آزمون واقعی، معمولاً بخشی از جدول از قبل پر شده است و تو فقط خانه‌های خالی را تکمیل می‌کنی.</p>
+<h3>نکات اجرایی</h3>
+<p>در نمونهٔ رسمی این نوع تکلیف:</p>
+<ul>
+<li>برای دیدن جدول، ۱۵ ثانیه زمان اولیه وجود دارد.</li>
+<li>برای هر خانه حداکثر دو کلمه باید نوشت.</li>
+<li>بعد از پایان صوت، ۲۰ ثانیه برای بررسی پاسخ‌ها وجود دارد.</li>
+<li>اطلاعات لازم لزوماً به ترتیب خانه‌های جدول بیان نمی‌شوند.</li>
+</ul>
+<p>این زمان‌ها مربوط به نمونهٔ رسمی منتشرشده هستند؛ در آزمون باید دستور و زمان‌سنج همان تکلیف را رعایت کنی.</p>
+<h3>استراتژی</h3>
+<p>پیش از پخش، ساختار جدول را بررسی کن.</p>
+<p>اگر ستون‌ها روزهای هفته و ردیف‌ها مکان و فعالیت هستند، می‌دانی به دنبال چه نوع اطلاعاتی باید بگردی.</p>
+<p>نباید منتظر بمانی فایل دقیقاً از نخستین خانهٔ خالی شروع کند.</p>
+<p>ممکن است گوینده ابتدا دربارهٔ برنامهٔ پنجشنبه صحبت کند و سپس به سه‌شنبه برگردد.</p>
+<p>پس محل ثبت پاسخ را براساس معنای اطلاعات انتخاب کن، نه صرفاً ترتیب شنیدن آن‌ها.</p>
+<h3>۶.۲. تکلیف دوم: Kurzantwort — Textstellen zu Begriffspaar notieren</h3>
+<p>معنی: ثبت اطلاعات مرتبط با یک جفت مفهوم یا دو ستون معنایی.</p>
+<p>در این نوع تکلیف چهار پاسخ کوتاه لازم است.</p>
+<p>در نمونهٔ رسمی، باید موضع دو نفر را در یک بحث بشنوی و برای هرکدام یک خواسته و یک استدلال ثبت کنی.</p>
+<p>دو مفهوم اصلی عبارت‌اند از:</p>
+<ul>
+<li>Forderung: خواسته یا مطالبه</li>
+<li>Argument: استدلال یا دلیل</li>
+</ul>
+<h3>مثال تألیفی</h3>
+<p>در یک بحث دربارهٔ امتحان‌های دانشگاهی، دو نفر چنین می‌گویند:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Person A: Meiner Meinung nach sollten mündliche Prüfungen häufiger angeboten werden. Sie ermöglichen es den Studierenden, ihre Gedanken differenzierter auszudrücken.</p></blockquote>
+<p class="tr">ترجمه: به نظر من امتحان‌های شفاهی باید بیشتر ارائه شوند. این امتحان‌ها به دانشجویان امکان می‌دهند افکارشان را با جزئیات دقیق‌تری بیان کنند.</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Person B: Ich halte schriftliche Prüfungen weiterhin für notwendig, weil sie eine einheitliche Bewertung größerer Gruppen erleichtern.</p></blockquote>
+<p class="tr">ترجمه: من همچنان امتحان‌های کتبی را ضروری می‌دانم، زیرا ارزیابی یکسان گروه‌های بزرگ‌تر را آسان‌تر می‌کنند.</p>
+<p>جدول پاسخ:</p>
+<div class="tbl"><table>
+<tr><th>شخص</th><th>Forderung</th><th>Argument</th></tr>
+<tr><td>A</td><td>mehr mündliche Prüfungen</td><td>differenzierter Ausdruck</td></tr>
+<tr><td>B</td><td>schriftliche Prüfungen beibehalten</td><td>einheitliche Bewertung</td></tr>
+</table></div>
+<p>ترجمه: شخص A: افزایش امتحان‌های شفاهی، چون بیان دقیق‌تر افکار را ممکن می‌کنند. شخص B: حفظ امتحان‌های کتبی، چون ارزیابی یکسان را آسان‌تر می‌کنند.</p>
+<h3>تلهٔ اصلی</h3>
+<p>ممکن است گوینده دربارهٔ چند دلیل صحبت کند، اما فقط یک دلیل مرتبط با خواستهٔ او لازم باشد.</p>
+<p>همچنین نباید خواستهٔ شخص اول را با استدلال شخص دوم ترکیب کنی.</p>
+<p>روش تمرین: هنگام شنیدن بحث‌های دوطرفه، برای هر نفر یک ستون جدا داشته باش و دو برچسب Forderung و Argument را از قبل آماده کن.</p>
+<h3>۶.۳. تکلیف سوم: Fehler in Zusammenfassung erkennen</h3>
+<p>معنی: پیدا کردن خطاهای محتوایی در خلاصهٔ یک فایل صوتی.</p>
+<p>در نمونهٔ رسمی، بخشی از یک سخنرانی پخش می‌شود.</p>
+<p>بعد از پایان پخش، خلاصه‌ای نوشتاری روی صفحه ظاهر می‌شود.</p>
+<p>باید دو جملهٔ دارای اطلاعات نادرست را انتخاب کنی.</p>
+<p>نکتهٔ اجرایی بسیار مهم:</p>
+<p>در نمونهٔ رسمی، خلاصه پیش از پایان فایل صوتی نمایش داده نمی‌شود.</p>
+<p>بنابراین هنگام گوش‌دادن هنوز نمی‌دانی دقیقاً کدام جمله‌های خلاصه ممکن است غلط باشند.</p>
+<p>باید نکات اصلی فایل را ثبت کنی تا بعداً با خلاصه مقایسه شوند.</p>
+<h3>مثال تألیفی</h3>
+<p>محتوای فایل صوتی فرضی:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>In einer Untersuchung wurde festgestellt, dass die Nutzung öffentlicher Verkehrsmittel in den vergangenen Jahren zugenommen hat. Besonders deutlich war der Anstieg bei jüngeren Erwachsenen. Gleichzeitig blieb die Nutzung privater Pkw in ländlichen Regionen relativ stabil.</p></blockquote>
+<p class="tr">ترجمه: در یک پژوهش مشخص شد استفاده از وسایل حمل‌ونقل عمومی در سال‌های گذشته افزایش یافته است. این افزایش به‌خصوص در میان بزرگسالان جوان آشکار بود. هم‌زمان استفاده از خودروهای شخصی در مناطق روستایی نسبتاً ثابت ماند.</p>
+<p>بعد از پایان صوت، چنین خلاصه‌ای نمایش داده می‌شود:</p>
+<p>جملهٔ اول:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Die Nutzung öffentlicher Verkehrsmittel ist in den letzten Jahren gestiegen.</p></blockquote>
+<p class="tr">ترجمه: استفاده از حمل‌ونقل عمومی در سال‌های اخیر افزایش یافته است. درست است.</p>
+<p>جملهٔ دوم:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Der Anstieg war besonders bei älteren Menschen zu beobachten.</p></blockquote>
+<p class="tr">ترجمه: این افزایش به‌خصوص در میان سالمندان مشاهده شد. نادرست است؛ زیرا متن دربارهٔ بزرگسالان جوان صحبت می‌کند.</p>
+<p>جملهٔ سوم:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>In ländlichen Regionen nahm die Pkw-Nutzung stark ab.</p></blockquote>
+<p class="tr">ترجمه: در مناطق روستایی استفاده از خودروهای شخصی به‌شدت کاهش یافت. نادرست است؛ زیرا متن می‌گوید این میزان نسبتاً ثابت ماند.</p>
+<h3>استراتژی</h3>
+<p>هنگام پخش، اطلاعات را در قالب سه یا چهار محور ثبت کن:</p>
+<p class="note" dir="ltr">ÖPNV ↑<br>besonders: junge Erwachsene<br>Land: Pkw ≈ stabil</p>
+<p>بعد از پخش، جمله‌های خلاصه را با یادداشت‌ها مقایسه کن.</p>
+<p>در نمونهٔ رسمی، ۲ دقیقه و ۳۰ ثانیه برای بررسی خلاصه پس از پخش در نظر گرفته شده است.</p>
+<p>تلهٔ مهم: ممکن است جمله‌ای از نظر زبان آلمانی کاملاً طبیعی و منطقی باشد، اما یک عدد، گروه یا رابطهٔ علت و معلولی در آن تغییر کرده باشد.</p>
+<h3>۶.۴. تکلیف چهارم: Aussagen Personen zuordnen</h3>
+<p>معنی: نسبت‌دادن گزاره‌ها به افراد.</p>
+<p>این تکلیف در نمونهٔ رسمی با ویدئو اجرا می‌شود.</p>
+<p>ممکن است یک بحث یا گفت‌وگوی چندنفره دربارهٔ موضوعی اجتماعی یا علمی ببینی.</p>
+<p>باید مشخص کنی کدام شخص با هر گزاره موافق است یا آن را مطرح کرده است.</p>
+<p>در نمونهٔ رسمی، چهار گزینه وجود دارد:</p>
+<ul>
+<li>شخص اول</li>
+<li>شخص دوم</li>
+<li>هر دو</li>
+<li>هیچ‌کدام</li>
+</ul>
+<h3>مثال تألیفی</h3>
+<p>دو نفر دربارهٔ گسترش استفاده از هوش مصنوعی در دانشگاه گفت‌وگو می‌کنند.</p>
+<p>Person A:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>KI kann Studierenden helfen, komplexe Inhalte besser zu verstehen. Allerdings sollten ihre Ergebnisse immer überprüft werden.</p></blockquote>
+<p class="tr">ترجمه: هوش مصنوعی می‌تواند به دانشجویان کمک کند مطالب پیچیده را بهتر بفهمند. البته نتایج آن باید همیشه بررسی شوند.</p>
+<p>Person B:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Ich sehe darin ebenfalls ein hilfreiches Werkzeug. Problematisch wird es jedoch, wenn Studierende ihre Aufgaben vollständig von KI-Systemen erledigen lassen.</p></blockquote>
+<p class="tr">ترجمه: من هم آن را ابزار مفیدی می‌دانم. اما وقتی دانشجویان انجام کامل تکالیفشان را به سامانه‌های هوش مصنوعی واگذار می‌کنند، مشکل ایجاد می‌شود.</p>
+<div class="tbl"><table>
+<tr><th>گزاره</th><th>پاسخ</th></tr>
+<tr><td>KI kann beim Lernen hilfreich sein.</td><td>هر دو</td></tr>
+<tr><td>KI-Ergebnisse sollten überprüft werden.</td><td>شخص A</td></tr>
+<tr><td>Vollständig KI-generierte Aufgaben können problematisch sein.</td><td>شخص B</td></tr>
+<tr><td>KI sollte an allen Hochschulen verboten werden.</td><td>هیچ‌کدام</td></tr>
+</table></div>
+<h3>تله‌های رایج</h3>
+<p>ممکن است دو گوینده دربارهٔ موضوع واحدی صحبت کنند، اما دیدگاه‌های متفاوتی داشته باشند.</p>
+<p>همچنین ممکن است یک شخص بخشی از نظر دیگری را تأیید کند، اما با نتیجه‌گیری او مخالف باشد.</p>
+<p>برای مثال:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Da stimme ich Ihnen grundsätzlich zu, allerdings ...</p></blockquote>
+<p class="tr">ترجمه: من اصولاً با شما موافقم، البته ...</p>
+<p>بعد از allerdings ممکن است محدودیت مهمی مطرح شود.</p>
+<p>در نتیجه، فقط شنیدن عبارت stimme ich zu به معنای موافقت کامل با تمام موضع طرف مقابل نیست.</p>
+<h3>۶.۵. تکلیف پنجم: Kurzantwort — Gliederungspunkte zu Vortrag ergänzen</h3>
+<p>معنی: تکمیل سرفصل‌های یک سخنرانی با پاسخ‌های کوتاه.</p>
+<p>در نمونهٔ رسمی، ویدئویی از یک سخنرانی دانشگاهی پخش می‌شود.</p>
+<p>چهار عنوان یا سرفصل در اختیار داری و باید اطلاعات مربوط به آن‌ها را با کلمات کوتاه تکمیل کنی.</p>
+<h3>مثال تألیفی</h3>
+<p>موضوع: Neuronale Plastizität — انعطاف‌پذیری عصبی</p>
+<p>فرض کن گوینده توضیح دهد:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Unter neuronaler Plastizität versteht man die Fähigkeit des Gehirns, seine Verbindungen aufgrund von Erfahrungen zu verändern. Besonders beim Erlernen neuer Fähigkeiten können solche Veränderungen beobachtet werden.</p></blockquote>
+<p class="tr">ترجمه: منظور از انعطاف‌پذیری عصبی، توانایی مغز برای تغییر ارتباطات خود بر اثر تجربه است. این تغییرات به‌ویژه هنگام یادگیری مهارت‌های جدید قابل مشاهده‌اند.</p>
+<p>دو سرفصل فرضی:</p>
+<div class="tbl"><table>
+<tr><th>سرفصل</th><th>پاسخ مناسب</th></tr>
+<tr><td>Definition neuronaler Plastizität</td><td>Veränderung neuronaler Verbindungen</td></tr>
+<tr><td>Beispiel</td><td>Erlernen neuer Fähigkeiten</td></tr>
+</table></div>
+<p>ترجمه: تعریف: تغییر ارتباطات عصبی. مثال: یادگیری مهارت‌های جدید.</p>
+<h3>چه مهارتی اهمیت دارد؟</h3>
+<p>در اینجا لازم نیست تمام سخنرانی را کلمه‌به‌کلمه بنویسی.</p>
+<p>باید بتوانی هر توضیح را زیر عنوان صحیح قرار بدهی.</p>
+<p>این مهارت تا حد زیادی شبیه یادداشت‌برداری در یک کلاس واقعی دانشگاه است.</p>
+<p>در نمونهٔ رسمی، برای مرور اولیهٔ سرفصل‌ها ۱۰ ثانیه و برای بررسی پاسخ‌ها بعد از ویدئو ۳ دقیقه در نظر گرفته شده است.</p>
+<p>این زمان‌ها را به‌عنوان ویژگی نمونهٔ رسمی در نظر بگیر، نه قانونی مستقل از زمان‌سنج واقعی آزمون.</p>
+<h3>۶.۶. تکلیف ششم: Multiple-Choice</h3>
+<p>معنی: سؤال‌های چندگزینه‌ای دربارهٔ یک فایل صوتی.</p>
+<p>در نمونهٔ رسمی، پنج سؤال وجود دارد و هر سؤال چهار گزینه دارد.</p>
+<p>فایل فقط یک‌بار پخش می‌شود.</p>
+<p>سؤال‌ها ممکن است دربارهٔ اطلاعات مشخص، نتیجهٔ پژوهش یا هدف کلی سخنران باشند.</p>
+<h3>مثال تألیفی</h3>
+<p>بخشی از فایل:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Viele Menschen gehen davon aus, dass mehrsprachig aufwachsende Kinder beim Erwerb ihrer Sprachen grundsätzlich langsamer sind. Die Forschung zeigt jedoch, dass solche Unterschiede nicht pauschal auf Mehrsprachigkeit zurückgeführt werden können.</p></blockquote>
+<p class="tr">ترجمه: بسیاری از مردم تصور می‌کنند کودکانی که در محیط چندزبانه رشد می‌کنند، اصولاً زبان‌هایشان را کندتر یاد می‌گیرند. بااین‌حال، پژوهش نشان می‌دهد که چنین تفاوت‌هایی را نمی‌توان به‌طور کلی به چندزبانگی نسبت داد.</p>
+<p>سؤال:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Welche Aussage entspricht dem Standpunkt des Sprechers?</p></blockquote>
+<p class="tr">ترجمه: کدام گزاره با دیدگاه سخنران مطابقت دارد؟</p>
+<p>A. Mehrsprachige Kinder lernen immer langsamer.</p>
+<p>B. Mehrsprachigkeit verhindert die Sprachentwicklung.</p>
+<p>C. Unterschiede in der Sprachentwicklung haben nicht zwangsläufig ihre Ursache in Mehrsprachigkeit.</p>
+<p>D. Mehrsprachige Kinder beherrschen automatisch alle ihre Sprachen perfekt.</p>
+<p>پاسخ درست: C</p>
+<p>ترجمه: تفاوت‌های رشد زبانی لزوماً ناشی از چندزبانگی نیستند.</p>
+<h3>استراتژی</h3>
+<p>در زمان مطالعهٔ سؤال‌ها، معنای چهار گزینه را مقایسه کن.</p>
+<p>به کلماتی مانند immer، grundsätzlich، automatisch، zwangsläufig توجه ویژه داشته باش.</p>
+<p>هنگام پخش دنبال اطلاعاتی بگرد که واقعاً یکی از گزینه‌ها را پشتیبانی می‌کنند.</p>
+<p>در نمونهٔ رسمی، برای خواندن اولیهٔ سؤال‌ها ۹۰ ثانیه و برای بررسی پس از صوت نیز ۹۰ ثانیه در نظر گرفته شده است.</p>
+<h3>۶.۷. تکلیف هفتم: Laut- und Schriftbild abgleichen</h3>
+<p>معنی: مقایسهٔ آنچه شنیده می‌شود با آنچه نوشته شده است.</p>
+<p>این یکی از خاص‌ترین انواع سؤال در TestDaF دیجیتال است.</p>
+<p>در این تکلیف، متن آلمانی را روی نمایشگر می‌بینی و هم‌زمان نسخهٔ صوتی آن را می‌شنوی.</p>
+<p>اما بعضی کلمات متن چاپ‌شده با کلمات فایل صوتی متفاوت‌اند.</p>
+<p>در نمونهٔ رسمی باید چهار واژهٔ متفاوت را شناسایی کنی.</p>
+<h3>مثال تألیفی</h3>
+<p>متن روی نمایشگر:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Die Untersuchung wurde im vergangenen Jahr durchgeführt und umfasste fünfzig Studierende.</p></blockquote>
+<p class="tr">ترجمه: این پژوهش در سال گذشته انجام شد و شامل پنجاه دانشجو بود.</p>
+<p>اما در فایل صوتی می‌شنوی:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Die Untersuchung wurde im vergangenen Jahr durchgeführt und umfasste fünfzehn Studierende.</p></blockquote>
+<p class="tr">ترجمه: این پژوهش در سال گذشته انجام شد و شامل پانزده دانشجو بود.</p>
+<p>کلمه‌ای که باید در متن روی نمایشگر مشخص کنی: fünfzig</p>
+<p>زیرا در صوت fünfzehn شنیده شده است.</p>
+<h3>چرا این سؤال دشوار است؟</h3>
+<p>اینجا صرفاً درک مفهوم کلی کافی نیست.</p>
+<p>باید تفاوت دقیق شکل آوایی و نوشتاری واژه‌ها را تشخیص بدهی.</p>
+<p>این تفاوت ممکن است در موارد زیر باشد:</p>
+<ul>
+<li>اعداد نزدیک به هم</li>
+<li>واژه‌های با آوای مشابه</li>
+<li>شکل مفرد و جمع</li>
+<li>افعال با پیشوندهای متفاوت</li>
+<li>واژه‌های دستوری کوتاه</li>
+<li>عبارت‌هایی که فقط یک واژه‌شان تغییر کرده است</li>
+</ul>
+<p>برای مثال:</p>
+<div class="tbl"><table>
+<tr><th>متن نوشته‌شده</th><th>چیزی که شنیده می‌شود</th></tr>
+<tr><td>fünfzig</td><td>fünfzehn</td></tr>
+<tr><td>häufig</td><td>künftig</td></tr>
+<tr><td>erhöhen</td><td>erhören</td></tr>
+<tr><td>einen</td><td>einem</td></tr>
+<tr><td>konnte</td><td>könnte</td></tr>
+</table></div>
+<p>این‌ها صرفاً مثال‌های آموزشی از تفاوت‌های احتمالی‌اند، نه فهرست سؤالات واقعی.</p>
+<p>در نمونهٔ رسمی، پس از پایان پخش ۲۰ ثانیه برای بررسی انتخاب‌ها وجود دارد.</p>
+<h3>روش تمرین</h3>
+<p>این مهارت را می‌توان با روش Diktat mit Vergleich (املانویسی همراه با مقایسه) تمرین کرد.</p>
+<p>یک متن صوتی کوتاه و متن پیاده‌سازی‌شدهٔ آن را تهیه کن.</p>
+<p>چند واژهٔ متن نوشتاری را تغییر بده، سپس هنگام شنیدن نسخهٔ اصلی آن‌ها را پیدا کن.</p>
+<p>تمرین باید از جمله‌های کوتاه شروع شود و به‌تدریج به متن‌های طولانی‌تر برسد.</p>
+</section>
+
+<section class="pane">
+<h2 id="s7">۷. تفاوت اساسی شنیداری دو نسخه</h2>
+<div class="tbl"><table>
+<tr><th>ویژگی</th><th>نسخهٔ کاغذی</th><th>نسخهٔ دیجیتال</th></tr>
+<tr><td>تعداد مجموعه‌های اصلی</td><td>۳</td><td>۷ نوع تکلیف</td></tr>
+<tr><td>تعداد سؤال</td><td>۲۵</td><td>۳۰</td></tr>
+<tr><td>زمان پایه</td><td>۴۰ دقیقه</td><td>حدود ۴۰ دقیقه</td></tr>
+<tr><td>تعداد پخش</td><td>دو فایل اول یک‌بار، سوم دوبار</td><td>هر فایل یک‌بار</td></tr>
+<tr><td>پاسخ‌کوتاه</td><td>دست‌نویس</td><td>تایپ</td></tr>
+<tr><td>درست/نادرست</td><td>در فایل دوم وجود دارد</td><td>به‌جای آن قالب‌های متنوع‌تر وجود دارند</td></tr>
+<tr><td>ویدئو</td><td>در ساختار اصلی شنیدن نیست</td><td>وجود دارد</td></tr>
+<tr><td>مقایسهٔ صوت و متن</td><td>تکلیف مستقل ندارد</td><td>تکلیف هفتم</td></tr>
+<tr><td>شناسایی خطای خلاصه</td><td>تکلیف مستقل ندارد</td><td>تکلیف سوم</td></tr>
+<tr><td>انتقال نهایی پاسخ</td><td>۱۰ دقیقه روی Antwortbogen</td><td>پاسخ‌ها در سیستم ثبت می‌شوند</td></tr>
+<tr><td>تکالیف آزمایشی</td><td>ساختار ثابت اعلام‌شده</td><td>ممکن است اضافه شوند</td></tr>
+</table></div>
+<p>این تفاوت‌ها نشان می‌دهند که حتی اگر توانایی شنیداری آلمانی یکسان باشد، برای هر دو نسخه باید تمرین قالب‌محور جداگانه انجام داد.</p>
+<p>برای داوطلبی که نسخهٔ دیجیتال را انتخاب می‌کند، تمرین فقط با سه فایل Hörverstehen کاغذی کافی نیست؛ زیرا مهارت‌هایی مانند مقایسهٔ شنیده و نوشته، تایپ پاسخ هنگام شنیدن و نسبت‌دادن موضع‌ها به افراد در آن تمرین نمی‌شوند.</p>
+</section>
+
+<section class="pane">
+<h2 id="s8">۸. اشتباهات پرتکرار در Hörverstehen</h2>
+<h3>۸.۱. تلاش برای فهم صددرصد کلمات</h3>
+<p>در یک فایل شنیداری ممکن است واژه‌هایی وجود داشته باشند که معنایشان را نمی‌دانی.</p>
+<p>اما ندیدن معنای یک واژه لزوماً به معنای ازدست‌دادن پاسخ نیست.</p>
+<p>مثلاً:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Die neue Regelung soll den Verwaltungsaufwand reduzieren und die Bearbeitung von Anträgen beschleunigen.</p></blockquote>
+<p class="tr">ترجمه: مقررات جدید قرار است حجم کار اداری را کاهش دهد و رسیدگی به درخواست‌ها را سریع‌تر کند.</p>
+<p>اگر Verwaltungsaufwand را نشناسی، ممکن است هنوز بتوانی از طریق reduzieren و Bearbeitung von Anträgen beschleunigen بفهمی که هدف مقررات، ساده‌تر و سریع‌ترکردن فرایندهای اداری است.</p>
+<p>اما اگر همان واژه پاسخ مستقیم سؤال باشد، اهمیت آن بیشتر می‌شود.</p>
+<p>بنابراین باید تفاوت بگذاری میان:</p>
+<ul>
+<li>Schlüsselwort: واژهٔ کلیدی</li>
+<li>Nebeninformation: اطلاعات جانبی</li>
+</ul>
+<h3>۸.۲. نشنیدن عدد و جهت تغییر</h3>
+<p>به تفاوت این عبارت‌ها توجه کن:</p>
+<div class="tbl"><table>
+<tr><th>آلمانی</th><th>ترجمه</th></tr>
+<tr><td>um 20 Prozent gestiegen</td><td>۲۰ درصد افزایش یافته</td></tr>
+<tr><td>auf 20 Prozent gestiegen</td><td>به ۲۰ درصد رسیده</td></tr>
+<tr><td>von 20 auf 30 Prozent gestiegen</td><td>از ۲۰ به ۳۰ درصد افزایش یافته</td></tr>
+<tr><td>um 20 Prozentpunkte gestiegen</td><td>۲۰ واحد درصد افزایش یافته</td></tr>
+</table></div>
+<p>این‌ها از نظر عددی یکسان نیستند.</p>
+<p>اگر سهم یک گروه از ۲۰ درصد به ۳۰ درصد برسد، افزایش آن ۱۰ واحد درصد است، اما افزایش نسبی آن ۵۰ درصد خواهد بود.</p>
+<p>در آزمون شنیداری، تفاوت um و auf می‌تواند پاسخ را تغییر بدهد.</p>
+<h3>۸.۳. گم‌کردن مرجع ضمیرها</h3>
+<p>مثال:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Die Studierenden kritisierten die neue Prüfungsordnung. Die Universitätsleitung kündigte daraufhin an, sie erneut zu überarbeiten.</p></blockquote>
+<p class="tr">ترجمه: دانشجویان از آیین‌نامهٔ جدید امتحانات انتقاد کردند. مدیریت دانشگاه سپس اعلام کرد که آن را دوباره بازبینی خواهد کرد.</p>
+<p>در این جمله، sie به آیین‌نامهٔ امتحانات اشاره دارد، نه دانشجویان.</p>
+<p>در گفتار سریع، تشخیص مرجع ضمیر گاهی دشوار می‌شود.</p>
+<p>باید بتوانی ارتباط میان ضمیر و اسم قبلی را در ساختار جمله دنبال کنی.</p>
+<h3>۸.۴. اشتباه در Modalverben — افعال وجهی</h3>
+<div class="tbl"><table>
+<tr><th>جمله</th><th>معنی</th></tr>
+<tr><td>Die Universität muss das Angebot erweitern.</td><td>دانشگاه باید امکانات را گسترش دهد.</td></tr>
+<tr><td>Die Universität sollte das Angebot erweitern.</td><td>بهتر است دانشگاه امکانات را گسترش دهد.</td></tr>
+<tr><td>Die Universität könnte das Angebot erweitern.</td><td>دانشگاه می‌تواند / ممکن است امکانات را گسترش دهد.</td></tr>
+<tr><td>Die Universität darf das Angebot erweitern.</td><td>دانشگاه اجازه دارد امکانات را گسترش دهد.</td></tr>
+</table></div>
+<p>تبدیل یک توصیه به اجبار، یا یک احتمال به واقعیت قطعی، می‌تواند جواب سؤال را نادرست کند.</p>
+<h3>۸.۵. بی‌توجهی به تصحیح یا اصلاح سخن گوینده</h3>
+<p>در مصاحبه ممکن است بشنوی:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Wir hatten zunächst 80 Teilnehmende vorgesehen. Tatsächlich haben sich aber nur 65 Personen angemeldet.</p></blockquote>
+<p class="tr">ترجمه: ابتدا برای ۸۰ شرکت‌کننده برنامه‌ریزی کرده بودیم؛ اما در واقع فقط ۶۵ نفر ثبت‌نام کردند.</p>
+<p>اگر سؤال دربارهٔ تعداد واقعی ثبت‌نام‌کنندگان باشد، پاسخ ۶۵ است.</p>
+<p>کلمهٔ tatsächlich می‌تواند نشان‌دهندهٔ اصلاح اطلاعات قبلی باشد.</p>
+<h3>۸.۶. یادداشت‌برداری بیش از حد</h3>
+<p>اگر هنگام شنیدن بخواهی هر جمله را کامل بنویسی، بخشی از ظرفیت توجهت صرف نوشتن می‌شود.</p>
+<p>در نتیجه ممکن است نکتهٔ بعدی را نشنوی.</p>
+<p>راه‌حل این نیست که اصلاً یادداشت برنداری؛ بلکه باید سرعت و حجم یادداشت را کنترل کنی.</p>
+<p>برای شروع می‌توانی هر ۳۰ ثانیه گفتار را در حداکثر سه نکته خلاصه کنی.</p>
+<p>بعد به‌تدریج یاد بگیر فقط اطلاعات مرتبط با سؤال را ثبت کنی.</p>
+<h3>۸.۷. تکیه بر موضوع آشنا به‌جای اطلاعات فایل</h3>
+<p>اگر دربارهٔ خواب، زیست‌شناسی، روان‌شناسی یا فناوری اطلاعات قبلی داری، ممکن است هنگام گوش‌دادن پاسخ‌هایی را براساس دانش خودت حدس بزنی.</p>
+<p>اما حتی یک گزارهٔ علمی درست نیز ممکن است پاسخ سؤال TestDaF نباشد.</p>
+<p>سؤال دربارهٔ آن چیزی است که گوینده واقعاً بیان کرده است.</p>
+<p>پس میان Vorwissen (دانش قبلی) و Hörinformation (اطلاعات دریافت‌شده از صوت) تفاوت بگذار.</p>
+</section>
+
+<section class="pane">
+<h2 id="s9">۹. مشکلات خاصی که زبان‌آموز فارسی‌زبان ممکن است تجربه کند</h2>
+<p>این موارد الزاماً برای همهٔ فارسی‌زبانان صادق نیستند، اما به‌دلیل تفاوت‌های ساختاری فارسی و آلمانی ارزش تمرین دارند.</p>
+<h3>۹.۱. فعل در انتهای جمله</h3>
+<p>مثلاً:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Die Professorin erklärt, dass die Ergebnisse der Untersuchung aufgrund verschiedener methodischer Einschränkungen noch nicht als endgültig betrachtet werden können.</p></blockquote>
+<p class="tr">ترجمه: استاد توضیح می‌دهد که نتایج پژوهش به دلیل محدودیت‌های روش‌شناختی گوناگون هنوز نمی‌توانند قطعی تلقی شوند.</p>
+<p>در این جمله، فعل اصلی بند وابسته در انتها قرار دارد.</p>
+<p>اگر هنگام شنیدن پیش از رسیدن به werden können و نفی nicht نتیجه‌گیری کنی، ممکن است معنی را ناقص دریافت کنی.</p>
+<p>تمرین مفید: در جمله‌های طولانی، فعل اصلی، فعل کمکی و نفی را شناسایی کن.</p>
+<h3>۹.۲. تفاوت صداهای مشابه</h3>
+<p>در زبان آلمانی، تفاوت میان واکه‌های کوتاه و بلند یا برخی صامت‌ها می‌تواند معنی واژه را تغییر بدهد.</p>
+<p>برای مثال:</p>
+<div class="tbl"><table>
+<tr><th>واژه</th><th>معنی</th></tr>
+<tr><td>bieten</td><td>ارائه‌کردن</td></tr>
+<tr><td>bitten</td><td>درخواست‌کردن</td></tr>
+<tr><td>Staat</td><td>دولت</td></tr>
+<tr><td>Stadt</td><td>شهر</td></tr>
+<tr><td>fühlen</td><td>احساس‌کردن</td></tr>
+<tr><td>füllen</td><td>پُرکردن</td></tr>
+</table></div>
+<p>در یک فایل واقعی، بافت جمله معمولاً به تشخیص کمک می‌کند.</p>
+<p>اما تمرین دقیق شنیدن این تفاوت‌ها برای تکلیف هفتم نسخهٔ دیجیتال اهمیت ویژه‌ای دارد.</p>
+<h3>۹.۳. صورت‌های کوتاه‌شدهٔ زبان گفتاری</h3>
+<p>در مکالمهٔ طبیعی ممکن است چنین عبارت‌هایی بشنوی:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Ich hab's noch nicht gemacht.</p></blockquote>
+<p>شکل کامل‌تر:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Ich habe es noch nicht gemacht.</p></blockquote>
+<p class="tr">ترجمه: هنوز آن را انجام نداده‌ام.</p>
+<p>یا:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Wie wär's mit Donnerstag?</p></blockquote>
+<p>شکل کامل‌تر:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Wie wäre es mit Donnerstag?</p></blockquote>
+<p class="tr">ترجمه: پنجشنبه چطور است؟</p>
+<p>این ساختارها در گفت‌وگوی طبیعی رایج‌اند.</p>
+<p>برای فهم آن‌ها باید علاوه بر زبان رسمی نوشتاری، با تلفظ طبیعی و کاهش آوایی کلمات نیز آشنا باشی.</p>
+</section>
+
+<section class="pane">
+<h2 id="s10">۱۰. برنامهٔ تمرین هدفمند Hörverstehen</h2>
+<p>تمرین شنیدن باید به‌تدریج از فهم کلی به پاسخ‌گویی دقیق در شرایط آزمون برسد.</p>
+<h3>۱۰.۱. مرحلهٔ اول: Hören ohne Transkript</h3>
+<p>یعنی شنیدن بدون متن پیاده‌سازی‌شده.</p>
+<p>یک فایل آلمانی مناسب سطح B2 تا C1 انتخاب کن.</p>
+<p>بار اول بدون دیدن متن گوش بده و فقط موضوع اصلی را مشخص کن.</p>
+<p>بعد سعی کن به سه پرسش پاسخ بدهی:</p>
+<ul>
+<li>موضوع چه بود؟</li>
+<li>گوینده چه ادعایی داشت؟</li>
+<li>چه دو یا سه نکتهٔ مهمی مطرح شد؟</li>
+</ul>
+<p>هدف این مرحله، تقویت توانایی فهم بدون وابستگی به متن نوشتاری است.</p>
+<h3>۱۰.۲. مرحلهٔ دوم: Hören mit Aufgaben</h3>
+<p>یعنی گوش‌دادن همراه با سؤال.</p>
+<p>در این مرحله از فایل‌های نمونهٔ رسمی TestDaF استفاده کن.</p>
+<p>قبل از پخش سؤال‌ها را مطالعه کن و مطابق دستور همان نمونه‌آزمون پاسخ بده.</p>
+<p>پس از پایان، پاسخ‌ها را با پاسخ‌نامهٔ رسمی مقایسه کن.</p>
+<p>در این مرحله نباید هنگام گوش‌دادن از متن پیاده‌شده کمک بگیری.</p>
+<h3>۱۰.۳. مرحلهٔ سوم: Transkriptanalyse</h3>
+<p>Transkript یعنی متن پیاده‌شدهٔ فایل صوتی.</p>
+<p>بعد از انجام آزمون و تصحیح پاسخ‌ها، فایل را دوباره همراه با متن بررسی کن.</p>
+<p>هر جایی که پاسخ را اشتباه داده‌ای، مشخص کن:</p>
+<ul>
+<li>آیا واژهٔ کلیدی را نشنیده‌ای؟</li>
+<li>آیا واژه را شنیده‌ای اما معنایش را نمی‌دانستی؟</li>
+<li>آیا ساختار جمله را اشتباه فهمیده‌ای؟</li>
+<li>آیا گوینده اطلاعات اولیه را بعداً اصلاح کرده؟</li>
+<li>آیا بیش از حد مشغول نوشتن بوده‌ای؟</li>
+<li>آیا پرسش را درست نفهمیده‌ای؟</li>
+</ul>
+<p>این مرحله تفاوت میان «ضعف شنیدن» و «ضعف درک معنای زبان» را آشکار می‌کند.</p>
+<h3>۱۰.۴. مرحلهٔ چهارم: Wiederholtes Hören</h3>
+<p>Wiederholtes Hören یعنی شنیدن تکراری.</p>
+<p>این روش برای مرحلهٔ یادگیری مفید است، اما نباید جای آزمون زمان‌دار را بگیرد.</p>
+<p>بعد از تصحیح، یک بخش دشوار ۲۰ تا ۴۰ ثانیه‌ای را جدا کن.</p>
+<p>چند بار به آن گوش بده تا بتوانی ساختار جملات را تشخیص بدهی.</p>
+<p>سپس بدون نگاه‌کردن به متن، محتوایش را به آلمانی خلاصه کن.</p>
+<p>اگر در این مرحله مجبور هستی چندین بار گوش بدهی، اشکالی ندارد؛ اما در آزمون آزمایشی نهایی باید تعداد دفعات پخش را مطابق قالب رسمی محدود کنی.</p>
+<h3>۱۰.۵. روش Shadowing</h3>
+<p>Shadowing (تکرار تقریباً هم‌زمان گفتار پس از گوینده) یک تمرین تکمیلی برای تشخیص صداها و افزایش سرعت پردازش گفتار است.</p>
+<p>روش پیشنهادی:</p>
+<ol>
+<li>یک بخش کوتاه ۲۰ تا ۳۰ ثانیه‌ای انتخاب کن.</li>
+<li>یک‌بار فقط گوش بده.</li>
+<li>با متن پیاده‌شده، تلفظ و ساختار جمله را بررسی کن.</li>
+<li>فایل را پخش کن و با فاصلهٔ کوتاهی پس از گوینده تکرار کن.</li>
+<li>دوباره بدون متن گوش بده و میزان درکت را مقایسه کن.</li>
+</ol>
+<p>این روش جایگزین حل سؤال‌های TestDaF نیست؛ مکمل آن است.</p>
+</section>
+
+<section class="pane">
+<h2 id="s11">۱۱. یک روتین روزانهٔ ۶۰ دقیقه‌ای</h2>
+<p>برای سطح B2، یک جلسهٔ منظم می‌تواند به شکل زیر باشد:</p>
+<div class="tbl"><table>
+<tr><th>مدت</th><th>فعالیت</th></tr>
+<tr><td>۱۰ دقیقه</td><td>شنیدن بدون متن و تشخیص موضوع اصلی</td></tr>
+<tr><td>۱۵ دقیقه</td><td>حل سؤال‌های شنیداری در شرایط زمان‌دار</td></tr>
+<tr><td>۱۵ دقیقه</td><td>بررسی پاسخ‌ها و تحلیل متن پیاده‌شده</td></tr>
+<tr><td>۱۰ دقیقه</td><td>بازشنیدن بخش‌های دشوار</td></tr>
+<tr><td>۵ دقیقه</td><td>یادداشت واژگان و ترکیب‌های کاربردی</td></tr>
+<tr><td>۵ دقیقه</td><td>خلاصهٔ شفاهی فایل به آلمانی</td></tr>
+</table></div>
+<p>این برنامه یک پیشنهاد آموزشی است، نه زمان‌بندی رسمی آمادگی آزمون.</p>
+<h3>چطور کیفیت پیشرفت را بسنجی؟</h3>
+<p>فقط تعداد پاسخ‌های درست را ثبت نکن.</p>
+<p>چهار شاخص جداگانه داشته باش:</p>
+<div class="tbl"><table>
+<tr><th>شاخص</th><th>پرسش خودارزیابی</th></tr>
+<tr><td>فهم کلی</td><td>آیا بدون متن، موضوع و نتیجه را فهمیدم؟</td></tr>
+<tr><td>فهم جزئیات</td><td>آیا به اطلاعات خواسته‌شده پاسخ درست دادم؟</td></tr>
+<tr><td>سرعت پردازش</td><td>آیا هنگام شنیدن از جریان فایل عقب افتادم؟</td></tr>
+<tr><td>یادداشت‌برداری</td><td>آیا یادداشت‌ها به پاسخ کمک کردند یا باعث ازدست‌دادن اطلاعات شدند؟</td></tr>
+</table></div>
+<p>همچنین بهتر است هر چند جلسه یک آزمون کامل Hörverstehen انجام بدهی.</p>
+<p>برای نسخهٔ کاغذی از سه فایل و ۲۵ سؤال در ۴۰ دقیقه استفاده کن.</p>
+<p>برای نسخهٔ دیجیتال، هفت نوع تکلیف و محدودیت‌های نرم‌افزاری مربوط را در نظر بگیر.</p>
+</section>
+
+<section class="pane">
+<h2 id="s12">۱۲. خودارزیابی: آمادگی برای TDN 4 در شنیدن</h2>
+<p>TestDaF تعداد پاسخ‌های صحیح لازم برای TDN 4 را در تمام نوبت‌ها یکسان اعلام نمی‌کند.</p>
+<p>در نسخهٔ کاغذی، هر پاسخ درست یک امتیاز خام دارد؛ در نسخهٔ دیجیتال، عملکرد به امتیاز مقیاس‌بندی‌شده و سپس سطح TDN تبدیل می‌شود.</p>
+<p>بنابراین نمی‌توان گفت «اگر همیشه ۱۸ سؤال از ۲۵ سؤال را درست حل کنی، قطعاً TDN 4 می‌گیری».</p>
+<p>اما چند توانایی را می‌توان به‌عنوان شاخص آمادگی بررسی کرد.</p>
+<p>یک داوطلب نزدیک به استاندارد TDN 4 باید بتواند:</p>
+<ul>
+<li>مکالمه‌های معمول دانشگاهی را بدون نیاز به ترجمهٔ ذهنی همهٔ جمله‌ها دنبال کند.</li>
+<li>اطلاعات مشخص را از فایل‌های یک‌بارپخش استخراج کند.</li>
+<li>ادعاهای گویندگان مختلف را از هم جدا کند.</li>
+<li>تفاوت میان احتمال، توصیه، ضرورت و واقعیت را تشخیص بدهد.</li>
+<li>نکات اصلی یک سخنرانی دانشگاهی را دنبال کند.</li>
+<li>در پاسخ‌های کوتاه، اطلاعات ضروری را دقیق و بدون افزودن حدس بنویسد.</li>
+<li>در شرایط زمان‌دار، عملکرد نسبتاً پایداری در چند نمونه‌آزمون رسمی داشته باشد.</li>
+</ul>
+<p>اگر بخش بزرگی از پاسخ‌هایت را فقط بعد از دیدن Transkript می‌توانی درست حل کنی، احتمالاً مشکل اصلی هنوز پردازش بلادرنگ گفتار است.</p>
+<p>اگر گفتار را به‌خوبی می‌فهمی ولی پاسخ‌ها غلط می‌شوند، باید بیشتر روی تطبیق سؤال، تشخیص بازنویسی معنایی و دقت در ثبت جواب تمرین کنی.</p>
+</section>
+
+<section class="pane">
+<h2 id="s13">۱۳. منابع رسمی Hörverstehen و Hören</h2>
+<p>برای تمرین واقعی، منابع رسمی TestDaF مهم‌تر از فایل‌های شنیداری عمومی هستند؛ زیرا علاوه بر زبان، ساختار و محدودیت‌های آزمون را نیز بازسازی می‌کنند.</p>
+<p>Modelltest 1 و Modelltest 2 — نسخهٔ کاغذی</p>
+<p>فایل صوتی اصلی، دفترچهٔ سؤال، متن پیاده‌شده و پاسخ‌نامهٔ رسمی برای سه مجموعهٔ Hörverstehen.</p>
+<ul>
+<li><a href="https://www.testdaf.de/de/teilnehmende/der-papierbasierte-testdaf/vorbereitung-auf-den-papierbasierten-testdaf/modelltests/">نمونه‌آزمون‌های رسمی</a></li>
+</ul>
+<p>Hinweise und Tipps zu Modelltest 01</p>
+<p>راهنمای تحلیلی رسمی برای سؤال‌های هر سه فایل، روش استخراج پاسخ و معیار پاسخ‌های کوتاه.</p>
+<ul>
+<li><a href="https://www.testdaf.de/fileadmin/testdaf/downloads/Modelltests_papierbasierter_TestDaF/HinweiseTipps/Hinweise-und-Tipps_zu-Modelltest-01.pdf">راهنمای رسمی PDF</a></li>
+</ul>
+<p>Vorbereitung auf den digitalen TestDaF</p>
+<p>توضیح هفت نوع تکلیف دیجیتال، آموزش‌های اجرایی و مواد تمرینی رسمی.</p>
+<ul>
+<li><a href="https://www.testdaf.de/de/teilnehmende/der-digitale-testdaf/vorbereitung-auf-den-digitalen-testdaf/">آمادگی آزمون دیجیتال</a></li>
+</ul>
+<p>Beispielaufgaben — Digitaler TestDaF, Hören</p>
+<p>نمونهٔ رسمی هفت نوع سؤال با پاسخ‌ها و متن‌های پیاده‌شده. فایل‌های صوتی و ویدئویی از صفحهٔ رسمی آمادگی قابل دسترسی‌اند.</p>
+<ul>
+<li><a href="https://www.testdaf.de/fileadmin/testdaf/downloads/Demo_Version_digitaler_TestDaF/Beispielaufgaben_Demo-Version_digitaler_TestDaF_Hoeren.pdf">نمونه‌سؤال‌های رسمی PDF</a></li>
+</ul>
+</section>
+
+<section class="pane">
+<h2>جمع‌بندی پارت چهارم</h2>
+<p>در نسخهٔ کاغذی TestDaF، Hörverstehen از سه فایل تشکیل می‌شود: مکالمهٔ دانشجویی با هشت پاسخ کوتاه، مصاحبه با ده سؤال درست/نادرست، و سخنرانی یا مصاحبهٔ علمی با هفت پاسخ کوتاه.</p>
+<p>دو فایل اول یک‌بار و فایل سوم دوبار پخش می‌شوند. مدت کل بخش ۴۰ دقیقه است که ۱۰ دقیقهٔ پایانی آن به انتقال پاسخ‌ها اختصاص دارد.</p>
+<p>در نسخهٔ دیجیتال، هفت نوع تکلیف با ۳۰ سؤال اصلی وجود دارد. فایل‌ها یک‌بار پخش می‌شوند و علاوه بر درک گفتار، توانایی‌هایی مانند تطبیق شنیده با متن، دسته‌بندی دیدگاه‌ها، تکمیل جدول و شناسایی خطا در خلاصه ارزیابی می‌شوند.</p>
+<p>برای موفقیت در هر دو نسخه، چهار مهارت بیشترین اهمیت را دارند: فهم زبان گفتاری با سرعت طبیعی، تشخیص تغییرات معنایی ظریف، یادداشت‌برداری انتخابی و استخراج پاسخ دقیق مطابق سؤال.</p>
+<p>در پارت پنجم به Schriftlicher Ausdruck می‌پردازیم: ساختار نوشتن در نسخهٔ کاغذی و دیجیتال، توصیف نمودار، مقالهٔ استدلالی، عبارات کاربردی آلمانی، تقسیم زمان، معیارهای رسمی تصحیح و نمونهٔ پاسخ‌های آموزشی.</p>
+</section>
+
+<section class="pane note">
+<p><a href="testdaf.html">پارت‌های دیگر ←</a></p>
+</section>
+</main>
+</body>
+</html>
