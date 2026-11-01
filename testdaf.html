@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#111111">
+<meta name="description" content="راهنمای جامع آزمون TestDaF — پارت ۱: کلیات، سطوح زبان، اعتبار مدرک، پذیرش دانشگاهی و مقایسه با آزمون‌های دیگر">
+<script>try{var _t=(JSON.parse(localStorage.getItem('poof_v2')||'{}').theme==='snowy')?'snowy':'classic';document.write('<link rel="stylesheet" id="themeCss" href="theme-'+_t+'.css?v=16">')}catch(e){document.write('<link rel="stylesheet" id="themeCss" href="theme-classic.css?v=16">')}</script>
+<script src="poof-core.js"></script><script>try{var _pv={};try{_pv=JSON.parse(localStorage.getItem('poof_v2')||'{}')||{};}catch(e){}var _th=(_pv.theme==='snowy'||_pv.theme==='classic'||_pv.theme==='lilac'||_pv.theme==='peachy'||_pv.theme==='minty'||_pv.theme==='ocean'||_pv.theme==='sun'||_pv.theme==='nebula')?_pv.theme:null;if(!_th){var _old=null;try{_old=localStorage.getItem('ddd_theme');}catch(e){}_th=(_old==='light')?'snowy':(_old==='dark')?'classic':'classic';}document.documentElement.dataset.theme=_th;var _m=document.querySelector('meta[name="theme-color"]');if(_m)_m.content=_th==='snowy'?'#081421':_th==='lilac'?'#EEF2FF':_th==='peachy'?'#FFF7ED':_th==='minty'?'#F0FDF4':'#111111';}catch(e){}</script><title>TestDaF | راهنمای جامع آزمون</title>
+<style>
+:root{color-scheme:dark;--bg:#111111;--card:#1b1814;--glass:rgba(27,24,20,.72);--ink:#f5f1e8;--muted:#b8b0a4;--border:#4a4032;--primary:#e6b96f;--primary-on:#1b1814;--soft:rgba(255,255,255,.06)}
+html[data-theme="lilac"]{color-scheme:light;--bg:#EEF2FF;--card:#FFFFFF;--glass:rgba(255,255,255,.75);--ink:#1E1B4B;--muted:#55547E;--border:#C7D2FE;--primary:#4F46E5;--primary-on:#FFFFFF;--soft:rgba(79,70,229,.06)}
+html[data-theme="peachy"]{color-scheme:light;--bg:#FFF7ED;--card:#FFFFFF;--glass:rgba(255,255,255,.75);--ink:#1C1917;--muted:#57534E;--border:#FED7AA;--primary:#F97316;--primary-on:#1C1917;--soft:rgba(249,115,22,.06)}
+html[data-theme="minty"]{color-scheme:light;--bg:#F0FDF4;--card:#FFFFFF;--glass:rgba(255,255,255,.75);--ink:#052E16;--muted:#365314;--border:#BBF7D0;--primary:#166534;--primary-on:#FFFFFF;--soft:rgba(22,101,52,.06)}
+html[data-theme="ocean"]{color-scheme:dark;--bg:#0B1E3A;--card:#12294D;--glass:rgba(18,41,77,.72);--ink:#E8F1FF;--muted:#A8BDD8;--border:#2A4A73;--primary:#38BDF8;--primary-on:#0B1E3A;--soft:rgba(56,189,248,.08)}
+html[data-theme="sun"]{color-scheme:light;--bg:#FFF7E0;--card:#FFFFFF;--glass:rgba(255,255,255,.75);--ink:#3B2A00;--muted:#6B5A2E;--border:#F5D67B;--primary:#B45309;--primary-on:#FFFFFF;--soft:rgba(180,83,9,.06)}
+html[data-theme="nebula"]{color-scheme:dark;--bg:#1A0B2E;--card:#2A1650;--glass:rgba(42,22,80,.72);--ink:#F3EFFF;--muted:#C9B8E8;--border:#4C2E85;--primary:#F5C97B;--primary-on:#1A0B2E;--soft:rgba(245,201,123,.08)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100svh;background:var(--bg);color:var(--ink);font:16px/1.9 system-ui,-apple-system,"Segoe UI",Tahoma,Vazirmatn,sans-serif;padding:env(safe-area-inset-top) 12px calc(48px + env(safe-area-inset-bottom))}
+#tdScenic{position:fixed;inset:0;z-index:0;pointer-events:none}
+body>*{position:relative;z-index:1}
+main{max-width:760px;margin:0 auto}
+a{color:var(--primary)}
+header{position:relative;overflow:hidden;border:1px solid var(--border);border-radius:20px;background:var(--glass);backdrop-filter:blur(10px) saturate(1.25);-webkit-backdrop-filter:blur(10px) saturate(1.25);padding:18px 16px 16px;margin-bottom:15px;text-align:center}
+header::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.18),rgba(0,0,0,.55));z-index:0;pointer-events:none}
+.td-head{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:2px}
+.poof-mascot{width:56px;height:56px;flex:none;background-size:cover;background-repeat:no-repeat;background-position:center}
+header h1{margin:8px 0 2px;font-size:1.6rem}
+header p{margin:0;color:var(--muted)}
+section.pane{background:var(--glass);backdrop-filter:blur(10px) saturate(1.25);-webkit-backdrop-filter:blur(10px) saturate(1.25);border:1px solid var(--border);border-radius:20px;padding:18px 16px;margin-bottom:15px}
+h2{font-size:1.3rem;margin:0 0 10px;padding-bottom:8px;border-bottom:2px solid var(--primary)}
+h3{font-size:1.1rem;margin:22px 0 8px;color:var(--primary)}
+p{margin:10px 0}
+ul,ol{margin:8px 0;padding-inline-start:22px}
+li{margin:4px 0}
+.de{direction:ltr;unicode-bidi:embed;font-family:Georgia,"Times New Roman",serif}
+blockquote.ex{margin:14px 0;padding:12px 14px;border-inline-start:3px solid var(--primary);background:var(--soft);border-radius:12px;font-family:Georgia,"Times New Roman",serif}
+blockquote.ex p{margin:0}
+p.tr{color:var(--muted);font-size:.95rem}
+.tbl{overflow-x:auto;margin:12px 0}
+table{border-collapse:collapse;width:100%;min-width:520px}
+th,td{border:1px solid var(--border);padding:8px 10px;text-align:start;vertical-align:top}
+th{background:var(--soft);font-weight:700}
+.small{color:var(--muted);font-size:.9rem}
+.note{border:1px dashed var(--border);border-radius:14px;padding:12px 14px;background:var(--soft)}
+@media(min-width:540px){body{padding-inline:22px}section.pane{padding:22px 20px}}
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800;900&family=DM+Sans:wght@400;500;700&family=Vazirmatn:wght@400;500;700;800&display=swap" rel="stylesheet"></head>
+<body>
+<div class="poof-img-card-bg-snowy" id="tdScenic" aria-hidden="true"></div>
+<div style="padding:14px 16px 0"><a href="./" style="color:var(--primary);text-decoration:none;font-size:14px">← بازگشت به POOF</a></div>
+<main>
+<header><div class="poof-img-header-bg" style="position:absolute;inset:0;z-index:0" aria-hidden="true"></div><div class="td-head"><div class="poof-mascot poof-img-snowy-wave" style="width:56px;height:56px" aria-hidden="true"></div><h1>TestDaF</h1><p>راهنمای مطالعه آزمون — پارت ۱ از ۱۱: کلیات، سطوح زبان، اعتبار مدرک، پذیرش دانشگاهی و مقایسه با آزمون‌های دیگر</p></div></header>
+<section class="pane">
+<p>این راهنما بر اساس اطلاعات رسمی منتشرشده در وب‌سایت TestDaF، مقررات پذیرش زبان دانشگاهی آلمان و اطلاعات نهادهای برگزارکنندهٔ آزمون‌ها تنظیم شده است.</p>
+<p>مخاطب این راهنما زبان‌آموزی با مدرک <span class="de" lang="de">telc Deutsch B2</span> است که می‌خواهد برای تحصیل در دانشگاه‌های آلمان، مدرک زبان معتبر و قابل‌قبولی دریافت کند.</p>
+</section>
+
+<section class="pane">
+<h2>۱. آزمون TestDaF دقیقاً چیست؟</h2>
+<p>TestDaF مخفف عبارت آلمانی <span class="de" lang="de">Test Deutsch als Fremdsprache</span>، به معنای «آزمون آلمانی به‌عنوان زبان خارجی» است.</p>
+<p>این آزمون یک <span class="de" lang="de">standardisierte Sprachprüfung</span> (آزمون زبان استانداردشده) است که توانایی استفاده از زبان آلمانی در محیط دانشگاهی را ارزیابی می‌کند.</p>
+<p>هدف اصلی TestDaF این نیست که صرفاً مشخص کند داوطلب چند واژه آلمانی بلد است یا چند قانون دستوری را حفظ کرده است. هدف این است که بررسی کند آیا فرد می‌تواند وظایف زبانی لازم برای تحصیل در یک دانشگاه آلمانی‌زبان را انجام دهد یا نه.</p>
+<p>مثلاً:</p>
+<ul>
+<li>خواندن و فهمیدن یک متن علمی یا دانشگاهی</li>
+<li>دنبال کردن توضیحات استاد در یک سخنرانی</li>
+<li>فهمیدن استدلال‌های دیگران در یک بحث</li>
+<li>نوشتن متن منسجم و استدلالی</li>
+<li>خلاصه‌کردن اطلاعات و مقایسهٔ منابع</li>
+<li>بیان دیدگاه شخصی به زبان دقیق و مناسب دانشگاه</li>
+</ul>
+<p>در زبان آلمانی به این توانایی، <span class="de" lang="de">sprachliche Studierfähigkeit</span> (توانایی زبانی لازم برای تحصیل دانشگاهی) گفته می‌شود.</p>
+<h3>یک مثال برای درک تفاوت زبان عمومی و دانشگاهی</h3>
+<p>در سطح B2 ممکن است بتوانی چنین جمله‌ای را به‌خوبی بفهمی:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Viele Studierende arbeiten neben dem Studium, weil sie Geld brauchen.</p></blockquote>
+<p class="tr">ترجمه: بسیاری از دانشجویان در کنار تحصیل کار می‌کنند، چون به پول نیاز دارند.</p>
+<p>اما در یک موقعیت دانشگاهی ممکن است با جمله‌ای شبیه این روبه‌رو شوی:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Die zunehmende Erwerbstätigkeit unter Studierenden wirft die Frage auf, inwiefern finanzielle Belastungen den Studienerfolg beeinflussen.</p></blockquote>
+<p class="tr">ترجمه: افزایش اشتغال در میان دانشجویان این پرسش را مطرح می‌کند که فشارهای مالی تا چه اندازه بر موفقیت تحصیلی تأثیر می‌گذارند.</p>
+<p>جملهٔ دوم پیچیده‌تر است، اما فقط از نظر واژگان و دستور زبان تفاوت ندارد. از تو انتظار می‌رود رابطهٔ مفهومی میان اشتغال، فشار اقتصادی و موفقیت تحصیلی را تشخیص بدهی و احتمالاً بتوانی دربارهٔ آن استدلال کنی.</p>
+<p>TestDaF دقیقاً چنین مهارت‌هایی را ارزیابی می‌کند.</p>
+<h3>آیا TestDaF یک آزمون تخصصی علمی است؟</h3>
+<p>خیر.</p>
+<p>اگرچه متن‌ها و موضوعات آن به زندگی دانشگاهی، پژوهش و مسائل اجتماعی مربوط‌اند، برای شرکت در آزمون به دانش تخصصی پزشکی، مهندسی، زیست‌شناسی یا رشته‌های دیگر نیاز نداری.</p>
+<p>ممکن است دربارهٔ انرژی‌های تجدیدپذیر، یادگیری دیجیتال، رفتار انسان، محیط‌زیست یا پژوهش‌های علمی سؤال مطرح شود؛ اما اطلاعات موردنیاز برای پاسخ‌گویی باید از متن، صوت یا داده‌های ارائه‌شده قابل استخراج باشد.</p>
+<p>بنابراین میان دو مفهوم باید تمایز قائل شویم:</p>
+<p><span class="de" lang="de">Fachwissen</span> یعنی دانش تخصصی یک رشته.</p>
+<p><span class="de" lang="de">Wissenschaftssprache</span> یعنی زبان علمی و دانشگاهی، شامل شیوهٔ توضیح، مقایسه، استدلال، توصیف داده‌ها و ارائهٔ نتیجه.</p>
+<p>TestDaF بیشتر بر دومی تمرکز دارد.</p>
+</section>
+
+<section class="pane">
+<h2>۲. برگزارکنندهٔ TestDaF چه نهادی است؟</h2>
+<p>TestDaF توسط ساختار تخصصی و رسمی مرتبط با آموزش عالی آلمان تهیه و برگزار می‌شود.</p>
+<p>سه نام را باید از یکدیگر تفکیک کنیم.</p>
+<h3>الف) TestDaF-Institut</h3>
+<p>این مؤسسه مسئول اصلی طراحی علمی آزمون، توسعهٔ سؤالات، ارزیابی و کنترل کیفیت آزمون است.</p>
+<p>وظایف اصلی آن عبارت‌اند از:</p>
+<ul>
+<li>طراحی و آزمودن سؤالات</li>
+<li>تعیین شیوه‌های ارزیابی</li>
+<li>بررسی اعتبار و قابلیت مقایسهٔ نتایج</li>
+<li>آموزش ارزیابان</li>
+<li>تحلیل آماری عملکرد آزمون‌ها</li>
+<li>توسعهٔ نسخه‌های آزمون</li>
+</ul>
+<h3>ب) g.a.s.t.</h3>
+<p>نام کامل این مجموعه:</p>
+<p><span class="de" lang="de">Gesellschaft für Akademische Studienvorbereitung und Testentwicklung e. V.</span></p>
+<p>ترجمه: انجمن آمادگی تحصیلی دانشگاهی و توسعهٔ آزمون‌ها.</p>
+<p>این مجموعه ساختار سازمانی اصلی TestDaF را پشتیبانی می‌کند و فعالیت‌هایی مانند مدیریت آزمون، سامانهٔ داوطلبان و شبکهٔ مراکز برگزاری را بر عهده دارد.</p>
+<h3>ج) Goethe-Institut</h3>
+<p>مؤسسهٔ گوته یکی از نهادهای همکار در ارائهٔ TestDaF است.</p>
+<p>البته باید میان <span class="de" lang="de">Goethe-Zertifikat</span> و TestDaF تفاوت گذاشت. این دو، آزمون‌های مستقل با ساختار و کارکرد متفاوت هستند؛ همکاری مؤسسهٔ گوته در TestDaF به این معنا نیست که گواهی TestDaF همان مدرک Goethe است.</p>
+<p>بر اساس توضیح رسمی TestDaF، این آزمون به‌طور مشترک از سوی <span class="de" lang="de">g.a.s.t.</span> و <span class="de" lang="de">Goethe-Institut</span> ارائه می‌شود و مسئولیت طراحی و ارزیابی علمی آن با <span class="de" lang="de">TestDaF-Institut</span> است.</p>
+<h3>چرا این ساختار نهادی مهم است؟</h3>
+<p>چون نتایج TestDaF صرفاً به نظر یک معلم یا مرکز آموزشی محلی وابسته نیست.</p>
+<p>آزمون از نظر طراحی و تصحیح، ساختار متمرکز دارد. بنابراین نتیجهٔ آن برای دانشگاه‌های مختلف قابل مقایسه است.</p>
+<p>به بیان دیگر، هدف این است که سطح TDN 4 در یک مرکز آزمون، همان توانایی زبانی را نشان دهد که سطح TDN 4 در مرکز دیگری نشان می‌دهد.</p>
+<p>این ویژگی را <span class="de" lang="de">Vergleichbarkeit der Prüfungsergebnisse</span> (قابلیت مقایسهٔ نتایج آزمون) می‌نامند.</p>
+</section>
+<section class="pane">
+<h2>۳. سطوح TDN 3، TDN 4 و TDN 5 چه معنایی دارند؟</h2>
+<p>در TestDaF از نظام نمره‌دهی مخصوصی به نام <span class="de" lang="de">TestDaF-Niveaustufen (TDN)</span> استفاده می‌شود.</p>
+<p><span class="de" lang="de">Niveaustufe</span> به معنای «سطح مهارت» است.</p>
+<p>این آزمون سه سطح اصلی دارد:</p>
+<h3>TDN 3</h3>
+<p>سطح ورودی</p>
+<h3>TDN 4</h3>
+<p>معیار معمول دانشگاه</p>
+<h3>TDN 5</h3>
+<p>توانایی پیشرفته‌تر</p>
+<p>در آزمون، نتیجهٔ «<span class="de" lang="de">unter TDN 3</span>» نیز ممکن است ثبت شود؛ یعنی عملکرد داوطلب به حداقل سطح گزارش‌شدهٔ TestDaF نرسیده است.</p>
+<h3>۳.۱. ارتباط TDN با CEFR</h3>
+<p>CEFR مخفف <span class="de" lang="de">Common European Framework of Reference for Languages</span> است.</p>
+<p>معادل آلمانی آن <span class="de" lang="de">Gemeinsamer Europäischer Referenzrahmen für Sprachen (GER)</span>، به معنای «چارچوب مشترک اروپایی مرجع برای زبان‌ها» است.</p>
+<p>در نظام CEFR، توانایی زبان از A1 تا C2 طبقه‌بندی می‌شود.</p>
+<p>اما TestDaF تمام این طیف را نمی‌سنجد. محدودهٔ مهارتی آزمون از B2 تا C1 است.</p>
+<p>نکتهٔ مهم این است که ارتباط سطوح TDN با CEFR یک تبدیل ریاضی دقیق و یک‌به‌یک نیست. بنابراین نباید تصور کرد که هر TDN دقیقاً با یک سطح مستقل CEFR یا یک گواهی خاص برابر است.</p>
+<p>جدول زیر، توصیفی و تقریبی است:</p>
+<div class="tbl"><table>
+<tr><th>سطح TestDaF</th><th>ارتباط با CEFR</th><th>معنای آموزشی</th></tr>
+<tr><td>TDN 3</td><td>در محدودهٔ B2</td><td>توانایی انجام بسیاری از وظایف زبانی دانشگاهی، اما با محدودیت در مطالب پیچیده</td></tr>
+<tr><td>TDN 4</td><td>ناحیهٔ پیشرفتهٔ B2 تا C1</td><td>توانایی کافی برای انجام وظایف اصلی دانشگاهی مطابق استاندارد پذیرش</td></tr>
+<tr><td>TDN 5</td><td>در محدودهٔ C1</td><td>توانایی پیشرفته‌تر برای فهم و تولید محتوای پیچیدهٔ دانشگاهی</td></tr>
+</table></div>
+<p class="small">این جدول نباید به‌عنوان معادل‌سازی رسمی مدارک استفاده شود؛ ملاک قانونی پذیرش دانشگاهی، خود سطح TDN است.</p>
+<p class="small">منبع: توضیحات رسمی TestDaF دربارهٔ انطباق با GER و توصیف مهارت‌ها.</p>
+<h3>۳.۲. سطح TDN 3؛ توانایی قابل‌قبول، اما محدود در دانشگاه</h3>
+<p>در سطح TDN 3، فرد می‌تواند بسیاری از موقعیت‌های معمول دانشگاه را مدیریت کند.</p>
+<p>برای نمونه:</p>
+<ul>
+<li>اطلاعیه‌های دانشگاه را بخواند.</li>
+<li>دستورالعمل‌های معمول ثبت‌نام را بفهمد.</li>
+<li>بخش‌های اصلی بعضی متن‌های علمی را درک کند.</li>
+<li>در موقعیت‌های آشنا نظر خود را بیان کند.</li>
+<li>متن‌های نسبتاً ساده و قابل‌فهم بنویسد.</li>
+</ul>
+<p>اما در برخورد با مطالب طولانی، استدلال‌های پیچیده یا زبان انتزاعی ممکن است مشکل داشته باشد.</p>
+<p>مثال آلمانی:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Die Universität plant, die Öffnungszeiten der Bibliothek zu verlängern. Viele Studierende begrüßen diesen Vorschlag.</p></blockquote>
+<p class="tr">ترجمه: دانشگاه قصد دارد ساعات فعالیت کتابخانه را افزایش دهد. بسیاری از دانشجویان از این پیشنهاد استقبال می‌کنند.</p>
+<p>داوطلب TDN 3 باید بتواند اطلاعات اصلی این جمله را بدون مشکل بفهمد.</p>
+<p>اما در متن‌های پیچیده‌تر که دیدگاه‌های متعدد، استدلال‌های ضمنی و روابط علت و معلولی دارند، ممکن است تنها بخش‌هایی از اطلاعات را درست استخراج کند.</p>
+<p>از نظر دانشگاهی، TDN 3 می‌تواند برای برخی رشته‌ها یا شرایط پذیرش کافی باشد؛ اما به‌تنهایی استاندارد عمومی پذیرش بدون محدودیت نیست.</p>
+<h3>۳.۳. سطح TDN 4؛ نقطهٔ اصلی آزمون</h3>
+<p>TDN 4 مهم‌ترین هدف عملی بسیاری از داوطلبان TestDaF است.</p>
+<p>این سطح نشان می‌دهد داوطلب به درجه‌ای از مهارت زبانی رسیده است که می‌تواند وظایف اصلی زبان دانشگاهی را با کیفیت کافی انجام دهد.</p>
+<p>در سطح TDN 4 انتظار می‌رود فرد بتواند:</p>
+<ul>
+<li>متن‌های دانشگاهی را در کلیت و جزئیات مهم بفهمد.</li>
+<li>استدلال اصلی نویسنده را تشخیص دهد.</li>
+<li>نکات مهم یک سخنرانی را دنبال کند.</li>
+<li>توضیحی منسجم دربارهٔ یک موضوع بنویسد.</li>
+<li>اطلاعات نمودار را به متن تبدیل کند.</li>
+<li>در موضوعات مرتبط با دانشگاه نظر خود را به‌طور روشن بیان کند.</li>
+<li>از ساختارهای گرامری متنوع و واژگان مناسب استفاده کند.</li>
+</ul>
+<p>مثال آلمانی:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Obwohl digitale Lehrveranstaltungen den Studierenden mehr Flexibilität ermöglichen, stellt sich die Frage, ob der persönliche Austausch zwischen Lehrenden und Lernenden dadurch eingeschränkt wird.</p></blockquote>
+<p class="tr">ترجمه: اگرچه کلاس‌های دیجیتال انعطاف‌پذیری بیشتری برای دانشجویان فراهم می‌کنند، این پرسش مطرح می‌شود که آیا از این طریق ارتباط شخصی میان استادان و دانشجویان محدود می‌شود یا نه.</p>
+<p>یک داوطلب TDN 4 باید بتواند رابطهٔ میان دو بخش این جمله را بفهمد:</p>
+<p>از یک سو، آموزش دیجیتال انعطاف‌پذیری بیشتری فراهم می‌کند؛ از سوی دیگر، ممکن است ارتباط مستقیم انسانی را کاهش دهد.</p>
+<p>در مرحلهٔ تولید زبان، از او انتظار می‌رود بتواند همین تضاد را به‌طور واضح توضیح دهد.</p>
+<h3>۳.۴. سطح TDN 5؛ تسلط بالاتر بر زبان دانشگاهی</h3>
+<p>TDN 5 بالاترین سطح گزارش‌شده در TestDaF است.</p>
+<p>این سطح نشان می‌دهد فرد می‌تواند مطالب پیچیده‌تر را با دقت و استقلال بیشتری پردازش کند.</p>
+<p>درک تفاوت میان TDN 4 و TDN 5 مهم است.</p>
+<p>TDN 5 صرفاً به معنای استفاده از واژگان دشوارتر یا جملات طولانی‌تر نیست.</p>
+<p>بلکه توانایی‌هایی مانند این‌ها اهمیت بیشتری پیدا می‌کنند:</p>
+<ul>
+<li>درک معانی ضمنی و غیرمستقیم</li>
+<li>تشخیص تفاوت‌های ظریف میان دیدگاه‌ها</li>
+<li>فهم ساختار استدلال‌های پیچیده</li>
+<li>بیان دقیق محدودیت‌ها و استثناها</li>
+<li>انتخاب واژگان متناسب با موقعیت</li>
+<li>تولید متن منسجم، دقیق و دارای تمایزهای مفهومی</li>
+</ul>
+<p>مثال آلمانی:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Die Ergebnisse legen zwar einen Zusammenhang zwischen der Nutzung digitaler Lernangebote und dem Studienerfolg nahe; daraus lässt sich jedoch nicht ohne Weiteres auf einen kausalen Einfluss schließen.</p></blockquote>
+<p class="tr">ترجمه: نتایج، وجود ارتباطی میان استفاده از امکانات یادگیری دیجیتال و موفقیت تحصیلی را محتمل نشان می‌دهند؛ بااین‌حال، از این موضوع نمی‌توان بدون بررسی بیشتر وجود تأثیر علّی را نتیجه گرفت.</p>
+<p>برای فهم دقیق این جمله باید میان دو مفهوم تفاوت گذاشت:</p>
+<p><span class="de" lang="de">Korrelation</span> (همبستگی) یعنی دو پدیده با یکدیگر ارتباط آماری دارند.</p>
+<p><span class="de" lang="de">Kausalität</span> (علیت) یعنی یک پدیده باعث ایجاد یا تغییر پدیدهٔ دیگری می‌شود.</p>
+<p>داوطلب سطح بالاتر باید بتواند این تمایز را تشخیص دهد و هنگام توضیح موضوع نیز آن را حفظ کند.</p>
+<p class="small">این نمونه‌ها تألیفی و صرفاً برای روشن‌کردن تفاوت‌های آموزشی هستند؛ یک جمله به‌تنهایی نمی‌تواند سطح رسمی TDN را تعیین کند.</p>
+<h3>۳.۵. تفاوت عملی سه سطح در چهار مهارت</h3>
+<div class="tbl"><table>
+<tr><th>مهارت</th><th>TDN 3</th><th>TDN 4</th><th>TDN 5</th></tr>
+<tr><td><span class="de" lang="de">Lesen</span> خواندن</td><td>فهم متون معمول دانشگاهی و بخش‌هایی از متون علمی</td><td>فهم کلیت و جزئیات متون دانشگاهی با ساختار نسبتاً روشن</td><td>فهم متون پیچیده و اطلاعات ضمنی</td></tr>
+<tr><td><span class="de" lang="de">Hören</span> شنیدن</td><td>فهم موقعیت‌های معمول و بخش‌هایی از مطالب علمی</td><td>فهم نکات اصلی و ارتباط میان مطالب</td><td>فهم دقیق مطالب پیچیده و ساختارهای استدلالی</td></tr>
+<tr><td><span class="de" lang="de">Schreiben</span> نوشتن</td><td>متن عمدتاً قابل‌فهم، با کاستی‌های ساختاری و زبانی</td><td>متن نسبتاً منسجم و مناسب، بدون خطاهای مختل‌کنندهٔ فهم</td><td>متن دقیق، منسجم و دارای بیان متنوع</td></tr>
+<tr><td><span class="de" lang="de">Sprechen</span> صحبت‌کردن</td><td>انتقال پیام در موقعیت‌های آشنا با محدودیت‌هایی در بیان</td><td>بیان قابل‌فهم، نسبتاً روان و متناسب با موقعیت</td><td>بیان روشن، دقیق و دارای تمایزهای معنایی</td></tr>
+</table></div>
+<p class="small">این خلاصه بر اساس <span class="de" lang="de">Kann-Beschreibungen</span>، یعنی «توصیف توانایی‌های قابل انجام»، در سایت رسمی TestDaF تنظیم شده است.</p>
+<h3>۳.۶. آیا داشتن telc B2 یعنی می‌توان TDN 3 گرفت؟</h3>
+<p>نه الزاماً.</p>
+<p>مدرک telc B2 نشان می‌دهد در زمان آزمون، معیارهای قبولی telc در سطح B2 را برآورده کرده‌ای.</p>
+<p>اما این نتیجه به شکل خودکار به TDN 3 یا TDN 4 تبدیل نمی‌شود.</p>
+<p>دلایل اصلی عبارت‌اند از:</p>
+<ol>
+<li>telc B2 آزمون مستقلی است و معیارهای ارزیابی خودش را دارد.</li>
+<li>TestDaF مهارت زبان را در موقعیت‌های دانشگاهی می‌سنجد.</li>
+<li>داوطلب ممکن است در زبان عمومی قوی باشد، اما با خلاصه‌نویسی علمی، توصیف داده یا پاسخ‌گویی تحت محدودیت زمانی مشکل داشته باشد.</li>
+<li>نتیجهٔ چهار مهارت می‌تواند متفاوت باشد. ممکن است فرد در Lesen به TDN 5 برسد، اما در Sprechen تنها TDN 3 دریافت کند.</li>
+</ol>
+<p>بنابراین مدرک B2 شرط کافی برای پیش‌بینی نتیجهٔ TestDaF نیست.</p>
+</section>
+<section class="pane">
+<h2>۴. چه کسانی به TestDaF نیاز دارند؟</h2>
+<h3>۴.۱. متقاضیان تحصیل در دانشگاه‌های آلمانی‌زبان</h3>
+<p>گروه اصلی داوطلبان، افرادی هستند که می‌خواهند در یک <span class="de" lang="de">deutschsprachiger Studiengang</span> (رشتهٔ تحصیلی آلمانی‌زبان) درس بخوانند.</p>
+<p>این شامل بسیاری از رشته‌های کارشناسی و کارشناسی‌ارشد می‌شود.</p>
+<p>در آلمان، دانشگاه‌ها عموماً از متقاضیانی که مدرک ورود به دانشگاه را در یک مؤسسهٔ آلمانی‌زبان دریافت نکرده‌اند، مدرک توانایی زبان آلمانی درخواست می‌کنند.</p>
+<p>اما TestDaF تنها راه اثبات این توانایی نیست.</p>
+<p>مدارکی مانند DSH، <span class="de" lang="de">telc Deutsch C1 Hochschule</span> و برخی گواهی‌های دیگر نیز ممکن است معتبر باشند.</p>
+<h3>۴.۲. دانشجویان رشته‌های انگلیسی‌زبان</h3>
+<p>اگر رشتهٔ دانشگاهی کاملاً انگلیسی‌زبان باشد، معمولاً مدرک زبان انگلیسی مبنای اصلی ارزیابی است.</p>
+<p>در چنین وضعیتی TestDaF لزوماً لازم نیست.</p>
+<p>بااین‌حال، بعضی دانشگاه‌ها ممکن است سطح مشخصی از زبان آلمانی را نیز درخواست کنند، یا گذراندن دورهٔ زبان آلمانی را در طول تحصیل الزامی بدانند.</p>
+<p>پس باید تفاوت این سه وضعیت را شناخت:</p>
+<div class="tbl"><table>
+<tr><th>وضعیت تحصیلی</th><th>نیاز به TestDaF</th></tr>
+<tr><td>رشتهٔ کاملاً آلمانی‌زبان</td><td>معمولاً به TestDaF یا مدرک معادل قابل‌قبول نیاز است</td></tr>
+<tr><td>رشتهٔ کاملاً انگلیسی‌زبان</td><td>معمولاً TestDaF الزامی نیست</td></tr>
+<tr><td>رشتهٔ دوزبانهٔ آلمانی–انگلیسی</td><td>به نسبت استفاده از دو زبان و مقررات رشته بستگی دارد</td></tr>
+<tr><td>دورهٔ آمادگی زبان قبل از دانشگاه</td><td>ممکن است سطح پایین‌تر یا مدرک دیگری کافی باشد</td></tr>
+<tr><td>متقاضی دارای معافیت معتبر از اثبات زبان</td><td>ممکن است اصلاً به TestDaF نیاز نداشته باشد</td></tr>
+</table></div>
+<h3>۴.۳. یک استثنای مهم: دانشجویانی که FSP را گذرانده‌اند</h3>
+<p><span class="de" lang="de">Feststellungsprüfung (FSP)</span> آزمون نهایی ارزیابی صلاحیت ورود به دانشگاه، معمولاً پس از Studienkolleg، است.</p>
+<p>طبق §5 نسخهٔ ۲۰۲۵ مقررات RO-DT که در سال ۲۰۲۶ منتشر شده، گذراندن موفقیت‌آمیز <span class="de" lang="de">Prüfungsteil Deutsch</span> (بخش آلمانی آزمون FSP) به‌عنوان اثبات توانایی زبانی برای پذیرش بدون محدودیت زبانی در رشته‌های دانشگاهی شناخته می‌شود.</p>
+<p>این نکته بسیار مهم است: کسی که بخش زبان آلمانی FSP را با موفقیت گذرانده، ممکن است اساساً نیازی به شرکت دوباره در TestDaF نداشته باشد.</p>
+<p>البته باید بررسی کند گواهی او چه چیزی را دقیقاً تأیید می‌کند و دانشگاه مقصد چه مدارکی را برای اثبات این معافیت درخواست می‌کند. همچنین معافیت زبانی به معنای احراز سایر شرایط پذیرش، مانند صلاحیت تحصیلی برای رشتهٔ موردنظر، نیست.</p>
+</section>
+
+<section class="pane">
+<h2>۵. دانشگاه‌های آلمان معمولاً چه نمره‌ای می‌خواهند؟</h2>
+<h3>۵.۱. استاندارد اصلی: TDN 4 در هر چهار بخش</h3>
+<p>در مقررات رسمی <span class="de" lang="de">Rahmenordnung über deutsche Sprachprüfungen für das deutschsprachige Studium an deutschen Hochschulen (RO-DT)</span>، یعنی «آیین‌نامهٔ چارچوب آزمون‌های زبان آلمانی برای تحصیل دانشگاهی»، معیار اصلی TestDaF رسیدن به حداقل TDN 4 در هر چهار مهارت است.</p>
+<p>این حالت معمولاً با عبارت <span class="de" lang="de">4×TDN 4</span> یا به‌صورت کوتاه <span class="de" lang="de">4×4</span> شناخته می‌شود.</p>
+<p>نمونهٔ کارنامه‌ای که معیار معمول پذیرش را برآورده می‌کند:</p>
+<div class="tbl"><table>
+<tr><th>مهارت</th><th>نتیجه</th></tr>
+<tr><td>Lesen</td><td>TDN 4</td></tr>
+<tr><td>Hören</td><td>TDN 4</td></tr>
+<tr><td>Schreiben</td><td>TDN 4</td></tr>
+<tr><td>Sprechen</td><td>TDN 4</td></tr>
+</table></div>
+<p>این کارنامه از نظر معیار عمومی TestDaF، توانایی زبانی لازم برای ورود به دانشگاه را اثبات می‌کند.</p>
+<p>نکتهٔ اساسی این است که نمره‌ها باید در هر چهار مهارت به حد لازم برسند.</p>
+<p>برای مثال:</p>
+<div class="tbl"><table>
+<tr><th>Lesen</th><th>Hören</th><th>Schreiben</th><th>Sprechen</th><th>نتیجه نسبت به معیار 4×4</th></tr>
+<tr><td>4</td><td>4</td><td>4</td><td>4</td><td>معیار برآورده شده</td></tr>
+<tr><td>5</td><td>4</td><td>4</td><td>4</td><td>معیار برآورده شده</td></tr>
+<tr><td>5</td><td>5</td><td>4</td><td>5</td><td>معیار برآورده شده</td></tr>
+<tr><td>5</td><td>5</td><td>3</td><td>5</td><td>معیار عمومی برآورده نشده</td></tr>
+<tr><td>4</td><td>4</td><td>4</td><td>3</td><td>معیار عمومی برآورده نشده</td></tr>
+<tr><td>3</td><td>3</td><td>3</td><td>3</td><td>معیار عمومی برآورده نشده</td></tr>
+</table></div>
+<p>در مثال چهارم، سه نمرهٔ ۵ به‌خودی‌خود نمرهٔ ۳ در نوشتن را جبران نمی‌کنند.</p>
+<p>اما این به معنای رد شدن قطعی از تمام دانشگاه‌ها نیست.</p>
+<h3>۵.۲. آیا TDN 3 هم می‌تواند برای پذیرش کافی باشد؟</h3>
+<p>بله، در بعضی شرایط.</p>
+<p>دانشگاه‌ها می‌توانند بر اساس نیازهای رشته، شرایط زبانی متفاوتی تعیین کنند.</p>
+<p>در توضیحات رسمی TestDaF اشاره شده که بعضی رشته‌ها ممکن است سطح TDN 3 را در یک مهارت بپذیرند.</p>
+<p>مثلاً ممکن است برای یک رشتهٔ مهندسی، ضعف نسبی در نوشتن کمتر از رشته‌ای مانند مطالعات ترجمه اهمیت داشته باشد.</p>
+<p>بااین‌حال، چنین مثال‌هایی به معنای وجود یک قانون عمومی برای تمام رشته‌های مهندسی نیست.</p>
+<p>همچنین برخی دانشگاه‌ها از مدل جمع نمرات TDN استفاده می‌کنند. مثلاً ممکن است مجموع ۱۴، ۱۵ یا ۱۶ را با شروط مشخص بپذیرند.</p>
+<p>اما این مجموع نمرات یک نمرهٔ کل رسمی TestDaF نیست؛ صرفاً شیوهٔ ارزیابی خود دانشگاه است.</p>
+<h3>۵.۳. سه مفهوم متفاوت در پذیرش دانشگاهی</h3>
+<p><span class="de" lang="de">Zulassung</span> یعنی پذیرش دانشگاهی.</p>
+<p><span class="de" lang="de">Immatrikulation</span> یعنی ثبت‌نام قطعی در دانشگاه.</p>
+<p><span class="de" lang="de">Sprachnachweis</span> یعنی مدرک اثبات مهارت زبان.</p>
+<p>داشتن مدرک TestDaF با نمرهٔ لازم، به معنای پذیرش تضمینی در رشته نیست.</p>
+<p>یک مثال:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Sie erfüllen die sprachlichen Voraussetzungen für den Studiengang. Die Zulassung hängt jedoch auch von weiteren Kriterien ab.</p></blockquote>
+<p class="tr">ترجمه: شما شرایط زبانی لازم برای این رشته را برآورده می‌کنید؛ بااین‌حال، پذیرش به معیارهای دیگری نیز بستگی دارد.</p>
+<p>این معیارهای دیگر ممکن است شامل صلاحیت تحصیلی، معدل، ظرفیت رشته و شرایط اختصاصی پذیرش باشند.</p>
+<p>پس باید دو پرسش را جداگانه بررسی کرد:</p>
+<p>آیا مدرک زبان من پذیرفته می‌شود؟</p>
+<p>آیا مدارک تحصیلی و سایر شرایط من برای پذیرش در رشته کافی‌اند؟</p>
+<h3>۵.۴. پیش از ثبت‌نام آزمون، دقیقاً چه چیزی را در وب‌سایت دانشگاه بررسی کنیم؟</h3>
+<p>در وب‌سایت دانشگاه و صفحهٔ رشته، معمولاً این عنوان‌ها اهمیت دارند:</p>
+<ul>
+<li><span class="de" lang="de">Sprachliche Voraussetzungen</span>: شرایط زبانی</li>
+<li><span class="de" lang="de">Zugangsvoraussetzungen</span>: پیش‌شرط‌های ورود</li>
+<li><span class="de" lang="de">Anerkannte Sprachnachweise</span>: مدارک زبان پذیرفته‌شده</li>
+<li><span class="de" lang="de">Mindestanforderungen</span>: حداقل الزامات</li>
+<li><span class="de" lang="de">Bewerbungsfrist</span>: مهلت درخواست پذیرش</li>
+<li><span class="de" lang="de">Einschreibungsfrist</span>: مهلت ثبت‌نام دانشگاه</li>
+</ul>
+<p>یک عبارت مهم:</p>
+<blockquote class="ex" lang="de" dir="ltr"><p>Nachweis ausreichender Deutschkenntnisse durch TestDaF mit mindestens TDN 4 in allen vier Teilprüfungen.</p></blockquote>
+<p class="tr">ترجمه: اثبات مهارت کافی در زبان آلمانی با TestDaF و حداقل سطح TDN 4 در هر چهار بخش آزمون.</p>
+<p>اگر این عبارت در شرایط رشته نوشته شده باشد، نمرهٔ ۵ در یک بخش نمی‌تواند بدون وجود مقررات استثنایی، نمرهٔ ۳ در بخش دیگر را جبران کند.</p>
+</section>
+<section class="pane">
+<h2>۶. اعتبار مدرک TestDaF چقدر است؟</h2>
+<p>در آلمانی به مدت اعتبار مدرک <span class="de" lang="de">Gültigkeitsdauer des Zertifikats</span> می‌گویند.</p>
+<h3>۶.۱. آیا TestDaF تاریخ انقضا دارد؟</h3>
+<p>طبق اعلام رسمی TestDaF:</p>
+<p>مدرک TestDaF اعتبار زمانی نامحدود دارد.</p>
+<p>اصطلاح آلمانی آن:</p>
+<p><span class="de" lang="de">Unbegrenzt gültig</span></p>
+<p>یعنی «دارای اعتبار بدون محدودیت زمانی».</p>
+<p>اما یک تفاوت حقوقی مهم وجود دارد.</p>
+<p>اعتبار نامحدود مدرک لزوماً به معنای آن نیست که تمام دانشگاه‌ها در هر شرایطی مجبورند یک کارنامهٔ بسیار قدیمی را بدون بررسی بپذیرند.</p>
+<p>سایت رسمی TestDaF نیز توضیح می‌دهد که بعضی دانشگاه‌ها ممکن است مدرک زبان جدیدتری درخواست کنند.</p>
+<h3>۶.۲. تفاوت اعتبار گواهی و پذیرش دانشگاهی</h3>
+<p>فرض کنیم شخصی چند سال قبل TestDaF را با نتیجهٔ 4×4 گذرانده است.</p>
+<p>مدرک او از نظر خود TestDaF همچنان معتبر است.</p>
+<p>اما دانشگاه مقصد ممکن است مقرراتی دربارهٔ تازگی مدرک داشته باشد.</p>
+<p>بنابراین:</p>
+<ul>
+<li>اعتبار خود گواهی: نامحدود</li>
+<li>پذیرش گواهی در دانشگاه: وابسته به مقررات همان دانشگاه و شرایط درخواست</li>
+</ul>
+<p>این دو مسئله را نباید با هم اشتباه گرفت.</p>
+<h3>۶.۳. آیا دانشگاه می‌تواند اصالت مدرک را بررسی کند؟</h3>
+<p>بله.</p>
+<p>در TestDaF امکان <span class="de" lang="de">Zertifikatsverifikation</span> (راستی‌آزمایی گواهی) وجود دارد.</p>
+<p>گواهی‌های جدید به‌صورت دیجیتال صادر می‌شوند و دانشگاه می‌تواند اصالت آن‌ها را از طریق سامانهٔ راستی‌آزمایی یا کد QR بررسی کند.</p>
+<p>گواهی‌های دیجیتال صادرشده بدون امضای دستی نیز معتبرند.</p>
+</section>
+
+<section class="pane">
+<h2>۷. مقایسهٔ دقیق TestDaF با telc C1 Hochschule، DSH و Goethe-Zertifikat</h2>
+<p>برای انتخاب آزمون مناسب، صرفاً دانستن سطح زبان کافی نیست.</p>
+<p>باید چهار موضوع را بررسی کرد:</p>
+<ul>
+<li>آیا مدرک برای پذیرش دانشگاهی معتبر است؟</li>
+<li>آزمون چه مهارت‌هایی را به چه روشی ارزیابی می‌کند؟</li>
+<li>نمره‌دهی و شرایط قبولی چگونه است؟</li>
+<li>شیوهٔ اجرای کدام آزمون با توانایی‌ها و محدودیت‌های داوطلب سازگارتر است؟</li>
+</ul>
+<h3>۷.۱. جدول مقایسهٔ اصلی</h3>
+<div class="tbl"><table>
+<tr><th>ویژگی</th><th>TestDaF</th><th>telc C1 Hochschule</th><th>DSH</th><th>Goethe C1 / C2</th></tr>
+<tr><td>هدف</td><td>ارزیابی زبان دانشگاهی</td><td>ارزیابی زبان دانشگاهی</td><td>اثبات زبان برای ورود به دانشگاه</td><td>ارزیابی مهارت زبان در سطح عمومی و پیشرفته</td></tr>
+<tr><td>سطح</td><td>B2 تا C1</td><td>C1</td><td>سه سطح DSH-1 تا DSH-3</td><td>C1 یا C2</td></tr>
+<tr><td>برگزارکننده</td><td>TestDaF-Institut / g.a.s.t.</td><td>telc gGmbH</td><td>دانشگاه‌ها و مراکز مجاز</td><td>Goethe-Institut و مراکز مجاز</td></tr>
+<tr><td>ساختار</td><td>چهار مهارت مستقل</td><td>آزمون کتبی و شفاهی</td><td>آزمون کتبی و شفاهی</td><td>چهار مهارت</td></tr>
+<tr><td>ارزیابی دستور زبان</td><td>عمدتاً در چارچوب کاربرد زبان</td><td>دارای بخش واژگان و ساختارهای زبانی</td><td>دارای بخش زبان علمی و ساختارها</td><td>در چارچوب مهارت‌های زبانی</td></tr>
+<tr><td>نوشتن</td><td>متن استدلالی، پردازش اطلاعات</td><td>تولید متن متناسب با تکلیف</td><td>تولید متن دانشگاهی</td><td>تکالیف نوشتاری متناسب با سطح</td></tr>
+<tr><td>صحبت‌کردن</td><td>پاسخ ضبط‌شده با رایانه</td><td>گفت‌وگوی مستقیم، معمولاً دو داوطلب</td><td>آزمون شفاهی با ممتحن</td><td>آزمون شفاهی طبق ساختار هر سطح</td></tr>
+<tr><td>نوع نتیجه</td><td>TDN جداگانه برای چهار مهارت</td><td>قبولی در آزمون C1 Hochschule</td><td>نتیجهٔ DSH-1، 2 یا 3</td><td>گواهی ماژول‌های C1 یا C2</td></tr>
+<tr><td>معیار معمول دانشگاه</td><td>حداقل TDN 4 در هر چهار مهارت</td><td>قبولی در C1 Hochschule</td><td>DSH-2</td><td>C2 به‌طور عمومی؛ C1 بسته به دانشگاه</td></tr>
+<tr><td>وضعیت پذیرش</td><td>به‌طور رسمی شناخته‌شده</td><td>به‌طور رسمی شناخته‌شده</td><td>DSH ثبت‌شده و معتبر</td><td>C2 به‌طور عمومی؛ C1 نیازمند بررسی</td></tr>
+<tr><td>شکل اجرا</td><td>دیجیتال یا کاغذی</td><td>دیجیتال، ترکیبی یا کاغذی</td><td>طبق مقررات مرکز، حضوری یا بخش‌هایی الکترونیکی</td><td>بسته به آزمون و مرکز</td></tr>
+</table></div>
+<p class="small">مبنای این مقایسه، مقررات RO-DT و توضیحات رسمی برگزارکنندگان است.</p>
+<h3>۷.۲. TestDaF در برابر telc Deutsch C1 Hochschule</h3>
+<p>از آنجا که مخاطب این راهنما قبلاً telc B2 گذرانده است، این مقایسه اهمیت خاصی دارد.</p>
+<p><span class="de" lang="de">telc Deutsch C1 Hochschule</span> یک آزمون سطح C1 است که مشخصاً برای زبان دانشگاهی طراحی شده است.</p>
+<p>این آزمون را نباید با <span class="de" lang="de">telc Deutsch C1</span> بدون عنوان Hochschule یکی دانست.</p>
+<p>هرچند سطح زبانی هر دو C1 است، مقررات رسمی پذیرش دانشگاهی به‌طور مشخص از <span class="de" lang="de">telc Deutsch C1 Hochschule</span> نام می‌برد.</p>
+<h3>تفاوت اول: ساختار نمره‌دهی</h3>
+<p>TestDaF در هر یک از چهار مهارت سطح TDN جداگانه می‌دهد.</p>
+<p>در مقابل، در <span class="de" lang="de">telc C1 Hochschule</span> هدف، قبولی در آزمون C1 Hochschule طبق مقررات همان آزمون است.</p>
+<p>بنابراین گواهی <span class="de" lang="de">telc C1 Hochschule</span> نتیجه‌ای متفاوت از کارنامهٔ چهارسطحی TestDaF ارائه می‌کند.</p>
+<h3>تفاوت دوم: آزمون شفاهی</h3>
+<p>یکی از مهم‌ترین تفاوت‌ها در روش سنجش مکالمه است.</p>
+<p>در TestDaF:</p>
+<ul>
+<li>سؤال را از طریق رایانه دریافت می‌کنی.</li>
+<li>زمان مشخصی برای آماده‌شدن داری.</li>
+<li>پاسخ را در میکروفون بیان می‌کنی.</li>
+<li>صدایت ضبط و بعداً ارزیابی می‌شود.</li>
+<li>با ممتحن گفت‌وگوی مستقیم نداری.</li>
+</ul>
+<p>اما در <span class="de" lang="de">telc C1 Hochschule</span>، بخش شفاهی شامل ارائه، پاسخ به پرسش‌ها و بحث است و معمولاً با حضور دو داوطلب برگزار می‌شود.</p>
+<p>به این ترتیب، telc علاوه بر مهارت ارائه، توانایی تعامل زبانی با فرد دیگر را نیز مستقیماً بررسی می‌کند.</p>
+<h3>تفاوت سوم: آمادگی از B2</h3>
+<p>داشتن تجربهٔ آزمون telc B2 ممکن است باعث شود بعضی ویژگی‌های <span class="de" lang="de">telc C1 Hochschule</span> برای زبان‌آموز آشناتر باشند.</p>
+<p>اما این به معنای آسان‌تر بودن خود آزمون نیست.</p>
+<p>تفاوت واقعی چنین است:</p>
+<div class="tbl"><table>
+<tr><th>اگر در این مهارت قوی‌تر باشی</th><th>ممکن است با این آزمون راحت‌تر باشی</th></tr>
+<tr><td>تعامل و بحث مستقیم با دیگران</td><td>telc C1 Hochschule</td></tr>
+<tr><td>صحبت مستقل با زمان‌بندی مشخص و ضبط صدا</td><td>TestDaF</td></tr>
+<tr><td>انجام تکالیف دقیق دانشگاهی و پردازش منابع</td><td>هر دو، با قالب‌های متفاوت</td></tr>
+<tr><td>آشنایی با ساختارهای آزمون telc</td><td>telc C1 Hochschule</td></tr>
+<tr><td>ارائهٔ نتیجهٔ مجزا برای چهار مهارت</td><td>TestDaF</td></tr>
+</table></div>
+<p class="small">این جدول مقایسهٔ شیوه‌های اجرای آزمون است، نه رتبه‌بندی علمی دشواری آن‌ها.</p>
+<h3>۷.۳. TestDaF در برابر DSH</h3>
+<p>DSH مخفف عبارت:</p>
+<p><span class="de" lang="de">Deutsche Sprachprüfung für den Hochschulzugang</span></p>
+<p>یعنی «آزمون زبان آلمانی برای ورود به دانشگاه» است.</p>
+<p>DSH برخلاف TestDaF عمدتاً در ارتباط مستقیم با دانشگاه‌ها و مراکز دانشگاهی برگزار می‌شود.</p>
+<p>مقررات DSH در چارچوب مشترک RO-DT تعریف شده است، اما طراحی و اجرای آزمون در مراکز مجاز انجام می‌شود.</p>
+<h3>ساختار DSH</h3>
+<p>بخش کتبی معمولاً شامل موارد زیر است:</p>
+<ul>
+<li><span class="de" lang="de">Hörverstehen</span>: درک شنیداری</li>
+<li><span class="de" lang="de">Leseverstehen</span>: درک مطلب</li>
+<li><span class="de" lang="de">Wissenschaftssprachliche Strukturen</span>: ساختارهای زبان علمی</li>
+<li><span class="de" lang="de">Textproduktion</span>: تولید متن</li>
+</ul>
+<p>بخش شفاهی نیز توانایی توضیح و بحث دربارهٔ موضوعات مرتبط با دانشگاه را می‌سنجد.</p>
+<p>بر اساس مقررات جدید RO-DT، برخی بخش‌های DSH می‌توانند با رعایت شرایط مشخص به‌صورت الکترونیکی اجرا شوند؛ بنابراین توصیف DSH به‌عنوان آزمونی که همیشه و بدون استثنا کاغذی است، دقیق نیست.</p>
+<h3>نمره‌دهی DSH</h3>
+<div class="tbl"><table>
+<tr><th>نتیجه</th><th>حداقل عملکرد در بخش کتبی و شفاهی</th><th>کاربرد</th></tr>
+<tr><td>DSH-1</td><td>۵۷٪ در هرکدام</td><td>فقط در صورت پذیرش توسط رشته یا دانشگاه</td></tr>
+<tr><td>DSH-2</td><td>۶۷٪ در هرکدام</td><td>معیار عمومی رایج ورود</td></tr>
+<tr><td>DSH-3</td><td>۸۲٪ در هرکدام</td><td>نشان‌دهندهٔ مهارت زبانی بالاتر</td></tr>
+</table></div>
+<p>این درصدها باید جداگانه در بخش کتبی و شفاهی برآورده شوند.</p>
+<p>نباید از این جدول نتیجه گرفت که DSH-2 دقیقاً معادل ۶۷ درصد پاسخ درست در TestDaF است.</p>
+<p>آزمون‌ها از نظر ساختار سؤال، روش تصحیح و مقیاس گزارش نتیجه متفاوت هستند.</p>
+<h3>تفاوت مهم در شیوهٔ ارزیابی</h3>
+<p>DSH یک نتیجهٔ سطح‌بندی‌شده همراه با اطلاعات عملکرد بخش‌ها ارائه می‌کند؛ TestDaF چهار سطح مستقل را در کارنامه ثبت می‌کند.</p>
+<p>به‌علاوه، در DSH بخش شفاهی به‌صورت آزمون گفتاری با ممتحن انجام می‌شود، درحالی‌که TestDaF پاسخ‌های شفاهی را ضبط می‌کند.</p>
+<p>از نظر انتخاب عملی، اگر شخصی به آزمون شفاهی رودررو عادت داشته باشد، شاید DSH برایش طبیعی‌تر باشد. اما اگر شرایط یک آزمون استاندارد و یکسان در مراکز مختلف را ترجیح دهد، TestDaF ممکن است انتخاب مناسب‌تری باشد.</p>
+<h3>۷.۴. TestDaF در برابر Goethe-Zertifikat</h3>
+<p>اینجا باید <span class="de" lang="de">Goethe C1</span> و <span class="de" lang="de">Goethe C2</span> را از هم جدا کنیم.</p>
+<h3>Goethe-Zertifikat C1</h3>
+<p>این آزمون مهارت زبان آلمانی در سطح C1 را می‌سنجد.</p>
+<p>اما گواهی <span class="de" lang="de">Goethe C1</span> برخلاف <span class="de" lang="de">Goethe C2</span> در مقررات RO-DT به‌عنوان معافیت عمومی و یکسان برای تمام دانشگاه‌ها فهرست نشده است.</p>
+<p>بعضی دانشگاه‌ها آن را می‌پذیرند و بعضی دیگر ممکن است گواهی متفاوتی بخواهند.</p>
+<p>به همین دلیل، انتخاب <span class="de" lang="de">Goethe C1</span> فقط به امید پذیرش در تمام دانشگاه‌های آلمان تصمیم مطمئنی نیست.</p>
+<h3>Goethe-Zertifikat C2: Großes Deutsches Sprachdiplom</h3>
+<p>این آزمون سطح C2 را ارزیابی می‌کند.</p>
+<p>طبق §8 مقررات RO-DT، قبولی در <span class="de" lang="de">Goethe-Zertifikat C2</span> یک مدرک معاف‌کننده از آزمون‌های اصلی اثبات زبان دانشگاهی محسوب می‌شود.</p>
+<p>اما باید به یک تفاوت توجه کرد:</p>
+<p><span class="de" lang="de">Goethe C2</span> سطح زبانی بالاتری از محدودهٔ TestDaF را می‌سنجد.</p>
+<p>بنابراین مقایسهٔ دشواری این دو آزمون صرفاً با تعداد بخش‌ها یا زمان آزمون منطقی نیست.</p>
+<p>برای فردی در سطح B2 که هدفش فقط احراز شرط زبان دانشگاه است، تلاش برای C2 معمولاً ضرورتی ندارد؛ مگر اینکه هدف مستقل دیگری مانند رسیدن به سطح بسیار پیشرفتهٔ زبان داشته باشد.</p>
+<h3>۷.۵. کدام آزمون از نظر پذیرش دانشگاهی مطمئن‌تر است؟</h3>
+<p>از نظر اعتبار رسمی، نمی‌توان گفت TestDaF ذاتاً از <span class="de" lang="de">telc C1 Hochschule</span> یا DSH-2 معتبرتر است.</p>
+<p>هر سه در مقررات مربوط به زبان دانشگاهی جایگاه مشخصی دارند.</p>
+<p>تفاوت آن‌ها بیشتر در شیوهٔ اجرا، ساختار، معیار قبولی و شرایط شخصی داوطلب است.</p>
+<p>بااین‌حال، اگر دانشگاهی به‌صراحت از TestDaF با نمرهٔ 4×4 نام برده باشد، ساده‌ترین راه برای حذف ابهام این است که همان شرط را برآورده کنی.</p>
+<p>به‌عکس، اگر دانشگاه اعلام کرده باشد که <span class="de" lang="de">telc C1 Hochschule</span> یا DSH-2 را می‌پذیرد، لزومی ندارد صرفاً به دلیل شهرت TestDaF، آن را انتخاب کنی.</p>
+</section>
+<section class="pane">
+<h2>۸. تفاوت نسخهٔ دیجیتال و کاغذی TestDaF</h2>
+<p>TestDaF در دو قالب رسمی ارائه می‌شود:</p>
+<p><span class="de" lang="de">Digitaler TestDaF</span>: نسخهٔ دیجیتال</p>
+<p><span class="de" lang="de">Papierbasierter TestDaF</span>: نسخهٔ کاغذی</p>
+<p>هر دو برای سنجش توانایی زبان دانشگاهی طراحی شده‌اند و از نظر سطوح گزارش‌شدهٔ TDN معادل یکدیگرند.</p>
+<p>اما ساختار سؤال‌ها در این دو نسخه یکسان نیست.</p>
+<p>این مهم‌ترین نکته‌ای است که هنگام خرید منابع آمادگی و برنامه‌ریزی تمرین باید رعایت شود.</p>
+<h3>۸.۱. جدول مقایسهٔ ساختاری</h3>
+<div class="tbl"><table>
+<tr><th>ویژگی</th><th>نسخهٔ کاغذی</th><th>نسخهٔ دیجیتال</th></tr>
+<tr><td>محل آزمون</td><td>مرکز رسمی</td><td>مرکز رسمی</td></tr>
+<tr><td>شیوهٔ انجام خواندن</td><td>متن و سؤال چاپ‌شده</td><td>صفحهٔ رایانه</td></tr>
+<tr><td>شیوهٔ شنیدن</td><td>فایل صوتی و سؤال چاپ‌شده</td><td>صوت، تصویر و محیط رایانه</td></tr>
+<tr><td>بخش نوشتاری</td><td>دست‌نویس</td><td>تایپ با صفحه‌کلید</td></tr>
+<tr><td>بخش شفاهی</td><td>ضبط صدا با رایانه</td><td>ضبط صدا با رایانه</td></tr>
+<tr><td>تعداد مجموعه‌های خواندن</td><td>۳ متن یا مجموعهٔ متنی</td><td>۷ نوع تکلیف</td></tr>
+<tr><td>تعداد مجموعه‌های شنیدن</td><td>۳ فایل یا مجموعهٔ شنیداری</td><td>۷ نوع تکلیف</td></tr>
+<tr><td>تعداد تکلیف نوشتن</td><td>۱ تکلیف ترکیبی</td><td>۲ نوع تکلیف</td></tr>
+<tr><td>تعداد تکلیف صحبت‌کردن</td><td>۷</td><td>۷</td></tr>
+<tr><td>برگشت به تکلیف قبلی</td><td>در محدودهٔ زمان و قواعد هر بخش امکان مرور پاسخ‌ها وجود دارد</td><td>پس از عبور از یک تکلیف، بازگشت به آن ممکن نیست</td></tr>
+<tr><td>استفاده از ویدئو</td><td>جزو ساختار اصلی نیست</td><td>در بعضی تکالیف استفاده می‌شود</td></tr>
+<tr><td>نمره‌دهی</td><td>TDN 3 تا 5 و زیر TDN 3</td><td>TDN 3 تا 5 و زیر TDN 3، همراه با امتیاز مقیاس‌بندی‌شده</td></tr>
+<tr><td>اعتبار برای دانشگاه</td><td>معتبر</td><td>معتبر</td></tr>
+</table></div>
+<h3>۸.۲. نسخهٔ کاغذی دقیقاً چگونه است؟</h3>
+<p>در نسخهٔ کاغذی، برای سه بخش اول با برگه‌ها و دفترچه‌های چاپ‌شده سروکار داری.</p>
+<p>بخش‌های آن عبارت‌اند از:</p>
+<p><span class="de" lang="de">Leseverstehen</span></p>
+<p>سه مجموعهٔ خواندن و ۳۰ سؤال</p>
+<p>۶۰ دقیقه</p>
+<p><span class="de" lang="de">Hörverstehen</span></p>
+<p>سه مجموعهٔ شنیداری و ۲۵ سؤال</p>
+<p>۴۰ دقیقه</p>
+<p><span class="de" lang="de">Schriftlicher Ausdruck</span></p>
+<p>یک متن ترکیبی شامل توصیف داده و استدلال</p>
+<p>۶۰ دقیقه</p>
+<p><span class="de" lang="de">Mündlicher Ausdruck</span></p>
+<p>هفت تکلیف، پاسخ شفاهی ضبط‌شده</p>
+<p>۳۵ دقیقه</p>
+<p>مجموع زمان خالص آزمون کاغذی ۳ ساعت و ۱۵ دقیقه است. استراحت‌ها و زمان‌های اجرایی جداگانه به آن اضافه می‌شوند.</p>
+<h3>ویژگی متمایز نوشتن در نسخهٔ کاغذی</h3>
+<p>در این نسخه فقط یک تکلیف نوشتاری وجود دارد.</p>
+<p>در همان تکلیف، معمولاً باید داده‌های نمودار را توصیف و مقایسه کنی و سپس دربارهٔ موضوع استدلال کنی.</p>
+<p>یعنی <span class="de" lang="de">Grafikbeschreibung</span> (توصیف نمودار) و <span class="de" lang="de">Argumentation</span> (استدلال) در یک متن ساختاریافته قرار می‌گیرند.</p>
+<p>این دو بخش، دو آزمون مستقل نیستند.</p>
+<h3>۸.۳. نسخهٔ دیجیتال دقیقاً چگونه است؟</h3>
+<p>نسخهٔ دیجیتال فقط تبدیل دفترچهٔ کاغذی به یک فایل روی نمایشگر نیست.</p>
+<p>این نسخه از ابتدا برای محیط رایانه و پردازش ترکیبی مهارت‌های زبانی طراحی شده است.</p>
+<p>برای مثال، در دانشگاه ممکن است استاد در حال سخنرانی باشد و دانشجو هم‌زمان نموداری را مشاهده کند و یادداشت بردارد.</p>
+<p>یا دانشجو مقاله‌ای بخواند و سپس اطلاعات آن را با داده‌های یک نمودار در یک متن خلاصه کند.</p>
+<p>نسخهٔ دیجیتال تلاش می‌کند چنین فعالیت‌هایی را نیز بسنجد.</p>
+<p>به این نوع تکالیف <span class="de" lang="de">kompetenzübergreifende Aufgaben</span> (تکالیف ترکیب‌کنندهٔ چند مهارت زبانی) گفته می‌شود.</p>
+<p>ساختار اصلی آن چنین است:</p>
+<div class="tbl"><table>
+<tr><th>بخش</th><th>ساختار اعلام‌شده</th><th>زمان تقریبی</th></tr>
+<tr><td>Lesen</td><td>۷ نوع تکلیف، ۳۴ مورد سؤال</td><td>۵۵ دقیقه</td></tr>
+<tr><td>Hören</td><td>۷ نوع تکلیف، ۳۰ مورد سؤال</td><td>۴۰ دقیقه</td></tr>
+<tr><td>Schreiben</td><td>۲ نوع تکلیف</td><td>۶۰ دقیقه</td></tr>
+<tr><td>Sprechen</td><td>۷ نوع تکلیف</td><td>۳۵ دقیقه</td></tr>
+</table></div>
+<p>این اعداد ساختار پایهٔ اعلام‌شده هستند. در نسخهٔ دیجیتال، تکالیف آزمایشی اضافی نیز وجود دارند که در نمرهٔ نهایی محاسبه نمی‌شوند و ممکن است تعداد تکالیف دیده‌شده و مدت اجرای آزمون را افزایش دهند.</p>
+<h3>تفاوت مهم در نوشتن دیجیتال</h3>
+<p>دو نوع تکلیف اصلی عبارت‌اند از:</p>
+<ol>
+<li><span class="de" lang="de">Argumentativen Text schreiben</span>: نوشتن متن استدلالی با حداقل ۲۰۰ واژه.</li>
+<li><span class="de" lang="de">Informationen aus Lesetext und Grafik zusammenfassen</span>: خلاصه‌کردن اطلاعات یک متن و نمودار در حدود ۱۰۰ تا ۱۵۰ واژه.</li>
+</ol>
+<p>برخلاف نسخهٔ کاغذی، اینجا خلاصه‌سازی اطلاعات و نوشتن متن استدلالی در قالب دو نوع تکلیف مستقل ارزیابی می‌شوند.</p>
+<p>بنابراین کسی که فقط نمونه‌های نوشتاری نسخهٔ قدیمی کاغذی را تمرین کرده باشد، برای بخش Schreiben دیجیتال آمادگی کامل ندارد.</p>
+<h3>تفاوت مهم در خواندن و شنیدن</h3>
+<p>در نسخهٔ کاغذی با سه مجموعهٔ اصلی خواندن و شنیدن روبه‌رو هستیم.</p>
+<p>اما نسخهٔ دیجیتال در هرکدام هفت نوع تکلیف اصلی دارد.</p>
+<p>در بخش Lesen ممکن است لازم باشد:</p>
+<ul>
+<li>جای خالی متن را پر کنی.</li>
+<li>ترتیب پاراگراف‌ها را مشخص کنی.</li>
+<li>گزاره‌ها را به دسته‌های مشخص نسبت بدهی.</li>
+<li>خطاهای یک خلاصه را تشخیص بدهی.</li>
+</ul>
+<p>در بخش Hören نیز ممکن است اطلاعاتی را از صوت یا ویدئو استخراج کنی و در کادرهای پاسخ وارد کنی.</p>
+<p>در نتیجه، تمرین برای یک نسخه را نباید بدون بررسی، به‌جای تمرین نسخهٔ دیگر استفاده کرد.</p>
+<h3>۸.۴. آیا نسخهٔ دیجیتال را می‌توان در خانه داد؟</h3>
+<p>خیر.</p>
+<p>نسخهٔ دیجیتال TestDaF در مراکز رسمی برگزار می‌شود.</p>
+<p>اینکه آزمون «دیجیتال» نام دارد، به معنای برگزاری از راه دور در لپ‌تاپ شخصی در منزل نیست.</p>
+<h3>۸.۵. آیا نسخهٔ دیجیتال آسان‌تر است؟</h3>
+<p>هیچ مبنای معتبری برای این ادعای کلی وجود ندارد.</p>
+<p>هر دو نسخه برای گزارش همان سطوح مهارت طراحی و استانداردسازی شده‌اند.</p>
+<p>اما شکل اجرای آن‌ها می‌تواند روی عملکرد افراد مختلف تأثیر بگذارد.</p>
+<p>برای نمونه، داوطلبی که با تایپ سریع راحت است، ممکن است در نسخهٔ دیجیتال مزیت عملی داشته باشد. در مقابل، کسی که به علامت‌گذاری مستقیم روی متن چاپ‌شده وابسته است، ممکن است نسخهٔ کاغذی را ترجیح دهد.</p>
+<p>این‌ها تفاوت در سازگاری با قالب آزمون‌اند، نه اثبات تفاوت در سطح رسمی دشواری.</p>
+<h3>۸.۶. اگر قرار باشد یکی را انتخاب کنی، چه معیارهایی مهم‌اند؟</h3>
+<h3>مقایسهٔ شخصی دو نسخه</h3>
+<p>این مقایسه فقط بر اساس ترجیحات اجرایی است، نه برآورد نمره یا دشواری رسمی.</p>
+<p>از خودت بپرس:</p>
+<ul>
+<li>سرعت تایپ آلمانی تو چگونه است؟ سریع و راحت، متوسط، یا کند یا همراه با خطا؟</li>
+<li>خواندن متن‌های طولانی را در کجا ترجیح می‌دهی؟ روی نمایشگر، روی کاغذ، یا تفاوت زیادی ندارد؟</li>
+<li>امکان برگشت به سؤال‌های قبلی چقدر برایت مهم است؟ مهم است و معمولاً جواب‌هایت را مرور می‌کنی، یا مشکلی با پیش‌رفتن بدون بازگشت نداری؟</li>
+<li>تا الان با کدام قالب تمرین کرده‌ای؟ دیجیتال، کاغذی، یا هنوز شروع نکرده‌ای؟</li>
+</ul>
+<p>بر اساس این پاسخ‌ها، برتری عملی مشخصی برای هیچ‌کدام دیده نمی‌شود.</p>
+<p>بهترین معیار تکمیلی، اجرای یک آزمون نمونه از هر دو قالب و مقایسهٔ کیفیت پاسخ‌ها و مدیریت زمان است.</p>
+</section>
+<section class="pane">
+<h2>۹. تفاوت گواهی و نمره‌دهی دو نسخه</h2>
+<h3>نسخهٔ کاغذی</h3>
+<p>در کارنامهٔ نسخهٔ کاغذی، چهار نتیجهٔ مستقل در سطوح TDN ثبت می‌شود.</p>
+<p>مثلاً:</p>
+<div class="tbl"><table>
+<tr><th>مهارت</th><th>نتیجه</th></tr>
+<tr><td>Leseverstehen</td><td>TDN 5</td></tr>
+<tr><td>Hörverstehen</td><td>TDN 4</td></tr>
+<tr><td>Schriftlicher Ausdruck</td><td>TDN 4</td></tr>
+<tr><td>Mündlicher Ausdruck</td><td>TDN 3</td></tr>
+</table></div>
+<p>این کارنامه یک نتیجهٔ واحد با عنوان «قبول» یا «رد» ندارد.</p>
+<h3>نسخهٔ دیجیتال</h3>
+<p>نسخهٔ دیجیتال علاوه بر سطح TDN، برای هر مهارت امتیاز مقیاس‌بندی‌شدهٔ ۰ تا ۲۰ ثبت می‌کند.</p>
+<p>این امتیازها <span class="de" lang="de">skalierte Punktwerte</span> نام دارند.</p>
+<p>جدول رسمی تبدیل امتیاز به سطح به این شکل است:</p>
+<div class="tbl"><table>
+<tr><th>امتیاز در یک مهارت</th><th>سطح</th></tr>
+<tr><td>۰ تا ۴</td><td>زیر TDN 3</td></tr>
+<tr><td>۵ تا ۹</td><td>TDN 3</td></tr>
+<tr><td>۱۰ تا ۱۵</td><td>TDN 4</td></tr>
+<tr><td>۱۶ تا ۲۰</td><td>TDN 5</td></tr>
+</table></div>
+<p>این اعداد مربوط به امتیازهای مقیاس‌بندی‌شده هستند، نه لزوماً تعداد پاسخ‌های درست.</p>
+<p>بنابراین نباید فرض کرد که رسیدن به ۱۰ پاسخ درست، مستقیماً به معنای TDN 4 است.</p>
+<h3>یک تغییر مهم در سال ۲۰۲۶: Kombiniertes Zertifikat</h3>
+<p>در نسخهٔ دیجیتال، از مهٔ ۲۰۲۶ امکان دریافت <span class="de" lang="de">Kombiniertes Zertifikat</span> (گواهی ترکیبی) معرفی شده است.</p>
+<p>بر اساس این امکان، می‌توان بهترین نتایج چند آزمون دیجیتال TestDaF را که در یک بازهٔ حداکثر شش‌ماهه برگزار شده‌اند، تحت شرایط اعلام‌شده در یک گواهی ترکیبی قرار داد.</p>
+<p>اما دو محدودیت وجود دارد:</p>
+<p>اول، این امکان به نسخهٔ دیجیتال و شرایط تعیین‌شده از سوی <span class="de" lang="de">g.a.s.t.</span> مربوط است.</p>
+<p>دوم، پذیرش این گواهی ترکیبی به تصمیم دانشگاه مقصد بستگی دارد.</p>
+<p>پس نباید تصور کرد که ترکیب بهترین نمرات چند آزمون در تمام دانشگاه‌ها بدون استثنا پذیرفته می‌شود.</p>
+<p>جزئیات و هزینهٔ صدور گواهی ترکیبی: [بررسی در testdaf.de]</p>
+</section>
+
+<section class="pane">
+<h2>۱۰. برای زبان‌آموز دارای telc B2، چه نتیجه‌ای از این مقایسه می‌گیریم؟</h2>
+<p>در این مرحله می‌توان چند نتیجهٔ عملی گرفت.</p>
+<h3>۱۰.۱. TestDaF الزاماً معادل «گرفتن مدرک C1» نیست</h3>
+<p>TestDaF آزمونی با محدودهٔ B2 تا C1 است که خروجی آن به‌صورت TDN گزارش می‌شود.</p>
+<p>وقتی دانشگاه نتیجهٔ 4×TDN 4 را می‌پذیرد، آنچه اهمیت دارد برآورده‌شدن استاندارد مشخص دانشگاهی است، نه اینکه مدرک نام C1 داشته باشد.</p>
+<p>به همین دلیل، گرفتن TestDaF با 4×4 و گرفتن <span class="de" lang="de">telc C1 Hochschule</span> دو مسیر متفاوت برای اثبات مهارت زبان دانشگاهی محسوب می‌شوند.</p>
+<h3>۱۰.۲. داشتن B2 آغاز مناسبی برای آمادگی هدفمند است، اما تضمین قبولی نیست</h3>
+<p>برای رسیدن به TDN 4 باید بتوانی زبان را در چهار مهارت و تحت شرایط واقعی آزمون به کار ببری.</p>
+<p>فردی با مدرک B2 ممکن است در گرامر و درک متن‌های عمومی عملکرد مناسبی داشته باشد، اما هنوز در موارد زیر نیازمند تمرین باشد:</p>
+<ul>
+<li>استخراج و سازمان‌دهی اطلاعات علمی</li>
+<li>فهم روابط استدلالی</li>
+<li>خلاصه‌نویسی بدون تغییر معنای منابع</li>
+<li>صحبت‌کردن ساختاریافته در زمان محدود</li>
+<li>استفاده از واژگان دقیق و مناسب دانشگاه</li>
+</ul>
+<p>ازاین‌رو انتخاب منبع صرفاً بر اساس عنوان «C1» کافی نیست؛ منبع باید با قالب انتخابی TestDaF مطابقت داشته باشد.</p>
+<h3>۱۰.۳. آزمون مناسب باید بر اساس مقصد انتخاب شود</h3>
+<p>ترتیب منطقی تصمیم‌گیری چنین است:</p>
+<p>مرحلهٔ اول: بررسی شرایط رشته</p>
+<p>مشخص کن دانشگاه چه مدارکی را می‌پذیرد و آیا از ارائهٔ مدرک زبان جدید معاف هستی.</p>
+<p>مرحلهٔ دوم: بررسی قالب آزمون</p>
+<p>تفاوت TestDaF دیجیتال، TestDaF کاغذی، <span class="de" lang="de">telc C1 Hochschule</span> و DSH را با توانایی‌هایت مقایسه کن.</p>
+<p>مرحلهٔ سوم: ارزیابی سطح فعلی</p>
+<p>با نمونه‌آزمون رسمی مشخص کن در کدام مهارت‌ها به استاندارد موردنظر نزدیک‌تری و کجا ضعف داری.</p>
+<p>مرحلهٔ چهارم: برنامه‌ریزی زمان آزمون</p>
+<p>زمان ثبت‌نام، اعلام نتیجه و مهلت ارسال مدارک دانشگاه را با هم هماهنگ کن.</p>
+</section>
+
+<section class="pane">
+<h2>۱۱. منابع رسمی مورد استفاده در پارت اول</h2>
+<p>برای مطالعه و بررسی مستقل، این منابع اصلی معتبر هستند:</p>
+<ul>
+<li><a href="https://www.testdaf.de/">TestDaF — وب‌سایت رسمی</a> — ساختار آزمون، سطوح TDN، ثبت‌نام، آمادگی و نتایج</li>
+<li><a href="https://www.testdaf.de/de/teilnehmende/der-digitale-testdaf/aufbau-des-digitalen-testdaf/">ساختار TestDaF دیجیتال</a> — تکالیف رسمی چهار مهارت</li>
+<li><a href="https://www.testdaf.de/de/teilnehmende/der-papierbasierte-testdaf/aufbau-des-papierbasierten-testdaf/">ساختار TestDaF کاغذی</a> — متن‌ها، سؤال‌ها و زمان هر مهارت</li>
+<li><a href="https://www.hrk.de/fileadmin/redaktion/hrk/02-Dokumente/02-07-Internationales/02-07-22_DSH/20260105_RO-DT_Fassung-HRK-v-04-11-2025-und-KMK-v-27-11-2025.pdf">RO-DT — مقررات زبان دانشگاهی</a> — نسخهٔ مصوب ۲۰۲۵، منتشرشده از سوی HRK</li>
+<li><a href="https://www.telc.net/sprachpruefungen/zertifikatspruefung/deutsch/telc-deutsch-c1-hochschule/">telc Deutsch C1 Hochschule</a> — ساختار و مشخصات رسمی آزمون telc</li>
+<li><a href="https://www.goethe.de/ins/de/de/prf/ogf.html">Goethe-Institut — اطلاعات آزمون‌ها</a> — پذیرش مدارک Goethe C1 و C2 در دانشگاه‌ها</li>
+</ul>
+</section>
+
+<section class="pane">
+<h2>جمع‌بندی پارت اول</h2>
+<p>TestDaF یک آزمون استاندارد زبان دانشگاهی است که توانایی خواندن، شنیدن، نوشتن و صحبت‌کردن را در محدودهٔ B2 تا C1 می‌سنجد.</p>
+<p>مهم‌ترین معیار آن برای ورود معمول به دانشگاه‌های آلمان، TDN 4 در هر چهار مهارت است.</p>
+<p>مدرک TestDaF اعتبار زمانی نامحدود دارد، اما الزامات دانشگاه مقصد باید جداگانه بررسی شوند.</p>
+<p>TestDaF دیجیتال و کاغذی از نظر اعتبار سطوح برابرند، ولی در نوع و تعداد تکالیف تفاوت دارند. به همین دلیل، برنامهٔ تمرین باید برای نسخهٔ مشخصی طراحی شود.</p>
+<p>در مقایسه با آزمون‌های دیگر، <span class="de" lang="de">telc Deutsch C1 Hochschule</span>، DSH-2 و <span class="de" lang="de">Goethe-Zertifikat C2</span> نیز جایگاه رسمی مشخصی برای اثبات مهارت زبان دانشگاهی دارند. پذیرش <span class="de" lang="de">Goethe C1</span> به شرایط دانشگاه بستگی دارد.</p>
+<p>نکتهٔ تعیین‌کننده برای افرادی که Studienkolleg را تمام کرده‌اند: اگر بخش آلمانی FSP را با موفقیت گذرانده باشند، ممکن است از ارائهٔ آزمون زبان دیگری معاف باشند. این موضوع باید پیش از پرداخت هزینه و ثبت‌نام TestDaF بررسی شود.</p>
+<p>در پارت دوم، ساختار دقیق هر چهار بخش، ترتیب آزمون، زمان‌بندی، استراحت‌ها و روند واقعی روز آزمون را برای نسخهٔ دیجیتال و کاغذی بررسی می‌کنیم.</p>
+</section>
+
+<section class="pane note">
+<h2>پارت‌های بعدی</h2>
+<p>پارت‌های ۲ تا ۱۱ این راهنما به‌تدریج به همین صفحه اضافه می‌شوند؛ هر پارت یک بخش تازه در ادامهٔ همین صفحه خواهد بود.</p>
+</section>
+</main>
+</body>
+</html>
