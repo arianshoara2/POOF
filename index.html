@@ -705,6 +705,8 @@ nav button::before,nav button::after{top:22px}
 .popB .popLbl{font-size:9px;line-height:1.2;font-weight:700}
 #coach .coach-go{flex:1;background:var(--accent);color:var(--bg);border:0;border-radius:12px;padding:12px 8px;font-weight:700;cursor:pointer}
 #coach .coach-step{margin:10px 0;line-height:1.9}
+
+#podPick .ask-card,#moviePick .ask-card{overscroll-behavior:contain;padding-bottom:calc(116px + env(safe-area-inset-bottom,0px))}
 </style>
 </head>
 <body>
@@ -1163,7 +1165,7 @@ const VIDEOS_EN=[
 ];
 function openMovies(){
  renderMovieTab("movies");
- $("#moviePick").hidden=false;
+ $("#moviePick").hidden=false;lockBody(true);
 }
 const LVL_FA={easy:"آسان",medium:"متوسط",hard:"سخت"};
 const LVL_C={easy:"#4caf50",medium:"#ff9800",hard:"#f44336"};
@@ -1185,13 +1187,13 @@ function renderMovieTab(tab){
  else if(tab==="de")L.innerHTML=VIDEOS_DE.map(m=>movieItem({...m,lang:"de"})).join("");
  else L.innerHTML=VIDEOS_EN.map(m=>movieItem({...m,lang:"en"})).join("");
 }
-$("#movieClose").onclick=()=>{$("#moviePick").hidden=true};
-$("#moviePick").addEventListener("click",e=>{if(e.target.id==="moviePick")$("#moviePick").hidden=true});
+$("#movieClose").onclick=()=>{$("#moviePick").hidden=true;lockBody(false)};
+$("#moviePick").addEventListener("click",e=>{if(e.target.id==="moviePick"){$("#moviePick").hidden=true;lockBody(false)}});
 $("#movieTabs").onclick=e=>{const b=e.target.closest("button");if(b)renderMovieTab(b.dataset.mt)};
 $("#movieList").onclick=async e=>{
  const it=e.target.closest(".movie-it");if(!it)return;
  const ytid=it.dataset.yt,lang=it.dataset.lang||"";
- $("#moviePick").hidden=true;
+ $("#moviePick").hidden=true;lockBody(false);
  toast("در حال آماده‌سازی زیرنویس…");
  try{await importYT(ytid,lang||"en")}catch(err){toast(friendly(err),"bad")}
 };
@@ -1216,7 +1218,8 @@ function podShelfHTML(){
  const L=podLang==="de"?PODCASTS_DE:PODCASTS_EN;
  return `<p class="mute" style="margin:4px 0 2px">پیشنهادهای ${podLang==="de"?"آلمانی":"انگلیسی"}:</p>`+L.map((p,i)=>`<div class="movie-it" data-shelf="${i}"><img class="sq" loading="lazy" src="${esc(p.art)}" alt=""><div style="flex:1"><div class="t" dir="auto">${esc(p.name)}</div><div class="m" dir="auto">${esc(p.by)}</div></div></div>`).join("");
 }
-function openPodcasts(){$("#podRes").innerHTML=podShelfHTML();$("#podPick").hidden=false}
+function lockBody(v){document.body.style.overflow=v?"hidden":""}
+ function openPodcasts(){$("#podRes").innerHTML=podShelfHTML();$("#podPick").hidden=false;lockBody(true)}
 async function podSearch(){
  const q=$("#podQ").value.trim();if(!q)return;
  const box=$("#podRes");box.innerHTML=`<p class="state loading">در حال جست‌وجو…</p>`;
@@ -1297,7 +1300,7 @@ async function podImport(ep,btn){
  if(!podShow)return;
  const sid="pod_"+podHash(podShow.feed+"|"+ep.audio);
  const old=db.texts.find(x=>x.id===sid);
- if(old){$("#podPick").hidden=true;db.textId=old.id;save();$("#entry").hidden=true;renderReader();$("#text").scrollIntoView({behavior:"smooth"});return}
+ if(old){$("#podPick").hidden=true;lockBody(false);db.textId=old.id;save();$("#entry").hidden=true;renderReader();$("#text").scrollIntoView({behavior:"smooth"});return}
  if(btn){btn.style.opacity=.5;btn.style.pointerEvents="none"}
  toast("در حال آماده‌سازی اپیزود…");
  const item={id:sid,added:Date.now(),title:podShow.name+" · "+ep.title,lang:podShow.lang||podLang,pod:{feed:podShow.feed,show:podShow.name,audio:ep.audio,art:podShow.art,dur:ep.dur||0,len:ep.len||0}};
@@ -1318,13 +1321,13 @@ async function podImport(ep,btn){
  }
  if(segs&&segs.length){const mg=mergeWordSegs(segs);if(mg)segs=mg.segs;item.segs=segs;item.body=segs.map(x=>x.t).join("\n")}
  else item.body=ep.desc||podShow.name;
- db.texts.push(item);db.textId=item.id;save();$("#podPick").hidden=true;$("#entry").hidden=true;renderReader();$("#text").scrollIntoView({behavior:"smooth"});
+ db.texts.push(item);db.textId=item.id;save();$("#podPick").hidden=true;lockBody(false);$("#entry").hidden=true;renderReader();$("#text").scrollIntoView({behavior:"smooth"});
  toast(segs?"اپیزود با متن اضافه شد":"اپیزود اضافه شد (فقط صوت)");
  if(btn){btn.style.opacity="";btn.style.pointerEvents=""}
 }
 $("#podCard").onclick=()=>openPodcasts();
-$("#podClose").onclick=()=>{$("#podPick").hidden=true};
-$("#podPick").addEventListener("click",e=>{if(e.target.id==="podPick")$("#podPick").hidden=true});
+$("#podClose").onclick=()=>{$("#podPick").hidden=true;lockBody(false)};
+$("#podPick").addEventListener("click",e=>{if(e.target.id==="podPick"){$("#podPick").hidden=true;lockBody(false)}});
 $("#podSeg").onclick=e=>{const b=e.target.closest("[data-pl]");if(!b)return;podLang=b.dataset.pl;$$("#podSeg button").forEach(x=>x.classList.toggle("on",x===b));$("#podRes").innerHTML=podShelfHTML()};
 $("#podGo").onclick=()=>podSearch();
 $("#podQ").onkeydown=e=>{if(e.key==="Enter")podSearch()};
