@@ -1676,16 +1676,16 @@ function parseWortDict(html){
   const seg=[];
   for(let j=ki+1;j<L.length;j++){
    const t=L[j];
-   if(/^(Häufigkeit|Als Radar|Premium|Deklination|Konjugation|SÄTZE MIT|VERBINDUNGEN|🔒)/i.test(t))break;
+   if(/^(Häufigkeit|Als Radar|Premium|Deklination|Konjugation|SÄTZE MIT|VERBINDUNGEN|درباره ما|تماس با ما|حریم خصوصی|🔒)/i.test(t))break;
    if(/^KI$/i.test(t)||/^Von der KI ergänzt/i.test(t)||WORT_BRACE.test(t))continue;
    seg.push(t);
   }
   const bi=seg.findIndex(t=>/^Beispiele$/i.test(t));
   const gp=pairUp(bi>=0?seg.slice(0,bi):seg).filter(x=>x.de||x.fa);
   const ep=pairUp(bi>=0?seg.slice(bi+1):[]).filter(x=>x.de);
-  if(gp.length||ep.length){
-   const g0=gp[0]||{};
-   e.ai={gloss:g0.fa||"",definitionDe:g0.de||"",definitionFa:"",examples:[...gp.slice(1),...ep]};
+  const g0=gp[0]||{};
+  if(g0.de&&g0.fa){
+   e.ai={gloss:g0.fa,definitionDe:g0.de,definitionFa:"",examples:[...gp.slice(1),...ep]};
   }
  }
  // ?v=93: Deklination/Konjugation — جدول ایستا + «Nach …» + «Prädikativ» به‌صورت بلوکِ خودش (هرگز محتوای معنی‌ها نیست؛ برگه‌های ایستا فقط گونه‌ی پیش‌فرض جدول را دارند، زبانه‌های JS مثل Positiv/Komparativ یا «mit ein…» در متن ایستا نیستند)
@@ -3104,7 +3104,7 @@ async function showEntry(box,raw,ctx,src,lang,preE){
  if(card)card.ex.forEach(x=>x.de&&exs.push(x));
  if(dict)dict.senses.forEach(s=>s.ex.forEach(x=>x.de&&exs.length<12&&exs.push(x)));
  const exHtml=x=>`<span>${sr(x.de,"de")}${x.fa?`<br>${sr(x.fa,"fa","mute")}`:""}</span>`;
- const wortExtraHTML=d=>{let h="";if(d.sentences&&d.sentences.length)h+=`<p style="margin-top:8px"><b>جمله‌ها (wort.app)</b></p>`+d.sentences.map(x=>`<span class="sense">${exHtml(x)}</span>`).join("");if(d.daily&&d.daily.length)h+=`<p style="margin-top:8px"><b>در گفت‌وگو (wort.app)</b></p>`+d.daily.map(x=>`<span class="sense">${exHtml(x)}</span>`).join("");if(d.collocations&&d.collocations.length)h+=`<p style="margin-top:8px"><b>ترکیب‌ها (wort.app)</b></p>`+d.collocations.map(g=>`${g.label?`<div class="mute">${esc(g.label)}</div>`:""}`+g.items.map(x=>`<span class="sense">${exHtml(x)}</span>`).join("")).join("");if(d.ai&&(d.ai.gloss||d.ai.definitionDe||d.ai.definitionFa||(d.ai.examples&&d.ai.examples.length))){h+=`<p style="margin-top:8px"><b>توضیح هوش مصنوعی (wort.app)</b></p>`;if(d.ai.gloss)h+=`<p><b>معنی: ${sr(d.ai.gloss,"fa")}</b></p>`;if(d.ai.definitionDe)h+=`<span class="de" style="display:block">${sr(d.ai.definitionDe,"de")}</span>`;if(d.ai.definitionFa)h+=`<span>${sr(d.ai.definitionFa,"fa")}</span>`;if(d.ai.examples&&d.ai.examples.length)h+=d.ai.examples.map(x=>`<span class="sense">${exHtml(x)}</span>`).join("");h+=`<p class="mute">Von der KI ergänzt, nicht geprüft.</p>`;}
+ const wortExtraHTML=d=>{let h="";if(d.sentences&&d.sentences.length)h+=`<p style="margin-top:8px"><b>جمله‌ها (wort.app)</b></p>`+d.sentences.map(x=>`<span class="sense">${exHtml(x)}</span>`).join("");if(d.daily&&d.daily.length)h+=`<p style="margin-top:8px"><b>در گفت‌وگو (wort.app)</b></p>`+d.daily.map(x=>`<span class="sense">${exHtml(x)}</span>`).join("");if(d.collocations&&d.collocations.length)h+=`<p style="margin-top:8px"><b>ترکیب‌ها (wort.app)</b></p>`+d.collocations.map(g=>`${g.label?`<div class="mute">${esc(g.label)}</div>`:""}`+g.items.map(x=>`<span class="sense">${exHtml(x)}</span>`).join("")).join("");if(d.ai&&d.ai.gloss&&d.ai.definitionDe){h+=`<p style="margin-top:8px"><b>توضیح هوش مصنوعی (wort.app)</b></p>`;if(d.ai.gloss)h+=`<p><b>معنی: ${sr(d.ai.gloss,"fa")}</b></p>`;if(d.ai.definitionDe)h+=`<span class="de" style="display:block">${sr(d.ai.definitionDe,"de")}</span>`;if(d.ai.definitionFa)h+=`<span>${sr(d.ai.definitionFa,"fa")}</span>`;if(d.ai.examples&&d.ai.examples.length)h+=d.ai.examples.map(x=>`<span class="sense">${exHtml(x)}</span>`).join("");h+=`<p class="mute">Von der KI ergänzt, nicht geprüft.</p>`;}
   // ?v=93: بلوک تصریف (فقط گونه‌ی ایستای جدول؛ زبانه‌های JS ادعا نمی‌شوند)
   if(d.dekl&&(d.dekl.rows.length||d.dekl.note||d.dekl.praed)){
    const dk=d.dekl,hd=dk.header,hasCorner=hd.length&&dk.rows.length&&hd.length===dk.rows[0].length;
