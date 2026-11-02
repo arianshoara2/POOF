@@ -1541,10 +1541,14 @@ async function loadManualDict(){
    const k=String(e.headword||"").toLowerCase();
    let arr=byKey.get(k);
    if(String(e.info||"").includes("(Fortsetzung)")&&arr&&arr.length){
-    const p=arr[arr.length-1];
+    const base=String(e.info||"").replace(/\s*\(Fortsetzung[^)]*\)\s*/,"").trim();
+    const byInfo=arr.slice().reverse().find(x=>String(x.info||"").trim()===base);
+    const byHead=arr.slice().reverse().find(x=>String(x.headword||"")===String(e.headword||""));
+    const p=byInfo||byHead||arr[arr.length-1];
     for(const x of (e.senses||[])){
      const last=(p.senses||[])[(p.senses||[]).length-1];
-     if(x.number!=null&&last&&last.number===x.number&&!x.context_de&&!x.persian){
+     const sameNo=(x.number==null&&last&&last.number==null)||(x.number!=null&&last&&last.number===x.number);
+     if(sameNo&&!x.context_de&&!x.persian){
       last.examples=[...(last.examples||[]),...(x.examples||[])];
      } else {
       (p.senses=p.senses||[]).push(x);
