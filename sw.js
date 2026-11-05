@@ -24,6 +24,21 @@ self.addEventListener('fetch', (e) => {
   const url = new URL(e.request.url);
   const isDocument = e.request.mode === 'navigate' || url.pathname.endsWith('/') || url.pathname.endsWith('.html');
   if (isDocument) {
+    const isShell = url.pathname === '/' || url.pathname.endsWith('/index.html');
+    if (!isShell) {
+      // صفحه‌های خود اپ (ورتشاتس و…): اول از کش، فوری باز شود؛
+      // تازه‌سازی در پس‌زمینه — تا ضربه زدن و باز شدن یکی شود
+      e.respondWith(
+        caches.match(e.request).then((m) => {
+          const net = fetch(e.request).then((r) => {
+            if (r.ok) { const copy = r.clone(); caches.open(CACHE).then((c) => c.put(e.request, copy)); }
+            return r;
+          }).catch(() => null);
+          return m || net.then((r) => r || caches.match('./index.html'));
+        })
+      );
+      return;
+    }
     // ناوبری و اسناد HTML: همیشه اول شبکه و ذخیره‌ی نسخه‌ی تازه در کش —
     // کش فقط وقتی آفلاینیم. این‌طوری پوسته‌ی تازه بعد از هر دیپلوی فوراً می‌رسد.
     e.respondWith(
