@@ -265,7 +265,7 @@ html[data-theme=snowy] .lk.esel{background:rgba(243,200,121,.30)}
     <section id="readerView" class="reader">
       <div class="reader-card">
         <div class="mini" id="readerStatus">در حال مرور لغات</div>
-        <div class="progbar" id="progBar" tabindex="0" aria-label="پرش به کلمه با لمس یا کشیدن"><i id="progFill"></i></div>
+        <div class="progbar" id="progBar" tabindex="0" aria-label="پرش به کلمه با لمس یا کشیدن"><i id="progFill"></i><b class="prog-thumb" id="progThumb">۱</b></div>
         <div class="top-nums"><span id="stepIdx">1</span><span id="stepTotal">20</span></div>
         <div class="word-big" id="rWord">hallo</div>
         <div class="ipa" id="rIpa">/ˈhaloː/</div>
@@ -295,6 +295,8 @@ html[data-theme=snowy] .lk.esel{background:rgba(243,200,121,.30)}
     </section>
 
     <section id="flashView" class="flash-wrap">
+      <div class="progbar flash-prog" id="flashProgBar" tabindex="0" aria-label="پرش به کلمه با لمس یا کشیدن"><i id="flashProgFill"></i><b class="prog-thumb" id="flashProgThumb">۱</b></div>
+      <div class="top-nums"><span id="flashStepIdx">۱</span><span id="flashStepTotal">۲۰</span></div>
       <div class="flash-card" id="flashCard">
         <div class="front" id="flashFront">hallo</div>
         <div class="back" id="flashBack" hidden>سلام</div>
@@ -763,7 +765,7 @@ function renderReader(){
   const w=words[currentIndex]; const head=w.id||w.ph||w.w;
   $('#sectionView').classList.remove('on'); $('#readerView').classList.add('on'); $('#flashView').classList.remove('on'); $('#quizView').classList.remove('on');
   updateHeader(topicById(currentTopic).fa, topicById(currentTopic).de, true);
-  $('#stepIdx').textContent=toFaNum(currentIndex+1); $('#stepTotal').textContent=toFaNum(words.length); $('#progFill').style.width=((currentIndex+1)/words.length*100)+'%';var _pb=$('#progBar');if(_pb){_pb.setAttribute('aria-valuenow',String(currentIndex+1));_pb.setAttribute('aria-valuemax',String(words.length));}
+  $('#stepIdx').textContent=toFaNum(currentIndex+1); $('#stepTotal').textContent=toFaNum(words.length); $('#progFill').style.width=((currentIndex+1)/words.length*100)+'%';var _pb=$('#progBar');if(_pb){_pb.setAttribute('aria-valuenow',String(currentIndex+1));_pb.setAttribute('aria-valuemax',String(words.length));}var _pt=$('#progThumb');if(_pt){_pt.style.right=((currentIndex+1)/words.length*100)+'%';_pt.textContent=toFaNum(currentIndex+1);}
   $('#readerStatus').textContent=w.id?(topicById(currentTopic)?.kind==='proverb'?'در حال مرور ضرب‌المثل‌ها':'در حال مرور اصطلاحات'):(w.ph?'در حال مرور عبارات':'در حال مرور لغات');
   $('#rWord').textContent=head; $('#rWord').classList.toggle('is-phrase',!!w.ph); $('#rIpa').textContent=w.ipa||''; $('#rIpa').style.display=w.ipa?'':'none'; $('#rTag').textContent=w.id?(topicById(currentTopic)?.kind==='proverb'?'ضرب‌المثل':'اصطلاح'):(w.ph?'عبارت کاربردی':(w.tag||'واژه'));
   $('#rArtWord').textContent=(w.art&&w.art!=='—'?`${w.art} `:'')+head; $('#rMean').textContent=w.fig||w.fa;
@@ -788,7 +790,7 @@ function renderFlash(){
   const w=words[currentIndex];
   $('#sectionView').classList.remove('on'); $('#readerView').classList.remove('on'); $('#quizView').classList.remove('on'); $('#flashView').classList.add('on');
   updateHeader('فلش‌کارت','نمونهٔ گام دوم',true);
-  flashFlipped=false; $('#flashFront').textContent=(w.art&&w.art!=='—'?`${w.art} `:'')+(w.id||w.ph||w.w); $('#flashBack').textContent=w.fig||w.fa; $('#flashBack').hidden=true; refreshMainMarker(); fitWordEl($('#flashFront'),18);
+  flashFlipped=false; $('#flashFront').textContent=(w.art&&w.art!=='—'?`${w.art} `:'')+(w.id||w.ph||w.w); $('#flashBack').textContent=w.fig||w.fa; $('#flashBack').hidden=true; refreshMainMarker(); fitWordEl($('#flashFront'),18);var _fw=words.length,_fp=$('#flashProgFill');if(_fp)_fp.style.width=((currentIndex+1)/_fw*100)+'%';var _ft=$('#flashProgThumb');if(_ft){_ft.style.right=((currentIndex+1)/_fw*100)+'%';_ft.textContent=toFaNum(currentIndex+1);}var _fi=$('#flashStepIdx');if(_fi)_fi.textContent=toFaNum(currentIndex+1);var _ftt=$('#flashStepTotal');if(_ftt)_ftt.textContent=toFaNum(_fw);
   const _fci=caseInfoFor(w); const _fc=$('#flashCase'); if(_fc){_fc.style.display=_fci?'':'none'; _fc.textContent=_fci?((w.id||w.ph||w.w)+' + '+_fci.case+' · '+_fci.note):'';}
 }
 
@@ -1214,8 +1216,11 @@ window.addEventListener('popstate',function(){if(selectOpen){selectOpen=false;se
 (function(){var ex=$('#examples');if(ex)ex.addEventListener('click',function(e){if(selSup)return;if(!selTapOK())return;var lk=e.target.closest?e.target.closest('.lk'):null;if(!lk)return;openSelectWord(lk.dataset.w||lk.textContent);});var sb=$('#selectBody');if(sb)sb.addEventListener('click',function(e){var sg=e.target.closest?e.target.closest('[data-phrase-sugg]'):null;if(sg){openSelectPhrase(sg.dataset.phraseSugg||sg.textContent);return;}if(selSup)return;if(!selTapOK())return;var lk=e.target.closest?e.target.closest('.lk'):null;if(!lk)return;openSelectWord(lk.dataset.w||lk.textContent);});var sw=$('#selectSheetWrap');if(sw)sw.addEventListener('click',function(e){if(e.target===sw)closeSelectSheet(false);});var cl=$('#selectClose');if(cl)cl.onclick=function(){closeSelectSheet(false);};})();
 /* ===== Scrubbable reader progress bar (RTL: right edge = word 1) ===== */
 var scrubActive=false;
-function scrubToClientX(clientX){var bar=$('#progBar');if(!bar)return;var words=currentWords();if(!words.length)return;var r=bar.getBoundingClientRect();if(!r||!r.width)return;var p=(r.right-clientX)/r.width;if(p<0)p=0;if(p>1)p=1;var idx=Math.floor(p*words.length);if(idx>=words.length)idx=words.length-1;if(idx<0)idx=0;currentIndex=idx;renderReader();poofTrack();}
-(function(){var bar=$('#progBar');if(!bar)return;bar.addEventListener('pointerdown',function(e){scrubActive=true;try{bar.setPointerCapture(e.pointerId);}catch(err){}scrubToClientX(e.clientX);});bar.addEventListener('pointermove',function(e){if(!scrubActive)return;scrubToClientX(e.clientX);});var _end=function(){scrubActive=false;};bar.addEventListener('pointerup',_end);bar.addEventListener('pointercancel',_end);})();
+/* ===== Scrubbable progress bar (RTL: right edge = word 1) — reader + flash share it ===== */
+var scrubActive=false;
+function scrubToClientX(clientX,bar){if(!bar)return;var words=currentWords();if(!words.length)return;var r=bar.getBoundingClientRect();if(!r||!r.width)return;var p=(r.right-clientX)/r.width;if(p<0)p=0;if(p>1)p=1;var idx=Math.floor(p*words.length);if(idx>=words.length)idx=words.length-1;if(idx<0)idx=0;currentIndex=idx;if($('#flashView').classList.contains('on'))renderFlash();else renderReader();poofTrack();}
+function bindScrub(bar){if(!bar)return;bar.addEventListener('pointerdown',function(e){scrubActive=true;try{bar.setPointerCapture(e.pointerId);}catch(err){}scrubToClientX(e.clientX,bar);});bar.addEventListener('pointermove',function(e){if(!scrubActive)return;scrubToClientX(e.clientX,bar);});var _end=function(){scrubActive=false;};bar.addEventListener('pointerup',_end);bar.addEventListener('pointercancel',_end);bar.addEventListener('lostpointercapture',_end);}
+bindScrub(document.getElementById('progBar'));bindScrub(document.getElementById('flashProgBar'));
 $$('.home-card').forEach(b=>b.addEventListener('click',()=>{renderSection(b.dataset.target);poofGo();}));
 $('#subList').addEventListener('click',e=>{const b=e.target.closest('.sub-item'); if(b){openSheet(b.dataset.topic);poofGo();}});
 $('#closeSheet').onclick=()=>{closeSheet();poofGo();}; var _shc=$('#sheetHeadClose'); if(_shc)_shc.onclick=()=>{closeSheet();poofGo();}; $('#sheetWrap').addEventListener('click',e=>{if(e.target===e.currentTarget){closeSheet();poofGo();}});
@@ -1327,6 +1332,27 @@ button:active{transform:scale(.97)}
 .poof-nav button.hero{width:auto;height:auto;padding:10px 2px;border-radius:16px;background:transparent;color:var(--muted);transform:none;box-shadow:none;justify-self:auto;align-self:auto}
 .poof-nav button.hero .ic{width:24px;height:24px}
 .poof-nav button.hero.on{background:rgba(230,185,111,.18);color:var(--gold);filter:none;box-shadow:none}
+/* compact reader card so it fits one screen + visible scrub thumb */
+.reader-card{padding:14px 16px 10px;margin:-16px -16px 12px}
+#readerView .progbar{overflow:visible}
+.progbar{position:relative}
+.prog-thumb{position:absolute;top:50%;right:0;transform:translate(50%,-50%);width:30px;height:30px;border-radius:50%;background:var(--gold);color:#1a1307;display:grid;place-items:center;font-size:13px;font-weight:800;pointer-events:none;box-shadow:0 2px 8px rgba(0,0,0,.35);z-index:1}
+.word-big{font-size:clamp(1.6rem,9vw,2.6rem);margin:12px 0 0}
+.ipa{margin-top:8px;font-size:1.05rem}
+.speech-type{margin-top:6px}
+.tools{transform:translateY(14px);margin-bottom:6px}
+.tool-btn{width:36px;height:36px}
+#readerLeitner{margin-top:4px}
+.word-panel{padding:12px 14px}
+.word-panel h4{margin-bottom:6px}
+.word-panel .mean{margin-bottom:8px;font-size:1.05rem}
+.example{padding:9px 12px;margin-bottom:8px}
+.row-tools{margin-top:10px}
+.dict-btn{padding:10px 18px}
+.note{margin-top:6px;font-size:.82rem}
+.reader-nav{margin:10px 0 4px}
+.reader-nav .nav-btn{padding:10px}
+.flash-prog{margin:4px 0 6px;overflow:visible}
 </style>
 <script>/* quiet layer: haptic ticks on meaningful taps */
 document.addEventListener('pointerdown',function(e){if(e.target.closest('button,.home-card,.sub-item')){try{navigator.vibrate&&navigator.vibrate(8)}catch(_){}}},{passive:true});</script>
