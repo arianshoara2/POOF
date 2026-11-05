@@ -708,6 +708,7 @@ nav button::before,nav button::after{top:22px}
 
 #podPick .ask-card,#moviePick .ask-card{overscroll-behavior:contain;padding-bottom:calc(116px + env(safe-area-inset-bottom,0px))}
 </style>
+<link rel="stylesheet" href="poof-minimal.css?v=1">
 </head>
 <body>
 <div id="readBg" class="poof-img-library-bg" aria-hidden="true"></div>
@@ -5758,5 +5759,7 @@ if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() { navigator.serviceWorker.register('sw.js'); });
 }
 </script>
+<script>/* minimal layer: haptic ticks on meaningful taps (Vibration API; no-op where unsupported) */
+document.addEventListener('pointerdown',function(e){if(e.target.closest('nav button,.lt-btns button,.opt,.seg button')){try{navigator.vibrate&&navigator.vibrate(8)}catch(_){}}},{passive:true});</script>
 </body>
 </html>

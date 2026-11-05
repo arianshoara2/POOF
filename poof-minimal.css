@@ -1,0 +1,53 @@
+/* ===== POOF minimal layer — quiet surfaces, Apple-style feedback =====
+   Loaded LAST in index.html so it wins at equal specificity. CSS-only:
+   no markup, no logic, no theme hues changed. Remove the <link> to revert.
+   Principles: taste-skill (one system, equal edges, real content first) +
+   apple-design (press on pointer-down, sheets with a grabber, spring easing,
+   translucent chrome, reduced motion respected). */
+
+/* ---- 1. Quiet surfaces: scenic photo layers off, flat backgrounds ---- */
+#readBg,#reviewBg,#cardsBg,#meBg,#dictBg{display:none!important}
+.card-bg-img{display:none!important}
+header .poof-img-header-bg{display:none!important}
+header::after{display:none!important}
+.lib-banner .poof-img-library-banner{display:none!important}
+.lib-banner::before{display:none!important}
+.lib-banner-txt h2,.lib-banner-txt p{color:inherit;text-shadow:none}
+#s-cards #list .card::after{display:none!important}
+#podPick .pod-scenic{display:none!important}
+
+/* ---- 2. One hairline, one soft shadow: cards go flat ---- */
+.card,.lt-card,.lib-banner{box-shadow:none}
+.card{margin-bottom:12px}
+/* light (clay) themes: 3px borders + inset shadows -> 1px hairline, flat */
+html[data-theme=lilac] .card,html[data-theme=peachy] .card,html[data-theme=minty] .card,html[data-theme=sun] .card,
+html[data-theme=lilac] #libZone,html[data-theme=peachy] #libZone,html[data-theme=minty] #libZone,html[data-theme=sun] #libZone,
+html[data-theme=lilac] #wikiCard,html[data-theme=peachy] #wikiCard,html[data-theme=minty] #wikiCard,html[data-theme=sun] #wikiCard,
+html[data-theme=lilac] #lib .lib-card,html[data-theme=peachy] #lib .lib-card,html[data-theme=minty] #lib .lib-card,html[data-theme=sun] #lib .lib-card,
+html[data-theme=lilac] .lib-banner,html[data-theme=peachy] .lib-banner,html[data-theme=minty] .lib-banner,html[data-theme=sun] .lib-banner{border-width:1px;box-shadow:none}
+
+/* ---- 3. Calmer nav: the popping circle becomes a quiet filled pill ---- */
+nav button::before,nav button::after{display:none}
+nav button.on{background:var(--active)}
+nav button.on .ic{transform:none}
+html[data-theme=lilac] nav button.on,html[data-theme=peachy] nav button.on,html[data-theme=minty] nav button.on,html[data-theme=sun] nav button.on{background:rgba(var(--lt-shadow),.14)}
+
+/* ---- 4. Type: tighter headings, same faces ---- */
+h2,h3{letter-spacing:-.01em}
+body{line-height:1.55}
+
+/* ---- 5. Press feedback on every tappable row (Apple: feedback on pointer-down) ---- */
+.lib-card:active,.movie-it:active,.opt:active,.theme-option:active{transform:scale(.98)}
+.lib-card,.movie-it,.opt,.theme-option{transition:transform .15s ease,background-color .2s ease,border-color .2s ease}
+
+/* ---- 6. Sheets: iOS grabber + spring easing + contained scroll ---- */
+.ask-card::before,.peek-card::before,.um-sheet::before,.ed-card::before{content:"";display:block;width:36px;height:4px;border-radius:99px;background:var(--border);margin:0 auto 12px}
+.ask-card,.peek-card,.um-sheet,.ed-card{overscroll-behavior:contain;animation-timing-function:cubic-bezier(.32,.72,.35,1)}
+
+/* ---- 7. Mascot: slower float, less busy ---- */
+.poof-mascot,.brand-mascot{animation-duration:6s}
+
+/* ---- 8. Reduced motion: sheets fade instead of sliding ---- */
+@media (prefers-reduced-motion:reduce){
+  .ask-card::before,.peek-card::before,.um-sheet::before,.ed-card::before{display:none}
+}
