@@ -2850,7 +2850,7 @@ function playRich(url,word,lang,btn){
    Source: German Wiktionary via kaikki.org / Wiktextract — CC BY-SA 4.0.
    All pack code is best-effort: any failure falls back to the network flow. */
 const PACK_META_DE="poof_pack_de";
-let _packDb=null,packBusy=false;
+let _packDb=null,packBusy=false,packAbort=null,packCancel=false,packStalled=false,packLiveStatus="";
 function packMeta(){try{return JSON.parse(localStorage.getItem(PACK_META_DE)||"null")}catch(e){return null}}
 function packInstalled(){return !!packMeta()}
 function packOpen(){
@@ -2897,49 +2897,61 @@ async function packLookupDE(word){
 function renderPackDE(){
  var st=$("#packDeStatus"),btn=$("#packDeBtn"),del=$("#packDeDel"),bar=$("#packDeBar");if(!st||!btn)return;
  var m=packMeta();
- if(packBusy){st.textContent="در حال دانلود و نصب…";btn.disabled=true;if(del)del.hidden=true;if(bar)bar.hidden=false;return}
- btn.disabled=false;if(bar)bar.hidden=true;
+ if(packBusy){st.textContent=packLiveStatus||"در حال دانلود و نصب…";btn.disabled=false;btn.textContent="لغو دانلود";if(del)del.hidden=true;if(bar)bar.hidden=false;return}
+ btn.disabled=false;if(bar)bar.hidden=true;var f0=$("#packDeFill");if(f0)f0.style.width="0%";
  if(m){st.textContent="نصب شده — "+Number(m.n||0).toLocaleString("fa-IR")+" مدخل";btn.textContent="دانلود دوباره پک";if(del)del.hidden=false}
  else{st.textContent="نصب نشده";btn.textContent="دانلود پک (~۷۸ مگ)";if(del)del.hidden=true}
 }
 function packProgress(read,total){
  var p=total?Math.min(100,Math.round(read/total*100)):0;
  var f=$("#packDeFill");if(f)f.style.width=p+"%";
- var st=$("#packDeStatus");if(st)st.textContent="در حال دانلود… "+p.toLocaleString("fa-IR")+"٪";
+ var mb=function(n){return (n/1048576).toLocaleString("fa-IR",{maximumFractionDigits:1})};
+ packLiveStatus="در حال دانلود… "+p.toLocaleString("fa-IR")+"٪ ("+mb(read)+" از "+mb(total)+" مگ)";
+ var st=$("#packDeStatus");if(st)st.textContent=packLiveStatus;
 }
 async function packInstallDE(){
- if(packBusy)return;
+ if(packBusy){packCancel=true;if(packAbort)try{packAbort.abort()}catch(e){}return;}
  if(typeof DecompressionStream==="undefined"){toast("مرورگر شما از نصب آفلاین پشتیبانی نمی‌کند","bad");return}
- packBusy=true;renderPackDE();
+ packBusy=true;packCancel=false;packStalled=false;packLiveStatus="در حال اتصال…";renderPackDE();
+ packAbort=new AbortController();
+ var stallTimer=null;
+ var armStall=function(){if(stallTimer)clearTimeout(stallTimer);stallTimer=setTimeout(function(){if(packBusy){packStalled=true;packCancel=true;if(packAbort)try{packAbort.abort()}catch(e){}}},180000)};
+ armStall();
  try{
-  var resp=await fetch(PACK_URL_DE);
+  var resp=await fetch(PACK_URL_DE,{signal:packAbort.signal});
   if(!resp.ok||!resp.body)throw new Error("http "+resp.status);
   var total=+(resp.headers.get("content-length")||78422360),read=0;
-  var stream=resp.body.pipeThrough(new TransformStream({transform:function(c,ctl){read+=c.byteLength;packProgress(read,total);ctl.enqueue(c)}})).pipeThrough(new DecompressionStream("gzip")).pipeThrough(new TextDecoderStream());
+  var stream=resp.body.pipeThrough(new TransformStream({transform:function(c,ctl){read+=c.byteLength;packProgress(read,total);armStall();ctl.enqueue(c)}})).pipeThrough(new DecompressionStream("gzip")).pipeThrough(new TextDecoderStream());
   var reader=stream.getReader(),buf="",count=0,batch=[],db=await packOpen();
   await new Promise(function(res,rej){var tx=db.transaction("words","readwrite");tx.objectStore("words").clear();tx.oncomplete=res;tx.onerror=function(){rej(tx.error)}});
   var flush=async function(){
    if(!batch.length)return;var items=batch;batch=[];
    await new Promise(function(res,rej){var tx=db.transaction("words","readwrite"),st=tx.objectStore("words");items.forEach(function(r){st.put(r)});tx.oncomplete=res;tx.onerror=function(){rej(tx.error)}});
+   packLiveStatus="در حال نصب… "+count.toLocaleString("fa-IR")+" مدخل";var st2=$("#packDeStatus");if(st2)st2.textContent=packLiveStatus;
   };
   var handleLine=async function(line){
    line=line.trim();if(!line)return;
    try{var r=JSON.parse(line);if(r&&r.w){batch.push(r);count++;if(batch.length>=1000)await flush()}}catch(e){}
   };
   while(true){
+   if(packCancel)throw new Error("cancelled");
    var rd=await reader.read();if(rd.done)break;
    buf+=rd.value;var idx;
    while((idx=buf.indexOf("\n"))>=0){var ln=buf.slice(0,idx);buf=buf.slice(idx+1);await handleLine(ln)}
   }
+  if(stallTimer)clearTimeout(stallTimer);
   if(buf.trim())await handleLine(buf);
   await flush();
   localStorage.setItem(PACK_META_DE,JSON.stringify({n:count,at:Date.now()}));
   toast("دیکشنری آفلاین نصب شد ✓");
  }catch(err){
   try{localStorage.removeItem(PACK_META_DE);var db2=await packOpen();await new Promise(function(res){var tx=db2.transaction("words","readwrite");tx.objectStore("words").clear();tx.oncomplete=res;tx.onerror=res})}catch(e){}
-  toast("دانلود پک ناموفق بود","bad");
+  if(packStalled)toast("اتصال دانلود متوقف شد — دوباره تلاش کنید","bad");
+  else if(packCancel)toast("دانلود لغو شد","bad");
+  else toast("دانلود پک ناموفق بود","bad");
  }
- packBusy=false;renderPackDE();
+ if(stallTimer)clearTimeout(stallTimer);
+ packAbort=null;packBusy=false;packLiveStatus="";renderPackDE();
 }
 async function packDeleteDE(){
  try{localStorage.removeItem(PACK_META_DE);if(_packDb){_packDb.close();_packDb=null}
