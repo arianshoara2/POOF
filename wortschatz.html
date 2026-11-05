@@ -151,6 +151,42 @@ html[data-theme=snowy] .lk.esel{background:rgba(243,200,121,.30)}
 .poof-nav button.hero.on{filter:brightness(1.08);box-shadow:0 0 0 3px var(--bg),0 10px 26px rgba(0,0,0,.55),0 0 20px rgba(230,185,111,.35)}
 /* scrubbable reader progress bar: taller hit area, 6px visible track */
 #readerView .progbar{padding:8px 0;background-clip:content-box;cursor:pointer;touch-action:none}
+/* quiet layer — same face as the main app: flat surfaces, one hairline, calm press (additive only) */
+#scenicBg{display:none!important}
+.topbar .poof-img-header-bg{display:none!important}
+.topbar::after{display:none!important}
+:root{--r:16px;--r-lg:20px}
+.kpi .box,.home-card,.section-hero,.sub-list,.word-panel,.reader-card,.search{background:var(--panel);box-shadow:none}
+.home-card{border-color:var(--line)}
+html[data-theme=lilac] .box,html[data-theme=peachy] .box,html[data-theme=minty] .box,html[data-theme=lilac] .quiz-card,html[data-theme=peachy] .quiz-card,html[data-theme=minty] .quiz-card,html[data-theme=lilac] .flash-card,html[data-theme=peachy] .flash-card,html[data-theme=minty] .flash-card,html[data-theme=lilac] .stat-card,html[data-theme=peachy] .stat-card,html[data-theme=minty] .stat-card,html[data-theme=lilac] .home-card,html[data-theme=peachy] .home-card,html[data-theme=minty] .home-card,html[data-theme=lilac] .word-panel,html[data-theme=peachy] .word-panel,html[data-theme=minty] .word-panel{border-width:1px!important;box-shadow:none!important}
+html[data-theme=lilac] .quiz-opts button,html[data-theme=peachy] .quiz-opts button,html[data-theme=minty] .quiz-opts button{border-width:1px!important;box-shadow:none!important}
+button:active{transform:scale(.97)}
+.home-card:active,.sub-item:active{transform:scale(.98)}
+/* bottom nav: same quiet face as the main app — the popping hero circle is gone */
+.poof-nav button.hero{width:auto;height:auto;padding:10px 2px;border-radius:16px;background:transparent;color:var(--muted);transform:none;box-shadow:none;justify-self:auto;align-self:auto}
+.poof-nav button.hero .ic{width:24px;height:24px}
+.poof-nav button.hero.on{background:rgba(230,185,111,.18);color:var(--gold);filter:none;box-shadow:none}
+/* compact reader card so it fits one screen + visible scrub thumb */
+.reader-card{padding:14px 16px 10px;margin:-16px -16px 12px}
+#readerView .progbar{overflow:visible}
+.progbar{position:relative}
+.prog-thumb{position:absolute;top:50%;right:0;transform:translate(50%,-50%);width:30px;height:30px;border-radius:50%;background:var(--gold);color:#1a1307;display:grid;place-items:center;font-size:13px;font-weight:800;pointer-events:none;box-shadow:0 2px 8px rgba(0,0,0,.35);z-index:1}
+.word-big{font-size:clamp(1.6rem,9vw,2.6rem);margin:12px 0 0}
+.ipa{margin-top:8px;font-size:1.05rem}
+.speech-type{margin-top:6px}
+.tools{transform:translateY(14px);margin-bottom:6px}
+.tool-btn{width:36px;height:36px}
+#readerLeitner{margin-top:4px}
+.word-panel{padding:12px 14px}
+.word-panel h4{margin-bottom:6px}
+.word-panel .mean{margin-bottom:8px;font-size:1.05rem}
+.example{padding:9px 12px;margin-bottom:8px}
+.row-tools{margin-top:10px}
+.dict-btn{padding:10px 18px}
+.note{margin-top:6px;font-size:.82rem}
+.reader-nav{margin:10px 0 4px}
+.reader-nav .nav-btn{padding:10px}
+.flash-prog{margin:4px 0 6px;overflow:visible}
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800;900&family=DM+Sans:wght@400;500;700&family=Vazirmatn:wght@400;500;700;800&display=swap" rel="stylesheet"></head>
 <body>
@@ -1317,42 +1353,6 @@ html[data-theme=lilac] #scenicBg::after,html[data-theme=minty] #scenicBg::after,
 html[data-theme=ocean] .topbar .poof-img-header-bg{background-image:url('pouf-blue-banner.webp');background-size:cover;background-position:center}
 html[data-theme=nebula] .topbar .poof-img-header-bg{background-image:url('pouf-nebula-banner.webp');background-size:cover;background-position:center}
 html[data-theme=lilac] .topbar .poof-img-header-bg,html[data-theme=minty] .topbar .poof-img-header-bg,html[data-theme=sun] .topbar .poof-img-header-bg,html[data-theme=peachy] .topbar .poof-img-header-bg{display:none}
-/* quiet layer — same face as the main app: flat surfaces, one hairline, calm press (additive only) */
-#scenicBg{display:none!important}
-.topbar .poof-img-header-bg{display:none!important}
-.topbar::after{display:none!important}
-:root{--r:16px;--r-lg:20px}
-.kpi .box,.home-card,.section-hero,.sub-list,.word-panel,.reader-card,.search{background:var(--panel);box-shadow:none}
-.home-card{border-color:var(--line)}
-html[data-theme=lilac] .box,html[data-theme=peachy] .box,html[data-theme=minty] .box,html[data-theme=lilac] .quiz-card,html[data-theme=peachy] .quiz-card,html[data-theme=minty] .quiz-card,html[data-theme=lilac] .flash-card,html[data-theme=peachy] .flash-card,html[data-theme=minty] .flash-card,html[data-theme=lilac] .stat-card,html[data-theme=peachy] .stat-card,html[data-theme=minty] .stat-card,html[data-theme=lilac] .home-card,html[data-theme=peachy] .home-card,html[data-theme=minty] .home-card,html[data-theme=lilac] .word-panel,html[data-theme=peachy] .word-panel,html[data-theme=minty] .word-panel{border-width:1px;box-shadow:none}
-html[data-theme=lilac] .quiz-opts button,html[data-theme=peachy] .quiz-opts button,html[data-theme=minty] .quiz-opts button{border-width:1px;box-shadow:none}
-button:active{transform:scale(.97)}
-.home-card:active,.sub-item:active{transform:scale(.98)}
-/* bottom nav: same quiet face as the main app — the popping hero circle is gone */
-.poof-nav button.hero{width:auto;height:auto;padding:10px 2px;border-radius:16px;background:transparent;color:var(--muted);transform:none;box-shadow:none;justify-self:auto;align-self:auto}
-.poof-nav button.hero .ic{width:24px;height:24px}
-.poof-nav button.hero.on{background:rgba(230,185,111,.18);color:var(--gold);filter:none;box-shadow:none}
-/* compact reader card so it fits one screen + visible scrub thumb */
-.reader-card{padding:14px 16px 10px;margin:-16px -16px 12px}
-#readerView .progbar{overflow:visible}
-.progbar{position:relative}
-.prog-thumb{position:absolute;top:50%;right:0;transform:translate(50%,-50%);width:30px;height:30px;border-radius:50%;background:var(--gold);color:#1a1307;display:grid;place-items:center;font-size:13px;font-weight:800;pointer-events:none;box-shadow:0 2px 8px rgba(0,0,0,.35);z-index:1}
-.word-big{font-size:clamp(1.6rem,9vw,2.6rem);margin:12px 0 0}
-.ipa{margin-top:8px;font-size:1.05rem}
-.speech-type{margin-top:6px}
-.tools{transform:translateY(14px);margin-bottom:6px}
-.tool-btn{width:36px;height:36px}
-#readerLeitner{margin-top:4px}
-.word-panel{padding:12px 14px}
-.word-panel h4{margin-bottom:6px}
-.word-panel .mean{margin-bottom:8px;font-size:1.05rem}
-.example{padding:9px 12px;margin-bottom:8px}
-.row-tools{margin-top:10px}
-.dict-btn{padding:10px 18px}
-.note{margin-top:6px;font-size:.82rem}
-.reader-nav{margin:10px 0 4px}
-.reader-nav .nav-btn{padding:10px}
-.flash-prog{margin:4px 0 6px;overflow:visible}
 </style>
 <script>/* quiet layer: haptic ticks on meaningful taps */
 document.addEventListener('pointerdown',function(e){if(e.target.closest('button,.home-card,.sub-item')){try{navigator.vibrate&&navigator.vibrate(8)}catch(_){}}},{passive:true});</script>
