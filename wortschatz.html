@@ -61,7 +61,6 @@ html[data-theme=snowy] .home-card .art{background:rgba(243,248,252,.82);color:#0
 .quiz-card{background:linear-gradient(180deg,var(--panel),var(--panel-2));border:1px solid var(--line);border-radius:24px;padding:16px;box-shadow:var(--shadow)}.quiz-q{font-size:1.28rem;margin-bottom:14px}.quiz-opts{display:grid;gap:10px}.quiz-opts button{text-align:right}.note{margin-top:10px;color:var(--muted);text-align:center}
 .mini{font-size:.88rem;color:var(--muted)}
 @media (min-width:600px){main{padding-inline:18px}.home-card{flex-basis:205px}.sub-item{grid-template-columns:64px 1fr 64px}.iconbox{width:64px;height:64px}}
-.poof-back{display:block;padding:12px 16px;color:var(--gold);font-weight:700;background:var(--bg)}
 .iconbtn svg{width:18px;height:18px}.search svg{width:18px;height:18px;flex:none}
 .home-card .art svg{width:32px;height:32px}.iconbox svg{width:28px;height:28px}.sheet-icon svg{width:20px;height:20px}
 .tool-btn svg{width:17px;height:17px}.dict-btn svg{width:16px;height:16px;vertical-align:-4px}
@@ -105,7 +104,6 @@ html[data-theme=snowy]{--bg:#081421;--panel:#10263a;--panel-2:#16324a;--card:#10
 #scenicBg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(17,17,17,.58),rgba(17,17,17,.80))}
 html[data-theme=snowy] #scenicBg::after{background:linear-gradient(180deg,rgba(8,20,33,.55),rgba(8,20,33,.78))}
 .app{position:relative;z-index:1}
-.poof-back{position:relative;z-index:1}
 /* glass panels over the scenic */
 .search,.kpi .box,.home-card,.section-hero,.sub-list,.stat-card,.flash-card,.quiz-card,.word-panel,.search-result{background:var(--glass);-webkit-backdrop-filter:blur(10px) saturate(1.25);backdrop-filter:blur(10px) saturate(1.25)}
 .sheet{-webkit-backdrop-filter:blur(10px) saturate(1.25);backdrop-filter:blur(10px) saturate(1.25)}
@@ -114,7 +112,7 @@ html[data-theme=snowy] #scenicBg::after{background:linear-gradient(180deg,rgba(8
 .topbar>*{position:relative;z-index:1}
 .topbar .poof-img-header-bg{background-size:cover;background-position:center;background-repeat:no-repeat}
 .topbar::after{content:"";position:absolute;inset:0;z-index:0;background:linear-gradient(180deg,rgba(0,0,0,.15),rgba(0,0,0,.45));pointer-events:none}
-.topbar-row{display:flex;align-items:center;gap:10px}.topbar-row #homeBtn{margin-inline-start:auto}.topbar .title{font-size:1.55rem;line-height:1.7;overflow-wrap:anywhere;min-width:0}
+.topbar-row{display:flex;align-items:center;gap:10px}.topbar .title{font-size:1.55rem;line-height:1.7;overflow-wrap:anywhere;min-width:0}
 .poof-mascot{background-size:contain;background-repeat:no-repeat;background-position:center;flex:none;animation:poof-float 3s ease-in-out infinite}
 @keyframes poof-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 /* POOF Select: tappable words (main app .lk idiom) */
@@ -157,14 +155,12 @@ html[data-theme=snowy] .lk.esel{background:rgba(243,200,121,.30)}
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800;900&family=DM+Sans:wght@400;500;700&family=Vazirmatn:wght@400;500;700;800&display=swap" rel="stylesheet"></head>
 <body>
 <div class="poof-img-library-bg" id="scenicBg" aria-hidden="true"></div>
-<a class="poof-back" href="./">← بازگشت به POOF</a>
 <div class="app">
   <header class="topbar">
     <div class="poof-img-header-bg" style="position:absolute;inset:0;z-index:0" aria-hidden="true"></div>
     <div class="topbar-row">
       <button class="iconbtn" id="backBtn" hidden aria-label="بازگشت">←</button>
       <div class="poof-mascot poof-img-snowy-wave" style="width:34px;height:34px" aria-hidden="true"></div>
-      <button class="iconbtn" id="homeBtn" aria-label="خانه"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10.5V20h13v-9.5"/><path d="M9.5 20v-5h5v5"/></svg></button>
     </div>
     <h1 class="title" id="headTitle">واژه‌آموزی</h1>
   </header>
@@ -566,7 +562,7 @@ let currentSection='starter', currentTopic='greet', currentIndex=0, flashFlipped
 function toFaNum(n){return String(n).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d])}
 function topicById(id){return subtopics.find(x=>x.id===id)}
 function currentWords(){return topicById(currentTopic)?.words||[]}
-function updateHeader(title, sub, canBack){$('#headTitle').textContent=title; $('#backBtn').hidden=!canBack}
+function updateHeader(title, sub, canBack){$('#headTitle').textContent=title; $('#backBtn').hidden=false}
 function toTop(){window.scrollTo(0,0);const sh=document.querySelector('.sheet');if(sh)sh.scrollTop=0;}
 
 
@@ -626,7 +622,6 @@ var homePushed=false, homeReturn=null;
 function currentViewName(){if($('#readerView').classList.contains('on'))return 'reader';if($('#flashView').classList.contains('on'))return 'flash';if($('#quizView').classList.contains('on'))return 'quiz';if($('#sectionView').classList.contains('on'))return 'section';return 'home';}
 function captureHomeReturn(){return {view:currentViewName(),section:currentSection,topic:currentTopic,index:currentIndex,scroll:(window.scrollY||0),quiz:quizState,exercise:exerciseState,sheet:!!$('#sheetWrap').classList.contains('show')};}
 function restoreHomeReturn(snap){if(!snap){openHome();return;}currentSection=snap.section;currentTopic=snap.topic;currentIndex=snap.index;if(snap.quiz)quizState=snap.quiz;if(snap.exercise)exerciseState=snap.exercise;if(snap.view==='reader')renderReader();else if(snap.view==='flash')renderFlash();else if(snap.view==='quiz'){if(snap.exercise)renderPractice();else if(snap.quiz)renderQuiz();else renderSection(snap.section);}else renderSection(snap.section);if(snap.sheet)openSheet(snap.topic);window.scrollTo(0,snap.scroll||0);}
-function goHomeViaButton(){if($('#homeView').classList.contains('on')){toTop();return;}homeReturn=captureHomeReturn();try{history.pushState({poofVocabHome:1},'');homePushed=true;}catch(e){homePushed=false;}openHome();poofTrack();}
 
 function openSheet(topicId){toTop();
   currentTopic=topicId;
@@ -925,9 +920,38 @@ function renderSearch(){const inp=$('#searchInput');const box=$('#searchResults'
   const q=normalize(inp?inp.value:'');
   if(!q){box.innerHTML='<p class="mini">نام آلمانی یا معنی فارسی را تایپ کن.</p>';return;}
   const results=allKnownItems.filter(w=>normalize(labelOf(w)).includes(q)||normalize(meaningOf(w)).includes(q)).slice(0,100);
-  if(!results.length){box.innerHTML='<div class="empty-wrap"><div class="poof-mascot poof-img-snowy-think" style="width:64px;height:64px;margin:0 auto"></div><p class="mini">چیزی پیدا نشد. املای کلمه را بررسی کن.</p></div>';return;}
-  box.innerHTML=`<div class="search-meta">${toFaNum(results.length)} نتیجه</div>`+results.map((w,i)=>`<button class="search-result" data-i="${i}"><b dir="ltr">${escapeHtml(labelOf(w))}</b><span>${escapeHtml(meaningOf(w))}</span></button>`).join('');
-  box.querySelectorAll('.search-result').forEach(b=>b.onclick=()=>{openFound(results[+b.dataset.i]);});}
+  if(!results.length){box.innerHTML='<div class="empty-wrap"><div class="poof-mascot poof-img-snowy-think" style="width:64px;height:64px;margin:0 auto"></div><p class="mini">در بانک این صفحه چیزی پیدا نشد — در حال جست‌وجو در دیکشنری…</p></div>';}
+  else{box.innerHTML=`<div class="search-meta">${toFaNum(results.length)} نتیجه</div>`+results.map((w,i)=>`<button class="search-result" data-i="${i}"><b dir="ltr">${escapeHtml(labelOf(w))}</b><span>${escapeHtml(meaningOf(w))}</span></button>`).join('');box.querySelectorAll('.search-result').forEach(b=>b.onclick=()=>{openFound(results[+b.dataset.i]);});}
+  renderSearchDict(q,box);}
+function renderSearchDict(q,box){
+ if(!q||q.length<2)return;
+ Promise.all([loadFaDict().catch(function(){return null;}),loadManualDict().catch(function(){return null;})]).then(function(res){
+  var inp=$('#searchInput');
+  if(!inp||normalize(inp.value)!==q)return;
+  var old=box.querySelector('[data-dictsec]');if(old)old.remove();
+  var faD=res[0],manD=res[1],out=[];
+  if(faD){
+   faD.byKey.forEach(function(recs,lemma){
+    if(out.length>=10)return;
+    if(lemma.indexOf(q)>=0){out.push({w:recs[0].lemma,fa:((recs[0].senses||[])[0]||{}).fa||''});return;}
+    for(var i=0;i<recs.length;i++){var ss=recs[i].senses||[];for(var j=0;j<ss.length;j++){if(ss[j].fa&&normalize(ss[j].fa).indexOf(q)>=0){out.push({w:recs[i].lemma,fa:ss[j].fa});return;}}}
+   });
+  }
+  if(manD&&out.length<10){
+   manD.byKey.forEach(function(recs,head){
+    if(out.length>=10)return;
+    if(head.indexOf(q)>=0){var r0=recs[0];out.push({w:r0.headword,fa:((r0.senses||[])[0]||{}).persian||r0.persian||''});}
+   });
+  }
+  if(!out.length){
+   if(!box.querySelector('.search-result')){var em=box.querySelector('.empty-wrap .mini');if(em)em.textContent='چیزی پیدا نشد. املای کلمه را بررسی کن.';}
+   return;
+  }
+  var html='<div data-dictsec><div class="search-meta" style="margin-top:14px">از دیکشنری</div>'+out.map(function(o,i){return '<button class="search-result" data-di="'+i+'"><b dir="ltr">'+escapeHtml(o.w)+'</b><span>'+escapeHtml(o.fa||'')+'</span></button>';}).join('')+'</div>';
+  box.insertAdjacentHTML('beforeend',html);
+  box.querySelectorAll('[data-di]').forEach(function(b){b.onclick=function(){openSelectWord(out[+b.dataset.di].w);};});
+ }).catch(function(){});
+}
 function saveBackup(){const data=JSON.stringify({app:'POOF vocab',schema:1,exportedAt:new Date().toISOString(),progress:P},null,2);const blob=new Blob([data],{type:'application/json;charset=utf-8'});const u=URL.createObjectURL(blob);const a=document.createElement('a');a.href=u;a.download='poof-vocab-progress.json';a.click();URL.revokeObjectURL(u);toast('پشتیبان دانلود شد.');}
 function importBackup(file){if(!file)return;file.text().then(txt=>{let data;try{data=JSON.parse(txt);}catch(e){throw new Error('فرمت JSON نامعتبر است.');}
   if(data.app!=='POOF vocab'||!data.progress||typeof data.progress.cards!=='object')throw new Error('این فایل پشتیبان POOF نیست.');
@@ -1023,10 +1047,150 @@ function findPhraseItem(phrase){var q=normalize(phrase);if(!q||typeof PHRASE_GRO
 var selectPushed=false,selectOpen=false,selDragged=false;
 function showSelectSheet(noPush){var wrap=$('#selectSheetWrap');if(!wrap)return;if(!selectOpen&&!noPush){try{history.pushState({poofVocabSelect:1},'');selectPushed=true;}catch(e){selectPushed=false;}}selectOpen=true;wrap.classList.add('show');wrap.setAttribute('aria-hidden','false');var sh=wrap.querySelector('.sheet');if(sh)sh.scrollTop=0;}
 function closeSelectSheet(fromPop){var wrap=$('#selectSheetWrap');if(!wrap)return;selClearHi();if(!fromPop&&selectPushed){selectPushed=false;try{history.back();return;}catch(e){}}selectOpen=false;selectPushed=false;wrap.classList.remove('show');wrap.setAttribute('aria-hidden','true');}
-function renderSelectWord(word){var entry=findLocalWord(word);var t=$('#selectWord');if(t)t.textContent=word;var d=$('#selectDictBtn');if(d)d.href='./?dict='+encodeURIComponent(word);var body=$('#selectBody');if(!body)return;if(!entry){var sug=findPhraseSuggestions(word,5);var sugHtml=sug.length?('<div class="mini" style="margin-top:14px">عبارت‌های واقعی که با «'+escapeHtml(word)+'» شروع می‌شوند:</div>'+sug.map(function(s){return '<button type="button" class="dict-btn phrase-sugg" data-phrase-sugg="'+escapeHtml(s.ph)+'" style="display:block;width:100%;text-align:left;margin-top:8px" dir="ltr">'+escapeHtml(s.ph)+(s.fa?' <span style="color:var(--muted)">\u2014 '+escapeHtml(s.fa)+'</span>':'')+'</button>';}).join('')):'';body.innerHTML='<p class="mini">در بانک واژگان این صفحه برای این کلمه معنایی ثبت نشده است. برای دیدن مدخل کامل، از دکمهٔ زیر استفاده کن.</p>'+sugHtml;return;}var art=(entry.art&&entry.art!=='—')?entry.art.trim():'';var ex=entry.ex||entry.ex2||'';var exfa=entry.ex?entry.exfa:(entry.ex2?entry.exfa2:'');body.innerHTML=(art?'<div class="mini">حرف تعریف: '+escapeHtml(art)+'</div>':'')+(entry.ipa?'<div class="sel-ipa" dir="ltr">'+escapeHtml(entry.ipa)+'</div>':'')+'<div class="sel-mean">'+escapeHtml(entry.fig||entry.fa||'')+'</div>'+(ex?'<div class="example"><div class="de">'+tokenizeDe(ex)+'</div>'+(exfa?'<span class="fa">'+escapeHtml(exfa)+'</span>':'')+'</div>':'');}
+function renderSelectWord(word){var entry=findLocalWord(word);var t=$('#selectWord');if(t)t.textContent=word;var d=$('#selectDictBtn');if(d)d.href='./?dict='+encodeURIComponent(word);var body=$('#selectBody');if(!body)return;if(!entry){var sug=findPhraseSuggestions(word,5);var sugHtml=sug.length?('<div class="mini" style="margin-top:14px">عبارت‌های واقعی که با «'+escapeHtml(word)+'» شروع می‌شوند:</div>'+sug.map(function(s){return '<button type="button" class="dict-btn phrase-sugg" data-phrase-sugg="'+escapeHtml(s.ph)+'" style="display:block;width:100%;text-align:left;margin-top:8px" dir="ltr">'+escapeHtml(s.ph)+(s.fa?' <span style="color:var(--muted)">— '+escapeHtml(s.fa)+'</span>':'')+'</button>';}).join('')):'';body.innerHTML='<div id="selectDictExtra"><p class="mini">در حال جست‌وجو در دیکشنری…</p></div>'+sugHtml;renderSelectWordDict(word,false);return;}var art=(entry.art&&entry.art!=='—')?entry.art.trim():'';var ex=entry.ex||entry.ex2||'';var exfa=entry.ex?entry.exfa:(entry.ex2?entry.exfa2:'');body.innerHTML=(art?'<div class="mini">حرف تعریف: '+escapeHtml(art)+'</div>':'')+(entry.ipa?'<div class="sel-ipa" dir="ltr">'+escapeHtml(entry.ipa)+'</div>':'')+'<div class="sel-mean">'+escapeHtml(entry.fig||entry.fa||'')+'</div>'+(ex?'<div class="example"><div class="de">'+tokenizeDe(ex)+'</div>'+(exfa?'<span class="fa">'+escapeHtml(exfa)+'</span>':'')+'</div>':'')+'<div id="selectDictExtra"></div>';renderSelectWordDict(word,true);}
 function stripSelEdge(s){return String(s||'').replace(/^[\s.,;:!?…"\'„“”‘’()\[\]{}«»-]+/,'').replace(/[\s.,;:!?…"\'„“”‘’()\[\]{}«»-]+$/,'');}
 function findExampleFa(phrase){var q=stripSelEdge(normalize(phrase));if(!q)return null;var items=(typeof allKnownItems!=='undefined')?allKnownItems:[];for(var i=0;i<items.length;i++){var w=items[i];if(!w)continue;if(w.ex&&stripSelEdge(normalize(w.ex))===q&&w.exfa)return w.exfa;if(w.ex2&&stripSelEdge(normalize(w.ex2))===q&&w.exfa2)return w.exfa2;}return null;}
 function renderSelectPhrase(phrase){var t=$('#selectWord');if(t)t.textContent=phrase;var d=$('#selectDictBtn');if(d)d.href='./?dict='+encodeURIComponent(phrase);var body=$('#selectBody');if(!body)return;var item=findPhraseItem(phrase);var exFa=(!item||!item.fa)?findExampleFa(phrase):null;body.innerHTML='<div class="sel-mean" dir="ltr">'+escapeHtml(phrase)+'</div>'+(item&&item.fa?'<div class="sel-mean">'+escapeHtml(item.fa)+'</div>':'')+(exFa?'<div class="sel-mean">'+escapeHtml(exFa)+'</div>':'')+(item&&item.ex?'<div class="example"><div class="de">'+tokenizeDe(item.ex)+'</div>'+(item.exfa?'<span class="fa">'+escapeHtml(item.exfa)+'</span>':'')+'</div>':'')+'<p class="mini">معنی کامل این عبارت را در دیکشنری POOF ببین.</p>';}
+/* ===== دیکشنری‌های آفلاین (dict-fa.jsonl + manual-dict.json) — همان فایل‌های دیکشنری اصلی؛
+   روی اولین ضربه به کلمه یا جست‌وجو خوانده می‌شوند و در حافظه می‌مانند.
+   هر دو فایل در کش سرویس‌ورکر هستند، پس آفلاین هم کار می‌کنند. ===== */
+var _faDict=null,_faDictP=null;
+function loadFaDict(){
+ if(_faDict)return Promise.resolve(_faDict);
+ if(!_faDictP)_faDictP=fetch('./dict-fa.jsonl').then(function(r){if(!r.ok)throw new Error('fa-dict '+r.status);return r.text();}).then(function(txt){
+  var byKey=new Map(),byForm=new Map(),lines=txt.split('\n');
+  for(var i=0;i<lines.length;i++){
+   var t=lines[i].trim();if(!t)continue;var rec;try{rec=JSON.parse(t)}catch(err){continue}
+   var lk=String(rec.lemma||'').toLowerCase();if(!lk)continue;
+   if(!byKey.has(lk))byKey.set(lk,[]);byKey.get(lk).push(rec);
+   var fm=rec.forms||{};
+   var addF=function(f){if(!f)return;var k=String(f).toLowerCase().split(/\s+/).pop();if(k&&k!==lk&&!byForm.has(k))byForm.set(k,{rec:rec,via:'form'})};
+   addF(fm.pres3);addF(fm.past);addF(fm.perf);if(rec.pl&&rec.pl!=='—')addF(rec.pl);
+  }
+  return {byKey:byKey,byForm:byForm};
+ }).catch(function(err){_faDictP=null;throw err;});
+ return _faDictP.then(function(d){_faDict=d;return d;});
+}
+function faLookup(w){
+ return loadFaDict().then(function(d){
+  var k=String(w||'').toLowerCase(),arr=d.byKey.get(k);
+  if(arr){
+   var exact=arr.filter(function(r){return r.lemma===w;});
+   if(exact.length)return {recs:exact,via:'lemma'};
+   return {recs:arr,via:'lemma'};
+  }
+  if(d.byForm.has(k)){var f=d.byForm.get(k);return {recs:[f.rec],via:'form'};}
+  var alt=k.indexOf('ß')>=0?k.replace(/ß/g,'ss'):k.replace(/ss/g,'ß');
+  if(alt!==k){
+   var arr2=d.byKey.get(alt);
+   if(arr2)return {recs:arr2,via:'lemma'};
+   if(d.byForm.has(alt)){var f2=d.byForm.get(alt);return {recs:[f2.rec],via:'form'};}
+  }
+  return null;
+ });
+}
+var _manDict=null,_manDictP=null,_manConj={};
+function loadManualDict(){
+ if(_manDict)return Promise.resolve(_manDict);
+ if(!_manDictP)_manDictP=fetch('./manual-dict.json').then(function(r){if(!r.ok)throw new Error('manual-dict '+r.status);return r.json();}).then(function(j){
+  _manConj=j.conjugations||{};
+  var byKey=new Map(),entries=j.entries||[];
+  for(var i=0;i<entries.length;i++){
+   var e=entries[i],k=String(e.headword||'').toLowerCase(),arr=byKey.get(k);
+   if(String(e.info||'').indexOf('(Fortsetzung)')>=0&&arr&&arr.length){
+    var base=String(e.info||'').replace(/\s*\(Fortsetzung[^)]*\)\s*/,'').trim(),byInfo=null,byHead=null,x;
+    for(x=arr.length-1;x>=0;x--){if(String(arr[x].info||'').trim()===base){byInfo=arr[x];break;}}
+    for(x=arr.length-1;x>=0;x--){if(String(arr[x].headword||'')===String(e.headword||'')){byHead=arr[x];break;}}
+    var p=byInfo||byHead||arr[arr.length-1],senses=e.senses||[];
+    for(var s=0;s<senses.length;s++){
+     var sx=senses[s],last=(p.senses||[])[(p.senses||[]).length-1];
+     var sameNo=(sx.number==null&&last&&last.number==null)||(sx.number!=null&&last&&last.number===sx.number);
+     if(sameNo&&!sx.context_de&&!sx.persian){last.examples=(last.examples||[]).concat(sx.examples||[]);}
+     else{(p.senses=p.senses||[]).push(sx);}
+    }
+    p.examples=(p.examples||[]).concat(e.examples||[]);
+    p.idioms=(p.idioms||[]).concat(e.idioms||[]);
+    if(!p.persian&&e.persian)p.persian=e.persian;
+    continue;
+   }
+   if(!arr){arr=[];byKey.set(k,arr);}
+   arr.push(e);
+  }
+  return {byKey:byKey};
+ }).catch(function(err){_manDictP=null;throw err;});
+ return _manDictP.then(function(d){_manDict=d;return d;});
+}
+function manualLookup(w){
+ return loadManualDict().then(function(d){
+  var arr=d.byKey.get(String(w||'').toLowerCase());
+  return arr?{recs:arr}:null;
+ });
+}
+function manBase(e){return String(e.headword||'').replace(/~/g,'').replace(/\s+/g,' ').trim().replace(/!$/,'');}
+function manExp(t,e){return String(t||'').split('~').join(manBase(e));}
+function manCode(e){var m=String(e.info||'').match(/<(\d+[a-z])>/);return m?m[1]:null;}
+function manConjHTML(code){
+ var c=_manConj[code];if(!c)return '';
+ var rows=c.rows.map(function(r){return '<div class="de" dir="ltr" style="margin:4px 0"><b>'+escapeHtml(r.tense)+':</b> '+escapeHtml(r.forms)+'</div>';}).join('');
+ return '<details style="margin:8px 0"><summary>صرف <span class="de" dir="ltr">'+escapeHtml(c.base)+'</span></summary><div class="mute">'+escapeHtml(c.note_fa||'')+'</div>'+rows+'</details>';
+}
+function manEntryHTML(e){
+ var row=function(de,fa,margin){return '<div dir="ltr" style="display:flex;gap:10px;margin:'+margin+'"><div style="flex:1;min-width:0;text-align:left;overflow-wrap:break-word">'+de+'</div><div dir="rtl" style="flex:1;min-width:0;text-align:right">'+fa+'</div></div>';};
+ var h='<div style="margin:10px 0"><div dir="ltr" style="text-align:left"><b>'+escapeHtml(e.headword||'')+'</b></div>';
+ if(e.info){
+  var info=escapeHtml(manExp(e.info,e).replace(/<\d+[a-z]>/g,'').replace(/\s+/g,' ').trim());
+  if(info)h+='<div dir="ltr" style="text-align:left" class="mute">'+info+'</div>';
+ }
+ if(e.senses&&e.senses.length){
+  e.senses.forEach(function(x){
+   var de=(x.number?'<b>'+escapeHtml(String(x.number))+'.</b> ':'')+(x.context_de?tokenizeDe(manExp(x.context_de,e)):'');
+   var fa=x.persian?'<b>'+escapeHtml(x.persian)+'</b>':'';
+   h+=row(de,fa,'8px 0');
+   (x.examples||[]).forEach(function(y){h+=row(tokenizeDe(manExp(y.de,e)),escapeHtml(y.fa||''),'4px 0 4px 12px');});
+  });
+ } else if(e.persian){
+  h+='<div dir="rtl" style="text-align:right"><b>'+escapeHtml(e.persian)+'</b></div>';
+ }
+ (e.examples||[]).forEach(function(y){h+=row(tokenizeDe(manExp(y.de,e)),escapeHtml(y.fa||''),'4px 0 4px 12px');});
+ (e.idioms||[]).forEach(function(y){h+=row(tokenizeDe(manExp(y.de,e)),escapeHtml(y.fa||''),'6px 0');});
+ var code=manCode(e);
+ if(code)h+=manConjHTML(code);
+ return h+'</div>';
+}
+function faRecHTML(r){
+ var h='<div style="margin:10px 0">';
+ if(r.art)h+='<div class="mini">حرف تعریف: '+escapeHtml(r.art)+'</div>';
+ if(r.ipa)h+='<div class="sel-ipa" dir="ltr">'+escapeHtml(r.ipa)+'</div>';
+ if(r.pl&&r.pl!=='—')h+='<div class="mini">جمع: '+escapeHtml(r.pl)+'</div>';
+ (r.senses||[]).forEach(function(s){
+  h+='<div class="sel-mean">'+escapeHtml(s.fa||'')+'</div>';
+  if(s.reg||s.note)h+='<div class="mini">'+escapeHtml([s.reg,s.note].filter(Boolean).join(' · '))+'</div>';
+  (s.ex||[]).forEach(function(x){
+   h+='<div class="example"><div class="de">'+tokenizeDe(x.de)+'</div>'+(x.fa?'<span class="fa">'+escapeHtml(x.fa)+'</span>':'')+'</div>';
+  });
+ });
+ return h+'</div>';
+}
+/* لایهٔ دیکشنری در شیت کلمه: بعد از مدخل محلی (اگر بود) اضافه می‌شود؛
+   اگر کلمه در بانک محلی نبود، همین لایه محتوای شیت است. */
+function renderSelectWordDict(word,hasLocal){
+ var body=$('#selectBody');if(!body)return;
+ var slot=document.getElementById('selectDictExtra');
+ if(!slot){slot=document.createElement('div');slot.id='selectDictExtra';body.appendChild(slot);}
+ Promise.all([faLookup(word).catch(function(){return null;}),manualLookup(word).catch(function(){return null;})]).then(function(res){
+  var t=$('#selectWord');
+  if(!t||t.textContent!==word)return;
+  var faL=res[0],manL=res[1];
+  if(!faL&&!manL){
+   slot.innerHTML=hasLocal?'':'<p class="mini">در دیکشنری هم برای این کلمه مدخلی پیدا نشد. املای کلمه را بررسی کن.</p>';
+   return;
+  }
+  var h='<div class="mini" style="margin-top:16px;border-top:1px solid var(--line);padding-top:12px">از دیکشنری</div>';
+  if(faL)h+=faL.recs.map(faRecHTML).join('<div style="height:1px;background:currentColor;opacity:.15;margin:10px 0"></div>');
+  if(manL)h+='<div style="border:1px solid var(--gold);border-radius:12px;padding:10px 12px;margin:10px 0">'+manL.recs.map(manEntryHTML).join('<div style="height:1px;background:currentColor;opacity:.15;margin:10px 0"></div>')+'</div>';
+  slot.innerHTML=h;
+ }).catch(function(){});
+}
 function openSelectWord(word,noPush){var w=String(word||'').replace(/[.'’\-–—]+$/,'').trim();if(!w)return;renderSelectWord(w);showSelectSheet(noPush);fitWordEl($('#selectWord'),18);}
 function openSelectPhrase(phrase,noPush){var p=String(phrase||'').replace(/\s+/g,' ').replace(/^[\s.,;:!?…"\'„“”‘’()\[\]{}«»-]+/,'').replace(/[\s.,;:!?…"\'„“”‘’()\[\]{}«»-]+$/,'').trim();if(!p)return;renderSelectPhrase(p);showSelectSheet(noPush);fitWordEl($('#selectWord'),18);}
 /* phrase-selection state (one example block at a time; never crosses a sentence) */
@@ -1070,9 +1234,7 @@ $('#openQuiz').onclick=()=>{closeSheet(); currentIndex=0; beginQuiz();poofGo();}
 const exR=$('#exReverse');if(exR)exR.onclick=()=>{closeSheet(); currentIndex=0; beginPractice('reverse');poofGo();};
 const exS=$('#exSpelling');if(exS)exS.onclick=()=>{closeSheet(); currentIndex=0; beginPractice('spelling');poofGo();};
 const exG=$('#exGender');if(exG)exG.onclick=()=>{closeSheet(); currentIndex=0; beginPractice('gender');poofGo();};
-$('#backBtn').onclick=()=>{ if($('#readerView').classList.contains('on')||$('#flashView').classList.contains('on')||$('#quizView').classList.contains('on')) renderSection(currentSection); else openHome(); poofGo(); };
-$('#homeBtn').onclick=goHomeViaButton;
-var _poofBack=document.querySelector('.poof-back');if(_poofBack)_poofBack.addEventListener('click',savePracticeResume);
+$('#backBtn').onclick=()=>{ if($('#readerView').classList.contains('on')||$('#flashView').classList.contains('on')||$('#quizView').classList.contains('on')) renderSection(currentSection); else if($('#sectionView').classList.contains('on')) openHome(); else location.href='./'; poofGo(); };
 if(_poofBack)_poofBack.addEventListener('click',function(){poofRecordExit();});
 $('#speakWord').onclick=()=>{const cw=currentWords()[currentIndex]; speak(cw.id||cw.ph||cw.w);};
 /* Box icon = BOTH Leitner systems (reconciliation): it was the local-Leitner shortcut (addToLeitner),
@@ -1161,6 +1323,10 @@ html[data-theme=lilac] .box,html[data-theme=peachy] .box,html[data-theme=minty] 
 html[data-theme=lilac] .quiz-opts button,html[data-theme=peachy] .quiz-opts button,html[data-theme=minty] .quiz-opts button{border-width:1px;box-shadow:none}
 button:active{transform:scale(.97)}
 .home-card:active,.sub-item:active{transform:scale(.98)}
+/* bottom nav: same quiet face as the main app — the popping hero circle is gone */
+.poof-nav button.hero{width:auto;height:auto;padding:10px 2px;border-radius:16px;background:transparent;color:var(--muted);transform:none;box-shadow:none;justify-self:auto;align-self:auto}
+.poof-nav button.hero .ic{width:24px;height:24px}
+.poof-nav button.hero.on{background:rgba(230,185,111,.18);color:var(--gold);filter:none;box-shadow:none}
 </style>
 <script>/* quiet layer: haptic ticks on meaningful taps */
 document.addEventListener('pointerdown',function(e){if(e.target.closest('button,.home-card,.sub-item')){try{navigator.vibrate&&navigator.vibrate(8)}catch(_){}}},{passive:true});</script>
