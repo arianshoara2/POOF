@@ -173,6 +173,7 @@ button.ib.pri{background:var(--accent);color:var(--bg);border-color:var(--accent
 .um-sheet{width:100%;max-width:560px;padding:22px 20px calc(18px + env(safe-area-inset-bottom,0px));background:var(--surface);border:1px solid var(--border);border-bottom:0;border-radius:20px 20px 0 0;box-shadow:var(--shadow-pop);animation:umUp .28s cubic-bezier(.2,.9,.3,1)}
 @keyframes umUp{from{transform:translateY(26px);opacity:.3}to{transform:none;opacity:1}}
 #umMsg{margin:0 0 18px;font-size:15px;line-height:1.9;color:var(--text);white-space:pre-line}
+#umInput{width:100%;margin:0 0 18px;padding:12px 14px;border:1px solid var(--border);border-radius:12px;background:var(--surface);color:var(--text);font-size:15px;font-family:inherit;line-height:1.7;resize:vertical}
 .um-btns{display:flex;gap:10px}
 .um-btn{flex:1;padding:12px 18px}
 .um-btn.gold{background:var(--accent);border-color:var(--accent);color:#241a08;font-weight:700}
@@ -1066,7 +1067,7 @@ nav button::before,nav button::after{top:22px}
  <div class="ed-top"><b>🃏 کارت</b><button class="ib" id="cdClose" aria-label="بستن"><svg class="ic" aria-hidden="true"><use href="#i-close"/></svg></button></div>
  <div id="cdBody"></div>
 </div></div>
-<div id="uiModal" class="um-overlay" hidden role="alertdialog" aria-modal="true"><div class="um-sheet"><p id="umMsg"></p><div class="um-btns"><button id="umCancel" class="um-btn ghost">انصراف</button><button id="umOk" class="um-btn gold">تأیید</button></div></div></div>
+<div id="uiModal" class="um-overlay" hidden role="alertdialog" aria-modal="true"><div class="um-sheet"><p id="umMsg"></p><textarea id="umInput" hidden rows="2"></textarea><div class="um-btns"><button id="umCancel" class="um-btn ghost">انصراف</button><button id="umOk" class="um-btn gold">تأیید</button></div></div></div>
 <div id="toast" role="status"></div>
 
 <script src="poof-core.js"></script>
@@ -1074,13 +1075,14 @@ nav button::before,nav button::after{top:22px}
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 /* ===== دیالوگ داخلی هم‌تم (جایگزین confirm/alert مرورگر) ===== */
-let _umDone=null;
-function _umHide(v){const m=$("#uiModal");if(m)m.hidden=true;if(_umDone){const d=_umDone;_umDone=null;d(v)}}
+let _umDone=null,_umMode="confirm";
+function _umHide(v){const m=$("#uiModal");if(m)m.hidden=true;const inp=$("#umInput");if(inp)inp.hidden=true;if(_umDone){const d=_umDone;_umDone=null;const mode=_umMode;_umMode="confirm";d(mode==="prompt"?(v===true?(inp?inp.value:null):null):v)}}
 function _umShow(msg,opts,alertMode){
  if(_umDone)_umHide(false);
  return new Promise(res=>{
-  _umDone=res;
+  _umDone=res;_umMode="confirm";
   $("#umMsg").textContent=msg;
+  const _inp=$("#umInput");if(_inp)_inp.hidden=true;
   const ok=$("#umOk"),cx=$("#umCancel");
   ok.textContent=opts.okText||(alertMode?"باشه":"تأیید");
   ok.classList.toggle("danger",!!opts.danger);
@@ -1091,6 +1093,21 @@ function _umShow(msg,opts,alertMode){
 }
 function uiConfirm(msg,opts={}){return _umShow(msg,opts,false)}
 function uiAlert(msg,opts={}){return _umShow(msg,opts,true)}
+function uiPrompt(msg,opts={}){
+ if(_umDone)_umHide(false);
+ return new Promise(res=>{
+  _umDone=res;_umMode="prompt";
+  $("#umMsg").textContent=msg;
+  const ok=$("#umOk"),cx=$("#umCancel"),inp=$("#umInput");
+  ok.textContent=opts.okText||"تأیید";
+  ok.classList.toggle("danger",!!opts.danger);
+  cx.hidden=false;cx.textContent=opts.cancelText||"انصراف";
+  inp.hidden=false;inp.value=opts.value||"";inp.readOnly=!!opts.readonly;inp.placeholder=opts.placeholder||"";inp.rows=opts.rows||2;
+  $("#uiModal").hidden=false;
+  setTimeout(()=>{try{inp.focus();if(opts.value)inp.select();}catch(e){}},60);
+ });
+}
+$("#umInput").addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();_umHide(true)}});
 $("#umOk").onclick=()=>_umHide(true);
 $("#umCancel").onclick=()=>_umHide(false);
 $("#uiModal").addEventListener("click",e=>{if(e.target.id==="uiModal")_umHide($("#umCancel").hidden)});
@@ -3702,7 +3719,7 @@ function copyText(t){
   document.body.appendChild(a);a.focus({preventScroll:true});a.select();a.setSelectionRange(0,t.length);
   let ok=false;try{ok=document.execCommand("copy")}catch(e){}
   a.remove();
-  if(ok)done();else prompt("کپی خودکار ممکن نشد. متن را نگه دارید و کپی کنید:",t);
+  if(ok)done();else uiPrompt("کپی خودکار ممکن نشد. متن را انتخاب و کپی کنید:",{value:t,readonly:true,rows:5,okText:"باشه"});
  };
  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(done,legacy);else legacy();
 }
@@ -5067,7 +5084,7 @@ $("#list").onclick=async e=>{
  if(b.dataset.a==="edit")openEditor(c);
 };
 $("#deckSel").onchange=e=>{db.active=e.target.value;save();renderCards()};
-$("#newDeck").onclick=()=>{const n=prompt("نام دسته‌ی جدید:");if(!n||!n.trim())return;const d={id:uid(),name:n.trim()};db.decks.push(d);db.active=d.id;save();renderCards()};
+$("#newDeck").onclick=async()=>{const n=await uiPrompt("نام دسته‌ی جدید:",{okText:"ساختن",placeholder:"مثلاً: افعال بی‌قاعده"});if(!n||!n.trim())return;const d={id:uid(),name:n.trim()};db.decks.push(d);db.active=d.id;save();renderCards()};
 $("#delDeck").onclick=async()=>{
  if(db.active==="default")return toast("دسته‌ی پیش‌فرض حذف نمی‌شود","bad");
  if(db.cards.some(c=>c.deck_id===db.active))return toast("ابتدا کارت‌های این دسته را حذف کنید","bad");
