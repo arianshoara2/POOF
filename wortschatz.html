@@ -212,6 +212,15 @@ button:active{transform:scale(.97)}
 .note{margin-top:4px;font-size:.78rem}
 .reader-nav{margin:8px 0 4px}
 .reader-nav .nav-btn{padding:8px;font-size:14px}
+/* soft swipe: horizontal drags are ours, vertical scroll stays native; slide on change */
+#readerView,#flashView{touch-action:pan-y}
+#readerView.anim-next .reader-card,#readerView.anim-next .word-panel{animation:cardSlideNext .3s cubic-bezier(.2,.9,.3,1)}
+#readerView.anim-prev .reader-card,#readerView.anim-prev .word-panel{animation:cardSlidePrev .3s cubic-bezier(.2,.9,.3,1)}
+#flashView.anim-next .flash-card{animation:cardSlideNext .3s cubic-bezier(.2,.9,.3,1)}
+#flashView.anim-prev .flash-card{animation:cardSlidePrev .3s cubic-bezier(.2,.9,.3,1)}
+@keyframes cardSlideNext{from{opacity:0;transform:translateX(32px)}to{opacity:1;transform:none}}
+@keyframes cardSlidePrev{from{opacity:0;transform:translateX(-32px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){#readerView.anim-next .reader-card,#readerView.anim-next .word-panel,#readerView.anim-prev .reader-card,#readerView.anim-prev .word-panel,#flashView.anim-next .flash-card,#flashView.anim-prev .flash-card{animation:none}}
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800;900&family=DM+Sans:wght@400;500;700&family=Vazirmatn:wght@400;500;700;800&display=swap" rel="stylesheet"></head>
 <body>
@@ -843,8 +852,8 @@ function renderReader(){
 }
 
 function fitWordEl(el,minPx){if(!el)return;try{el.style.fontSize='';var size=parseFloat(getComputedStyle(el).fontSize)||0;var guard=0;while(size>(minPx||18)&&el.scrollWidth>el.clientWidth&&guard<40){size-=2;el.style.fontSize=size+'px';guard++;}}catch(e){}}
-function nextWord(){ if(currentIndex<currentWords().length-1){ currentIndex++; renderReader(); } else { currentIndex=0; renderReader(); } poofTrack(); }
-function prevWord(){ const n=currentWords().length; if(!n) return; currentIndex=(currentIndex-1+n)%n; renderReader(); poofTrack(); }
+function nextWord(){ if(currentIndex<currentWords().length-1){ currentIndex++; renderReader(); } else { currentIndex=0; renderReader(); } slideCard(-1); poofTrack(); }
+function prevWord(){ const n=currentWords().length; if(!n) return; currentIndex=(currentIndex-1+n)%n; renderReader(); slideCard(1); poofTrack(); }
 
 function renderFlash(){
   const words=currentWords(); if(!words.length){ alert('این بخش واژه‌ای ندارد.'); return; }
@@ -1267,7 +1276,7 @@ function selPhraseText(){if(!selSpans||!selHi)return'';return selSpans.slice(sel
 function selFinish(){var ph=selPhraseText(),hi=selHi;selClearHi();if(!ph)return;if(hi&&hi.b>hi.a)openSelectPhrase(ph);else openSelectWord(ph);}
 function selTapOK(){if(!selTap)return true;var g=selTap;selTap=null;var dur=g.dur!=null?g.dur:(Date.now()-g.t0);return dur<250&&g.m2<100;}
 document.addEventListener('touchstart',function(e){if(e.touches.length>1)return;var lk=e.target.closest?e.target.closest('.lk'):null;if(!lk||!selScope(lk))return;selSX=e.touches[0].clientX;selSY=e.touches[0].clientY;selLX=selSX;selLY=selSY;selTap={t0:Date.now(),m2:0,dur:null};var startLk=lk;selT=setTimeout(function(){selT=null;selDrag=true;selDragged=true;selSup=true;if(navigator.vibrate)try{navigator.vibrate(15);}catch(err){}try{startLk.classList.add('lpp');setTimeout(function(){try{startLk.classList.remove('lpp');}catch(err2){}},350);}catch(err3){}if(selBegin(startLk)){if(selBlock)selBlock.style.touchAction='none';var cur=document.elementFromPoint(selLX,selLY);if(cur){var c=cur.closest?cur.closest('.lk'):null;if(c)selExtend(c);}}else{selDrag=false;selDragged=false;selSup=false;}},350);},{passive:true});
-document.addEventListener('touchmove',function(e){if(!e.touches.length)return;var cx=e.touches[0].clientX,cy=e.touches[0].clientY;if(selTap){var gx=cx-selSX,gy=cy-selSY,g2=gx*gx+gy*gy;if(g2>selTap.m2)selTap.m2=g2;selLX=cx;selLY=cy;}if(selT){var dx=cx-selSX,dy=cy-selSY;if(dx*dx+dy*dy>576){clearTimeout(selT);selT=null;}return;}if(!selDrag)return;e.preventDefault();var t=document.elementFromPoint(cx,cy);if(t&&t.closest)selExtend(t.closest('.lk'));},{passive:false});
+document.addEventListener('touchmove',function(e){if(!e.touches.length)return;var cx=e.touches[0].clientX,cy=e.touches[0].clientY;if(selTap){var gx=cx-selSX,gy=cy-selSY,g2=gx*gx+gy*gy;if(g2>selTap.m2)selTap.m2=g2;selLX=cx;selLY=cy;}if(selT){var dx=cx-selSX,dy=cy-selSY;if(dx*dx+dy*dy>100){clearTimeout(selT);selT=null;}return;}if(!selDrag)return;e.preventDefault();var t=document.elementFromPoint(cx,cy);if(t&&t.closest)selExtend(t.closest('.lk'));},{passive:false});
 document.addEventListener('touchend',function(){if(selTap&&selTap.dur==null){selTap.dur=Date.now()-selTap.t0;var g=selTap;setTimeout(function(){if(selTap===g)selTap=null;},600);}if(selT){clearTimeout(selT);selT=null;return;}if(!selDrag)return;selDrag=false;selDragged=false;if(selBlock)selBlock.style.touchAction='';selFinish();setTimeout(function(){selSup=false;},80);});
 document.addEventListener('touchcancel',function(){if(selT){clearTimeout(selT);selT=null;}if(selTap){selTap.m2=Infinity;selTap.dur=9999;var g2=selTap;setTimeout(function(){if(selTap===g2)selTap=null;},600);}if(selDrag){selDrag=false;selDragged=false;if(selBlock)selBlock.style.touchAction='';selClearHi();}selSup=false;});
 document.addEventListener('mousedown',function(e){if(e.button!==0)return;var lk=e.target.closest?e.target.closest('.lk'):null;if(!lk||!selScope(lk))return;selMDown=true;selMDrag=false;selMSX=e.clientX;selMSY=e.clientY;selMAnchor=-1;});
@@ -1321,7 +1330,49 @@ const imf=$('#importFile');if(imf)imf.addEventListener('change',()=>{importBacku
 document.addEventListener('keydown',e=>{ if(e.key==='ArrowLeft') nextWord(); if(e.key==='ArrowRight') prevWord(); if(e.key===' ') { if($('#readerView').classList.contains('on')) { e.preventDefault(); speak(currentWords()[currentIndex].ph||currentWords()[currentIndex].w);} } });
 
 $('#prevWordBtn').onclick=prevWord; $('#nextWordBtn').onclick=nextWord;
-(function(){const rv=$('#readerView');let sx=0,sy=0;rv.addEventListener('touchstart',e=>{const tt=e.changedTouches[0];sx=tt.clientX;sy=tt.clientY;},{passive:true});rv.addEventListener('touchend',e=>{if(selDragged||scrubActive)return;const tt=e.changedTouches[0];const dx=tt.clientX-sx,dy=tt.clientY-sy;if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)){if(dx<0)nextWord();else prevWord();}},{passive:true});})();
+/* ===== Soft swipe between words: a horizontal drag slides to the next/previous card.
+   The long-press phrase selection no longer hijacks slow swipes (its timer now
+   cancels on >10px of movement), and a swipe cancels any pending selection. ===== */
+function slideCard(dir){var rv=$('#readerView');if(!rv)return;rv.classList.remove('anim-next','anim-prev');void rv.offsetWidth;rv.classList.add(dir<0?'anim-next':'anim-prev');setTimeout(function(){rv.classList.remove('anim-next','anim-prev');},340);}
+function swipeNav(dir){
+  if($('#flashView').classList.contains('on')){
+    var n=currentWords().length;if(!n)return;
+    currentIndex=(currentIndex+dir+n)%n;renderFlash();
+    var fv=$('#flashView');fv.classList.remove('anim-next','anim-prev');void fv.offsetWidth;fv.classList.add(dir<0?'anim-next':'anim-prev');setTimeout(function(){fv.classList.remove('anim-next','anim-prev');},340);
+    poofTrack();return;
+  }
+  if(dir<0)nextWord();else prevWord();
+}
+function bindCardSwipe(el){
+  if(!el)return;var sx=0,sy=0,active=false,swiped=false;
+  el.addEventListener('touchstart',function(e){
+    if(e.touches.length>1)return;
+    if(e.target.closest&&e.target.closest('button,a,input,.progbar'))return;
+    var t=e.changedTouches[0];sx=t.clientX;sy=t.clientY;active=true;swiped=false;
+  },{passive:true});
+  el.addEventListener('touchmove',function(e){
+    if(!active||swiped||selDrag)return;
+    var t=e.changedTouches[0],dx=t.clientX-sx,dy=t.clientY-sy;
+    if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)*1.5){
+      swiped=true;active=false;
+      try{if(selT){clearTimeout(selT);selT=null;}}catch(_){}
+      try{selClearHi();}catch(_){}
+      selDrag=false;selDragged=false;selTap=null;selSup=true;
+      if(selBlock){try{selBlock.style.touchAction='';}catch(_){}}
+      setTimeout(function(){selSup=false;},300);
+      swipeNav(dx<0?-1:1);
+    }
+  },{passive:true});
+  el.addEventListener('touchend',function(e){
+    if(!active)return;active=false;
+    if(swiped||selDragged||scrubActive)return;
+    var t=e.changedTouches[0],dx=t.clientX-sx,dy=t.clientY-sy;
+    if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)){swipeNav(dx<0?-1:1);}
+  },{passive:true});
+  el.addEventListener('touchcancel',function(){active=false;},{passive:true});
+}
+bindCardSwipe(document.getElementById('readerView'));
+bindCardSwipe(document.getElementById('flashView'));
 // initial
 refreshDashboardCounts();
 openHome();
