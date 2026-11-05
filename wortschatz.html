@@ -187,6 +187,31 @@ button:active{transform:scale(.97)}
 .reader-nav{margin:10px 0 4px}
 .reader-nav .nav-btn{padding:10px}
 .flash-prog{margin:4px 0 6px;overflow:visible}
+/* round 2 — ~20% tighter (his call): the whole card fits one screen */
+.topbar{padding:calc(env(safe-area-inset-top) + 8px) 14px 8px}
+.topbar .title{font-size:1.25rem}
+.reader-card{padding:10px 14px 8px;margin:-16px -16px 8px}
+#readerView .progbar{margin:8px 0 4px;height:8px;background:rgba(255,255,255,.35)}
+.top-nums{font-size:.9rem}
+.word-big{font-size:clamp(1.35rem,8vw,2.1rem);margin:8px 0 0}
+.ipa{margin-top:6px;font-size:.95rem}
+.speech-type{margin-top:4px;font-size:.9rem}
+.tools{transform:translateY(10px);margin-bottom:4px}
+.tool-btn{width:32px;height:32px}
+#readerLeitner{font-size:12px}
+#readerView .mini{font-size:.82rem}
+.word-panel{padding:10px 12px}
+.word-panel h4{font-size:clamp(1.1rem,5vw,1.55rem);margin-bottom:4px}
+.word-panel .mean{margin-bottom:6px;font-size:1rem}
+.example{padding:8px 10px;margin-bottom:6px}
+.example .de{font-size:1rem}
+.example .fa{margin-top:6px;line-height:1.7}
+.row-tools{margin-top:8px}
+.dict-btn{padding:8px 16px;font-size:.92rem}
+.chip{padding:8px 14px}
+.note{margin-top:4px;font-size:.78rem}
+.reader-nav{margin:8px 0 4px}
+.reader-nav .nav-btn{padding:8px;font-size:14px}
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800;900&family=DM+Sans:wght@400;500;700&family=Vazirmatn:wght@400;500;700;800&display=swap" rel="stylesheet"></head>
 <body>
@@ -811,7 +836,7 @@ function renderReader(){
   if(w.ph||w.id){ $('#goDict').style.display='none'; $('#dictBtn').style.display='none'; } else { $('#goDict').style.display=''; $('#dictBtn').style.display=''; $('#goDict').href='./?dict='+encodeURIComponent(head); $('#dictBtn').href='./?dict='+encodeURIComponent(head); }
   $('#oppChip').style.display=w.opp?'inline-flex':'none'; $('#oppChip').textContent=w.opp?`متضاد: ${w.opp}`:'';
   const _ci=caseInfoFor(w); const _cc=$('#caseChip'); if(_cc){_cc.style.display=_ci?'inline-flex':'none'; _cc.textContent=_ci?((w.id||w.ph||w.w)+' + '+_ci.case):'';} const _cn=$('#caseNote'); if(_cn){_cn.style.display=_ci?'':'none'; _cn.textContent=_ci?_ci.note:'';}
-  $('#examples').innerHTML=[{de:w.ex,fa:w.exfa},{de:w.ex2,fa:w.exfa2}].filter(x=>x.de).map((x,i)=>`<div class="example"><div class="de">${tokenizeDe(x.de)}</div><span class="fa">${x.fa}</span><div style="margin-top:10px"><button class="dict-btn ex-speak" data-i="${i}" style="padding:8px 14px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10v4h4l5 5V5L8 10H4Z"/><path d="M16 9a4 4 0 0 1 0 6"/><path d="M18.5 6.5a8 8 0 0 1 0 11"/></svg> تلفظ مثال</button></div></div>`).join('');
+  $('#examples').innerHTML=[{de:w.ex,fa:w.exfa},{de:w.ex2,fa:w.exfa2}].filter(x=>x.de).map((x,i)=>`<div class="example"><div class="de">${tokenizeDe(x.de)}</div><span class="fa">${x.fa}</span><div style="margin-top:6px"><button class="dict-btn ex-speak" data-i="${i}" style="padding:6px 12px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10v4h4l5 5V5L8 10H4Z"/><path d="M16 9a4 4 0 0 1 0 6"/><path d="M18.5 6.5a8 8 0 0 1 0 11"/></svg> تلفظ مثال</button></div></div>`).join('');
   const _pw=currentWords()[currentIndex], _pp=_pw?progressFor(_pw):null;
   const _ab=$('#addBox'); if(_ab){_ab.classList.toggle('in-box',!!_pp); _ab.title=_pp?('در خانهٔ '+toFaNum(_pp.box)+' از ۵'):'افزودن به مرور اصلی و جعبهٔ لایتنر';}
   const _rl=$('#readerLeitner'); if(_rl)_rl.textContent=_pp?('خانهٔ '+toFaNum(_pp.box)+' از ۵ · '+(_pp.due&&_pp.due>Date.now()?'مرور بعدی: بعداً':'مرور: اکنون')):'هنوز به لایتنر اضافه نشده'; refreshMainMarker(); fitWordEl($('#rWord'),18); fitWordEl($('#rArtWord'),16);
