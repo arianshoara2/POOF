@@ -987,8 +987,9 @@ nav button::before,nav button::after{top:22px}
     <p class="lbl" style="margin:0 0 4px">دیکشنری آفلاین 🇩🇪 آلمانی</p>
     <p class="mute" id="packDeStatus" style="margin:0 0 6px">نصب نشده</p>
     <div id="packDeBar" hidden style="height:6px;border-radius:3px;background:var(--border);overflow:hidden;margin-bottom:8px"><div id="packDeFill" style="height:100%;width:0%;background:var(--accent);transition:width .2s"></div></div>
-    <div class="row"><button class="ghost" id="packDeBtn">دانلود پک (~۷۸ مگ)</button><button class="ghost" id="packDeDel" hidden>حذف</button></div>
-    <p class="mute" style="font-size:11px;margin:6px 0 0">منبع: ویکی‌واژهٔ آلمانی (kaikki.org)، CC BY-SA 4.0</p>
+    <div class="row"><a class="ghost" id="packDeDl" href="https://github.com/arianshoara2/POOF/releases/download/dict-de-v1/poof-de-dict.jsonl.gz" download="poof-de-dict.jsonl.gz">۱) دانلود فایل پک (~۷۸ مگ)</a><button class="ghost" id="packDePick">۲) انتخاب فایل و نصب</button><button class="ghost" id="packDeDel" hidden>حذف</button></div>
+    <input type="file" id="packDeFile" accept=".gz,application/gzip,application/octet-stream" hidden>
+    <p class="mute" style="font-size:11px;margin:6px 0 0">اول با دکمهٔ ۱ فایل را دانلود کنید (مرورگر خودش دانلود می‌کند)، بعد با دکمهٔ ۲ همان فایل را از پوشهٔ Downloads انتخاب کنید تا نصب شود. منبع: ویکی‌واژهٔ آلمانی (kaikki.org)، CC BY-SA 4.0</p>
    </div>
    <details class="adv"><summary>تنظیمات پیشرفته</summary>
    <p class="mute" style="margin:0 0 4px">ورود یکجای کلیدها — هر سه مقدار (آدرس واسط، کلید ورکر، توکن زبان) را با هم در همین یک کادر بچسبانید، هر کدام در یک خط؛ ترتیب مهم نیست. بعد از ذخیره، این کادر خودش خالی می‌شود و کپی از آن ممکن نیست.</p>
@@ -2850,7 +2851,7 @@ function playRich(url,word,lang,btn){
    Source: German Wiktionary via kaikki.org / Wiktextract — CC BY-SA 4.0.
    All pack code is best-effort: any failure falls back to the network flow. */
 const PACK_META_DE="poof_pack_de";
-let _packDb=null,packBusy=false,packAbort=null,packCancel=false,packStalled=false,packLiveStatus="";
+let _packDb=null,packBusy=false,packCancel=false,packLiveStatus="";
 function packMeta(){try{return JSON.parse(localStorage.getItem(PACK_META_DE)||"null")}catch(e){return null}}
 function packInstalled(){return !!packMeta()}
 function packOpen(){
@@ -2895,12 +2896,12 @@ async function packLookupDE(word){
  }catch(e){return null}
 }
 function renderPackDE(){
- var st=$("#packDeStatus"),btn=$("#packDeBtn"),del=$("#packDeDel"),bar=$("#packDeBar");if(!st||!btn)return;
+ var st=$("#packDeStatus"),pick=$("#packDePick"),del=$("#packDeDel"),bar=$("#packDeBar");if(!st||!pick)return;
  var m=packMeta();
- if(packBusy){st.textContent=packLiveStatus||"در حال دانلود و نصب…";btn.disabled=false;btn.textContent="لغو دانلود";if(del)del.hidden=true;if(bar)bar.hidden=false;return}
- btn.disabled=false;if(bar)bar.hidden=true;var f0=$("#packDeFill");if(f0)f0.style.width="0%";
- if(m){st.textContent="نصب شده — "+Number(m.n||0).toLocaleString("fa-IR")+" مدخل";btn.textContent="دانلود دوباره پک";if(del)del.hidden=false}
- else{st.textContent="نصب نشده";btn.textContent="دانلود پک (~۷۸ مگ)";if(del)del.hidden=true}
+ if(packBusy){st.textContent=packLiveStatus||"در حال نصب…";pick.disabled=false;pick.textContent="لغو نصب";if(del)del.hidden=true;if(bar)bar.hidden=false;return}
+ pick.disabled=false;pick.textContent="۲) انتخاب فایل و نصب";if(bar)bar.hidden=true;var f0=$("#packDeFill");if(f0)f0.style.width="0%";
+ if(m){st.textContent="نصب شده — "+Number(m.n||0).toLocaleString("fa-IR")+" مدخل";if(del)del.hidden=false}
+ else{st.textContent="نصب نشده";if(del)del.hidden=true}
 }
 function packProgress(read,total){
  var p=total?Math.min(100,Math.round(read/total*100)):0;
@@ -2909,19 +2910,12 @@ function packProgress(read,total){
  packLiveStatus="در حال دانلود… "+p.toLocaleString("fa-IR")+"٪ ("+mb(read)+" از "+mb(total)+" مگ)";
  var st=$("#packDeStatus");if(st)st.textContent=packLiveStatus;
 }
-async function packInstallDE(){
- if(packBusy){packCancel=true;if(packAbort)try{packAbort.abort()}catch(e){}return;}
+async function packInstallStream(body,total){
  if(typeof DecompressionStream==="undefined"){toast("مرورگر شما از نصب آفلاین پشتیبانی نمی‌کند","bad");return}
- packBusy=true;packCancel=false;packStalled=false;packLiveStatus="در حال اتصال…";renderPackDE();
- packAbort=new AbortController();
- var stallTimer=null;
- var armStall=function(){if(stallTimer)clearTimeout(stallTimer);stallTimer=setTimeout(function(){if(packBusy){packStalled=true;packCancel=true;if(packAbort)try{packAbort.abort()}catch(e){}}},180000)};
- armStall();
+ packBusy=true;packCancel=false;packLiveStatus="در حال خواندن فایل…";renderPackDE();
  try{
-  var resp=await fetch(PACK_URL_DE,{signal:packAbort.signal});
-  if(!resp.ok||!resp.body)throw new Error("http "+resp.status);
-  var total=+(resp.headers.get("content-length")||78422360),read=0;
-  var stream=resp.body.pipeThrough(new TransformStream({transform:function(c,ctl){read+=c.byteLength;packProgress(read,total);armStall();ctl.enqueue(c)}})).pipeThrough(new DecompressionStream("gzip")).pipeThrough(new TextDecoderStream());
+  var read=0;
+  var stream=body.pipeThrough(new TransformStream({transform:function(c,ctl){read+=c.byteLength;packProgress(read,total);ctl.enqueue(c)}})).pipeThrough(new DecompressionStream("gzip")).pipeThrough(new TextDecoderStream());
   var reader=stream.getReader(),buf="",count=0,batch=[],db=await packOpen();
   await new Promise(function(res,rej){var tx=db.transaction("words","readwrite");tx.objectStore("words").clear();tx.oncomplete=res;tx.onerror=function(){rej(tx.error)}});
   var flush=async function(){
@@ -2939,19 +2933,20 @@ async function packInstallDE(){
    buf+=rd.value;var idx;
    while((idx=buf.indexOf("\n"))>=0){var ln=buf.slice(0,idx);buf=buf.slice(idx+1);await handleLine(ln)}
   }
-  if(stallTimer)clearTimeout(stallTimer);
   if(buf.trim())await handleLine(buf);
   await flush();
   localStorage.setItem(PACK_META_DE,JSON.stringify({n:count,at:Date.now()}));
   toast("دیکشنری آفلاین نصب شد ✓");
  }catch(err){
   try{localStorage.removeItem(PACK_META_DE);var db2=await packOpen();await new Promise(function(res){var tx=db2.transaction("words","readwrite");tx.objectStore("words").clear();tx.oncomplete=res;tx.onerror=res})}catch(e){}
-  if(packStalled)toast("اتصال دانلود متوقف شد — دوباره تلاش کنید","bad");
-  else if(packCancel)toast("دانلود لغو شد","bad");
-  else toast("دانلود پک ناموفق بود","bad");
+  if(packCancel)toast("نصب لغو شد","bad");
+  else toast("نصب پک ناموفق بود — فایل را دوباره دانلود کنید","bad");
  }
- if(stallTimer)clearTimeout(stallTimer);
- packAbort=null;packBusy=false;packLiveStatus="";renderPackDE();
+ packBusy=false;packLiveStatus="";renderPackDE();
+}
+function packInstallFromFile(file){
+ if(!file||packBusy)return;
+ packInstallStream(file.stream(),file.size);
 }
 async function packDeleteDE(){
  try{localStorage.removeItem(PACK_META_DE);if(_packDb){_packDb.close();_packDb=null}
@@ -5406,7 +5401,8 @@ $("#impCards").onchange=async e=>{
  }catch(x){toast("فایل معتبر نیست","bad")}
  e.target.value="";
 };
-$("#packDeBtn").onclick=()=>packInstallDE();
+$("#packDePick").onclick=function(){if(packBusy){packCancel=true;return}var f=$("#packDeFile");if(f)f.click()};
+$("#packDeFile").addEventListener("change",function(){var f=this.files&&this.files[0];this.value="";if(f)packInstallFromFile(f)});
 $("#packDeDel").onclick=async()=>{if(await uiConfirm("دیکشنری آفلاین آلمانی حذف شود؟",{okText:"حذف",danger:true}))packDeleteDE()};
 renderPackDE();
 
