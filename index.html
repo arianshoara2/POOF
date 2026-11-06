@@ -1569,8 +1569,10 @@ async function loadManualDict(){
      const last=(p.senses||[])[(p.senses||[]).length-1];
      const sameNo=(x.number==null&&last&&last.number==null)||(x.number!=null&&last&&last.number===x.number);
      const sameHdr=last&&x.context_de===last.context_de&&x.persian===last.persian;
-     if(sameNo&&((!x.context_de&&!x.persian)||sameHdr)){
+     const sameCtx=x.number!=null&&last&&!!x.context_de&&x.context_de===last.context_de;
+     if(sameNo&&((!x.context_de&&!x.persian)||sameHdr||sameCtx)){
       last.examples=[...(last.examples||[]),...(x.examples||[])];
+      if(!last.persian&&x.persian)last.persian=x.persian;
      } else {
       (p.senses=p.senses||[]).push(x);
      }
