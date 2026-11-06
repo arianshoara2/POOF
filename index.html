@@ -217,8 +217,8 @@ button.ib.pri{background:var(--accent);color:var(--bg);border-color:var(--accent
 #zbSubList .tline{display:block}
 #zbSticky{position:sticky;top:8px;z-index:20;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden}
 .tline.cur{background:var(--active)}
-#zbSubLine{background:color-mix(in srgb,var(--accent) 16%,var(--surface))}
-#zbSubBar{background:color-mix(in srgb,var(--text) 4%,var(--surface));border:1px solid var(--border);border-radius:var(--r-lg);padding:6px}
+#zbSubLine{background:var(--lt-pastel,color-mix(in srgb,var(--accent) 16%,var(--surface)))}
+#zbSubBar{background:var(--lt-card,color-mix(in srgb,var(--text) 4%,var(--surface)));border:1px solid var(--lt-border,var(--border));border-radius:var(--r-lg);padding:6px}
 @media (min-width:1024px){
  #zabanCard{margin-left:calc(50% - 620px);margin-right:calc(50% - 620px)}
  #zbPlayerZone:has(#zbSubBar:not([hidden])){display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:18px;align-items:start}
@@ -880,7 +880,7 @@ nav button::before,nav button::after{top:22px}
     <video id="zbVideo" controls playsinline style="width:100%;border-radius:12px;margin-top:10px" hidden></video>
     <div id="zbSubBarTop" hidden>
      <div class="row" style="gap:6px;margin-top:8px;align-items:center"><button class="ghost" id="zbPrevSub">قبلی</button><button class="ghost" id="zbNextSub">بعدی</button><div class="seg" id="zbSubSeg" style="flex:1"></div></div>
-     <p id="zbSubLine" style="margin:10px 0;padding:10px;border:1px solid var(--border);border-radius:10px;font-size:17px;line-height:1.9;min-height:1.9em" dir="auto"></p>
+     <p id="zbSubLine" style="margin:10px 0;padding:10px;border:1px solid var(--lt-border,var(--border));border-radius:10px;font-size:17px;line-height:1.9;min-height:1.9em" dir="auto"></p>
     </div>
     <button class="ghost" id="zbPlayTgl" hidden style="display:block;margin:8px auto 2px;width:fit-content" aria-label="پخش/مکث">▶️</button>
      </div>
