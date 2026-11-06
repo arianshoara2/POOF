@@ -217,6 +217,13 @@ button.ib.pri{background:var(--accent);color:var(--bg);border-color:var(--accent
 #zbSubList .tline{display:block}
 #zbSticky{position:sticky;top:8px;z-index:20;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden}
 .tline.cur{background:var(--active)}
+#zbSubLine{background:color-mix(in srgb,var(--accent) 16%,var(--surface))}
+#zbSubBar{background:color-mix(in srgb,var(--text) 4%,var(--surface));border:1px solid var(--border);border-radius:var(--r-lg);padding:6px}
+@media (min-width:1024px){
+ #zabanCard{margin-left:calc(50% - 620px);margin-right:calc(50% - 620px)}
+ #zbPlayerZone:has(#zbSubBar:not([hidden])){display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:18px;align-items:start}
+ #zbSubBar{max-height:calc(100vh - 60px);overflow-y:auto;position:sticky;top:8px}
+}
 /* ===== کتابخانه ===== */
 #lib{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
 .lib-card{display:flex;gap:12px;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:10px 12px;cursor:pointer;transition:border-color .2s,transform .15s}
