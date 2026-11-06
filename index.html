@@ -1660,13 +1660,19 @@ function faLayerHTML(e){
  return `<div style="border:1px solid var(--accent);border-radius:12px;padding:10px 12px;margin:10px 0">${via}${recs.map((r,i)=>`${i?`<div style="height:1px;background:currentColor;opacity:.2;margin:10px 0"></div>`:""}${faLayerRecHTML(r)}`).join("")}</div>`;
 }
 async function getJSON(u){const r=await fetch(u);if(!r.ok)throw new Error(r.status);return r.json()}
+// Wiktionary often returns a combined inflection entry AND its split forms
+// ("inflection of X: a, b" + "a" + "b") — keep only the longest, drop contained ones (per part of speech)
+const dedupDefs=ds=>{const n=s=>s.toLowerCase().replace(/[^\p{L}\p{N} ]/gu,"").replace(/\s+/g," ").trim();
+ return ds.filter((d,i)=>{const a=n(d.def);if(!a)return false;
+  if(ds.findIndex(o=>n(o.def)===a)<i)return false;
+  return !ds.some((o,j)=>j!==i&&n(o.def).length>a.length&&n(o.def).includes(a));})};
 const Providers={
  async wiktionary(w,l="de"){
   for(const t of new Set([w,w[0].toUpperCase()+w.slice(1),w.toLowerCase()])){
    try{
     const de=(await getJSON("https://en.wiktionary.org/api/rest_v1/page/definition/"+encodeURIComponent(t)))[l];
     if(!de)continue;
-    return de.map(s=>({pos:s.partOfSpeech,defs:s.definitions.slice(0,3).map(d=>({def:strip(d.definition),ex:strip((d.examples||[])[0]||"")})).filter(d=>d.def)})).filter(s=>s.defs.length);
+    return de.map(s=>({pos:s.partOfSpeech,defs:dedupDefs(s.definitions.slice(0,3).map(d=>({def:strip(d.definition),ex:strip((d.examples||[])[0]||"")})).filter(d=>d.def))})).filter(s=>s.defs.length);
    }catch(e){if(e instanceof TypeError)throw e}   // خطای شبکه را بالا بفرست، 404 را رد کن
   }
   return [];
@@ -2496,6 +2502,8 @@ function rHeadings(html,tag){
  while((m=re.exec(html)))out.push({title:rTxt(m[1]),index:m.index,end:re.lastIndex});
  return out;
 }
+// IPA fragments (e.g. a bare suffix "-ɛːnt") are not full pronunciations — keep only /…/ or […] forms; if none survive, keep the original list
+const cleanIPA=a=>{const f=(a||[]).filter(v=>/^[\/\[]/.test(v));return f.length?f.slice(0,3):(a||[]).slice(0,3)};
 /* ---------- German (de.wiktionary) ---------- */
 function deSeg(html){
  var hs=rHeadings(html,"h2");
@@ -2576,7 +2584,7 @@ function parseRichDE(html){
   var sp=[],sm,re3=/<span[^>]*class="[^"]*\bipa\b[^"]*"[^>]*>([\s\S]*?)<\/span>/gi;
   while((sm=re3.exec(ap.html))){var v=rTxt(sm[1]);if(v&&sp.indexOf(v)<0)sp.push(v)}
   if(!sp.length){var at=rTxt(ap.html),bm,re4=/\[([^\]]{2,60})\]/g;while((bm=re4.exec(at))&&sp.length<3)sp.push(bm[1])}
-  out.ipa=sp.slice(0,3);
+  out.ipa=cleanIPA(sp);
   try{out.audio=rAudioURL(ap.html)}catch(e){}
  }
  /* Beispiele → per-sense examples (must run before meanings are capped) */
@@ -2739,7 +2747,7 @@ function parseRichEN(html){
  if(pron){
   var sp=[],sm,re=/<span[^>]*class="[^"]*\bIPA\b[^"]*"[^>]*>([\s\S]*?)<\/span>/g;
   while((sm=re.exec(pron))){var v=rTxt(sm[1]);if(v&&sp.indexOf(v)<0)sp.push(v)}
-  out.ipa=sp.slice(0,3);
+  out.ipa=cleanIPA(sp);
   try{out.audio=rAudioURL(pron)}catch(e){}
  }
  var et=enH3Block(seg,"Etymology");
@@ -3251,7 +3259,7 @@ async function showEntry(box,raw,ctx,src,lang,preE){
  const W=e.wort||{},card=W.card,dict=W.dict;
  const art=(card&&card.article)||(dict&&dict.article)||"",plural=(card&&card.plural)||(dict&&dict.plural)||"";
  const head=card?card.word:dict?dict.word:e.word;
- const flat=(e.senses||[]).flatMap(s=>s.defs.map(d=>({pos:s.pos,...d})));
+ const flat=(e.senses||[]).flatMap(s=>s.defs.map(d=>({pos:s.pos,...d}))).slice(0,10);
  const exs=[];if(ctx)exs.push({de:ctx,fa:"",tag:"جمله‌ی متن شما"});
  if(card)card.ex.forEach(x=>x.de&&exs.push(x));
  if(dict)dict.senses.forEach(s=>s.ex.forEach(x=>x.de&&exs.length<12&&exs.push(x)));
