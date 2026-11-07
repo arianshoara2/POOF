@@ -255,6 +255,17 @@ html[data-theme=lilac] .pk,html[data-theme=peachy] .pk,html[data-theme=minty] .p
 .abc-cell b{display:block;font:700 19px var(--serif);color:#7fb8dd}
 .abc-cell span{font-size:13px}
 .sec-img.ab{border-style:dashed}
+/* v3.1: readable text — sentences on their own lines, a/b/c parts, color marks */
+.sec-top{min-width:0}
+.sec-top .sec-h{min-width:0}
+.tx-line{margin-top:7px}
+.tx-line:first-child{margin-top:2px}
+.tx-part{display:flex;gap:9px;margin-top:12px}
+.tx-part-lbl{flex:none;width:26px;height:26px;border-radius:50%;background:var(--accent);color:var(--bg);display:grid;place-items:center;font:700 14px/1 var(--sans);margin-top:2px}
+.tx-part-body{flex:1;min-width:0}
+.tx-part-body .tx-line:first-child{margin-top:0}
+.hl-b{color:#7fb8dd;font-weight:700}
+.hl-p{color:#ff7eb6;font-weight:700}
 
 </style></head>
 <body>
@@ -850,6 +861,32 @@ $("#chmapBody").addEventListener("click",e=>{
  render();window.scrollTo({top:0});
 });
 
+/* ---------- v3.1 rich text: sentences on their own lines, a/b/c parts, {{blue}} [[pink]] [?] blanks ---------- */
+function plainText(t){return String(t||"").replace(/\{\{(.*?)\}\}/g,"$1").replace(/\[\[(.*?)\]\]/g,"$1").replace(/\[\?\]/g,"……")}
+function richInline(t){
+ const parts=String(t||"").split(/(\{\{.*?\}\}|\[\[.*?\]\]|\[\?\])/g);
+ return parts.map(p=>{
+  if(/^\{\{.*\}\}$/.test(p))return `<span class="hl-b">${tapWords(p.slice(2,-2))}</span>`;
+  if(/^\[\[.*\]\]$/.test(p))return `<span class="hl-p">${tapWords(p.slice(2,-2))}</span>`;
+  if(p==="[?]")return `<span class="gap" aria-label="جای خالی"></span>`;
+  return tapWords(p);
+ }).join("");
+}
+function richText(t){
+ const raw=String(t||"").replace(/z\.\s*B\./g,"z.\u00A0B.").replace(/Nr\.\s/g,"Nr.\u00A0");
+ const sents=splitSent(raw);
+ let html="",open=false;
+ const close=()=>{if(open){html+="</div>";open=false}};
+ for(const s of sents){
+  const m=s.match(/^([a-f])\s+/)||s.match(/^([a-f])[.)]\s+/)||s.match(/^(\d+)[.)]\s+/);
+  if(m){close();html+=`<div class="tx-part"><span class="tx-part-lbl">${esc(m[1])}</span><div class="tx-part-body"><div class="de tx-line">${richInline(s.slice(m[0].length))}</div>`;open=true;continue}
+  if(open){html+=`<div class="de tx-line">${richInline(s)}</div>`;continue}
+  html+=`<div class="de tx-line">${richInline(s)}</div>`;
+ }
+ close();
+ return html;
+}
+
 /* ---------- book-faithful special bodies ---------- */
 function splitSent(t){return String(t||"").split(/(?<=[.!?…])\s+/).map(x=>x.trim()).filter(Boolean)}
 function pinkEnd(form,end){
@@ -866,16 +903,16 @@ function grammarBody(s){
   const t=s.text||"";
   const i1=t.indexOf("1 Aussage"),i2=t.indexOf("2 W-Frage"),i3=t.indexOf("3 Verb:"),im=t.indexOf("Merke:"),ik=t.indexOf("Kommunikation.");
   if(i1<0||i2<0||i3<0||im<0||ik<0)return null;
-  const sentBlock=txt=>splitSent(txt).map(x=>`<div class="de" style="font-size:15.5px">${tapWords(x)}</div>`).join("");
+  const sentBlock=txt=>splitSent(txt).map(x=>`<div class="de" style="font-size:15.5px">${richInline(x)}</div>`).join("");
   /* book p.18: Aussage/W-Frage as Position-2 tables — the verb (2nd position) in pink */
   const VERBS2=new Set(["ist","bin","bist","sind","komme","kommst","kommt","kommen","heiße","heißt","heißen","spreche","sprichst","spricht","sprechen"]);
   const pos2Table=txt=>{
    const rows=splitSent(txt).map(sent=>{
     const tok=sent.split(/\s+/);
     let vi=tok.findIndex((w,i)=>i>0&&VERBS2.has(w.replace(/[^A-Za-zÀ-ÿß]+$/,"").toLowerCase()));
-    if(vi<1)return `<tr><td colspan="3"><span class="de" style="font-size:15px">${tapWords(sent)}</span></td></tr>`;
+    if(vi<1)return `<tr><td colspan="3"><span class="de" style="font-size:15px">${richInline(sent)}</span></td></tr>`;
     const subj=tok.slice(0,vi).join(" "),verb=tok[vi],rest=tok.slice(vi+1).join(" ");
-    return `<tr><td><span class="de" style="font-size:15px">${tapWords(subj)}</span></td><td><span class="de pk" style="font-size:15px">${tapWords(verb)}</span></td><td><span class="de" style="font-size:15px">${tapWords(rest)}</span></td></tr>`;
+    return `<tr><td><span class="de" style="font-size:15px">${richInline(subj)}</span></td><td><span class="de pk" style="font-size:15px">${richInline(verb)}</span></td><td><span class="de" style="font-size:15px">${richInline(rest)}</span></td></tr>`;
    }).join("");
    return `<table class="gram-tab"><tr><th></th><th>Position 2</th><th></th></tr>${rows}</table>`;
   };
@@ -911,7 +948,7 @@ function kommBody(s){
    let b=t.length;
    for(let j=k+1;j<heads.length;j++){const jj=t.indexOf(heads[j],a+1);if(jj>=0&&jj<b)b=jj}
    const txt=t.slice(a+heads[k].length,b).trim();
-   out+=`<div class="komm-h">${esc(heads[k].replace(":",""))}</div>`+splitSent(txt).map(x=>`<div class="de" style="font-size:15.5px">${tapWords(x)}</div>`).join("");
+   out+=`<div class="komm-h">${esc(heads[k].replace(":",""))}</div>`+splitSent(txt).map(x=>`<div class="de" style="font-size:15.5px">${richInline(x)}</div>`).join("");
   }
   return found>=3?out:null;
  }catch(e){return null}
@@ -933,14 +970,14 @@ function lernzieleBody(s){
   let h=`<div class="komm-h">Ich kann jetzt …</div>`;
   for(const it of items){
    const v=saved[it.L]||0;
-   h+=`<div class="lz-row"><span class="lt">${it.L}</span><div class="tx"><div class="de" style="font-size:15px">${tapWords(it.tx)}</div></div>
+   h+=`<div class="lz-row"><span class="lt">${it.L}</span><div class="tx"><div class="de" style="font-size:15px">${richInline(it.tx)}</div></div>
     <div class="lz-sm" data-lz="${it.L}">
      <button type="button" data-v="3" class="${v===3?"on":""}" aria-label="خوب بلدم">☺</button>
      <button type="button" data-v="2" class="${v===2?"on":""}" aria-label="نسبتاً">😐</button>
      <button type="button" data-v="1" class="${v===1?"on":""}" aria-label="هنوز سخت است">☹</button>
     </div></div>`;
   }
-  if(tail)h+=`<div class="komm-h">Ich kenne jetzt …</div><div class="de" style="font-size:15px">${tapWords(tail.replace("Ich kenne jetzt …","").trim())}</div>`;
+  if(tail)h+=`<div class="komm-h">Ich kenne jetzt …</div><div class="de" style="font-size:15px">${richInline(tail.replace("Ich kenne jetzt …","").trim())}</div>`;
   return h;
  }catch(e){return null}
 }
@@ -953,7 +990,7 @@ function liedBody(s){
   if(words.length<20)return null;
   const abc="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   let h=`<div class="komm-h">Das Alphabet · آهنگ الفبا</div><div class="abc-grid">`;
-  words.forEach((w,i)=>{h+=`<div class="abc-cell"><b>${abc[i]||""}</b><span class="de" style="font-size:14px">${tapWords(w)}</span></div>`});
+  words.forEach((w,i)=>{h+=`<div class="abc-cell"><b>${abc[i]||""}</b><span class="de" style="font-size:14px">${richInline(w)}</span></div>`});
   return h+"</div>";
  }catch(e){return null}
 }
@@ -962,7 +999,7 @@ function specialBody(s){
  if(s.id==="L1-Kommunikation-19"){const g=kommBody(s);if(g)return g}
  if(s.id==="L1-Lernziele"){const g=lernzieleBody(s);if(g)return g}
  if(s.id==="L1-Zwischen-Lied"){const g=liedBody(s);if(g)return g}
- return `<div class="de">${tapWords(s.text)}</div>`;
+ return richText(s.text);
 }
 
 /* ---------- progress ---------- */
@@ -992,27 +1029,27 @@ function itemsHTML(s){
  return `<div class="it-q">${s.items.map((it,i)=>{
   if(it.type==="multiple_choice"&&it.options){
    const ans=it.answer||"";
-   return `<div class="it" data-ans="${esc(ans)}"><div class="de" style="font-size:15px">${tapWords(it.question||"")}</div>
+   return `<div class="it" data-ans="${esc(ans)}"><div class="de" style="font-size:15px">${richInline(it.question||"")}</div>
     <div class="opts">${it.options.map(o=>`<button type="button" class="opt" data-opt="${esc(o)}">${esc(o)}</button>`).join("")}</div>
     <div class="chk" hidden><button type="button" class="btn ghost" data-chk="1">بررسی ✓</button></div></div>`;
   }
   if(it.type==="fill_blank"&&it.blanks){
-   return `<div class="it"><div class="de" style="font-size:15px">${tapWords((it.question||"").replace(/_+/g,"……"))}</div>
+   return `<div class="it"><div class="de" style="font-size:15px">${richInline((it.question||"").replace(/_+/g,"……"))}</div>
     <div class="ans-line" hidden><b>جواب:</b> <span dir="ltr">${esc(it.blanks.map(b=>b.answer||"").join(" · "))}</span></div>
     <div class="chk"><button type="button" class="btn ghost" data-chk="1">نمایش جواب</button></div></div>`;
   }
-  return `<div class="it"><div class="de" style="font-size:15px">${tapWords(it.question||"")}</div></div>`;
+  return `<div class="it"><div class="de" style="font-size:15px">${richInline(it.question||"")}</div></div>`;
  }).join("")}</div>`;
 }
 function secHTML(s,idx,prevImg){
  const done=!!doneSet()[s.id];
  const sub=secSub(s);
  const label=sub||s.exercise;
- const pv=strip(s.text).slice(0,70)+(strip(s.text).length>70?"…":"");
+ const pv=strip(plainText(s.text)).slice(0,70)+(strip(plainText(s.text)).length>70?"…":"");
  const img=s.image&&s.image!==prevImg?`<div class="sec-img"><img src="schritte-images/${s.image}" alt="صفحه‌ی کتاب" loading="lazy" onerror="this.closest('.sec-img').remove()"></div>`:"";
  const audio=s.audio?`<div class="au"><audio controls preload="metadata" src="schritte-audio/${s.audio}"></audio><div class="au-note" hidden>فایل صوتی هنوز در گیت‌هاب بارگذاری نشده — بعد از پوش، همین‌جا پخش می‌شود</div></div>`:"";
- const tr=s.transcript?`<details class="tr"><summary>متن صوت ◂</summary><div class="de">${tapWords(s.transcript)}</div></details>`:"";
- const ans=s.answers&&s.answers.length?`<details class="an"><summary>جواب‌ها ◂</summary>${s.answers.map(a=>`<div class="ans-line" dir="ltr">${esc(a)}</div>`).join("")}</details>`:"";
+ const tr=s.transcript?`<details class="tr"><summary>متن صوت ◂</summary>${richText(s.transcript)}</details>`:"";
+ const ans=s.answers&&s.answers.length?`<details class="an"><summary>جواب‌ها ◂</summary>${s.answers.map(a=>`<div class="ans-line de" dir="ltr">${richInline(a)}</div>`).join("")}</details>`:"";
  return `<article class="sec${done?" done":""}" id="sec-${s.id}" data-id="${s.id}">
   <div class="sec-top" style="display:flex;align-items:center;gap:8px;padding:0 8px 0 0">
    <button type="button" class="sec-h" data-sec="${s.id}" aria-expanded="false">
@@ -1063,7 +1100,7 @@ function render(){
   /* note: networkState is 3 right after insertion even for valid files (preload=none),
      so ONLY the error event may reveal the note — with preload=metadata the
      browser fetches headers, so a missing file fires error and the note appears */
-  $$(".au audio").forEach(a=>{a.addEventListener("error",()=>{const n=a.parentElement.querySelector(".au-note");if(n)n.hidden=false},{once:true})});
+  $$(".au audio").forEach(a=>{a.addEventListener("error",()=>{a.hidden=true;const n=a.parentElement.querySelector(".au-note");if(n)n.hidden=false},{once:true})});
 }
 
 /* ---------- delegated clicks ---------- */
