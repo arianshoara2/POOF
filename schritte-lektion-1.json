@@ -1,1322 +1,1322 @@
 {
- "book": "Schritte international Neu A1.1",
- "lektion": 1,
- "title": "Guten Tag. Mein Name ist …",
- "sections": [
-  {
-   "id": "L1-Folge-Bild1",
-   "schritt": "Folge 1",
-   "exercise": "Folge 1",
-   "kind": "listening",
-   "source": "Kursbuch",
-   "page": 10,
-   "image": "L1-Folge-Bild1.jpg",
-   "audio": "301082_KB_L01_01.mp3",
-   "transcript": "Lara: Das ist doch ganz einfach: Hallo oder Guten Tag, dann: Wie heiße ich?, dann: Woher komme ich?, dann: Was spreche ich? und dann: Tschüs! oder Auf Wiedersehen. Lili: Hihi super. Du zuerst, Lara! Lara: Ja, okay.",
-   "text": "Folge 1: Das bin ich."
-  },
-  {
-   "id": "L1-Folge-Bild2",
-   "schritt": "Folge 1",
-   "exercise": "Folge 1",
-   "kind": "listening",
-   "source": "Kursbuch",
-   "page": 10,
-   "image": "L1-Folge-Bild2.jpg",
-   "audio": "301082_KB_L01_02.mp3",
-   "transcript": "Lara: Hallo. Ich heiße Lara Nowak. Ich komme aus Polen. Ich spreche Polnisch und ein bisschen Englisch und Deutsch. Auf Wiedersehen. So und jetzt du, Walter. Walter: Oh nein! Lara: Oh ja! Lili: Hihihi!",
-   "text": "Folge 1: Das bin ich."
-  },
-  {
-   "id": "L1-Folge-Bild3",
-   "schritt": "Folge 1",
-   "exercise": "Folge 1",
-   "kind": "listening",
-   "source": "Kursbuch",
-   "page": 10,
-   "image": "L1-KB-p10.jpg",
-   "audio": "301082_KB_L01_03.mp3",
-   "transcript": "Lara: Walter? Walter: Nein, tut mir leid. Lara: Bitte! Walter: Also … ich … Lili: Na los, Opa! Walter: Na gut, … okay.",
-   "text": "Folge 1: Das bin ich."
-  },
-  {
-   "id": "L1-Folge-Bild4",
-   "schritt": "Folge 1",
-   "exercise": "Folge 1",
-   "kind": "listening",
-   "source": "Kursbuch",
-   "page": 11,
-   "image": "L1-KB-p11.jpg",
-   "audio": "301082_KB_L01_04.mp3",
-   "transcript": "Walter: Ähm … Mein Name ist Walter Baumann. Lili: Hey, Opa! Du hast Hallo! vergessen! Walter: Also nochmal: Guten Tag. Mein Name ist Walter Baumann. Ähm … ich komme aus Deutschland. Ich … Ich spreche Deutsch, Englisch, ähm, und ein bisschen Spanisch. Auf Wiedersehen. Puh. So Lili, hier. Lili: Nein. Tut mir leid. Keine Zeit. Walter: Na, dann du, Sofia.",
-   "text": "Folge 1: Das bin ich."
-  },
-  {
-   "id": "L1-Folge-Bild5",
-   "schritt": "Folge 1",
-   "exercise": "Folge 1",
-   "kind": "listening",
-   "source": "Kursbuch",
-   "page": 11,
-   "image": "L1-KB-p11.jpg",
-   "audio": "301082_KB_L01_05.mp3",
-   "transcript": "Sofia: Hallo. Ich bin Sofia Baumann. Ich komme aus Deutschland. Ich spreche Deutsch und Englisch. Tschüs. So. Jetzt aber du, Lili! Lili: Okay, Mama.",
-   "text": "Folge 1: Das bin ich."
-  },
-  {
-   "id": "L1-Folge-Bild6",
-   "schritt": "Folge 1",
-   "exercise": "Folge 1",
-   "kind": "listening",
-   "source": "Kursbuch",
-   "page": 11,
-   "image": "L1-KB-p11.jpg",
-   "audio": "301082_KB_L01_06.mp3",
-   "transcript": "Lili: Das ist Lili Baumann. Sofia: Ach komm, Lili. Mach’s richtig. Lili: Mama! Sofia: Bitte, Lili. Lili: Na gut, Mama.",
-   "text": "Folge 1: Das bin ich."
-  },
-  {
-   "id": "L1-Folge-Bild7",
-   "schritt": "Folge 1",
-   "exercise": "Folge 1",
-   "kind": "listening",
-   "source": "Kursbuch",
-   "page": 11,
-   "image": "L1-KB-p11.jpg",
-   "audio": "301082_KB_L01_07.mp3",
-   "transcript": "Lili: Halli hallo! Ich bin Lili. Ich komme aus Deutschland. Ich spreche Deutsch und ein bisschen Englisch. Tschüs!",
-   "text": "Folge 1: Das bin ich."
-  },
-  {
-   "id": "L1-Folge-Bild8",
-   "schritt": "Folge 1",
-   "exercise": "Folge 1",
-   "kind": "listening",
-   "source": "Kursbuch",
-   "page": 11,
-   "image": "L1-KB-p11.jpg",
-   "audio": "301082_KB_L01_08.mp3",
-   "transcript": "Lili: So, und jetzt noch ein Foto. Wartet, so, jetzt: Drei … zwei … eins … Hey! …",
-   "text": "Folge 1: Das bin ich."
-  },
-  {
-   "id": "L1-Folge-1",
-   "schritt": "Folge 1",
-   "exercise": "1",
-   "kind": "exercise",
-   "source": "Kursbuch",
-   "page": 10,
-   "image": "L1-KB-p10.jpg",
-   "text": "1 Sehen Sie die Fotos an und hören Sie. Wer ist das? Verbinden Sie. Ich heiße Lara Nowak. Mein Name ist Walter Baumann. Ich bin Sofia Baumann. Ich bin Lili.",
-   "items": [
+  "book": "Schritte international Neu A1.1",
+  "lektion": 1,
+  "title": "Guten Tag. Mein Name ist …",
+  "sections": [
     {
-     "q": "Wer ist das? Verbinden Sie die Namen mit den Fotos A, B, C, D.",
-     "options": [
-      "Ich heiße Lara Nowak.",
-      "Mein Name ist Walter Baumann.",
-      "Ich bin Sofia Baumann.",
-      "Ich bin Lili."
-     ],
-     "answer": "A: Ich bin Lili. B: Ich heiße Lara Nowak. C: Mein Name ist Walter Baumann. D: Ich bin Sofia Baumann."
-    }
-   ],
-   "answers": [
-    "A: Ich bin Lili.",
-    "B: Ich heiße Lara Nowak.",
-    "C: Mein Name ist Walter Baumann.",
-    "D: Ich bin Sofia Baumann."
-   ]
-  },
-  {
-   "id": "L1-Folge-2",
-   "schritt": "Folge 1",
-   "exercise": "2",
-   "kind": "exercise",
-   "source": "Kursbuch",
-   "page": 11,
-   "image": "L1-KB-p11.jpg",
-   "text": "2 Was ist richtig? Hören Sie noch einmal und kreuzen Sie an. A: Ich komme aus Deutschland. Ich spreche Polnisch und Deutsch. B: Ich komme aus Deutschland. Ich spreche Deutsch, Englisch und ein bisschen Spanisch. C: Ich komme aus Polen. Ich spreche Deutsch und Englisch. D: Ich komme aus Deutschland. Ich spreche Deutsch und ein bisschen Englisch.",
-   "items": [
+      "id": "L1-Folge-Bild1",
+      "schritt": "Folge 1",
+      "exercise": "Folge 1",
+      "kind": "listening",
+      "source": "Kursbuch",
+      "page": 10,
+      "image": "L1-Folge-Bild1.jpg",
+      "audio": "301082_KB_L01_01.mp3",
+      "transcript": "Lara: Das ist doch ganz einfach: Hallo oder Guten Tag, dann: Wie heiße ich?, dann: Woher komme ich?, dann: Was spreche ich? und dann: Tschüs! oder Auf Wiedersehen. Lili: Hihi super. Du zuerst, Lara! Lara: Ja, okay.",
+      "text": "Folge 1: Das bin ich."
+    },
     {
-     "q": "Was ist richtig? Kreuzen Sie an.",
-     "options": [
-      "A: Ich komme aus Deutschland. Ich spreche Polnisch und Deutsch.",
-      "B: Ich komme aus Deutschland. Ich spreche Deutsch, Englisch und ein bisschen Spanisch.",
-      "C: Ich komme aus Polen. Ich spreche Deutsch und Englisch.",
-      "D: Ich komme aus Deutschland. Ich spreche Deutsch und ein bisschen Englisch."
-     ],
-     "answer": "B, D"
-    }
-   ],
-   "answers": [
-    "B",
-    "D"
-   ]
-  },
-  {
-   "id": "L1-A-A1",
-   "schritt": "A",
-   "exercise": "A1",
-   "kind": "listening",
-   "source": "Kursbuch",
-   "page": 12,
-   "image": "L1-KB-p12.jpg",
-   "audio": "301082_KB_L01_09.mp3",
-   "transcript": "A Walter: Guten Tag. B Walter: Auf Wiedersehen. C Lara: Hallo. D Lili: Tschüs.",
-   "text": "A Guten Tag. A1 Wer sagt was? Hören Sie und ordnen Sie zu. Guten Tag. Hallo. Auf Wiedersehen. Tschüs.",
-   "answers": [
-    "A: Guten Tag.",
-    "B: Auf Wiedersehen.",
-    "C: Hallo.",
-    "D: Tschüs."
-   ]
-  },
-  {
-   "id": "L1-A-A2a",
-   "schritt": "A",
-   "exercise": "A2",
-   "kind": "listening",
-   "source": "Kursbuch",
-   "page": 12,
-   "image": "L1-KB-p12.jpg",
-   "audio": "301082_KB_L01_10.mp3",
-   "transcript": "Gespräch 1 Studenten: Tschüs, Heike. Heike: Bis später. Gespräch 2 Moderator: Guten Abend, meine Damen und Herren. Willkommen bei Musik international. Gespräch 3 Paketzusteller: Guten Morgen, Frau Fleckenstein. Frau Fleckenstein: Guten Morgen. Oh, danke. Auf Wiedersehen. Gespräch 4 Herr Schröder: Gute Nacht. Portier: Gute Nacht, Herr Schröder.",
-   "text": "A2 Guten Tag! Auf Wiedersehen! a Hören Sie und ordnen Sie zu. 1 Tschüs, Heike. Bis später. 2 Guten Abend, meine Damen und Herren. Willkommen bei Musik international. 3 Guten Morgen, Frau Fleckenstein. Guten Morgen. Oh, danke. Auf Wiedersehen. 4 Gute Nacht. Gute Nacht, Herr Schröder.",
-   "answers": [
-    "1: C",
-    "2: B",
-    "3: A",
-    "4: D"
-   ]
-  },
-  {
-   "id": "L1-A-A2b",
-   "schritt": "A",
-   "exercise": "A2",
-   "kind": "exercise",
-   "source": "Kursbuch",
-   "page": 12,
-   "image": "L1-KB-p12.jpg",
-   "text": "b Ergänzen Sie aus a. A Hallo! Willkommen! B Auf Wiedersehen. Tschüs!",
-   "answers": [
-    "A: Guten Abend, Guten Morgen",
-    "B: Tschüs, Gute Nacht"
-   ]
-  },
-  {
-   "id": "L1-A-A3",
-   "schritt": "A",
-   "exercise": "A3",
-   "kind": "dialogue",
-   "source": "Kursbuch",
-   "page": 12,
-   "image": "L1-KB-p12.jpg",
-   "text": "A3 Machen Sie Kärtchen und sprechen Sie im Kurs. 06:30 Guten Morgen, Frau Eco. 13:00 Guten Tag, Herr Díaz. 20:45 Guten Abend, Alexander. 6 Uhr–11 Uhr: (Guten) Morgen. 11 Uhr–18 Uhr: (Guten) Tag. 18 Uhr–[?]: Guten Abend."
-  },
-  {
-   "id": "L1-B-B1",
-   "schritt": "B",
-   "exercise": "B1",
-   "kind": "exercise",
-   "source": "Kursbuch",
-   "page": 13,
-   "image": "L1-KB-p13.jpg",
-   "text": "B Ich heiße Lara Nowak. B1 Ordnen Sie zu. Ich bin Lili. Ich heiße Lara Nowak. Ich bin Sofia Baumann. Mein Name ist Walter Baumann.",
-   "answers": [
-    "A: Ich heiße Lara Nowak.",
-    "B: Mein Name ist Walter Baumann.",
-    "C: Ich bin Lili.",
-    "D: Ich bin Sofia Baumann."
-   ]
-  },
-  {
-   "id": "L1-B-B2a",
-   "schritt": "B",
-   "exercise": "B2",
-   "kind": "dialogue",
-   "source": "Kursbuch",
-   "page": 13,
-   "image": "L1-KB-p13.jpg",
-   "audio": "301082_KB_L01_11.mp3",
-   "transcript": "Herr Yulu: Guten Tag. Mein Name ist Richard Yulu. Frau Weber: Guten Tag, Herr … Entschuldigung, wie heißen Sie? Herr Yulu: Richard Yulu. Frau Weber: Ah ja. Guten Tag, Herr Yulu. Ich bin Helga Weber. Herr Yulu: Guten Tag, Frau Weber.",
-   "text": "B2 Hören Sie und lesen Sie die Gespräche. Ergänzen Sie die Namen. A Guten Tag. Mein Name ist Richard Yulu. Guten Tag, Herr … Entschuldigung, wie heißen Sie? Richard Yulu. Ah, ja. Guten Tag, Herr Yulu. Ich bin Helga Weber. Guten Tag, Frau Weber.",
-   "answers": [
-    "A: Helga Weber"
-   ]
-  },
-  {
-   "id": "L1-B-B2b",
-   "schritt": "B",
-   "exercise": "B2",
-   "kind": "dialogue",
-   "source": "Kursbuch",
-   "page": 13,
-   "image": "L1-KB-p13.jpg",
-   "audio": "301082_KB_L01_12.mp3",
-   "transcript": "Frau Weber: Das ist Herr Yulu. Frau Deiser: Guten Tag, Herr Yulu. Ich bin Magdalena Deiser. Herr Yulu: Guten Tag, Frau Deiser, freut mich. Frau Deiser: Herzlich willkommen im Park-Klinikum.",
-   "text": "B2 B Das ist Herr Yulu. Guten Tag, Herr Yulu. Ich bin Magdalena Deiser. Guten Tag, Frau Deiser, freut mich. Herzlich willkommen im Park-Klinikum.",
-   "answers": [
-    "B: Richard Yulu, Magdalena Deiser"
-   ]
-  },
-  {
-   "id": "L1-B-B3",
-   "schritt": "B",
-   "exercise": "B3",
-   "kind": "dialogue",
-   "source": "Kursbuch",
-   "page": 13,
-   "image": "L1-KB-p13.jpg",
-   "text": "B3 Und jetzt Sie! Spielen Sie die Gespräche aus B2 im Kurs mit Ihrem Namen."
-  },
-  {
-   "id": "L1-B-B4",
-   "schritt": "B",
-   "exercise": "B4",
-   "kind": "exercise",
-   "source": "Kursbuch",
-   "page": 13,
-   "image": "L1-KB-p13.jpg",
-   "text": "B4 Suchen Sie bekannte Personen und zeigen Sie ein Foto. Fragen Sie im Kurs. Wer ist das? Das ist … Ja, stimmt. / Nein. Ich weiß es nicht.",
-   "answers": [
-    "A: Philipp Lahm",
-    "B: Angela Merkel",
-    "C: Wolfgang Amadeus Mozart",
-    "D: Sebastian Vettel"
-   ]
-  },
-  {
-   "id": "L1-C-C1a-A",
-   "schritt": "C",
-   "exercise": "C1",
-   "kind": "dialogue",
-   "source": "Kursbuch",
-   "page": 14,
-   "image": "L1-KB-p14.jpg",
-   "audio": "301082_KB_L01_13.mp3",
-   "transcript": "Eduardo: Hallo, ich heiße Eduardo. Und wie heißt du? Lara: Hallo. Ich bin Lara. Eduardo: Woher kommst du? Lara: Aus Polen. Eduardo: Und du? Wer bist du? Sara: Ich bin Sara. Ich komme aus Portugal.",
-   "text": "C Ich komme aus Polen. C1 Woher kommen Sie? a Hören Sie und ordnen Sie zu. Hallo, ich heiße Eduardo. Und wie heißt du? Hallo. Ich bin Lara. Woher kommst du? Aus Polen. Und du? Wer bist du? Ich bin Sara. Ich komme aus Portugal.",
-   "answers": [
-    "a: bin, kommst, bist, bin, komme"
-   ]
-  },
-  {
-   "id": "L1-C-C1a-B",
-   "schritt": "C",
-   "exercise": "C1",
-   "kind": "dialogue",
-   "source": "Kursbuch",
-   "page": 14,
-   "image": "L1-KB-p14.jpg",
-   "audio": "301082_KB_L01_14.mp3",
-   "transcript": "Professor: Guten Tag, wie heißen Sie? Herr Jalonen: Guten Tag, ich bin Juhani Jalonen. Professor: Freut mich. Woher kommen Sie, Herr Jalonen? Herr Jalonen: Aus Finnland, aus Helsinki.",
-   "text": "C1 a Gespräch B Guten Tag, wie heißen Sie? Guten Tag, ich bin Juhani Jalonen. Freut mich. Woher kommen Sie, Herr Jalonen? Aus Finnland, aus Helsinki.",
-   "answers": [
-    "b: heißen, bin, kommen"
-   ]
-  },
-  {
-   "id": "L1-C-C1a-C",
-   "schritt": "C",
-   "exercise": "C1",
-   "kind": "dialogue",
-   "source": "Kursbuch",
-   "page": 14,
-   "image": "L1-KB-p14.jpg",
-   "audio": "301082_KB_L01_15.mp3",
-   "transcript": "Herr Schmidt: Guten Tag, ich heiße Herbert Schmidt. Herr Lutz? Herr Lutz: Ja, guten Tag. Gustav Lutz. Ich bin von der Firma Teletec.",
-   "text": "C1 a Gespräch C Guten Tag, ich heiße Herbert Schmidt. Herr Lutz? Ja, guten Tag. Gustav Lutz. Ich bin von der Firma Teletec.",
-   "answers": [
-    "c: heiße, bin"
-   ]
-  },
-  {
-   "id": "L1-C-C1b",
-   "schritt": "C",
-   "exercise": "C1",
-   "kind": "grammar",
-   "source": "Kursbuch",
-   "page": 14,
-   "image": "L1-KB-p14.jpg",
-   "text": "b Ergänzen Sie die Tabelle. kommen: ich komme, du kommst, Sie kommen. heißen: ich heiße, du heißt, Sie heißen. sein: ich bin, du bist, Sie sind. aus: Deutschland, Österreich, Polen, Spanien. aus dem: Jemen, Sudan. aus der: Schweiz, Türkei. aus den: USA. Woher kommen Sie? Aus Deutschland. Woher kommst du? Aus Helsinki.",
-   "answers": [
-    "ich: komme, heiße, bin",
-    "du: kommst, heißt, bist",
-    "Sie: kommen, heißen, sind"
-   ]
-  },
-  {
-   "id": "L1-C-C2a-1",
-   "schritt": "C",
-   "exercise": "C2",
-   "kind": "dialogue",
-   "source": "Kursbuch",
-   "page": 14,
-   "image": "L1-KB-p14.jpg",
-   "audio": "301082_KB_L01_16.mp3",
-   "transcript": "Herr Mayer: Guten Tag, ich bin Hans Mayer. Wie heißen Sie? Herr Marini: Riccardo Marini. Herr Mayer: Woher kommen Sie, Herr Marini? Herr Marini: Aus der Schweiz. Herr Mayer: Aha! Und Sie? Wer sind Sie? Frau Costa: Ich bin Teresa Costa. Ich komme aus Portugal.",
-   "text": "C2 Internationaler Kongress a Hören Sie und lesen Sie die Gespräche. Markieren Sie dann alle Fragen mit W. 1 Guten Tag, ich bin Hans Mayer. Wie heißen Sie? Riccardo Marini. Woher kommen Sie, Herr Marini? Aus der Schweiz. Aha! Und Sie? Wer sind Sie? Ich bin Teresa Costa. Ich komme aus Portugal."
-  },
-  {
-   "id": "L1-C-C2a-2",
-   "schritt": "C",
-   "exercise": "C2",
-   "kind": "dialogue",
-   "source": "Kursbuch",
-   "page": 14,
-   "image": "L1-KB-p14.jpg",
-   "audio": "301082_KB_L01_17.mp3",
-   "transcript": "Anna: Hallo, ich bin Anna. Und wie heißt du? Sadie: Ich heiße Sadie. Anna: Und du? Wer bist du? Rabia: Ich heiße Rabia. Anna: Woher kommst du? Rabia: Aus Marokko.",
-   "text": "C2 a 2 Hallo, ich bin Anna. Und wie heißt du? Ich heiße Sadie. Und du? Wer bist du? Ich heiße Rabia. Woher kommst du? Aus Marokko."
-  },
-  {
-   "id": "L1-C-C2b",
-   "schritt": "C",
-   "exercise": "C2",
-   "kind": "exercise",
-   "source": "Kursbuch",
-   "page": 15,
-   "image": "L1-KB-p15.jpg",
-   "text": "b Ergänzen Sie Fragen aus a. Sie: Wie heißen Sie? du: [?]",
-   "answers": [
-    "Sie: Woher kommen Sie? Wer sind Sie?",
-    "Du: Wie heißt du? Wer bist du? Woher kommst du?"
-   ]
-  },
-  {
-   "id": "L1-C-C3a",
-   "schritt": "C",
-   "exercise": "C3",
-   "kind": "exercise",
-   "source": "Kursbuch",
-   "page": 15,
-   "image": "L1-KB-p15.jpg",
-   "text": "C3 du oder Sie? a Was ist richtig? Kreuzen Sie an. Hallo! Ich bin Umut. Und wer bist du? / Sie? Ich heiße Amir. Woher kommst du? / Sie, Amir? Aus dem Jemen. Aha. Ich komme aus Istanbul. Du / Sie sprichst gut Deutsch. Nein, nein. Nur ein bisschen. Und du / Sie, wie heißen du / Sie? Tufan, Mona Tufan. Ah, schön. Was sprechen du / Sie, Frau Tufan? Ich spreche Deutsch und Türkisch. Aha, auch Türkisch.",
-   "answers": [
-    "du, Du, Sie, Sie, Sie"
-   ]
-  },
-  {
-   "id": "L1-C-C3b",
-   "schritt": "C",
-   "exercise": "C3",
-   "kind": "listening",
-   "source": "Kursbuch",
-   "page": 15,
-   "image": "L1-KB-p15.jpg",
-   "audio": "301082_KB_L01_18.mp3",
-   "transcript": "Umut: Hallo! Ich bin Umut. Und wer bist du? Amir: Ich heiße Amir. Umut: Woher kommst du, Amir? Amir: Aus dem Jemen. Umut: Aha. Ich komme aus Istanbul. Amir: Du sprichst gut Deutsch. Umut: Nein, nein. Nur ein bisschen. Amir: Und Sie, wie heißen Sie? Frau Tufan: Tufan, Mona Tufan. Umut: Ah, schön. Was sprechen Sie, Frau Tufan? Frau Tufan: Ich spreche Deutsch und Türkisch. Umut: Aha, auch Türkisch.",
-   "text": "b Hören Sie und vergleichen Sie."
-  },
-  {
-   "id": "L1-C-C4",
-   "schritt": "C",
-   "exercise": "C4",
-   "kind": "dialogue",
-   "source": "Kursbuch",
-   "page": 15,
-   "image": "L1-KB-p15.jpg",
-   "text": "C4 Das bin ich! Sprechen Sie mit Ihrer Partnerin / Ihrem Partner oder machen Sie einen Film. Wie heißt du? Ich bin … Wie heißen Sie? Ich heiße … Was sprechen Sie? Ich spreche Englisch. Was sprichst du? Ich spreche Italienisch und ein bisschen Deutsch. Sprachen: Arabisch, Chinesisch, Deutsch, Englisch, Französisch, Griechisch, Italienisch, Polnisch, Russisch, Spanisch, Türkisch."
-  },
-  {
-   "id": "L1-D-D1",
-   "schritt": "D",
-   "exercise": "D1",
-   "kind": "listening",
-   "source": "Kursbuch",
-   "page": 16,
-   "image": "L1-KB-p16.jpg",
-   "audio": "301082_KB_L01_19.mp3",
-   "transcript": "a be ce de e ef ge ha i jot ka el em en o pe ku er es te u vau we ix ypsilon tsett ä ö ü eszett",
-   "text": "D Buchstaben D1 Das Alphabet a Hören Sie und ordnen Sie zu. Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz Ää Öö Üü ß"
-  },
-  {
-   "id": "L1-D-D2",
-   "schritt": "D",
-   "exercise": "D2",
-   "kind": "exercise",
-   "source": "Kursbuch",
-   "page": 16,
-   "image": "L1-KB-p16.jpg",
-   "text": "D2 Buchstabieren Sie Ihren Namen. Ich heiße Maria Bari. Wie bitte? Buchstabieren Sie, bitte. M–A–R–[?]"
-  },
-  {
-   "id": "L1-D-D3",
-   "schritt": "D",
-   "exercise": "D3",
-   "kind": "dialogue",
-   "source": "Kursbuch",
-   "page": 16,
-   "image": "L1-KB-p16.jpg",
-   "audio": "301082_KB_L01_20.mp3",
-   "transcript": "Sekretärin: Firma Microlab, Tina Schwarz, guten Tag. Herr Takishima: Guten Tag. Mein Name ist Takishima. Ist Frau Beck da, bitte? Sekretärin: Guten Tag, Herr Taki… Herr Takishima: Takishima. Sekretärin: Entschuldigung, wie ist Ihr Name? Herr Takishima: Takishima. Ich buchstabiere: T-A-K-I-S-H-I-M-A. Sekretärin: Ah ja, Herr Takishima. Einen Moment, bitte … Herr Takishima? Tut mir leid, Frau Beck ist nicht da. Herr Takishima: Ja, gut. Vielen Dank! Auf Wiederhören. Sekretärin: Auf Wiederhören, Herr Takishima.",
-   "text": "D3 Hören Sie das Telefongespräch. Sprechen Sie dann mit Ihrem Namen. Firma Microlab, Tina Schwarz, guten Tag. Guten Tag, Herr Taki… Entschuldigung, wie ist Ihr Name? Ah ja, Herr Takishima. Einen Moment, bitte … Herr Takishima? Tut mir leid, Frau Beck ist nicht da. Auf Wiederhören, Herr Takishima. Guten Tag. Mein Name ist Takishima. Ist Frau Beck da, bitte? Takishima. Takishima. Ich buchstabiere: T-A-K-I-S-H-I-M-A. Ja, gut. Vielen Dank. Auf Wiederhören."
-  },
-  {
-   "id": "L1-D-D4",
-   "schritt": "D",
-   "exercise": "D4",
-   "kind": "exercise",
-   "source": "Kursbuch",
-   "page": 16,
-   "image": "L1-KB-p16.jpg",
-   "text": "D4 Spiel: Die Buchstabenmaus. Raten Sie Wörter aus der Lektion. Tschüs?"
-  },
-  {
-   "id": "L1-E-E1a",
-   "schritt": "E",
-   "exercise": "E1",
-   "kind": "exercise",
-   "source": "Kursbuch",
-   "page": 17,
-   "image": "L1-KB-p17.jpg",
-   "text": "E Adresse E1 Wer ist das? a Sehen Sie die Fotos an und lesen Sie. Welche Visitenkarte passt zu welcher Person? Ordnen Sie zu. Ich bin aus Deutschland. Sport ist super. Ich bin aus Österreich. Ich spreche Deutsch, Englisch und Ungarisch. Ich komme aus Liechtenstein. Grüezi, ich komme aus der Schweiz. Ich spreche Schweizerdeutsch. Visitenkarten: Heidi Morbacher, Dolmetscherin und Übersetzerin, Keplerstraße 105, Graz. Ben Studer, Finanzen, UBS, Paradeplatz 6, CH-8001 Zürich. Sportstudio Judokids, Gärtnergasse 1, D-55116 Mainz. JOJO Reisen, Landstrasse 53, FL-9490 Vaduz.",
-   "answers": [
-    "A: 3",
-    "B: 1",
-    "C: 4",
-    "D: 2"
-   ]
-  },
-  {
-   "id": "L1-E-E1b",
-   "schritt": "E",
-   "exercise": "E1",
-   "kind": "exercise",
-   "source": "Kursbuch",
-   "page": 17,
-   "image": "L1-KB-p17.jpg",
-   "text": "b Lesen Sie die Visitenkarten in a noch einmal und markieren Sie: Vorname, Familienname / Nachname, Straße, Stadt, Land.",
-   "answers": [
-    "1 Vorname: Heidi, Familienname: Morbacher, Straße: Keplerstraße 105, Stadt: Graz, Land: Österreich",
-    "2 Vorname: Ben, Familienname: Studer, Straße: Paradeplatz 6, Stadt: Zürich, Land: Schweiz",
-    "3 Straße: Gärtnergasse 1, Stadt: Mainz, Land: Deutschland",
-    "4 Straße: Landstraße 53, Stadt: Vaduz, Land: Fürstentum Liechtenstein"
-   ]
-  },
-  {
-   "id": "L1-E-E1c",
-   "schritt": "E",
-   "exercise": "E1",
-   "kind": "exercise",
-   "source": "Kursbuch",
-   "page": 17,
-   "image": "L1-KB-p17.jpg",
-   "text": "c Wie heißt das Land? Ordnen Sie zu. Deutschland, Schweiz, Österreich, Liechtenstein. D = Deutschland. CH = [?]. A = [?]. FL = [?].",
-   "answers": [
-    "A = Österreich",
-    "CH = Schweiz",
-    "FL = (Fürstentum) Liechtenstein"
-   ]
-  },
-  {
-   "id": "L1-E-E2",
-   "schritt": "E",
-   "exercise": "E2",
-   "kind": "listening",
-   "source": "Kursbuch",
-   "page": 17,
-   "image": "L1-KB-p17.jpg",
-   "audio": "301082_KB_L01_21.mp3",
-   "transcript": "Rezeptionistin: So, bitte ergänzen Sie Familien- und Vorname, Ihre Adresse, also Land, Stadt und Straße. Frau Wegner: Ja, hier bitte … Rezeptionistin: Vielen Dank Frau … Frau Wagner. Frau Wegner: Wegner! Rezeptionistin: Wie bitte? Frau Wegner: Ich heiße Wegner. Rezeptionistin: Ach so, Wegner. Mit e? Frau Wegner: Ja, mit e. Rezeptionistin: Ich buchstabiere: W E G N E R. Frau Wegner: Richtig. Rezeptionistin: Und Ihr Vorname? … Maria? Frau Wegner: Nein. Rezeptionistin: Nein? Frau Wegner: Marie. Rezeptionistin: Mary? Frau Wegner: Nein, ich heiße Marie mit i e. Rezeptionistin: Ach so ja. Marie Wegner. Frau Wegner: Ja. Richtig. Rezeptionistin: Und Sie kommen aus der Schweiz? Frau Wegner: Ja. Rezeptionistin: Aus Freiburg? Frau Wegner: Ja, Freiburg in der Schweiz. Das heißt Fribourg. Ich buchstabiere: F R I B O U R G. Die Postleitzahl ist 1700. Rezeptionistin: Danke. Gut. Das habe ich. Und die Adresse ist Rue de la Sarine 6, ja? Frau Wegner: Ja. Rezeptionistin: Vielen Dank Frau Wagner. Frau Wegner: … Rezeptionistin: Schönen Tag, Frau Wagner … ach … Wegner.",
-   "text": "E2 Hören Sie und ergänzen Sie das Formular. Familienname: W. Vorname: [?]. Land: [?]. Postleitzahl, Stadt: 1700. Straße, Hausnummer: Rue de la Sarine 6.",
-   "answers": [
-    "Familienname: Wegner",
-    "Vorname: Marie",
-    "Land: Schweiz",
-    "Stadt: Fribourg"
-   ]
-  },
-  {
-   "id": "L1-Grammatik",
-   "schritt": "Grammatik",
-   "exercise": "Grammatik",
-   "kind": "grammar",
-   "source": "Kursbuch",
-   "page": 18,
-   "image": "L1-batch2-02-top.jpg",
-   "text": "Grammatik und Kommunikation. Grammatik. 1 Aussage. Mein Name ist Walter Baumann. Ich bin Lili. Ich komme aus Deutschland. Sie sprechen gut Deutsch. 2 W-Frage. Wer ist das? Wie heißen Sie? Woher kommen Sie? Was sprechen Sie? 3 Verb: Konjugation. kommen, heißen, sprechen, sein. ich komme, heiße, spreche, bin. du kommst, heißt, sprichst, bist. Sie kommen, heißen, sprechen, sind. Merke: ich -e, du -st, Sie -en. du heißt, du sprichst. Kommunikation. BEGRÜSSUNG: Hallo! Hallo! (Guten) Morgen, Frau Eco. (Guten) Tag, Herr Yulu. Guten Abend, Alexander. (Herzlich) Willkommen. Freut mich. Firma Microlab, Tina Schwarz, guten Tag. ABSCHIED: Auf Wiedersehen. Auf Wiedersehen. Tschüs! (Gute) Nacht. Auf Wiederhören. Bis später! NAME: Wie heißen Sie? Ich heiße / bin Lara Nowak. Wie heißt du? Ich heiße / bin Lili. Wer sind Sie? (Ich bin) Sofia Baumann. Wer bist du? (Ich bin) Lili. Wie ist Ihr Name? (Mein Name ist) Lara Nowak. Wer ist das? Das ist Herr Yulu. Ich buchstabiere: Y–U–L–U. Merke: Ich heiße … Mein Name ist … Frau Baumann."
-  },
-  {
-   "id": "L1-Kommunikation-19",
-   "schritt": "Kommunikation",
-   "exercise": "Kommunikation",
-   "kind": "grammar",
-   "source": "Kursbuch",
-   "page": 19,
-   "image": "L1-batch2-03-top.jpg",
-   "text": "HERKUNFT: Woher kommen Sie? Woher kommen Sie, Frau Nowak? (Ich komme) aus Polen. Woher kommst du, Lara? SPRACHE: Was sprechen Sie? Was sprichst du? Was sprechen Sie? Deutsch. Was sprichst du? Ich spreche Deutsch und (ein bisschen) Englisch. Sie sprechen / Du sprichst gut Deutsch. Nein, nur ein bisschen. ENTSCHULDIGUNG: Tut mir leid. Entschuldigung, … Tut mir leid. BITTEN UND DANKEN: Vielen Dank. Ist Frau Beck da, bitte? Buchstabieren Sie, bitte. Vielen Dank. / Danke. STRATEGIEN: Ja, stimmt. Ja. Nein. Ah, ja. Aha! Ja, stimmt. Ja, gut. Wie bitte? … bitte? Einen Moment, bitte. Ich weiß es nicht. Ah, schön. Das bin ich. Ergänzen Sie. Name: [?]. Land: [?]. Stadt: [?]. Sprache: [?]. Schreiben Sie. Ich heiße … Ich komme aus … Ich spreche …"
-  },
-  {
-   "id": "L1-Lernziele",
-   "schritt": "Lernziele",
-   "exercise": "Lernziele",
-   "kind": "exercise",
-   "source": "Kursbuch",
-   "page": 19,
-   "image": "L1-batch2-03-top.jpg",
-   "text": "Lernziele. Ich kann jetzt … A jemanden begrüßen und mich verabschieden: Hallo! Auf Wiedersehen. B jemanden nach dem Namen fragen und meinen Namen sagen: Wie heißen Sie? – Mein Name ist Richard Yulu. C nach dem Heimatland fragen und mein Heimatland sagen: Woher kommen Sie? – Ich komme aus Spanien. sagen: Diese Sprachen spreche ich: Was sprichst du? – Ich spreche Italienisch und ein bisschen Deutsch. D die Buchstaben sagen und meinen Namen buchstabieren: Mario: M–A–R–I–A. am Telefon nach einer Person fragen: Ist Frau Beck da, bitte? E eine Visitenkarte lesen und ein Formular ausfüllen: Familienname: Studer; Vorname: Ben; [?]. Ich kenne jetzt … 5 Länder: Österreich, … 5 Sprachen: Italienisch, …"
-  },
-  {
-   "id": "L1-AT-1",
-   "schritt": "Audiotraining",
-   "exercise": "Audiotraining 1",
-   "kind": "listening",
-   "source": "Kursbuch",
-   "page": 19,
-   "image": "L1-batch2-03-top.jpg",
-   "audio": "301082_KB_L01_22.mp3",
-   "transcript": "Begrüßung und Abschied. Wiederholen Sie. Hören Sie zuerst ein Beispiel: Sprecherin: Hallo. Sprecher: Hallo. Und jetzt Sie: Sprecherin: Hallo. Sprecherin: Guten Tag. Sprecherin: Guten Morgen. Sprecherin: Guten Abend. Sprecherin: Auf Wiedersehen. Sprecherin: Tschüs. Sprecherin: Gute Nacht.",
-   "text": "Lektion 1, Audiotraining 1. Begrüßung und Abschied. Wiederholen Sie. Hören Sie zuerst ein Beispiel: Hallo. Und jetzt Sie: Hallo. Guten Tag. Guten Morgen. Guten Abend. Auf Wiedersehen. Tschüs. Gute Nacht."
-  },
-  {
-   "id": "L1-AT-2",
-   "schritt": "Audiotraining",
-   "exercise": "Audiotraining 2",
-   "kind": "listening",
-   "source": "Kursbuch",
-   "page": 19,
-   "image": "L1-batch2-03-top.jpg",
-   "audio": "301082_KB_L01_23.mp3",
-   "transcript": "Wie bitte? Fragen Sie nach. Hören Sie zuerst ein Beispiel: Sprecherin: Mein Name ist Anita Zappel. Sprecher: Wie bitte? Wie ist Ihr Name? Sprecherin: Anita Zappel. Und jetzt Sie: Sprecherin: Mein Name ist Anita Zappel. Sprecher: Wie bitte? Wie ist Ihr Name? Sprecherin: Anita Zappel. Sprecherin: Ich komme aus Österreich. Sprecher: Wie bitte? Woher kommen Sie? Sprecherin: Aus Österreich. Sprecherin: Ich spreche Deutsch und Französisch. Sprecher: Wie bitte? Was sprechen Sie? Sprecherin: Deutsch und Französisch. Sprecherin: Ich bin Anne. Sprecher: Wie bitte? Wer bist du? Sprecherin: Anne. Sprecherin: Ich komme aus Deutschland. Sprecher: Wie bitte? Woher kommst du? Sprecherin: Aus Deutschland. Sprecherin: Ich spreche Deutsch und ein bisschen Englisch. Sprecher: Wie bitte? Was sprichst du? Sprecherin: Deutsch und ein bisschen Englisch.",
-   "text": "Lektion 1, Audiotraining 2. Wie bitte? Fragen Sie nach. Hören Sie zuerst ein Beispiel: Mein Name ist Anita Zappel. Wie bitte? Wie ist Ihr Name? Anita Zappel."
-  },
-  {
-   "id": "L1-AT-3",
-   "schritt": "Audiotraining",
-   "exercise": "Audiotraining 3",
-   "kind": "listening",
-   "source": "Kursbuch",
-   "page": 19,
-   "image": "L1-batch2-03-top.jpg",
-   "audio": "301082_KB_L01_24.mp3",
-   "transcript": "Buchstabieren Sie, bitte! Buchstabieren Sie die Namen. Hören Sie zuerst ein Beispiel: Sprecherin: Mein Name ist Weber. Sprecher: Ah! Buchstabieren Sie, bitte. Sprecherin: W – E – B – E – R. Sprecher: Vielen Dank. Und jetzt Sie: Sprecherin: Mein Name ist Weber. Sprecher: Ah! Buchstabieren Sie, bitte. Sprecherin: W – E – B – E – R. Sprecher: Vielen Dank. Sprecherin: Mein Name ist Baumann. Sprecher: Ah! Buchstabieren Sie, bitte. Sprecherin: B – A – U – M – A – N – N. Sprecher: Vielen Dank. Sprecherin: Mein Name ist Deiser. Sprecher: Ah! Buchstabieren Sie, bitte. Sprecherin: D – E – I – S – E – R. Sprecher: Vielen Dank. Sprecherin: Mein Name ist Menardi. Sprecher: Ah! Buchstabieren Sie, bitte. Sprecherin: M – E – N – A – R – D – I. Sprecher: Vielen Dank. Sprecherin: Mein Name ist Nowak. Sprecher: Ah! Buchstabieren Sie, bitte. Sprecherin: N – O – W – A – K. Sprecher: Vielen Dank.",
-   "text": "Lektion 1, Audiotraining 3. Buchstabieren Sie, bitte! Buchstabieren Sie die Namen. Hören Sie zuerst ein Beispiel: Mein Name ist Weber. Ah! Buchstabieren Sie, bitte. W–E–B–E–R. Vielen Dank."
-  },
-  {
-   "id": "L1-Zwischen-Lied",
-   "schritt": "Zwischendurch",
-   "exercise": "Lied",
-   "kind": "listening",
-   "source": "Kursbuch",
-   "page": 20,
-   "image": "L1-batch2-04-top.jpg",
-   "audio": "301082_KB_L01_25.mp3",
-   "transcript": "A–B–C– Okay! A wie Akkordeon. B wie Baby. C wie Cent. D wie Dynamit. E wie Elefant. F wie Flöte. G wie Gitarre. H wie Hallo. I wie Insekt. J wie Jaguar. K wie Kamera. L wie Lokomotive. M wie Mikrofon. N wie Natur. O wie Ozean. P wie Polizei. Q wie Quartett. R wie Radio. S wie Saxophon. T wie Telefon. U wie Uhu. V wie Volksmusik. W wie Wolfgang Amadeus. X wie Xylophon. und … jetzt … Ypsilon. Z wie Zirkus. Meine Damen und Herren, das war das ABC.",
-   "text": "Zwischendurch mal … LIED Das Alphabet. Hören Sie das Lied und sprechen Sie mit. Akkordeon, Baby, Cent, Dynamit, Elefant, Flöte, Gitarre, Hallo, Insekt, Jaguar, Kamera, Lokomotive, Mikrofon, Natur, Ozean, Polizei, Quartett, Radio, Saxophon, Telefon, Uhu, Volksmusik, Wolfgang Amadeus, Xylofon, Ypsilon, Zirkus."
-  },
-  {
-   "id": "L1-Zwischen-Buchstabenspiel",
-   "schritt": "Zwischendurch",
-   "exercise": "Buchstabenspiel",
-   "kind": "exercise",
-   "source": "Kursbuch",
-   "page": 20,
-   "image": "L1-batch2-04-top.jpg",
-   "text": "FILM / SPIEL Buchstabenspiel. Sehen Sie den Film an. Hören Sie und ergänzen Sie die Namen. Anna, [?]. AN??",
-   "answers": [
-    "Anna, Max, Julia, Daniel, Felix"
-   ]
-  },
-  {
-   "id": "L1-Zwischen-Film",
-   "schritt": "Zwischendurch",
-   "exercise": "Film",
-   "kind": "listening",
-   "source": "Kursbuch",
-   "page": 21,
-   "image": "L1-batch2-05-top.jpg",
-   "text": "FILM Hallo und guten Tag! 1 Sehen Sie den Film ohne Ton an. Was meinen Sie: Was sagen die Personen? Notieren Sie. 2 Sehen Sie den Film nun mit Ton an und vergleichen Sie.",
-   "answers": [
-    "1: [?]",
-    "2: A Guten Tag, B Hallo, C Auf Wiedersehen"
-   ]
-  },
-  {
-   "id": "L1-Zwischen-Landeskunde",
-   "schritt": "Zwischendurch",
-   "exercise": "Landeskunde",
-   "kind": "listening",
-   "source": "Kursbuch",
-   "page": 21,
-   "image": "L1-batch2-05-bottom.jpg",
-   "audio": "301082_KB_L01_26.mp3",
-   "transcript": "A Begrüßung und Verabschiedung formell, neutral und überall: Guten Tag! … Auf Wiedersehen! oder: Tag! … Wiedersehen! B Begrüßung und Verabschiedung informell und überall: Hallo! … Tschüs! C Begrüßung und Verabschiedung regional: Moin! oder Moin moin! … Tschüs! Tach! … Tschüs! Servus! … Servus! Grüezi mitenand! … Uf Widerluege!",
-   "text": "LANDESKUNDE Begrüßung und Abschied regional. 1 In Deutschland, Österreich und in der Schweiz gibt es viele Wörter für Guten Tag! und Auf Wiedersehen! Hören Sie die Wörter und markieren Sie sie in den Karten. 2 Guten Tag und Auf Wiedersehen international. Sprechen Sie. Ich spreche Ungarisch. Guten Tag heißt Jó napot.",
-   "answers": [
-    "Guten Tag!: Tag!, Hallo!, Moin!, Moin moin!, Tach!, Servus!, Grüezi mitenand!",
-    "Auf Wiedersehen!: Wiedersehen!, Tschüs!, Servus!, Uf Wiederluege!"
-   ]
-  },
-  {
-   "id": "L1-AB-1",
-   "schritt": "A",
-   "exercise": "1",
-   "kind": "listening",
-   "source": "Arbeitsbuch",
-   "page": 10,
-   "image": "L1-batch2-06-top.jpg",
-   "audio": "301082_AB_L01_1.mp3",
-   "transcript": "Mädchen: Guten Morgen, Frau Schröder. Frau Schröder: Hallo, Anna! Mädchen und Junge: Auf Wiedersehen, Frau Pohlmann. Frau Pohlmann: Tschüs, Kinder. Steffen: Nacht, Maria. Maria: Gute Nacht, Steffen.",
-   "text": "A Guten Tag. 1 Was hören Sie? Kreuzen Sie an. Guten Tag! Hallo! Tschüs! Gute Nacht! Morgen! Nacht! Tag! Guten Abend! Guten Morgen! Auf Wiedersehen!",
-   "items": [
+      "id": "L1-Folge-Bild2",
+      "schritt": "Folge 1",
+      "exercise": "Folge 1",
+      "kind": "listening",
+      "source": "Kursbuch",
+      "page": 10,
+      "image": "L1-Folge-Bild2.jpg",
+      "audio": "301082_KB_L01_02.mp3",
+      "transcript": "Lara: Hallo. Ich heiße Lara Nowak. Ich komme aus Polen. Ich spreche Polnisch und ein bisschen Englisch und Deutsch. Auf Wiedersehen. So und jetzt du, Walter. Walter: Oh nein! Lara: Oh ja! Lili: Hihihi!",
+      "text": "Folge 1: Das bin ich."
+    },
     {
-     "q": "Was hören Sie? Kreuzen Sie an.",
-     "options": [
-      "Guten Tag!",
-      "Hallo!",
-      "Tschüs!",
-      "Gute Nacht!",
-      "Morgen!",
-      "Nacht!",
-      "Tag!",
-      "Guten Abend!",
-      "Guten Morgen!",
-      "Auf Wiedersehen!"
-     ],
-     "answer": "Hallo!, Auf Wiedersehen!, Tschüs!, Nacht!, Gute Nacht!"
-    }
-   ],
-   "answers": [
-    "Hallo!",
-    "Auf Wiedersehen!",
-    "Tschüs!",
-    "Nacht!",
-    "Gute Nacht!"
-   ]
-  },
-  {
-   "id": "L1-AB-2",
-   "schritt": "A",
-   "exercise": "2",
-   "kind": "listening",
-   "source": "Arbeitsbuch",
-   "page": 10,
-   "image": "L1-batch2-06-top.jpg",
-   "audio": "301082_AB_L01_2.mp3",
-   "transcript": "Tag! Guten Tag! Abend! Guten Abend! Nacht! Gute Nacht! Frau Schröder: Guten Morgen, Frau Schröder! Morgen! Guten Morgen! Guten Abend, meine Damen und Herren. Wiederhören! Auf Wiederhören! Felix: Auf Wiedersehen, Felix!",
-   "text": "2 Hören Sie und sprechen Sie nach. Achten Sie auf die Satzmelodie. Tag! Guten Tag! Abend! Guten Abend! Nacht! Gute Nacht! Frau Schröder: Guten Morgen, Frau Schröder! Morgen! Guten Morgen! Guten Abend, meine Damen und Herren. Wiederhören! Auf Wiederhören! Felix: Auf Wiedersehen, Felix!"
-  },
-  {
-   "id": "L1-AB-3",
-   "schritt": "A",
-   "exercise": "3",
-   "kind": "exercise",
-   "source": "Arbeitsbuch",
-   "page": 10,
-   "image": "L1-batch2-06-top.jpg",
-   "text": "3 Ordnen Sie zu. Tag, Morgen, Abend, Hallo, Auf Wiedersehen, Gute Nacht, Morgen, Tag, Abend, Tschüs. Hallo. Guten Tag. 06:00, 09:00, 13:00, 15:30, 19:00, 23:45. Tschüs.",
-   "answers": [
-    "Morgen, Morgen, Tag, Tag, Abend, Abend, Auf Wiedersehen, Gute Nacht"
-   ]
-  },
-  {
-   "id": "L1-AB-4",
-   "schritt": "A",
-   "exercise": "4",
-   "kind": "exercise",
-   "source": "Arbeitsbuch",
-   "page": 10,
-   "image": "L1-batch2-06-top.jpg",
-   "text": "4 Ergänzen Sie. A Gute Nacht, Frau Moreno. Herr Schneider. 23:00. B Rasha! Natalja! 09:30. C Herr Frykberg. Frau Persson. 08:30. D Herr Celik. Auf Wiedersehen, Herr Johnson. 16:00. E Klara! Ana! 14:30.",
-   "answers": [
-    "a: Gute Nacht",
-    "b: Hallo, Guten Morgen",
-    "c: Guten Morgen, Guten Morgen",
-    "d: Auf Wiedersehen",
-    "e: Tschüs, Tschüs"
-   ]
-  },
-  {
-   "id": "L1-AB-5",
-   "schritt": "B",
-   "exercise": "5",
-   "kind": "listening",
-   "source": "Arbeitsbuch",
-   "page": 11,
-   "image": "L1-batch2-07-top.jpg",
-   "audio": "301082_AB_L01_3.mp3",
-   "transcript": "a Entschuldigung. Wie heißen Sie? Ich heiße Eva Baumann. Und wie heißen Sie? Ich heiße Angelika Moser. b Entschuldigung. Wie heißen Sie? Ich bin Anna Lienert. Guten Abend, Frau Lienert. Und wie heißen Sie? Mein Name ist Karl Huber.",
-   "text": "B Ich heiße Lara Nowak. 5 Hören Sie und sprechen Sie nach. Achten Sie auf die Satzmelodie. a Entschuldigung. Wie heißen Sie? Ich heiße Eva Baumann. Und wie heißen Sie? Ich heiße Angelika Moser. b Entschuldigung. Wie heißen Sie? Ich bin Anna Lienert. Guten Abend, Frau Lienert. Und wie heißen Sie? Mein Name ist Karl Huber."
-  },
-  {
-   "id": "L1-AB-6",
-   "schritt": "B",
-   "exercise": "6",
-   "kind": "listening",
-   "source": "Arbeitsbuch",
-   "page": 11,
-   "image": "L1-batch2-07-top.jpg",
-   "audio": "301082_AB_L01_4.mp3",
-   "transcript": "Guten Tag. Ich bin Annalena. Entschuldigung, wie heißen Sie? Annalena Adler. Herzlich willkommen, Annalena.",
-   "text": "6 Hören Sie und sprechen Sie nach. Achten Sie auf die Betonung: [?]. Guten Tag. Ich bin Annalena. Entschuldigung, wie heißen Sie? Annalena Adler. Herzlich willkommen, Annalena."
-  },
-  {
-   "id": "L1-AB-7",
-   "schritt": "B",
-   "exercise": "7",
-   "kind": "exercise",
-   "source": "Arbeitsbuch",
-   "page": 11,
-   "image": "L1-batch2-07-top.jpg",
-   "text": "7 Ordnen Sie zu. Das ist Frau Papadopoulos. Ich bin Sandra Stein. Entschuldigung, wie heißen Sie? Und wie heißen Sie? Guten Tag, Herr Weinert, freut mich. Mein Name ist Ulrike Springer. a Hallo! Ich bin Sandra Stein. Und [?]. b Ich heiße Akello Keki. Akello Keki. Ah, ja. Guten Tag, Herr Keki. c [?]. Guten Tag, Frau Papadopoulos. Ich bin Till Weinert. Herzlich willkommen bei EasyComputer international.",
-   "answers": [
-    "a: Und wie heißen Sie? Mein Name ist Ulrike Springer.",
-    "b: Entschuldigung, wie heißen Sie?",
-    "c: Das ist Frau Papadopoulos., Guten Tag, Herr Weinert, freut mich."
-   ]
-  },
-  {
-   "id": "L1-AB-8",
-   "schritt": "B",
-   "exercise": "8",
-   "kind": "exercise",
-   "source": "Arbeitsbuch",
-   "page": 12,
-   "image": "L1-batch2-07-top.jpg",
-   "text": "8 Verbinden Sie und schreiben Sie. a Wie heißen – ist das? b Mein Name – Finn. c Und wie – Sie? d Ich – ist Lena Winter. e Wer – heißen Sie? f Das ist – heißt Sina.",
-   "items": [
+      "id": "L1-Folge-Bild3",
+      "schritt": "Folge 1",
+      "exercise": "Folge 1",
+      "kind": "listening",
+      "source": "Kursbuch",
+      "page": 10,
+      "image": "L1-Folge-Bild3.jpg",
+      "audio": "301082_KB_L01_03.mp3",
+      "transcript": "Lara: Walter? Walter: Nein, tut mir leid. Lara: Bitte! Walter: Also … ich … Lili: Na los, Opa! Walter: Na gut, … okay.",
+      "text": "Folge 1: Das bin ich."
+    },
     {
-     "q": "Verbinden Sie und schreiben Sie.",
-     "options": [
-      "Wie heißen",
-      "Mein Name",
-      "Und wie",
-      "Ich",
-      "Wer",
-      "Das ist"
-     ],
-     "answer": "Wie heißen Sie? Mein Name ist Lena Winter. Und wie heißen Sie? Ich heiße Sina. Wer ist das? Das ist Finn."
-    }
-   ],
-   "answers": [
-    "b: Mein Name ist Lena Winter.",
-    "c: Und wie heißen Sie?",
-    "d: Ich heiße Sina.",
-    "e: Wer ist das?",
-    "f: Das ist Finn."
-   ]
-  },
-  {
-   "id": "L1-AB-9",
-   "schritt": "B",
-   "exercise": "9",
-   "kind": "exercise",
-   "source": "Arbeitsbuch",
-   "page": 12,
-   "image": "L1-batch2-07-top.jpg",
-   "text": "9 Ordnen Sie zu und ergänzen Sie die Satzzeichen: ? oder . wie, wer, Das ist, bin, ist, ist, heiße, heiße, heißen, Herr. a Ich bin Andreas Zilinski. Entschuldigung, [?] heißen Sie? Andreas Zilinski, und das [?] Frau Kunz. b Wer [?] das? [?] Felix. c Ich [?] Laura Weber. Und wie [?] Sie? Ich [?] Michaela Schubert. d Das ist [?] Hoffmann. Und [?] ist das? Frau Kunz.",
-   "answers": [
-    "a: Entschuldigung, wie heißen Sie?, Andreas Zilinski, und das ist Frau Kunz.",
-    "b: Wer ist das?, Das ist Felix.",
-    "c: Ich heiße Laura Weber. Und wie heißen Sie?, Ich heiße Michaela Schubert.",
-    "d: Das ist Herr Hoffmann., Und wer ist das?, Frau Kunz."
-   ]
-  },
-  {
-   "id": "L1-AB-10",
-   "schritt": "B",
-   "exercise": "10",
-   "kind": "exercise",
-   "source": "Arbeitsbuch",
-   "page": 12,
-   "image": "L1-batch2-07-top.jpg",
-   "text": "10 Schreiben Sie Sätze und ergänzen Sie die Satzzeichen: ? oder . a heißen – wie – Sie – Und. b ist – Mein – Name – Annika Bauer. c willkommen – bei Air-Jet – Herzlich. d ist – Und – das – wer. e Frau Kaufmann – Das – ist.",
-   "answers": [
-    "a: Und wie heißen Sie?",
-    "b: Mein Name ist Annika Bauer.",
-    "c: Herzlich willkommen bei Air-Jet.",
-    "d: Und wer ist das?",
-    "e: Das ist Frau Kaufmann."
-   ]
-  },
-  {
-   "id": "L1-AB-11",
-   "schritt": "B",
-   "exercise": "11",
-   "kind": "exercise",
-   "source": "Arbeitsbuch",
-   "page": 12,
-   "image": "L1-batch2-07-top.jpg",
-   "text": "11 Ergänzen Sie. a Hallo, ich bin Tim. Hallo, Tim. [?] heiße Len. Und [?] das? [?] Jannis. b Guten Tag, [?] ist Mohammad Haaleh. Entschuldigung, [?]? Mohammad Haaleh. Ah, ja. Guten Tag, [?] Haaleh. c Das [?] Frau Santos. Guten Morgen, Frau Santos. [?] Kolja Steffens. Guten [?], Herr Steffens, [?] bei Sona. d Wer [?] Dario Cologna? [?] nicht.",
-   "answers": [
-    "a: ich, wer ist, Das ist",
-    "b: mein Name, Wie heißen Sie, Herr",
-    "c: ist, Ich bin, Morgen, freut mich, willkommen",
-    "d: ist, Das weiß ich"
-   ]
-  },
-  {
-   "id": "L1-AB-12",
-   "schritt": "C",
-   "exercise": "12",
-   "kind": "exercise",
-   "source": "Arbeitsbuch",
-   "page": 13,
-   "image": "L1-batch2-08-top.jpg",
-   "text": "C Ich komme aus Polen. 12 Ordnen Sie zu. bist du, Ich heiße, Ich komme, heißen Sie, kommen Sie, Ich bin, sind Sie, kommst du. a Hallo. Ich heiße Tom. Und du? Wer [?]? Ich heiße Hugo und komme aus Portugal. Woher [?]? Aus den USA. b [?] Julia Springer von der Firma Teletec. Und Sie? Wie [?]? Ich bin Ala Charkova. c Guten Tag. Ich heiße Arto Koskinen. Wer [?]? Ich bin Monique Laval. Freut mich. Woher [?] Frau Laval? Aus der Schweiz. Und Sie? [?] aus Finnland.",
-   "answers": [
-    "a: Wer bist du?, Woher kommst du?",
-    "b: Ich bin.., Wie heißen Sie?",
-    "c: Wer sind Sie?, Woher kommen Sie?, Ich komme aus.."
-   ]
-  },
-  {
-   "id": "L1-AB-13",
-   "schritt": "C",
-   "exercise": "13",
-   "kind": "exercise",
-   "source": "Arbeitsbuch",
-   "page": 13,
-   "image": "L1-batch2-08-top.jpg",
-   "text": "13 du oder Sie? Ordnen Sie zu. A, B, C, D, E, F. du + Lara / Henry / …: [?]. Sie + Frau Nowak / Herr Baumann / …: [?].",
-   "answers": [
-    "du + …: B, E",
-    "Sie + …: C, D, F"
-   ]
-  },
-  {
-   "id": "L1-AB-14",
-   "schritt": "C",
-   "exercise": "14",
-   "kind": "exercise",
-   "source": "Arbeitsbuch",
-   "page": 13,
-   "image": "L1-batch2-08-top.jpg",
-   "text": "14 du oder Sie? Ordnen Sie die Bilder zu, ergänzen Sie und vergleichen Sie. Bild, Deutsch, Englisch, Meine Sprache oder andere Sprachen. du, you. you. A, B.",
-   "answers": [
-    "B: du",
-    "A: Sie"
-   ]
-  },
-  {
-   "id": "L1-AB-15",
-   "schritt": "C",
-   "exercise": "15",
-   "kind": "dialogue",
-   "source": "Arbeitsbuch",
-   "page": 14,
-   "image": "L1-batch2-09-top.jpg",
-   "text": "15 Schreiben Sie Gespräche. a Nein, nur ein bisschen. Ich spreche Französisch und ein bisschen Arabisch. Guten Tag, Frau Brandner. Guten Morgen. Mein Name ist Juliette Saidi. Sie sprechen gut Deutsch. Freut mich, Frau Saidi. Ich bin Julia Brandner. b Woher kommst du, Ping-Fei? Hallo, ich bin Ramon aus Mexiko. Und wie heißt du? Ah, schön! Aus China? Ich spreche ein bisschen Chinesisch. Ich heiße Ping-Fei. Aus China.",
-   "answers": [
-    "a: Freut mich, Frau Saidi. Ich bin Julia Brandner., Guten Tag, Frau Brandner., Sie sprechen gut Deutsch., Nein, nur ein bisschen. Ich spreche Französisch und ein bisschen Arabisch.",
-    "b: Hallo, ich bin Ramon aus Mexiko. Und wie heißt du?, Ich heiße Ping-Fei. Woher kommst du, Ping-Fei?, Aus China., Aus China? Ich spreche ein bisschen Chinesisch., Ah, schön!"
-   ]
-  },
-  {
-   "id": "L1-AB-16",
-   "schritt": "C",
-   "exercise": "16",
-   "kind": "exercise",
-   "source": "Arbeitsbuch",
-   "page": 14,
-   "image": "L1-batch2-09-top.jpg",
-   "text": "16 Was ist richtig? Kreuzen Sie an. a Ich heißen / heißt / heiße Maria. b Was spreche / sprechen / sprichst Sie? c Wie heiße / heißt / heißen du? d Und wer ist / bist / sind Sie? e Ich spreche / sprechen / sprichst Griechisch. f Woher kommst / komme / kommen du? g Ich ist / bin / bist Angelika. h Was spreche / sprichst / sprechen du?",
-   "items": [
+      "id": "L1-Folge-Bild4",
+      "schritt": "Folge 1",
+      "exercise": "Folge 1",
+      "kind": "listening",
+      "source": "Kursbuch",
+      "page": 11,
+      "image": "L1-Folge-Bild4.jpg",
+      "audio": "301082_KB_L01_04.mp3",
+      "transcript": "Walter: Ähm … Mein Name ist Walter Baumann. Lili: Hey, Opa! Du hast Hallo! vergessen! Walter: Also nochmal: Guten Tag. Mein Name ist Walter Baumann. Ähm … ich komme aus Deutschland. Ich … Ich spreche Deutsch, Englisch, ähm, und ein bisschen Spanisch. Auf Wiedersehen. Puh. So Lili, hier. Lili: Nein. Tut mir leid. Keine Zeit. Walter: Na, dann du, Sofia.",
+      "text": "Folge 1: Das bin ich."
+    },
     {
-     "q": "Was ist richtig?",
-     "options": [
-      "a: heiße",
-      "b: sprechen",
-      "c: heißt",
-      "d: sind",
-      "e: spreche",
-      "f: kommst",
-      "g: bin",
-      "h: sprichst"
-     ],
-     "answer": "a heiße, b sprechen, c heißt, d sind, e spreche, f kommst, g bin, h sprichst"
-    }
-   ],
-   "answers": [
-    "a: heiße",
-    "b: sprechen",
-    "c: heißt",
-    "d: sind",
-    "e: spreche",
-    "f: kommst",
-    "g: bin",
-    "h: sprichst"
-   ]
-  },
-  {
-   "id": "L1-AB-17",
-   "schritt": "C",
-   "exercise": "17",
-   "kind": "exercise",
-   "source": "Arbeitsbuch",
-   "page": 14,
-   "image": "L1-batch2-09-top.jpg",
-   "text": "17 Ergänzen Sie in der richtigen Form: sprechen – kommen – heißen. a Hallo. Ich heiße Ali. Wie [?] du? Ich [?] Thomas. Und woher [?] du? Aus Deutschland? Nein, ich [?] aus den USA. Ich [?] Englisch und ein bisschen Deutsch. Was [?] du? Ich [?] Englisch und Französisch. b Guten Morgen, Frau Ye. Woher [?] Sie? Ich [?] aus China. Und was [?] Sie? Ich [?] Chinesisch. Und ein bisschen Deutsch. Ja, stimmt.",
-   "answers": [
-    "a: heißt, heiße, kommst, komme, spreche, sprichst, spreche",
-    "b: kommen, komme, sprechen, spreche"
-   ]
-  },
-  {
-   "id": "L1-AB-18",
-   "schritt": "C",
-   "exercise": "18",
-   "kind": "listening",
-   "source": "Arbeitsbuch",
-   "page": 14,
-   "image": "L1-batch2-09-top.jpg",
-   "audio": "301082_AB_L01_5.mp3",
-   "transcript": "Bernardo: Guten Tag, mein Name ist Bernardo Da Silva. Ich komme aus Brasilien. Jetzt bin ich in Österreich, in Wien. Wien ist schön! Ich spreche gut Deutsch, Spanisch und Portugiesisch natürlich. Sara: Hallo, ich heiße Sara. Ich komme aus Udine. Das ist in Italien. Jetzt bin ich ein Jahr in Hamburg. Ich spreche Italienisch, Englisch und Französisch. Ah, und ein bisschen Deutsch. Max: Und ich bin Max aus Berlin. Eigentlich komme ich aus Hamburg. Aber jetzt bin ich schon acht Jahre in Berlin. Ah ja, ich spreche gut Englisch und ein bisschen Russisch.",
-   "text": "18 Was hören Sie? Kreuzen Sie an. Bernardo, Sara, Max. Österreich, Italien, Brasilien, Hamburg, Wien, Udine, Berlin. Englisch, Spanisch, Italienisch, Russisch, Portugiesisch, Deutsch, Französisch.",
-   "answers": [
-    "Bernardo: Österreich, Wien, Spanisch, Portugiesisch, Deutsch",
-    "Sara: Udine, Italien, Hamburg, Englisch, Italienisch, Deutsch, Französisch",
-    "Max: Berlin, Hamburg, Englisch, Russisch"
-   ]
-  },
-  {
-   "id": "L1-AB-19",
-   "schritt": "C",
-   "exercise": "19",
-   "kind": "exercise",
-   "source": "Arbeitsbuch",
-   "page": 14,
-   "image": "L1-batch2-09-top.jpg",
-   "text": "19 Welche Sprache passt? Ergänzen Sie. China, Polen, Türkei, Griechenland, Spanien. a Chinesisch. b [?]. c [?]. d [?]. e [?].",
-   "answers": [
-    "a: Chinesisch",
-    "b: Polnisch",
-    "c: Türkisch",
-    "d: Griechisch",
-    "e: Spanisch"
-   ]
-  },
-  {
-   "id": "L1-AB-20",
-   "schritt": "D",
-   "exercise": "20",
-   "kind": "listening",
-   "source": "Arbeitsbuch",
-   "page": 15,
-   "image": "L1-batch2-09-top.jpg",
-   "audio": "301082_AB_L01_6.mp3",
-   "transcript": "ei Türkei. Ich heiße Einstein. eu Deutschland. Du sprichst gut Deutsch. au Frau Maurer. Ich heiße Maurer. Schreiben Sie. Guten Tag, freut mich. Ich heiße Laura und bin aus Augsburg.",
-   "text": "D Buchstaben. 20 Wie spricht man das? Hören Sie und sprechen Sie nach. ei Türkei. Ich heiße Einstein. eu Deutschland. Du sprichst gut Deutsch. au Frau Maurer. Ich heiße Maurer. Schreiben Sie. Guten Tag, freut mich. Ich heiße Laura und bin aus Augsburg."
-  },
-  {
-   "id": "L1-AB-21a",
-   "schritt": "D",
-   "exercise": "21",
-   "kind": "listening",
-   "source": "Arbeitsbuch",
-   "page": 15,
-   "image": "L1-batch2-09-top.jpg",
-   "audio": "301082_AB_L01_7.mp3",
-   "transcript": "Frau: Ich heiße Ewa Kowalski. Mann: Entschuldigung, wie heißen Sie? Buchstabieren Sie, bitte. Frau: E – W – A K – O – W – A – L – S – K – I.",
-   "text": "21 Welche Namen hören Sie? Ergänzen Sie die Buchstaben. a Ewa Kowalski.",
-   "answers": [
-    "a: Kowalski"
-   ]
-  },
-  {
-   "id": "L1-AB-21b",
-   "schritt": "D",
-   "exercise": "21",
-   "kind": "listening",
-   "source": "Arbeitsbuch",
-   "page": 15,
-   "image": "L1-batch2-09-top.jpg",
-   "audio": "301082_AB_L01_8.mp3",
-   "transcript": "Mann: Mein Name ist Jannick Peters. Frau: Wie bitte? Mann: Ich heiße Jannick Peters. J – A – N – N – I – C – K P – E – T – E – R – S.",
-   "text": "21 Welche Namen hören Sie? Ergänzen Sie die Buchstaben. b Jannick Peters.",
-   "answers": [
-    "b: Jannick Peters"
-   ]
-  },
-  {
-   "id": "L1-AB-21c",
-   "schritt": "D",
-   "exercise": "21",
-   "kind": "listening",
-   "source": "Arbeitsbuch",
-   "page": 15,
-   "image": "L1-batch2-09-top.jpg",
-   "audio": "301082_AB_L01_9.mp3",
-   "transcript": "Mann 1: Ich bin Moritz Seifert. Mann 2: Wie ist Ihr Name? Buchstabieren Sie, bitte. Mann 1: M – O – R – I – T – Z S – E – I – F – E – R – T.",
-   "text": "21 Welche Namen hören Sie? Ergänzen Sie die Buchstaben. c Moritz Seifert.",
-   "answers": [
-    "c: Moritz Seifert"
-   ]
-  },
-  {
-   "id": "L1-AB-21d",
-   "schritt": "D",
-   "exercise": "21",
-   "kind": "listening",
-   "source": "Arbeitsbuch",
-   "page": 15,
-   "image": "L1-batch2-09-top.jpg",
-   "audio": "301082_AB_L01_10.mp3",
-   "transcript": "Mann: Guten Morgen. Mein Name ist Simon Pfaff. Frau: Guten Morgen Herr … Entschuldigung, wie heißen Sie? Mann: Simon Pfaff. Ich buchstabiere: S – I – M – O – N P – F – A – F – F. Frau: Ah ja, danke.",
-   "text": "21 Welche Namen hören Sie? Ergänzen Sie die Buchstaben. d Simon Pfaff.",
-   "answers": [
-    "d: Simon Pfaff"
-   ]
-  },
-  {
-   "id": "L1-AB-21e",
-   "schritt": "D",
-   "exercise": "21",
-   "kind": "listening",
-   "source": "Arbeitsbuch",
-   "page": 15,
-   "image": "L1-batch2-09-top.jpg",
-   "audio": "301082_AB_L01_11.mp3",
-   "transcript": "Frau 1: Wie ist Ihr Name? Frau 2: Ich heiße Ruth Kröger. Frau 1: Wie bitte? Buchstabieren Sie, bitte. Frau 2: R – U – T – H K – R – Ö – G – E – R. Frau 1: Danke.",
-   "text": "21 Welche Namen hören Sie? Ergänzen Sie die Buchstaben. e Ruth Kröger.",
-   "answers": [
-    "e: Ruth Kröger"
-   ]
-  },
-  {
-   "id": "L1-AB-21f",
-   "schritt": "D",
-   "exercise": "21",
-   "kind": "listening",
-   "source": "Arbeitsbuch",
-   "page": 15,
-   "image": "L1-batch2-09-top.jpg",
-   "audio": "301082_AB_L01_12.mp3",
-   "transcript": "Frau: Wie heißt du? Mann: Ich heiße Jürgen Groß. Groß mit Eszett. Frau: Wie bitte? Mann: J – Ü – R – G – E – N G – R – O – ß.",
-   "text": "21 Welche Namen hören Sie? Ergänzen Sie die Buchstaben. f Jürgen Groß.",
-   "answers": [
-    "f: Jürgen Groß"
-   ]
-  },
-  {
-   "id": "L1-AB-22",
-   "schritt": "D",
-   "exercise": "22",
-   "kind": "exercise",
-   "source": "Arbeitsbuch",
-   "page": 15,
-   "image": "L1-batch2-09-top.jpg",
-   "text": "22 Was schreibt man groß? Korrigieren Sie. a Mein name ist anita. und wie heißt du? ich heiße andreas. woher kommst du? aus österreich. b guten tag. wie ist ihr name, bitte? mein name ist lukas bürgelin. woher kommen sie? ich komme aus der schweiz.",
-   "answers": [
-    "a: Mein Name ist Anita. Und wie heißt du?, Ich heiße Andreas., Woher kommst du?, Aus Österreich.",
-    "b: Guten Tag. Wie ist Ihr Name, bitte?, Mein Name ist Lukas Bürgelin., Woher kommen Sie?, Ich komme aus der Schweiz."
-   ]
-  },
-  {
-   "id": "L1-AB-23",
-   "schritt": "D",
-   "exercise": "23",
-   "kind": "exercise",
-   "source": "Arbeitsbuch",
-   "page": 15,
-   "image": "L1-batch2-09-top.jpg",
-   "text": "23 Ergänzen Sie: Tut mir leid. – Entschuldigung. a Entschuldigung. b Wer ist das? [?]. Ich weiß es nicht. c Mein Name ist Hubert Hubschmer. [?], wie ist Ihr Name? Hubert Hubschmer. d Sprechen Sie Russisch? Nein. [?]. e Guten Tag, Frau Schneider. Ist Laura da? Nein. [?].",
-   "answers": [
-    "b: Tut mir leid",
-    "c: Entschuldigung",
-    "d: Tut mir leid",
-    "e: Tut mir leid"
-   ]
-  },
-  {
-   "id": "L1-AB-24",
-   "schritt": "D",
-   "exercise": "24",
-   "kind": "exercise",
-   "source": "Arbeitsbuch",
-   "page": 16,
-   "image": "L1-batch2-10-top.jpg",
-   "text": "24 Ergänzen Sie das Telefongespräch. Firma Ökotrans, Frederike Groß, guten M[?]. Guten Morgen. M[?] Name ist Nguyen. Ist H[?] Stolpe d[?]? Guten Morgen Herr … E[?], wie h[?] Sie? Nguyen. Wie bitte? B[?] Sie, bitte. Ich b[?]: N–G–U–Y–E–N. Vielen Dank, Herr Nguyen. Einen M[?], bitte. … Herr Nguyen? T[?] mir l[?]. Herr Stolpe ist n[?] da. Ja, gut. Danke. Auf W[?]. A[?] Wiederhören, Herr Nguyen.",
-   "answers": [
-    "Morgen, Mein, Herr, da, Entschuldigung, heißen, Buchstabieren, buchstabiere, Moment, Tut, leid, nicht, Wiederhören, Auf"
-   ]
-  },
-  {
-   "id": "L1-AB-25",
-   "schritt": "D",
-   "exercise": "25",
-   "kind": "exercise",
-   "source": "Arbeitsbuch",
-   "page": 16,
-   "image": "L1-batch2-10-top.jpg",
-   "text": "25 Markieren Sie die Wörter. Schreiben Sie Sätze. a guten tag mein name ist baumann. b ist herr gulda. c einen moment bitte. d tut mir leid. e herr gül ist nicht da. f auf wiederhören.",
-   "answers": [
-    "a: Guten Tag. Mein Name ist Baumann.",
-    "b: Ist Herr Gül da?",
-    "c: Einen Moment bitte.",
-    "d: Tut mir leid.",
-    "e: Herr Gül ist nicht da.",
-    "f: Auf Wiederhören."
-   ]
-  },
-  {
-   "id": "L1-AB-26",
-   "schritt": "D",
-   "exercise": "26",
-   "kind": "exercise",
-   "source": "Arbeitsbuch",
-   "page": 16,
-   "image": "L1-batch2-10-top.jpg",
-   "text": "26 Zwei Gespräche. a Markieren Sie noch sechs Sätze. b Ordnen Sie die Sätze. Schreiben Sie zwei Gespräche. Wie heißt du? Guten Tag. Mein …",
-   "answers": [
-    "26a: Entschuldigung, wie ist Ihr Name? Ich heiße Michael, Ich buchstabiere: BAUMANN., Ich komme aus Deutschland, Woher kommst du?, Vielen Dank",
-    "26b: Guten Tag. Mein Name ist Baumann. Entschuldigung, wie ist Ihr Name? Ich buchstabiere: Baumann. Vielen Dank.; Wie heißt du? Ich heiße Michael. Woher kommst du? Ich komme aus Deutschland."
-   ]
-  },
-  {
-   "id": "L1-AB-27",
-   "schritt": "D",
-   "exercise": "27",
-   "kind": "exercise",
-   "source": "Arbeitsbuch",
-   "page": 16,
-   "image": "L1-batch2-10-top.jpg",
-   "text": "27 Das bin ich. Schreiben Sie Ihren Text. Ich heiße Irena Król. Ich komme aus Opole. Das ist in Polen. Ich spreche Polnisch, Englisch und Deutsch."
-  },
-  {
-   "id": "L1-AB-28",
-   "schritt": "E",
-   "exercise": "28",
-   "kind": "exercise",
-   "source": "Arbeitsbuch",
-   "page": 17,
-   "image": "L1-batch2-10-bottom.jpg",
-   "text": "E Adresse. 28 Vorname oder Nachname? Markieren Sie die Vornamen gelb und die Nachnamen blau. a Simon Drexler. b Julia Peters. c Gerner, Daniel. d Hänsler-Schubert, Bianca. e Sofia Flemmerer. f Forster, Nicolas.",
-   "answers": [
-    "a: Vorname: Simon, Nachname: Drexler",
-    "b: Vorname: Julia, Nachname: Peters",
-    "c: Vorname: Daniel, Nachname: Gerner",
-    "d: Vorname: Bianca, Nachname: Hänsler-Schubert",
-    "e: Vorname: Sofia, Nachname: Flemmerer",
-    "f: Vorname: Nicolas, Nachname: Forster"
-   ]
-  },
-  {
-   "id": "L1-AB-29",
-   "schritt": "E",
-   "exercise": "29",
-   "kind": "exercise",
-   "source": "Arbeitsbuch",
-   "page": 17,
-   "image": "L1-batch2-10-bottom.jpg",
-   "text": "29 Ein Brief. a Ordnen Sie zu. Familienname / Nachname, Stadt, Vorname, Land, Straße, Postleitzahl, Hausnummer. Claudia Toth. Löhrstraße 37. 04105 Leipzig. GERMANY. b Suchen Sie im Internet die Adresse vom Hueber Verlag in Deutschland und notieren Sie. Hueber Verlag.",
-   "answers": [
-    "a: 1 Vorname, 3 Straße, 4 Hausnummer, 5 Postleitzahl, 6 Stadt, 7 Land",
-    "b: Baubergerstraße 30, 80992 München"
-   ]
-  },
-  {
-   "id": "L1-AB-30",
-   "schritt": "E",
-   "exercise": "30",
-   "kind": "exercise",
-   "source": "Arbeitsbuch",
-   "page": 17,
-   "image": "L1-batch2-10-bottom.jpg",
-   "text": "30 Lesen Sie die Visitenkarte und füllen Sie das Formular aus. Lucía Álvarez, Ärztin, Weserstraße 215, 12047 Berlin, 030/80 92 44, l.alvarez@cc.de. Herr / Frau. Nachname: Álvarez. Vorname: [?]. Straße: [?]. Hausnummer: [?]. Postleitzahl: [?]. Stadt: [?]. E-Mail: [?]. Telefon: [?].",
-   "answers": [
-    "Frau, Nachname: Álvarez, Vorname: Lucia, Straße: Weserstraße, Postleitzahl: 12047, Stadt: Berlin, E-Mail: Lalvarez@cc.de, Telefon: 030/809244"
-   ]
-  },
-  {
-   "id": "L1-AB-Test1",
-   "schritt": "Test",
-   "exercise": "1",
-   "kind": "exercise",
-   "source": "Arbeitsbuch",
-   "page": 18,
-   "image": null,
-   "text": "Test Lektion 1. 1 Ergänzen Sie. a Hallo. b G[?]r[?]. c [?]t[?]d. d A[?]s. e [?]c[?]. f [?]u[?]a[?]."
-  },
-  {
-   "id": "L1-AB-Test2",
-   "schritt": "Test",
-   "exercise": "2",
-   "kind": "exercise",
-   "source": "Arbeitsbuch",
-   "page": 18,
-   "image": null,
-   "text": "2 Ordnen Sie zu. Stadt, Land, Vorname, Familienname, Straße, Postleitzahl, Hausnummer, E-Mail, Telefon. Alina Egger. Bändelgasse 1. 4057 Basel. SCHWEIZ. +41 4161/822 94 33. alina@egger.ch. a Vorname. b Familienname. c [?]. d [?]. e [?]. f [?]. g [?]. h [?]. i [?].",
-   "answers": [
-    "a: Vorname: Alina",
-    "b: Familienname: Egger",
-    "c: Straße: Bändelgasse 1",
-    "d: Hausnummer: 1",
-    "e: Postleitzahl: 4057",
-    "f: Stadt: Basel",
-    "g: Land: SCHWEIZ",
-    "h: Telefon: +41 4161/822 94 33",
-    "i: E-Mail: alina@egger.ch"
-   ]
-  },
-  {
-   "id": "L1-AB-Test3",
-   "schritt": "Test",
-   "exercise": "3",
-   "kind": "exercise",
-   "source": "Arbeitsbuch",
-   "page": 18,
-   "image": null,
-   "text": "3 Ergänzen Sie. a [?] heißen Sie? Alina Egger. b [?] kommen Sie? Aus der Schweiz. c Und [?] sprechen Sie? Deutsch und Italienisch. d [?] ist das? Das ist Dario Egger.",
-   "items": [
+      "id": "L1-Folge-Bild5",
+      "schritt": "Folge 1",
+      "exercise": "Folge 1",
+      "kind": "listening",
+      "source": "Kursbuch",
+      "page": 11,
+      "image": "L1-Folge-Bild5.jpg",
+      "audio": "301082_KB_L01_05.mp3",
+      "transcript": "Sofia: Hallo. Ich bin Sofia Baumann. Ich komme aus Deutschland. Ich spreche Deutsch und Englisch. Tschüs. So. Jetzt aber du, Lili! Lili: Okay, Mama.",
+      "text": "Folge 1: Das bin ich."
+    },
     {
-     "q": "Ergänzen Sie.",
-     "options": [
-      "Wie",
-      "Woher",
-      "Was",
-      "Wer"
-     ],
-     "answer": "a Wie, b Woher, c Was, d Wer"
+      "id": "L1-Folge-Bild6",
+      "schritt": "Folge 1",
+      "exercise": "Folge 1",
+      "kind": "listening",
+      "source": "Kursbuch",
+      "page": 11,
+      "image": "L1-Folge-Bild6.jpg",
+      "audio": "301082_KB_L01_06.mp3",
+      "transcript": "Lili: Das ist Lili Baumann. Sofia: Ach komm, Lili. Mach’s richtig. Lili: Mama! Sofia: Bitte, Lili. Lili: Na gut, Mama.",
+      "text": "Folge 1: Das bin ich."
+    },
+    {
+      "id": "L1-Folge-Bild7",
+      "schritt": "Folge 1",
+      "exercise": "Folge 1",
+      "kind": "listening",
+      "source": "Kursbuch",
+      "page": 11,
+      "image": "L1-Folge-Bild7.jpg",
+      "audio": "301082_KB_L01_07.mp3",
+      "transcript": "Lili: Halli hallo! Ich bin Lili. Ich komme aus Deutschland. Ich spreche Deutsch und ein bisschen Englisch. Tschüs!",
+      "text": "Folge 1: Das bin ich."
+    },
+    {
+      "id": "L1-Folge-Bild8",
+      "schritt": "Folge 1",
+      "exercise": "Folge 1",
+      "kind": "listening",
+      "source": "Kursbuch",
+      "page": 11,
+      "image": "L1-Folge-Bild8.jpg",
+      "audio": "301082_KB_L01_08.mp3",
+      "transcript": "Lili: So, und jetzt noch ein Foto. Wartet, so, jetzt: Drei … zwei … eins … Hey! …",
+      "text": "Folge 1: Das bin ich."
+    },
+    {
+      "id": "L1-Folge-1",
+      "schritt": "Folge 1",
+      "exercise": "1",
+      "kind": "exercise",
+      "source": "Kursbuch",
+      "page": 10,
+      "image": "L1-Folge-1.jpg",
+      "text": "1 Sehen Sie die Fotos an und hören Sie. Wer ist das? Verbinden Sie. Ich heiße Lara Nowak. Mein Name ist Walter Baumann. Ich bin Sofia Baumann. Ich bin Lili.",
+      "items": [
+        {
+          "q": "Wer ist das? Verbinden Sie die Namen mit den Fotos A, B, C, D.",
+          "options": [
+            "Ich heiße Lara Nowak.",
+            "Mein Name ist Walter Baumann.",
+            "Ich bin Sofia Baumann.",
+            "Ich bin Lili."
+          ],
+          "answer": "A: Ich bin Lili. B: Ich heiße Lara Nowak. C: Mein Name ist Walter Baumann. D: Ich bin Sofia Baumann."
+        }
+      ],
+      "answers": [
+        "A: Ich bin Lili.",
+        "B: Ich heiße Lara Nowak.",
+        "C: Mein Name ist Walter Baumann.",
+        "D: Ich bin Sofia Baumann."
+      ]
+    },
+    {
+      "id": "L1-Folge-2",
+      "schritt": "Folge 1",
+      "exercise": "2",
+      "kind": "exercise",
+      "source": "Kursbuch",
+      "page": 11,
+      "image": "L1-Folge-2.jpg",
+      "text": "2 Was ist richtig? Hören Sie noch einmal und kreuzen Sie an. A: Ich komme aus Deutschland. Ich spreche Polnisch und Deutsch. B: Ich komme aus Deutschland. Ich spreche Deutsch, Englisch und ein bisschen Spanisch. C: Ich komme aus Polen. Ich spreche Deutsch und Englisch. D: Ich komme aus Deutschland. Ich spreche Deutsch und ein bisschen Englisch.",
+      "items": [
+        {
+          "q": "Was ist richtig? Kreuzen Sie an.",
+          "options": [
+            "A: Ich komme aus Deutschland. Ich spreche Polnisch und Deutsch.",
+            "B: Ich komme aus Deutschland. Ich spreche Deutsch, Englisch und ein bisschen Spanisch.",
+            "C: Ich komme aus Polen. Ich spreche Deutsch und Englisch.",
+            "D: Ich komme aus Deutschland. Ich spreche Deutsch und ein bisschen Englisch."
+          ],
+          "answer": "B, D"
+        }
+      ],
+      "answers": [
+        "B",
+        "D"
+      ]
+    },
+    {
+      "id": "L1-A-A1",
+      "schritt": "A",
+      "exercise": "A1",
+      "kind": "listening",
+      "source": "Kursbuch",
+      "page": 12,
+      "image": "L1-A-A1.jpg",
+      "audio": "301082_KB_L01_09.mp3",
+      "transcript": "A Walter: Guten Tag. B Walter: Auf Wiedersehen. C Lara: Hallo. D Lili: Tschüs.",
+      "text": "A Guten Tag. A1 Wer sagt was? Hören Sie und ordnen Sie zu. Guten Tag. Hallo. Auf Wiedersehen. Tschüs.",
+      "answers": [
+        "A: Guten Tag.",
+        "B: Auf Wiedersehen.",
+        "C: Hallo.",
+        "D: Tschüs."
+      ]
+    },
+    {
+      "id": "L1-A-A2a",
+      "schritt": "A",
+      "exercise": "A2",
+      "kind": "listening",
+      "source": "Kursbuch",
+      "page": 12,
+      "image": "L1-A-A2a.jpg",
+      "audio": "301082_KB_L01_10.mp3",
+      "transcript": "Gespräch 1 Studenten: Tschüs, Heike. Heike: Bis später. Gespräch 2 Moderator: Guten Abend, meine Damen und Herren. Willkommen bei Musik international. Gespräch 3 Paketzusteller: Guten Morgen, Frau Fleckenstein. Frau Fleckenstein: Guten Morgen. Oh, danke. Auf Wiedersehen. Gespräch 4 Herr Schröder: Gute Nacht. Portier: Gute Nacht, Herr Schröder.",
+      "text": "A2 Guten Tag! Auf Wiedersehen! a Hören Sie und ordnen Sie zu. 1 Tschüs, Heike. Bis später. 2 Guten Abend, meine Damen und Herren. Willkommen bei Musik international. 3 Guten Morgen, Frau Fleckenstein. Guten Morgen. Oh, danke. Auf Wiedersehen. 4 Gute Nacht. Gute Nacht, Herr Schröder.",
+      "answers": [
+        "1: C",
+        "2: B",
+        "3: A",
+        "4: D"
+      ]
+    },
+    {
+      "id": "L1-A-A2b",
+      "schritt": "A",
+      "exercise": "A2",
+      "kind": "exercise",
+      "source": "Kursbuch",
+      "page": 12,
+      "image": "L1-A-A2b.jpg",
+      "text": "b Ergänzen Sie aus a. A Hallo! Willkommen! B Auf Wiedersehen. Tschüs!",
+      "answers": [
+        "A: Guten Abend, Guten Morgen",
+        "B: Tschüs, Gute Nacht"
+      ]
+    },
+    {
+      "id": "L1-A-A3",
+      "schritt": "A",
+      "exercise": "A3",
+      "kind": "dialogue",
+      "source": "Kursbuch",
+      "page": 12,
+      "image": "L1-A-A3.jpg",
+      "text": "A3 Machen Sie Kärtchen und sprechen Sie im Kurs. 06:30 Guten Morgen, Frau Eco. 13:00 Guten Tag, Herr Díaz. 20:45 Guten Abend, Alexander. 6 Uhr–11 Uhr: (Guten) Morgen. 11 Uhr–18 Uhr: (Guten) Tag. 18 Uhr–[?]: Guten Abend."
+    },
+    {
+      "id": "L1-B-B1",
+      "schritt": "B",
+      "exercise": "B1",
+      "kind": "exercise",
+      "source": "Kursbuch",
+      "page": 13,
+      "image": "L1-B-B1.jpg",
+      "text": "B Ich heiße Lara Nowak. B1 Ordnen Sie zu. Ich bin Lili. Ich heiße Lara Nowak. Ich bin Sofia Baumann. Mein Name ist Walter Baumann.",
+      "answers": [
+        "A: Ich heiße Lara Nowak.",
+        "B: Mein Name ist Walter Baumann.",
+        "C: Ich bin Lili.",
+        "D: Ich bin Sofia Baumann."
+      ]
+    },
+    {
+      "id": "L1-B-B2a",
+      "schritt": "B",
+      "exercise": "B2",
+      "kind": "dialogue",
+      "source": "Kursbuch",
+      "page": 13,
+      "image": "L1-B-B2a.jpg",
+      "audio": "301082_KB_L01_11.mp3",
+      "transcript": "Herr Yulu: Guten Tag. Mein Name ist Richard Yulu. Frau Weber: Guten Tag, Herr … Entschuldigung, wie heißen Sie? Herr Yulu: Richard Yulu. Frau Weber: Ah ja. Guten Tag, Herr Yulu. Ich bin Helga Weber. Herr Yulu: Guten Tag, Frau Weber.",
+      "text": "B2 Hören Sie und lesen Sie die Gespräche. Ergänzen Sie die Namen. A Guten Tag. Mein Name ist Richard Yulu. Guten Tag, Herr … Entschuldigung, wie heißen Sie? Richard Yulu. Ah, ja. Guten Tag, Herr Yulu. Ich bin Helga Weber. Guten Tag, Frau Weber.",
+      "answers": [
+        "A: Helga Weber"
+      ]
+    },
+    {
+      "id": "L1-B-B2b",
+      "schritt": "B",
+      "exercise": "B2",
+      "kind": "dialogue",
+      "source": "Kursbuch",
+      "page": 13,
+      "image": "L1-B-B2b.jpg",
+      "audio": "301082_KB_L01_12.mp3",
+      "transcript": "Frau Weber: Das ist Herr Yulu. Frau Deiser: Guten Tag, Herr Yulu. Ich bin Magdalena Deiser. Herr Yulu: Guten Tag, Frau Deiser, freut mich. Frau Deiser: Herzlich willkommen im Park-Klinikum.",
+      "text": "B2 B Das ist Herr Yulu. Guten Tag, Herr Yulu. Ich bin Magdalena Deiser. Guten Tag, Frau Deiser, freut mich. Herzlich willkommen im Park-Klinikum.",
+      "answers": [
+        "B: Richard Yulu, Magdalena Deiser"
+      ]
+    },
+    {
+      "id": "L1-B-B3",
+      "schritt": "B",
+      "exercise": "B3",
+      "kind": "dialogue",
+      "source": "Kursbuch",
+      "page": 13,
+      "image": null,
+      "text": "B3 Und jetzt Sie! Spielen Sie die Gespräche aus B2 im Kurs mit Ihrem Namen."
+    },
+    {
+      "id": "L1-B-B4",
+      "schritt": "B",
+      "exercise": "B4",
+      "kind": "exercise",
+      "source": "Kursbuch",
+      "page": 13,
+      "image": "L1-B-B4.jpg",
+      "text": "B4 Suchen Sie bekannte Personen und zeigen Sie ein Foto. Fragen Sie im Kurs. Wer ist das? Das ist … Ja, stimmt. / Nein. Ich weiß es nicht.",
+      "answers": [
+        "A: Philipp Lahm",
+        "B: Angela Merkel",
+        "C: Wolfgang Amadeus Mozart",
+        "D: Sebastian Vettel"
+      ]
+    },
+    {
+      "id": "L1-C-C1a-A",
+      "schritt": "C",
+      "exercise": "C1",
+      "kind": "dialogue",
+      "source": "Kursbuch",
+      "page": 14,
+      "image": "L1-C-C1a-A.jpg",
+      "audio": "301082_KB_L01_13.mp3",
+      "transcript": "Eduardo: Hallo, ich heiße Eduardo. Und wie heißt du? Lara: Hallo. Ich bin Lara. Eduardo: Woher kommst du? Lara: Aus Polen. Eduardo: Und du? Wer bist du? Sara: Ich bin Sara. Ich komme aus Portugal.",
+      "text": "C Ich komme aus Polen. C1 Woher kommen Sie? a Hören Sie und ordnen Sie zu. Hallo, ich heiße Eduardo. Und wie heißt du? Hallo. Ich bin Lara. Woher kommst du? Aus Polen. Und du? Wer bist du? Ich bin Sara. Ich komme aus Portugal.",
+      "answers": [
+        "a: bin, kommst, bist, bin, komme"
+      ]
+    },
+    {
+      "id": "L1-C-C1a-B",
+      "schritt": "C",
+      "exercise": "C1",
+      "kind": "dialogue",
+      "source": "Kursbuch",
+      "page": 14,
+      "image": "L1-C-C1a-B.jpg",
+      "audio": "301082_KB_L01_14.mp3",
+      "transcript": "Professor: Guten Tag, wie heißen Sie? Herr Jalonen: Guten Tag, ich bin Juhani Jalonen. Professor: Freut mich. Woher kommen Sie, Herr Jalonen? Herr Jalonen: Aus Finnland, aus Helsinki.",
+      "text": "C1 a Gespräch B Guten Tag, wie heißen Sie? Guten Tag, ich bin Juhani Jalonen. Freut mich. Woher kommen Sie, Herr Jalonen? Aus Finnland, aus Helsinki.",
+      "answers": [
+        "b: heißen, bin, kommen"
+      ]
+    },
+    {
+      "id": "L1-C-C1a-C",
+      "schritt": "C",
+      "exercise": "C1",
+      "kind": "dialogue",
+      "source": "Kursbuch",
+      "page": 14,
+      "image": "L1-C-C1a-C.jpg",
+      "audio": "301082_KB_L01_15.mp3",
+      "transcript": "Herr Schmidt: Guten Tag, ich heiße Herbert Schmidt. Herr Lutz? Herr Lutz: Ja, guten Tag. Gustav Lutz. Ich bin von der Firma Teletec.",
+      "text": "C1 a Gespräch C Guten Tag, ich heiße Herbert Schmidt. Herr Lutz? Ja, guten Tag. Gustav Lutz. Ich bin von der Firma Teletec.",
+      "answers": [
+        "c: heiße, bin"
+      ]
+    },
+    {
+      "id": "L1-C-C1b",
+      "schritt": "C",
+      "exercise": "C1",
+      "kind": "grammar",
+      "source": "Kursbuch",
+      "page": 14,
+      "image": "L1-C-C1b.jpg",
+      "text": "b Ergänzen Sie die Tabelle. kommen: ich komme, du kommst, Sie kommen. heißen: ich heiße, du heißt, Sie heißen. sein: ich bin, du bist, Sie sind. aus: Deutschland, Österreich, Polen, Spanien. aus dem: Jemen, Sudan. aus der: Schweiz, Türkei. aus den: USA. Woher kommen Sie? Aus Deutschland. Woher kommst du? Aus Helsinki.",
+      "answers": [
+        "ich: komme, heiße, bin",
+        "du: kommst, heißt, bist",
+        "Sie: kommen, heißen, sind"
+      ]
+    },
+    {
+      "id": "L1-C-C2a-1",
+      "schritt": "C",
+      "exercise": "C2",
+      "kind": "dialogue",
+      "source": "Kursbuch",
+      "page": 14,
+      "image": "L1-C-C2a-1.jpg",
+      "audio": "301082_KB_L01_16.mp3",
+      "transcript": "Herr Mayer: Guten Tag, ich bin Hans Mayer. Wie heißen Sie? Herr Marini: Riccardo Marini. Herr Mayer: Woher kommen Sie, Herr Marini? Herr Marini: Aus der Schweiz. Herr Mayer: Aha! Und Sie? Wer sind Sie? Frau Costa: Ich bin Teresa Costa. Ich komme aus Portugal.",
+      "text": "C2 Internationaler Kongress a Hören Sie und lesen Sie die Gespräche. Markieren Sie dann alle Fragen mit W. 1 Guten Tag, ich bin Hans Mayer. Wie heißen Sie? Riccardo Marini. Woher kommen Sie, Herr Marini? Aus der Schweiz. Aha! Und Sie? Wer sind Sie? Ich bin Teresa Costa. Ich komme aus Portugal."
+    },
+    {
+      "id": "L1-C-C2a-2",
+      "schritt": "C",
+      "exercise": "C2",
+      "kind": "dialogue",
+      "source": "Kursbuch",
+      "page": 14,
+      "image": null,
+      "audio": "301082_KB_L01_17.mp3",
+      "transcript": "Anna: Hallo, ich bin Anna. Und wie heißt du? Sadie: Ich heiße Sadie. Anna: Und du? Wer bist du? Rabia: Ich heiße Rabia. Anna: Woher kommst du? Rabia: Aus Marokko.",
+      "text": "C2 a 2 Hallo, ich bin Anna. Und wie heißt du? Ich heiße Sadie. Und du? Wer bist du? Ich heiße Rabia. Woher kommst du? Aus Marokko."
+    },
+    {
+      "id": "L1-C-C2b",
+      "schritt": "C",
+      "exercise": "C2",
+      "kind": "exercise",
+      "source": "Kursbuch",
+      "page": 15,
+      "image": null,
+      "text": "b Ergänzen Sie Fragen aus a. Sie: Wie heißen Sie? du: [?]",
+      "answers": [
+        "Sie: Woher kommen Sie? Wer sind Sie?",
+        "Du: Wie heißt du? Wer bist du? Woher kommst du?"
+      ]
+    },
+    {
+      "id": "L1-C-C3a",
+      "schritt": "C",
+      "exercise": "C3",
+      "kind": "exercise",
+      "source": "Kursbuch",
+      "page": 15,
+      "image": "L1-C-C3a.jpg",
+      "text": "C3 du oder Sie? a Was ist richtig? Kreuzen Sie an. Hallo! Ich bin Umut. Und wer bist du? / Sie? Ich heiße Amir. Woher kommst du? / Sie, Amir? Aus dem Jemen. Aha. Ich komme aus Istanbul. Du / Sie sprichst gut Deutsch. Nein, nein. Nur ein bisschen. Und du / Sie, wie heißen du / Sie? Tufan, Mona Tufan. Ah, schön. Was sprechen du / Sie, Frau Tufan? Ich spreche Deutsch und Türkisch. Aha, auch Türkisch.",
+      "answers": [
+        "du, Du, Sie, Sie, Sie"
+      ]
+    },
+    {
+      "id": "L1-C-C3b",
+      "schritt": "C",
+      "exercise": "C3",
+      "kind": "listening",
+      "source": "Kursbuch",
+      "page": 15,
+      "image": null,
+      "audio": "301082_KB_L01_18.mp3",
+      "transcript": "Umut: Hallo! Ich bin Umut. Und wer bist du? Amir: Ich heiße Amir. Umut: Woher kommst du, Amir? Amir: Aus dem Jemen. Umut: Aha. Ich komme aus Istanbul. Amir: Du sprichst gut Deutsch. Umut: Nein, nein. Nur ein bisschen. Amir: Und Sie, wie heißen Sie? Frau Tufan: Tufan, Mona Tufan. Umut: Ah, schön. Was sprechen Sie, Frau Tufan? Frau Tufan: Ich spreche Deutsch und Türkisch. Umut: Aha, auch Türkisch.",
+      "text": "b Hören Sie und vergleichen Sie."
+    },
+    {
+      "id": "L1-C-C4",
+      "schritt": "C",
+      "exercise": "C4",
+      "kind": "dialogue",
+      "source": "Kursbuch",
+      "page": 15,
+      "image": "L1-C-C4.jpg",
+      "text": "C4 Das bin ich! Sprechen Sie mit Ihrer Partnerin / Ihrem Partner oder machen Sie einen Film. Wie heißt du? Ich bin … Wie heißen Sie? Ich heiße … Was sprechen Sie? Ich spreche Englisch. Was sprichst du? Ich spreche Italienisch und ein bisschen Deutsch. Sprachen: Arabisch, Chinesisch, Deutsch, Englisch, Französisch, Griechisch, Italienisch, Polnisch, Russisch, Spanisch, Türkisch."
+    },
+    {
+      "id": "L1-D-D1",
+      "schritt": "D",
+      "exercise": "D1",
+      "kind": "listening",
+      "source": "Kursbuch",
+      "page": 16,
+      "image": "L1-D-D1.jpg",
+      "audio": "301082_KB_L01_19.mp3",
+      "transcript": "a be ce de e ef ge ha i jot ka el em en o pe ku er es te u vau we ix ypsilon tsett ä ö ü eszett",
+      "text": "D Buchstaben D1 Das Alphabet a Hören Sie und ordnen Sie zu. Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz Ää Öö Üü ß"
+    },
+    {
+      "id": "L1-D-D2",
+      "schritt": "D",
+      "exercise": "D2",
+      "kind": "exercise",
+      "source": "Kursbuch",
+      "page": 16,
+      "image": "L1-D-D2.jpg",
+      "text": "D2 Buchstabieren Sie Ihren Namen. Ich heiße Maria Bari. Wie bitte? Buchstabieren Sie, bitte. M–A–R–[?]"
+    },
+    {
+      "id": "L1-D-D3",
+      "schritt": "D",
+      "exercise": "D3",
+      "kind": "dialogue",
+      "source": "Kursbuch",
+      "page": 16,
+      "image": "L1-D-D3.jpg",
+      "audio": "301082_KB_L01_20.mp3",
+      "transcript": "Sekretärin: Firma Microlab, Tina Schwarz, guten Tag. Herr Takishima: Guten Tag. Mein Name ist Takishima. Ist Frau Beck da, bitte? Sekretärin: Guten Tag, Herr Taki… Herr Takishima: Takishima. Sekretärin: Entschuldigung, wie ist Ihr Name? Herr Takishima: Takishima. Ich buchstabiere: T-A-K-I-S-H-I-M-A. Sekretärin: Ah ja, Herr Takishima. Einen Moment, bitte … Herr Takishima? Tut mir leid, Frau Beck ist nicht da. Herr Takishima: Ja, gut. Vielen Dank! Auf Wiederhören. Sekretärin: Auf Wiederhören, Herr Takishima.",
+      "text": "D3 Hören Sie das Telefongespräch. Sprechen Sie dann mit Ihrem Namen. Firma Microlab, Tina Schwarz, guten Tag. Guten Tag, Herr Taki… Entschuldigung, wie ist Ihr Name? Ah ja, Herr Takishima. Einen Moment, bitte … Herr Takishima? Tut mir leid, Frau Beck ist nicht da. Auf Wiederhören, Herr Takishima. Guten Tag. Mein Name ist Takishima. Ist Frau Beck da, bitte? Takishima. Takishima. Ich buchstabiere: T-A-K-I-S-H-I-M-A. Ja, gut. Vielen Dank. Auf Wiederhören."
+    },
+    {
+      "id": "L1-D-D4",
+      "schritt": "D",
+      "exercise": "D4",
+      "kind": "exercise",
+      "source": "Kursbuch",
+      "page": 16,
+      "image": "L1-D-D4.jpg",
+      "text": "D4 Spiel: Die Buchstabenmaus. Raten Sie Wörter aus der Lektion. Tschüs?"
+    },
+    {
+      "id": "L1-E-E1a",
+      "schritt": "E",
+      "exercise": "E1",
+      "kind": "exercise",
+      "source": "Kursbuch",
+      "page": 17,
+      "image": "L1-E-E1a.jpg",
+      "text": "E Adresse E1 Wer ist das? a Sehen Sie die Fotos an und lesen Sie. Welche Visitenkarte passt zu welcher Person? Ordnen Sie zu. Ich bin aus Deutschland. Sport ist super. Ich bin aus Österreich. Ich spreche Deutsch, Englisch und Ungarisch. Ich komme aus Liechtenstein. Grüezi, ich komme aus der Schweiz. Ich spreche Schweizerdeutsch. Visitenkarten: Heidi Morbacher, Dolmetscherin und Übersetzerin, Keplerstraße 105, Graz. Ben Studer, Finanzen, UBS, Paradeplatz 6, CH-8001 Zürich. Sportstudio Judokids, Gärtnergasse 1, D-55116 Mainz. JOJO Reisen, Landstrasse 53, FL-9490 Vaduz.",
+      "answers": [
+        "A: 3",
+        "B: 1",
+        "C: 4",
+        "D: 2"
+      ]
+    },
+    {
+      "id": "L1-E-E1b",
+      "schritt": "E",
+      "exercise": "E1",
+      "kind": "exercise",
+      "source": "Kursbuch",
+      "page": 17,
+      "image": "L1-E-E1b.jpg",
+      "text": "b Lesen Sie die Visitenkarten in a noch einmal und markieren Sie: Vorname, Familienname / Nachname, Straße, Stadt, Land.",
+      "answers": [
+        "1 Vorname: Heidi, Familienname: Morbacher, Straße: Keplerstraße 105, Stadt: Graz, Land: Österreich",
+        "2 Vorname: Ben, Familienname: Studer, Straße: Paradeplatz 6, Stadt: Zürich, Land: Schweiz",
+        "3 Straße: Gärtnergasse 1, Stadt: Mainz, Land: Deutschland",
+        "4 Straße: Landstraße 53, Stadt: Vaduz, Land: Fürstentum Liechtenstein"
+      ]
+    },
+    {
+      "id": "L1-E-E1c",
+      "schritt": "E",
+      "exercise": "E1",
+      "kind": "exercise",
+      "source": "Kursbuch",
+      "page": 17,
+      "image": null,
+      "text": "c Wie heißt das Land? Ordnen Sie zu. Deutschland, Schweiz, Österreich, Liechtenstein. D = Deutschland. CH = [?]. A = [?]. FL = [?].",
+      "answers": [
+        "A = Österreich",
+        "CH = Schweiz",
+        "FL = (Fürstentum) Liechtenstein"
+      ]
+    },
+    {
+      "id": "L1-E-E2",
+      "schritt": "E",
+      "exercise": "E2",
+      "kind": "listening",
+      "source": "Kursbuch",
+      "page": 17,
+      "image": "L1-E-E2.jpg",
+      "audio": "301082_KB_L01_21.mp3",
+      "transcript": "Rezeptionistin: So, bitte ergänzen Sie Familien- und Vorname, Ihre Adresse, also Land, Stadt und Straße. Frau Wegner: Ja, hier bitte … Rezeptionistin: Vielen Dank Frau … Frau Wagner. Frau Wegner: Wegner! Rezeptionistin: Wie bitte? Frau Wegner: Ich heiße Wegner. Rezeptionistin: Ach so, Wegner. Mit e? Frau Wegner: Ja, mit e. Rezeptionistin: Ich buchstabiere: W E G N E R. Frau Wegner: Richtig. Rezeptionistin: Und Ihr Vorname? … Maria? Frau Wegner: Nein. Rezeptionistin: Nein? Frau Wegner: Marie. Rezeptionistin: Mary? Frau Wegner: Nein, ich heiße Marie mit i e. Rezeptionistin: Ach so ja. Marie Wegner. Frau Wegner: Ja. Richtig. Rezeptionistin: Und Sie kommen aus der Schweiz? Frau Wegner: Ja. Rezeptionistin: Aus Freiburg? Frau Wegner: Ja, Freiburg in der Schweiz. Das heißt Fribourg. Ich buchstabiere: F R I B O U R G. Die Postleitzahl ist 1700. Rezeptionistin: Danke. Gut. Das habe ich. Und die Adresse ist Rue de la Sarine 6, ja? Frau Wegner: Ja. Rezeptionistin: Vielen Dank Frau Wagner. Frau Wegner: … Rezeptionistin: Schönen Tag, Frau Wagner … ach … Wegner.",
+      "text": "E2 Hören Sie und ergänzen Sie das Formular. Familienname: W. Vorname: [?]. Land: [?]. Postleitzahl, Stadt: 1700. Straße, Hausnummer: Rue de la Sarine 6.",
+      "answers": [
+        "Familienname: Wegner",
+        "Vorname: Marie",
+        "Land: Schweiz",
+        "Stadt: Fribourg"
+      ]
+    },
+    {
+      "id": "L1-Grammatik",
+      "schritt": "Grammatik",
+      "exercise": "Grammatik",
+      "kind": "grammar",
+      "source": "Kursbuch",
+      "page": 18,
+      "image": "L1-Grammatik.jpg",
+      "text": "Grammatik und Kommunikation. Grammatik. 1 Aussage. Mein Name ist Walter Baumann. Ich bin Lili. Ich komme aus Deutschland. Sie sprechen gut Deutsch. 2 W-Frage. Wer ist das? Wie heißen Sie? Woher kommen Sie? Was sprechen Sie? 3 Verb: Konjugation. kommen, heißen, sprechen, sein. ich komme, heiße, spreche, bin. du kommst, heißt, sprichst, bist. Sie kommen, heißen, sprechen, sind. Merke: ich -e, du -st, Sie -en. du heißt, du sprichst. Kommunikation. BEGRÜSSUNG: Hallo! Hallo! (Guten) Morgen, Frau Eco. (Guten) Tag, Herr Yulu. Guten Abend, Alexander. (Herzlich) Willkommen. Freut mich. Firma Microlab, Tina Schwarz, guten Tag. ABSCHIED: Auf Wiedersehen. Auf Wiedersehen. Tschüs! (Gute) Nacht. Auf Wiederhören. Bis später! NAME: Wie heißen Sie? Ich heiße / bin Lara Nowak. Wie heißt du? Ich heiße / bin Lili. Wer sind Sie? (Ich bin) Sofia Baumann. Wer bist du? (Ich bin) Lili. Wie ist Ihr Name? (Mein Name ist) Lara Nowak. Wer ist das? Das ist Herr Yulu. Ich buchstabiere: Y–U–L–U. Merke: Ich heiße … Mein Name ist … Frau Baumann."
+    },
+    {
+      "id": "L1-Kommunikation-19",
+      "schritt": "Kommunikation",
+      "exercise": "Kommunikation",
+      "kind": "grammar",
+      "source": "Kursbuch",
+      "page": 19,
+      "image": "L1-Kommunikation-19.jpg",
+      "text": "HERKUNFT: Woher kommen Sie? Woher kommen Sie, Frau Nowak? (Ich komme) aus Polen. Woher kommst du, Lara? SPRACHE: Was sprechen Sie? Was sprichst du? Was sprechen Sie? Deutsch. Was sprichst du? Ich spreche Deutsch und (ein bisschen) Englisch. Sie sprechen / Du sprichst gut Deutsch. Nein, nur ein bisschen. ENTSCHULDIGUNG: Tut mir leid. Entschuldigung, … Tut mir leid. BITTEN UND DANKEN: Vielen Dank. Ist Frau Beck da, bitte? Buchstabieren Sie, bitte. Vielen Dank. / Danke. STRATEGIEN: Ja, stimmt. Ja. Nein. Ah, ja. Aha! Ja, stimmt. Ja, gut. Wie bitte? … bitte? Einen Moment, bitte. Ich weiß es nicht. Ah, schön. Das bin ich. Ergänzen Sie. Name: [?]. Land: [?]. Stadt: [?]. Sprache: [?]. Schreiben Sie. Ich heiße … Ich komme aus … Ich spreche …"
+    },
+    {
+      "id": "L1-Lernziele",
+      "schritt": "Lernziele",
+      "exercise": "Lernziele",
+      "kind": "exercise",
+      "source": "Kursbuch",
+      "page": 19,
+      "image": "L1-Lernziele.jpg",
+      "text": "Lernziele. Ich kann jetzt … A jemanden begrüßen und mich verabschieden: Hallo! Auf Wiedersehen. B jemanden nach dem Namen fragen und meinen Namen sagen: Wie heißen Sie? – Mein Name ist Richard Yulu. C nach dem Heimatland fragen und mein Heimatland sagen: Woher kommen Sie? – Ich komme aus Spanien. sagen: Diese Sprachen spreche ich: Was sprichst du? – Ich spreche Italienisch und ein bisschen Deutsch. D die Buchstaben sagen und meinen Namen buchstabieren: Mario: M–A–R–I–A. am Telefon nach einer Person fragen: Ist Frau Beck da, bitte? E eine Visitenkarte lesen und ein Formular ausfüllen: Familienname: Studer; Vorname: Ben; [?]. Ich kenne jetzt … 5 Länder: Österreich, … 5 Sprachen: Italienisch, …"
+    },
+    {
+      "id": "L1-AT-1",
+      "schritt": "Audiotraining",
+      "exercise": "Audiotraining 1",
+      "kind": "listening",
+      "source": "Kursbuch",
+      "page": 19,
+      "image": null,
+      "audio": "301082_KB_L01_22.mp3",
+      "transcript": "Begrüßung und Abschied. Wiederholen Sie. Hören Sie zuerst ein Beispiel: Sprecherin: Hallo. Sprecher: Hallo. Und jetzt Sie: Sprecherin: Hallo. Sprecherin: Guten Tag. Sprecherin: Guten Morgen. Sprecherin: Guten Abend. Sprecherin: Auf Wiedersehen. Sprecherin: Tschüs. Sprecherin: Gute Nacht.",
+      "text": "Lektion 1, Audiotraining 1. Begrüßung und Abschied. Wiederholen Sie. Hören Sie zuerst ein Beispiel: Hallo. Und jetzt Sie: Hallo. Guten Tag. Guten Morgen. Guten Abend. Auf Wiedersehen. Tschüs. Gute Nacht."
+    },
+    {
+      "id": "L1-AT-2",
+      "schritt": "Audiotraining",
+      "exercise": "Audiotraining 2",
+      "kind": "listening",
+      "source": "Kursbuch",
+      "page": 19,
+      "image": null,
+      "audio": "301082_KB_L01_23.mp3",
+      "transcript": "Wie bitte? Fragen Sie nach. Hören Sie zuerst ein Beispiel: Sprecherin: Mein Name ist Anita Zappel. Sprecher: Wie bitte? Wie ist Ihr Name? Sprecherin: Anita Zappel. Und jetzt Sie: Sprecherin: Mein Name ist Anita Zappel. Sprecher: Wie bitte? Wie ist Ihr Name? Sprecherin: Anita Zappel. Sprecherin: Ich komme aus Österreich. Sprecher: Wie bitte? Woher kommen Sie? Sprecherin: Aus Österreich. Sprecherin: Ich spreche Deutsch und Französisch. Sprecher: Wie bitte? Was sprechen Sie? Sprecherin: Deutsch und Französisch. Sprecherin: Ich bin Anne. Sprecher: Wie bitte? Wer bist du? Sprecherin: Anne. Sprecherin: Ich komme aus Deutschland. Sprecher: Wie bitte? Woher kommst du? Sprecherin: Aus Deutschland. Sprecherin: Ich spreche Deutsch und ein bisschen Englisch. Sprecher: Wie bitte? Was sprichst du? Sprecherin: Deutsch und ein bisschen Englisch.",
+      "text": "Lektion 1, Audiotraining 2. Wie bitte? Fragen Sie nach. Hören Sie zuerst ein Beispiel: Mein Name ist Anita Zappel. Wie bitte? Wie ist Ihr Name? Anita Zappel."
+    },
+    {
+      "id": "L1-AT-3",
+      "schritt": "Audiotraining",
+      "exercise": "Audiotraining 3",
+      "kind": "listening",
+      "source": "Kursbuch",
+      "page": 19,
+      "image": null,
+      "audio": "301082_KB_L01_24.mp3",
+      "transcript": "Buchstabieren Sie, bitte! Buchstabieren Sie die Namen. Hören Sie zuerst ein Beispiel: Sprecherin: Mein Name ist Weber. Sprecher: Ah! Buchstabieren Sie, bitte. Sprecherin: W – E – B – E – R. Sprecher: Vielen Dank. Und jetzt Sie: Sprecherin: Mein Name ist Weber. Sprecher: Ah! Buchstabieren Sie, bitte. Sprecherin: W – E – B – E – R. Sprecher: Vielen Dank. Sprecherin: Mein Name ist Baumann. Sprecher: Ah! Buchstabieren Sie, bitte. Sprecherin: B – A – U – M – A – N – N. Sprecher: Vielen Dank. Sprecherin: Mein Name ist Deiser. Sprecher: Ah! Buchstabieren Sie, bitte. Sprecherin: D – E – I – S – E – R. Sprecher: Vielen Dank. Sprecherin: Mein Name ist Menardi. Sprecher: Ah! Buchstabieren Sie, bitte. Sprecherin: M – E – N – A – R – D – I. Sprecher: Vielen Dank. Sprecherin: Mein Name ist Nowak. Sprecher: Ah! Buchstabieren Sie, bitte. Sprecherin: N – O – W – A – K. Sprecher: Vielen Dank.",
+      "text": "Lektion 1, Audiotraining 3. Buchstabieren Sie, bitte! Buchstabieren Sie die Namen. Hören Sie zuerst ein Beispiel: Mein Name ist Weber. Ah! Buchstabieren Sie, bitte. W–E–B–E–R. Vielen Dank."
+    },
+    {
+      "id": "L1-Zwischen-Lied",
+      "schritt": "Zwischendurch",
+      "exercise": "Lied",
+      "kind": "listening",
+      "source": "Kursbuch",
+      "page": 20,
+      "image": "L1-Zwischen-Lied.jpg",
+      "audio": "301082_KB_L01_25.mp3",
+      "transcript": "A–B–C– Okay! A wie Akkordeon. B wie Baby. C wie Cent. D wie Dynamit. E wie Elefant. F wie Flöte. G wie Gitarre. H wie Hallo. I wie Insekt. J wie Jaguar. K wie Kamera. L wie Lokomotive. M wie Mikrofon. N wie Natur. O wie Ozean. P wie Polizei. Q wie Quartett. R wie Radio. S wie Saxophon. T wie Telefon. U wie Uhu. V wie Volksmusik. W wie Wolfgang Amadeus. X wie Xylophon. und … jetzt … Ypsilon. Z wie Zirkus. Meine Damen und Herren, das war das ABC.",
+      "text": "Zwischendurch mal … LIED Das Alphabet. Hören Sie das Lied und sprechen Sie mit. Akkordeon, Baby, Cent, Dynamit, Elefant, Flöte, Gitarre, Hallo, Insekt, Jaguar, Kamera, Lokomotive, Mikrofon, Natur, Ozean, Polizei, Quartett, Radio, Saxophon, Telefon, Uhu, Volksmusik, Wolfgang Amadeus, Xylofon, Ypsilon, Zirkus."
+    },
+    {
+      "id": "L1-Zwischen-Buchstabenspiel",
+      "schritt": "Zwischendurch",
+      "exercise": "Buchstabenspiel",
+      "kind": "exercise",
+      "source": "Kursbuch",
+      "page": 20,
+      "image": "L1-Zwischen-Buchstabenspiel.jpg",
+      "text": "FILM / SPIEL Buchstabenspiel. Sehen Sie den Film an. Hören Sie und ergänzen Sie die Namen. Anna, [?]. AN??",
+      "answers": [
+        "Anna, Max, Julia, Daniel, Felix"
+      ]
+    },
+    {
+      "id": "L1-Zwischen-Film",
+      "schritt": "Zwischendurch",
+      "exercise": "Film",
+      "kind": "listening",
+      "source": "Kursbuch",
+      "page": 21,
+      "image": "L1-Zwischen-Film.jpg",
+      "text": "FILM Hallo und guten Tag! 1 Sehen Sie den Film ohne Ton an. Was meinen Sie: Was sagen die Personen? Notieren Sie. 2 Sehen Sie den Film nun mit Ton an und vergleichen Sie.",
+      "answers": [
+        "1: [?]",
+        "2: A Guten Tag, B Hallo, C Auf Wiedersehen"
+      ]
+    },
+    {
+      "id": "L1-Zwischen-Landeskunde",
+      "schritt": "Zwischendurch",
+      "exercise": "Landeskunde",
+      "kind": "listening",
+      "source": "Kursbuch",
+      "page": 21,
+      "image": "L1-Zwischen-Landeskunde.jpg",
+      "audio": "301082_KB_L01_26.mp3",
+      "transcript": "A Begrüßung und Verabschiedung formell, neutral und überall: Guten Tag! … Auf Wiedersehen! oder: Tag! … Wiedersehen! B Begrüßung und Verabschiedung informell und überall: Hallo! … Tschüs! C Begrüßung und Verabschiedung regional: Moin! oder Moin moin! … Tschüs! Tach! … Tschüs! Servus! … Servus! Grüezi mitenand! … Uf Widerluege!",
+      "text": "LANDESKUNDE Begrüßung und Abschied regional. 1 In Deutschland, Österreich und in der Schweiz gibt es viele Wörter für Guten Tag! und Auf Wiedersehen! Hören Sie die Wörter und markieren Sie sie in den Karten. 2 Guten Tag und Auf Wiedersehen international. Sprechen Sie. Ich spreche Ungarisch. Guten Tag heißt Jó napot.",
+      "answers": [
+        "Guten Tag!: Tag!, Hallo!, Moin!, Moin moin!, Tach!, Servus!, Grüezi mitenand!",
+        "Auf Wiedersehen!: Wiedersehen!, Tschüs!, Servus!, Uf Wiederluege!"
+      ]
+    },
+    {
+      "id": "L1-AB-1",
+      "schritt": "A",
+      "exercise": "1",
+      "kind": "listening",
+      "source": "Arbeitsbuch",
+      "page": 10,
+      "image": null,
+      "audio": "301082_AB_L01_1.mp3",
+      "transcript": "Mädchen: Guten Morgen, Frau Schröder. Frau Schröder: Hallo, Anna! Mädchen und Junge: Auf Wiedersehen, Frau Pohlmann. Frau Pohlmann: Tschüs, Kinder. Steffen: Nacht, Maria. Maria: Gute Nacht, Steffen.",
+      "text": "A Guten Tag. 1 Was hören Sie? Kreuzen Sie an. Guten Tag! Hallo! Tschüs! Gute Nacht! Morgen! Nacht! Tag! Guten Abend! Guten Morgen! Auf Wiedersehen!",
+      "items": [
+        {
+          "q": "Was hören Sie? Kreuzen Sie an.",
+          "options": [
+            "Guten Tag!",
+            "Hallo!",
+            "Tschüs!",
+            "Gute Nacht!",
+            "Morgen!",
+            "Nacht!",
+            "Tag!",
+            "Guten Abend!",
+            "Guten Morgen!",
+            "Auf Wiedersehen!"
+          ],
+          "answer": "Hallo!, Auf Wiedersehen!, Tschüs!, Nacht!, Gute Nacht!"
+        }
+      ],
+      "answers": [
+        "Hallo!",
+        "Auf Wiedersehen!",
+        "Tschüs!",
+        "Nacht!",
+        "Gute Nacht!"
+      ]
+    },
+    {
+      "id": "L1-AB-2",
+      "schritt": "A",
+      "exercise": "2",
+      "kind": "listening",
+      "source": "Arbeitsbuch",
+      "page": 10,
+      "image": null,
+      "audio": "301082_AB_L01_2.mp3",
+      "transcript": "Tag! Guten Tag! Abend! Guten Abend! Nacht! Gute Nacht! Frau Schröder: Guten Morgen, Frau Schröder! Morgen! Guten Morgen! Guten Abend, meine Damen und Herren. Wiederhören! Auf Wiederhören! Felix: Auf Wiedersehen, Felix!",
+      "text": "2 Hören Sie und sprechen Sie nach. Achten Sie auf die Satzmelodie. Tag! Guten Tag! Abend! Guten Abend! Nacht! Gute Nacht! Frau Schröder: Guten Morgen, Frau Schröder! Morgen! Guten Morgen! Guten Abend, meine Damen und Herren. Wiederhören! Auf Wiederhören! Felix: Auf Wiedersehen, Felix!"
+    },
+    {
+      "id": "L1-AB-3",
+      "schritt": "A",
+      "exercise": "3",
+      "kind": "exercise",
+      "source": "Arbeitsbuch",
+      "page": 10,
+      "image": null,
+      "text": "3 Ordnen Sie zu. Tag, Morgen, Abend, Hallo, Auf Wiedersehen, Gute Nacht, Morgen, Tag, Abend, Tschüs. Hallo. Guten Tag. 06:00, 09:00, 13:00, 15:30, 19:00, 23:45. Tschüs.",
+      "answers": [
+        "Morgen, Morgen, Tag, Tag, Abend, Abend, Auf Wiedersehen, Gute Nacht"
+      ]
+    },
+    {
+      "id": "L1-AB-4",
+      "schritt": "A",
+      "exercise": "4",
+      "kind": "exercise",
+      "source": "Arbeitsbuch",
+      "page": 10,
+      "image": null,
+      "text": "4 Ergänzen Sie. A Gute Nacht, Frau Moreno. Herr Schneider. 23:00. B Rasha! Natalja! 09:30. C Herr Frykberg. Frau Persson. 08:30. D Herr Celik. Auf Wiedersehen, Herr Johnson. 16:00. E Klara! Ana! 14:30.",
+      "answers": [
+        "a: Gute Nacht",
+        "b: Hallo, Guten Morgen",
+        "c: Guten Morgen, Guten Morgen",
+        "d: Auf Wiedersehen",
+        "e: Tschüs, Tschüs"
+      ]
+    },
+    {
+      "id": "L1-AB-5",
+      "schritt": "B",
+      "exercise": "5",
+      "kind": "listening",
+      "source": "Arbeitsbuch",
+      "page": 11,
+      "image": null,
+      "audio": "301082_AB_L01_3.mp3",
+      "transcript": "a Entschuldigung. Wie heißen Sie? Ich heiße Eva Baumann. Und wie heißen Sie? Ich heiße Angelika Moser. b Entschuldigung. Wie heißen Sie? Ich bin Anna Lienert. Guten Abend, Frau Lienert. Und wie heißen Sie? Mein Name ist Karl Huber.",
+      "text": "B Ich heiße Lara Nowak. 5 Hören Sie und sprechen Sie nach. Achten Sie auf die Satzmelodie. a Entschuldigung. Wie heißen Sie? Ich heiße Eva Baumann. Und wie heißen Sie? Ich heiße Angelika Moser. b Entschuldigung. Wie heißen Sie? Ich bin Anna Lienert. Guten Abend, Frau Lienert. Und wie heißen Sie? Mein Name ist Karl Huber."
+    },
+    {
+      "id": "L1-AB-6",
+      "schritt": "B",
+      "exercise": "6",
+      "kind": "listening",
+      "source": "Arbeitsbuch",
+      "page": 11,
+      "image": null,
+      "audio": "301082_AB_L01_4.mp3",
+      "transcript": "Guten Tag. Ich bin Annalena. Entschuldigung, wie heißen Sie? Annalena Adler. Herzlich willkommen, Annalena.",
+      "text": "6 Hören Sie und sprechen Sie nach. Achten Sie auf die Betonung: [?]. Guten Tag. Ich bin Annalena. Entschuldigung, wie heißen Sie? Annalena Adler. Herzlich willkommen, Annalena."
+    },
+    {
+      "id": "L1-AB-7",
+      "schritt": "B",
+      "exercise": "7",
+      "kind": "exercise",
+      "source": "Arbeitsbuch",
+      "page": 11,
+      "image": null,
+      "text": "7 Ordnen Sie zu. Das ist Frau Papadopoulos. Ich bin Sandra Stein. Entschuldigung, wie heißen Sie? Und wie heißen Sie? Guten Tag, Herr Weinert, freut mich. Mein Name ist Ulrike Springer. a Hallo! Ich bin Sandra Stein. Und [?]. b Ich heiße Akello Keki. Akello Keki. Ah, ja. Guten Tag, Herr Keki. c [?]. Guten Tag, Frau Papadopoulos. Ich bin Till Weinert. Herzlich willkommen bei EasyComputer international.",
+      "answers": [
+        "a: Und wie heißen Sie? Mein Name ist Ulrike Springer.",
+        "b: Entschuldigung, wie heißen Sie?",
+        "c: Das ist Frau Papadopoulos., Guten Tag, Herr Weinert, freut mich."
+      ]
+    },
+    {
+      "id": "L1-AB-8",
+      "schritt": "B",
+      "exercise": "8",
+      "kind": "exercise",
+      "source": "Arbeitsbuch",
+      "page": 12,
+      "image": null,
+      "text": "8 Verbinden Sie und schreiben Sie. a Wie heißen – ist das? b Mein Name – Finn. c Und wie – Sie? d Ich – ist Lena Winter. e Wer – heißen Sie? f Das ist – heißt Sina.",
+      "items": [
+        {
+          "q": "Verbinden Sie und schreiben Sie.",
+          "options": [
+            "Wie heißen",
+            "Mein Name",
+            "Und wie",
+            "Ich",
+            "Wer",
+            "Das ist"
+          ],
+          "answer": "Wie heißen Sie? Mein Name ist Lena Winter. Und wie heißen Sie? Ich heiße Sina. Wer ist das? Das ist Finn."
+        }
+      ],
+      "answers": [
+        "b: Mein Name ist Lena Winter.",
+        "c: Und wie heißen Sie?",
+        "d: Ich heiße Sina.",
+        "e: Wer ist das?",
+        "f: Das ist Finn."
+      ]
+    },
+    {
+      "id": "L1-AB-9",
+      "schritt": "B",
+      "exercise": "9",
+      "kind": "exercise",
+      "source": "Arbeitsbuch",
+      "page": 12,
+      "image": null,
+      "text": "9 Ordnen Sie zu und ergänzen Sie die Satzzeichen: ? oder . wie, wer, Das ist, bin, ist, ist, heiße, heiße, heißen, Herr. a Ich bin Andreas Zilinski. Entschuldigung, [?] heißen Sie? Andreas Zilinski, und das [?] Frau Kunz. b Wer [?] das? [?] Felix. c Ich [?] Laura Weber. Und wie [?] Sie? Ich [?] Michaela Schubert. d Das ist [?] Hoffmann. Und [?] ist das? Frau Kunz.",
+      "answers": [
+        "a: Entschuldigung, wie heißen Sie?, Andreas Zilinski, und das ist Frau Kunz.",
+        "b: Wer ist das?, Das ist Felix.",
+        "c: Ich heiße Laura Weber. Und wie heißen Sie?, Ich heiße Michaela Schubert.",
+        "d: Das ist Herr Hoffmann., Und wer ist das?, Frau Kunz."
+      ]
+    },
+    {
+      "id": "L1-AB-10",
+      "schritt": "B",
+      "exercise": "10",
+      "kind": "exercise",
+      "source": "Arbeitsbuch",
+      "page": 12,
+      "image": null,
+      "text": "10 Schreiben Sie Sätze und ergänzen Sie die Satzzeichen: ? oder . a heißen – wie – Sie – Und. b ist – Mein – Name – Annika Bauer. c willkommen – bei Air-Jet – Herzlich. d ist – Und – das – wer. e Frau Kaufmann – Das – ist.",
+      "answers": [
+        "a: Und wie heißen Sie?",
+        "b: Mein Name ist Annika Bauer.",
+        "c: Herzlich willkommen bei Air-Jet.",
+        "d: Und wer ist das?",
+        "e: Das ist Frau Kaufmann."
+      ]
+    },
+    {
+      "id": "L1-AB-11",
+      "schritt": "B",
+      "exercise": "11",
+      "kind": "exercise",
+      "source": "Arbeitsbuch",
+      "page": 12,
+      "image": null,
+      "text": "11 Ergänzen Sie. a Hallo, ich bin Tim. Hallo, Tim. [?] heiße Len. Und [?] das? [?] Jannis. b Guten Tag, [?] ist Mohammad Haaleh. Entschuldigung, [?]? Mohammad Haaleh. Ah, ja. Guten Tag, [?] Haaleh. c Das [?] Frau Santos. Guten Morgen, Frau Santos. [?] Kolja Steffens. Guten [?], Herr Steffens, [?] bei Sona. d Wer [?] Dario Cologna? [?] nicht.",
+      "answers": [
+        "a: ich, wer ist, Das ist",
+        "b: mein Name, Wie heißen Sie, Herr",
+        "c: ist, Ich bin, Morgen, freut mich, willkommen",
+        "d: ist, Das weiß ich"
+      ]
+    },
+    {
+      "id": "L1-AB-12",
+      "schritt": "C",
+      "exercise": "12",
+      "kind": "exercise",
+      "source": "Arbeitsbuch",
+      "page": 13,
+      "image": null,
+      "text": "C Ich komme aus Polen. 12 Ordnen Sie zu. bist du, Ich heiße, Ich komme, heißen Sie, kommen Sie, Ich bin, sind Sie, kommst du. a Hallo. Ich heiße Tom. Und du? Wer [?]? Ich heiße Hugo und komme aus Portugal. Woher [?]? Aus den USA. b [?] Julia Springer von der Firma Teletec. Und Sie? Wie [?]? Ich bin Ala Charkova. c Guten Tag. Ich heiße Arto Koskinen. Wer [?]? Ich bin Monique Laval. Freut mich. Woher [?] Frau Laval? Aus der Schweiz. Und Sie? [?] aus Finnland.",
+      "answers": [
+        "a: Wer bist du?, Woher kommst du?",
+        "b: Ich bin.., Wie heißen Sie?",
+        "c: Wer sind Sie?, Woher kommen Sie?, Ich komme aus.."
+      ]
+    },
+    {
+      "id": "L1-AB-13",
+      "schritt": "C",
+      "exercise": "13",
+      "kind": "exercise",
+      "source": "Arbeitsbuch",
+      "page": 13,
+      "image": null,
+      "text": "13 du oder Sie? Ordnen Sie zu. A, B, C, D, E, F. du + Lara / Henry / …: [?]. Sie + Frau Nowak / Herr Baumann / …: [?].",
+      "answers": [
+        "du + …: B, E",
+        "Sie + …: C, D, F"
+      ]
+    },
+    {
+      "id": "L1-AB-14",
+      "schritt": "C",
+      "exercise": "14",
+      "kind": "exercise",
+      "source": "Arbeitsbuch",
+      "page": 13,
+      "image": null,
+      "text": "14 du oder Sie? Ordnen Sie die Bilder zu, ergänzen Sie und vergleichen Sie. Bild, Deutsch, Englisch, Meine Sprache oder andere Sprachen. du, you. you. A, B.",
+      "answers": [
+        "B: du",
+        "A: Sie"
+      ]
+    },
+    {
+      "id": "L1-AB-15",
+      "schritt": "C",
+      "exercise": "15",
+      "kind": "dialogue",
+      "source": "Arbeitsbuch",
+      "page": 14,
+      "image": null,
+      "text": "15 Schreiben Sie Gespräche. a Nein, nur ein bisschen. Ich spreche Französisch und ein bisschen Arabisch. Guten Tag, Frau Brandner. Guten Morgen. Mein Name ist Juliette Saidi. Sie sprechen gut Deutsch. Freut mich, Frau Saidi. Ich bin Julia Brandner. b Woher kommst du, Ping-Fei? Hallo, ich bin Ramon aus Mexiko. Und wie heißt du? Ah, schön! Aus China? Ich spreche ein bisschen Chinesisch. Ich heiße Ping-Fei. Aus China.",
+      "answers": [
+        "a: Freut mich, Frau Saidi. Ich bin Julia Brandner., Guten Tag, Frau Brandner., Sie sprechen gut Deutsch., Nein, nur ein bisschen. Ich spreche Französisch und ein bisschen Arabisch.",
+        "b: Hallo, ich bin Ramon aus Mexiko. Und wie heißt du?, Ich heiße Ping-Fei. Woher kommst du, Ping-Fei?, Aus China., Aus China? Ich spreche ein bisschen Chinesisch., Ah, schön!"
+      ]
+    },
+    {
+      "id": "L1-AB-16",
+      "schritt": "C",
+      "exercise": "16",
+      "kind": "exercise",
+      "source": "Arbeitsbuch",
+      "page": 14,
+      "image": null,
+      "text": "16 Was ist richtig? Kreuzen Sie an. a Ich heißen / heißt / heiße Maria. b Was spreche / sprechen / sprichst Sie? c Wie heiße / heißt / heißen du? d Und wer ist / bist / sind Sie? e Ich spreche / sprechen / sprichst Griechisch. f Woher kommst / komme / kommen du? g Ich ist / bin / bist Angelika. h Was spreche / sprichst / sprechen du?",
+      "items": [
+        {
+          "q": "Was ist richtig?",
+          "options": [
+            "a: heiße",
+            "b: sprechen",
+            "c: heißt",
+            "d: sind",
+            "e: spreche",
+            "f: kommst",
+            "g: bin",
+            "h: sprichst"
+          ],
+          "answer": "a heiße, b sprechen, c heißt, d sind, e spreche, f kommst, g bin, h sprichst"
+        }
+      ],
+      "answers": [
+        "a: heiße",
+        "b: sprechen",
+        "c: heißt",
+        "d: sind",
+        "e: spreche",
+        "f: kommst",
+        "g: bin",
+        "h: sprichst"
+      ]
+    },
+    {
+      "id": "L1-AB-17",
+      "schritt": "C",
+      "exercise": "17",
+      "kind": "exercise",
+      "source": "Arbeitsbuch",
+      "page": 14,
+      "image": null,
+      "text": "17 Ergänzen Sie in der richtigen Form: sprechen – kommen – heißen. a Hallo. Ich heiße Ali. Wie [?] du? Ich [?] Thomas. Und woher [?] du? Aus Deutschland? Nein, ich [?] aus den USA. Ich [?] Englisch und ein bisschen Deutsch. Was [?] du? Ich [?] Englisch und Französisch. b Guten Morgen, Frau Ye. Woher [?] Sie? Ich [?] aus China. Und was [?] Sie? Ich [?] Chinesisch. Und ein bisschen Deutsch. Ja, stimmt.",
+      "answers": [
+        "a: heißt, heiße, kommst, komme, spreche, sprichst, spreche",
+        "b: kommen, komme, sprechen, spreche"
+      ]
+    },
+    {
+      "id": "L1-AB-18",
+      "schritt": "C",
+      "exercise": "18",
+      "kind": "listening",
+      "source": "Arbeitsbuch",
+      "page": 14,
+      "image": null,
+      "audio": "301082_AB_L01_5.mp3",
+      "transcript": "Bernardo: Guten Tag, mein Name ist Bernardo Da Silva. Ich komme aus Brasilien. Jetzt bin ich in Österreich, in Wien. Wien ist schön! Ich spreche gut Deutsch, Spanisch und Portugiesisch natürlich. Sara: Hallo, ich heiße Sara. Ich komme aus Udine. Das ist in Italien. Jetzt bin ich ein Jahr in Hamburg. Ich spreche Italienisch, Englisch und Französisch. Ah, und ein bisschen Deutsch. Max: Und ich bin Max aus Berlin. Eigentlich komme ich aus Hamburg. Aber jetzt bin ich schon acht Jahre in Berlin. Ah ja, ich spreche gut Englisch und ein bisschen Russisch.",
+      "text": "18 Was hören Sie? Kreuzen Sie an. Bernardo, Sara, Max. Österreich, Italien, Brasilien, Hamburg, Wien, Udine, Berlin. Englisch, Spanisch, Italienisch, Russisch, Portugiesisch, Deutsch, Französisch.",
+      "answers": [
+        "Bernardo: Österreich, Wien, Spanisch, Portugiesisch, Deutsch",
+        "Sara: Udine, Italien, Hamburg, Englisch, Italienisch, Deutsch, Französisch",
+        "Max: Berlin, Hamburg, Englisch, Russisch"
+      ]
+    },
+    {
+      "id": "L1-AB-19",
+      "schritt": "C",
+      "exercise": "19",
+      "kind": "exercise",
+      "source": "Arbeitsbuch",
+      "page": 14,
+      "image": null,
+      "text": "19 Welche Sprache passt? Ergänzen Sie. China, Polen, Türkei, Griechenland, Spanien. a Chinesisch. b [?]. c [?]. d [?]. e [?].",
+      "answers": [
+        "a: Chinesisch",
+        "b: Polnisch",
+        "c: Türkisch",
+        "d: Griechisch",
+        "e: Spanisch"
+      ]
+    },
+    {
+      "id": "L1-AB-20",
+      "schritt": "D",
+      "exercise": "20",
+      "kind": "listening",
+      "source": "Arbeitsbuch",
+      "page": 15,
+      "image": null,
+      "audio": "301082_AB_L01_6.mp3",
+      "transcript": "ei Türkei. Ich heiße Einstein. eu Deutschland. Du sprichst gut Deutsch. au Frau Maurer. Ich heiße Maurer. Schreiben Sie. Guten Tag, freut mich. Ich heiße Laura und bin aus Augsburg.",
+      "text": "D Buchstaben. 20 Wie spricht man das? Hören Sie und sprechen Sie nach. ei Türkei. Ich heiße Einstein. eu Deutschland. Du sprichst gut Deutsch. au Frau Maurer. Ich heiße Maurer. Schreiben Sie. Guten Tag, freut mich. Ich heiße Laura und bin aus Augsburg."
+    },
+    {
+      "id": "L1-AB-21a",
+      "schritt": "D",
+      "exercise": "21",
+      "kind": "listening",
+      "source": "Arbeitsbuch",
+      "page": 15,
+      "image": null,
+      "audio": "301082_AB_L01_7.mp3",
+      "transcript": "Frau: Ich heiße Ewa Kowalski. Mann: Entschuldigung, wie heißen Sie? Buchstabieren Sie, bitte. Frau: E – W – A K – O – W – A – L – S – K – I.",
+      "text": "21 Welche Namen hören Sie? Ergänzen Sie die Buchstaben. a Ewa Kowalski.",
+      "answers": [
+        "a: Kowalski"
+      ]
+    },
+    {
+      "id": "L1-AB-21b",
+      "schritt": "D",
+      "exercise": "21",
+      "kind": "listening",
+      "source": "Arbeitsbuch",
+      "page": 15,
+      "image": null,
+      "audio": "301082_AB_L01_8.mp3",
+      "transcript": "Mann: Mein Name ist Jannick Peters. Frau: Wie bitte? Mann: Ich heiße Jannick Peters. J – A – N – N – I – C – K P – E – T – E – R – S.",
+      "text": "21 Welche Namen hören Sie? Ergänzen Sie die Buchstaben. b Jannick Peters.",
+      "answers": [
+        "b: Jannick Peters"
+      ]
+    },
+    {
+      "id": "L1-AB-21c",
+      "schritt": "D",
+      "exercise": "21",
+      "kind": "listening",
+      "source": "Arbeitsbuch",
+      "page": 15,
+      "image": null,
+      "audio": "301082_AB_L01_9.mp3",
+      "transcript": "Mann 1: Ich bin Moritz Seifert. Mann 2: Wie ist Ihr Name? Buchstabieren Sie, bitte. Mann 1: M – O – R – I – T – Z S – E – I – F – E – R – T.",
+      "text": "21 Welche Namen hören Sie? Ergänzen Sie die Buchstaben. c Moritz Seifert.",
+      "answers": [
+        "c: Moritz Seifert"
+      ]
+    },
+    {
+      "id": "L1-AB-21d",
+      "schritt": "D",
+      "exercise": "21",
+      "kind": "listening",
+      "source": "Arbeitsbuch",
+      "page": 15,
+      "image": null,
+      "audio": "301082_AB_L01_10.mp3",
+      "transcript": "Mann: Guten Morgen. Mein Name ist Simon Pfaff. Frau: Guten Morgen Herr … Entschuldigung, wie heißen Sie? Mann: Simon Pfaff. Ich buchstabiere: S – I – M – O – N P – F – A – F – F. Frau: Ah ja, danke.",
+      "text": "21 Welche Namen hören Sie? Ergänzen Sie die Buchstaben. d Simon Pfaff.",
+      "answers": [
+        "d: Simon Pfaff"
+      ]
+    },
+    {
+      "id": "L1-AB-21e",
+      "schritt": "D",
+      "exercise": "21",
+      "kind": "listening",
+      "source": "Arbeitsbuch",
+      "page": 15,
+      "image": null,
+      "audio": "301082_AB_L01_11.mp3",
+      "transcript": "Frau 1: Wie ist Ihr Name? Frau 2: Ich heiße Ruth Kröger. Frau 1: Wie bitte? Buchstabieren Sie, bitte. Frau 2: R – U – T – H K – R – Ö – G – E – R. Frau 1: Danke.",
+      "text": "21 Welche Namen hören Sie? Ergänzen Sie die Buchstaben. e Ruth Kröger.",
+      "answers": [
+        "e: Ruth Kröger"
+      ]
+    },
+    {
+      "id": "L1-AB-21f",
+      "schritt": "D",
+      "exercise": "21",
+      "kind": "listening",
+      "source": "Arbeitsbuch",
+      "page": 15,
+      "image": null,
+      "audio": "301082_AB_L01_12.mp3",
+      "transcript": "Frau: Wie heißt du? Mann: Ich heiße Jürgen Groß. Groß mit Eszett. Frau: Wie bitte? Mann: J – Ü – R – G – E – N G – R – O – ß.",
+      "text": "21 Welche Namen hören Sie? Ergänzen Sie die Buchstaben. f Jürgen Groß.",
+      "answers": [
+        "f: Jürgen Groß"
+      ]
+    },
+    {
+      "id": "L1-AB-22",
+      "schritt": "D",
+      "exercise": "22",
+      "kind": "exercise",
+      "source": "Arbeitsbuch",
+      "page": 15,
+      "image": null,
+      "text": "22 Was schreibt man groß? Korrigieren Sie. a Mein name ist anita. und wie heißt du? ich heiße andreas. woher kommst du? aus österreich. b guten tag. wie ist ihr name, bitte? mein name ist lukas bürgelin. woher kommen sie? ich komme aus der schweiz.",
+      "answers": [
+        "a: Mein Name ist Anita. Und wie heißt du?, Ich heiße Andreas., Woher kommst du?, Aus Österreich.",
+        "b: Guten Tag. Wie ist Ihr Name, bitte?, Mein Name ist Lukas Bürgelin., Woher kommen Sie?, Ich komme aus der Schweiz."
+      ]
+    },
+    {
+      "id": "L1-AB-23",
+      "schritt": "D",
+      "exercise": "23",
+      "kind": "exercise",
+      "source": "Arbeitsbuch",
+      "page": 15,
+      "image": null,
+      "text": "23 Ergänzen Sie: Tut mir leid. – Entschuldigung. a Entschuldigung. b Wer ist das? [?]. Ich weiß es nicht. c Mein Name ist Hubert Hubschmer. [?], wie ist Ihr Name? Hubert Hubschmer. d Sprechen Sie Russisch? Nein. [?]. e Guten Tag, Frau Schneider. Ist Laura da? Nein. [?].",
+      "answers": [
+        "b: Tut mir leid",
+        "c: Entschuldigung",
+        "d: Tut mir leid",
+        "e: Tut mir leid"
+      ]
+    },
+    {
+      "id": "L1-AB-24",
+      "schritt": "D",
+      "exercise": "24",
+      "kind": "exercise",
+      "source": "Arbeitsbuch",
+      "page": 16,
+      "image": null,
+      "text": "24 Ergänzen Sie das Telefongespräch. Firma Ökotrans, Frederike Groß, guten M[?]. Guten Morgen. M[?] Name ist Nguyen. Ist H[?] Stolpe d[?]? Guten Morgen Herr … E[?], wie h[?] Sie? Nguyen. Wie bitte? B[?] Sie, bitte. Ich b[?]: N–G–U–Y–E–N. Vielen Dank, Herr Nguyen. Einen M[?], bitte. … Herr Nguyen? T[?] mir l[?]. Herr Stolpe ist n[?] da. Ja, gut. Danke. Auf W[?]. A[?] Wiederhören, Herr Nguyen.",
+      "answers": [
+        "Morgen, Mein, Herr, da, Entschuldigung, heißen, Buchstabieren, buchstabiere, Moment, Tut, leid, nicht, Wiederhören, Auf"
+      ]
+    },
+    {
+      "id": "L1-AB-25",
+      "schritt": "D",
+      "exercise": "25",
+      "kind": "exercise",
+      "source": "Arbeitsbuch",
+      "page": 16,
+      "image": null,
+      "text": "25 Markieren Sie die Wörter. Schreiben Sie Sätze. a guten tag mein name ist baumann. b ist herr gulda. c einen moment bitte. d tut mir leid. e herr gül ist nicht da. f auf wiederhören.",
+      "answers": [
+        "a: Guten Tag. Mein Name ist Baumann.",
+        "b: Ist Herr Gül da?",
+        "c: Einen Moment bitte.",
+        "d: Tut mir leid.",
+        "e: Herr Gül ist nicht da.",
+        "f: Auf Wiederhören."
+      ]
+    },
+    {
+      "id": "L1-AB-26",
+      "schritt": "D",
+      "exercise": "26",
+      "kind": "exercise",
+      "source": "Arbeitsbuch",
+      "page": 16,
+      "image": null,
+      "text": "26 Zwei Gespräche. a Markieren Sie noch sechs Sätze. b Ordnen Sie die Sätze. Schreiben Sie zwei Gespräche. Wie heißt du? Guten Tag. Mein …",
+      "answers": [
+        "26a: Entschuldigung, wie ist Ihr Name? Ich heiße Michael, Ich buchstabiere: BAUMANN., Ich komme aus Deutschland, Woher kommst du?, Vielen Dank",
+        "26b: Guten Tag. Mein Name ist Baumann. Entschuldigung, wie ist Ihr Name? Ich buchstabiere: Baumann. Vielen Dank.; Wie heißt du? Ich heiße Michael. Woher kommst du? Ich komme aus Deutschland."
+      ]
+    },
+    {
+      "id": "L1-AB-27",
+      "schritt": "D",
+      "exercise": "27",
+      "kind": "exercise",
+      "source": "Arbeitsbuch",
+      "page": 16,
+      "image": null,
+      "text": "27 Das bin ich. Schreiben Sie Ihren Text. Ich heiße Irena Król. Ich komme aus Opole. Das ist in Polen. Ich spreche Polnisch, Englisch und Deutsch."
+    },
+    {
+      "id": "L1-AB-28",
+      "schritt": "E",
+      "exercise": "28",
+      "kind": "exercise",
+      "source": "Arbeitsbuch",
+      "page": 17,
+      "image": null,
+      "text": "E Adresse. 28 Vorname oder Nachname? Markieren Sie die Vornamen gelb und die Nachnamen blau. a Simon Drexler. b Julia Peters. c Gerner, Daniel. d Hänsler-Schubert, Bianca. e Sofia Flemmerer. f Forster, Nicolas.",
+      "answers": [
+        "a: Vorname: Simon, Nachname: Drexler",
+        "b: Vorname: Julia, Nachname: Peters",
+        "c: Vorname: Daniel, Nachname: Gerner",
+        "d: Vorname: Bianca, Nachname: Hänsler-Schubert",
+        "e: Vorname: Sofia, Nachname: Flemmerer",
+        "f: Vorname: Nicolas, Nachname: Forster"
+      ]
+    },
+    {
+      "id": "L1-AB-29",
+      "schritt": "E",
+      "exercise": "29",
+      "kind": "exercise",
+      "source": "Arbeitsbuch",
+      "page": 17,
+      "image": null,
+      "text": "29 Ein Brief. a Ordnen Sie zu. Familienname / Nachname, Stadt, Vorname, Land, Straße, Postleitzahl, Hausnummer. Claudia Toth. Löhrstraße 37. 04105 Leipzig. GERMANY. b Suchen Sie im Internet die Adresse vom Hueber Verlag in Deutschland und notieren Sie. Hueber Verlag.",
+      "answers": [
+        "a: 1 Vorname, 3 Straße, 4 Hausnummer, 5 Postleitzahl, 6 Stadt, 7 Land",
+        "b: Baubergerstraße 30, 80992 München"
+      ]
+    },
+    {
+      "id": "L1-AB-30",
+      "schritt": "E",
+      "exercise": "30",
+      "kind": "exercise",
+      "source": "Arbeitsbuch",
+      "page": 17,
+      "image": null,
+      "text": "30 Lesen Sie die Visitenkarte und füllen Sie das Formular aus. Lucía Álvarez, Ärztin, Weserstraße 215, 12047 Berlin, 030/80 92 44, l.alvarez@cc.de. Herr / Frau. Nachname: Álvarez. Vorname: [?]. Straße: [?]. Hausnummer: [?]. Postleitzahl: [?]. Stadt: [?]. E-Mail: [?]. Telefon: [?].",
+      "answers": [
+        "Frau, Nachname: Álvarez, Vorname: Lucia, Straße: Weserstraße, Postleitzahl: 12047, Stadt: Berlin, E-Mail: Lalvarez@cc.de, Telefon: 030/809244"
+      ]
+    },
+    {
+      "id": "L1-AB-Test1",
+      "schritt": "Test",
+      "exercise": "1",
+      "kind": "exercise",
+      "source": "Arbeitsbuch",
+      "page": 18,
+      "image": null,
+      "text": "Test Lektion 1. 1 Ergänzen Sie. a Hallo. b G[?]r[?]. c [?]t[?]d. d A[?]s. e [?]c[?]. f [?]u[?]a[?]."
+    },
+    {
+      "id": "L1-AB-Test2",
+      "schritt": "Test",
+      "exercise": "2",
+      "kind": "exercise",
+      "source": "Arbeitsbuch",
+      "page": 18,
+      "image": null,
+      "text": "2 Ordnen Sie zu. Stadt, Land, Vorname, Familienname, Straße, Postleitzahl, Hausnummer, E-Mail, Telefon. Alina Egger. Bändelgasse 1. 4057 Basel. SCHWEIZ. +41 4161/822 94 33. alina@egger.ch. a Vorname. b Familienname. c [?]. d [?]. e [?]. f [?]. g [?]. h [?]. i [?].",
+      "answers": [
+        "a: Vorname: Alina",
+        "b: Familienname: Egger",
+        "c: Straße: Bändelgasse 1",
+        "d: Hausnummer: 1",
+        "e: Postleitzahl: 4057",
+        "f: Stadt: Basel",
+        "g: Land: SCHWEIZ",
+        "h: Telefon: +41 4161/822 94 33",
+        "i: E-Mail: alina@egger.ch"
+      ]
+    },
+    {
+      "id": "L1-AB-Test3",
+      "schritt": "Test",
+      "exercise": "3",
+      "kind": "exercise",
+      "source": "Arbeitsbuch",
+      "page": 18,
+      "image": null,
+      "text": "3 Ergänzen Sie. a [?] heißen Sie? Alina Egger. b [?] kommen Sie? Aus der Schweiz. c Und [?] sprechen Sie? Deutsch und Italienisch. d [?] ist das? Das ist Dario Egger.",
+      "items": [
+        {
+          "q": "Ergänzen Sie.",
+          "options": [
+            "Wie",
+            "Woher",
+            "Was",
+            "Wer"
+          ],
+          "answer": "a Wie, b Woher, c Was, d Wer"
+        }
+      ],
+      "answers": [
+        "a: Wie",
+        "b: Woher",
+        "c: Was",
+        "d: Wer"
+      ]
+    },
+    {
+      "id": "L1-AB-Test4",
+      "schritt": "Test",
+      "exercise": "4",
+      "kind": "exercise",
+      "source": "Arbeitsbuch",
+      "page": 18,
+      "image": null,
+      "text": "4 Ergänzen Sie. a Hallo. Ich bin (1) Mercy. Wie h[?] (2) du? Ich h[?] (3) Kim und k[?] (4) aus China. Du s[?] (5) gut Deutsch. Nein, nur ein bisschen. Ich s[?] (6) gut Englisch. b Guten Morgen. Mein Name i[?] (7) Hinata Numajiri. Entschuldigung, wie h[?] (8) Sie? Hinata Numajiri. Ah, ja. Guten Morgen, Herr Numajiri. Ich b[?] (9) John Winterfield und das i[?] (10) Frau Bianchi.",
+      "answers": [
+        "(1) bin",
+        "(2) heißt",
+        "(3) heiße",
+        "(4) komme",
+        "(5) sprichst",
+        "(6) spreche",
+        "(7) ist",
+        "(8) heißen",
+        "(9) bin",
+        "(10) ist"
+      ]
+    },
+    {
+      "id": "L1-AB-Test5",
+      "schritt": "Test",
+      "exercise": "5",
+      "kind": "exercise",
+      "source": "Arbeitsbuch",
+      "page": 18,
+      "image": null,
+      "text": "5 Ordnen Sie zu. Einen Moment. Tut mir leid. Ich buchstabiere. Ja, gut. Entschuldigung. Danke. Firma Computec, Moritz Spengler, guten Tag. Guten Tag. Mein Name ist Paulinho. Ist Frau Egger da? Guten Tag, Herr … (a), wie ist Ihr Name? Paulinho. (b): P–A–U–L–I–N–H–O. Ah, ja. (c), Herr Paulinho. (d), bitte … Herr Paulinho? (e), Frau Egger ist nicht da. (f). Danke. Auf Wiederhören.",
+      "answers": [
+        "(a): Entschuldigung",
+        "(b): Ich buchstabiere",
+        "(c): Einen Moment",
+        "(d): Tut mir leid",
+        "(e): [?]",
+        "(f): Ja, gut"
+      ]
     }
-   ],
-   "answers": [
-    "a: Wie",
-    "b: Woher",
-    "c: Was",
-    "d: Wer"
-   ]
-  },
-  {
-   "id": "L1-AB-Test4",
-   "schritt": "Test",
-   "exercise": "4",
-   "kind": "exercise",
-   "source": "Arbeitsbuch",
-   "page": 18,
-   "image": null,
-   "text": "4 Ergänzen Sie. a Hallo. Ich bin (1) Mercy. Wie h[?] (2) du? Ich h[?] (3) Kim und k[?] (4) aus China. Du s[?] (5) gut Deutsch. Nein, nur ein bisschen. Ich s[?] (6) gut Englisch. b Guten Morgen. Mein Name i[?] (7) Hinata Numajiri. Entschuldigung, wie h[?] (8) Sie? Hinata Numajiri. Ah, ja. Guten Morgen, Herr Numajiri. Ich b[?] (9) John Winterfield und das i[?] (10) Frau Bianchi.",
-   "answers": [
-    "(1) bin",
-    "(2) heißt",
-    "(3) heiße",
-    "(4) komme",
-    "(5) sprichst",
-    "(6) spreche",
-    "(7) ist",
-    "(8) heißen",
-    "(9) bin",
-    "(10) ist"
-   ]
-  },
-  {
-   "id": "L1-AB-Test5",
-   "schritt": "Test",
-   "exercise": "5",
-   "kind": "exercise",
-   "source": "Arbeitsbuch",
-   "page": 18,
-   "image": null,
-   "text": "5 Ordnen Sie zu. Einen Moment. Tut mir leid. Ich buchstabiere. Ja, gut. Entschuldigung. Danke. Firma Computec, Moritz Spengler, guten Tag. Guten Tag. Mein Name ist Paulinho. Ist Frau Egger da? Guten Tag, Herr … (a), wie ist Ihr Name? Paulinho. (b): P–A–U–L–I–N–H–O. Ah, ja. (c), Herr Paulinho. (d), bitte … Herr Paulinho? (e), Frau Egger ist nicht da. (f). Danke. Auf Wiederhören.",
-   "answers": [
-    "(a): Entschuldigung",
-    "(b): Ich buchstabiere",
-    "(c): Einen Moment",
-    "(d): Tut mir leid",
-    "(e): [?]",
-    "(f): Ja, gut"
-   ]
-  }
- ]
+  ]
 }
