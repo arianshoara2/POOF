@@ -104,7 +104,8 @@ html:not([data-theme=snowy]) .hd h1,html:not([data-theme=snowy]) .hd .mark{displ
 </head>
 <style>
 /* ---------- Schritte v2: accordion book + reader-style word bar ---------- */
-#learnBg{width:auto!important;height:auto!important;inset:0}
+#learnBg{display:none!important}
+.hd .sub{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .sch-nav{display:flex;gap:8px;overflow-x:auto;padding:14px 16px 2px;max-width:720px;margin:0 auto;scrollbar-width:none}
 .sch-nav::-webkit-scrollbar{display:none}
 .sch-nav .chip{flex:0 0 auto;border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:999px;padding:7px 13px;font:600 13px/1.4 var(--sans);cursor:pointer;white-space:nowrap}
@@ -126,8 +127,8 @@ html:not([data-theme=snowy]) .hd h1,html:not([data-theme=snowy]) .hd .mark{displ
 .sec-h .num{flex:0 0 auto;width:28px;height:28px;border-radius:50%;background:var(--accent);color:var(--bg);display:grid;place-items:center;font:700 13px/1 var(--sans)}
 .sec.done .num{background:var(--ok)}
 .sec-h .tt{flex:1;min-width:0}
-.sec-h .tt b{font-size:15.5px;display:block}
-.sec-h .tt .pv{font-size:12.5px;color:var(--muted);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sec-h .tt b{font-size:15.5px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:left}
+.sec-h .tt .pv{font-size:12.5px;color:var(--muted);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:left}
 .sec-h .chev{flex:0 0 auto;color:var(--muted);transition:transform .2s;font-size:15px}
 .sec.open .chev{transform:rotate(180deg)}
 .sec-b{padding:2px 14px 14px}
@@ -155,8 +156,8 @@ details.tr .de{margin-top:8px}
 /* reader-style selection */
 .w.sel{background:color-mix(in srgb,var(--accent) 28%,transparent);box-shadow:0 2px 0 var(--accent)}
 .w.lpp{background:color-mix(in srgb,var(--accent) 45%,transparent)}
-.hd{position:absolute;z-index:260;width:20px;height:20px;background:var(--accent);opacity:.95;touch-action:none;box-shadow:0 2px 8px rgba(0,0,0,.4)}
-.hd::before{content:"";position:absolute;inset:-12px}
+.sel-hd{position:absolute;z-index:260;width:20px;height:20px;background:var(--accent);opacity:.95;touch-action:none;box-shadow:0 2px 8px rgba(0,0,0,.4)}
+.sel-hd::before{content:"";position:absolute;inset:-12px}
 #pop{position:fixed;z-index:270;width:min(372px,94vw);padding:12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);box-shadow:0 12px 32px rgba(0,0,0,.45)}
 #popLangMenu{display:flex;gap:6px;margin:0 0 8px}
 #popLangMenu[hidden]{display:none}
@@ -185,15 +186,14 @@ details.tr .de{margin-top:8px}
 
 </style></head>
 <body>
-<div id="learnBg" class="poof-img-learn-path-bg" aria-hidden="true"></div>
-<header><div class="hd"><img id="brandMascot" class="poof-mascot brand-mascot" alt="" style="width:52px;height:52px;margin:0"><div style="flex:1"><h1>POOF</h1><div class="sub">Schritte international Neu A1.1</div></div>
+<header><div class="hd"><img id="brandMascot" class="poof-mascot brand-mascot" alt="" style="width:52px;height:52px;margin:0"><div style="flex:1;min-width:0"><h1>POOF</h1><div class="sub">Schritte A1.1</div></div>
  <button class="btn ghost" id="backApp" aria-label="بازگشت"><svg class="ic" viewBox="0 0 24 24"><path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></svg></button></div></header>
 <nav class="sch-nav" id="lessonNav" aria-label="درس‌ها"></nav>
 <div class="prog"><div class="bar"><i id="progFill" style="width:0%"></i></div><div class="lbl" id="progLbl"></div></div>
 <div class="hint">روی هر تمرین بزن تا باز شود · روی هر کلمه بزن تا معنی‌اش بیاید · کلمه را نگه دار و بکش تا چند کلمه انتخاب شود</div>
 <main id="app"><div class="spin" aria-label="در حال بارگذاری"></div></main>
 
-<div class="hd" id="hs" hidden></div><div class="hd" id="he" hidden></div>
+<div class="sel-hd" id="hs" hidden></div><div class="sel-hd" id="he" hidden></div>
 <div id="pop" hidden><div id="popT" class="popT"></div><div id="popLangMenu" hidden></div><div class="popB">
  <button data-p="say" aria-label="تلفظ">🔊</button><button data-p="ask" aria-label="از پووف بپرس">✨</button><button data-p="more" class="with-lbl" aria-label="جزئیات">⛶<span class="popLbl">جزئیات</span></button><button data-p="sent" class="with-lbl" aria-label="گسترش به جمله">⇄<span class="popLbl">به جمله</span></button><button data-p="copy" aria-label="کپی">📋</button><button data-p="edit" aria-label="ویرایش">✏️</button><button data-p="lang" id="popLang" class="popLang" aria-label="زبان ترجمه">فا</button><button data-p="add" class="plus" aria-label="افزودن به کارت‌ها">＋</button></div></div>
 <div id="ask" hidden role="dialog" aria-label="از پووف بپرس"><div class="ask-card">
@@ -674,9 +674,29 @@ const LESSONS=[
 const KIND={exercise:"تمرین",listening:"🎧 شنیداری",dialogue:"💬 گفت‌وگو",grammar:"📏 گرامر"};
 const GTITLE={ "Folge 1":"Folge 1 · Das bin ich",A:"A · Guten Tag!",B:"B · Ich bin …",C:"C · Das bin ich",
  D:"D · Länder und Sprachen",E:"E · Das ist …",F:"F · Zahlen",G:"G · Buchstabieren",
- H:"H · Im Café",I:"I · Namen und Länder",J:"J · Film",K:"K · Landeskunde"};
+ H:"H · Im Café",I:"I · Namen und Länder",J:"J · Film",K:"K · Landeskunde",
+ Grammatik:"گرامر · خلاصه‌ی درس",Kommunikation:"ارتباط · Kommunikation",Lernziele:"هدف‌های یادگیری · Lernziele",
+ Audiotraining:"تمرین شنیداری · Audiotraining",Zwischen:"میان‌برنامه · Zwischenspiel",AB:"تمرین‌های کتاب کار"};
 const GSUB={ "Folge 1":"صحنه‌ها و دیالوگ‌ها",A:"معرفی و سلام‌وعلیک",B:"معرفی خود",C:"تکمیل گفت‌وگو",D:"کشورها و زبان‌ها",
- E:"آقای و خانم …",F:"عددها",G:"هجی کردن",H:"در کافه",I:"نام‌ها و کشورها",J:"فیلم",K:"کشورشناسی"};
+ E:"آقای و خانم …",F:"عددها",G:"هجی کردن",H:"در کافه",I:"نام‌ها و کشورها",J:"فیلم",K:"کشورشناسی",
+ Grammatik:"قواعد درس ۱",Kommunikation:"گفت‌وگوهای روزمره",Lernziele:"این درس چه یاد می‌گیری",Audiotraining:"تقویت شنیداری",
+ Zwischen:"آهنگ و بازی",AB:"کتاب کار · درس ۱"};
+/* the JSON carries no group field — derive the Schritt from the section id */
+function groupOf(s){
+ const id=s.id||"";
+ if(id.indexOf("L1-Folge")===0)return "Folge 1";
+ if(id.indexOf("L1-Zwischen-Film")===0)return "J";
+ if(id.indexOf("L1-Zwischen-Landeskunde")===0)return "K";
+ if(id.indexOf("L1-Zwischen")===0)return "Zwischen";
+ if(id.indexOf("L1-AB")===0)return "AB";
+ if(id.indexOf("L1-AT")===0)return "Audiotraining";
+ if(id==="L1-Grammatik")return "Grammatik";
+ if(id==="L1-Kommunikation-19")return "Kommunikation";
+ if(id==="L1-Lernziele")return "Lernziele";
+ const m=id.match(/^L1-([A-Z])-/);
+ if(m)return m[1];
+ return "?";
+}
 function secSub(s){
  const m=s.id.match(/^L1-Folge-Bild(\d+)$/);
  if(m)return "تصویر "+faNum(m[1]);
@@ -713,7 +733,7 @@ function itemsHTML(s){
 function secHTML(s,idx,prevImg){
  const done=!!doneSet()[s.id];
  const sub=secSub(s);
- const label=s.exercise+(sub?" · "+sub:"");
+ const label=sub||s.exercise;
  const pv=strip(s.text).slice(0,70)+(strip(s.text).length>70?"…":"");
  const img=s.image&&s.image!==prevImg?`<div class="sec-img"><img src="schritte-images/${s.image}" alt="صفحه‌ی کتاب" loading="lazy" onerror="this.closest('.sec-img').remove()"></div>`:"";
  const audio=s.audio?`<div class="au"><audio controls preload="metadata" src="schritte-audio/${s.audio}"></audio><div class="au-note" hidden>فایل صوتی هنوز در گیت‌هاب بارگذاری نشده — بعد از پوش، همین‌جا پخش می‌شود</div></div>`:"";
@@ -723,9 +743,9 @@ function secHTML(s,idx,prevImg){
   <div class="sec-top" style="display:flex;align-items:center;gap:8px;padding:0 8px 0 0">
    <button type="button" class="sec-h" data-sec="${s.id}" aria-expanded="false">
     <span class="num">${faNum(idx+1)}</span>
-    <span class="tt"><b>${esc(label)}</b><span class="pv">${esc(pv)}</span></span>
+    <span class="tt"><b dir="ltr">${esc(label)}</b><span class="pv" dir="ltr">${esc(pv)}</span></span>
     <span class="bdg k">${KIND[s.kind]||s.kind}</span>
-    <span class="bdg">${s.source==="Arbeitsbuch"?"کتاب کار":"کتاب درسی"} · ص ${faNum(s.page)}</span>
+    <span class="bdg">ص ${faNum(s.page)}</span>
     <span class="chev">▾</span>
    </button>
    <button type="button" class="done-btn" data-done="${s.id}" aria-label="انجام شد">${done?"✓":"○"}</button>
@@ -745,13 +765,13 @@ function render(){
   if(!bookSecs.length)continue;
   const groups=[];let prevImg=null;
   for(const {s,i} of bookSecs){
-   const g=s.group||"?";
+   const g=groupOf(s);
    if(!groups.length||groups[groups.length-1].g!==g)groups.push({g,items:[]});
    groups[groups.length-1].items.push({s,i});
   }
   html+=`<section class="book"><h2>${htitle}</h2><div class="bsub">${hsub}</div>`;
   for(const gr of groups){
-   html+=`<div class="grp"><h3>${esc(GTITLE[gr.g]||gr.g)}</h3>${GSUB[gr.g]?`<div class="gsub">${esc(GSUB[gr.g])}</div>`:""}`;
+   html+=`<div class="grp">${groups.length>1?`<h3>${esc(GTITLE[gr.g]||gr.g)}</h3>${GSUB[gr.g]?`<div class="gsub">${esc(GSUB[gr.g])}</div>`:""}`:""}`;
    for(const {s,i} of gr.items){html+=secHTML(s,i,prevImg);prevImg=s.image||prevImg}
    html+="</div>";
   }
