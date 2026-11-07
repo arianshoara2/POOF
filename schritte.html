@@ -143,6 +143,9 @@ html:not([data-theme=snowy]) .hd h1,html:not([data-theme=snowy]) .hd .mark{displ
 .au{margin:10px 0}
 .au audio{width:100%;height:40px}
 .au-note{font-size:13px;color:var(--muted);margin-top:6px}
+.au-skip{display:flex;gap:8px;justify-content:center;margin-top:8px}
+.au-skip button{background:transparent;border:1px solid var(--border);border-radius:999px;padding:6px 14px;font:600 13px var(--sans);color:var(--text);cursor:pointer}
+.au-skip button:active{transform:scale(.94)}
 details.tr,details.an{margin-top:10px;border:1px dashed var(--border);border-radius:var(--r-sm);padding:8px 12px}
 details.tr summary,details.an summary{cursor:pointer;font-weight:600;font-size:14px}
 details.tr .de{margin-top:8px}
@@ -1047,7 +1050,7 @@ function secHTML(s,idx,prevImg){
  const label=sub||s.exercise;
  const pv=strip(plainText(s.text)).slice(0,70)+(strip(plainText(s.text)).length>70?"…":"");
  const img=s.image&&s.image!==prevImg?`<div class="sec-img"><img src="schritte-images/${s.image}" alt="صفحه‌ی کتاب" loading="lazy" onerror="this.closest('.sec-img').remove()"></div>`:"";
- const audio=s.audio?`<div class="au"><audio controls preload="metadata" src="schritte-audio/${s.audio}"></audio><div class="au-note" hidden>فایل صوتی هنوز در گیت‌هاب بارگذاری نشده — بعد از پوش، همین‌جا پخش می‌شود</div></div>`:"";
+ const audio=s.audio?`<div class="au"><audio controls preload="metadata" src="schritte-audio/${s.audio}"></audio><div class="au-skip"><button type="button" data-skip="-10" aria-label="۱۰ ثانیه عقب">⏪ ۱۰ ثانیه</button><button type="button" data-skip="10" aria-label="۱۰ ثانیه جلو">۱۰ ثانیه ⏩</button></div><div class="au-note" hidden>فایل صوتی هنوز در گیت‌هاب بارگذاری نشده — بعد از پوش، همین‌جا پخش می‌شود</div></div>`:"";
  const tr=s.transcript?`<details class="tr"><summary>متن صوت ◂</summary>${richText(s.transcript)}</details>`:"";
  const ans=s.answers&&s.answers.length?`<details class="an"><summary>جواب‌ها ◂</summary>${s.answers.map(a=>`<div class="ans-line de" dir="ltr">${richInline(a)}</div>`).join("")}</details>`:"";
  return `<article class="sec${done?" done":""}" id="sec-${s.id}" data-id="${s.id}">
@@ -1100,11 +1103,17 @@ function render(){
   /* note: networkState is 3 right after insertion even for valid files (preload=none),
      so ONLY the error event may reveal the note — with preload=metadata the
      browser fetches headers, so a missing file fires error and the note appears */
-  $$(".au audio").forEach(a=>{a.addEventListener("error",()=>{a.hidden=true;const n=a.parentElement.querySelector(".au-note");if(n)n.hidden=false},{once:true})});
+  $$(".au audio").forEach(a=>{a.addEventListener("error",()=>{a.hidden=true;const sk=a.parentElement.querySelector(".au-skip");if(sk)sk.hidden=true;const n=a.parentElement.querySelector(".au-note");if(n)n.hidden=false},{once:true})});
 }
 
 /* ---------- delegated clicks ---------- */
 $("#app").addEventListener("click",e=>{
+ const sk=e.target.closest("[data-skip]");
+ if(sk){
+  const a=sk.closest(".au")&&sk.closest(".au").querySelector("audio");
+  if(a){try{a.currentTime=Math.max(0,(a.currentTime||0)+(+sk.dataset.skip))}catch(_){}}
+  return;
+ }
  const nav=e.target.closest("[data-nav]");
  if(nav&&!nav.disabled){goChapter(+nav.dataset.nav);return}
  const lzb=e.target.closest("[data-lz] button");
