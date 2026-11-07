@@ -183,13 +183,85 @@ details.tr .de{margin-top:8px}
 .dt-word{font:600 24px var(--serif);color:var(--accent)}
 .dt-sec{margin:12px 0}
 .dt-sec h4{margin:0 0 5px;font-size:13px;color:var(--muted);font-weight:600}
+/* ---------- Schritte v3: chapter path (book feel + Duolingo wayfinding) ---------- */
+#progRail{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%);border-bottom:1px solid var(--border);padding:10px 16px 8px;margin:0}
+#progRail .bar{height:8px}
+#progRail .row{margin-top:6px}
+.mapbtn{border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:999px;padding:5px 12px;font:600 12.5px var(--sans);cursor:pointer}
+.mapbtn:active{transform:scale(.96)}
+.chbar{height:6px;border-radius:99px;background:var(--border);overflow:hidden;margin-top:8px}
+.chbar i{display:block;height:100%;background:var(--ok);border-radius:99px;transition:width .3s}
+.ch-view{animation:chIn .28s ease-out}
+.ch-view.rev{animation-name:chInR}
+@keyframes chIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes chInR{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.ch-view,.ch-view.rev{animation:none}.bar i,.chbar i{transition:none}}
+.ch-hero{margin:16px 0 4px;border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--border)}
+.ch-hero .band{padding:16px 18px 14px;background:color-mix(in srgb,#7fb8dd 26%,var(--surface));border-bottom:3px solid #7fb8dd}
+.ch-hero.ab .band{background:color-mix(in srgb,#9ecfeb 20%,var(--surface));border-bottom:3px solid #9ecfeb}
+.ch-hero .ltr{font:600 26px/1.2 var(--serif);letter-spacing:-.01em;text-align:left;direction:ltr}
+.ch-hero .ltr .big{font-size:34px;color:#7fb8dd;margin-inline-end:10px}
+.ch-hero.ab .ltr .big{color:#9ecfeb}
+.ch-hero .fa-sub{margin-top:6px;font-size:14.5px}
+.ch-hero .meta{display:flex;gap:8px;align-items:center;padding:9px 18px;background:var(--surface);font-size:13px;color:var(--muted)}
+.ch-hero .meta .sp{flex:1}
+.ch-prog{padding:10px 18px;background:var(--surface);border-top:1px solid var(--border)}
+.ch-prog .bar{height:8px}
+.ch-prog .lbl{font-size:12.5px;color:var(--muted);margin-top:5px}
+.ch-dots{display:flex;gap:6px;margin-top:8px}
+.ch-dots i{width:9px;height:9px;border-radius:50%;background:var(--border)}
+.ch-dots i.ok{background:var(--ok)}
+.ch-dots i.cur{background:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 25%,transparent)}
+.ch-foot{display:flex;gap:10px;margin:18px 0 8px}
+.ch-foot .btn{flex:1}
+.ch-foot .btn.done-next{background:var(--ok);border-color:var(--ok)}
+.ch-done-note{text-align:center;color:var(--ok);font-weight:700;margin:6px 0 0}
+.ch-sec-count{color:var(--muted);font-size:13px;margin:14px 2px 0}
+/* chapter map sheet */
+#chmap{position:fixed;inset:0;z-index:280;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.55)}
+#chmap[hidden]{display:none}
+#chmap .sc{max-height:86dvh}
+.chm-row{display:flex;align-items:center;gap:12px;width:100%;text-align:start;background:transparent;border:1px solid var(--border);border-radius:var(--r-md);color:var(--text);padding:12px 14px;margin-top:8px;cursor:pointer}
+.chm-row:active{transform:scale(.98)}
+.chm-row.cur{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,transparent)}
+.chm-row .n{width:34px;height:34px;border-radius:50%;background:var(--surface);border:1px solid var(--border);display:grid;place-items:center;font:700 14px var(--serif);color:var(--accent);flex:none}
+.chm-row.done .n{background:var(--ok);color:var(--bg);border-color:var(--ok)}
+.chm-row .t{flex:1;min-width:0}
+.chm-row .t b{display:block;font-size:15px}
+.chm-row .t span{font-size:12.5px;color:var(--muted)}
+/* book-faithful special blocks */
+.gram-tab{width:100%;border-collapse:collapse;margin:10px 0;font-size:15px;direction:ltr;text-align:left}
+.gram-tab th,.gram-tab td{border:1px solid var(--border);padding:7px 10px}
+.gram-tab th{background:color-mix(in srgb,var(--accent) 12%,transparent);font-weight:700}
+.gram-tab td:first-child{color:var(--muted)}
+.pk{color:#ff7eb6;font-weight:700}
+html[data-theme=lilac] .pk,html[data-theme=peachy] .pk,html[data-theme=minty] .pk,html[data-theme=sun] .pk{color:#d6336c}
+.merke{border:1.5px solid #ff7eb6;border-radius:var(--r-sm);padding:10px 14px;margin:12px 0;background:color-mix(in srgb,#ff7eb6 7%,transparent)}
+.merke b{color:#ff7eb6}
+.komm-h{font:700 13px var(--sans);letter-spacing:.08em;color:#7fb8dd;margin:14px 0 4px}
+.komm-q{display:flex;gap:10px;padding:6px 0;border-bottom:1px solid var(--border);font-size:15px}
+.komm-q:last-child{border:0}
+.komm-q .q{flex:1}
+.komm-q .a{flex:1;color:var(--muted)}
+.lz-row{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
+.lz-row:last-child{border:0}
+.lz-row .lt{font:700 15px var(--serif);color:var(--accent);flex:none;width:22px;text-align:center}
+.lz-row .tx{flex:1;min-width:0;font-size:14.5px}
+.lz-sm{display:flex;gap:4px;flex:none}
+.lz-sm button{width:34px;height:34px;border-radius:50%;border:1px solid var(--border);background:transparent;font-size:17px;cursor:pointer;line-height:1}
+.lz-sm button.on{background:var(--ok);border-color:var(--ok)}
+.abc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.abc-cell{border:1px solid var(--border);border-radius:var(--r-sm);padding:8px 6px;text-align:center}
+.abc-cell b{display:block;font:700 19px var(--serif);color:#7fb8dd}
+.abc-cell span{font-size:13px}
+.sec-img.ab{border-style:dashed}
 
 </style></head>
 <body>
 <header><div class="hd"><img id="brandMascot" class="poof-mascot brand-mascot" alt="" style="width:52px;height:52px;margin:0"><div style="flex:1;min-width:0"><h1>POOF</h1><div class="sub">Schritte A1.1</div></div>
  <button class="btn ghost" id="backApp" aria-label="بازگشت"><svg class="ic" viewBox="0 0 24 24"><path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></svg></button></div></header>
 <nav class="sch-nav" id="lessonNav" aria-label="درس‌ها"></nav>
-<div class="prog"><div class="bar"><i id="progFill" style="width:0%"></i></div><div class="lbl" id="progLbl"></div></div>
+<div class="prog" id="progRail"><div class="bar"><i id="progFill" style="width:0%"></i></div><div class="row"><span class="lbl" id="progLbl" style="flex:1"></span><button class="mapbtn" id="mapBtn" type="button">🗺 نقشه‌ی درس</button></div><div class="chbar"><i id="chFill" style="width:0%"></i></div><div class="lbl" id="chLbl"></div></div>
 <div class="hint">روی هر تمرین بزن تا باز شود · روی هر کلمه بزن تا معنی‌اش بیاید · کلمه را نگه دار و بکش تا چند کلمه انتخاب شود</div>
 <main id="app"><div class="spin" aria-label="در حال بارگذاری"></div></main>
 
@@ -212,6 +284,10 @@ details.tr .de{margin-top:8px}
  <label for="cC">جمله‌ی نمونه</label><input id="cC" dir="ltr" autocomplete="off">
  <label for="cD">دسته</label><select id="cD"></select>
  <button class="btn full" id="cS">ذخیره</button>
+</div></div>
+<div id="chmap" hidden role="dialog" aria-label="نقشه‌ی درس"><div class="sc">
+ <div class="row" style="align-items:center"><b style="flex:1">🗺 نقشه‌ی درس ۱</b><button class="x" id="chmapX" aria-label="بستن">×</button></div>
+ <div id="chmapBody"></div>
 </div></div>
 <div id="toast" role="status"></div>
 
@@ -705,12 +781,210 @@ function secSub(s){
  return "";
 }
 
+/* ---------- v3: chapter path (one chapter per page, book order) ---------- */
+const CH_ORDER=["Folge 1","A","B","C","D","E","Grammatik","Kommunikation","Lernziele","Audiotraining","Zwischendurch","Test"];
+const CH_DE={"Folge 1":"Folge 1 · Das bin ich",A:"A · Guten Tag!",B:"B · Ich bin …",C:"C · Das bin ich",
+ D:"D · Länder und Sprachen",E:"E · Das ist …",
+ Grammatik:"Grammatik und Kommunikation",Kommunikation:"Kommunikation",Lernziele:"Lernziele",
+ Audiotraining:"Audiotraining",Zwischendurch:"Zwischendurch mal …",Test:"Test Lektion 1"};
+const CH_FA={"Folge 1":"صحنه‌ها و دیالوگ‌ها",A:"معرفی و سلام‌وعلیک",B:"معرفی خود",C:"تکمیل گفت‌وگو",
+ D:"کشورها و زبان‌ها",E:"آقای و خانم …",
+ Grammatik:"قواعد درس ۱",Kommunikation:"گفت‌وگوهای روزمره",Lernziele:"این درس چه یاد می‌گیری",
+ Audiotraining:"تقویت شنیداری",Zwischendurch:"آهنگ و بازی",Test:"آزمون درس ۱"};
+const CH_BIG={"Folge 1":"1",Grammatik:"§",Kommunikation:"K",Lernziele:"L",Audiotraining:"♪",Zwischendurch:"✦",Test:"T"};
+const TEST_PTS={"L1-AB-Test1":5,"L1-AB-Test2":7,"L1-AB-Test3":3,"L1-AB-Test4":9,"L1-AB-Test5":5};
+let CHAPS=[],chIdx=0,chDir=1;
+function buildChapters(){
+ CHAPS=[];
+ for(const key of CH_ORDER){
+  const kb=LESSON.sections.map((s,i)=>({s,i})).filter(x=>x.s.schritt===key&&x.s.source==="Kursbuch");
+  const ab=LESSON.sections.map((s,i)=>({s,i})).filter(x=>x.s.schritt===key&&x.s.source==="Arbeitsbuch");
+  if(/^[A-E]$/.test(key)){
+   if(kb.length)CHAPS.push({id:key+"-kb",key,book:"kb",items:kb});
+   if(ab.length)CHAPS.push({id:key+"-ab",key,book:"ab",items:ab});
+  }else{
+   const all=[...kb,...ab];
+   if(all.length)CHAPS.push({id:key,key,book:all[0].s.source==="Arbeitsbuch"?"ab":"kb",items:all});
+  }
+ }
+}
+function chTitle(c){
+ if(c.book==="ab"&&/^[A-E]$/.test(c.key)){
+  const exs=c.items.map(x=>parseInt(x.s.exercise,10)).filter(n=>!isNaN(n));
+  const range=exs.length?` · تمرین‌های ${faNum(Math.min(...exs))} تا ${faNum(Math.max(...exs))}`:"";
+  return {de:CH_DE[c.key],fa:"کتاب کار"+range};
+ }
+ return {de:CH_DE[c.key],fa:(c.book==="ab"?"کتاب کار · ":"کتاب درسی · ")+CH_FA[c.key]};
+}
+function chDoneCount(c){const d=doneSet();return c.items.filter(x=>d[x.s.id]).length}
+function chIsDone(c){return c.items.length>0&&chDoneCount(c)===c.items.length}
+function goChapter(d){
+ const ni=chIdx+d;
+ if(ni<0||ni>=CHAPS.length)return;
+ chDir=d;chIdx=ni;
+ commit(dd=>{const o=dd.schritte.L1||(dd.schritte.L1={});o.chapter=chIdx});
+ render();
+ const rm=matchMedia("(prefers-reduced-motion: reduce)").matches;
+ window.scrollTo({top:0,behavior:rm?"auto":"smooth"});
+}
+function renderMap(){
+ const B=$("#chmapBody");if(!B)return;
+ B.innerHTML=CHAPS.map((c,i)=>{
+  const t=chTitle(c),dn=chDoneCount(c),done=dn===c.items.length;
+  return `<button type="button" class="chm-row${i===chIdx?" cur":""}${done?" done":""}" data-ch="${i}">
+   <span class="n">${done?"✓":faNum(i+1)}</span>
+   <span class="t"><b dir="ltr" style="text-align:left;display:block">${esc(t.de)}</b><span>${esc(t.fa)}</span></span>
+   <span class="mute" style="font-size:12.5px">${faNum(dn)}/${faNum(c.items.length)}</span></button>`;
+ }).join("");
+}
+$("#mapBtn").onclick=()=>{renderMap();$("#chmap").hidden=false};
+$("#chmapX").onclick=()=>{$("#chmap").hidden=true};
+$("#chmap").addEventListener("click",e=>{if(e.target.id==="chmap")$("#chmap").hidden=true});
+$("#chmapBody").addEventListener("click",e=>{
+ const r=e.target.closest("[data-ch]");if(!r)return;
+ const ni=+r.dataset.ch;
+ $("#chmap").hidden=true;
+ if(ni===chIdx)return;
+ chDir=ni>chIdx?1:-1;chIdx=ni;
+ commit(dd=>{const o=dd.schritte.L1||(dd.schritte.L1={});o.chapter=chIdx});
+ render();window.scrollTo({top:0});
+});
+
+/* ---------- book-faithful special bodies ---------- */
+function splitSent(t){return String(t||"").split(/(?<=[.!?…])\s+/).map(x=>x.trim()).filter(Boolean)}
+function pinkEnd(form,end){
+ if(!form.endsWith(end))return esc(form);
+ return esc(form.slice(0,form.length-end.length))+'<b class="pk">'+esc(end)+"</b>";
+}
+function conjCell(form,who){
+ if(who==="ich")return form==="bin"?esc(form):pinkEnd(form,"e");
+ if(who==="du")return form.endsWith("st")?pinkEnd(form,"st"):pinkEnd(form,"t");
+ return form==="sind"?esc(form):pinkEnd(form,"en");
+}
+function grammarBody(s){
+ try{
+  const t=s.text||"";
+  const i1=t.indexOf("1 Aussage"),i2=t.indexOf("2 W-Frage"),i3=t.indexOf("3 Verb:"),im=t.indexOf("Merke:"),ik=t.indexOf("Kommunikation.");
+  if(i1<0||i2<0||i3<0||im<0||ik<0)return null;
+  const sentBlock=txt=>splitSent(txt).map(x=>`<div class="de" style="font-size:15.5px">${tapWords(x)}</div>`).join("");
+  /* book p.18: Aussage/W-Frage as Position-2 tables — the verb (2nd position) in pink */
+  const VERBS2=new Set(["ist","bin","bist","sind","komme","kommst","kommt","kommen","heiße","heißt","heißen","spreche","sprichst","spricht","sprechen"]);
+  const pos2Table=txt=>{
+   const rows=splitSent(txt).map(sent=>{
+    const tok=sent.split(/\s+/);
+    let vi=tok.findIndex((w,i)=>i>0&&VERBS2.has(w.replace(/[^A-Za-zÀ-ÿß]+$/,"").toLowerCase()));
+    if(vi<1)return `<tr><td colspan="3"><span class="de" style="font-size:15px">${tapWords(sent)}</span></td></tr>`;
+    const subj=tok.slice(0,vi).join(" "),verb=tok[vi],rest=tok.slice(vi+1).join(" ");
+    return `<tr><td><span class="de" style="font-size:15px">${tapWords(subj)}</span></td><td><span class="de pk" style="font-size:15px">${tapWords(verb)}</span></td><td><span class="de" style="font-size:15px">${tapWords(rest)}</span></td></tr>`;
+   }).join("");
+   return `<table class="gram-tab"><tr><th></th><th>Position 2</th><th></th></tr>${rows}</table>`;
+  };
+  const aussage=t.slice(i1+9,i2).trim();
+  const wfrage=t.slice(i2+9,i3).trim();
+  const komm=t.slice(ik+14);
+  const blocks=[];
+  for(const h of ["BEGRÜSSUNG:","ABSCHIED:","NAME:"]){
+   const a=komm.indexOf(h);if(a<0)continue;
+   let b=komm.length;
+   for(const h2 of ["BEGRÜSSUNG:","ABSCHIED:","NAME:"]){const j=komm.indexOf(h2,a+1);if(j>=0&&j<b)b=j}
+   blocks.push({h:h.replace(":",""),txt:komm.slice(a+h.length,b).trim()});
+  }
+  const CONJ=[["ich","komme","heiße","spreche","bin"],["du","kommst","heißt","sprichst","bist"],["Sie","kommen","heißen","sprechen","sind"]];
+  const VERBS=["kommen","heißen","sprechen","sein"];
+  let h=`<div class="komm-h">۱ · Aussage</div>${pos2Table(aussage)}`;
+  h+=`<div class="komm-h">۲ · W-Frage</div>${pos2Table(wfrage)}`;
+  h+=`<div class="komm-h">۳ · Verb: Konjugation</div><table class="gram-tab"><tr><th></th>${VERBS.map(v=>`<th>${esc(v)}</th>`).join("")}</tr>`;
+  for(const r of CONJ){h+=`<tr><td>${r[0]}</td>${r.slice(1).map(f=>`<td>${conjCell(f,r[0])}</td>`).join("")}</tr>`}
+  h+=`</table><div class="merke"><b>Merke:</b> ich <span class="pk">-e</span>, du <span class="pk">-st</span>, Sie <span class="pk">-en</span> · du heißt, du sprichst</div>`;
+  for(const b of blocks){h+=`<div class="komm-h">${esc(b.h)}</div>${sentBlock(b.txt)}`}
+  h+=`<div class="merke"><b>Merke:</b> <span dir="ltr">Ich heiße <s>Frau Baumann</s></span> — <span dir="ltr">Mein Name ist Frau Baumann</span></div>`;
+  return h;
+ }catch(e){return null}
+}
+function kommBody(s){
+ try{
+  const t=s.text||"";
+  const heads=["HERKUNFT:","SPRACHE:","ENTSCHULDIGUNG:","BITTEN UND DANKEN:","STRATEGIEN:"];
+  let found=0,out="";
+  for(let k=0;k<heads.length;k++){
+   const a=t.indexOf(heads[k]);if(a<0)continue;found++;
+   let b=t.length;
+   for(let j=k+1;j<heads.length;j++){const jj=t.indexOf(heads[j],a+1);if(jj>=0&&jj<b)b=jj}
+   const txt=t.slice(a+heads[k].length,b).trim();
+   out+=`<div class="komm-h">${esc(heads[k].replace(":",""))}</div>`+splitSent(txt).map(x=>`<div class="de" style="font-size:15.5px">${tapWords(x)}</div>`).join("");
+  }
+  return found>=3?out:null;
+ }catch(e){return null}
+}
+function lernzieleBody(s){
+ try{
+  const t=s.text||"";
+  const a=t.indexOf("Ich kann jetzt");
+  if(a<0)return null;
+  let rest=t.slice(a);
+  const tailI=rest.indexOf("Ich kenne jetzt");
+  let tail="";
+  if(tailI>=0){tail=rest.slice(tailI);rest=rest.slice(0,tailI)}
+  const parts=rest.split(/\s([A-E])\s/);
+  const items=[];
+  for(let i=1;i<parts.length;i+=2){if(parts[i]&&parts[i+1])items.push({L:parts[i],tx:parts[i+1].trim()})}
+  if(items.length<3)return null;
+  const saved=(db.schritte&&db.schritte.L1&&db.schritte.L1.lernziele)||{};
+  let h=`<div class="komm-h">Ich kann jetzt …</div>`;
+  for(const it of items){
+   const v=saved[it.L]||0;
+   h+=`<div class="lz-row"><span class="lt">${it.L}</span><div class="tx"><div class="de" style="font-size:15px">${tapWords(it.tx)}</div></div>
+    <div class="lz-sm" data-lz="${it.L}">
+     <button type="button" data-v="3" class="${v===3?"on":""}" aria-label="خوب بلدم">☺</button>
+     <button type="button" data-v="2" class="${v===2?"on":""}" aria-label="نسبتاً">😐</button>
+     <button type="button" data-v="1" class="${v===1?"on":""}" aria-label="هنوز سخت است">☹</button>
+    </div></div>`;
+  }
+  if(tail)h+=`<div class="komm-h">Ich kenne jetzt …</div><div class="de" style="font-size:15px">${tapWords(tail.replace("Ich kenne jetzt …","").trim())}</div>`;
+  return h;
+ }catch(e){return null}
+}
+function liedBody(s){
+ try{
+  const t=s.text||"";
+  const a=t.indexOf("sprechen Sie mit.");
+  if(a<0)return null;
+  const words=t.slice(a+("sprechen Sie mit.".length)).split(",").map(x=>x.trim().replace(/\.+$/,"")).filter(Boolean);
+  if(words.length<20)return null;
+  const abc="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  let h=`<div class="komm-h">Das Alphabet · آهنگ الفبا</div><div class="abc-grid">`;
+  words.forEach((w,i)=>{h+=`<div class="abc-cell"><b>${abc[i]||""}</b><span class="de" style="font-size:14px">${tapWords(w)}</span></div>`});
+  return h+"</div>";
+ }catch(e){return null}
+}
+function specialBody(s){
+ if(s.id==="L1-Grammatik"){const g=grammarBody(s);if(g)return g}
+ if(s.id==="L1-Kommunikation-19"){const g=kommBody(s);if(g)return g}
+ if(s.id==="L1-Lernziele"){const g=lernzieleBody(s);if(g)return g}
+ if(s.id==="L1-Zwischen-Lied"){const g=liedBody(s);if(g)return g}
+ return `<div class="de">${tapWords(s.text)}</div>`;
+}
+
 /* ---------- progress ---------- */
 function doneSet(){return (db.schritte&&db.schritte.L1&&db.schritte.L1.done)||{}}
-function toggleDone(id){commit(d=>{const o=d.schritte.L1||(d.schritte.L1={});o.done=o.done||{};o.done[id]=!o.done[id]});render()}
+function toggleDone(id){
+ const was=CHAPS[chIdx]?chDoneCount(CHAPS[chIdx]):0;
+ commit(d=>{const o=d.schritte.L1||(d.schritte.L1={});o.done=o.done||{};o.done[id]=!o.done[id]});
+ render();
+ const c=CHAPS[chIdx];
+ if(c&&chIsDone(c)&&was<c.items.length){
+  if(navigator.vibrate)try{navigator.vibrate([12,40,12])}catch(e){}
+  toast("آفرین! این فصل کامل شد 🎉");
+ }
+}
 function updateProg(total){const d=doneSet(),n=Object.values(d).filter(Boolean).length;
  $("#progFill").style.width=(total?Math.round(n/total*100):0)+"%";
- $("#progLbl").textContent=`${faNum(n)} از ${faNum(total)} تمرین · درس ۱`}
+ $("#progLbl").textContent=`${faNum(n)} از ${faNum(total)} تمرین · درس ۱`;
+ const c=CHAPS[chIdx];
+ if(c){const dn=chDoneCount(c);
+  const cf=$("#chFill");if(cf)cf.style.width=(c.items.length?Math.round(dn/c.items.length*100):0)+"%";
+  const cl=$("#chLbl");if(cl)cl.textContent=`فصل ${faNum(chIdx+1)} از ${faNum(CHAPS.length)} · ${faNum(dn)} از ${faNum(c.items.length)} تمرین این فصل`;}
+}
 
 /* ---------- render: two books, accordion sections ---------- */
 function itemsHTML(s){
@@ -745,38 +1019,46 @@ function secHTML(s,idx,prevImg){
     <span class="num">${faNum(idx+1)}</span>
     <span class="tt"><b dir="ltr">${esc(label)}</b><span class="pv" dir="ltr">${esc(pv)}</span></span>
     <span class="bdg k">${KIND[s.kind]||s.kind}</span>
+    ${TEST_PTS[s.id]?`<span class="bdg">از ${faNum(TEST_PTS[s.id])} نمره</span>`:""}
     <span class="bdg">ص ${faNum(s.page)}</span>
     <span class="chev">▾</span>
    </button>
    <button type="button" class="done-btn" data-done="${s.id}" aria-label="انجام شد">${done?"✓":"○"}</button>
   </div>
-  <div class="sec-b" hidden>${img}<div class="de">${tapWords(s.text)}</div>${audio}${tr}${itemsHTML(s)}${ans}</div>
+  <div class="sec-b" hidden>${img}${specialBody(s)}${audio}${tr}${itemsHTML(s)}${ans}</div>
  </article>`;
 }
 function render(){
  const app=$("#app");
  const secs=LESSON.sections;
+ buildChapters();
+ if(chIdx>=CHAPS.length)chIdx=0;
  updateProg(secs.length);
- const books=[["Kursbuch","📘 کتاب درسی","Kursbuch · کتاب درسی"],["Arbeitsbuch","📗 کتاب کار","Arbeitsbuch · کتاب کار"]];
- let html=`<h1 style="font:600 24px/1.3 var(--serif);color:var(--accent);margin:18px 0 2px;padding:0 16px">Folge 1 · Das bin ich</h1>
- <p style="color:var(--muted);font-size:13.5px;margin:0 0 4px;padding:0 16px">کتاب درسی · صفحه‌های ۱۰ و ۱۱</p>`;
- for(const [src,htitle,hsub] of books){
-  const bookSecs=secs.map((s,i)=>({s,i})).filter(x=>x.s.source===src);
-  if(!bookSecs.length)continue;
-  const groups=[];let prevImg=null;
-  for(const {s,i} of bookSecs){
-   const g=groupOf(s);
-   if(!groups.length||groups[groups.length-1].g!==g)groups.push({g,items:[]});
-   groups[groups.length-1].items.push({s,i});
-  }
-  html+=`<section class="book"><h2>${htitle}</h2><div class="bsub">${hsub}</div>`;
-  for(const gr of groups){
-   html+=`<div class="grp">${groups.length>1?`<h3>${esc(GTITLE[gr.g]||gr.g)}</h3>${GSUB[gr.g]?`<div class="gsub">${esc(GSUB[gr.g])}</div>`:""}`:""}`;
-   for(const {s,i} of gr.items){html+=secHTML(s,i,prevImg);prevImg=s.image||prevImg}
-   html+="</div>";
-  }
-  html+="</section>";
- }
+ const c=CHAPS[chIdx];
+ const t=chTitle(c);
+ const doneN=chDoneCount(c), total=c.items.length;
+ const big=CH_BIG[c.key]||c.key;
+ const hero=`<div class="ch-view${chDir<0?" rev":""}">
+  <div class="ch-hero${c.book==="ab"?" ab":""}">
+   <div class="band"><div class="ltr"><span class="big">${esc(big)}</span>${esc(t.de)}</div>
+   <div class="fa-sub">${esc(t.fa)}</div></div>
+   <div class="meta"><span>فصل ${faNum(chIdx+1)} از ${faNum(CHAPS.length)}</span><span class="sp"></span><span>${c.book==="ab"?"📗 کتاب کار":"📘 کتاب درسی"}</span><span>ص ${faNum(c.items[0].s.page)}–${faNum(c.items[c.items.length-1].s.page)}</span></div>
+   <div class="ch-prog"><div class="bar"><i style="width:${total?Math.round(doneN/total*100):0}%"></i></div>
+   <div class="lbl">${doneN===total?"✓ این فصل کامل شد":`${faNum(doneN)} از ${faNum(total)} تمرین · ${faNum(total-doneN)} تمرین مانده تا پایان این فصل`}</div>
+   <div class="ch-dots">${c.items.map(x=>`<i class="${doneSet()[x.s.id]?"ok":""}"></i>`).join("")}</div></div>
+  </div>
+  <p class="ch-sec-count">${faNum(total)} تمرین در این فصل</p>`;
+ let html=hero;
+ let prevImg=null;
+ for(const {s,i} of c.items){html+=secHTML(s,i,prevImg);prevImg=s.image||prevImg}
+ const prev=chIdx>0, next=chIdx<CHAPS.length-1;
+ const allDone=doneN===total;
+ html+=`<div class="ch-foot">
+   <button type="button" class="btn ghost" data-nav="-1" ${prev?"":"disabled"}>→ فصل قبل</button>
+   <button type="button" class="btn${allDone?" done-next":""}" data-nav="1" ${next?"":"disabled"}>${next?(allDone?"✓ فصل بعد":"فصل بعد ←"):"پایان درس ۱ ✓"}</button>
+  </div>
+  ${allDone?`<p class="ch-done-note">آفرین! این فصل کامل شد 🎉</p>`:""}`;
+ html+="</div>";
  app.innerHTML=html;
   /* note: networkState is 3 right after insertion even for valid files (preload=none),
      so ONLY the error event may reveal the note — with preload=metadata the
@@ -786,6 +1068,16 @@ function render(){
 
 /* ---------- delegated clicks ---------- */
 $("#app").addEventListener("click",e=>{
+ const nav=e.target.closest("[data-nav]");
+ if(nav&&!nav.disabled){goChapter(+nav.dataset.nav);return}
+ const lzb=e.target.closest("[data-lz] button");
+ if(lzb){
+  const grp=lzb.closest("[data-lz]"),L=grp.dataset.lz,v=+lzb.dataset.v;
+  commit(d=>{const o=d.schritte.L1||(d.schritte.L1={});o.lernziele=o.lernziele||{};o.lernziele[L]=v});
+  grp.querySelectorAll("button").forEach(b=>b.classList.toggle("on",b===lzb));
+  if(navigator.vibrate)try{navigator.vibrate(8)}catch(_){}
+  return;
+ }
  const dbtn=e.target.closest("[data-done]");
  if(dbtn){e.stopPropagation();toggleDone(dbtn.dataset.done);return}
  const h=e.target.closest(".sec-h");
@@ -852,6 +1144,9 @@ async function init(){
  try{
   const r=await fetch("schritte-lektion-1.json");if(!r.ok)throw new Error("HTTP "+r.status);
   LESSON=await r.json();
+  buildChapters();
+  const saved=(db.schritte&&db.schritte.L1&&db.schritte.L1.chapter)||0;
+  chIdx=Math.max(0,Math.min(saved,CHAPS.length-1));
   render();
  }catch(e){$("#app").innerHTML=`<p style="padding:24px;color:var(--muted)">فایل درس بارگذاری نشد: ${esc(e.message||"خطا")}</p>`}
 }
