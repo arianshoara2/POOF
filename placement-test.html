@@ -96,7 +96,8 @@ html[data-theme="classic"] .poof-head::after,html:not([data-theme]) .poof-head::
 .opt{background:var(--glass-soft)}
 input[type=text],textarea{background:var(--glass-soft)}
 
-.poof-scenic{position:fixed;inset:0;z-index:0;pointer-events:none;background-size:cover;background-repeat:no-repeat;background-position:center}
+/* ?v=232: scenic truly fixed on mobile — stable 100lvh height (no resize when the URL bar hides) + own compositor layer */
+.poof-scenic{position:fixed;top:0;left:0;right:0;height:100vh;height:100lvh;z-index:0;pointer-events:none;background-size:cover;background-repeat:no-repeat;background-position:center;transform:translateZ(0)}
 .poof-scenic::after{content:"";position:absolute;inset:0;background:linear-gradient(rgba(17,17,17,.45),rgba(17,17,17,.68))}
 html[data-theme="snowy"] .poof-scenic::after{background:linear-gradient(rgba(8,20,33,.45),rgba(8,20,33,.68))}
 .poof-back,main{position:relative;z-index:1}
@@ -137,6 +138,8 @@ html[data-theme="nebula"] .poof-scenic::after{background:linear-gradient(rgba(26
 html[data-theme="lilac"] .poof-scenic::after{background:linear-gradient(rgba(255,255,255,.30),rgba(255,255,255,.50))}
 html[data-theme="minty"] .poof-scenic::after{background:linear-gradient(rgba(255,255,255,.30),rgba(255,255,255,.50))}
 html[data-theme="sun"] .poof-scenic::after{background:linear-gradient(rgba(255,255,255,.30),rgba(255,255,255,.50))}
+/* ?v=232: bg-image toggle — same rule as index.html; ساده hides the scenic + header banner */
+html[data-bgimg="off"] .poof-scenic,html[data-bgimg="off"] .poof-img-header-bg{display:none!important}
 html[data-theme="ocean"] .poof-head .poof-img-header-bg{background-image:url('pouf-blue-banner.webp');background-size:cover;background-position:center}
 html[data-theme="nebula"] .poof-head .poof-img-header-bg{background-image:url('pouf-nebula-banner.webp');background-size:cover;background-position:center}
 html[data-theme="lilac"] .poof-head .poof-img-header-bg,html[data-theme="minty"] .poof-head .poof-img-header-bg,html[data-theme="sun"] .poof-head .poof-img-header-bg,html[data-theme="peachy"] .poof-head .poof-img-header-bg{display:none}
@@ -368,7 +371,7 @@ function chooseItem(){const skill=chooseSkill();const used=new Set(S.used),cur=S
   return shuffle(candidates)[0];
  }
  return null;}
-function next(){stopAudio();asrScore=null;speechCandidate=null;if(S.log.length>=60||stable()){S.finished=true;persist();result();return}
+function next(){try{window.scrollTo(0,0)}catch(e){};stopAudio();asrScore=null;speechCandidate=null;if(S.log.length>=60||stable()){S.finished=true;persist();result();return}
  let x=chooseItem();if(!x){S.finished=true;persist();result();return}
  S.index=x.id;S.used.push(x.id);S.opts=x.kind==='mc'?shuffle(x.options.map((label,index)=>({label,index}))):[];S.draft='';S.audioRead=false;persist();render();startTicker();}
 function sectionIcon(k){return ({g:'01',v:'02',r:'03',h:'04',w:'05',s:'06'})[k]}
@@ -608,7 +611,7 @@ function boot(){const saved=read(activeKeys().session,null);if(saved?.track===TR
 function switchTrack(to){if(to!=='de'&&to!=='en')return;stopAudio();clearInterval(ticker);S=null;TRACK=to;byId=Object.fromEntries(Object.values(BANKS[TRACK]).flat().map(x=>[x.id,x]));$('trackDE').classList.toggle('on',TRACK==='de');$('trackEN').classList.toggle('on',TRACK==='en');$('trackDE').setAttribute('aria-pressed',String(TRACK==='de'));$('trackEN').setAttribute('aria-pressed',String(TRACK==='en'));refreshVoices();boot()}
 $('trackDE').onclick=()=>switchTrack('de');
 $('trackEN').onclick=()=>switchTrack('en');
-function applyTheme(){let t;try{t=JSON.parse(localStorage.getItem('poof_v2')||'{}').theme;t=(['snowy','lilac','peachy','minty','ocean','sun','nebula'].indexOf(t)>=0?t:'classic');}catch(e){t='classic'}document.documentElement.dataset.theme=t;const tc=document.getElementById('themeCss');if(tc){const f='theme-'+(t==='snowy'?'snowy':'classic')+'.css?v=16';if(!tc.href.endsWith(f))tc.href=f}const m=document.querySelector('meta[name=theme-color]');if(m)m.content=t==='snowy'?'#081421':t==='lilac'?'#EEF2FF':t==='peachy'?'#FFF7ED':t==='minty'?'#F0FDF4':t==='ocean'?'#0B1E3A':t==='sun'?'#FFF7E0':t==='nebula'?'#1A0B2E':'#111111';}
+function applyTheme(){let t;try{t=JSON.parse(localStorage.getItem('poof_v2')||'{}').theme;t=(['snowy','lilac','peachy','minty','ocean','sun','nebula'].indexOf(t)>=0?t:'classic');}catch(e){t='classic'}document.documentElement.dataset.theme=t;try{var _b=JSON.parse(localStorage.getItem('poof_v2')||'{}').bgImg;document.documentElement.dataset.bgimg=(_b===true)?'on':'off';}catch(e){document.documentElement.dataset.bgimg='off';}const tc=document.getElementById('themeCss');if(tc){const f='theme-'+(t==='snowy'?'snowy':'classic')+'.css?v=16';if(!tc.href.endsWith(f))tc.href=f}const m=document.querySelector('meta[name=theme-color]');if(m)m.content=t==='snowy'?'#081421':t==='lilac'?'#EEF2FF':t==='peachy'?'#FFF7ED':t==='minty'?'#F0FDF4':t==='ocean'?'#0B1E3A':t==='sun'?'#FFF7E0':t==='nebula'?'#1A0B2E':'#111111';}
 applyTheme();
 var __ptResumeMatched=false,__ptResumeState=null;
 try{var __ptMarker=JSON.parse(window.localStorage.getItem('poof_practice_resume')||'null');if(__ptMarker&&__ptMarker.page==='placement-test.html'){__ptResumeMatched=true;__ptResumeState=(__ptMarker&&__ptMarker.state)?__ptMarker.state:null;}}catch(e){}
