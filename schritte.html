@@ -264,11 +264,16 @@ html[data-theme=lilac] .pk,html[data-theme=peachy] .pk,html[data-theme=minty] .p
 .abc-cell span{font-size:13px}
 .sec-img.ab{border-style:dashed}
 /* v3.2: separated photos — swipeable strip, one photo per view */
-.sec-imgs{position:relative;display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;margin:10px 0;scrollbar-width:none}
+.sec-imgs-wrap{margin:10px 0}
+.sec-imgs{position:relative;display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;margin:0;scrollbar-width:none}
 .sec-imgs::-webkit-scrollbar{display:none}
 .sec-imgs .sec-img{flex:0 0 100%;scroll-snap-align:start;margin:0}
 .sec-imgs figcaption{text-align:center;font-size:12.5px;color:var(--muted);padding:5px 6px 6px}
 .imgs-count{position:absolute;top:8px;inset-inline-start:8px;background:rgba(0,0,0,.55);color:#fff;font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px;pointer-events:none}
+/* ?v=231: Instagram-style pagination dots under the photo strip (count + position at a glance; tap a dot to jump) */
+.imgs-dots{display:flex;justify-content:center;gap:6px;padding:8px 0 2px}
+.imgs-dots i{width:6px;height:6px;border-radius:50%;background:var(--muted);opacity:.45;cursor:pointer;transition:width .2s,opacity .2s,background .2s}
+.imgs-dots i.on{width:18px;border-radius:3px;background:var(--accent);opacity:1}
 /* v3.1: readable text — sentences on their own lines, a/b/c parts, color marks */
 .sec-top{min-width:0}
 .sec-top .sec-h{min-width:0}
@@ -1641,7 +1646,7 @@ function itemsCoverGaps(s,ex){
  });
 }
 /* v3.2: one photo of a strip failed to load — drop it, renumber, drop the strip if empty */
-function imgGone(im){const f=im.closest("figure");const strip=f&&f.closest(".sec-imgs");if(f)f.remove();if(!strip)return;const figs=strip.querySelectorAll("figure");if(!figs.length){strip.remove();return}const c=strip.querySelector(".imgs-count");if(c)c.textContent="۱ از "+faNum(figs.length)}
+function imgGone(im){const f=im.closest("figure");const strip=f&&f.closest(".sec-imgs");if(f)f.remove();if(!strip)return;const figs=strip.querySelectorAll("figure");const wrap=strip.parentElement;if(!figs.length){if(wrap&&wrap.classList.contains("sec-imgs-wrap"))wrap.remove();else strip.remove();return}const c=strip.querySelector(".imgs-count");if(c)c.textContent="۱ از "+faNum(figs.length);const dots=wrap&&wrap.querySelector(".imgs-dots");if(dots)dots.innerHTML=[...figs].map((_,k)=>`<i data-i="${k}"${k===0?' class="on"':''}></i>`).join("")}
 /* ?v=230: audio may be a single file or a list of tracks (L2 Folge-1/2/3, A2a, Ü2, Ü31, Fokus-1b).
    Track chips show the book's track number (27, 28, …); one player, chips switch its src. */
 function audioHTML(s){
@@ -1660,7 +1665,7 @@ function secHTML(s,idx,prevImg){
  const first=imgs[0];
  const img=first&&first!==prevImg?(imgs.length===1
   ?`<div class="sec-img${s.source==="Arbeitsbuch"?" ab":""}"><img src="schritte-images/${first}" alt="صفحه‌ی کتاب" loading="lazy" onerror="this.closest('.sec-img').remove()"></div>`
-  :`<div class="sec-imgs" dir="ltr">${imgs.map(f=>`<figure class="sec-img${s.source==="Arbeitsbuch"?" ab":""}"><img src="schritte-images/${f}" alt="صفحه‌ی کتاب" loading="lazy" onerror="imgGone(this)"><figcaption>${esc(f.slice(s.id.length+1,-4))}</figcaption></figure>`).join("")}<span class="imgs-count">۱ از ${faNum(imgs.length)}</span></div>`):"";
+  :`<div class="sec-imgs-wrap"><div class="sec-imgs" dir="ltr">${imgs.map(f=>`<figure class="sec-img${s.source==="Arbeitsbuch"?" ab":""}"><img src="schritte-images/${f}" alt="صفحه‌ی کتاب" loading="lazy" onerror="imgGone(this)"><figcaption>${esc(f.slice(s.id.length+1,-4))}</figcaption></figure>`).join("")}<span class="imgs-count">۱ از ${faNum(imgs.length)}</span></div>${imgs.length>1?`<div class="imgs-dots" dir="ltr">${imgs.map((_,i)=>`<i data-i="${i}"${i===0?' class="on"':''}></i>`).join("")}</div>`:""}</div>`):"";
  const audio=audioHTML(s);
  const tr=s.transcript?`<details class="tr"><summary>متن صوت ◂</summary>${richText(s.transcript)}</details>`:"";
  const pts=s.punkte||TEST_PTS[s.id];
@@ -1730,7 +1735,7 @@ function render(){
     if(a.hidden)return;
     a.hidden=true;const sk=au.querySelector(".au-skip");if(sk)sk.hidden=true;const n=au.querySelector(".au-note");if(n)n.hidden=false;
   })});
-  $$(".sec-imgs").forEach(el=>{el.addEventListener("scroll",()=>{const figs=[...el.querySelectorAll("figure")];if(!figs.length)return;let bi=0,bd=1e9;figs.forEach((fg,k)=>{const d=Math.abs(fg.offsetLeft-el.scrollLeft);if(d<bd){bd=d;bi=k}});const c=el.querySelector(".imgs-count");if(c)c.textContent=faNum(bi+1)+" از "+faNum(figs.length)},{passive:true})});
+  $$(".sec-imgs").forEach(el=>{el.addEventListener("scroll",()=>{const figs=[...el.querySelectorAll("figure")];if(!figs.length)return;let bi=0,bd=1e9;figs.forEach((fg,k)=>{const d=Math.abs(fg.offsetLeft-el.scrollLeft);if(d<bd){bd=d;bi=k}});const c=el.querySelector(".imgs-count");if(c)c.textContent=faNum(bi+1)+" از "+faNum(figs.length);const dots=el.parentElement.querySelectorAll(".imgs-dots i");dots.forEach((d,k)=>d.classList.toggle("on",k===bi))},{passive:true})});
 }
 
 /* ---------- delegated clicks ---------- */
@@ -1751,6 +1756,15 @@ $("#app").addEventListener("click",e=>{
    const n=au.querySelector(".au-note");if(n)n.hidden=true;
    a.play().catch(()=>{});
   }
+  return;
+ }
+ /* ?v=231: pagination dot — jump to that photo */
+ const dot=e.target.closest(".imgs-dots i");
+ if(dot){
+  const strip=dot.closest(".sec-imgs-wrap")&&dot.closest(".sec-imgs-wrap").querySelector(".sec-imgs");
+  const figs=strip?[...strip.querySelectorAll("figure")]:[];
+  const fg=figs[+dot.dataset.i];
+  if(fg)strip.scrollTo({left:fg.offsetLeft,behavior:"smooth"});
   return;
  }
  const nav=e.target.closest("[data-nav]");
