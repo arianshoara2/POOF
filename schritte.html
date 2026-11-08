@@ -143,6 +143,10 @@ html:not([data-theme=snowy]) .hd h1,html:not([data-theme=snowy]) .hd .mark{displ
 .de{font-family:var(--serif);font-size:16.5px;line-height:1.9;direction:ltr;text-align:left}
 .au{margin:10px 0}
 .au audio{width:100%;height:40px}
+.au-tracks{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 2px}
+.au-tr{border:1px solid var(--border);background:transparent;color:var(--text);border-radius:999px;padding:5px 12px;font:600 13px var(--sans);cursor:pointer}
+.au-tr.on{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+.au-tr.missing{opacity:.45;text-decoration:line-through}
 .au-note{font-size:13px;color:var(--muted);margin-top:6px}
 .au-skip{display:flex;gap:8px;justify-content:center;margin-top:8px}
 .au-skip button{background:transparent;border:1px solid var(--border);border-radius:999px;padding:6px 14px;font:600 13px var(--sans);color:var(--text);cursor:pointer}
@@ -683,7 +687,7 @@ $("#pop").onclick=async ev=>{
   const w=pop.word||pop.text,isPhrase=w!==pop.text;
   const doAdd=back=>{
    const ctx=isPhrase?pop.text:pop.ctx;
-   if(addCard({front:fa?back:w,back:fa?w:back,context:fa?"":ctx,contextFa:fa?ctx:"",lang:fa?"de":pop.lang,source:"schritte:L1",deck_id:db.active}))$("#pop").hidden=true;
+   if(addCard({front:fa?back:w,back:fa?w:back,context:fa?"":ctx,contextFa:fa?ctx:"",lang:fa?"de":pop.lang,source:"schritte:L"+curL,deck_id:db.active}))$("#pop").hidden=true;
   };
   if(isPhrase)tr(w,pop.lang,pop.trg).then(r=>doAdd(r||pop.tr)).catch(()=>doAdd(pop.tr));
   else doAdd(pop.tr);
@@ -790,7 +794,7 @@ function openSheet({front="",back="",context="",contextFa=""}={}){
 function addCard(c){
  if(!c.back||!c.back.trim()){toast("معنی فارسی لازم است");return false}
  const id="c"+Date.now().toString(36);
- const ok=commit(d=>{d.cards.push({id,front:c.front,back:c.back.trim(),context:c.context||"",contextFa:c.contextFa||"",lang:c.lang||"de",source:c.source||"schritte:L1",deck_id:c.deck_id||d.active||"default",reps:0,created:Date.now(),leitner:{box:1}});});
+ const ok=commit(d=>{d.cards.push({id,front:c.front,back:c.back.trim(),context:c.context||"",contextFa:c.contextFa||"",lang:c.lang||"de",source:c.source||"schritte:L"+curL,deck_id:c.deck_id||d.active||"default",reps:0,created:Date.now(),leitner:{box:1}});});
  if(ok)toast("کارت ذخیره شد ✓");
  return ok;
 }
@@ -798,7 +802,7 @@ $("#shX").onclick=()=>{$("#sheet").hidden=true};
 $("#cS").onclick=()=>{
  const front=$("#cF").value.trim(),back=$("#cB").value.trim();
  if(!front||!back){toast("کلمه و معنی را وارد کنید");return}
- if(addCard({front,back,context:$("#cC").value.trim(),contextFa:"",lang:"de",source:"schritte:L1",deck_id:$("#cD").value}))$("#sheet").hidden=true;
+ if(addCard({front,back,context:$("#cC").value.trim(),contextFa:"",lang:"de",source:"schritte:L"+curL,deck_id:$("#cD").value}))$("#sheet").hidden=true;
 };
 $("#sheet").addEventListener("click",e=>{if(e.target.id==="sheet")$("#sheet").hidden=true});
 
@@ -839,10 +843,10 @@ function groupOf(s){
  return "?";
 }
 function secSub(s){
- const m=s.id.match(/^L1-Folge-Bild(\d+)$/);
- if(m)return "تصویر "+faNum(m[1]);
- if(s.id==="L1-Folge-1")return "تمرین ۱";
- if(s.id==="L1-Folge-2")return "تمرین ۲";
+ const mb=s.id.match(/^L[12]-Folge-Bild(\d+)$/);
+ if(mb)return "تصویر "+faNum(mb[1]);
+ const mf=s.id.match(/^L[12]-Folge-(\d+)$/);
+ if(mf)return "تمرین "+faNum(mf[1]);
  return "";
 }
 
@@ -858,10 +862,20 @@ const CH_FA={"Folge 1":"صحنه‌ها و دیالوگ‌ها",A:"معرفی و
  Audiotraining:"تقویت شنیداری",Zwischendurch:"آهنگ و بازی",Test:"آزمون درس ۱"};
 const CH_BIG={"Folge 1":"1",Grammatik:"§",Kommunikation:"K",Lernziele:"L",Audiotraining:"♪",Zwischendurch:"✦",Test:"T"};
 const TEST_PTS={"L1-AB-Test1":5,"L1-AB-Test2":7,"L1-AB-Test3":3,"L1-AB-Test4":9,"L1-AB-Test5":5};
+/* ?v=230: lesson 2 — per-lesson chapter config (L1 keeps its own titles) */
+let curL=1;
+const CH_CFG={1:{order:CH_ORDER,de:CH_DE,fa:CH_FA,big:CH_BIG},
+ 2:{order:["Folge 2","A","B","C","D","E","Grammatik","Kommunikation","Lernziele","Audiotraining","Zwischendurch","Fokus Beruf","Test"],
+  de:{"Folge 2":"Folge 2 · Pause ist super",A:"A · Wie geht's?",B:"B · Wer ist das?",C:"C · Das ist/sind …",D:"D · Zahlen und Personalien",E:"E · Deutschsprachige Länder",Grammatik:"Grammatik und Kommunikation",Kommunikation:"Kommunikation",Lernziele:"Lernziele",Audiotraining:"Audiotraining",Zwischendurch:"Zwischendurch mal …","Fokus Beruf":"Fokus Beruf",Test:"Test Lektion 2"},
+  fa:{"Folge 2":"صحنه‌ها و دیالوگ‌ها",A:"سلام‌وعلیک و احوال‌پرسی",B:"خانواده — این کیه؟",C:"این/این‌ها …",D:"عددها و اطلاعات شخصی",E:"کشورهای آلمانی‌زبان",Grammatik:"قواعد درس ۲",Kommunikation:"گفت‌وگوهای روزمره",Lernziele:"این درس چه یاد می‌گیری",Audiotraining:"تقویت شنیداری",Zwischendurch:"آهنگ و بازی","Fokus Beruf":"آلمانی در محیط کار",Test:"آزمون درس ۲"},
+  big:{"Folge 2":"2",A:"A",B:"B",C:"C",D:"D",E:"E",Grammatik:"§",Kommunikation:"K",Lernziele:"L",Audiotraining:"♪",Zwischendurch:"✦","Fokus Beruf":"F",Test:"T"}}};
+function chCfg(){return CH_CFG[curL]||CH_CFG[1]}
+/* per-lesson progress bucket: db.schritte.L1 / db.schritte.L2 … */
+function schKey(d){const k="L"+curL;return d.schritte[k]||(d.schritte[k]={})}
 let CHAPS=[],chIdx=0,chDir=1;
 function buildChapters(){
  CHAPS=[];
- for(const key of CH_ORDER){
+ for(const key of chCfg().order){
   const kb=LESSON.sections.map((s,i)=>({s,i})).filter(x=>x.s.schritt===key&&x.s.source==="Kursbuch");
   const ab=LESSON.sections.map((s,i)=>({s,i})).filter(x=>x.s.schritt===key&&x.s.source==="Arbeitsbuch");
   if(/^[A-E]$/.test(key)){
@@ -877,9 +891,9 @@ function chTitle(c){
  if(c.book==="ab"&&/^[A-E]$/.test(c.key)){
   const exs=c.items.map(x=>parseInt(x.s.exercise,10)).filter(n=>!isNaN(n));
   const range=exs.length?` · تمرین‌های ${faNum(Math.min(...exs))} تا ${faNum(Math.max(...exs))}`:"";
-  return {de:CH_DE[c.key],fa:"کتاب کار"+range};
+  return {de:chCfg().de[c.key],fa:"کتاب کار"+range};
  }
- return {de:CH_DE[c.key],fa:(c.book==="ab"?"کتاب کار · ":"کتاب درسی · ")+CH_FA[c.key]};
+ return {de:chCfg().de[c.key],fa:(c.book==="ab"?"کتاب کار · ":"کتاب درسی · ")+chCfg().fa[c.key]};
 }
 function chDoneCount(c){const d=doneSet();return c.items.filter(x=>d[x.s.id]).length}
 function chIsDone(c){return c.items.length>0&&chDoneCount(c)===c.items.length}
@@ -887,7 +901,7 @@ function goChapter(d){
  const ni=chIdx+d;
  if(ni<0||ni>=CHAPS.length)return;
  chDir=d;chIdx=ni;
- commit(dd=>{const o=dd.schritte.L1||(dd.schritte.L1={});o.chapter=chIdx});
+ commit(dd=>{const o=schKey(dd);o.chapter=chIdx});
  render();
  const rm=matchMedia("(prefers-reduced-motion: reduce)").matches;
  window.scrollTo({top:0,behavior:rm?"auto":"smooth"});
@@ -911,7 +925,7 @@ $("#chmapBody").addEventListener("click",e=>{
  $("#chmap").hidden=true;
  if(ni===chIdx)return;
  chDir=ni>chIdx?1:-1;chIdx=ni;
- commit(dd=>{const o=dd.schritte.L1||(dd.schritte.L1={});o.chapter=chIdx});
+ commit(dd=>{const o=schKey(dd);o.chapter=chIdx});
  render();window.scrollTo({top:0});
 });
 
@@ -1101,11 +1115,25 @@ function gapExpectations(sec,part){
           gidx+=(pp.sents.join(" ").match(/\[\?\]/g)||[]).length;
         }
         exp=stripLabel(bareVals[gidx])||null;
+        // ?v=230: a bare number from a "letter: number" matching key (AB-19
+        // "a: 3") is the key, not a fill — the user writes the sentence.
+        if(exp&&/^\d+$/.test(exp)&&/^[A-Za-z]\s*:\s*\d+$/.test(String(bareVals[gidx]).trim()))exp=null;
+      }
+      // ?v=230: numbered bare gap ("2 [?].") — the matching numbered answer
+      // sentence ("2 Das ist mein Sohn.") is the fill, minus its number.
+      if(exp===null){
+        const bn=sn.match(/^\s*(\d+)[\.\)]?\s*\[\?\]\s*\.?\s*$/);
+        if(bn){
+          const hit=bare.find(b=>new RegExp("^"+bn[1]+"[\\.\\\\)]?\\s").test(String(b).trim()));
+          if(hit)exp=String(hit).replace(/^(\d+)[\.\)]?\s*/,"").replace(/[.?!]\s*$/,"").trim();
+        }
       }
       // word-initial gap ("M[?]"): the fill is the suffix of the full word
       const pre=gapPrefix(sn,k);
       if(exp&&pre&&exp.toLowerCase().startsWith(pre.toLowerCase()))exp=exp.slice(pre.length);
       if(exp&&!isFillWord(exp))exp=null;
+      // ?v=230: an expected value that is itself unknown ("[?]", B-B1b) is no answer
+      if(exp&&exp.includes("[?]"))exp=null;
       out.push(exp);
       gi++;
     }
@@ -1346,7 +1374,18 @@ function partGapResults(part,values){
     const n=(sn.match(/\[\?\]/g)||[]).length;
     let asm=sn;
     for(let k=0;k<n;k++){asm=asm.replace("[?]",values[gi]||"");gi++}
-    const es=entrySents[j];
+    const es0=entrySents[j];
+    // number-aware entry matching (?v=230): entries like "1 Das ist mein Mann."
+    // belong to the gap-sentence carrying the same leading number (Vorstellen);
+    // an un-numbered gap-sentence has no matching entry when the entries are
+    // numbered — it stays neutral instead of false-red.
+    const numOf=s=>{const m=String(s||"").trim().match(/^(\d+)[\.\)]?\s/);return m?m[1]:null};
+    let es=es0,noEntry=false;
+    if(entrySents.some(e=>numOf(e)!==null)){
+      const gn=numOf(sn);
+      if(gn!==null){const hit=entrySents.find(e=>numOf(e)===gn);if(hit)es=hit;else{es=null;noEntry=true}}
+      else{es=null;noEntry=true}
+    }
     // only trust the sentence check when the gap-sentence shares a word with
     // the answers (otherwise the entry says nothing about this gap)
     const snWords=normTx(sn.replace(/\[\?\]/g,"")).split(/[^a-zà-ÿß]+/).filter(w=>w.length>2);
@@ -1355,7 +1394,7 @@ function partGapResults(part,values){
     if(es&&overlap){
       const na=normTx(asm),ne=normTx(es);
       sentOk=!!na&&(na===ne||(ne&&na.length>6&&(na.startsWith(ne)||ne.startsWith(na))));
-    }else if(entry&&overlap){
+    }else if(!noEntry&&entry&&overlap){
       sentOk=values.slice(gi-n,gi).every(v=>v&&(" "+normTx(entry)+" ").includes(" "+normTx(v)+" "));
     }
     for(let k=0;k<n;k++){
@@ -1493,7 +1532,7 @@ function lernzieleBody(s){
   const items=[];
   for(let i=1;i<parts.length;i+=2){if(parts[i]&&parts[i+1])items.push({L:parts[i],tx:parts[i+1].trim()})}
   if(items.length<3)return null;
-  const saved=(db.schritte&&db.schritte.L1&&db.schritte.L1.lernziele)||{};
+  const saved=(db.schritte&&db.schritte["L"+curL]&&db.schritte["L"+curL].lernziele)||{};
   let h=`<div class="komm-h">Ich kann jetzt …</div>`;
   for(const it of items){
    const v=saved[it.L]||0;
@@ -1524,10 +1563,10 @@ function liedBody(s){
 /* exBody (v3.3) replaces specialBody — see the interactive-exercises block above */
 
 /* ---------- progress ---------- */
-function doneSet(){return (db.schritte&&db.schritte.L1&&db.schritte.L1.done)||{}}
+function doneSet(){return (db.schritte&&db.schritte["L"+curL]&&db.schritte["L"+curL].done)||{}}
 function toggleDone(id){
  const was=CHAPS[chIdx]?chDoneCount(CHAPS[chIdx]):0;
- commit(d=>{const o=d.schritte.L1||(d.schritte.L1={});o.done=o.done||{};o.done[id]=!o.done[id]});
+ commit(d=>{const o=schKey(d);o.done=o.done||{};o.done[id]=!o.done[id]});
  render();
  const c=CHAPS[chIdx];
  if(c&&chIsDone(c)&&was<c.items.length){
@@ -1537,7 +1576,7 @@ function toggleDone(id){
 }
 function updateProg(total){const d=doneSet(),n=Object.values(d).filter(Boolean).length;
  $("#progFill").style.width=(total?Math.round(n/total*100):0)+"%";
- $("#progLbl").textContent=`${faNum(n)} از ${faNum(total)} تمرین · درس ۱`;
+ $("#progLbl").textContent=`${faNum(n)} از ${faNum(total)} تمرین · درس ${faNum(curL)}`;
  const c=CHAPS[chIdx];
  if(c){const dn=chDoneCount(c);
   const cf=$("#chFill");if(cf)cf.style.width=(c.items.length?Math.round(dn/c.items.length*100):0)+"%";
@@ -1545,25 +1584,73 @@ function updateProg(total){const d=doneSet(),n=Object.values(d).filter(Boolean).
 }
 
 /* ---------- render: two books, accordion sections ---------- */
+/* ?v=230: items are {q, options, answer} — no "type" field (L1 + L2). The old
+   code only rendered when it.type==="multiple_choice", so every item fell
+   through to an empty div. Now: options present → MC buttons. An item is
+   checkable only when its answer exactly matches one option; an unknown
+   answer ("[?]") gets buttons without a check, and a key/mapping answer
+   (e.g. "A: … B: …") gets a "نمایش جواب" reveal instead. */
 function itemsHTML(s){
  if(!s.items||!s.items.length)return "";
  return `<div class="it-q">${s.items.map((it,i)=>{
-  if(it.type==="multiple_choice"&&it.options){
-   const ans=it.answer||"";
-   return `<div class="it" data-ans="${esc(ans)}"><div class="de" style="font-size:15px">${richInline(it.question||"")}</div>
-    <div class="opts">${it.options.map(o=>`<button type="button" class="opt" data-opt="${esc(o)}">${esc(o)}</button>`).join("")}</div>
-    <div class="chk" hidden><button type="button" class="btn ghost" data-chk="1">بررسی ✓</button></div></div>`;
+  const q=it.question||it.q||"";
+  const ans=it.answer||"";
+  const norm=v=>String(v||"").trim().toLowerCase();
+  if(it.options&&it.options.length){
+   const checkable=!!ans&&ans!=="[?]"&&it.options.some(o=>norm(o)===norm(ans));
+   if(checkable){
+    return `<div class="it" data-ans="${esc(ans)}"><div class="de" style="font-size:15px">${richInline(q)}</div>
+     <div class="opts">${it.options.map(o=>`<button type="button" class="opt" data-opt="${esc(o)}">${esc(o)}</button>`).join("")}</div>
+     <div class="chk" hidden><button type="button" class="btn ghost" data-chk="1">بررسی ✓</button></div></div>`;
+   }
+   if(!ans||ans==="[?]"){
+    return `<div class="it"><div class="de" style="font-size:15px">${richInline(q)}</div>
+     <div class="opts">${it.options.map(o=>`<button type="button" class="opt" data-opt="${esc(o)}">${esc(o)}</button>`).join("")}</div>
+     <div class="ex-note" style="margin-top:6px">جواب این یکی مشخص نیست — خودت حدس بزن</div></div>`;
+   }
+   return `<div class="it"><div class="de" style="font-size:15px">${richInline(q)}</div>
+    <div class="de" style="font-size:14.5px">${it.options.map(o=>`<div>${richInline(o)}</div>`).join("")}</div>
+    <div class="ans-line" hidden><b>جواب:</b> <span dir="ltr">${esc(ans)}</span></div>
+    <div class="chk"><button type="button" class="btn ghost" data-chk="1">نمایش جواب</button></div></div>`;
   }
   if(it.type==="fill_blank"&&it.blanks){
-   return `<div class="it"><div class="de" style="font-size:15px">${richInline((it.question||"").replace(/_+/g,"……"))}</div>
+   return `<div class="it"><div class="de" style="font-size:15px">${richInline((q||"").replace(/_+/g,"……"))}</div>
     <div class="ans-line" hidden><b>جواب:</b> <span dir="ltr">${esc(it.blanks.map(b=>b.answer||"").join(" · "))}</span></div>
     <div class="chk"><button type="button" class="btn ghost" data-chk="1">نمایش جواب</button></div></div>`;
   }
-  return `<div class="it"><div class="de" style="font-size:15px">${richInline(it.question||"")}</div></div>`;
+  return `<div class="it"><div class="de" style="font-size:15px">${richInline(q)}</div></div>`;
  }).join("")}</div>`;
+}
+/* ?v=230: when the structured items ARE the text exercise (same questions as
+   the text's gaps — e.g. B-B1b), the interactive text layer would duplicate
+   the MC buttons; the buttons win and the text stays plain. */
+function itemsCoverGaps(s,ex){
+ if(!s.items||!s.items.length||!ex||ex.mode!=="fillblank")return false;
+ const gapSents=ex.parts.flatMap(p=>p.sents.filter(sn=>sn.includes("[?]")));
+ if(!gapSents.length)return false;
+ return gapSents.every(gs=>{
+  // the gap-sentence may carry the {{b …}} instruction on its first line —
+  // match the question against its LAST line ("Sofia ist …")
+  const rawPre=gs.split("[?]")[0];
+  const pre=normTx(rawPre.split("\n").pop()).trim();
+  if(!pre)return false;
+  return s.items.some(it=>{
+   const q=normTx((it.question||it.q||"").replace(/…/g,"")).trim();
+   return q&&pre.startsWith(q);
+  });
+ });
 }
 /* v3.2: one photo of a strip failed to load — drop it, renumber, drop the strip if empty */
 function imgGone(im){const f=im.closest("figure");const strip=f&&f.closest(".sec-imgs");if(f)f.remove();if(!strip)return;const figs=strip.querySelectorAll("figure");if(!figs.length){strip.remove();return}const c=strip.querySelector(".imgs-count");if(c)c.textContent="۱ از "+faNum(figs.length)}
+/* ?v=230: audio may be a single file or a list of tracks (L2 Folge-1/2/3, A2a, Ü2, Ü31, Fokus-1b).
+   Track chips show the book's track number (27, 28, …); one player, chips switch its src. */
+function audioHTML(s){
+ if(!s.audio)return "";
+ const tracks=Array.isArray(s.audio)?s.audio:[s.audio];
+ const trackNo=f=>{const m=String(f).match(/_(\d+)\.mp3$/);return m?faNum(+m[1]):esc(f)};
+ const chips=tracks.length>1?`<div class="au-tracks">${tracks.map((f,i)=>`<button type="button" class="au-tr${i===0?" on":""}" data-track="${esc(f)}">تراک ${trackNo(f)}</button>`).join("")}</div>`:"";
+ return `<div class="au"><audio controls preload="metadata" src="schritte-audio/${tracks[0]}"></audio>${chips}<div class="au-skip"><button type="button" data-skip="-10" aria-label="۱۰ ثانیه عقب">⏪ ۱۰ ثانیه</button><button type="button" data-skip="10" aria-label="۱۰ ثانیه جلو">۱۰ ثانیه ⏩</button></div><div class="au-note" hidden>فایل صوتی هنوز در گیت‌هاب بارگذاری نشده — بعد از پوش، همین‌جا پخش می‌شود</div></div>`;
+}
 function secHTML(s,idx,prevImg){
  const done=!!doneSet()[s.id];
  const sub=secSub(s);
@@ -1574,23 +1661,25 @@ function secHTML(s,idx,prevImg){
  const img=first&&first!==prevImg?(imgs.length===1
   ?`<div class="sec-img${s.source==="Arbeitsbuch"?" ab":""}"><img src="schritte-images/${first}" alt="صفحه‌ی کتاب" loading="lazy" onerror="this.closest('.sec-img').remove()"></div>`
   :`<div class="sec-imgs" dir="ltr">${imgs.map(f=>`<figure class="sec-img${s.source==="Arbeitsbuch"?" ab":""}"><img src="schritte-images/${f}" alt="صفحه‌ی کتاب" loading="lazy" onerror="imgGone(this)"><figcaption>${esc(f.slice(s.id.length+1,-4))}</figcaption></figure>`).join("")}<span class="imgs-count">۱ از ${faNum(imgs.length)}</span></div>`):"";
- const audio=s.audio?`<div class="au"><audio controls preload="metadata" src="schritte-audio/${s.audio}"></audio><div class="au-skip"><button type="button" data-skip="-10" aria-label="۱۰ ثانیه عقب">⏪ ۱۰ ثانیه</button><button type="button" data-skip="10" aria-label="۱۰ ثانیه جلو">۱۰ ثانیه ⏩</button></div><div class="au-note" hidden>فایل صوتی هنوز در گیت‌هاب بارگذاری نشده — بعد از پوش، همین‌جا پخش می‌شود</div></div>`:"";
+ const audio=audioHTML(s);
  const tr=s.transcript?`<details class="tr"><summary>متن صوت ◂</summary>${richText(s.transcript)}</details>`:"";
- const ans=s.answers&&s.answers.length?`<details class="an"><summary>جواب‌ها ◂</summary>${s.answers.map(a=>`<div class="ans-line de" dir="ltr">${richInline(a)}</div>`).join("")}</details>`:"";
+ const pts=s.punkte||TEST_PTS[s.id];
+ const ans=s.answers&&s.answers.length?`<details class="an"><summary>جواب‌ها ◂</summary>${pts&&s.answers.length>pts?`<div class="ex-note" style="margin:0 0 6px">مثال حل‌شده‌ی کتاب هم جزو جواب‌هاست — نمره ندارد</div>`:""}${s.answers.map(a=>`<div class="ans-line de" dir="ltr">${richInline(a)}</div>`).join("")}</details>`:"";
  const ex=detectEx(s);
+ const useEx=ex&&!itemsCoverGaps(s,ex);
  return `<article class="sec${done?" done":""}" id="sec-${s.id}" data-id="${s.id}">
   <div class="sec-top" style="display:flex;align-items:center;gap:8px;padding:0 8px 0 0">
    <button type="button" class="sec-h" data-sec="${s.id}" aria-expanded="false">
     <span class="num">${faNum(idx+1)}</span>
     <span class="tt"><b dir="ltr">${esc(label)}</b><span class="pv" dir="ltr">${esc(pv)}</span></span>
     <span class="bdg k">${KIND[s.kind]||s.kind}</span>
-    ${TEST_PTS[s.id]?`<span class="bdg">از ${faNum(TEST_PTS[s.id])} نمره</span>`:""}
+    ${pts?`<span class="bdg">از ${faNum(pts)} نمره</span>`:""}
     <span class="bdg">ص ${faNum(s.page)}</span>
     <span class="chev">▾</span>
    </button>
    <button type="button" class="done-btn" data-done="${s.id}" aria-label="انجام شد">${done?"✓":"○"}</button>
   </div>
-  <div class="sec-b" hidden>${img}${exBody(s,ex)}${audio}${tr}${ex?"":itemsHTML(s)}${ans}</div>
+  <div class="sec-b" hidden>${img}${exBody(s,useEx?ex:null)}${audio}${tr}${itemsHTML(s)}${ans}</div>
  </article>`;
 }
 function render(){
@@ -1602,7 +1691,7 @@ function render(){
  const c=CHAPS[chIdx];
  const t=chTitle(c);
  const doneN=chDoneCount(c), total=c.items.length;
- const big=CH_BIG[c.key]||c.key;
+ const big=(chCfg().big||{})[c.key]||c.key;
  const hero=`<div class="ch-view${chDir<0?" rev":""}">
   <div class="ch-hero${c.book==="ab"?" ab":""}">
    <div class="band"><div class="ltr"><span class="big">${esc(big)}</span>${esc(t.de)}</div>
@@ -1620,15 +1709,27 @@ function render(){
  const allDone=doneN===total;
  html+=`<div class="ch-foot">
    <button type="button" class="btn ghost" data-nav="-1" ${prev?"":"disabled"}>→ فصل قبل</button>
-   <button type="button" class="btn${allDone?" done-next":""}" data-nav="1" ${next?"":"disabled"}>${next?(allDone?"✓ فصل بعد":"فصل بعد ←"):"پایان درس ۱ ✓"}</button>
+   <button type="button" class="btn${allDone?" done-next":""}" data-nav="1" ${next?"":"disabled"}>${next?(allDone?"✓ فصل بعد":"فصل بعد ←"):"پایان درس "+faNum(curL)+" ✓"}</button>
   </div>
   ${allDone?`<p class="ch-done-note">آفرین! این فصل کامل شد</p>`:""}`;
  html+="</div>";
  app.innerHTML=html;
   /* note: networkState is 3 right after insertion even for valid files (preload=none),
      so ONLY the error event may reveal the note — with preload=metadata the
-     browser fetches headers, so a missing file fires error and the note appears */
-  $$(".au audio").forEach(a=>{a.addEventListener("error",()=>{a.hidden=true;const sk=a.parentElement.querySelector(".au-skip");if(sk)sk.hidden=true;const n=a.parentElement.querySelector(".au-note");if(n)n.hidden=false},{once:true})});
+     browser fetches headers, so a missing file fires error and the note appears.
+     ?v=230: for a multi-track player, a missing track only disables its chip. */
+  $$(".au audio").forEach(a=>{a.addEventListener("error",()=>{
+    const au=a.closest(".au");if(!au)return;
+    const chips=au.querySelectorAll(".au-tr");
+    if(chips.length){
+      const cur=au.querySelector(".au-tr.on");
+      if(cur&&!cur.classList.contains("missing")){cur.classList.add("missing");cur.disabled=true}
+      const n=au.querySelector(".au-note");if(n){n.textContent="این تراک هنوز در گیت‌هاب بارگذاری نشده";n.hidden=false}
+      return;
+    }
+    if(a.hidden)return;
+    a.hidden=true;const sk=au.querySelector(".au-skip");if(sk)sk.hidden=true;const n=au.querySelector(".au-note");if(n)n.hidden=false;
+  })});
   $$(".sec-imgs").forEach(el=>{el.addEventListener("scroll",()=>{const figs=[...el.querySelectorAll("figure")];if(!figs.length)return;let bi=0,bd=1e9;figs.forEach((fg,k)=>{const d=Math.abs(fg.offsetLeft-el.scrollLeft);if(d<bd){bd=d;bi=k}});const c=el.querySelector(".imgs-count");if(c)c.textContent=faNum(bi+1)+" از "+faNum(figs.length)},{passive:true})});
 }
 
@@ -1640,12 +1741,24 @@ $("#app").addEventListener("click",e=>{
   if(a){try{a.currentTime=Math.max(0,(a.currentTime||0)+(+sk.dataset.skip))}catch(_){}}
   return;
  }
+ /* ?v=230: multi-track audio — a chip switches the single player's src */
+ const trk=e.target.closest("[data-track]");
+ if(trk){
+  const au=trk.closest(".au"),a=au&&au.querySelector("audio");
+  if(a&&!trk.disabled){
+   a.src="schritte-audio/"+trk.dataset.track;
+   au.querySelectorAll(".au-tr").forEach(b=>b.classList.toggle("on",b===trk));
+   const n=au.querySelector(".au-note");if(n)n.hidden=true;
+   a.play().catch(()=>{});
+  }
+  return;
+ }
  const nav=e.target.closest("[data-nav]");
  if(nav&&!nav.disabled){goChapter(+nav.dataset.nav);return}
  const lzb=e.target.closest("[data-lz] button");
  if(lzb){
   const grp=lzb.closest("[data-lz]"),L=grp.dataset.lz,v=+lzb.dataset.v;
-  commit(d=>{const o=d.schritte.L1||(d.schritte.L1={});o.lernziele=o.lernziele||{};o.lernziele[L]=v});
+  commit(d=>{const o=schKey(d);o.lernziele=o.lernziele||{};o.lernziele[L]=v});
   grp.querySelectorAll("button").forEach(b=>b.classList.toggle("on",b===lzb));
   if(navigator.vibrate)try{navigator.vibrate(8)}catch(_){}
   return;
@@ -1832,13 +1945,28 @@ document.addEventListener("click",e=>{
 /* ---------- lesson nav + init ---------- */
 function renderNav(){
  /* ?v=227: title-less chips ("درس N" only) — the row scrolls, ready for A1.2 (L8–14) */
-$("#lessonNav").innerHTML=LESSONS.map(l=>`<button type="button" class="chip${l.n===1?" on":" off"}" data-l="${l.n}">درس ${faNum(l.n)}</button>`).join("");
+$("#lessonNav").innerHTML=LESSONS.map(l=>`<button type="button" class="chip${l.n===curL?" on":" off"}" data-l="${l.n}">درس ${faNum(l.n)}</button>`).join("");
+}
+/* ?v=230: lessons 1–2 loadable; 3–7 still "به‌زودی" until their JSON lands */
+async function loadLesson(n){
+ const L=LESSONS.find(x=>x.n===n);if(!L)return false;
+ try{
+  const r=await fetch(L.file);if(!r.ok)throw new Error("HTTP "+r.status);
+  LESSON=await r.json();curL=n;
+  buildChapters();
+  const saved=(db.schritte&&db.schritte["L"+n]&&db.schritte["L"+n].chapter)||0;
+  chIdx=Math.max(0,Math.min(saved,CHAPS.length-1));
+  commit(d=>{d.schritte=d.schritte||{};d.schritte.lastLesson=n});
+  renderNav();render();
+  return true;
+ }catch(e){toast("فایل درس "+faNum(n)+" بارگذاری نشد");return false}
 }
 $("#lessonNav").addEventListener("click",e=>{
  const b=e.target.closest("[data-l]");if(!b)return;
  const n=+b.dataset.l;
- if(n!==1){toast("درس "+faNum(n)+" هنوز آماده نیست — به‌زودی");return}
- document.querySelector("#app").scrollIntoView({behavior:"smooth"});
+ if(n>2){toast("درس "+faNum(n)+" هنوز آماده نیست — به‌زودی");return}
+ if(n===curL){document.querySelector("#app").scrollIntoView({behavior:"smooth"});return}
+ loadLesson(n).then(ok=>{if(ok)document.querySelector("#app").scrollIntoView({behavior:"smooth"})});
 });
 $("#backApp").onclick=()=>{location.href="index.html"};
 async function init(){
@@ -1846,14 +1974,9 @@ async function init(){
  try{const d=readRaw();document.documentElement.dataset.theme=(d&&d.theme)||"classic"}catch(e){document.documentElement.dataset.theme="classic"}
  const bm=$("#brandMascot");if(bm)bm.src=mascotWave(document.documentElement.dataset.theme);
  renderNav();
- try{
-  const r=await fetch("schritte-lektion-1.json");if(!r.ok)throw new Error("HTTP "+r.status);
-  LESSON=await r.json();
-  buildChapters();
-  const saved=(db.schritte&&db.schritte.L1&&db.schritte.L1.chapter)||0;
-  chIdx=Math.max(0,Math.min(saved,CHAPS.length-1));
-  render();
- }catch(e){$("#app").innerHTML=`<p style="padding:24px;color:var(--muted)">فایل درس بارگذاری نشد: ${esc(e.message||"خطا")}</p>`}
+ const last=+((db.schritte&&db.schritte.lastLesson)||1);
+ const ok=await loadLesson(last===2?2:1);
+ if(!ok)$("#app").innerHTML=`<p style="padding:24px;color:var(--muted)">فایل درس بارگذاری نشد</p>`;
 }
 init();
 </script>
