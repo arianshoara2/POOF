@@ -735,6 +735,9 @@ nav button::before,nav button::after{top:22px}
 .onb-nav .sp{flex:1}
 /* background-image toggle: when off, every scenic photo layer hides */
 html[data-bgimg="off"] #readBg,html[data-bgimg="off"] #learnBg,html[data-bgimg="off"] .poof-img-header-bg,html[data-bgimg="off"] .poof-img-library-banner,html[data-bgimg="off"] .poof-img-library-bg,html[data-bgimg="off"] .poof-img-reading-bg,html[data-bgimg="off"] .poof-img-card-bg-snowy,html[data-bgimg="off"] .poof-img-learn-path-bg,html[data-bgimg="off"] .poof-img-snowy-celebrate,html[data-bgimg="off"] .poof-img-snowy-read,html[data-bgimg="off"] .pod-scenic{display:none!important}
+/* bg-image toggle ON: let the scenic photos show through the dimming veil (was ~.8, nearly invisible) */
+html[data-bgimg="on"] #readBg::after,html[data-bgimg="on"] #reviewBg::after,html[data-bgimg="on"] #cardsBg::after,html[data-bgimg="on"] #meBg::after,html[data-bgimg="on"] #dictBg::after{background:rgba(8,20,33,.45)}
+html[data-theme="sun"][data-bgimg="on"] #readBg::after,html[data-theme="sun"][data-bgimg="on"] #reviewBg::after,html[data-theme="sun"][data-bgimg="on"] #cardsBg::after,html[data-theme="sun"][data-bgimg="on"] #meBg::after,html[data-theme="sun"][data-bgimg="on"] #dictBg::after{background:rgba(255,255,255,.45)}
 </style>
 <link rel="stylesheet" href="poof-minimal.css?v=1">
 <link rel="prefetch" href="wortschatz.html">

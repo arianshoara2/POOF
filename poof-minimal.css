@@ -6,15 +6,15 @@
    translucent chrome, reduced motion respected). */
 
 /* ---- 1. Quiet surfaces: scenic photo layers off, flat backgrounds ---- */
-#readBg,#reviewBg,#cardsBg,#meBg,#dictBg{display:none!important}
-.card-bg-img{display:none!important}
-header .poof-img-header-bg{display:none!important}
+html[data-bgimg="off"] #readBg,html[data-bgimg="off"] #reviewBg,html[data-bgimg="off"] #cardsBg,html[data-bgimg="off"] #meBg,html[data-bgimg="off"] #dictBg{display:none!important}
+html[data-bgimg="off"] .card-bg-img{display:none!important}
+html[data-bgimg="off"] header .poof-img-header-bg{display:none!important}
 header::after{display:none!important}
-.lib-banner .poof-img-library-banner{display:none!important}
-.lib-banner::before{display:none!important}
+html[data-bgimg="off"] .lib-banner .poof-img-library-banner{display:none!important}
+html[data-bgimg="off"] .lib-banner::before{display:none!important}
 .lib-banner-txt h2,.lib-banner-txt p{color:inherit;text-shadow:none}
-#s-cards #list .card::after{display:none!important}
-#podPick .pod-scenic{display:none!important}
+html[data-bgimg="off"] #s-cards #list .card::after{display:none!important}
+html[data-bgimg="off"] #podPick .pod-scenic{display:none!important}
 
 /* ---- 2. One hairline, one soft shadow: cards go flat ---- */
 .card,.lt-card,.lib-banner{box-shadow:none}
