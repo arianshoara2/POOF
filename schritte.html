@@ -258,6 +258,12 @@ html[data-theme=lilac] .pk,html[data-theme=peachy] .pk,html[data-theme=minty] .p
 .abc-cell b{display:block;font:700 19px var(--serif);color:#7fb8dd}
 .abc-cell span{font-size:13px}
 .sec-img.ab{border-style:dashed}
+/* v3.2: separated photos — swipeable strip, one photo per view */
+.sec-imgs{position:relative;display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;margin:10px 0;scrollbar-width:none}
+.sec-imgs::-webkit-scrollbar{display:none}
+.sec-imgs .sec-img{flex:0 0 100%;scroll-snap-align:start;margin:0}
+.sec-imgs figcaption{text-align:center;font-size:12.5px;color:var(--muted);padding:5px 6px 6px}
+.imgs-count{position:absolute;top:8px;inset-inline-start:8px;background:rgba(0,0,0,.55);color:#fff;font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px;pointer-events:none}
 /* v3.1: readable text — sentences on their own lines, a/b/c parts, color marks */
 .sec-top{min-width:0}
 .sec-top .sec-h{min-width:0}
@@ -1044,12 +1050,18 @@ function itemsHTML(s){
   return `<div class="it"><div class="de" style="font-size:15px">${richInline(it.question||"")}</div></div>`;
  }).join("")}</div>`;
 }
+/* v3.2: one photo of a strip failed to load — drop it, renumber, drop the strip if empty */
+function imgGone(im){const f=im.closest("figure");const strip=f&&f.closest(".sec-imgs");if(f)f.remove();if(!strip)return;const figs=strip.querySelectorAll("figure");if(!figs.length){strip.remove();return}const c=strip.querySelector(".imgs-count");if(c)c.textContent="۱ از "+faNum(figs.length)}
 function secHTML(s,idx,prevImg){
  const done=!!doneSet()[s.id];
  const sub=secSub(s);
  const label=sub||s.exercise;
  const pv=strip(plainText(s.text)).slice(0,70)+(strip(plainText(s.text)).length>70?"…":"");
- const img=s.image&&s.image!==prevImg?`<div class="sec-img"><img src="schritte-images/${s.image}" alt="صفحه‌ی کتاب" loading="lazy" onerror="this.closest('.sec-img').remove()"></div>`:"";
+ const imgs=(s.images&&s.images.length?s.images:(s.image?[s.image]:[]));
+ const first=imgs[0];
+ const img=first&&first!==prevImg?(imgs.length===1
+  ?`<div class="sec-img${s.source==="Arbeitsbuch"?" ab":""}"><img src="schritte-images/${first}" alt="صفحه‌ی کتاب" loading="lazy" onerror="this.closest('.sec-img').remove()"></div>`
+  :`<div class="sec-imgs" dir="ltr">${imgs.map(f=>`<figure class="sec-img${s.source==="Arbeitsbuch"?" ab":""}"><img src="schritte-images/${f}" alt="صفحه‌ی کتاب" loading="lazy" onerror="imgGone(this)"><figcaption>${esc(f.slice(s.id.length+1,-4))}</figcaption></figure>`).join("")}<span class="imgs-count">۱ از ${faNum(imgs.length)}</span></div>`):"";
  const audio=s.audio?`<div class="au"><audio controls preload="metadata" src="schritte-audio/${s.audio}"></audio><div class="au-skip"><button type="button" data-skip="-10" aria-label="۱۰ ثانیه عقب">⏪ ۱۰ ثانیه</button><button type="button" data-skip="10" aria-label="۱۰ ثانیه جلو">۱۰ ثانیه ⏩</button></div><div class="au-note" hidden>فایل صوتی هنوز در گیت‌هاب بارگذاری نشده — بعد از پوش، همین‌جا پخش می‌شود</div></div>`:"";
  const tr=s.transcript?`<details class="tr"><summary>متن صوت ◂</summary>${richText(s.transcript)}</details>`:"";
  const ans=s.answers&&s.answers.length?`<details class="an"><summary>جواب‌ها ◂</summary>${s.answers.map(a=>`<div class="ans-line de" dir="ltr">${richInline(a)}</div>`).join("")}</details>`:"";
@@ -1104,6 +1116,7 @@ function render(){
      so ONLY the error event may reveal the note — with preload=metadata the
      browser fetches headers, so a missing file fires error and the note appears */
   $$(".au audio").forEach(a=>{a.addEventListener("error",()=>{a.hidden=true;const sk=a.parentElement.querySelector(".au-skip");if(sk)sk.hidden=true;const n=a.parentElement.querySelector(".au-note");if(n)n.hidden=false},{once:true})});
+  $$(".sec-imgs").forEach(el=>{el.addEventListener("scroll",()=>{const figs=[...el.querySelectorAll("figure")];if(!figs.length)return;let bi=0,bd=1e9;figs.forEach((fg,k)=>{const d=Math.abs(fg.offsetLeft-el.scrollLeft);if(d<bd){bd=d;bi=k}});const c=el.querySelector(".imgs-count");if(c)c.textContent=faNum(bi+1)+" از "+faNum(figs.length)},{passive:true})});
 }
 
 /* ---------- delegated clicks ---------- */
