@@ -551,7 +551,7 @@ function rubricHTML(sk){return `<fieldset class="rubric"><legend>خودارزی�
 function render(){const x=byId[S.index];if(!x){intro();return} const n=S.log.length;
  app.innerHTML=`<div class="card"><div class="bar"><span>سؤال ${n+1} از حداکثر ۶۰</span><span class="level-hint">سطح در حال سنجش: <b dir="ltr">${safe(x.level)}</b></span><span id="elapsed" dir="ltr">${fmt((Date.now()-S.t0)/1000)}</span></div><div class="prog"><i style="width:${100*n/60}%"></i></div>
  <div class="scope"><span class="sqicon">${sectionIcon(x.skill)}</span><span>${safe(SK[x.skill])}</span><span class="mu"> / ${safe(x.topic)}</span></div>
- <div class="q" lang="${TRACK}" dir="ltr">${safe(x.question)}</div>
+ <div class="q" lang="${TRACK}" dir="ltr">${selectTokenize(x.question)}</div>
  ${questionBody(x)}</div><p class="footnote">تا پایان آزمون پاسخ درست نمایش داده نمی‌شود. اگر مطمئن نیستی، «نمی‌دانم» را انتخاب کن.</p>`;
  if(['free','monologue','readaloud'].includes(x.kind)){$('rubric').innerHTML=rubricHTML(x.skill);$('submitRubric').onclick=()=>submitRubric(x)}
  app.querySelectorAll('[data-opt]').forEach(b=>b.onclick=()=>commit(x,b.dataset.opt!==undefined?S.opts[Number(b.dataset.opt)].index:null,'objective'));
