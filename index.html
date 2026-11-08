@@ -738,6 +738,10 @@ html[data-bgimg="off"] #readBg,html[data-bgimg="off"] #learnBg,html[data-bgimg="
 /* bg-image toggle ON: let the scenic photos show through the dimming veil (was ~.8, nearly invisible) */
 html[data-bgimg="on"] #readBg::after,html[data-bgimg="on"] #reviewBg::after,html[data-bgimg="on"] #cardsBg::after,html[data-bgimg="on"] #meBg::after,html[data-bgimg="on"] #dictBg::after{background:rgba(8,20,33,.45)}
 html[data-theme="sun"][data-bgimg="on"] #readBg::after,html[data-theme="sun"][data-bgimg="on"] #reviewBg::after,html[data-theme="sun"][data-bgimg="on"] #cardsBg::after,html[data-theme="sun"][data-bgimg="on"] #meBg::after,html[data-theme="sun"][data-bgimg="on"] #dictBg::after{background:rgba(255,255,255,.45)}
+/* ?v=236: glassy deck cards in Ocean when the photo background is on — the scenic photo shows through, frosted */
+html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card{background:rgba(18,41,77,.42);-webkit-backdrop-filter:blur(14px) saturate(1.35);backdrop-filter:blur(14px) saturate(1.35);border:1px solid rgba(255,255,255,.16);box-shadow:0 8px 32px rgba(0,0,0,.28)}
+html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card-bg-img{display:none}
+html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background:linear-gradient(160deg,rgba(8,20,40,.18),rgba(8,20,40,.05))}
 </style>
 <link rel="stylesheet" href="poof-minimal.css?v=1">
 <link rel="prefetch" href="wortschatz.html">
@@ -879,7 +883,7 @@ html[data-theme="sun"][data-bgimg="on"] #readBg::after,html[data-theme="sun"][da
    <p class="mute" style="margin:6px 0 0">ویدیو فقط در همین جلسه پخش می‌شود و جایی ذخیره نمی‌شود.</p>
   </div>
   <div class="row" id="hlBar" style="gap:8px;align-items:center;margin:0 0 8px">
-   <button class="chip" id="hlTog">هایلایت بلدها</button>
+   <button class="chip" id="hlTog">هایلایت بلدها</button><button class="chip" id="txtTgl" aria-label="بستن/باز کردن متن">📝 متن ▾</button>
    <span class="mute" id="hlStat" style="font-size:12px"></span>
   </div>
   <div class="card de poof-img-reading-bg" id="text"></div>
@@ -4520,7 +4524,7 @@ async function setupPlayer(t){
  setupAudio(t);
  const _ga=$("#vpGetAudio");if(_ga)_ga.hidden=true;
  const _cp=$("#vpCopy");if(_cp)_cp.hidden=!(t&&((t.segs&&t.segs.length)||(t.body||"").trim()));
- const _tt=$("#vpTextTgl");if(_tt){_tt.hidden=!t;_tt.innerHTML="📝 متن ▾";}
+ const _tt=$("#vpTextTgl");if(_tt){_tt.hidden=!t;_tt.innerHTML="📝 متن ▾";}const _tg=$("#txtTgl");if(_tg){_tg.hidden=!t;if(t)_tg.innerHTML="📝 متن ▾";}
  const _tx=$("#text");if(_tx)_tx.hidden=false;
  const lvc=$("#lvCard"),lve=$("#lv");
  if(lvc)lvc.hidden=!(t&&t.local);
@@ -4595,10 +4599,14 @@ $("#vpCopy").onclick=()=>{
  if(!txt.trim()){toast("متنی برای کپی نیست","bad");return}
  copyText(txt);
 };
-$("#vpTextTgl").onclick=e=>{
+function toggleText(){
  const tx=$("#text");if(!tx)return;tx.hidden=!tx.hidden;
- e.currentTarget.innerHTML=tx.hidden?"📝 متن ▸":"📝 متن ▾";
-};
+ const lbl=tx.hidden?"📝 متن ▸":"📝 متن ▾";
+ const a=$("#txtTgl");if(a)a.innerHTML=lbl;
+ const b=$("#vpTextTgl");if(b)b.innerHTML=lbl;
+}
+$("#vpTextTgl").onclick=()=>toggleText();
+$("#txtTgl").onclick=()=>toggleText();
 $("#vpGetAudio").onclick=async()=>{
  const t=curText();if(!t||!t.video||!t.video.ig||!t.url)return;
  const b=$("#vpGetAudio");if(b)b.disabled=true;

@@ -1,6 +1,6 @@
 // POOF service worker — اسناد HTML شبکه‌اول (network-first)، بقیه‌ی فایل‌های خودِ اپ کش‌اول (cache-first)
 // فقط برای فایل‌های خودِ اپ (same-origin) — درخواست‌های خارجی دست‌نخورده می‌مانند
-const CACHE = 'poof-v210';
+const CACHE = 'poof-v211';
 // آفلاین‌پک مترو: همه‌ی صفحه‌ها + هر دو دیکشنری از اول کش می‌شوند،
 // تا بدون اینترنت هم ورتشاتس و مرور و تست‌ها کار کنند
 const CORE = ['./', './index.html', './poof-core.js', './poof-minimal.css', './dict-fa.jsonl', './manual-dict.json', './learn.html', './learn-en.html', './practice.html', './wortschatz.html', './der-die-das.html', './placement-test.html', './studienkolleg-trainer.html', './wort-des-tages.html', './privacy.html', './testdaf.html', './testdaf-part1.html', './testdaf-part2.html', './testdaf-part3.html', './testdaf-part4.html', './testdaf-part5.html', './testdaf-part6.html', './testdaf-part7.html', './testdaf-part8.html', './testdaf-part9.html', './testdaf-part10.html', './Digital_TestDaF_Extra_Part2_Hoeren_Lite_DeviceVoice_1_sd70.html', './Digital_TestDaF_Extra_Part3_Schreiben_Lite_Interactive_Offline_0_ramw.html', './Digital_TestDaF_Extra_Part4_Sprechen_Lite_Interactive_Offline_0_qlce.html', './theme-snowy.css', './theme-classic.css', './manifest.webmanifest', './icon.svg', './icon-192.png', './icon-512.png', './icon-maskable-512.png'];
