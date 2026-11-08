@@ -1030,6 +1030,12 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
   <div class="card">
    <div class="row"><button class="ghost" id="exp">خروجی پشتیبان (JSON)</button>
     <button class="ghost" id="expAnki">خروجی انکی (TSV)</button></div>
+   <div style="margin-top:12px;border-top:1px solid var(--border);padding-top:10px">
+    <p class="lbl" style="margin:0 0 4px">افزودن کارت با JSON</p>
+    <p class="mute" style="margin:0 0 6px;font-size:12px">کارت‌ها به کارت‌های فعلی اضافه می‌شوند؛ چیزی جایگزین نمی‌شود.</p>
+    <textarea id="jsonCards" class="de" dir="ltr" rows="6" spellcheck="false" placeholder='[{"front":"...","back":"..."}]' style="font-family:monospace"></textarea>
+    <div class="row" style="margin-top:8px"><button class="ghost" id="jsonCardsAdd">افزودن کارت‌ها</button><button class="ghost" id="jsonCardsEx">مثال</button></div>
+   </div>
    <div class="row" style="margin-top:8px"><button class="ghost" id="clrCache">پاک‌کردن کش دیکشنری</button></div>
    <div style="margin-top:12px;border-top:1px solid var(--border);padding-top:10px">
     <p class="lbl" style="margin:0 0 4px">دیکشنری آفلاین 🇩🇪 آلمانی</p>
@@ -5558,6 +5564,38 @@ $("#impCards").onchange=async e=>{
   toast(added+" کارت اضافه شد"+(skipped?" ("+skipped+" تکراری رد شد)":""));
  }catch(x){toast("فایل معتبر نیست","bad")}
  e.target.value="";
+};
+/* ?v=237: افزودن کارت با JSON (paste) — فقط افزودن به کارت‌های فعلی، هرگز جایگزینی */
+const JSON_CARDS_EX=`[
+  {
+    "front": "Zwischen mir und anderen gibt es eine Grenze.",
+    "back": "مرزی بین من و دیگران است",
+    "context": "Zwischen mir und anderen gibt es eine Grenze.",
+    "contextFa": "مرزی بین من و دیگران است",
+    "source": "chat"
+  }
+]`;
+$("#jsonCardsEx").onclick=()=>{const t=$("#jsonCards");if(t){t.value=JSON_CARDS_EX;t.focus()}};
+$("#jsonCardsAdd").onclick=()=>{
+ const ta=$("#jsonCards");if(!ta)return;
+ let d;try{d=JSON.parse(ta.value)}catch(x){toast("JSON معتبر نیست","bad");return}
+ const list=Array.isArray(d)?d:(d&&Array.isArray(d.cards)?d.cards:(d&&typeof d.front==="string"?[d]:null));
+ if(!list){toast("JSON معتبر نیست","bad");return}
+ for(const it of list){
+  if(!it||typeof it.front!=="string"||typeof it.back!=="string"||!it.front.trim()||!it.back.trim()){toast("front و back خالی‌اند","bad");return}
+ }
+ const before=JSON.stringify(db);
+ const norm=s=>String(s||"").trim().toLowerCase();
+ const seen=new Set(db.cards.map(c=>norm(c.front)));
+ let added=0,skipped=0;
+ for(const it of list){
+  if(seen.has(norm(it.front))){skipped++;continue}
+  seen.add(norm(it.front));
+  db.cards.push({pos:typeof it.pos==="string"?it.pos:"",def:"",context:typeof it.context==="string"?it.context:"",contextFa:typeof it.contextFa==="string"?it.contextFa:"",source:typeof it.source==="string"&&it.source.trim()?it.source.trim():"import",created_at:Date.now(),ease:2.5,interval:0,reps:0,due:Date.now(),lang:"de",deck_id:db.active,id:uid(),front:it.front.trim(),back:it.back.trim()});
+  added++;
+ }
+ if(added){localStorage.setItem(KB,before);save();renderAll()}
+ toast(added+" کارت اضافه شد، "+skipped+" تکراری رد شد");
 };
 $("#packDePick").onclick=function(){if(packBusy){packCancel=true;return}var f=$("#packDeFile");if(f)f.click()};
 $("#packDeFile").addEventListener("change",function(){var f=this.files&&this.files[0];this.value="";if(f)packInstallFromFile(f)});
