@@ -987,7 +987,7 @@ html[data-bgimg="off"] #readBg,html[data-bgimg="off"] #learnBg,html[data-bgimg="
    <div class="theme-options" id="themeOpts"><button class="theme-option" data-th="classic"><b>Classic</b><span>گرم، تیره و طلایی</span></button><button class="theme-option" data-th="snowy"><b>Snowy</b><span>آبی شبانه و آرام</span></button><button class="theme-option" data-th="lilac"><b>Lilac</b><span>روشن و لطیف</span></button><button class="theme-option" data-th="peachy"><b>Peachy</b><span>روشن و گرم</span></button><button class="theme-option" data-th="minty"><b>Minty</b><span>روشن و تازه</span></button><button class="theme-option" data-th="ocean"><b>Ocean</b><span>آبی و آرام، مثل دریا</span></button><button class="theme-option" data-th="sun"><b>Sun</b><span>طلایی و گرم، مثل آفتاب</span></button><button class="theme-option" data-th="nebula"><b>Nebula</b><span>کهکشانی و رویایی، مثل آسمان شب</span></button></div>
   </div>
   <div class="card">
-   <div style="margin-bottom:8px"><b>پس‌زمینه‌ی عکس‌دار</b><div class="mute">عکس‌های صحنه‌ی هر تم پشت محتوا — اگر «ساده» را انتخاب کنی، پس‌زمینه یکدست و بدون عکس می‌شود</div></div>
+   <div style="margin-bottom:8px"><b>پس‌زمینه‌ی عکس‌دار</b><div class="mute">عکس‌های صحنه‌ی هر تم پشت محتوا — اگر «ساده» را انتخاب کنی، پس‌زمینه یکدست و بدون عکس می‌شود. در تم‌های Snowy و Classic عکسی نیست.</div></div>
    <div class="seg" id="bgImgSeg" style="margin-bottom:0"><button data-v="on">عکس‌دار</button><button data-v="off">ساده</button></div>
   </div>
   <div class="card">
@@ -5593,7 +5593,7 @@ function rvMenuOpen(){if(!document.querySelector('#nav button[data-t="review"].o
 if(rvNavEl){rvNavEl.addEventListener('pointerdown',()=>{if(!document.querySelector('#nav button[data-t="review"].on'))return;rvLpFired=false;clearTimeout(rvLpTimer);rvLpTimer=setTimeout(()=>{rvLpFired=true;rvMenuOpen()},500)});['pointerup','pointercancel','pointerleave'].forEach(ev=>rvNavEl.addEventListener(ev,()=>clearTimeout(rvLpTimer)))}
 document.addEventListener('pointerdown',e=>{if(rvMenuEl&&!rvMenuEl.hidden&&!rvMenuEl.contains(e.target)&&!rvNavEl.contains(e.target))rvMenuClose()},{capture:true});
 if(rvMenuEl){rvMenuEl.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const go=b.dataset.go;rvMenuClose();if(go)location.href=go})}
-function applyTheme(){const t=["snowy","lilac","peachy","minty","ocean","sun","nebula"].includes(db.theme)?db.theme:"classic";document.documentElement.dataset.theme=t;document.documentElement.dataset.bgimg=(db.bgImg===false)?"off":"on";try{applyBgImgSeg();}catch(e){}const _swap=()=>{const tc=document.getElementById("themeCss");if(tc){const f="theme-"+(t==="snowy"?"snowy":"classic")+".css?v=16";if(!tc.href.endsWith(f))tc.href=f}};if(window.PoofPos){try{PoofPos.fadeThemeSwap(_swap)}catch(e){_swap()}}else{_swap()}const m=document.querySelector("meta[name=theme-color]");if(m)m.content={snowy:"#081421",lilac:"#EEF2FF",peachy:"#FFF7ED",minty:"#F0FDF4"}[t]||"#111111";updateMascots();updateRvGames()}
+function applyTheme(){const t=["snowy","lilac","peachy","minty","ocean","sun","nebula"].includes(db.theme)?db.theme:"classic";document.documentElement.dataset.theme=t;document.documentElement.dataset.bgimg=(db.bgImg===true)?"on":"off";try{applyBgImgSeg();}catch(e){}const _swap=()=>{const tc=document.getElementById("themeCss");if(tc){const f="theme-"+(t==="snowy"?"snowy":"classic")+".css?v=16";if(!tc.href.endsWith(f))tc.href=f}};if(window.PoofPos){try{PoofPos.fadeThemeSwap(_swap)}catch(e){_swap()}}else{_swap()}const m=document.querySelector("meta[name=theme-color]");if(m)m.content={snowy:"#081421",lilac:"#EEF2FF",peachy:"#FFF7ED",minty:"#F0FDF4"}[t]||"#111111";updateMascots();updateRvGames()}
 $("#proxyTest").onclick=async()=>{
  const _tb=$("#proxyTest"),_ol=_tb.textContent;_tb.disabled=true;_tb.textContent="در حال آزمایش…";toast("در حال آزمایش اتصال…");
  try{db.proxy=$("#proxy").value.trim();db.wkey=$("#wkey").value.trim();save();
@@ -5652,7 +5652,7 @@ $("#bulkKeysBtn").onclick=()=>{
 $("#zbToken").onchange=()=>{const v=($("#zbToken").value||"").trim().replace(/^bearer\s+/i,"");$("#zbToken").value=v;try{localStorage.setItem("poof_zaban_token",v)}catch(e){}toast("توکن زبان ذخیره شد")};
 $("#themeOpts").onclick=e=>{const b=e.target.closest("[data-th]");if(!b)return;db.theme=b.dataset.th;save();applyTheme();renderMe()};
 /* ?v=228: background-image toggle (db.bgImg; default on) + onboarding replay */
-function applyBgImgSeg(){const v=(db.bgImg===false)?"off":"on";$$("#bgImgSeg button").forEach(b=>b.classList.toggle("on",b.dataset.v===v));}
+function applyBgImgSeg(){const v=(db.bgImg===true)?"on":"off";$$("#bgImgSeg button").forEach(b=>b.classList.toggle("on",b.dataset.v===v));}
 $("#bgImgSeg").onclick=e=>{const b=e.target.closest("[data-v]");if(!b)return;db.bgImg=(b.dataset.v==="on");save();applyTheme();applyBgImgSeg();};
 $("#onbReplay").onclick=()=>{showOnb(true);};
 function tab(t){if(!$("#s-read").hidden&&t!=="read"){saveProgress();saveReadReturn();} $("#hSub").textContent=SUB[t];scrollTo(0,0);$("#nav").classList.remove("nav-hidden");$("#pop").hidden=true;sel=null;drawSel();
