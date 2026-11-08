@@ -111,7 +111,8 @@ html:not([data-theme=snowy]) .hd h1,html:not([data-theme=snowy]) .hd .mark{displ
 .sch-nav .chip{flex:0 0 auto;border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:999px;padding:7px 13px;font:600 13px/1.4 var(--sans);cursor:pointer;white-space:nowrap}
 .sch-nav .chip.on{background:var(--accent);color:var(--bg);border-color:var(--accent)}
 .sch-nav .chip.off{opacity:.55}
-.prog{max-width:720px;margin:12px auto 0;padding:0 16px}
+/* ?v=227: .prog is the full-width sticky bar (#progRail sets its margin/padding); .prog-in is the centered 720px column */
+.prog-in{max-width:720px;margin:0 auto}
 .prog .bar{height:8px;border-radius:99px;background:var(--border);overflow:hidden}
 .prog .bar i{display:block;height:100%;background:var(--accent);border-radius:99px;transition:width .3s}
 .prog .lbl{font-size:12.5px;color:var(--muted);margin-top:5px}
@@ -281,7 +282,7 @@ html[data-theme=lilac] .pk,html[data-theme=peachy] .pk,html[data-theme=minty] .p
 <header><div class="hd"><img id="brandMascot" class="poof-mascot brand-mascot" alt="" style="width:52px;height:52px;margin:0"><div style="flex:1;min-width:0"><h1>POOF</h1><div class="sub">Schritte A1.1</div></div>
  <button class="btn ghost" id="backApp" aria-label="بازگشت"><svg class="ic" viewBox="0 0 24 24"><path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></svg></button></div></header>
 <nav class="sch-nav" id="lessonNav" aria-label="درس‌ها"></nav>
-<div class="prog" id="progRail"><div class="bar"><i id="progFill" style="width:0%"></i></div><div class="row"><span class="lbl" id="progLbl" style="flex:1"></span><button class="mapbtn" id="mapBtn" type="button">🗺 نقشه‌ی درس</button></div><div class="chbar"><i id="chFill" style="width:0%"></i></div><div class="lbl" id="chLbl"></div></div>
+<div class="prog" id="progRail"><div class="prog-in"><div class="bar"><i id="progFill" style="width:0%"></i></div><div class="row"><span class="lbl" id="progLbl" style="flex:1"></span><button class="mapbtn" id="mapBtn" type="button">نقشه‌ی درس</button></div><div class="chbar"><i id="chFill" style="width:0%"></i></div><div class="lbl" id="chLbl"></div></div></div>
 <div class="hint">روی هر تمرین بزن تا باز شود · روی هر کلمه بزن تا معنی‌اش بیاید · کلمه را نگه دار و بکش تا چند کلمه انتخاب شود</div>
 <main id="app"><div class="spin" aria-label="در حال بارگذاری"></div></main>
 
@@ -295,7 +296,7 @@ html[data-theme=lilac] .pk,html[data-theme=peachy] .pk,html[data-theme=minty] .p
 <div id="detail" hidden role="dialog" aria-label="جزئیات کلمه"><div class="sc">
  <div class="row" style="align-items:center"><span class="dt-word" id="dtHead" style="flex:1"></span><button class="x" id="dtX" aria-label="بستن">×</button></div>
  <div id="dtBody"></div>
- <div class="row" style="margin-top:14px;gap:8px"><button class="btn ghost" id="dtSay" style="flex:1">🔊 تلفظ</button><button class="btn" id="dtAdd" style="flex:1">＋ کارت</button></div>
+ <div class="row" style="margin-top:14px;gap:8px"><button class="btn ghost" id="dtSay" style="flex:1">🔊 تلفظ</button><button class="btn" id="dtAdd" style="flex:1">＋ کارت</button><button class="btn ghost" id="dtDict" style="flex:1">رفتن به دیکشنری</button></div>
 </div></div>
 <div id="sheet" hidden><div class="sc">
  <div class="row"><b>کارت جدید</b><button class="x" id="shX" aria-label="بستن">×</button></div>
@@ -306,7 +307,7 @@ html[data-theme=lilac] .pk,html[data-theme=peachy] .pk,html[data-theme=minty] .p
  <button class="btn full" id="cS">ذخیره</button>
 </div></div>
 <div id="chmap" hidden role="dialog" aria-label="نقشه‌ی درس"><div class="sc">
- <div class="row" style="align-items:center"><b style="flex:1">🗺 نقشه‌ی درس ۱</b><button class="x" id="chmapX" aria-label="بستن">×</button></div>
+ <div class="row" style="align-items:center"><b style="flex:1">نقشه‌ی درس ۱</b><button class="x" id="chmapX" aria-label="بستن">×</button></div>
  <div id="chmapBody"></div>
 </div></div>
 <div id="toast" role="status"></div>
@@ -381,7 +382,7 @@ async function loadManual(){if(_man)return _man;
 async function manMeanings(w){try{const m=await loadManual(),arr=m.get(w.toLowerCase());if(!arr)return[];
   const out=[];
   for(const e of arr){
-   for(const s of (e.senses||[]))if(s.persian)out.push({fa:s.persian,ctx:s.context_de||"",ex:(s.examples||[])[0]||""});
+   for(const s of (e.senses||[]))if(s.persian){const x0=(s.examples||[])[0]||"";out.push({fa:s.persian,ctx:s.context_de||"",ex:typeof x0==="string"?x0:(x0&&x0.de?x0.de:"")});}
    if(e.persian)out.push({fa:e.persian,ctx:"",ex:""});
   }
   return out.slice(0,4)}catch(e){return[]}}
@@ -677,7 +678,7 @@ function askRender(word,d){
   ${sec("مترادف‌ها",chips(d.synonyms))}
   ${sec("متضادها",chips(d.antonyms))}
   ${sec("مثال‌های کاربردی",(d.examples||[]).map(e=>`<div class="ask-ex"><div class="s" dir="auto">${esc(e.s||"")}</div><div class="t" dir="auto">${esc(e.t||"")}</div></div>`).join(""))}
-  ${d.tip?`<div class="ask-tip">💡 <b>نکته‌ی پووف:</b> <span dir="auto">${esc(d.tip)}</span></div>`:""}
+  ${d.tip?`<div class="ask-tip"><b>نکته‌ی پووف:</b> <span dir="auto">${esc(d.tip)}</span></div>`:""}
   <button class="ghost full" id="askSave" style="margin-top:8px">+ ذخیره به‌عنوان کارت</button>`;
  $("#askSave").onclick=()=>{
   const fa=FA.test(word);
@@ -702,7 +703,7 @@ async function askPOOF(word,ctx){
   if(!d)throw new Error("empty");
   askCacheSet(akey,d);askRender(word,d);
  }catch(e){
-  $("#askBody").innerHTML=`<p class="mute" style="text-align:center;padding:20px">پووف نتونست جواب بده 😔<br><small>${esc(e.message||"خطا")}</small></p><button class="ghost full" onclick="askPOOF(askWord)">تلاش مجدد</button>`;
+  $("#askBody").innerHTML=`<p class="mute" style="text-align:center;padding:20px">پووف نتونست جواب بده<br><small>${esc(e.message||"خطا")}</small></p><button class="ghost full" onclick="askPOOF(askWord)">تلاش مجدد</button>`;
  }
 }
 $("#askClose").onclick=()=>{$("#ask").hidden=true};
@@ -727,6 +728,7 @@ async function openDetail(word,ctx){
 $("#dtX").onclick=()=>{$("#detail").hidden=true};
 $("#detail").addEventListener("click",e=>{if(e.target.id==="detail")$("#detail").hidden=true});
 $("#dtSay").onclick=()=>say(dtWord);
+$("#dtDict").onclick=()=>{if(!dtWord)return;location.href="index.html?dict="+encodeURIComponent(dtWord);};
 $("#dtAdd").onclick=async()=>{
  const faD=await faMeanings(dtWord);
  const back=faD.length?faD[0].fa:(pop.tr||"");
@@ -767,7 +769,7 @@ const LESSONS=[
  {n:5,file:"schritte-lektion-5.json",title:"Mein Tag"},
  {n:6,file:"schritte-lektion-6.json",title:"Freizeit"},
  {n:7,file:"schritte-lektion-7.json",title:"Lernen – ein Leben lang"}];
-const KIND={exercise:"تمرین",listening:"🎧 شنیداری",dialogue:"💬 گفت‌وگو",grammar:"📏 گرامر"};
+const KIND={exercise:"تمرین",listening:"شنیداری",dialogue:"گفت‌وگو",grammar:"گرامر"};
 const GTITLE={ "Folge 1":"Folge 1 · Das bin ich",A:"A · Guten Tag!",B:"B · Ich bin …",C:"C · Das bin ich",
  D:"D · Länder und Sprachen",E:"E · Das ist …",F:"F · Zahlen",G:"G · Buchstabieren",
  H:"H · Im Café",I:"I · Namen und Länder",J:"J · Film",K:"K · Landeskunde",
@@ -981,9 +983,9 @@ function lernzieleBody(s){
    const v=saved[it.L]||0;
    h+=`<div class="lz-row"><span class="lt">${it.L}</span><div class="tx"><div class="de" style="font-size:15px">${richInline(it.tx)}</div></div>
     <div class="lz-sm" data-lz="${it.L}">
-     <button type="button" data-v="3" class="${v===3?"on":""}" aria-label="خوب بلدم">☺</button>
-     <button type="button" data-v="2" class="${v===2?"on":""}" aria-label="نسبتاً">😐</button>
-     <button type="button" data-v="1" class="${v===1?"on":""}" aria-label="هنوز سخت است">☹</button>
+     <button type="button" data-v="3" class="${v===3?"on":""}" aria-label="خوب بلدم">●</button>
+     <button type="button" data-v="2" class="${v===2?"on":""}" aria-label="نسبتاً">◐</button>
+     <button type="button" data-v="1" class="${v===1?"on":""}" aria-label="هنوز سخت است">○</button>
     </div></div>`;
   }
   if(tail)h+=`<div class="komm-h">Ich kenne jetzt …</div><div class="de" style="font-size:15px">${richInline(tail.replace("Ich kenne jetzt …","").trim())}</div>`;
@@ -1020,7 +1022,7 @@ function toggleDone(id){
  const c=CHAPS[chIdx];
  if(c&&chIsDone(c)&&was<c.items.length){
   if(navigator.vibrate)try{navigator.vibrate([12,40,12])}catch(e){}
-  toast("آفرین! این فصل کامل شد 🎉");
+  toast("آفرین! این فصل کامل شد");
  }
 }
 function updateProg(total){const d=doneSet(),n=Object.values(d).filter(Boolean).length;
@@ -1094,7 +1096,7 @@ function render(){
   <div class="ch-hero${c.book==="ab"?" ab":""}">
    <div class="band"><div class="ltr"><span class="big">${esc(big)}</span>${esc(t.de)}</div>
    <div class="fa-sub">${esc(t.fa)}</div></div>
-   <div class="meta"><span>فصل ${faNum(chIdx+1)} از ${faNum(CHAPS.length)}</span><span class="sp"></span><span>${c.book==="ab"?"📗 کتاب کار":"📘 کتاب درسی"}</span><span>ص ${faNum(c.items[0].s.page)}–${faNum(c.items[c.items.length-1].s.page)}</span></div>
+   <div class="meta"><span>فصل ${faNum(chIdx+1)} از ${faNum(CHAPS.length)}</span><span class="sp"></span><span>${c.book==="ab"?"کتاب کار":"کتاب درسی"}</span><span>ص ${faNum(c.items[0].s.page)}–${faNum(c.items[c.items.length-1].s.page)}</span></div>
    <div class="ch-prog"><div class="bar"><i style="width:${total?Math.round(doneN/total*100):0}%"></i></div>
    <div class="lbl">${doneN===total?"✓ این فصل کامل شد":`${faNum(doneN)} از ${faNum(total)} تمرین · ${faNum(total-doneN)} تمرین مانده تا پایان این فصل`}</div>
    <div class="ch-dots">${c.items.map(x=>`<i class="${doneSet()[x.s.id]?"ok":""}"></i>`).join("")}</div></div>
@@ -1109,7 +1111,7 @@ function render(){
    <button type="button" class="btn ghost" data-nav="-1" ${prev?"":"disabled"}>→ فصل قبل</button>
    <button type="button" class="btn${allDone?" done-next":""}" data-nav="1" ${next?"":"disabled"}>${next?(allDone?"✓ فصل بعد":"فصل بعد ←"):"پایان درس ۱ ✓"}</button>
   </div>
-  ${allDone?`<p class="ch-done-note">آفرین! این فصل کامل شد 🎉</p>`:""}`;
+  ${allDone?`<p class="ch-done-note">آفرین! این فصل کامل شد</p>`:""}`;
  html+="</div>";
  app.innerHTML=html;
   /* note: networkState is 3 right after insertion even for valid files (preload=none),
@@ -1186,7 +1188,8 @@ document.addEventListener("click",e=>{
 
 /* ---------- lesson nav + init ---------- */
 function renderNav(){
- $("#lessonNav").innerHTML=LESSONS.map(l=>`<button type="button" class="chip${l.n===1?" on":" off"}" data-l="${l.n}">${l.n===1?"✓ ":""}درس ${faNum(l.n)} · ${esc(l.title)}</button>`).join("");
+ /* ?v=227: title-less chips ("درس N" only) — the row scrolls, ready for A1.2 (L8–14) */
+$("#lessonNav").innerHTML=LESSONS.map(l=>`<button type="button" class="chip${l.n===1?" on":" off"}" data-l="${l.n}">درس ${faNum(l.n)}</button>`).join("");
 }
 $("#lessonNav").addEventListener("click",e=>{
  const b=e.target.closest("[data-l]");if(!b)return;
