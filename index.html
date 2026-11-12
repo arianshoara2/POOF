@@ -909,7 +909,7 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
      <div class="row" style="gap:6px;margin-top:8px;align-items:center"><button class="ghost" id="zbPrevSub">قبلی</button><button class="ghost" id="zbNextSub">بعدی</button><div class="seg" id="zbSubSeg" style="flex:1"></div></div>
      <p id="zbSubLine" style="margin:10px 0;padding:10px;border:1px solid var(--lt-border,var(--border));border-radius:10px;font-size:17px;line-height:1.9;min-height:1.9em" dir="auto"></p>
     </div>
-    <button class="ghost" id="zbPlayTgl" hidden style="display:block;margin:8px auto 2px;width:fit-content" aria-label="پخش/مکث">▶️</button>
+    <div class="row" id="zbPlayerBtns" hidden style="justify-content:center;gap:8px;margin:8px 0 2px"><button class="ghost" id="zbPlayTgl" aria-label="پخش/مکث">▶️</button><button class="ghost" id="zbCloseVideo" aria-label="بستن ویدیو">✕ بستن ویدیو</button></div>
      </div>
      <div id="zbSubBar" hidden>
      <div id="zbSubList"></div>
@@ -3476,9 +3476,9 @@ function renderReader(){
   const srcOf=g=>t.pod?("podcast:"+t.id+"@"+Math.floor(g.s)):igv?("ig:"+t.video.ig+"@"+Math.floor(g.s)):t.video?("video:"+t.video.id+"@"+Math.floor(g.s)):("local:"+Math.floor(g.s));
   $("#text").innerHTML=t.video&&t.video.id&&!t.segs.length?`<div class="empty-wrap"><p class="state empty">${YT_BOT_MSG}</p></div>`:t.segs.map((g,k)=>`<div class="tline" id="sg${k}">${`<button class="ts" data-ts="${g.s}">${mmss(g.s)}</button>`}${sr(g.t,t.lang,"",srcOf(g))}</div>`).join("");
  }else if(t.pod){const ytm=(t.body||"").match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?[^#]*v=|embed\/|shorts\/))([A-Za-z0-9_-]{11})/);$("#text").innerHTML=((t.body||"")?`<p class="mute">توضیحات قسمت — متن گفتگو برای این قسمت موجود نیست.</p>`:"")+((t.body||"")&&ytm?`<p><button class="btn sm" data-pod-yt>▶ دریافت متن گفتگو از یوتیوب</button></p>`:"")+(t.body||"").split(/\n\s*\n/).map(txtParaHTML).join("")||`<p class="state empty">بدون متن — فقط صوت.</p>`;}else if(t.wpBlocks&&t.wpBlocks.length){
-  const rich=wpRichHTML(t);
+  let rich="";try{rich=wpRichHTML(t)}catch(e){rich=""}
   if(rich)$("#text").innerHTML=rich;
-  else $("#text").innerHTML=t.body.split(/\n\s*\n/).map(txtParaHTML).join("");
+  else $("#text").innerHTML=(t.body||"").split(/\n\s*\n/).map(txtParaHTML).join("");
  }
  else $("#text").innerHTML=t.body.split(/\n\s*\n/).map(txtParaHTML).join("");
  $("#text").classList.toggle("de",t.lang!=="fa");sel=null;W=[];drawSel();renderLib();
@@ -4705,6 +4705,7 @@ function zbBack(){
  const r=$("#zbRes");if(r)r.hidden=false;
 }
 $("#zbBack").onclick=()=>zbBack();
+$("#zbCloseVideo").onclick=()=>zbBack();
 $("#zbKindSeg").onclick=e=>{const b=e.target.closest("[data-zbk]");if(!b)return;zbKind=b.dataset.zbk;$$("#zbKindSeg button").forEach(x=>x.classList.toggle("on",x===b));if($("#zbQ").value.trim())zbSearch()};
 let zbSearchSeq=0,zbDeb=null;
 async function zbSearch(){
@@ -4997,7 +4998,7 @@ function zbHistSavePos(reorder){
 $("#zbVideo").addEventListener("timeupdate",()=>{const now=Date.now();if(now-zbHistLastSave<15000)return;zbHistLastSave=now;zbHistSavePos(false)});
 $("#zbVideo").addEventListener("pause",()=>zbHistSavePos(true));
 $("#zbVideo").addEventListener("ended",()=>zbHistSavePos(true));
-function zbSyncTgl(){const v=$("#zbVideo"),t=$("#zbPlayTgl");if(!v||!t)return;t.hidden=v.hidden;t.textContent=v.paused?"▶️":"⏸️"}
+function zbSyncTgl(){const v=$("#zbVideo"),w=$("#zbPlayerBtns"),t=$("#zbPlayTgl");if(!v||!w||!t)return;w.hidden=v.hidden;t.textContent=v.paused?"▶️":"⏸️"}
 $("#zbVideo").addEventListener("play",zbSyncTgl);
 $("#zbVideo").addEventListener("pause",zbSyncTgl);
 $("#zbVideo").addEventListener("ended",zbSyncTgl);
@@ -5145,7 +5146,7 @@ function wpRichHTML(t){
   if(b.k==="h"&&typeof b.t==="string")return `<h3 class="wp-h" dir="auto">${esc(b.t)}</h3>`;
   if(b.k==="p"&&typeof b.t==="string")return `<p dir="auto">${sentSpans(b.t)}</p>`;
   if(b.k==="li"&&typeof b.t==="string")return `<p dir="auto">\u2022 ${sentSpans(b.t)}</p>`;
-  if(b.k==="table"&&Array.isArray(b.rows))return `<div class="wp-scroll"><table class="wp-t" dir="auto">${b.rows.map(r=>`<tr>${r.map(c=>`<td>${esc(c)}</td>`).join("")}</tr>`).join("")}</table></div>`;
+  if(b.k==="table"&&Array.isArray(b.rows))return `<div class="wp-scroll"><table class="wp-t" dir="auto">${b.rows.map(r=>Array.isArray(r)?`<tr>${r.map(c=>`<td>${esc(c)}</td>`).join("")}</tr>`:"").join("")}</table></div>`;
   if(b.k==="img"&&typeof b.src==="string")return `<figure class="wp-f"><img src="${esc(b.src)}" loading="lazy" alt="">${b.cap?`<figcaption>${esc(b.cap)}</figcaption>`:""}</figure>`;
   return "";
  }).join("");
