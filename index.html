@@ -5714,7 +5714,7 @@ function goReviewTab(){
   tab('review');
   try{if(window.PoofPos)PoofPos.go(PoofPos.make('index.html','tab:review',{scrollY:0}));}catch(e){}
 }
-$("#nav").onclick=e=>{if(rvLpFired){if(rvMenuEl&&!rvMenuEl.hidden){rvLpFired=false;rvMenuClose();return;}rvLpFired=false;}rvMenuClose();const b=e.target.closest("button");if(b){b.blur();if(b.dataset.t==="review")goReviewTab();else tab(b.dataset.t);saveState();pushNavState();if(window.PoofPos&&b.dataset.t!=="review"){try{PoofPos.go(PoofPos.make('index.html','tab:'+b.dataset.t,{cat:b.dataset.t==="read"?(db.textId||""):"",scrollY:0}));}catch(e){}}}};
+$("#nav").onclick=e=>{if(rvLpFired){rvLpFired=false;return;}rvMenuClose();const b=e.target.closest("button");if(b){b.blur();if(b.dataset.t==="review")goReviewTab();else tab(b.dataset.t);saveState();pushNavState();if(window.PoofPos&&b.dataset.t!=="review"){try{PoofPos.go(PoofPos.make('index.html','tab:'+b.dataset.t,{cat:b.dataset.t==="read"?(db.textId||""):"",scrollY:0}));}catch(e){}}}};
 
 /* ===== ?v=134: swipe between tabs (touch/pen only; never blocks scroll, selection, or taps; swipe left -> visually-right tab, swipe right -> visually-left tab) ===== */
 try{
