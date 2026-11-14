@@ -4313,24 +4313,28 @@ async function ytTimedText(id,want){
  const listXml=await proxyText(base+"&type=list");
  const tracks=[...new DOMParser().parseFromString(listXml,"text/xml").querySelectorAll("track")].map(tr=>({lang:tr.getAttribute("lang_code")||"",asr:tr.getAttribute("kind")==="asr"})).filter(x=>x.lang);
  if(!tracks.length)throw new Error("no caption tracks");
- const pref=[want,ytKnown(id).lang].filter(Boolean),man=tracks.filter(x=>!x.asr),asr=tracks.filter(x=>x.asr);
- const pick=man.find(x=>pref.includes(x.lang))||man[0]||asr.find(x=>pref.includes(x.lang))||asr[0];
+ const wl=(want||"").split("-")[0].toLowerCase(),baseL=x=>(x.lang||"").split("-")[0].toLowerCase(),man=tracks.filter(x=>!x.asr),asr=tracks.filter(x=>x.asr);
+ const pick=wl?(man.find(x=>baseL(x)===wl)||asr.find(x=>baseL(x)===wl)):(man.find(x=>x.lang===ytKnown(id).lang)||man[0]||asr[0]);
+ if(!pick)throw new Error("no caption in "+(wl||"auto"));
  const j=JSON.parse(await proxyText(base+"&lang="+encodeURIComponent(pick.lang)+"&kind="+(pick.asr?"asr":"")+"&fmt=json3"));
  const segs=(j.events||[]).filter(ev=>ev.segs).map(ev=>({s:(ev.tStartMs||0)/1000,t:ev.segs.map(s=>s.utf8||"").join("").replace(/\s+/g," ").trim()})).filter(x=>x.t);
  if(!segs.length)throw new Error("empty caption");
  return {segments:segs,lang:pick.lang,title:ytKnown(id).title};
 }
 const isNetErr=e=>!!e&&(e.name==="AbortError"||e instanceof TypeError||/timeout|failed to fetch|network/i.test(String(e.message||e)));
+const subLangOK=(lg,want,segs)=>{const w=String(want||"").split("-")[0].toLowerCase();if(!w||w==="auto")return true;let l=String(lg||"").split("-")[0].toLowerCase();if(!l&&segs&&segs.length)l=detectLang(segs.map(x=>x.t||"").join(" "));return l===w};
 async function importYT(id,want){
  const sid="yt_"+id+"_"+(want||"auto");
  let t=db.texts.find(x=>x.id===sid);
+ if(t&&t.segs&&t.segs.length&&!subLangOK(t.lang,t.want,t.segs)){db.texts=db.texts.filter(x=>x!==t);t=null;save();}
  if(t&&t.segs&&t.segs.length){db.textId=t.id;save();$("#addPanel").hidden=true;renderReader();$("#text").scrollIntoView({behavior:"smooth"});toast("این ویدیو قبلاً اضافه شده بود — باز شد");return}
- let data=null,err=null,fbErr=null;
+ let data=null,err=null,fbErr=null,wrongLang=false;
  try{
   const r=await fetchT(workerURL({yt:id,lang:want||""})),j=await r.json();
   if(!r.ok||j.error)throw new Error(j.error||"HTTP "+r.status);
   if(!j.segments||!j.segments.length)throw new Error("no transcript");
   data={segments:j.segments,title:j.title,lang:j.lang};
+  if(!subLangOK(data.lang,want,data.segments)){wrongLang=true;data=null;throw new Error("wrong subtitle language");}
  }catch(e){err=e}
  if(!data){
   if(err&&err.message==="noproxy")throw err;   // گیت پریمیوم، مثل قبل
@@ -4339,29 +4343,33 @@ async function importYT(id,want){
    if(!r.ok||j.error)throw new Error(j.error||"HTTP "+r.status);
    if(!j.segments||!j.segments.length)throw new Error("no transcript");
    data={segments:j.segments,title:j.title,lang:j.lang};
+   if(!subLangOK(data.lang,want,data.segments)){wrongLang=true;data=null;throw new Error("wrong subtitle language");}
   }catch(e){/* هر خرابی → مرحله بعد */}
   if(!data)try{   // Supadata — سهمیه ماهانه، فقط زیرنویس موجود (هر خرابی به مرحله بعد می‌افتد)
    const r=await fetchT(workerURL({supa:id,lang:want||""})),j=await r.json();
    if(!r.ok||j.error)throw new Error(j.error||"HTTP "+r.status);
    if(!j.segments||!j.segments.length)throw new Error("no transcript");
    data={segments:j.segments,title:j.title,lang:j.lang};
+   if(!subLangOK(data.lang,want,data.segments)){wrongLang=true;data=null;throw new Error("wrong subtitle language");}
   }catch(e){/* هر خرابی → مرحله بعد */}
   if(!data)try{   // مسیر API یوتیوب (کردیت فقط برای موفقیت؛ هر خرابی به timedtext می‌افتد)
    const r=await fetchT(workerURL({ytapi:id,lang:want||""})),j=await r.json();
    if(!r.ok||j.error)throw new Error(j.error||"HTTP "+r.status);
    if(!j.segments||!j.segments.length)throw new Error("no transcript");
    data={segments:j.segments,title:j.title,lang:j.lang};
+   if(!subLangOK(data.lang,want,data.segments)){wrongLang=true;data=null;throw new Error("wrong subtitle language");}
   }catch(e){/* هر خرابی API → افتادن به timedtext */}
   if(!data)try{data=await ytTimedText(id,want)}catch(e){fbErr=e}
  }
  if(data){
   const segs=data.segments.map(x=>({s:x.s,t:x.t})),body=segs.map(x=>x.t).join("\n");
-  if(t){t.segs=segs;t.body=body;if(data.title)t.title="YouTube · "+data.title;if(data.lang)t.lang=data.lang}
+  if(t){t.segs=segs;t.body=body;t.want=want||"";if(data.title)t.title="YouTube · "+data.title;if(data.lang)t.lang=data.lang}
   else{t={id:sid,added:Date.now(),title:"YouTube · "+(data.title||id),lang:data.lang||want||"en",want:want||"",body,video:{id},segs};db.texts.push(t)}
   db.textId=t.id;save();$("#addPanel").hidden=true;renderReader();$("#text").scrollIntoView({behavior:"smooth"});toast("زیرنویس آماده شد");
   return;
  }
  if(isNetErr(err)&&isNetErr(fbErr))throw err;   // مشکل واقعی اتصال: همان پیام‌های قبلی friendly
+ if(want&&want!=="auto"&&wrongLang)throw new Error("زیرنویس "+({fa:"فارسی",en:"انگلیسی",de:"آلمانی"}[String(want).split("-")[0].toLowerCase()]||want)+" برای این ویدیو پیدا نشد");
  // هر دو مسیر شکست خورد (معمولاً بات‌بلاک یوتیوب): ویدیو بدون متن ذخیره می‌شود تا پخش شود و بعداً برای متنش دوباره تلاش شود
  if(!t){
   const kn=ytKnown(id);
