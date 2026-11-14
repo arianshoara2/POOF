@@ -4345,11 +4345,12 @@ async function importYT(id,want){
  let t=db.texts.find(x=>x.id===sid);
  if(t&&t.segs&&t.segs.length&&!subLangOK(t.lang,t.want,t.segs)){db.texts=db.texts.filter(x=>x!==t);t=null;save();}
  if(t&&t.segs&&t.segs.length){db.textId=t.id;save();$("#addPanel").hidden=true;renderReader();$("#text").scrollIntoView({behavior:"smooth"});toast("این ویدیو قبلاً اضافه شده بود — باز شد");return}
- let data=null,err=null,fbErr=null,wrongLang=false;
+ let data=null,err=null,fbErr=null,wrongLang=false,srcSegs=null,srcLang="";
  try{
   const r=await fetchT(workerURL({yt:id,lang:want||""})),j=await r.json();
   if(!r.ok||j.error)throw new Error(j.error||"HTTP "+r.status);
   if(!j.segments||!j.segments.length)throw new Error("no transcript");
+   if(!srcSegs){srcSegs=j.segments;srcLang=j.lang||"";}
   data={segments:j.segments,title:j.title,lang:j.lang,translated:!!j.translated};
   if(!subLangOK(data.lang,want,data.segments)){wrongLang=true;data=null;throw new Error("wrong subtitle language");}
  }catch(e){err=e}
@@ -4359,6 +4360,7 @@ async function importYT(id,want){
    const r=await fetchT(workerURL({yta:id})),j=await r.json();
    if(!r.ok||j.error)throw new Error(j.error||"HTTP "+r.status);
    if(!j.segments||!j.segments.length)throw new Error("no transcript");
+   if(!srcSegs){srcSegs=j.segments;srcLang=j.lang||"";}
    data={segments:j.segments,title:j.title,lang:j.lang};
    if(!subLangOK(data.lang,want,data.segments)){wrongLang=true;data=null;throw new Error("wrong subtitle language");}
   }catch(e){/* هر خرابی → مرحله بعد */}
@@ -4366,6 +4368,7 @@ async function importYT(id,want){
    const r=await fetchT(workerURL({supa:id,lang:want||""})),j=await r.json();
    if(!r.ok||j.error)throw new Error(j.error||"HTTP "+r.status);
    if(!j.segments||!j.segments.length)throw new Error("no transcript");
+   if(!srcSegs){srcSegs=j.segments;srcLang=j.lang||"";}
    data={segments:j.segments,title:j.title,lang:j.lang};
    if(!subLangOK(data.lang,want,data.segments)){wrongLang=true;data=null;throw new Error("wrong subtitle language");}
   }catch(e){/* هر خرابی → مرحله بعد */}
@@ -4373,10 +4376,31 @@ async function importYT(id,want){
    const r=await fetchT(workerURL({ytapi:id,lang:want||""})),j=await r.json();
    if(!r.ok||j.error)throw new Error(j.error||"HTTP "+r.status);
    if(!j.segments||!j.segments.length)throw new Error("no transcript");
+   if(!srcSegs){srcSegs=j.segments;srcLang=j.lang||"";}
    data={segments:j.segments,title:j.title,lang:j.lang};
    if(!subLangOK(data.lang,want,data.segments)){wrongLang=true;data=null;throw new Error("wrong subtitle language");}
   }catch(e){/* هر خرابی API → افتادن به timedtext */}
   if(!data)try{data=await ytTimedText(id,want)}catch(e){fbErr=e}
+  // ترجمه ماشینی کل زیرنویس (مثل بخش فیلم‌ها — zbLoadGerman): وقتی هیچ مسیری زیرنویس هم‌زبان نداد، بهترین ترک موجود را با tr() ترجمه کن
+  if(!data&&want&&want!=="auto"){
+   try{
+    toast("در حال ترجمه زیرنویس…");
+    if(!srcSegs||!srcSegs.length){const a=await ytTimedText(id,"auto");srcSegs=a.segments;srcLang=a.lang||"";}
+    const from=String(srcLang||detectLang((srcSegs||[]).map(x=>x.t||"").join(" "))).split("-")[0].toLowerCase();
+    const wl=String(want).split("-")[0].toLowerCase();
+    if(srcSegs&&srcSegs.length&&from&&from!==wl){
+     const out=[];
+     for(let a=0;a<srcSegs.length;a+=15){
+      const chunk=srcSegs.slice(a,a+15);
+      let parts=null;
+      try{const tt=await tr(chunk.map(x=>x.t).join("\n"),from,wl);const ps=tt?tt.split("\n").map(s=>s.trim()).filter(Boolean):[];if(ps.length===chunk.length)parts=ps;}catch(e){}
+      if(!parts){parts=[];for(const x of chunk){try{parts.push((await tr(x.t,from,wl))||x.t)}catch(e){parts.push(x.t)}}}
+      chunk.forEach((x,i)=>out.push({s:+x.s||0,t:parts[i]||x.t}));
+     }
+     if(out.length&&detectLang(out.map(x=>x.t).join(" "))===wl)data={segments:out,lang:wl,translated:true,title:ytKnown(id).title};
+    }
+   }catch(e){/* ترجمه نشد → خطای صادقانه‌ی زیر */}
+  }
  }
  if(data){
   const segs=(data.segments||[]).filter(x=>x&&typeof x.t==="string"&&x.t.trim()!=="").map(x=>({s:+x.s||0,t:x.t}));
