@@ -884,7 +884,7 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
    <p class="mute" style="margin:6px 0 0">ویدیو فقط در همین جلسه پخش می‌شود و جایی ذخیره نمی‌شود.</p>
   </div>
   <div class="row" id="hlBar" style="gap:8px;align-items:center;margin:0 0 8px">
-   <button class="chip" id="hlTog">هایلایت بلدها</button><button class="chip" id="txtTgl" aria-label="بستن/باز کردن متن">📝 متن ▾</button>
+   <button class="chip" id="hlTog">هایلایت بلدها</button><button class="chip" id="txtTgl" aria-label="بستن/باز کردن متن">📝 متن ▾</button><div class="seg" id="txtLangSeg" hidden><button data-tl="">اصلی</button><button data-tl="en">EN</button><button data-tl="de">DE</button><button data-tl="fa">فا</button></div>
    <span class="mute" id="hlStat" style="font-size:12px"></span>
   </div>
   <div class="card de poof-img-reading-bg" id="text"></div>
@@ -1476,7 +1476,7 @@ setInterval(()=>{
  if(t.segs){
   let i=-1;for(let k=0;k<t.segs.length;k++){if(t.segs[k].s<=c+.2)i=k;else break}
   if(i!==lastCur){
-   lastCur=i;$$("#text .tline.cur").forEach(x=>x.classList.remove("cur"));
+   lastCur=i;vpSetCur(i);$$("#text .tline.cur").forEach(x=>x.classList.remove("cur"));
    const el=$("#sg"+i);
    if(el){el.classList.add("cur");if(follow&&!sel&&!audEl.paused){const r=el.getBoundingClientRect();if(r.top<280||r.bottom>innerHeight-120)scrollBy({top:r.top-300,behavior:"smooth"})}}
   }
@@ -3478,14 +3478,14 @@ function renderReader(){
  if(t.segs){
   const igv=t.video&&t.video.ig;
   const srcOf=g=>t.pod?("podcast:"+t.id+"@"+Math.floor(g.s)):igv?("ig:"+t.video.ig+"@"+Math.floor(g.s)):t.video?("video:"+t.video.id+"@"+Math.floor(g.s)):("local:"+Math.floor(g.s));
-  $("#text").innerHTML=t.video&&t.video.id&&!t.segs.length?`<div class="empty-wrap"><p class="state empty">${YT_BOT_MSG}</p></div>`:t.segs.map((g,k)=>`<div class="tline" id="sg${k}">${`<button class="ts" data-ts="${g.s}">${mmss(g.s)}</button>`}${sr(g.t,t.lang,"",srcOf(g))}</div>`).join("");
+  $("#text").innerHTML=t.video&&t.video.id&&!t.segs.length?`<div class="empty-wrap"><p class="state empty">${YT_BOT_MSG}</p></div>`:dispSegs(t).map((g,k)=>`<div class="tline" id="sg${k}">${`<button class="ts" data-ts="${g.s}">${mmss(g.s)}</button>`}${sr(g.t,dispLang(t),"",srcOf(g))}</div>`).join("");
  }else if(t.pod){const ytm=(t.body||"").match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?[^#]*v=|embed\/|shorts\/))([A-Za-z0-9_-]{11})/);$("#text").innerHTML=((t.body||"")?`<p class="mute">توضیحات قسمت — متن گفتگو برای این قسمت موجود نیست.</p>`:"")+((t.body||"")&&ytm?`<p><button class="btn sm" data-pod-yt>▶ دریافت متن گفتگو از یوتیوب</button></p>`:"")+(t.body||"").split(/\n\s*\n/).map(txtParaHTML).join("")||`<p class="state empty">بدون متن — فقط صوت.</p>`;}else if(t.wpBlocks&&t.wpBlocks.length){
   let rich="";try{rich=wpRichHTML(t)}catch(e){rich=""}
   if(rich)$("#text").innerHTML=rich;
-  else $("#text").innerHTML=(t.body||"").split(/\n\s*\n/).map(txtParaHTML).join("")||`<div class="empty-wrap"><p class="state empty">این متن محتوایی ندارد.</p></div>`;
+  else $("#text").innerHTML=dispBody(t).split(/\n\s*\n/).map(txtParaHTML).join("")||`<div class="empty-wrap"><p class="state empty">این متن محتوایی ندارد.</p></div>`;
  }
- else $("#text").innerHTML=(t.body||"").split(/\n\s*\n/).map(txtParaHTML).join("")||`<div class="empty-wrap"><p class="state empty">این متن محتوایی ندارد.</p></div>`;
- $("#text").classList.toggle("de",t.lang!=="fa");sel=null;W=[];drawSel();renderLib();
+ else $("#text").innerHTML=dispBody(t).split(/\n\s*\n/).map(txtParaHTML).join("")||`<div class="empty-wrap"><p class="state empty">این متن محتوایی ندارد.</p></div>`;
+ $("#text").classList.toggle("de",dispLang(t)!=="fa");sel=null;W=[];drawSel();renderLib();
  hlApply(t);
  const sl=$("#txtSrc");sl.hidden=!t.wp;
  if(t.wp)sl.innerHTML=`منبع: <a href="https://${t.lang||"de"}.wikipedia.org/wiki/${encodeURIComponent(t.wp.replace(/ /g,"_"))}" target="_blank" rel="noopener">ویکی‌پدیا</a> (مجوز CC BY-SA)`;
@@ -4341,6 +4341,60 @@ async function ytTimedText(id,want){
 }
 const isNetErr=e=>!!e&&(e.name==="AbortError"||e instanceof TypeError||/timeout|failed to fetch|network/i.test(String(e.message||e)));
 const subLangOK=(lg,want,segs)=>{const w=String(want||"").split("-")[0].toLowerCase();if(!w||w==="auto")return true;const joined=(segs&&segs.length)?segs.map(x=>x.t||"").join(" "):"";if(joined.length>=120)return detectLang(joined)===w;let l=String(lg||"").split("-")[0].toLowerCase();if(!l&&joined)l=detectLang(joined);return l===w};
+/* ===== ترجمه‌ی کل متن (متن خام + اینستاگرام) — مثل تب‌های زبان بخش فیلم‌ها ===== */
+const dispSegs=t=>(t&&t.viewLang&&t.segTr&&t.segTr[t.viewLang])||(t&&t.segs)||[];
+const dispBody=t=>{if(t&&t.viewLang&&t.tr&&t.tr[t.viewLang])return t.tr[t.viewLang];return (t&&t.body)||"";};
+const dispLang=t=>(t&&t.viewLang)||(t&&t.lang)||"de";
+const isPlainText=t=>!!(t&&!t.segs&&!t.video&&!t.pod&&!(t.wpBlocks&&t.wpBlocks.length)&&(t.body||"").trim());
+async function translateSegs(segs,from,to){
+ const out=[];
+ for(let a=0;a<segs.length;a+=15){
+  const chunk=segs.slice(a,a+15);
+  let parts=null;
+  try{const tt=await tr(chunk.map(x=>x.t).join("\n"),from,to);const ps=tt?tt.split("\n").map(s=>s.trim()).filter(Boolean):[];if(ps.length===chunk.length)parts=ps;}catch(e){}
+  if(!parts){parts=[];for(const x of chunk){try{parts.push((await tr(x.t,from,to))||x.t)}catch(e){parts.push(x.t)}}}
+  chunk.forEach((x,i)=>out.push({s:+x.s||0,t:parts[i]||x.t}));
+ }
+ return out;
+}
+async function translateText(body,from,to){
+ const paras=(body||"").split(/\n\s*\n/).map(p=>p.trim()).filter(Boolean);
+ const out=[];
+ for(let a=0;a<paras.length;a+=15){
+  const chunk=paras.slice(a,a+15);
+  let parts=null;
+  try{const tt=await tr(chunk.join("\n"),from,to);const ps=tt?tt.split("\n").map(s=>s.trim()).filter(Boolean):[];if(ps.length===chunk.length)parts=ps;}catch(e){}
+  if(!parts){parts=[];for(const p of chunk){try{parts.push((await tr(p,from,to))||p)}catch(e){parts.push(p)}}}
+  out.push(...parts);
+ }
+ return out.join("\n\n");
+}
+const LANGNAME={fa:"فارسی",en:"انگلیسی",de:"آلمانی"};
+async function setPlainLang(t,want){
+ const src=String(t.lang||detectLang(t.body||"")).split("-")[0].toLowerCase();
+ const wl=String(want||"").split("-")[0].toLowerCase();
+ if(!wl||wl===src){t.viewLang=wl||"";save();renderReader();return}
+ if(t.tr&&t.tr[wl]){t.viewLang=wl;save();renderReader();return}
+ toast("در حال ترجمه متن…");
+ try{
+  const out=await translateText(t.body||"",src,wl);
+  if(!out||(out.length>=120&&detectLang(out)!==wl))throw new Error("bad translation");
+  t.tr=t.tr||{};t.tr[wl]=out;t.viewLang=wl;save();renderReader();toast("متن به "+(LANGNAME[wl]||wl)+" ترجمه شد");
+ }catch(e){toast("ترجمه ممکن نشد","bad")}
+}
+async function setIGLang(t,want){
+ const src=String(t.lang||detectLang((t.segs||[]).map(x=>x.t||"").join(" "))).split("-")[0].toLowerCase();
+ const wl=String(want||"").split("-")[0].toLowerCase();
+ if(!wl||wl===src){t.viewLang=wl||"";save();renderReader();return}
+ if(t.segTr&&t.segTr[wl]){t.viewLang=wl;save();renderReader();return}
+ toast("در حال ترجمه زیرنویس…");
+ try{
+  const out=await translateSegs(t.segs||[],src,wl);
+  const joined=out.map(x=>x.t).join(" ");
+  if(!out.length||(joined.length>=120&&detectLang(joined)!==wl))throw new Error("bad translation");
+  t.segTr=t.segTr||{};t.segTr[wl]=out;t.viewLang=wl;save();renderReader();toast("زیرنویس به "+(LANGNAME[wl]||wl)+" ترجمه شد");
+ }catch(e){toast("ترجمه ممکن نشد","bad")}
+}
 async function importYT(id,want){
  const sid="yt_"+id+"_"+(want||"auto");
  let t=db.texts.find(x=>x.id===sid);
@@ -4390,14 +4444,7 @@ async function importYT(id,want){
     const from=String(srcLang||detectLang((srcSegs||[]).map(x=>x.t||"").join(" "))).split("-")[0].toLowerCase();
     const wl=String(want).split("-")[0].toLowerCase();
     if(srcSegs&&srcSegs.length&&from&&from!==wl){
-     const out=[];
-     for(let a=0;a<srcSegs.length;a+=15){
-      const chunk=srcSegs.slice(a,a+15);
-      let parts=null;
-      try{const tt=await tr(chunk.map(x=>x.t).join("\n"),from,wl);const ps=tt?tt.split("\n").map(s=>s.trim()).filter(Boolean):[];if(ps.length===chunk.length)parts=ps;}catch(e){}
-      if(!parts){parts=[];for(const x of chunk){try{parts.push((await tr(x.t,from,wl))||x.t)}catch(e){parts.push(x.t)}}}
-      chunk.forEach((x,i)=>out.push({s:+x.s||0,t:parts[i]||x.t}));
-     }
+     const out=await translateSegs(srcSegs,from,wl);
      if(out.length&&detectLang(out.map(x=>x.t).join(" "))===wl)data={segments:out,lang:wl,translated:true,title:ytKnown(id).title};
     }
    }catch(e){/* ترجمه نشد → خطای صادقانه‌ی زیر */}
@@ -4581,6 +4628,7 @@ $("#lvPick").onclick=()=>$("#lvFile").click();
 $("#lvFile").onchange=e=>{const f=e.target.files[0];e.target.value="";if(f)useLocalVideo(f)};
 async function setupPlayer(t){
  setupAudio(t);
+ const _tls=$("#txtLangSeg");if(_tls){const _pl=isPlainText(t);_tls.hidden=!_pl;if(_pl)$$("#txtLangSeg button").forEach(b=>b.classList.toggle("on",(b.dataset.tl||"")===(t.viewLang||"")));}
  const _ga=$("#vpGetAudio");if(_ga)_ga.hidden=true;
  const _cp=$("#vpCopy");if(_cp)_cp.hidden=!(t&&((t.segs&&t.segs.length)||(t.body||"").trim()));
  const _tt=$("#vpTextTgl");if(_tt){_tt.hidden=!t;_tt.innerHTML="📝 متن ▾";}const _tg=$("#txtTgl");if(_tg){_tg.hidden=!t;if(t)_tg.innerHTML="📝 متن ▾";}
@@ -4588,14 +4636,14 @@ async function setupPlayer(t){
  const lvc=$("#lvCard"),lve=$("#lv");
  if(lvc)lvc.hidden=!(t&&t.local);
  if(lve)lve.hidden=!(t&&t.local&&lve.src);
- const vp=$("#vp");vp.hidden=!(t&&t.video);const _vcl=$("#vpCurLine");if(_vcl){_vcl.hidden=!(t&&t.video&&!t.video.ig&&t.segs&&t.segs.length);if(_vcl.hidden)_vcl.innerHTML="";}
+ const vp=$("#vp");vp.hidden=!(t&&t.video);const _vcl=$("#vpCurLine");if(_vcl){_vcl.hidden=!(t&&t.video&&t.segs&&t.segs.length&&(!t.video.ig||t.audio));if(_vcl.hidden)_vcl.innerHTML="";}
  if(!t||!t.video){if(ytp&&ytp.pauseVideo)try{ytp.pauseVideo()}catch(e){}return}
  const note=$("#vpNote"),web=/^https?:$/.test(location.protocol);
  if(t.video.ig){
   if(ytp&&ytp.pauseVideo)try{ytp.pauseVideo()}catch(e){}
   const sc=t.video.ig,path=t.video.path||"reel";
   $("#vpOpen").href=`https://www.instagram.com/${path}/${sc}/`;$("#vpOpen").textContent="اینستاگرام";
-  $("#vpSeg").hidden=true;
+  $("#vpSeg").hidden=!(t.segs&&t.segs.length);$$("#vpSeg button").forEach(b=>b.classList.toggle("on",(b.dataset.vl||"")===(t.viewLang||"")));
   const _ga2=$("#vpGetAudio");if(_ga2)_ga2.hidden=!(t.segs&&t.segs.length&&!t.audio);
   $("#vpWrap").hidden=!web;note.hidden=web;
   if(!web){note.textContent="پخش داخل اپ فقط از آدرس https (مثل GitHub Pages) کار می‌کند.";return}
@@ -4621,7 +4669,7 @@ async function setupPlayer(t){
  }catch(e){ytp=null;note.hidden=false;note.textContent="ساخت پخش‌کننده ممکن نشد؛ با دکمه‌ی «یوتیوب» باز کنید.";$("#vpWrap").innerHTML='<div id="vpFrame"></div>';$("#vpWrap").hidden=true;}
 }
 /* جمله‌ی جاری نقطه‌ی پخش، جدا بالای متن کامل (مثل #zbSubLine در بخش فیلم‌ها) */
-function vpSetCur(i){const L=$("#vpCurLine");if(!L||L.hidden)return;const t=curText();if(i<0||!t||!t.segs||!t.segs[i]){L.innerHTML="";return}const g=t.segs[i];L.innerHTML=wrapWords(g.t);L.dataset.ctx=g.t;L.dataset.lang=t.lang||"de";L.dataset.ts=g.s;L.dataset.src="youtube";}
+function vpSetCur(i){const L=$("#vpCurLine");if(!L||L.hidden)return;const t=curText();if(i<0||!t||!dispSegs(t)[i]){L.innerHTML="";return}const g=dispSegs(t)[i];L.innerHTML=wrapWords(g.t);L.dataset.ctx=g.t;L.dataset.lang=dispLang(t);L.dataset.ts=g.s;L.dataset.src="youtube";}
 setInterval(()=>{
  const t=curText();if(!t||!t.segs||$("#s-read").hidden)return;
  if(t.local&&localActive()){
@@ -4695,9 +4743,11 @@ $("#vpClose").onclick=()=>{
 };
 $("#vpSeg").onclick=async e=>{
  const b=e.target.closest("[data-vl]"),t=curText();if(!b||!t||!t.video)return;
+ if(t.video.ig){await setIGLang(t,b.dataset.vl||"");return;}
  toast("در حال دریافت زیرنویس…");
  try{await importYT(t.video.id,b.dataset.vl)}catch(x){toast(friendly(x),"bad")}
 };
+$("#txtLangSeg").onclick=async e=>{const b=e.target.closest("[data-tl]"),t=curText();if(!b||!t||!isPlainText(t))return;await setPlainLang(t,b.dataset.tl||"");};
 
 /* ===== زبان (سرچ و پخش داخل پووف؛ استفاده‌ی شخصی، توکن فقط روی دستگاه) ===== */
 const ZB_BASE="https://api.zaban.io/api/v1/";
