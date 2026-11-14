@@ -1511,6 +1511,73 @@ function emojiFor(word){
 }
 
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+/* ===== ?v=248: English starter deck — Leitner boxes for English, batch 1 =====
+   20 everyday A1 words (front EN / back FA / example sentence + FA). Seeded once:
+   guarded by the deck id "en-starter", so it never duplicates and also reaches
+   existing users on their next load (via migrate). Cards start due (box 1) and
+   speak with the en-US voice (say() already maps lang "en"). */
+const EN_STARTER=[
+ {f:"hello",b:"سلام",ex:"Hello, how are you?",exfa:"سلام، چطوری؟"},
+ {f:"thank you",b:"متشکرم",ex:"Thank you very much.",exfa:"خیلی متشکرم."},
+ {f:"please",b:"لطفاً",ex:"Please sit down.",exfa:"لطفاً بنشینید."},
+ {f:"good morning",b:"صبح بخیر",ex:"Good morning, everyone.",exfa:"صبح بخیر همه."},
+ {f:"friend",b:"دوست",ex:"She is my best friend.",exfa:"او بهترین دوست من است."},
+ {f:"water",b:"آب",ex:"I drink water every day.",exfa:"هر روز آب می‌نوشم."},
+ {f:"book",b:"کتاب",ex:"This book is very interesting.",exfa:"این کتاب خیلی جالب است."},
+ {f:"house",b:"خانه",ex:"My house is near the park.",exfa:"خانه‌ی من نزدیک پارک است."},
+ {f:"time",b:"وقت، زمان",ex:"What time is it?",exfa:"ساعت چند است؟"},
+ {f:"today",b:"امروز",ex:"Today is a beautiful day.",exfa:"امروز روز زیبایی است."},
+ {f:"learn",b:"یاد گرفتن",ex:"I learn English every day.",exfa:"هر روز انگلیسی یاد می‌گیرم."},
+ {f:"speak",b:"صحبت کردن",ex:"Do you speak English?",exfa:"انگلیسی صحبت می‌کنی؟"},
+ {f:"work",b:"کار کردن / کار",ex:"I work in a hospital.",exfa:"در بیمارستان کار می‌کنم."},
+ {f:"eat",b:"خوردن",ex:"We eat breakfast at seven.",exfa:"ساعت هفت صبحانه می‌خوریم."},
+ {f:"big",b:"بزرگ",ex:"This is a big city.",exfa:"این شهر بزرگی است."},
+ {f:"happy",b:"خوشحال",ex:"I am happy today.",exfa:"امروز خوشحالم."},
+ {f:"school",b:"مدرسه",ex:"The children go to school.",exfa:"بچه‌ها به مدرسه می‌روند."},
+ {f:"money",b:"پول",ex:"I need some money.",exfa:"کمی پول لازم دارم."},
+ {f:"love",b:"دوست داشتن، عشق",ex:"I love my family.",exfa:"خانواده‌ام را دوست دارم."},
+ {f:"beautiful",b:"زیبا",ex:"This flower is beautiful.",exfa:"این گل زیباست."}
+];
+function seedEnStarter(n){
+ if(!n||!Array.isArray(n.decks)||!Array.isArray(n.cards))return;
+ if(n.decks.some(x=>x.id==="en-starter"))return;
+ n.decks.push({id:"en-starter",name:"انگلیسی 🇬🇧 — واژه‌های روزمره"});
+ const now=Date.now();
+ for(const w of EN_STARTER)n.cards.push({pos:"",def:"",context:w.ex,contextFa:w.exfa,source:"en-starter",created_at:now,ease:2.5,interval:0,reps:0,due:now,front:w.f,back:w.b,lang:"en",deck_id:"en-starter",id:uid()});
+}
+/* ===== ?v=249: English starter deck — batch 2 (same pattern as batch 1) =====
+   20 more everyday A1 words (family, food, places, daily things). New deck id
+   "en-starter-2" so users who already have batch 1 still get batch 2 on their
+   next load (via migrate); guarded, so it never duplicates. */
+const EN_STARTER_2=[
+ {f:"mother",b:"مادر",ex:"My mother is very kind.",exfa:"مادر من خیلی مهربان است."},
+ {f:"father",b:"پدر",ex:"My father works in a shop.",exfa:"پدر من در یک مغازه کار می‌کند."},
+ {f:"brother",b:"برادر",ex:"My brother is a student.",exfa:"برادر من دانش‌آموز است."},
+ {f:"sister",b:"خواهر",ex:"My sister likes music.",exfa:"خواهر من موسیقی دوست دارد."},
+ {f:"child",b:"کودک، بچه",ex:"The child plays in the garden.",exfa:"بچه در باغ بازی می‌کند."},
+ {f:"food",b:"غذا",ex:"This food is delicious.",exfa:"این غذا خیلی خوشمزه است."},
+ {f:"bread",b:"نان",ex:"I buy bread every morning.",exfa:"هر صبح نان می‌خرم."},
+ {f:"milk",b:"شیر",ex:"I drink milk for breakfast.",exfa:"برای صبحانه شیر می‌نوشم."},
+ {f:"coffee",b:"قهوه",ex:"I drink coffee in the morning.",exfa:"صبح قهوه می‌نوشم."},
+ {f:"tea",b:"چای",ex:"Do you want some tea?",exfa:"چای می‌خواهی؟"},
+ {f:"car",b:"ماشین",ex:"My car is red.",exfa:"ماشین من قرمز است."},
+ {f:"bus",b:"اتوبوس",ex:"We go to school by bus.",exfa:"با اتوبوس به مدرسه می‌رویم."},
+ {f:"train",b:"قطار",ex:"The train is very fast.",exfa:"قطار خیلی سریع است."},
+ {f:"street",b:"خیابان",ex:"My house is in this street.",exfa:"خانه‌ی من در این خیابان است."},
+ {f:"shop",b:"مغازه، فروشگاه",ex:"The shop opens at nine.",exfa:"مغازه ساعت نه باز می‌شود."},
+ {f:"phone",b:"تلفن",ex:"Where is my phone?",exfa:"تلفن من کجاست؟"},
+ {f:"computer",b:"کامپیوتر، رایانه",ex:"I work on my computer.",exfa:"روی کامپیوترم کار می‌کنم."},
+ {f:"door",b:"در",ex:"Please close the door.",exfa:"لطفاً در را ببندید."},
+ {f:"window",b:"پنجره",ex:"Open the window, please.",exfa:"لطفاً پنجره را باز کنید."},
+ {f:"red",b:"قرمز",ex:"She wears a red dress.",exfa:"او لباس قرمز می‌پوشد."}
+];
+function seedEnStarter2(n){
+ if(!n||!Array.isArray(n.decks)||!Array.isArray(n.cards))return;
+ if(n.decks.some(x=>x.id==="en-starter-2"))return;
+ n.decks.push({id:"en-starter-2",name:"انگلیسی 🇬🇧 — واژه‌های روزمره ۲"});
+ const now=Date.now();
+ for(const w of EN_STARTER_2)n.cards.push({pos:"",def:"",context:w.ex,contextFa:w.exfa,source:"en-starter-2",created_at:now,ease:2.5,interval:0,reps:0,due:now,front:w.f,back:w.b,lang:"en",deck_id:"en-starter-2",id:uid()});
+}
 const ic=n=>`<svg class="ic" aria-hidden="true"><use href="#i-${n}"/></svg>`;
 const SUB={read:"بخوان، انتخاب کن، یاد بگیر",dict:"دیکشنری آلمانی ⇄ فارسی",cards:"واژه‌های شخصی تو",review:"مرور و یادگیری",me:"پیشرفت و تنظیمات"};
 const DAY=864e5, fmt=d=>d.toLocaleDateString("sv-SE");
@@ -1519,7 +1586,7 @@ let tt;function toast(m,k){const t=$("#toast");t.textContent=m;t.className="show
 /* ===== 1) Storage v2 + Migration + Backup ===== */
 const K="poof_v2",KC="poof_dict_cache2",KB="poof_backup";
 const PACK_URL_DE="https://github.com/arianshoara2/POOF/releases/download/dict-de-v1/poof-de-dict.jsonl.gz";
-const fresh=()=>({v:2,decks:[{id:"default",name:"پیش‌فرض"}],cards:[],active:"default",texts:[],textId:"t0",log:{},recent:[],theme:"auto",proxy:"",zbShelf:[{t:"حیوانات",u:"https://zaban.com/share/movies/1812?language=fa"},{t:"برکینگ بد — قسمت ۱",u:"https://zaban.com/share/series/16/seasons/18/episodes/508?language=fa"}]});
+const fresh=()=>{const d={v:2,decks:[{id:"default",name:"پیش‌فرض"}],cards:[],active:"default",texts:[],textId:"t0",log:{},recent:[],theme:"auto",proxy:"",zbShelf:[{t:"حیوانات",u:"https://zaban.com/share/movies/1812?language=fa"},{t:"برکینگ بد — قسمت ۱",u:"https://zaban.com/share/series/16/seasons/18/episodes/508?language=fa"}]};seedEnStarter(d);seedEnStarter2(d);return d};
 function migrate(d){
  if(!d||typeof d!=="object"||!Array.isArray(d.cards)||!Array.isArray(d.decks))return null;
  if(d.v>2)return null;                       // نسخه‌ی آینده: دست نزن
@@ -1534,6 +1601,8 @@ function migrate(d){
   interval:c.box!=null?([0,1,3,7,14][c.box]||0):0,reps:c.box||0,due:Date.now(),
   ...c,deck_id:ids.has(c.deck_id)?c.deck_id:"default"}));
  if(!ids.has(n.active))n.active="default";
+ seedEnStarter(n); /* ?v=248: English starter deck for existing users (no-op if already seeded) */
+ seedEnStarter2(n); /* ?v=249: English starter deck batch 2 for existing users (no-op if already seeded) */
  return n;
 }
 function load(){
