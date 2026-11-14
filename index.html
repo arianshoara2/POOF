@@ -734,7 +734,8 @@ nav button::before,nav button::after{top:22px}
 .onb-nav{display:flex;gap:8px;margin-top:16px}
 .onb-nav .sp{flex:1}
 /* background-image toggle: when off, every scenic photo layer hides */
-html[data-bgimg="off"] #readBg,html[data-bgimg="off"] #learnBg,html[data-bgimg="off"] .poof-img-header-bg,html[data-bgimg="off"] .poof-img-library-banner,html[data-bgimg="off"] .poof-img-library-bg,html[data-bgimg="off"] .poof-img-reading-bg,html[data-bgimg="off"] .poof-img-card-bg-snowy,html[data-bgimg="off"] .poof-img-learn-path-bg,html[data-bgimg="off"] .poof-img-snowy-celebrate,html[data-bgimg="off"] .poof-img-snowy-read,html[data-bgimg="off"] .pod-scenic,html[data-bgimg="off"] #lilacHomeBanner,html[data-bgimg="off"] #mintyHomeBanner,html[data-bgimg="off"] #oceanHomeBanner,html[data-bgimg="off"] #sunHomeBanner,html[data-bgimg="off"] #nebulaHomeBanner{display:none!important}
+html[data-bgimg="off"] #readBg,html[data-bgimg="off"] #learnBg,html[data-bgimg="off"] .poof-img-header-bg,html[data-bgimg="off"] .poof-img-library-banner,html[data-bgimg="off"] .poof-img-library-bg,html[data-bgimg="off"] .poof-img-reading-bg:not(#text),html[data-bgimg="off"] .poof-img-card-bg-snowy,html[data-bgimg="off"] .poof-img-learn-path-bg,html[data-bgimg="off"] .poof-img-snowy-celebrate,html[data-bgimg="off"] .poof-img-snowy-read,html[data-bgimg="off"] .pod-scenic,html[data-bgimg="off"] #lilacHomeBanner,html[data-bgimg="off"] #mintyHomeBanner,html[data-bgimg="off"] #oceanHomeBanner,html[data-bgimg="off"] #sunHomeBanner,html[data-bgimg="off"] #nebulaHomeBanner{display:none!important}
+html[data-bgimg="off"] #text{background-image:none}
 /* bg-image toggle ON: let the scenic photos show through the dimming veil (was ~.8, nearly invisible) */
 html[data-bgimg="on"] #readBg::after,html[data-bgimg="on"] #reviewBg::after,html[data-bgimg="on"] #cardsBg::after,html[data-bgimg="on"] #meBg::after,html[data-bgimg="on"] #dictBg::after{background:rgba(8,20,33,.45)}
 html[data-theme="sun"][data-bgimg="on"] #readBg::after,html[data-theme="sun"][data-bgimg="on"] #reviewBg::after,html[data-theme="sun"][data-bgimg="on"] #cardsBg::after,html[data-theme="sun"][data-bgimg="on"] #meBg::after,html[data-theme="sun"][data-bgimg="on"] #dictBg::after{background:rgba(255,255,255,.45)}
@@ -1113,6 +1114,7 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
  <div style="text-align:center;padding:8px 0 4px"><img src="icon.svg" alt="poof" style="width:72px;height:72px;border-radius:18px"></div>
  <p style="text-align:center;margin:4px 0 2px"><b>poof</b></p>
  <p class="mute" style="text-align:center;margin:0 0 12px">نسخه ۷۷</p>
+ <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۲۵۰</p>
  <p style="margin:0 0 10px">با همکاری اصلی هوش مصنوعی موزی و آرین شعرا، با کمک چت‌جی‌پی‌تی و کلود، به‌صورت متن‌باز در گیت‌هاب ساخته شده است.</p>
  <p style="margin:0"><a href="https://github.com/arianshoara2/POOF" target="_blank" rel="noopener">github.com/arianshoara2/POOF</a></p>
 </div></div>
