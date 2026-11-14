@@ -4339,7 +4339,7 @@ async function ytTimedText(id,want){
  return {segments:segs,lang:pick.lang,title:ytKnown(id).title};
 }
 const isNetErr=e=>!!e&&(e.name==="AbortError"||e instanceof TypeError||/timeout|failed to fetch|network/i.test(String(e.message||e)));
-const subLangOK=(lg,want,segs)=>{const w=String(want||"").split("-")[0].toLowerCase();if(!w||w==="auto")return true;let l=String(lg||"").split("-")[0].toLowerCase();if(!l&&segs&&segs.length)l=detectLang(segs.map(x=>x.t||"").join(" "));return l===w};
+const subLangOK=(lg,want,segs)=>{const w=String(want||"").split("-")[0].toLowerCase();if(!w||w==="auto")return true;const joined=(segs&&segs.length)?segs.map(x=>x.t||"").join(" "):"";if(joined.length>=120)return detectLang(joined)===w;let l=String(lg||"").split("-")[0].toLowerCase();if(!l&&joined)l=detectLang(joined);return l===w};
 async function importYT(id,want){
  const sid="yt_"+id+"_"+(want||"auto");
  let t=db.texts.find(x=>x.id===sid);
