@@ -877,6 +877,7 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
     <button class="chip on" id="apFollow">دنبال‌کردن متن</button><button class="chip" id="apListen" hidden>🎧 شنیداری</button>
    </div>
    <audio id="au" controls preload="metadata"></audio>
+   <p id="apErr" hidden style="color:var(--error);text-align:center;margin:6px 0 0">صدای این قسمت در دسترس نیست — اتصال یا ورکر را چک کنید</p>
   </div>
   <div class="card" id="lvCard" hidden>
    <video id="lv" controls playsinline style="width:100%;border-radius:12px" hidden></video>
@@ -1124,7 +1125,7 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
  <div style="text-align:center;padding:8px 0 4px"><img src="icon.svg" alt="poof" style="width:72px;height:72px;border-radius:18px"></div>
  <p style="text-align:center;margin:4px 0 2px"><b>poof</b></p>
  <p class="mute" style="text-align:center;margin:0 0 12px">نسخه ۷۷</p>
- <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۲۵۴</p>
+ <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۲۵۵</p>
  <p style="margin:0 0 10px">با همکاری اصلی هوش مصنوعی موزی و آرین شعرا، با کمک چت‌جی‌پی‌تی و کلود، به‌صورت متن‌باز در گیت‌هاب ساخته شده است.</p>
  <p style="margin:0"><a href="https://github.com/arianshoara2/POOF" target="_blank" rel="noopener">github.com/arianshoara2/POOF</a></p>
 </div></div>
@@ -1450,24 +1451,53 @@ function audSavePos(t){
  }
  t.progress=p;save();
 }
+let audProxyTried=false,audMetaTimer=0,audWatchFor="";
+function audShowErr(){const e=$("#apErr");if(e)e.hidden=false;toast("صدای این قسمت در دسترس نیست","bad")}
+function audArmWatchdog(){
+ clearTimeout(audMetaTimer);audWatchFor=audFor;
+ audMetaTimer=setTimeout(()=>{
+  if(audFor===audWatchFor&&audEl&&(!isFinite(audEl.duration)||audEl.duration<=0)){
+   if(!audProxyTried)audTryProxy();else audShowErr();
+  }
+ },12000);
+}
+function audTryProxy(){
+ const t=db.texts.find(x=>x.id===audFor);if(!t||!t.pod)return;
+ if(audProxyTried){audShowErr();return}
+ audProxyTried=true;
+ const p=mediaURL(t.pod.audio||"");
+ if(!p){audShowErr();return}
+ toast("در حال پخش از مسیر جایگزین…");
+ audEl.src=p;audArmWatchdog();
+}
 function setupAudio(t){
  const ap=$("#ap");if(!ap)return;audEl=$("#au");if(!audEl)return;
  igListen=false;const _lb=$("#apListen");if(_lb){_lb.hidden=true;_lb.classList.remove("on")}
  if(!t||!(t.pod||t.audio)){ap.hidden=true;if(!audEl.paused)audEl.pause();return}
  ap.hidden=false;$("#apTitle").textContent=t.title||"";
  const ab=$("#apArtBox");
- if(t.pod&&t.pod.art){ab.innerHTML='<img src="'+esc(t.pod.art)+'" alt="" style="width:100%;height:100%;object-fit:cover" loading="lazy">'}
+ if(t.pod&&t.pod.art){ab.innerHTML='<img src="'+esc(t.pod.art)+'" alt="" style="width:100%;height:100%;object-fit:cover" loading="lazy">';
+  const _img=ab.querySelector("img");
+  if(_img)_img.onerror=()=>{if(_img.dataset.px){ab.innerHTML='<svg class="ic" style="width:34px;height:34px;color:var(--accent)" aria-hidden="true"><use href="#i-mic"/></svg>';return}_img.dataset.px="1";const _p=mediaURL(t.pod.art);if(_p)_img.src=_p;else ab.innerHTML='<svg class="ic" style="width:34px;height:34px;color:var(--accent)" aria-hidden="true"><use href="#i-mic"/></svg>'};}
  else ab.innerHTML='<svg class="ic" style="width:34px;height:34px;color:var(--accent)" aria-hidden="true"><use href="#i-mic"/></svg>';
  $("#apShow").textContent=t.pod?(t.pod.show||""):"اینستاگرام · صوت ریل";
  $("#apFollow").classList.toggle("on",follow);
  if(_lb)_lb.hidden=!(t.audio&&t.segs&&t.segs.length);
  if(audFor!==t.id){
-  audFor=t.id;audEl.src=t.pod?t.pod.audio:t.audio;
+  audFor=t.id;audProxyTried=false;const _ae=$("#apErr");if(_ae)_ae.hidden=true;
+  const raw=t.pod?t.pod.audio:t.audio;
+  audEl.src=raw?raw.replace(/^http:\/\//i,"https://"):raw;
   audEl.onloadedmetadata=()=>{
+   clearTimeout(audMetaTimer);
    const p=t.progress||{};let at=p.pos||0;
    if(!at&&t.segs&&p.seg>0&&t.segs[p.seg])at=t.segs[p.seg].s;
    if(at>5&&audEl.duration&&at<audEl.duration-3){audEl.currentTime=at;toast("ادامه از "+mmss(at))}
   };
+  audEl.onerror=()=>{
+   const _t=db.texts.find(x=>x.id===audFor);if(!_t||!_t.pod)return;
+   if(!audProxyTried)audTryProxy();else audShowErr();
+  };
+  audArmWatchdog();
  }
 }
 {const _au=$("#au");
@@ -2605,9 +2635,11 @@ function playGTTS(t,lang){
     var fail=function(){if(!failed){failed=true;toast("صدا روی این دستگاه پخش نشد","bad")}};
     (function nx(){
       if(i>=chs.length)return;
-      var a=new Audio("https://translate.google.com/translate_tts?ie=UTF-8&tl="+encodeURIComponent(tl)+"&client=tw-ob&q="+encodeURIComponent(chs[i++].trim()));
-      a.onended=nx;a.onerror=fail;
-      var pr=a.play();if(pr&&pr.catch)pr.catch(fail);
+      var _u="https://translate.google.com/translate_tts?ie=UTF-8&tl="+encodeURIComponent(tl)+"&client=tw-ob&q="+encodeURIComponent(chs[i++].trim());
+      var a=new Audio(_u);
+      a.onended=nx;
+      a.onerror=function(){if(!a._px){a._px=true;var _p=mediaURL(_u);if(_p){a.src=_p;var _pr=a.play();if(_pr&&_pr.catch)_pr.catch(function(e){if(e&&e.name==="NotAllowedError")fail()});return}}fail()};
+      var pr=a.play();if(pr&&pr.catch)pr.catch(function(e){if(e&&e.name==="NotAllowedError")fail()});
     })();
   }catch(e){toast("مرورگر از تلفظ پشتیبانی نمی‌کند","bad")}
 }
@@ -4467,6 +4499,7 @@ function workerURL(params){
  if(db.wkey)u.searchParams.set("auth",db.wkey);
  return u.toString();
 }
+function mediaURL(raw){try{return workerURL({media:1,u:raw})}catch(e){return null}}
 const YT_BOT_MSG="یوتیوب فعلاً سرور ما رو بات تشخیص داده و زیرنویس رو نداد 🤖 ویدیو ذخیره شد — می‌تونی پخشش کنی؛ برای متنش بعداً دوباره تلاش کن یا زیرنویس رو دستی وارد کن.";
 const friendly=e=>{const m=String(e&&e.message||e);
  if(m==="noproxy")return "ابتدا آدرس Worker را در تب «پیشرفت» تنظیم کنید";
