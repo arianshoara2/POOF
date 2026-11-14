@@ -1003,6 +1003,16 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
    <div class="row"><div style="flex:1"><b>حساب گوگل</b><div class="mute" id="gSub">کلمات و تاریخچه روی گوگل‌درایو شما ذخیره می‌شود؛ با هر گوشی که وارد شوید سر جایش است</div></div><span id="gSync" class="mute" style="font-size:12px"></span></div>
    <div class="row" id="gRow" style="margin-top:8px"></div>
   </div>
+  <h2>یادآوری‌ها</h2>
+  <div class="card" id="remindCard">
+   <div class="row"><div style="flex:1"><b>یادآوری روزانه</b><div class="mute">اگه چند ساعت سر نزنی، پووف با یه پیام کوتاه صدات می‌کنه — همون چیزی که خودت انتخاب کردی.</div></div><span id="remindState" class="mute" style="font-size:12px">خاموش</span></div>
+   <div style="margin-top:10px"><p class="lbl" style="margin:0 0 4px">هدفت چیه؟</p>
+   <div class="seg" id="remindGoal"><button data-g="all">همه</button><button data-g="migrate">مهاجرت 🇩🇪</button><button data-g="film">فیلم 🎬</button><button data-g="word">کلمه 📚</button><button data-g="text">متن 📖</button></div></div>
+   <div style="margin-top:10px"><p class="lbl" style="margin:0 0 4px">هر چند وقت؟</p>
+   <div class="seg" id="remindFreq"><button data-f="6h">هر ۶ ساعت</button><button data-f="daily">روزانه یک بار</button></div></div>
+   <div class="row" style="margin-top:12px"><button class="ghost" id="remindOn">فعال کردن یادآوری</button><button class="ghost" id="remindOff" hidden>خاموش کردن</button><button class="ghost" id="remindTest" hidden>ارسال نوتیف آزمایشی</button></div>
+   <p class="mute" id="remindMsg" style="font-size:12px;margin:8px 0 0"></p>
+  </div>
   <h2><svg class="ic ic-inline" aria-hidden="true"><use href="#i-crown"/></svg> پریمیوم</h2>
   <div class="card" id="premium">
    <p class="mute" style="margin-top:0">با اشتراک پریمیوم، همه‌ی قدرت POOF باز می‌شود:</p>
@@ -1114,7 +1124,7 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
  <div style="text-align:center;padding:8px 0 4px"><img src="icon.svg" alt="poof" style="width:72px;height:72px;border-radius:18px"></div>
  <p style="text-align:center;margin:4px 0 2px"><b>poof</b></p>
  <p class="mute" style="text-align:center;margin:0 0 12px">نسخه ۷۷</p>
- <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۲۵۲</p>
+ <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۲۵۳</p>
  <p style="margin:0 0 10px">با همکاری اصلی هوش مصنوعی موزی و آرین شعرا، با کمک چت‌جی‌پی‌تی و کلود، به‌صورت متن‌باز در گیت‌هاب ساخته شده است.</p>
  <p style="margin:0"><a href="https://github.com/arianshoara2/POOF" target="_blank" rel="noopener">github.com/arianshoara2/POOF</a></p>
 </div></div>
@@ -1621,7 +1631,7 @@ let tt;function toast(m,k){const t=$("#toast");t.textContent=m;t.className="show
 /* ===== 1) Storage v2 + Migration + Backup ===== */
 const K="poof_v2",KC="poof_dict_cache2",KB="poof_backup";
 const PACK_URL_DE="https://github.com/arianshoara2/POOF/releases/download/dict-de-v1/poof-de-dict.jsonl.gz";
-const fresh=()=>{const d={v:2,decks:[{id:"default",name:"پیش‌فرض"}],cards:[],active:"default",texts:[],textId:"t0",log:{},recent:[],theme:"auto",proxy:"",zbShelf:[{t:"حیوانات",u:"https://zaban.com/share/movies/1812?language=fa"},{t:"برکینگ بد — قسمت ۱",u:"https://zaban.com/share/series/16/seasons/18/episodes/508?language=fa"}]};seedEnStarter(d);seedEnStarter2(d);seedEnStarter3(d);return d};
+const fresh=()=>{const d={v:2,decks:[{id:"default",name:"پیش‌فرض"}],cards:[],active:"default",texts:[],textId:"t0",log:{},recent:[],theme:"auto",remind:{on:false,goal:"all",freq:"6h"},proxy:"",zbShelf:[{t:"حیوانات",u:"https://zaban.com/share/movies/1812?language=fa"},{t:"برکینگ بد — قسمت ۱",u:"https://zaban.com/share/series/16/seasons/18/episodes/508?language=fa"}]};seedEnStarter(d);seedEnStarter2(d);seedEnStarter3(d);return d};
 function migrate(d){
  if(!d||typeof d!=="object"||!Array.isArray(d.cards)||!Array.isArray(d.decks))return null;
  if(d.v>2)return null;                       // نسخه‌ی آینده: دست نزن
@@ -2589,6 +2599,73 @@ function playGTTS(t,lang){
       var pr=a.play();if(pr&&pr.catch)pr.catch(fail);
     })();
   }catch(e){toast("مرورگر از تلفظ پشتیبانی نمی‌کند","bad")}
+}
+
+/* ===== یادآوری‌ها (Web Push) — ?v=253 ===== */
+const VAPID_PUBLIC_KEY="BJLu3W9yEC54IAfXkiEBM2wVGlHSHwFRlOGUXOBYmA2zFPq222OzDR-Bm54CJjCWUI7FcDjiUFV9tEh0GJK9Vy0";
+function urlB64ToUint8Array(s){s=s.replace(/-/g,"+").replace(/_/g,"/");const p="=".repeat((4-s.length%4)%4);const b=atob(s+p);const a=new Uint8Array(b.length);for(let i=0;i<b.length;i++)a[i]=b.charCodeAt(i);return a}
+function remindBase(){const p=(db.proxy||"").trim();return p?p.split("?")[0]:""}
+async function remindCall(path,body){
+ const base=remindBase();if(!base)throw new Error("noproxy");
+ let u=base+"?"+path;if(db.wkey)u+="&auth="+encodeURIComponent(db.wkey);
+ const r=await fetch(u,{method:body?"POST":"GET",headers:body?{"Content-Type":"application/json"}:{},body:body?JSON.stringify(body):undefined});
+ let j=null;try{j=await r.json()}catch(e){}
+ if(!r.ok)throw new Error((j&&j.error)||("http "+r.status));
+ return j;
+}
+function remindPrefs(){return (db.remind&&typeof db.remind==="object")?db.remind:{on:false,goal:"all",freq:"6h"}}
+function remindRender(){
+ const r=remindPrefs();
+ $$("#remindGoal button").forEach(b=>b.classList.toggle("on",b.dataset.g===r.goal));
+ $$("#remindFreq button").forEach(b=>b.classList.toggle("on",b.dataset.f===r.freq));
+ const st=$("#remindState");if(st)st.textContent=r.on?"فعال ✓":"خاموش";
+ const on=$("#remindOn"),off=$("#remindOff"),ts=$("#remindTest");
+ if(on)on.hidden=!!r.on;if(off)off.hidden=!r.on;if(ts)ts.hidden=!r.on;
+}
+async function remindSync(){
+ try{
+  const r=remindPrefs();const ep=r.endpoint;if(!ep)return;
+  await remindCall("push-sub=1",{endpoint:ep,goal:r.goal,freq:r.freq});
+ }catch(e){}
+}
+async function remindEnable(){
+ const msg=$("#remindMsg");
+ try{
+  if(!("Notification" in window))return toast("این مرورگر نوتیف پشتیبانی نمی‌کند","bad");
+  if(!("serviceWorker" in navigator)||!("PushManager" in window))return toast("این مرورگر پوش پشتیبانی نمی‌کند","bad");
+  if(!remindBase())return toast("اول آدرس ورکر را در تنظیمات پیشرفته بگذارید","bad");
+  let perm=Notification.permission;
+  if(perm==="denied")return toast("نوتیف در تنظیمات مرورگر مسدود شده","bad");
+  if(perm!=="granted"){perm=await Notification.requestPermission();if(perm!=="granted")return toast("بدون اجازه، یادآوری ممکن نیست","bad")}
+  const reg=await Promise.race([navigator.serviceWorker.ready,new Promise((_,rej)=>setTimeout(()=>rej(new Error("sw")),5000))]);
+  let sub=await reg.pushManager.getSubscription();
+  if(!sub)sub=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:urlB64ToUint8Array(VAPID_PUBLIC_KEY)});
+  const r=remindPrefs();
+  await remindCall("push-sub=1",{sub,goal:r.goal,freq:r.freq});
+  r.on=true;r.endpoint=sub.endpoint;db.remind=r;save();remindRender();
+  if(msg)msg.textContent="یادآوری‌ها فعال شد ✓ — اگه سر نزنی، هر "+(r.freq==="6h"?"۶ ساعت":"روز")+" یه پیام می‌رسد.";
+  toast("یادآوری‌ها فعال شد","ok");
+ }catch(e){
+  const m=String(e&&e.message||e);
+  if(msg)msg.textContent=m==="sw"?"سرویس‌ورکر هنوز آماده نیست — چند ثانیه دیگه دوباره بزن.":/http \d+|use \?url|failed to fetch|Load failed/i.test(m)?"ورکر هنوز به‌روز نشده — اول ورکر v3.6 را دیپلوی کنید، بعد دوباره بزنید.":/permission denied|Registration failed|subscribe/i.test(m)?"مرورگر نتوانست پوش را ثبت کند — توی کروم گوشی (نه اسپیس) امتحان کن.":"فعال نشد: "+m;
+  toast("یادآوری فعال نشد","bad");
+ }
+}
+async function remindDisable(){
+ const ep0=remindPrefs().endpoint;
+ try{
+  const reg=await Promise.race([navigator.serviceWorker.ready,new Promise((_,rej)=>setTimeout(()=>rej(new Error("sw")),5000))]);
+  const sub=await reg.pushManager.getSubscription();
+  const ep=(sub&&sub.endpoint)||ep0;
+  if(ep){try{await remindCall("push-unsub=1",{endpoint:ep})}catch(e){}}
+  if(sub){try{await sub.unsubscribe()}catch(e){}}
+ }catch(e){}
+ const r=remindPrefs();r.on=false;delete r.endpoint;db.remind=r;save();remindRender();
+ const msg=$("#remindMsg");if(msg)msg.textContent="یادآوری‌ها خاموش شد.";
+}
+async function remindTest(){
+ try{await remindCall("push-test=1",{endpoint:remindPrefs().endpoint});toast("نوتیف آزمایشی فرستاده شد","ok")}
+ catch(e){toast("ارسال نشد — ورکر v3.6 را چک کنید","bad")}
 }
 
 /* ===== Rich Wiktionary (Livio-style) — pure string parsing, no DOM ===== */
@@ -5717,6 +5794,7 @@ function renderMe(){
  $("#stats").innerHTML=`<div class="grid">${st.map(([l,v])=>`<div class="card stat"><b>${v}</b><span class="mute">${l}</span></div>`).join("")}</div>
   <div class="card"><div class="mute">مرورهای ۷ روز اخیر</div><div class="bars">${days.map(n=>`<div title="${n}" style="height:${Math.min(60,n*4)+2}px"></div>`).join("")}</div></div>`;
  $$("#themeOpts .theme-option").forEach(b=>b.classList.toggle("selected",b.dataset.th===(["snowy","lilac","peachy","minty","ocean","sun","nebula"].includes(db.theme)?db.theme:"classic")));$("#proxy").value=db.proxy||"";$("#wkey").value=db.wkey||"";try{$("#zbToken").value=localStorage.getItem("poof_zaban_token")||""}catch(e){}
+ remindRender();
 }
 
 /* ===== 9) Export / Import (با پشتیبان قبل از جایگزینی) ===== */
@@ -5872,6 +5950,12 @@ $("#bamoozTest").onclick=async()=>{
  catch(x){toast(x.message==="noproxy"?"ابتدا آدرس واسط را وارد کنید":"اتصال ناموفق: "+x.message,"bad")}
  }finally{_tb.disabled=false;_tb.textContent=_ol}
 };
+/* یادآوری‌ها (?v=253): انتخاب هدف/بازه + دکمه‌های فعال/خاموش/تست */
+$$("#remindGoal button").forEach(b=>b.onclick=()=>{const r=remindPrefs();r.goal=b.dataset.g;db.remind=r;save();remindRender();if(r.on)remindSync()});
+$$("#remindFreq button").forEach(b=>b.onclick=()=>{const r=remindPrefs();r.freq=b.dataset.f;db.remind=r;save();remindRender();if(r.on)remindSync()});
+$("#remindOn").onclick=()=>remindEnable();
+$("#remindOff").onclick=()=>remindDisable();
+$("#remindTest").onclick=()=>remindTest();
 /* ورود یکجای کلیدها (?v=96): یک کادر رمزی برای هر سه مقدار؛ تشخیص بر اساس شکل مقدار، نه ترتیب */
 function bulkParseKeys(raw){
   const found={};

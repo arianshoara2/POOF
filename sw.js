@@ -1,6 +1,6 @@
 // POOF service worker — اسناد HTML شبکه‌اول (network-first)، بقیه‌ی فایل‌های خودِ اپ کش‌اول (cache-first)
 // فقط برای فایل‌های خودِ اپ (same-origin) — درخواست‌های خارجی دست‌نخورده می‌مانند
-const CACHE = 'poof-v225';
+const CACHE = 'poof-v226';
 // آفلاین‌پک مترو: همه‌ی صفحه‌ها + هر دو دیکشنری از اول کش می‌شوند،
 // تا بدون اینترنت هم ورتشاتس و مرور و تست‌ها کار کنند
 const CORE = ['./', './index.html', './poof-core.js', './poof-minimal.css', './dict-fa.jsonl', './manual-dict.json', './learn.html', './learn-en.html', './practice.html', './wortschatz.html', './der-die-das.html', './placement-test.html', './studienkolleg-trainer.html', './wort-des-tages.html', './privacy.html', './testdaf.html', './testdaf-part1.html', './testdaf-part2.html', './testdaf-part3.html', './testdaf-part4.html', './testdaf-part5.html', './testdaf-part6.html', './testdaf-part7.html', './testdaf-part8.html', './testdaf-part9.html', './testdaf-part10.html', './Digital_TestDaF_Extra_Part2_Hoeren_Lite_DeviceVoice_1_sd70.html', './Digital_TestDaF_Extra_Part3_Schreiben_Lite_Interactive_Offline_0_ramw.html', './Digital_TestDaF_Extra_Part4_Sprechen_Lite_Interactive_Offline_0_qlce.html', './theme-snowy.css', './theme-classic.css', './manifest.webmanifest', './icon.svg', './icon-192.png', './icon-512.png', './icon-maskable-512.png'];
@@ -64,3 +64,29 @@ self.addEventListener('fetch', (e) => {
     })
   );
 });
+
+/* ===== Web Push — یادآوری‌ها (?v=253) ===== */
+/* آدرس ورکر شخصی — اگه عوض شد، اینجا هم عوضش کن. پیام سمت ورکر انتخاب می‌شود؛ */
+const PUSH_WORKER="https://billowing-dust-f182.arian311380.workers.dev";
+self.addEventListener("push",function(e){
+ e.waitUntil((async()=>{
+  try{
+   const reg=await self.registration.pushManager.getSubscription();
+   const ep=reg?encodeURIComponent(reg.endpoint):"";
+   const r=await fetch(PUSH_WORKER+"/?push-msg=1&ep="+ep);
+   const m=await r.json();
+   if(!m||!m.title)return;
+   await self.registration.showNotification(m.title,{body:m.body||"",icon:"./icon-192.png",badge:"./icon-192.png",data:{url:m.url||"./"},tag:m.tag||"poof-remind"});
+  }catch(err){}
+ })());
+});
+self.addEventListener("notificationclick",function(e){
+ e.notification.close();
+ const url=(e.notification.data&&e.notification.data.url)||"./";
+ e.waitUntil((async()=>{
+  const all=await clients.matchAll({type:"window",includeUncontrolled:true});
+  for(const c of all){try{if("focus" in c)await c.focus();if(c.navigate)await c.navigate(url);return}catch(err){}}
+  if(clients.openWindow)await clients.openWindow(url);
+ })());
+});
+
