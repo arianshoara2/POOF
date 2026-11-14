@@ -4315,7 +4315,16 @@ async function ytTimedText(id,want){
  if(!tracks.length)throw new Error("no caption tracks");
  const wl=(want||"").split("-")[0].toLowerCase(),baseL=x=>(x.lang||"").split("-")[0].toLowerCase(),man=tracks.filter(x=>!x.asr),asr=tracks.filter(x=>x.asr);
  const pick=wl?(man.find(x=>baseL(x)===wl)||asr.find(x=>baseL(x)===wl)):(man.find(x=>x.lang===ytKnown(id).lang)||man[0]||asr[0]);
- if(!pick)throw new Error("no caption in "+(wl||"auto"));
+ if(!pick){
+  // زیرنویس ماشینی: یوتیوب متن بهترین ترک موجود را به زبان خواسته‌شده ترجمه می‌کند
+  const bt=man[0]||asr[0];
+  if(!bt||!wl)throw new Error("no caption in "+(wl||"auto"));
+  const j2=JSON.parse(await proxyText(base+"&lang="+encodeURIComponent(bt.lang)+"&kind="+(bt.asr?"asr":"")+"&tlang="+encodeURIComponent(wl)+"&fmt=json3"));
+  const segs2=(j2.events||[]).filter(ev=>ev.segs).map(ev=>({s:(ev.tStartMs||0)/1000,t:ev.segs.map(s=>s.utf8||"").join("").replace(/\s+/g," ").trim()})).filter(x=>x.t);
+  if(!segs2.length)throw new Error("empty caption");
+  if(detectLang(segs2.map(x=>x.t).join(" "))!==wl)throw new Error("no caption in "+wl);
+  return {segments:segs2,lang:wl,translated:true,title:ytKnown(id).title};
+ }
  const j=JSON.parse(await proxyText(base+"&lang="+encodeURIComponent(pick.lang)+"&kind="+(pick.asr?"asr":"")+"&fmt=json3"));
  const segs=(j.events||[]).filter(ev=>ev.segs).map(ev=>({s:(ev.tStartMs||0)/1000,t:ev.segs.map(s=>s.utf8||"").join("").replace(/\s+/g," ").trim()})).filter(x=>x.t);
  if(!segs.length)throw new Error("empty caption");
@@ -4333,7 +4342,7 @@ async function importYT(id,want){
   const r=await fetchT(workerURL({yt:id,lang:want||""})),j=await r.json();
   if(!r.ok||j.error)throw new Error(j.error||"HTTP "+r.status);
   if(!j.segments||!j.segments.length)throw new Error("no transcript");
-  data={segments:j.segments,title:j.title,lang:j.lang};
+  data={segments:j.segments,title:j.title,lang:j.lang,translated:!!j.translated};
   if(!subLangOK(data.lang,want,data.segments)){wrongLang=true;data=null;throw new Error("wrong subtitle language");}
  }catch(e){err=e}
  if(!data){
@@ -4365,7 +4374,7 @@ async function importYT(id,want){
   const segs=data.segments.map(x=>({s:x.s,t:x.t})),body=segs.map(x=>x.t).join("\n");
   if(t){t.segs=segs;t.body=body;t.want=want||"";if(data.title)t.title="YouTube · "+data.title;if(data.lang)t.lang=data.lang}
   else{t={id:sid,added:Date.now(),title:"YouTube · "+(data.title||id),lang:data.lang||want||"en",want:want||"",body,video:{id},segs};db.texts.push(t)}
-  db.textId=t.id;save();$("#addPanel").hidden=true;renderReader();$("#text").scrollIntoView({behavior:"smooth"});toast("زیرنویس آماده شد");
+  db.textId=t.id;save();$("#addPanel").hidden=true;renderReader();$("#text").scrollIntoView({behavior:"smooth"});toast(data.translated?"زیرنویس ماشینی آماده شد":"زیرنویس آماده شد");
   return;
  }
  if(isNetErr(err)&&isNetErr(fbErr))throw err;   // مشکل واقعی اتصال: همان پیام‌های قبلی friendly
