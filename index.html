@@ -1129,7 +1129,7 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
  <div style="text-align:center;padding:8px 0 4px"><img src="icon.svg" alt="poof" style="width:72px;height:72px;border-radius:18px"></div>
  <p style="text-align:center;margin:4px 0 2px"><b>poof</b></p>
  <p class="mute" style="text-align:center;margin:0 0 12px">نسخه ۷۷</p>
- <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۲۵۸</p>
+ <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۲۵۹</p>
  <p style="margin:0 0 10px">با همکاری اصلی هوش مصنوعی موزی و آرین شعرا، با کمک چت‌جی‌پی‌تی و کلود، به‌صورت متن‌باز در گیت‌هاب ساخته شده است.</p>
  <p style="margin:0"><a href="https://github.com/arianshoara2/POOF" target="_blank" rel="noopener">github.com/arianshoara2/POOF</a></p>
 </div></div>
@@ -1734,6 +1734,39 @@ function seedEnStarter5(n){
  const now=Date.now();
  for(const w of EN_STARTER_5)n.cards.push({pos:"",def:"",context:w.ex,contextFa:w.exfa,source:"en-starter-5",created_at:now,ease:2.5,interval:0,reps:0,due:now,front:w.f,back:w.b,lang:"en",deck_id:"en-starter-5",id:uid()});
 }
+/* ===== ?v=259: English starter deck — batch 6 (same pattern as batches 1–5) =====
+   20 more everyday A1 words (people, descriptions, place/time words). New deck id
+   "en-starter-6" so users who already have batches 1–5 still get batch 6 on
+   their next load (via migrate); guarded, so it never duplicates. */
+const EN_STARTER_6=[
+ {f:"green",b:"سبز",ex:"The grass is green.",exfa:"چمن سبز است."},
+ {f:"yellow",b:"زرد",ex:"My bag is yellow.",exfa:"کیف من زرد است."},
+ {f:"man",b:"مرد",ex:"The man is my teacher.",exfa:"آن مرد معلم من است."},
+ {f:"woman",b:"زن",ex:"The woman is very kind.",exfa:"آن زن خیلی مهربان است."},
+ {f:"boy",b:"پسر",ex:"The boy plays football.",exfa:"پسر فوتبال بازی می‌کند."},
+ {f:"girl",b:"دختر",ex:"The girl reads a book.",exfa:"دختر کتاب می‌خواند."},
+ {f:"baby",b:"نوزاد، بچه",ex:"The baby sleeps now.",exfa:"نوزاد حالا می‌خوابد."},
+ {f:"old",b:"پیر، قدیمی",ex:"This house is very old.",exfa:"این خانه خیلی قدیمی است."},
+ {f:"young",b:"جوان",ex:"She is a young teacher.",exfa:"او یک معلم جوان است."},
+ {f:"long",b:"بلند، طولانی",ex:"This road is very long.",exfa:"این جاده خیلی طولانی است."},
+ {f:"short",b:"کوتاه",ex:"The film is short.",exfa:"فیلم کوتاه است."},
+ {f:"fast",b:"سریع",ex:"The car is very fast.",exfa:"ماشین خیلی سریع است."},
+ {f:"slow",b:"آهسته، کند",ex:"The bus is slow today.",exfa:"امروز اتوبوس کند است."},
+ {f:"easy",b:"آسان",ex:"This lesson is easy.",exfa:"این درس آسان است."},
+ {f:"here",b:"اینجا",ex:"Please come here.",exfa:"لطفاً اینجا بیایید."},
+ {f:"there",b:"آنجا",ex:"The book is there.",exfa:"کتاب آنجاست."},
+ {f:"now",b:"حالا، اکنون",ex:"I am at home now.",exfa:"من حالا در خانه هستم."},
+ {f:"tomorrow",b:"فردا",ex:"I see you tomorrow.",exfa:"فردا می‌بینمت."},
+ {f:"people",b:"مردم، آدم‌ها",ex:"Many people live here.",exfa:"آدم‌های زیادی اینجا زندگی می‌کنند."},
+ {f:"star",b:"ستاره",ex:"I see a star in the sky.",exfa:"ستاره‌ای در آسمان می‌بینم."}
+];
+function seedEnStarter6(n){
+ if(!n||!Array.isArray(n.decks)||!Array.isArray(n.cards))return;
+ if(n.decks.some(x=>x.id==="en-starter-6"))return;
+ n.decks.push({id:"en-starter-6",name:"انگلیسی 🇬🇧 — واژه‌های روزمره ۶"});
+ const now=Date.now();
+ for(const w of EN_STARTER_6)n.cards.push({pos:"",def:"",context:w.ex,contextFa:w.exfa,source:"en-starter-6",created_at:now,ease:2.5,interval:0,reps:0,due:now,front:w.f,back:w.b,lang:"en",deck_id:"en-starter-6",id:uid()});
+}
 const ic=n=>`<svg class="ic" aria-hidden="true"><use href="#i-${n}"/></svg>`;
 const SUB={read:"بخوان، انتخاب کن، یاد بگیر",dict:"دیکشنری آلمانی ⇄ فارسی",cards:"واژه‌های شخصی تو",review:"مرور و یادگیری",me:"پیشرفت و تنظیمات"};
 const DAY=864e5, fmt=d=>d.toLocaleDateString("sv-SE");
@@ -1742,7 +1775,7 @@ let tt;function toast(m,k){const t=$("#toast");t.textContent=m;t.className="show
 /* ===== 1) Storage v2 + Migration + Backup ===== */
 const K="poof_v2",KC="poof_dict_cache2",KB="poof_backup";
 const PACK_URL_DE="https://github.com/arianshoara2/POOF/releases/download/dict-de-v1/poof-de-dict.jsonl.gz";
-const fresh=()=>{const d={v:2,decks:[{id:"default",name:"پیش‌فرض"}],cards:[],active:"default",texts:[],textId:"t0",log:{},recent:[],theme:"auto",remind:{on:false,goal:"all",freq:"6h"},proxy:"",aiKey:"",zbShelf:[{t:"حیوانات",u:"https://zaban.com/share/movies/1812?language=fa"},{t:"برکینگ بد — قسمت ۱",u:"https://zaban.com/share/series/16/seasons/18/episodes/508?language=fa"}]};seedEnStarter(d);seedEnStarter2(d);seedEnStarter3(d);seedEnStarter4(d);seedEnStarter5(d);return d};
+const fresh=()=>{const d={v:2,decks:[{id:"default",name:"پیش‌فرض"}],cards:[],active:"default",texts:[],textId:"t0",log:{},recent:[],theme:"auto",remind:{on:false,goal:"all",freq:"6h"},proxy:"",aiKey:"",zbShelf:[{t:"حیوانات",u:"https://zaban.com/share/movies/1812?language=fa"},{t:"برکینگ بد — قسمت ۱",u:"https://zaban.com/share/series/16/seasons/18/episodes/508?language=fa"}]};seedEnStarter(d);seedEnStarter2(d);seedEnStarter3(d);seedEnStarter4(d);seedEnStarter5(d);seedEnStarter6(d);return d};
 function migrate(d){
  if(!d||typeof d!=="object"||!Array.isArray(d.cards)||!Array.isArray(d.decks))return null;
  if(d.v>2)return null;                       // نسخه‌ی آینده: دست نزن
@@ -1763,6 +1796,7 @@ function migrate(d){
  seedEnStarter3(n); /* ?v=252: English starter deck batch 3 for existing users (no-op if already seeded) */
  seedEnStarter4(n); /* ?v=256: English starter deck batch 4 for existing users (no-op if already seeded) */
  seedEnStarter5(n); /* ?v=257: English starter deck batch 5 for existing users (no-op if already seeded) */
+ seedEnStarter6(n); /* ?v=259: English starter deck batch 6 for existing users (no-op if already seeded) */
  return n;
 }
 function load(){
