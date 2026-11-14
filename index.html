@@ -1059,7 +1059,7 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
     <p class="mute" style="font-size:11px;margin:6px 0 0">اول با دکمهٔ ۱ فایل را دانلود کنید (مرورگر خودش دانلود می‌کند)، بعد با دکمهٔ ۲ همان فایل را از پوشهٔ Downloads انتخاب کنید تا نصب شود. منبع: ویکی‌واژهٔ آلمانی (kaikki.org)، CC BY-SA 4.0</p>
    </div>
    <details class="adv"><summary>تنظیمات پیشرفته</summary>
-   <p class="mute" style="margin:0 0 4px">ورود یکجای کلیدها — هر چهار مقدار (آدرس ورکر ورسل، کلید ورسل، کلید هوش مصنوعی کلادفلر، توکن زبان) را با هم در همین یک کادر بچسبانید، هر کدام در یک خط؛ ترتیب مهم نیست. برای کلید هوش مصنوعی می‌توانید اول خط بنویسید «ai:» — اگر ننوشتید، دومین کلید ۴۸حرفی به‌عنوان کلید هوش مصنوعی گرفته می‌شود. کلید هوش مصنوعی معمولاً خودش از کلید قبلی پر می‌شود. بعد از ذخیره، این کادر خودش خالی می‌شود و کپی از آن ممکن نیست.</p>
+   <p class="mute" style="margin:0 0 4px">ورود یکجای کلیدها — هر پنج مقدار (آدرس ورکر ورسل، کلید ورسل، آدرس ورکر کلادفلر، کلید هوش مصنوعی کلادفلر، توکن زبان) را با هم در همین یک کادر بچسبانید، هر کدام در یک خط؛ ترتیب مهم نیست. برای کلید هوش مصنوعی می‌توانید اول خط بنویسید «ai:» — اگر ننوشتید، دومین کلید ۴۸حرفی به‌عنوان کلید هوش مصنوعی گرفته می‌شود. کلید هوش مصنوعی معمولاً خودش از کلید قبلی پر می‌شود. توکن vcp_ (دیپلوی ورسل) توی اپ لازم نیست و ذخیره نمی‌شود. بعد از ذخیره، این کادر خودش خالی می‌شود و کپی از آن ممکن نیست.</p>
    <textarea id="bulkKeys" class="de" dir="ltr" rows="3" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="هر مقدار در یک خط" style="-webkit-text-security:disc" oncopy="event.preventDefault()" oncut="event.preventDefault()"></textarea>
    <button class="ghost full" id="bulkKeysBtn" style="margin-bottom:10px">ذخیره‌ی یکجای کلیدها</button>
    <p class="lbl" style="margin:10px 0 4px">ورکر ورسل</p>
@@ -1071,6 +1071,8 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
    <p class="lbl" style="margin:10px 0 4px">هوش مصنوعی (کلادفلر)</p>
    <p class="mute" style="margin:0 0 4px">کلید هوش مصنوعی (کلادفلر) — برای Ask و ترانسکریپت پادکست؛ معمولاً خودش از کلید قبلی پر می‌شود</p>
    <input id="aikey" type="password" class="de" dir="ltr" placeholder="کلید قدیمی کلادفلر" autocomplete="off">
+   <p class="mute" style="margin:10px 0 4px">آدرس ورکر کلادفلر — برای Ask، ترانسکریپت و پشتیبان پروکسی (معمولاً لازم نیست عوضش کنی)</p>
+   <input id="cfproxy" class="de" dir="ltr" placeholder="https://billowing-dust-f182.arian311380.workers.dev" autocomplete="off">
    <p class="mute" style="margin:10px 0 4px">توکن زبان (برای سرچ و پخش زبان داخل پووف — فقط روی همین دستگاه ذخیره می‌شود)</p>
    <input id="zbToken" class="de" dir="ltr" type="password" placeholder="توکن زبان" autocomplete="off">
    <div class="row" style="margin-top:8px"><label class="ghost-label">ورود پشتیبان<input id="imp" type="file" accept=".json,application/json" hidden></label></div>
@@ -1129,7 +1131,7 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
  <div style="text-align:center;padding:8px 0 4px"><img src="icon.svg" alt="poof" style="width:72px;height:72px;border-radius:18px"></div>
  <p style="text-align:center;margin:4px 0 2px"><b>poof</b></p>
  <p class="mute" style="text-align:center;margin:0 0 12px">نسخه ۷۷</p>
- <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۲۶۱</p>
+ <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۲۶۲</p>
  <p style="margin:0 0 10px">با همکاری اصلی هوش مصنوعی موزی و آرین شعرا، با کمک چت‌جی‌پی‌تی و کلود، به‌صورت متن‌باز در گیت‌هاب ساخته شده است.</p>
  <p style="margin:0"><a href="https://github.com/arianshoara2/POOF" target="_blank" rel="noopener">github.com/arianshoara2/POOF</a></p>
 </div></div>
@@ -1455,24 +1457,21 @@ function audSavePos(t){
  }
  t.progress=p;save();
 }
-let audProxyTried=false,audMetaTimer=0,audWatchFor="";
+let audProxyTried=false,audCFTried=false,audMetaTimer=0,audWatchFor="";
 function audShowErr(){const e=$("#apErr");if(e)e.hidden=false;toast("صدای این قسمت در دسترس نیست","bad")}
 function audArmWatchdog(){
  clearTimeout(audMetaTimer);audWatchFor=audFor;
  audMetaTimer=setTimeout(()=>{
   if(audFor===audWatchFor&&audEl&&(!isFinite(audEl.duration)||audEl.duration<=0)){
-   if(!audProxyTried)audTryProxy();else audShowErr();
+   audTryProxy();
   }
  },12000);
 }
 function audTryProxy(){
  const t=db.texts.find(x=>x.id===audFor);if(!t||!t.pod)return;
- if(audProxyTried){audShowErr();return}
- audProxyTried=true;
- const p=mediaURL(t.pod.audio||"");
- if(!p){audShowErr();return}
- toast("در حال پخش از مسیر جایگزین…");
- audEl.src=p;audArmWatchdog();
+ if(!audProxyTried){audProxyTried=true;const p=mediaURL(t.pod.audio||"");if(p){toast("در حال پخش از مسیر جایگزین…");audEl.src=p;audArmWatchdog();return;}}
+ if(!audCFTried){audCFTried=true;const p=mediaURLCF(t.pod.audio||"");if(p){toast("در حال پخش از مسیر جایگزین (کلادفلر)…");audEl.src=p;audArmWatchdog();return;}}
+ audShowErr();
 }
 function setupAudio(t){
  const ap=$("#ap");if(!ap)return;audEl=$("#au");if(!audEl)return;
@@ -1482,13 +1481,13 @@ function setupAudio(t){
  const ab=$("#apArtBox");
  if(t.pod&&t.pod.art){ab.innerHTML='<img src="'+esc(t.pod.art)+'" alt="" style="width:100%;height:100%;object-fit:cover" loading="lazy">';
   const _img=ab.querySelector("img");
-  if(_img)_img.onerror=()=>{if(_img.dataset.px){ab.innerHTML='<svg class="ic" style="width:34px;height:34px;color:var(--accent)" aria-hidden="true"><use href="#i-mic"/></svg>';return}_img.dataset.px="1";const _p=mediaURL(t.pod.art);if(_p)_img.src=_p;else ab.innerHTML='<svg class="ic" style="width:34px;height:34px;color:var(--accent)" aria-hidden="true"><use href="#i-mic"/></svg>'};}
+  if(_img)_img.onerror=()=>{if(!_img.dataset.px){_img.dataset.px="1";const _p=mediaURL(t.pod.art);if(_p){_img.src=_p;return}}if(!_img.dataset.cf){_img.dataset.cf="1";const _p=mediaURLCF(t.pod.art);if(_p){_img.src=_p;return}}ab.innerHTML='<svg class="ic" style="width:34px;height:34px;color:var(--accent)" aria-hidden="true"><use href="#i-mic"/></svg>'};}
  else ab.innerHTML='<svg class="ic" style="width:34px;height:34px;color:var(--accent)" aria-hidden="true"><use href="#i-mic"/></svg>';
  $("#apShow").textContent=t.pod?(t.pod.show||""):"اینستاگرام · صوت ریل";
  $("#apFollow").classList.toggle("on",follow);
  if(_lb)_lb.hidden=!(t.audio&&t.segs&&t.segs.length);
  if(audFor!==t.id){
-  audFor=t.id;audProxyTried=false;const _ae=$("#apErr");if(_ae)_ae.hidden=true;
+  audFor=t.id;audProxyTried=false;audCFTried=false;const _ae=$("#apErr");if(_ae)_ae.hidden=true;
   const raw=t.pod?t.pod.audio:t.audio;
   audEl.src=raw?raw.replace(/^http:\/\//i,"https://"):raw;
   audEl.onloadedmetadata=()=>{
@@ -1499,7 +1498,7 @@ function setupAudio(t){
   };
   audEl.onerror=()=>{
    const _t=db.texts.find(x=>x.id===audFor);if(!_t||!_t.pod)return;
-   if(!audProxyTried)audTryProxy();else audShowErr();
+   audTryProxy();
   };
   audArmWatchdog();
  }
@@ -1808,7 +1807,7 @@ let tt;function toast(m,k){const t=$("#toast");t.textContent=m;t.className="show
 /* ===== 1) Storage v2 + Migration + Backup ===== */
 const K="poof_v2",KC="poof_dict_cache2",KB="poof_backup";
 const PACK_URL_DE="https://github.com/arianshoara2/POOF/releases/download/dict-de-v1/poof-de-dict.jsonl.gz";
-const fresh=()=>{const d={v:2,decks:[{id:"default",name:"پیش‌فرض"}],cards:[],active:"default",texts:[],textId:"t0",log:{},recent:[],theme:"auto",remind:{on:false,goal:"all",freq:"6h"},proxy:"",aiKey:"",zbShelf:[{t:"حیوانات",u:"https://zaban.com/share/movies/1812?language=fa"},{t:"برکینگ بد — قسمت ۱",u:"https://zaban.com/share/series/16/seasons/18/episodes/508?language=fa"}]};seedEnStarter(d);seedEnStarter2(d);seedEnStarter3(d);seedEnStarter4(d);seedEnStarter5(d);seedEnStarter6(d);seedEnStarter7(d);return d};
+const fresh=()=>{const d={v:2,decks:[{id:"default",name:"پیش‌فرض"}],cards:[],active:"default",texts:[],textId:"t0",log:{},recent:[],theme:"auto",remind:{on:false,goal:"all",freq:"6h"},proxy:"",aiKey:"",cfWorker:"",zbShelf:[{t:"حیوانات",u:"https://zaban.com/share/movies/1812?language=fa"},{t:"برکینگ بد — قسمت ۱",u:"https://zaban.com/share/series/16/seasons/18/episodes/508?language=fa"}]};seedEnStarter(d);seedEnStarter2(d);seedEnStarter3(d);seedEnStarter4(d);seedEnStarter5(d);seedEnStarter6(d);seedEnStarter7(d);return d};
 function migrate(d){
  if(!d||typeof d!=="object"||!Array.isArray(d.cards)||!Array.isArray(d.decks))return null;
  if(d.v>2)return null;                       // نسخه‌ی آینده: دست نزن
@@ -2033,10 +2032,7 @@ const guessLemma=ss=>{for(const s of ss)for(const d of s.defs){const m=d.def.mat
 const FA=/[\u0600-\u06FF\uFB50-\uFDFF\uFE70-\uFEFF]/, ART=/^(der|die|das)$/i, WORT="https://wort.app/fa/";
 async function fetchHTML(url){
  try{const _c=new AbortController(),_t=setTimeout(()=>_c.abort(),5000);try{const r=await fetch(url,{signal:_c.signal});if(r.status===404)return null;if(r.ok)return await r.text()}finally{clearTimeout(_t)}}catch(e){} // مستقیم معمولاً فوری رد می‌شود (CORS) یا زیر ۵ ثانیه جواب می‌دهد؛ توقفِ بیشتر به پروکسی می‌رسد تا رقابت ۸ ثانیه‌ای بیاموز فرصتِ پایه‌ی پروکسی را داشته باشد
- const p=(db.proxy||"").trim();if(!p)throw new Error("noproxy");
- let u=p.includes("{url}")?p.replace("{url}",encodeURIComponent(url)):p+(p.includes("?")?"&":"?")+"url="+encodeURIComponent(url);
- if(db.wkey)u+=(u.includes("?")?"&":"?")+"auth="+encodeURIComponent(db.wkey);
- const r=await fetchT(u);if(r.status===404)return null;if(!r.ok)throw new Error("proxy "+r.status);return r.text();
+ const r=await proxyFetch(url,45000);if(r.status===404)return null;if(!r.ok)throw new Error("proxy "+r.status);return r.text(); /* ?v=262: Vercel fails -> Cloudflare */
 }
 // متن صفحه را به «خط‌های» ساده تبدیل می‌کند (مستقل از نام کلاس‌های CSS سایت)
 function wortLines(html){
@@ -2779,7 +2775,7 @@ function playGTTS(t,lang){
       var _u="https://translate.google.com/translate_tts?ie=UTF-8&tl="+encodeURIComponent(tl)+"&client=tw-ob&q="+encodeURIComponent(chs[i++].trim());
       var a=new Audio(_u);
       a.onended=nx;
-      a.onerror=function(){if(!a._px){a._px=true;var _p=mediaURL(_u);if(_p){a.src=_p;var _pr=a.play();if(_pr&&_pr.catch)_pr.catch(function(e){if(e&&e.name==="NotAllowedError")fail()});return}}fail()};
+      a.onerror=function(){if(!a._px){a._px=true;var _p=mediaURL(_u);if(_p){a.src=_p;var _pr=a.play();if(_pr&&_pr.catch)_pr.catch(function(e){if(e&&e.name==="NotAllowedError")fail()});return}}if(!a._cf){a._cf=true;var _p2=mediaURLCF(_u);if(_p2){a.src=_p2;var _pr2=a.play();if(_pr2&&_pr2.catch)_pr2.catch(function(e){if(e&&e.name==="NotAllowedError")fail()});return}}fail()};
       var pr=a.play();if(pr&&pr.catch)pr.catch(function(e){if(e&&e.name==="NotAllowedError")fail()});
     })();
   }catch(e){toast("مرورگر از تلفظ پشتیبانی نمی‌کند","bad")}
@@ -4636,9 +4632,10 @@ const curText=()=>allTexts().find(x=>x.id===db.textId);
 const AI_WORKER="https://billowing-dust-f182.arian311380.workers.dev"; /* ?v=258: AI routes (Ask/Whisper) stay on Cloudflare; ?v=261: transcript routes too (fallbacks live there) */
 const AI_ROUTES=new Set(["ask","podtr","igtr"]);
 const CF_ROUTES=new Set(["yt","yta","supa","ytapi"]); /* ?v=261: transcript routes go to Cloudflare — its worker has the Supadata/YT-API keys the Vercel worker lacks */
-function workerURL(params){
- const isCF=Object.keys(params).some(k=>AI_ROUTES.has(k)||CF_ROUTES.has(k));
- const p=isCF?AI_WORKER:(db.proxy||"").trim();if(!p)throw new Error("noproxy");
+const cfBase=()=>(db.cfWorker||AI_WORKER||"").trim(); /* ?v=262: pasted Cloudflare address wins, else the built-in worker */
+function workerURL(params,forceCF){
+ const isCF=forceCF||Object.keys(params).some(k=>AI_ROUTES.has(k)||CF_ROUTES.has(k));
+ const p=isCF?cfBase():(db.proxy||"").trim();if(!p)throw new Error("noproxy");
  const u=new URL(p.replace("{url}","x"));u.searchParams.delete("url");
  Object.entries(params).forEach(([k,v])=>u.searchParams.set(k,v));
  const key=isCF?(db.aiKey||db.wkey):db.wkey;
@@ -4646,6 +4643,7 @@ function workerURL(params){
  return u.toString();
 }
 function mediaURL(raw){try{return workerURL({media:1,u:raw})}catch(e){return null}}
+function mediaURLCF(raw){try{return workerURL({media:1,u:raw},true)}catch(e){return null}} /* ?v=262: media via Cloudflare (fallback) */
 const YT_BOT_MSG="یوتیوب فعلاً سرور ما رو بات تشخیص داده و زیرنویس رو نداد 🤖 ویدیو ذخیره شد — می‌تونی پخشش کنی؛ برای متنش بعداً دوباره تلاش کن یا زیرنویس رو دستی وارد کن.";
 const friendly=e=>{const m=String(e&&e.message||e);
  if(m==="noproxy")return "ابتدا آدرس Worker را در تب «پیشرفت» تنظیم کنید";
@@ -4673,13 +4671,37 @@ function parseTimed(body){
  }
  return segs.filter(g=>g.t);
 }
+/* ?v=262: worker failover — Vercel first, Cloudflare when it doesn't answer (and vice versa) */
+function workerBases(viaCF){
+ const vc=(db.proxy||"").trim(),cf=cfBase();
+ const vKey=db.wkey||"",cKey=db.aiKey||db.wkey||"";
+ const list=[];
+ const push=(base,key)=>{if(base&&key&&!list.some(x=>x.base===base))list.push({base,key});};
+ if(viaCF){push(cf,cKey);push(vc,vKey);}else{push(vc,vKey);push(cf,cKey);}
+ return list;
+}
+function workerFetchURL(base,key,url){
+ let u=base.includes("{url}")?base.replace("{url}",encodeURIComponent(url)):base+(base.includes("?")?"&":"?")+"url="+encodeURIComponent(url);
+ if(key)u+=(u.includes("?")?"&":"?")+"auth="+encodeURIComponent(key);
+ return u;
+}
+const RETRYABLE=s=>s===401||s===403||s===429||s>=500;
+async function proxyFetch(url,ms,viaCF){
+ const bases=workerBases(viaCF);
+ if(!bases.length)throw new Error("noproxy");
+ let last=null;
+ for(const b of bases){
+  try{
+   const r=await fetchT(workerFetchURL(b.base,b.key,url),ms||20000);
+   if(r.ok||r.status===404||!RETRYABLE(r.status))return r;
+   last=new Error("proxy "+r.status);
+  }catch(e){last=e;}
+ }
+ throw last||new Error("proxy failed");
+}
 /* مسیر پشتیبان زیرنویس: timedtext یوتیوب از راه پروکسی عمومی (همان سازوکار fetchHTML) */
 async function proxyText(url,ms,viaCF){
- const p=viaCF?AI_WORKER:(db.proxy||"").trim();if(!p)throw new Error("noproxy");
- const k=viaCF?(db.aiKey||db.wkey):db.wkey;
- let u=p.includes("{url}")?p.replace("{url}",encodeURIComponent(url)):p+(p.includes("?")?"&":"?")+"url="+encodeURIComponent(url);
- if(k)u+=(u.includes("?")?"&":"?")+"auth="+encodeURIComponent(k);
- const r=await fetchT(u,ms||20000);
+ const r=await proxyFetch(url,ms||20000,viaCF);
  if(!r.ok)throw new Error("proxy "+r.status);
  return r.text();
 }
@@ -5999,7 +6021,7 @@ function renderMe(){
   ["مرور امروز",db.log[fmt(new Date())]||0],["روز پیاپی",streak()]];
  $("#stats").innerHTML=`<div class="grid">${st.map(([l,v])=>`<div class="card stat"><b>${v}</b><span class="mute">${l}</span></div>`).join("")}</div>
   <div class="card"><div class="mute">مرورهای ۷ روز اخیر</div><div class="bars">${days.map(n=>`<div title="${n}" style="height:${Math.min(60,n*4)+2}px"></div>`).join("")}</div></div>`;
- $$("#themeOpts .theme-option").forEach(b=>b.classList.toggle("selected",b.dataset.th===(["snowy","lilac","peachy","minty","ocean","sun","nebula"].includes(db.theme)?db.theme:"classic")));$("#proxy").value=db.proxy||"";$("#wkey").value=db.wkey||"";$("#aikey").value=db.aiKey||"";try{$("#zbToken").value=localStorage.getItem("poof_zaban_token")||""}catch(e){}
+ $$("#themeOpts .theme-option").forEach(b=>b.classList.toggle("selected",b.dataset.th===(["snowy","lilac","peachy","minty","ocean","sun","nebula"].includes(db.theme)?db.theme:"classic")));$("#proxy").value=db.proxy||"";$("#wkey").value=db.wkey||"";$("#aikey").value=db.aiKey||"";$("#cfproxy").value=db.cfWorker||"";try{$("#zbToken").value=localStorage.getItem("poof_zaban_token")||""}catch(e){}
  remindRender();
 }
 
@@ -6141,7 +6163,7 @@ if(rvMenuEl){rvMenuEl.addEventListener('click',e=>{const b=e.target.closest('but
 function applyTheme(){const t=["snowy","lilac","peachy","minty","ocean","sun","nebula"].includes(db.theme)?db.theme:"classic";document.documentElement.dataset.theme=t;document.documentElement.dataset.bgimg=(db.bgImg===false)?"off":"on";try{applyBgImgSeg();}catch(e){}const _swap=()=>{const tc=document.getElementById("themeCss");if(tc){const f="theme-"+(t==="snowy"?"snowy":"classic")+".css?v=16";if(!tc.href.endsWith(f))tc.href=f}};if(window.PoofPos){try{PoofPos.fadeThemeSwap(_swap)}catch(e){_swap()}}else{_swap()}const m=document.querySelector("meta[name=theme-color]");if(m)m.content={snowy:"#081421",lilac:"#EEF2FF",peachy:"#FFF7ED",minty:"#F0FDF4"}[t]||"#111111";updateMascots();updateRvGames()}
 $("#proxyTest").onclick=async()=>{
  const _tb=$("#proxyTest"),_ol=_tb.textContent;_tb.disabled=true;_tb.textContent="در حال آزمایش…";toast("در حال آزمایش اتصال…");
- try{db.proxy=$("#proxy").value.trim();db.wkey=$("#wkey").value.trim();db.aiKey=$("#aikey").value.trim();save();
+ try{db.proxy=$("#proxy").value.trim();db.wkey=$("#wkey").value.trim();db.aiKey=$("#aikey").value.trim();db.cfWorker=$("#cfproxy").value.trim();save();
  try{const h=await fetchHTML(WORT+"suchen?q=Schule"),c=h&&parseWortSearch(h);
   toast(c?"اتصال موفق ✓ «"+c.meaning+"»":"صفحه گرفته شد ولی تحلیل نشد",c?"":"bad")}
  catch(x){toast(x.message==="noproxy"?"ابتدا آدرس واسط را وارد کنید":"اتصال ناموفق: "+x.message,"bad")}
@@ -6149,7 +6171,7 @@ $("#proxyTest").onclick=async()=>{
 };
 $("#bamoozTest").onclick=async()=>{
  const _tb=$("#bamoozTest"),_ol=_tb.textContent;_tb.disabled=true;_tb.textContent="در حال آزمایش…";toast("در حال آزمایش اتصال…");
- try{db.proxy=$("#proxy").value.trim();db.wkey=$("#wkey").value.trim();db.aiKey=$("#aikey").value.trim();save();
+ try{db.proxy=$("#proxy").value.trim();db.wkey=$("#wkey").value.trim();db.aiKey=$("#aikey").value.trim();db.cfWorker=$("#cfproxy").value.trim();save();
  try{const h=await fetchHTML("https://dic.b-amooz.com/de/dictionary/w?word="+encodeURIComponent("Schule".toLowerCase()));if(!h)throw new Error("empty");
   const b=parseBamoozLines(blockLinesX(new DOMParser().parseFromString(h,"text/html").body)),m=b&&b.senses&&b.senses.length?b.senses[0].meaning:"";
   toast(m?"اتصال موفق ✓ «"+m+"»":"صفحه گرفته شد ولی معنی پیدا نشد",m?"":"bad")}
@@ -6170,8 +6192,9 @@ function bulkParseKeys(raw){
     let force=null;
     const lm=t.match(/^(vercel|ورسل|ai|ai-key|cloudflare|کلادفلر)\s*:\s*/i);
     if(lm){force=/^(ai|ai-key|cloudflare|کلادفلر)$/i.test(lm[1])?"aiKey":"wkey";t=t.slice(lm[0].length).trim();}
-    if(/^https?:\/\//i.test(t)){const m=t.match(/https?:\/\/\S+/);return ["proxy",m[0].replace(/[.,،؛;]+$/,"")];}
+    if(/^https?:\/\//i.test(t)){const m=t.match(/https?:\/\/\S+/);const u=m[0].replace(/[.,،؛;]+$/,"");return [/workers\.dev/i.test(u)?"cfWorker":"proxy",u];}
     if(/^\d+\|[A-Za-z0-9_-]+$/.test(t)) return ["zb",t];
+    if(/^vcp_[A-Za-z0-9_-]+$/i.test(t)||/^vck_[A-Za-z0-9_-]+$/i.test(t)) return ["deployToken",t];
     if(/^[A-Za-z0-9_-]{32,}$/.test(t)) return [force||"wkey",t];
     return null;
   };
@@ -6179,9 +6202,10 @@ function bulkParseKeys(raw){
   for(const ln of lines){const c=classify(ln);if(!c)continue;if(c[0]==="wkey"&&found.wkey&&!found.aiKey){found.aiKey=c[1];continue;}if(!found[c[0]])found[c[0]]=c[1];}
   if(!found.proxy||!found.zb||!found.wkey){
     const blob=(raw||"").replace(/^bearer\s+/gim,"");
-    if(!found.proxy){const m=blob.match(/https:\/\/[^\s'"]+/);if(m)found.proxy=m[0].replace(/[.,،؛;]+$/,"");}
+    if(!found.proxy){const urls=blob.match(/https:\/\/[^\s'"]+/g)||[];const m=urls.find(u=>!/workers\.dev/i.test(u))||urls[0];if(m)found.proxy=m.replace(/[.,،؛;]+$/,"");}
+    if(!found.cfWorker){const m=(blob.match(/https:\/\/[^\s'"]+/g)||[]).find(u=>/workers\.dev/i.test(u));if(m)found.cfWorker=m.replace(/[.,،؛;]+$/,"");}
     if(!found.zb){const m=blob.match(/\d+\|[A-Za-z0-9_-]{48}/)||blob.match(/\d+\|[A-Za-z0-9_-]{20,}/);if(m)found.zb=m[0];}
-    if(!found.wkey||!found.aiKey){const rest=blob.replace(/https:\/\/[^\s'"]+/g," ").replace(/\d+\|[A-Za-z0-9_-]+/g," ");const toks=rest.split(/\s+/).filter(x=>/^[A-Za-z0-9_-]{32,}$/.test(x)).sort((a,b)=>b.length-a.length);if(!found.wkey&&toks.length)found.wkey=toks[0];if(!found.aiKey&&toks.length>1)found.aiKey=toks[1];}
+    if(!found.wkey||!found.aiKey){const rest=blob.replace(/https:\/\/[^\s'"]+/g," ").replace(/\d+\|[A-Za-z0-9_-]+/g," ");const toks=rest.split(/\s+/).filter(x=>/^[A-Za-z0-9_-]{32,}$/.test(x)&&!/^vcp_/i.test(x)&&!/^vck_/i.test(x)).sort((a,b)=>b.length-a.length);if(!found.wkey&&toks.length)found.wkey=toks[0];if(!found.aiKey&&toks.length>1)found.aiKey=toks[1];}
   }
   return found;
 }
@@ -6192,17 +6216,18 @@ $("#bulkKeysBtn").onclick=()=>{
   if(f.proxy){db.proxy=f.proxy;names.push("آدرس واسط");}
   if(f.wkey){db.wkey=f.wkey;names.push("کلید ورکر");}
   if(f.aiKey){db.aiKey=f.aiKey;names.push("کلید هوش مصنوعی");}
+  if(f.cfWorker){db.cfWorker=f.cfWorker;names.push("آدرس کلادفلر");}
   if(f.zb){try{localStorage.setItem("poof_zaban_token",f.zb)}catch(e){}names.push("توکن زبان");}
   if(!names.length){toast("هیچ کلیدی شناخته نشد — هر مقدار را در یک خط جداگانه بچسبانید","bad");return;}
   save();
-  try{$("#proxy").value=db.proxy||"";$("#wkey").value=db.wkey||"";$("#aikey").value=db.aiKey||"";$("#zbToken").value=localStorage.getItem("poof_zaban_token")||"";}catch(e){}
+  try{$("#proxy").value=db.proxy||"";$("#wkey").value=db.wkey||"";$("#aikey").value=db.aiKey||"";$("#cfproxy").value=db.cfWorker||"";$("#zbToken").value=localStorage.getItem("poof_zaban_token")||"";}catch(e){}
   el.value="";
   const missing=[];
   if(!f.proxy)missing.push("آدرس واسط");
   if(!f.wkey)missing.push("کلید ورکر");
   if(!f.zb)missing.push("توکن زبان");
   if(!f.aiKey&&!db.aiKey)missing.push("کلید هوش مصنوعی");
-  toast("ذخیره شد: "+names.join("، ")+(missing.length?" — پیدا نشد: "+missing.join("، "):""));
+  toast("ذخیره شد: "+names.join("، ")+(missing.length?" — پیدا نشد: "+missing.join("، "):"")+(f.deployToken?" — توکن vcp_ توی اپ لازم نیست و ذخیره نشد":""));
 };
 /* توکن زبان: فقط روی همین دستگاه می‌ماند، هرگز در مخزن نیست؛ «Bearer …» کامل هم پذیرفته می‌شود */
 $("#zbToken").onchange=()=>{const v=($("#zbToken").value||"").trim().replace(/^bearer\s+/i,"");$("#zbToken").value=v;try{localStorage.setItem("poof_zaban_token",v)}catch(e){}toast("توکن زبان ذخیره شد")};
