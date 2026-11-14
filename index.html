@@ -218,7 +218,7 @@ button.ib.pri{background:var(--accent);color:var(--bg);border-color:var(--accent
 #zbSubList .tline{display:block}
 #zbSticky{position:sticky;top:8px;z-index:20;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden}
 .tline.cur{background:var(--active)}
-#zbSubLine{background:var(--lt-pastel,color-mix(in srgb,var(--accent) 16%,var(--surface)))}
+#zbSubLine,#vpCurLine{background:var(--lt-pastel,color-mix(in srgb,var(--accent) 16%,var(--surface)))}
 #zbSubBar{background:var(--lt-card,color-mix(in srgb,var(--text) 4%,var(--surface)));border:1px solid var(--lt-border,var(--border));border-radius:var(--r-lg);padding:6px}
 @media (min-width:1024px){
  #zabanCard{margin-left:calc(50% - 620px);margin-right:calc(50% - 620px)}
@@ -864,6 +864,7 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
    <p class="mute" id="vpNote" hidden></p>
    <div class="seg" id="vpSeg"><button data-vl="">اصلی</button><button data-vl="en">EN</button><button data-vl="de">DE</button><button data-vl="fa">فا</button></div>
    <div class="row"><button class="chip on" id="vpFollow">دنبال‌کردن زیرنویس</button><a id="vpOpen" class="chip" target="_blank" rel="noopener" style="text-decoration:none;padding:3px 12px">یوتیوب</a><button class="chip" id="vpGetAudio" hidden>دریافت صوت</button><button class="chip" id="vpCopy">📋 کپی متن</button><button class="chip" id="vpTextTgl" aria-label="بستن/باز کردن متن">📝 متن ▾</button><button class="chip" id="vpClose" aria-label="بستن متن">✕ بستن</button></div>
+   <p id="vpCurLine" class="sr" style="margin:10px 0 0;padding:10px;border:1px solid var(--lt-border,var(--border));border-radius:10px;font-size:17px;line-height:1.9;min-height:1.9em" dir="auto" hidden></p>
   </div>
   <div class="card" id="ap" hidden>
    <div class="row" style="margin-bottom:6px;align-items:center">
@@ -4587,7 +4588,7 @@ async function setupPlayer(t){
  const lvc=$("#lvCard"),lve=$("#lv");
  if(lvc)lvc.hidden=!(t&&t.local);
  if(lve)lve.hidden=!(t&&t.local&&lve.src);
- const vp=$("#vp");vp.hidden=!(t&&t.video);
+ const vp=$("#vp");vp.hidden=!(t&&t.video);const _vcl=$("#vpCurLine");if(_vcl){_vcl.hidden=!(t&&t.video&&!t.video.ig&&t.segs&&t.segs.length);if(_vcl.hidden)_vcl.innerHTML="";}
  if(!t||!t.video){if(ytp&&ytp.pauseVideo)try{ytp.pauseVideo()}catch(e){}return}
  const note=$("#vpNote"),web=/^https?:$/.test(location.protocol);
  if(t.video.ig){
@@ -4619,11 +4620,13 @@ async function setupPlayer(t){
   ytp._id=id;
  }catch(e){ytp=null;note.hidden=false;note.textContent="ساخت پخش‌کننده ممکن نشد؛ با دکمه‌ی «یوتیوب» باز کنید.";$("#vpWrap").innerHTML='<div id="vpFrame"></div>';$("#vpWrap").hidden=true;}
 }
+/* جمله‌ی جاری نقطه‌ی پخش، جدا بالای متن کامل (مثل #zbSubLine در بخش فیلم‌ها) */
+function vpSetCur(i){const L=$("#vpCurLine");if(!L||L.hidden)return;const t=curText();if(i<0||!t||!t.segs||!t.segs[i]){L.innerHTML="";return}const g=t.segs[i];L.innerHTML=wrapWords(g.t);L.dataset.ctx=g.t;L.dataset.lang=t.lang||"de";L.dataset.ts=g.s;L.dataset.src="youtube";}
 setInterval(()=>{
  const t=curText();if(!t||!t.segs||$("#s-read").hidden)return;
  if(t.local&&localActive()){
   const c=localTime();let i=-1;for(let k=0;k<t.segs.length;k++){if(t.segs[k].s<=c+.2)i=k;else break}
-  if(i===lastCur)return;lastCur=i;
+  if(i===lastCur)return;lastCur=i;vpSetCur(i);
   $$("#text .tline.cur").forEach(x=>x.classList.remove("cur"));
   const el=$("#sg"+i);if(!el)return;el.classList.add("cur");
   if(follow&&!sel&&!$("#text").hidden){const r=el.getBoundingClientRect();if(r.top<280||r.bottom>innerHeight-120)scrollBy({top:r.top-300,behavior:"smooth"})}
@@ -4632,7 +4635,7 @@ setInterval(()=>{
  if(!t.video||!t.video.id||!ytp||!ytp.getCurrentTime)return;
  let c;try{c=ytp.getCurrentTime()}catch(e){return}
  let i=-1;for(let k=0;k<t.segs.length;k++){if(t.segs[k].s<=c+.2)i=k;else break}
- if(i===lastCur)return;lastCur=i;
+ if(i===lastCur)return;lastCur=i;vpSetCur(i);
  $$("#text .tline.cur").forEach(x=>x.classList.remove("cur"));
  const el=$("#sg"+i);if(!el)return;el.classList.add("cur");
  if(follow&&!sel&&!$("#text").hidden){const r=el.getBoundingClientRect();if(r.top<280||r.bottom>innerHeight-120)scrollBy({top:r.top-300,behavior:"smooth"})}
