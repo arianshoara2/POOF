@@ -132,12 +132,25 @@ const app=$("#app");
 
 /* ---------- TTS ---------- */
 function say(t,lang){
+  const l=/[\u0600-\u06FF]/.test(t)?"fa-IR":lang==="en"?"en-US":"de-DE";
+  const gtts=()=>{
+    try{
+      const tl=l.split("-")[0];
+      const a=new Audio("https://translate.google.com/translate_tts?ie=UTF-8&tl="+encodeURIComponent(tl)+"&client=tw-ob&q="+encodeURIComponent(String(t).slice(0,180)));
+      const pr=a.play();if(pr&&pr.catch)pr.catch(()=>{});
+    }catch(e){}
+  };
+  let _dead=false,_started=false,_ended=false;
   try{
-    const l=/[\u0600-\u06FF]/.test(t)?"fa-IR":lang==="en"?"en-US":"de-DE";
-    speechSynthesis.cancel();
+    if(!("speechSynthesis" in window))return gtts();
+    speechSynthesis.cancel();speechSynthesis.resume();
     const u=new SpeechSynthesisUtterance(t);u.lang=l;u.rate=.9;
+    u.onstart=()=>{_started=true};
+    u.onend=()=>{_ended=true};
+    u.onerror=()=>{if(!_dead){_dead=true;gtts()}};
+    setTimeout(()=>{if(_started||_ended||_dead)return;try{if(!speechSynthesis.speaking){_dead=true;gtts()}}catch(e){}},2000);
     speechSynthesis.speak(u);
-  }catch(e){}
+  }catch(e){if(!_dead){_dead=true;gtts()}}
 }
 
 /* ---------- modes ---------- */
