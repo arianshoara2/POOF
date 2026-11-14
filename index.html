@@ -1059,14 +1059,18 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
     <p class="mute" style="font-size:11px;margin:6px 0 0">اول با دکمهٔ ۱ فایل را دانلود کنید (مرورگر خودش دانلود می‌کند)، بعد با دکمهٔ ۲ همان فایل را از پوشهٔ Downloads انتخاب کنید تا نصب شود. منبع: ویکی‌واژهٔ آلمانی (kaikki.org)، CC BY-SA 4.0</p>
    </div>
    <details class="adv"><summary>تنظیمات پیشرفته</summary>
-   <p class="mute" style="margin:0 0 4px">ورود یکجای کلیدها — هر سه مقدار (آدرس واسط، کلید ورکر، توکن زبان) را با هم در همین یک کادر بچسبانید، هر کدام در یک خط؛ ترتیب مهم نیست. بعد از ذخیره، این کادر خودش خالی می‌شود و کپی از آن ممکن نیست.</p>
+   <p class="mute" style="margin:0 0 4px">ورود یکجای کلیدها — هر چهار مقدار (آدرس ورکر ورسل، کلید ورسل، کلید هوش مصنوعی کلادفلر، توکن زبان) را با هم در همین یک کادر بچسبانید، هر کدام در یک خط؛ ترتیب مهم نیست. برای کلید هوش مصنوعی می‌توانید اول خط بنویسید «ai:» — اگر ننوشتید، دومین کلید ۴۸حرفی به‌عنوان کلید هوش مصنوعی گرفته می‌شود. کلید هوش مصنوعی معمولاً خودش از کلید قبلی پر می‌شود. بعد از ذخیره، این کادر خودش خالی می‌شود و کپی از آن ممکن نیست.</p>
    <textarea id="bulkKeys" class="de" dir="ltr" rows="3" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="هر مقدار در یک خط" style="-webkit-text-security:disc" oncopy="event.preventDefault()" oncut="event.preventDefault()"></textarea>
    <button class="ghost full" id="bulkKeysBtn" style="margin-bottom:10px">ذخیره‌ی یکجای کلیدها</button>
-   <p class="mute" style="margin:0 0 4px">آدرس واسط برای wort.app (Cloudflare Worker). نمونه: https://NAME.workers.dev/?url={url}</p>
-   <input id="proxy" class="de" placeholder="https://…workers.dev/?url={url}"><button class="ghost full" id="proxyTest" style="margin-bottom:10px">ذخیره و آزمایش اتصال به wort.app</button>
+   <p class="lbl" style="margin:10px 0 4px">ورکر ورسل</p>
+   <p class="mute" style="margin:0 0 4px">آدرس واسط برای wort.app (Vercel). نمونه: https://poof-worker.vercel.app/?url={url}</p>
+   <input id="proxy" class="de" placeholder="https://poof-worker.vercel.app/?url={url}"><button class="ghost full" id="proxyTest" style="margin-bottom:10px">ذخیره و آزمایش اتصال به wort.app</button>
    <button class="ghost full" id="bamoozTest" style="margin-bottom:10px">ذخیره و آزمایش اتصال به بیاموز</button>
-   <p class="mute" style="margin:0 0 4px">کلید امنیتی ورکر (اختیاری — اگر در ورکر Secret با نام API_KEY ساخته‌اید، همان مقدار را اینجا بگذارید)</p>
+   <p class="mute" style="margin:0 0 4px">کلید امنیتی ورکر ورسل (همان API_KEY ورسل)</p>
    <input id="wkey" type="password" class="de" dir="ltr" placeholder="API_KEY (اختیاری)" autocomplete="off">
+   <p class="lbl" style="margin:10px 0 4px">هوش مصنوعی (کلادفلر)</p>
+   <p class="mute" style="margin:0 0 4px">کلید هوش مصنوعی (کلادفلر) — برای Ask و ترانسکریپت پادکست؛ معمولاً خودش از کلید قبلی پر می‌شود</p>
+   <input id="aikey" type="password" class="de" dir="ltr" placeholder="کلید قدیمی کلادفلر" autocomplete="off">
    <p class="mute" style="margin:10px 0 4px">توکن زبان (برای سرچ و پخش زبان داخل پووف — فقط روی همین دستگاه ذخیره می‌شود)</p>
    <input id="zbToken" class="de" dir="ltr" type="password" placeholder="توکن زبان" autocomplete="off">
    <div class="row" style="margin-top:8px"><label class="ghost-label">ورود پشتیبان<input id="imp" type="file" accept=".json,application/json" hidden></label></div>
@@ -1125,7 +1129,7 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
  <div style="text-align:center;padding:8px 0 4px"><img src="icon.svg" alt="poof" style="width:72px;height:72px;border-radius:18px"></div>
  <p style="text-align:center;margin:4px 0 2px"><b>poof</b></p>
  <p class="mute" style="text-align:center;margin:0 0 12px">نسخه ۷۷</p>
- <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۲۵۶</p>
+ <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۲۵۸</p>
  <p style="margin:0 0 10px">با همکاری اصلی هوش مصنوعی موزی و آرین شعرا، با کمک چت‌جی‌پی‌تی و کلود، به‌صورت متن‌باز در گیت‌هاب ساخته شده است.</p>
  <p style="margin:0"><a href="https://github.com/arianshoara2/POOF" target="_blank" rel="noopener">github.com/arianshoara2/POOF</a></p>
 </div></div>
@@ -1697,6 +1701,39 @@ function seedEnStarter4(n){
  const now=Date.now();
  for(const w of EN_STARTER_4)n.cards.push({pos:"",def:"",context:w.ex,contextFa:w.exfa,source:"en-starter-4",created_at:now,ease:2.5,interval:0,reps:0,due:now,front:w.f,back:w.b,lang:"en",deck_id:"en-starter-4",id:uid()});
 }
+/* ===== ?v=257: English starter deck — batch 5 (same pattern as batches 1–4) =====
+   20 more everyday A1 words (verbs, colours, no). New deck id
+   "en-starter-5" so users who already have batches 1–4 still get batch 5 on
+   their next load (via migrate); guarded, so it never duplicates. */
+const EN_STARTER_5=[
+ {f:"close",b:"بستن",ex:"Please close the window.",exfa:"لطفاً پنجره را ببندید."},
+ {f:"sit",b:"نشستن",ex:"Please sit here.",exfa:"لطفاً اینجا بنشینید."},
+ {f:"stand",b:"ایستادن",ex:"Please stand up.",exfa:"لطفاً بایستید."},
+ {f:"walk",b:"راه رفتن",ex:"I walk to school every day.",exfa:"هر روز پیاده به مدرسه می‌روم."},
+ {f:"run",b:"دویدن",ex:"The children run in the garden.",exfa:"بچه‌ها در باغ می‌دوند."},
+ {f:"talk",b:"صحبت کردن",ex:"We talk every morning.",exfa:"ما هر صبح صحبت می‌کنیم."},
+ {f:"listen",b:"گوش دادن",ex:"Please listen to me.",exfa:"لطفاً به من گوش بدهید."},
+ {f:"look",b:"نگاه کردن",ex:"Look at this picture.",exfa:"به این عکس نگاه کنید."},
+ {f:"come",b:"آمدن",ex:"Please come to my house.",exfa:"لطفاً به خانه‌ی من بیایید."},
+ {f:"go",b:"رفتن",ex:"I go home at six.",exfa:"ساعت شش به خانه می‌روم."},
+ {f:"give",b:"دادن",ex:"Give me the book, please.",exfa:"لطفاً کتاب را به من بدهید."},
+ {f:"take",b:"گرفتن",ex:"Take this pen.",exfa:"این خودکار را بگیرید."},
+ {f:"buy",b:"خریدن",ex:"I buy bread every morning.",exfa:"هر صبح نان می‌خرم."},
+ {f:"like",b:"دوست داشتن",ex:"I like this film.",exfa:"این فیلم را دوست دارم."},
+ {f:"need",b:"نیاز داشتن",ex:"I need some water.",exfa:"کمی آب نیاز دارم."},
+ {f:"want",b:"خواستن",ex:"I want a cup of tea.",exfa:"یک فنجان چای می‌خواهم."},
+ {f:"no",b:"نه، خیر",ex:"No, I do not like it.",exfa:"نه، آن را دوست ندارم."},
+ {f:"black",b:"سیاه",ex:"The dog is black.",exfa:"سگ سیاه است."},
+ {f:"white",b:"سفید",ex:"The snow is white.",exfa:"برف سفید است."},
+ {f:"blue",b:"آبی",ex:"My shirt is blue.",exfa:"پیراهن من آبی است."}
+];
+function seedEnStarter5(n){
+ if(!n||!Array.isArray(n.decks)||!Array.isArray(n.cards))return;
+ if(n.decks.some(x=>x.id==="en-starter-5"))return;
+ n.decks.push({id:"en-starter-5",name:"انگلیسی 🇬🇧 — واژه‌های روزمره ۵"});
+ const now=Date.now();
+ for(const w of EN_STARTER_5)n.cards.push({pos:"",def:"",context:w.ex,contextFa:w.exfa,source:"en-starter-5",created_at:now,ease:2.5,interval:0,reps:0,due:now,front:w.f,back:w.b,lang:"en",deck_id:"en-starter-5",id:uid()});
+}
 const ic=n=>`<svg class="ic" aria-hidden="true"><use href="#i-${n}"/></svg>`;
 const SUB={read:"بخوان، انتخاب کن، یاد بگیر",dict:"دیکشنری آلمانی ⇄ فارسی",cards:"واژه‌های شخصی تو",review:"مرور و یادگیری",me:"پیشرفت و تنظیمات"};
 const DAY=864e5, fmt=d=>d.toLocaleDateString("sv-SE");
@@ -1705,11 +1742,12 @@ let tt;function toast(m,k){const t=$("#toast");t.textContent=m;t.className="show
 /* ===== 1) Storage v2 + Migration + Backup ===== */
 const K="poof_v2",KC="poof_dict_cache2",KB="poof_backup";
 const PACK_URL_DE="https://github.com/arianshoara2/POOF/releases/download/dict-de-v1/poof-de-dict.jsonl.gz";
-const fresh=()=>{const d={v:2,decks:[{id:"default",name:"پیش‌فرض"}],cards:[],active:"default",texts:[],textId:"t0",log:{},recent:[],theme:"auto",remind:{on:false,goal:"all",freq:"6h"},proxy:"",zbShelf:[{t:"حیوانات",u:"https://zaban.com/share/movies/1812?language=fa"},{t:"برکینگ بد — قسمت ۱",u:"https://zaban.com/share/series/16/seasons/18/episodes/508?language=fa"}]};seedEnStarter(d);seedEnStarter2(d);seedEnStarter3(d);seedEnStarter4(d);return d};
+const fresh=()=>{const d={v:2,decks:[{id:"default",name:"پیش‌فرض"}],cards:[],active:"default",texts:[],textId:"t0",log:{},recent:[],theme:"auto",remind:{on:false,goal:"all",freq:"6h"},proxy:"",aiKey:"",zbShelf:[{t:"حیوانات",u:"https://zaban.com/share/movies/1812?language=fa"},{t:"برکینگ بد — قسمت ۱",u:"https://zaban.com/share/series/16/seasons/18/episodes/508?language=fa"}]};seedEnStarter(d);seedEnStarter2(d);seedEnStarter3(d);seedEnStarter4(d);seedEnStarter5(d);return d};
 function migrate(d){
  if(!d||typeof d!=="object"||!Array.isArray(d.cards)||!Array.isArray(d.decks))return null;
  if(d.v>2)return null;                       // نسخه‌ی آینده: دست نزن
  const n={...fresh(),...d,v:2};
+ if(!n.aiKey&&n.wkey&&(n.proxy||"").includes("workers.dev"))n.aiKey=n.wkey; /* ?v=258: keep the Cloudflare key for AI routes before the proxy key is replaced with the Vercel key */
  if(!Array.isArray(n.texts))n.texts=[];
  if(!n.log||typeof n.log!=="object")n.log={};
  if(!Array.isArray(n.recent))n.recent=[];
@@ -1724,6 +1762,7 @@ function migrate(d){
  seedEnStarter2(n); /* ?v=249: English starter deck batch 2 for existing users (no-op if already seeded) */
  seedEnStarter3(n); /* ?v=252: English starter deck batch 3 for existing users (no-op if already seeded) */
  seedEnStarter4(n); /* ?v=256: English starter deck batch 4 for existing users (no-op if already seeded) */
+ seedEnStarter5(n); /* ?v=257: English starter deck batch 5 for existing users (no-op if already seeded) */
  return n;
 }
 function load(){
@@ -4526,11 +4565,15 @@ const ytIdOf=u=>{const m=u.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?(?:.*&)
 const igScOf=u=>{const m=String(u).match(/instagram\.com\/(?:[A-Za-z0-9_.]+\/)?(reels?|p|tv)\/([A-Za-z0-9_-]{5,})/i)||String(u).match(/instagram\.com\/share\/(reels?|p|tv)\/([A-Za-z0-9_-]{5,})/i);return m?{path:/^reel/i.test(m[1])?"reel":"p",sc:m[2]}:null};
 const mmss=s=>{s=Math.floor(s);const h=Math.floor(s/3600),m=Math.floor(s%3600/60),x=String(s%60).padStart(2,"0");return h?`${h}:${String(m).padStart(2,"0")}:${x}`:`${m}:${x}`};
 const curText=()=>allTexts().find(x=>x.id===db.textId);
+const AI_WORKER="https://billowing-dust-f182.arian311380.workers.dev"; /* ?v=258: AI routes (Ask/Whisper) stay on Cloudflare */
+const AI_ROUTES=new Set(["ask","podtr","igtr"]);
 function workerURL(params){
- const p=(db.proxy||"").trim();if(!p)throw new Error("noproxy");
+ const isAI=Object.keys(params).some(k=>AI_ROUTES.has(k));
+ const p=isAI?AI_WORKER:(db.proxy||"").trim();if(!p)throw new Error("noproxy");
  const u=new URL(p.replace("{url}","x"));u.searchParams.delete("url");
  Object.entries(params).forEach(([k,v])=>u.searchParams.set(k,v));
- if(db.wkey)u.searchParams.set("auth",db.wkey);
+ const key=isAI?(db.aiKey||db.wkey):db.wkey;
+ if(key)u.searchParams.set("auth",key);
  return u.toString();
 }
 function mediaURL(raw){try{return workerURL({media:1,u:raw})}catch(e){return null}}
@@ -5871,7 +5914,7 @@ function renderMe(){
   ["مرور امروز",db.log[fmt(new Date())]||0],["روز پیاپی",streak()]];
  $("#stats").innerHTML=`<div class="grid">${st.map(([l,v])=>`<div class="card stat"><b>${v}</b><span class="mute">${l}</span></div>`).join("")}</div>
   <div class="card"><div class="mute">مرورهای ۷ روز اخیر</div><div class="bars">${days.map(n=>`<div title="${n}" style="height:${Math.min(60,n*4)+2}px"></div>`).join("")}</div></div>`;
- $$("#themeOpts .theme-option").forEach(b=>b.classList.toggle("selected",b.dataset.th===(["snowy","lilac","peachy","minty","ocean","sun","nebula"].includes(db.theme)?db.theme:"classic")));$("#proxy").value=db.proxy||"";$("#wkey").value=db.wkey||"";try{$("#zbToken").value=localStorage.getItem("poof_zaban_token")||""}catch(e){}
+ $$("#themeOpts .theme-option").forEach(b=>b.classList.toggle("selected",b.dataset.th===(["snowy","lilac","peachy","minty","ocean","sun","nebula"].includes(db.theme)?db.theme:"classic")));$("#proxy").value=db.proxy||"";$("#wkey").value=db.wkey||"";$("#aikey").value=db.aiKey||"";try{$("#zbToken").value=localStorage.getItem("poof_zaban_token")||""}catch(e){}
  remindRender();
 }
 
@@ -6013,7 +6056,7 @@ if(rvMenuEl){rvMenuEl.addEventListener('click',e=>{const b=e.target.closest('but
 function applyTheme(){const t=["snowy","lilac","peachy","minty","ocean","sun","nebula"].includes(db.theme)?db.theme:"classic";document.documentElement.dataset.theme=t;document.documentElement.dataset.bgimg=(db.bgImg===false)?"off":"on";try{applyBgImgSeg();}catch(e){}const _swap=()=>{const tc=document.getElementById("themeCss");if(tc){const f="theme-"+(t==="snowy"?"snowy":"classic")+".css?v=16";if(!tc.href.endsWith(f))tc.href=f}};if(window.PoofPos){try{PoofPos.fadeThemeSwap(_swap)}catch(e){_swap()}}else{_swap()}const m=document.querySelector("meta[name=theme-color]");if(m)m.content={snowy:"#081421",lilac:"#EEF2FF",peachy:"#FFF7ED",minty:"#F0FDF4"}[t]||"#111111";updateMascots();updateRvGames()}
 $("#proxyTest").onclick=async()=>{
  const _tb=$("#proxyTest"),_ol=_tb.textContent;_tb.disabled=true;_tb.textContent="در حال آزمایش…";toast("در حال آزمایش اتصال…");
- try{db.proxy=$("#proxy").value.trim();db.wkey=$("#wkey").value.trim();save();
+ try{db.proxy=$("#proxy").value.trim();db.wkey=$("#wkey").value.trim();db.aiKey=$("#aikey").value.trim();save();
  try{const h=await fetchHTML(WORT+"suchen?q=Schule"),c=h&&parseWortSearch(h);
   toast(c?"اتصال موفق ✓ «"+c.meaning+"»":"صفحه گرفته شد ولی تحلیل نشد",c?"":"bad")}
  catch(x){toast(x.message==="noproxy"?"ابتدا آدرس واسط را وارد کنید":"اتصال ناموفق: "+x.message,"bad")}
@@ -6021,7 +6064,7 @@ $("#proxyTest").onclick=async()=>{
 };
 $("#bamoozTest").onclick=async()=>{
  const _tb=$("#bamoozTest"),_ol=_tb.textContent;_tb.disabled=true;_tb.textContent="در حال آزمایش…";toast("در حال آزمایش اتصال…");
- try{db.proxy=$("#proxy").value.trim();db.wkey=$("#wkey").value.trim();save();
+ try{db.proxy=$("#proxy").value.trim();db.wkey=$("#wkey").value.trim();db.aiKey=$("#aikey").value.trim();save();
  try{const h=await fetchHTML("https://dic.b-amooz.com/de/dictionary/w?word="+encodeURIComponent("Schule".toLowerCase()));if(!h)throw new Error("empty");
   const b=parseBamoozLines(blockLinesX(new DOMParser().parseFromString(h,"text/html").body)),m=b&&b.senses&&b.senses.length?b.senses[0].meaning:"";
   toast(m?"اتصال موفق ✓ «"+m+"»":"صفحه گرفته شد ولی معنی پیدا نشد",m?"":"bad")}
@@ -6034,23 +6077,26 @@ $$("#remindFreq button").forEach(b=>b.onclick=()=>{const r=remindPrefs();r.freq=
 $("#remindOn").onclick=()=>remindEnable();
 $("#remindOff").onclick=()=>remindDisable();
 $("#remindTest").onclick=()=>remindTest();
-/* ورود یکجای کلیدها (?v=96): یک کادر رمزی برای هر سه مقدار؛ تشخیص بر اساس شکل مقدار، نه ترتیب */
+/* ورود یکجای کلیدها (?v=96): یک کادر رمزی برای هر چهار مقدار؛ تشخیص بر اساس شکل مقدار، نه ترتیب — دومین کلید ۴۸حرفی یا خط «ai:» یعنی کلید هوش مصنوعی (?v=258) */
 function bulkParseKeys(raw){
   const found={};
   const classify=t=>{
     t=t.replace(/^bearer\s+/i,"");
+    let force=null;
+    const lm=t.match(/^(vercel|ورسل|ai|ai-key|cloudflare|کلادفلر)\s*:\s*/i);
+    if(lm){force=/^(ai|ai-key|cloudflare|کلادفلر)$/i.test(lm[1])?"aiKey":"wkey";t=t.slice(lm[0].length).trim();}
     if(/^https?:\/\//i.test(t)){const m=t.match(/https?:\/\/\S+/);return ["proxy",m[0].replace(/[.,،؛;]+$/,"")];}
     if(/^\d+\|[A-Za-z0-9_-]+$/.test(t)) return ["zb",t];
-    if(/^[A-Za-z0-9_-]{32,}$/.test(t)) return ["wkey",t];
+    if(/^[A-Za-z0-9_-]{32,}$/.test(t)) return [force||"wkey",t];
     return null;
   };
   const lines=(raw||"").split(/\n/).map(s=>s.trim()).filter(Boolean);
-  for(const ln of lines){const c=classify(ln);if(c&&!found[c[0]])found[c[0]]=c[1];}
+  for(const ln of lines){const c=classify(ln);if(!c)continue;if(c[0]==="wkey"&&found.wkey&&!found.aiKey){found.aiKey=c[1];continue;}if(!found[c[0]])found[c[0]]=c[1];}
   if(!found.proxy||!found.zb||!found.wkey){
     const blob=(raw||"").replace(/^bearer\s+/gim,"");
     if(!found.proxy){const m=blob.match(/https:\/\/[^\s'"]+/);if(m)found.proxy=m[0].replace(/[.,،؛;]+$/,"");}
     if(!found.zb){const m=blob.match(/\d+\|[A-Za-z0-9_-]{48}/)||blob.match(/\d+\|[A-Za-z0-9_-]{20,}/);if(m)found.zb=m[0];}
-    if(!found.wkey){const rest=blob.replace(/https:\/\/[^\s'"]+/g," ").replace(/\d+\|[A-Za-z0-9_-]+/g," ");const toks=rest.split(/\s+/).filter(x=>/^[A-Za-z0-9_-]{32,}$/.test(x));if(toks.length)found.wkey=toks.sort((a,b)=>b.length-a.length)[0];}
+    if(!found.wkey||!found.aiKey){const rest=blob.replace(/https:\/\/[^\s'"]+/g," ").replace(/\d+\|[A-Za-z0-9_-]+/g," ");const toks=rest.split(/\s+/).filter(x=>/^[A-Za-z0-9_-]{32,}$/.test(x)).sort((a,b)=>b.length-a.length);if(!found.wkey&&toks.length)found.wkey=toks[0];if(!found.aiKey&&toks.length>1)found.aiKey=toks[1];}
   }
   return found;
 }
@@ -6060,15 +6106,17 @@ $("#bulkKeysBtn").onclick=()=>{
   const f=bulkParseKeys(raw);const names=[];
   if(f.proxy){db.proxy=f.proxy;names.push("آدرس واسط");}
   if(f.wkey){db.wkey=f.wkey;names.push("کلید ورکر");}
+  if(f.aiKey){db.aiKey=f.aiKey;names.push("کلید هوش مصنوعی");}
   if(f.zb){try{localStorage.setItem("poof_zaban_token",f.zb)}catch(e){}names.push("توکن زبان");}
   if(!names.length){toast("هیچ کلیدی شناخته نشد — هر مقدار را در یک خط جداگانه بچسبانید","bad");return;}
   save();
-  try{$("#proxy").value=db.proxy||"";$("#wkey").value=db.wkey||"";$("#zbToken").value=localStorage.getItem("poof_zaban_token")||"";}catch(e){}
+  try{$("#proxy").value=db.proxy||"";$("#wkey").value=db.wkey||"";$("#aikey").value=db.aiKey||"";$("#zbToken").value=localStorage.getItem("poof_zaban_token")||"";}catch(e){}
   el.value="";
   const missing=[];
   if(!f.proxy)missing.push("آدرس واسط");
   if(!f.wkey)missing.push("کلید ورکر");
   if(!f.zb)missing.push("توکن زبان");
+  if(!f.aiKey&&!db.aiKey)missing.push("کلید هوش مصنوعی");
   toast("ذخیره شد: "+names.join("، ")+(missing.length?" — پیدا نشد: "+missing.join("، "):""));
 };
 /* توکن زبان: فقط روی همین دستگاه می‌ماند، هرگز در مخزن نیست؛ «Bearer …» کامل هم پذیرفته می‌شود */
