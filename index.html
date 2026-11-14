@@ -3467,8 +3467,11 @@ function txtParaHTML(p){
   return `<p dir="auto">${txtInlineHTML(p)}</p>`;
 }
 function renderReader(){
- const all=allTexts(),t=all.find(x=>x.id===db.textId)||all[0];db.textId=t.id;
- if(t.video&&t.video.ig&&t.lang==="en"&&t.body&&detectLang(t.body)==="de"){t.lang="de";save();}
+ let t=null;
+ try{
+  const all=allTexts();t=all.find(x=>x.id===db.textId)||all[0];db.textId=t.id;
+  if(Array.isArray(t.segs)){const cl=t.segs.filter(g=>g&&typeof g.t==="string"&&g.t.trim()!=="");if(cl.length!==t.segs.length){t.segs=cl;try{save()}catch(e){}}}
+  if(t.video&&t.video.ig&&t.lang==="en"&&t.body&&detectLang(t.body)==="de"){t.lang="de";save();}
  sents=[];
  if(t.pod&&t.segs&&t.segs.length){const mg=mergeWordSegs(t.segs);if(mg){t.segs=mg.segs;t.body=mg.segs.map(x=>x.t).join("\n");if(t.progress&&typeof t.progress.seg==="number")t.progress.seg=Math.min(mg.map[t.progress.seg]??0,mg.segs.length-1);save();}}
  if(t.segs){
@@ -3478,14 +3481,19 @@ function renderReader(){
  }else if(t.pod){const ytm=(t.body||"").match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?[^#]*v=|embed\/|shorts\/))([A-Za-z0-9_-]{11})/);$("#text").innerHTML=((t.body||"")?`<p class="mute">توضیحات قسمت — متن گفتگو برای این قسمت موجود نیست.</p>`:"")+((t.body||"")&&ytm?`<p><button class="btn sm" data-pod-yt>▶ دریافت متن گفتگو از یوتیوب</button></p>`:"")+(t.body||"").split(/\n\s*\n/).map(txtParaHTML).join("")||`<p class="state empty">بدون متن — فقط صوت.</p>`;}else if(t.wpBlocks&&t.wpBlocks.length){
   let rich="";try{rich=wpRichHTML(t)}catch(e){rich=""}
   if(rich)$("#text").innerHTML=rich;
-  else $("#text").innerHTML=(t.body||"").split(/\n\s*\n/).map(txtParaHTML).join("");
+  else $("#text").innerHTML=(t.body||"").split(/\n\s*\n/).map(txtParaHTML).join("")||`<div class="empty-wrap"><p class="state empty">این متن محتوایی ندارد.</p></div>`;
  }
- else $("#text").innerHTML=t.body.split(/\n\s*\n/).map(txtParaHTML).join("");
+ else $("#text").innerHTML=(t.body||"").split(/\n\s*\n/).map(txtParaHTML).join("")||`<div class="empty-wrap"><p class="state empty">این متن محتوایی ندارد.</p></div>`;
  $("#text").classList.toggle("de",t.lang!=="fa");sel=null;W=[];drawSel();renderLib();
  hlApply(t);
  const sl=$("#txtSrc");sl.hidden=!t.wp;
  if(t.wp)sl.innerHTML=`منبع: <a href="https://${t.lang||"de"}.wikipedia.org/wiki/${encodeURIComponent(t.wp.replace(/ /g,"_"))}" target="_blank" rel="noopener">ویکی‌پدیا</a> (مجوز CC BY-SA)`;
  lastCur=-1;setupPlayer(t);
+ }catch(e){
+  try{$("#text").innerHTML=`<div class="empty-wrap"><p class="state empty">این متن باز نشد — یک بخش از آن خراب است. متن دیگری را از کتابخانه باز کنید.</p></div>`;}catch(_){}
+  try{renderLib();}catch(_){}
+  try{if(t)setupPlayer(t);}catch(_){}
+ }
 }
 /* ===== هایلایت کلمه‌های ذخیره‌شده در متن + درصد بلدیت ===== */
 const hlOn=()=>{try{return localStorage.getItem("poof_hl")!=="0"}catch(_){return true}};
@@ -4371,11 +4379,14 @@ async function importYT(id,want){
   if(!data)try{data=await ytTimedText(id,want)}catch(e){fbErr=e}
  }
  if(data){
-  const segs=data.segments.map(x=>({s:x.s,t:x.t})),body=segs.map(x=>x.t).join("\n");
-  if(t){t.segs=segs;t.body=body;t.want=want||"";if(data.title)t.title="YouTube · "+data.title;if(data.lang)t.lang=data.lang}
-  else{t={id:sid,added:Date.now(),title:"YouTube · "+(data.title||id),lang:data.lang||want||"en",want:want||"",body,video:{id},segs};db.texts.push(t)}
-  db.textId=t.id;save();$("#addPanel").hidden=true;renderReader();$("#text").scrollIntoView({behavior:"smooth"});toast(data.translated?"زیرنویس ماشینی آماده شد":"زیرنویس آماده شد");
-  return;
+  const segs=(data.segments||[]).filter(x=>x&&typeof x.t==="string"&&x.t.trim()!=="").map(x=>({s:+x.s||0,t:x.t}));
+  if(segs.length){
+   const body=segs.map(x=>x.t).join("\n");
+   if(t){t.segs=segs;t.body=body;t.want=want||"";if(data.title)t.title="YouTube · "+data.title;if(data.lang)t.lang=data.lang}
+   else{t={id:sid,added:Date.now(),title:"YouTube · "+(data.title||id),lang:data.lang||want||"en",want:want||"",body,video:{id},segs};db.texts.push(t)}
+   db.textId=t.id;save();$("#addPanel").hidden=true;renderReader();$("#text").scrollIntoView({behavior:"smooth"});toast(data.translated?"زیرنویس ماشینی آماده شد":"زیرنویس آماده شد");
+   return;
+  }
  }
  if(isNetErr(err)&&isNetErr(fbErr))throw err;   // مشکل واقعی اتصال: همان پیام‌های قبلی friendly
  if(want&&want!=="auto"&&wrongLang)throw new Error("زیرنویس "+({fa:"فارسی",en:"انگلیسی",de:"آلمانی"}[String(want).split("-")[0].toLowerCase()]||want)+" برای این ویدیو پیدا نشد");
@@ -5495,6 +5506,7 @@ document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("#ed").hidden)$(
 $("#lt").addEventListener("click",e=>{if(!e.target.closest("#ltEntry,#pop,.hd,.w"))$("#ltEntry").hidden=true});
 const sr=(t,l,x,src)=>`<span class="sr ${x||""}" data-ctx="${esc(t)}" data-lang="${l}" data-src="${esc(src||"dictionary")}">${wrapWords(t)}</span>`;
 const wrapWords=(t,hi)=>{
+ t=typeof t==="string"?t:"";
  const parts=t.split(/(?<=\s)(?=\S)/);
  const nws=parts.map(w=>norm(w)?norm(w).toLowerCase():"");
  /* ?v=132: highlight the front inside the example — single word as before, or a whole phrase
