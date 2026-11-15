@@ -1144,7 +1144,7 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
  <div style="text-align:center;padding:8px 0 4px"><img src="icon.svg" alt="poof" style="width:72px;height:72px;border-radius:18px"></div>
  <p style="text-align:center;margin:4px 0 2px"><b>poof</b></p>
  <p class="mute" style="text-align:center;margin:0 0 12px">نسخه ۷۷</p>
- <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۲۷۸</p>
+ <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۲۷۹</p>
  <p style="margin:0 0 10px">با همکاری اصلی هوش مصنوعی موزی و آرین شعرا، با کمک چت‌جی‌پی‌تی و کلود، به‌صورت متن‌باز در گیت‌هاب ساخته شده است.</p>
  <p style="margin:0"><a href="https://github.com/arianshoara2/POOF" target="_blank" rel="noopener">github.com/arianshoara2/POOF</a></p>
 </div></div>
@@ -3924,7 +3924,7 @@ function renderReader(){
  hlApply(t);
  const sl=$("#txtSrc");sl.hidden=!t.wp;
  if(t.wp)sl.innerHTML=`منبع: <a href="https://${t.lang||"de"}.wikipedia.org/wiki/${encodeURIComponent(t.wp.replace(/ /g,"_"))}" target="_blank" rel="noopener">ویکی‌پدیا</a> (مجوز CC BY-SA)`;
- lastCur=-1;setupPlayer(t);
+ lastCur=-1;lastPiece=-1;setupPlayer(t);
  }catch(e){
   try{$("#text").innerHTML=`<div class="empty-wrap"><p class="state empty">این متن باز نشد — یک بخش از آن خراب است. متن دیگری را از کتابخانه باز کنید.</p></div>`;}catch(_){}
   try{renderLib();}catch(_){}
@@ -5079,7 +5079,7 @@ $("#tGet").onclick=async()=>{
 };
 
 /* ===== پخش‌کننده‌ی یوتیوب + دنبال‌کردن زیرنویس ===== */
-let ytp=null,ytLoad=null,ytpToken=0,follow=true,lastCur=-1;
+let ytp=null,ytLoad=null,ytpToken=0,follow=true,lastCur=-1,lastPiece=-1;
 function loadYT(){
  if(window.YT&&YT.Player)return Promise.resolve(true);
  return ytLoad||(ytLoad=new Promise(res=>{
@@ -5171,7 +5171,9 @@ async function setupPlayer(t){
  }catch(e){ytp=null;note.hidden=false;note.textContent="ساخت پخش‌کننده ممکن نشد؛ با دکمه‌ی «یوتیوب» باز کنید.";$("#vpWrap").innerHTML='<div id="vpFrame"></div>';$("#vpWrap").hidden=true;}
 }
 /* جمله‌ی جاری نقطه‌ی پخش، جدا بالای متن کامل (مثل #zbSubLine در بخش فیلم‌ها) */
-function vpSetCur(i){const L=$("#vpCurLine");if(!L||L.hidden)return;const t=curText();if(i<0||!t||!dispSegs(t)[i]){L.innerHTML="";return}const g=dispSegs(t)[i];const _tx=g.t||"";const _pcs=_tx.length>160?splitSentences(_tx):[_tx];L.innerHTML=_pcs.map(p=>wrapWords(p)).join("<br>");L.dataset.ctx=_tx;L.dataset.lang=dispLang(t);L.dataset.ts=g.s;L.dataset.src="youtube";}
+/* ?v=279: show only the current sentence of a long segment in #vpCurLine, advancing by playback time */
+function vpPiece(t,i,c){const segs=dispSegs(t),g=segs[i];if(!g)return 0;const tx=g.t||"";const pcs=tx.length>160?splitSentences(tx):[tx];if(pcs.length<=1||c==null||!isFinite(c))return 0;const s0=g.s;const s1=segs[i+1]?segs[i+1].s:(s0+(g.d||30));if(!(s1>s0))return 0;return Math.max(0,Math.min(pcs.length-1,Math.floor((c-s0)/(s1-s0)*pcs.length)));}
+function vpSetCur(i,c){const L=$("#vpCurLine");if(!L||L.hidden)return;const t=curText();if(i<0||!t||!dispSegs(t)[i]){L.innerHTML="";return}const g=dispSegs(t)[i];const _tx=g.t||"";const _pcs=_tx.length>160?splitSentences(_tx):[_tx];const _p=vpPiece(t,i,c);L.innerHTML=wrapWords(_pcs[_p]||_tx);L.dataset.ctx=_tx;L.dataset.lang=dispLang(t);L.dataset.ts=g.s;L.dataset.src="youtube";L.dataset.piece=_p;L.dataset.pieces=_pcs.length;}
 /* ?v=265: prev/next sentence + stop on the YouTube current-sentence box, like the films section (zbSubJump / zbPlayTgl) */
 const vpSubJump=dir=>{
  const t=curText();if(!t||!t.segs||!t.segs.length)return;
@@ -5204,20 +5206,24 @@ setInterval(()=>{
  const t=curText();if(!t||!t.segs||$("#s-read").hidden)return;
  if(t.local&&localActive()){
   const c=localTime();let i=-1;for(let k=0;k<t.segs.length;k++){if(t.segs[k].s<=c+.2)i=k;else break}
-  if(i===lastCur)return;lastCur=i;vpSetCur(i);
-  $$("#text .tline.cur").forEach(x=>x.classList.remove("cur"));
-  const el=$("#sg"+i);if(!el)return;el.classList.add("cur");
-  if(follow&&!sel&&!$("#text").hidden){const r=el.getBoundingClientRect();if(r.top<280||r.bottom>innerHeight-120)scrollBy({top:r.top-300,behavior:"smooth"})}
+  const p=i>=0?vpPiece(t,i,c):-1;
+  if(i!==lastCur){lastCur=i;lastPiece=p;vpSetCur(i,c);
+   $$("#text .tline.cur").forEach(x=>x.classList.remove("cur"));
+   const el=$("#sg"+i);if(!el)return;el.classList.add("cur");
+   if(follow&&!sel&&!$("#text").hidden){const r=el.getBoundingClientRect();if(r.top<280||r.bottom>innerHeight-120)scrollBy({top:r.top-300,behavior:"smooth"})}
+  }else if(p!==lastPiece){lastPiece=p;vpSetCur(i,c);}
   return;
  }
  if(!t.video||!t.video.id||!ytp||!ytp.getCurrentTime)return;
  let c;try{c=ytp.getCurrentTime()}catch(e){return}
  vpSyncTgl();
  let i=-1;for(let k=0;k<t.segs.length;k++){if(t.segs[k].s<=c+.2)i=k;else break}
- if(i===lastCur)return;lastCur=i;vpSetCur(i);
- $$("#text .tline.cur").forEach(x=>x.classList.remove("cur"));
- const el=$("#sg"+i);if(!el)return;el.classList.add("cur");
- if(follow&&!sel&&!$("#text").hidden){const r=el.getBoundingClientRect();if(r.top<280||r.bottom>innerHeight-120)scrollBy({top:r.top-300,behavior:"smooth"})}
+ const p=i>=0?vpPiece(t,i,c):-1;
+ if(i!==lastCur){lastCur=i;lastPiece=p;vpSetCur(i,c);
+  $$("#text .tline.cur").forEach(x=>x.classList.remove("cur"));
+  const el=$("#sg"+i);if(!el)return;el.classList.add("cur");
+  if(follow&&!sel&&!$("#text").hidden){const r=el.getBoundingClientRect();if(r.top<280||r.bottom>innerHeight-120)scrollBy({top:r.top-300,behavior:"smooth"})}
+ }else if(p!==lastPiece){lastPiece=p;vpSetCur(i,c);}
 },500);
 $("#text").addEventListener("click",e=>{
  const b=e.target.closest("[data-ts]");if(!b)return;
@@ -5266,7 +5272,7 @@ $("#vpClose").onclick=()=>{
   try{saveState()}catch(e){}
   try{if(window.PoofPos)PoofPos.track(PoofPos.make('index.html','tab:read',{cat:"",scrollY:0}))}catch(e){}
   try{history.replaceState({poof:"nav",tab:curTab(),textId:null,scrollY:0},"")}catch(e){}
-  sel=null;W=[];drawSel();lastCur=-1;
+  sel=null;W=[];drawSel();lastCur=-1;lastPiece=-1;
   $("#text").innerHTML="";
   const sl=$("#txtSrc");if(sl)sl.hidden=true;
   renderLib();
