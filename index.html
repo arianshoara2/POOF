@@ -223,6 +223,13 @@ button.ib.pri{background:var(--accent);color:var(--bg);border-color:var(--accent
 #zbSubLine,#vpCurLine{background:var(--lt-pastel,color-mix(in srgb,var(--accent) 16%,var(--surface)))}
 #vpSegBtns button{padding:2px 9px;font-size:12px;line-height:1.6;min-height:0}
 #vpSegBtns #vpPlayTgl{font-size:14px;padding:2px 8px}
+#vpSeg{padding:2px;margin-bottom:6px}
+#vpSeg button{padding:2px 6px;font-size:12px;line-height:1.6;min-height:0}
+#vpFollow,#vpOpen,#vpGetAudio,#vpCopy,#vpTextTgl,#vpClose{padding:2px 9px;font-size:12px;line-height:1.6}
+#zbPrevSub,#zbNextSub,#zbCloseVideo{padding:2px 9px;font-size:12px;line-height:1.6;min-height:0}
+#zbPlayTgl{font-size:14px;padding:2px 8px;min-height:0}
+#zbSubSeg{padding:2px;margin-bottom:0}
+#zbSubSeg button{padding:2px 6px;font-size:12px;line-height:1.6;min-height:0}
 #zbSubBar{background:var(--lt-card,color-mix(in srgb,var(--text) 4%,var(--surface)));border:1px solid var(--lt-border,var(--border));border-radius:var(--r-lg);padding:6px}
 @media (min-width:1024px){
  #zabanCard{margin-left:calc(50% - 620px);margin-right:calc(50% - 620px)}
@@ -869,7 +876,7 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
    <p class="mute" id="vpNote" hidden></p>
    <div class="seg" id="vpSeg"><button data-vl="">اصلی</button><button data-vl="en">EN</button><button data-vl="de">DE</button><button data-vl="fa">فا</button></div>
    <div id="vpTr" class="tr-state" hidden></div>
-   <div class="row"><button class="chip on" id="vpFollow">دنبال‌کردن زیرنویس</button><a id="vpOpen" class="chip" target="_blank" rel="noopener" style="text-decoration:none;padding:3px 12px">یوتیوب</a><button class="chip" id="vpGetAudio" hidden>دریافت صوت</button><button class="chip" id="vpCopy">📋 کپی متن</button><button class="chip" id="vpTextTgl" aria-label="بستن/باز کردن متن">📝 متن ▾</button><button class="chip" id="vpClose" aria-label="بستن متن">✕ بستن</button></div>
+   <div class="row" style="gap:4px"><button class="chip on" id="vpFollow">دنبال‌کردن زیرنویس</button><a id="vpOpen" class="chip" target="_blank" rel="noopener" style="text-decoration:none;padding:2px 9px">یوتیوب</a><button class="chip" id="vpGetAudio" hidden>دریافت صوت</button><button class="chip" id="vpCopy">📋 کپی متن</button><button class="chip" id="vpTextTgl" aria-label="بستن/باز کردن متن">📝 متن ▾</button><button class="chip" id="vpClose" aria-label="بستن متن">✕ بستن</button></div>
    <div class="row" id="vpSegBtns" style="gap:4px;margin-top:4px;align-items:center" hidden><button class="ghost" id="vpPrevSeg">قبلی</button><button class="ghost" id="vpPlayTgl" aria-label="پخش/مکث">⏸️</button><button class="ghost" id="vpNextSeg">بعدی</button></div>
    <p id="vpCurLine" class="sr" style="margin:6px 0 0;padding:6px 8px;border:1px solid var(--lt-border,var(--border));border-radius:10px;font-size:16px;line-height:1.7;min-height:1.7em" dir="auto" hidden></p>
   </div>
@@ -915,10 +922,10 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
      <div id="zbSticky">
     <video id="zbVideo" controls playsinline style="width:100%;border-radius:12px;margin-top:10px" hidden></video>
     <div id="zbSubBarTop" hidden>
-     <div class="row" style="gap:6px;margin-top:8px;align-items:center"><button class="ghost" id="zbPrevSub">قبلی</button><button class="ghost" id="zbNextSub">بعدی</button><div class="seg" id="zbSubSeg" style="flex:1"></div></div>
-     <p id="zbSubLine" style="margin:10px 0;padding:10px;border:1px solid var(--lt-border,var(--border));border-radius:10px;font-size:17px;line-height:1.9;min-height:1.9em" dir="auto"></p>
+     <div class="row" style="gap:4px;margin-top:4px;align-items:center"><button class="ghost" id="zbPrevSub">قبلی</button><button class="ghost" id="zbNextSub">بعدی</button><div class="seg" id="zbSubSeg" style="flex:1"></div></div>
+     <p id="zbSubLine" style="margin:6px 0;padding:6px 8px;border:1px solid var(--lt-border,var(--border));border-radius:10px;font-size:16px;line-height:1.7;min-height:1.7em" dir="auto"></p>
     </div>
-    <div class="row" id="zbPlayerBtns" hidden style="justify-content:center;gap:8px;margin:8px 0 2px"><button class="ghost" id="zbPlayTgl" aria-label="پخش/مکث">▶️</button><button class="ghost" id="zbCloseVideo" aria-label="بستن ویدیو">✕ بستن ویدیو</button></div>
+    <div class="row" id="zbPlayerBtns" hidden style="justify-content:center;gap:4px;margin:4px 0 2px"><button class="ghost" id="zbPlayTgl" aria-label="پخش/مکث">▶️</button><button class="ghost" id="zbCloseVideo" aria-label="بستن ویدیو">✕ بستن ویدیو</button></div>
      </div>
      <div id="zbSubBar" hidden>
      <div id="zbSubList"></div>
@@ -1137,7 +1144,7 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
  <div style="text-align:center;padding:8px 0 4px"><img src="icon.svg" alt="poof" style="width:72px;height:72px;border-radius:18px"></div>
  <p style="text-align:center;margin:4px 0 2px"><b>poof</b></p>
  <p class="mute" style="text-align:center;margin:0 0 12px">نسخه ۷۷</p>
- <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۲۷۱</p>
+ <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۲۷۲</p>
  <p style="margin:0 0 10px">با همکاری اصلی هوش مصنوعی موزی و آرین شعرا، با کمک چت‌جی‌پی‌تی و کلود، به‌صورت متن‌باز در گیت‌هاب ساخته شده است.</p>
  <p style="margin:0"><a href="https://github.com/arianshoara2/POOF" target="_blank" rel="noopener">github.com/arianshoara2/POOF</a></p>
 </div></div>
