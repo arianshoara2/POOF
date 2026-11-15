@@ -1144,7 +1144,7 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
  <div style="text-align:center;padding:8px 0 4px"><img src="icon.svg" alt="poof" style="width:72px;height:72px;border-radius:18px"></div>
  <p style="text-align:center;margin:4px 0 2px"><b>poof</b></p>
  <p class="mute" style="text-align:center;margin:0 0 12px">نسخه ۷۷</p>
- <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۲۷۶</p>
+ <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۲۷۷</p>
  <p style="margin:0 0 10px">با همکاری اصلی هوش مصنوعی موزی و آرین شعرا، با کمک چت‌جی‌پی‌تی و کلود، به‌صورت متن‌باز در گیت‌هاب ساخته شده است.</p>
  <p style="margin:0"><a href="https://github.com/arianshoara2/POOF" target="_blank" rel="noopener">github.com/arianshoara2/POOF</a></p>
 </div></div>
@@ -3913,7 +3913,7 @@ function renderReader(){
  if(t.segs){
   const igv=t.video&&t.video.ig;
   const srcOf=g=>t.pod?("podcast:"+t.id+"@"+Math.floor(g.s)):igv?("ig:"+t.video.ig+"@"+Math.floor(g.s)):t.video?("video:"+t.video.id+"@"+Math.floor(g.s)):("local:"+Math.floor(g.s));
-  $("#text").innerHTML=t.video&&t.video.id&&!t.segs.length?`<div class="empty-wrap"><p class="state empty">${YT_BOT_MSG}</p></div>`:dispSegs(t).flatMap((g,k)=>{const _gt=g.t||"";const pcs=_gt.length>160?splitSentences(_gt):[_gt];return pcs.map((pc,j)=>`<div class="tline" id="sg${k}${j?"-"+j:""}">${`<button class="ts" data-ts="${g.s}">${mmss(g.s)}</button>`}${sr(pc,dispLang(t),"",srcOf(g))}</div>`);}).join("");
+  $("#text").innerHTML=t.video&&t.video.id&&!t.segs.length?`<div class="empty-wrap"><p class="state empty">${t.authFail?YT_KEY_MSG:YT_BOT_MSG}</p></div>`:dispSegs(t).flatMap((g,k)=>{const _gt=g.t||"";const pcs=_gt.length>160?splitSentences(_gt):[_gt];return pcs.map((pc,j)=>`<div class="tline" id="sg${k}${j?"-"+j:""}">${`<button class="ts" data-ts="${g.s}">${mmss(g.s)}</button>`}${sr(pc,dispLang(t),"",srcOf(g))}</div>`);}).join("");
  }else if(t.pod){const ytm=(t.body||"").match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?[^#]*v=|embed\/|shorts\/))([A-Za-z0-9_-]{11})/);$("#text").innerHTML=((t.body||"")?`<p class="mute">توضیحات قسمت — متن گفتگو برای این قسمت موجود نیست.</p>`:"")+((t.body||"")&&ytm?`<p><button class="btn sm" data-pod-yt>▶ دریافت متن گفتگو از یوتیوب</button></p>`:"")+(t.body||"").split(/\n\s*\n/).map(txtParaHTML).join("")||`<p class="state empty">بدون متن — فقط صوت.</p>`;}else if(t.wpBlocks&&t.wpBlocks.length){
   let rich="";try{rich=wpRichHTML(t)}catch(e){rich=""}
   if(rich)$("#text").innerHTML=rich;
@@ -4740,6 +4740,7 @@ function workerURL(params,forceCF){
 function mediaURL(raw){try{return workerURL({media:1,u:raw})}catch(e){return null}}
 function mediaURLCF(raw){try{return workerURL({media:1,u:raw},true)}catch(e){return null}} /* ?v=262: media via Cloudflare (fallback) */
 const YT_BOT_MSG="یوتیوب فعلاً سرور ما رو بات تشخیص داده و زیرنویس رو نداد 🤖 ویدیو ذخیره شد — می‌تونی پخشش کنی؛ برای متنش بعداً دوباره تلاش کن یا زیرنویس رو دستی وارد کن.";
+const YT_KEY_MSG="کلادفلر درخواست رو رد کرد — «کلید هوش مصنوعی» درست نیست. کلید قدیمی رو از داشبورد کلادفلر (Workers ← billowing-dust-f182 ← Settings ← Variables ← API_KEY) بردار و تو تب «من» بذار؛ بدون اون، یوتیوب زیرنویس نمی‌ده.";
 const friendly=e=>{const m=String(e&&e.message||e);
  if(m==="noproxy")return "ابتدا آدرس Worker را در تب «پیشرفت» تنظیم کنید";
  if(/not a bot|sign in to confirm/i.test(m))return YT_BOT_MSG;
@@ -4956,7 +4957,7 @@ async function importYT(id,want){
    const body=segs.map(x=>x.t).join("\n");
    if(t){t.segs=segs;t.body=body;t.want=want||"";if(data.title)t.title="YouTube · "+data.title;if(data.lang)t.lang=data.lang}
    else{t={id:sid,added:Date.now(),title:"YouTube · "+(data.title||id),lang:data.lang||want||"en",want:want||"",body,video:{id},segs};db.texts.push(t)}
-   db.textId=t.id;save();$("#addPanel").hidden=true;renderReader();$("#text").scrollIntoView({behavior:"smooth"});toast(data.translated?"زیرنویس ماشینی آماده شد":"زیرنویس آماده شد");
+   t.authFail=false;db.textId=t.id;save();$("#addPanel").hidden=true;renderReader();$("#text").scrollIntoView({behavior:"smooth"});toast(data.translated?"زیرنویس ماشینی آماده شد":"زیرنویس آماده شد");
    return;
   }
  }
@@ -4968,8 +4969,9 @@ async function importYT(id,want){
   t={id:sid,added:Date.now(),title:"YouTube · "+(kn.title||id),lang:(want&&want!=="auto")?want:(kn.lang||"en"),want:want||"",body:"",video:{id},segs:[]};
   db.texts.push(t);
  }
+ const authFail=/401|403|unauthorized/i.test(String((err&&err.message)||""))||/401|403|unauthorized/i.test(String((fbErr&&fbErr.message)||""));t.authFail=authFail;
  db.textId=t.id;save();$("#addPanel").hidden=true;renderReader();$("#text").scrollIntoView({behavior:"smooth"});
-  toast(YT_BOT_MSG,"bad");
+  toast(authFail?YT_KEY_MSG:YT_BOT_MSG,"bad");
 }
 function extractArticle(html){
  const d=new DOMParser().parseFromString(html,"text/html");
