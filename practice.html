@@ -132,28 +132,22 @@ const app=$("#app");
 
 /* ---------- TTS ---------- */
 function mediaURL(raw){try{const p=(db.proxy||"").trim();if(!p)return null;const u=new URL(p.replace("{url}","x"));u.searchParams.delete("url");u.searchParams.set("media",1);u.searchParams.set("u",raw);if(db.wkey)u.searchParams.set("auth",db.wkey);return u.toString()}catch(e){return null}}
+function mediaURLCF(raw){try{const b=((db.cfWorker||"").trim()||"https://billowing-dust-f182.arian311380.workers.dev");const u=new URL(b);u.searchParams.set("media",1);u.searchParams.set("u",raw);const k=db.aiKey||db.wkey;if(k)u.searchParams.set("auth",k);return u.toString()}catch(e){return null}}
+/* ?v=268: device TTS removed — audio always from the server (Google TTS: direct, then Vercel worker, then Cloudflare worker) */
+let _gttsCur=null;
 function say(t,lang){
   const l=/[\u0600-\u06FF]/.test(t)?"fa-IR":lang==="en"?"en-US":"de-DE";
+  try{if(_gttsCur){_gttsCur.pause();_gttsCur=null}}catch(e){}
   const gtts=()=>{
     try{
       const tl=l.split("-")[0];
       const _u="https://translate.google.com/translate_tts?ie=UTF-8&tl="+encodeURIComponent(tl)+"&client=tw-ob&q="+encodeURIComponent(String(t).slice(0,180));
-      const a=new Audio(_u);
-      a.onerror=()=>{if(!a._px){a._px=true;const _p=mediaURL(_u);if(_p){a.src=_p;const _pr=a.play();if(_pr&&_pr.catch)_pr.catch(()=>{})}}};
+      const a=new Audio(_u);_gttsCur=a;
+      a.onerror=()=>{if(!a._px){a._px=true;const _p=mediaURL(_u);if(_p){a.src=_p;const _pr=a.play();if(_pr&&_pr.catch)_pr.catch(()=>{});return}}if(!a._cf){a._cf=true;const _p2=mediaURLCF(_u);if(_p2){a.src=_p2;const _pr2=a.play();if(_pr2&&_pr2.catch)_pr2.catch(()=>{})}}};
       const pr=a.play();if(pr&&pr.catch)pr.catch(()=>{});
     }catch(e){}
   };
-  let _dead=false,_started=false,_ended=false;
-  try{
-    if(!("speechSynthesis" in window))return gtts();
-    speechSynthesis.cancel();speechSynthesis.resume();
-    const u=new SpeechSynthesisUtterance(t);u.lang=l;u.rate=.9;
-    u.onstart=()=>{_started=true};
-    u.onend=()=>{_ended=true};
-    u.onerror=()=>{if(!_dead){_dead=true;gtts()}};
-    setTimeout(()=>{if(_started||_ended||_dead)return;try{if(!speechSynthesis.speaking){_dead=true;gtts()}}catch(e){}},2000);
-    speechSynthesis.speak(u);
-  }catch(e){if(!_dead){_dead=true;gtts()}}
+  gtts();
 }
 
 /* ---------- modes ---------- */

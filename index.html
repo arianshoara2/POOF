@@ -1135,7 +1135,7 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
  <div style="text-align:center;padding:8px 0 4px"><img src="icon.svg" alt="poof" style="width:72px;height:72px;border-radius:18px"></div>
  <p style="text-align:center;margin:4px 0 2px"><b>poof</b></p>
  <p class="mute" style="text-align:center;margin:0 0 12px">نسخه ۷۷</p>
- <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۲۶۷</p>
+ <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۲۶۸</p>
  <p style="margin:0 0 10px">با همکاری اصلی هوش مصنوعی موزی و آرین شعرا، با کمک چت‌جی‌پی‌تی و کلود، به‌صورت متن‌باز در گیت‌هاب ساخته شده است.</p>
  <p style="margin:0"><a href="https://github.com/arianshoara2/POOF" target="_blank" rel="noopener">github.com/arianshoara2/POOF</a></p>
 </div></div>
@@ -2754,69 +2754,31 @@ async function lookup(raw,lang){
  if([a,b,d].some(x=>x.status==="fulfilled")){cache[key]=e;saveCache()}
  return e;
 }
-/* صداها هر بار تازه خوانده می‌شوند (کشِ خالیِ صدا روی اندروید یعنی سکوت همیشگی)؛
-   اگر هنوز خالی بودند، حداکثر ~۷۰۰ms منتظر voiceschanged می‌مانیم */
-function voicesReady(){
-  return new Promise(function(res){
-    if(!("speechSynthesis" in window))return res([]);
-    var v=[];try{v=speechSynthesis.getVoices()||[]}catch(e){}
-    if(v.length)return res(v);
-    var done=false;
-    var to=setTimeout(function(){if(!done){done=true;try{res(speechSynthesis.getVoices()||[])}catch(e){res([])}}},700);
-    var h=function(){
-      if(done)return;done=true;clearTimeout(to);
-      try{speechSynthesis.removeEventListener("voiceschanged",h)}catch(e){}
-      try{res(speechSynthesis.getVoices()||[])}catch(e){res([])}
-    };
-    try{speechSynthesis.addEventListener("voiceschanged",h)}
-    catch(e){try{speechSynthesis.onvoiceschanged=h}catch(x){}}
-  });
-}
+/* ?v=268: device TTS removed — card audio always comes from the server (Google TTS: direct, then Vercel worker, then Cloudflare worker) */
 let _saySeq=0;
-function speakUtt(t,lang,vs,seq,retry){
-  if(seq!==_saySeq)return;
-  try{speechSynthesis.cancel();speechSynthesis.resume()}catch(e){}
-  var u=new SpeechSynthesisUtterance(t);u.lang=lang;u.rate=.9;
-  if(!retry&&vs&&vs.length){
-    var lc=lang.split("-")[0].toLowerCase();
-    for(var k=0;k<vs.length;k++){if(vs[k].lang&&vs[k].lang.toLowerCase().indexOf(lc)===0){u.voice=vs[k];break}}
-  }
-  var _dead=false,_started=false,_ended=false;
-  function _fall(){if(_dead)return;_dead=true;if(!retry)speakUtt(t,lang,null,seq,true);else playGTTS(t,lang)}
-  u.onstart=function(){_started=true};
-  u.onend=function(){_ended=true};
-  u.onerror=function(){if(seq!==_saySeq)return;_fall()};
-  setTimeout(function(){
-    if(seq!==_saySeq||_started||_ended||_dead)return;
-    try{if(!speechSynthesis.speaking)_fall()}catch(e){}
-  },2000);
-  try{speechSynthesis.speak(u)}catch(e){if(seq!==_saySeq)return;_fall()}
-}
-// تلفظ: اول Web Speech API (اگر صدا داشته باشد)، وگرنه صوت گوگل — در WebView اندروید
-async function say(t,l){
+let _gttsCur=null;
+// تلفظ: همیشه از سرور — TTS گوگل (?v=268)
+function say(t,l){
   var lang=FA.test(t)?"fa-IR":l==="fa"?"fa-IR":l==="en"?"en-US":"de-DE";
   var seq=++_saySeq;
-  try{
-    var vs=await voicesReady();
-    if(seq!==_saySeq)return;
-    if(vs.length){speakUtt(t,lang,vs,seq,false);return}
-  }catch(e){}
-  playGTTS(t,lang);
+  try{if(_gttsCur){_gttsCur.pause();_gttsCur=null}}catch(e){}
+  playGTTS(t,lang,seq);
 }
-function playGTTS(t,lang){
+function playGTTS(t,lang,seq){
   try{
     var tl=(lang||"de-DE").split("-")[0];
     var chs=String(t).match(/[^.!?\u061F\n]{1,180}/g)||[t],i=0,failed=false;
-    var fail=function(){if(!failed){failed=true;toast("صدا روی این دستگاه پخش نشد","bad")}};
+    var fail=function(){if(!failed){failed=true;toast("صدا پخش نشد","bad")}};
     (function nx(){
+      if(seq!==_saySeq)return;
       if(i>=chs.length)return;
       var _u="https://translate.google.com/translate_tts?ie=UTF-8&tl="+encodeURIComponent(tl)+"&client=tw-ob&q="+encodeURIComponent(chs[i++].trim());
-      var a=new Audio(_u);
+      var a=new Audio(_u);_gttsCur=a;
       a.onended=nx;
       a.onerror=function(){if(!a._px){a._px=true;var _p=mediaURL(_u);if(_p){a.src=_p;var _pr=a.play();if(_pr&&_pr.catch)_pr.catch(function(e){if(e&&e.name==="NotAllowedError")fail()});return}}if(!a._cf){a._cf=true;var _p2=mediaURLCF(_u);if(_p2){a.src=_p2;var _pr2=a.play();if(_pr2&&_pr2.catch)_pr2.catch(function(e){if(e&&e.name==="NotAllowedError")fail()});return}}fail()};
       var pr=a.play();if(pr&&pr.catch)pr.catch(function(e){if(e&&e.name==="NotAllowedError")fail()});
     })();
-  }catch(e){toast("مرورگر از تلفظ پشتیبانی نمی‌کند","bad")}
+  }catch(e){toast("صدا پخش نشد","bad")}
 }
 
 /* ===== یادآوری‌ها (Web Push) — ?v=253 ===== */
