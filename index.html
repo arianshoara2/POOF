@@ -1144,7 +1144,7 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
  <div style="text-align:center;padding:8px 0 4px"><img src="icon.svg" alt="poof" style="width:72px;height:72px;border-radius:18px"></div>
  <p style="text-align:center;margin:4px 0 2px"><b>poof</b></p>
  <p class="mute" style="text-align:center;margin:0 0 12px">نسخه ۷۷</p>
- <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۲۷۷</p>
+ <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۲۷۸</p>
  <p style="margin:0 0 10px">با همکاری اصلی هوش مصنوعی موزی و آرین شعرا، با کمک چت‌جی‌پی‌تی و کلود، به‌صورت متن‌باز در گیت‌هاب ساخته شده است.</p>
  <p style="margin:0"><a href="https://github.com/arianshoara2/POOF" target="_blank" rel="noopener">github.com/arianshoara2/POOF</a></p>
 </div></div>
@@ -4782,8 +4782,8 @@ function workerFetchURL(base,key,url){
  return u;
 }
 const RETRYABLE=s=>s===401||s===403||s===429||s>=500;
-async function proxyFetch(url,ms,viaCF){
- const bases=workerBases(viaCF);
+async function proxyFetch(url,ms,viaCF,onlyFirst){
+ const bases=onlyFirst?workerBases(viaCF).slice(0,1):workerBases(viaCF);
  if(!bases.length)throw new Error("noproxy");
  let last=null;
  for(const b of bases){
@@ -4796,8 +4796,8 @@ async function proxyFetch(url,ms,viaCF){
  throw last||new Error("proxy failed");
 }
 /* مسیر پشتیبان زیرنویس: timedtext یوتیوب از راه پروکسی عمومی (همان سازوکار fetchHTML) */
-async function proxyText(url,ms,viaCF){
- const r=await proxyFetch(url,ms||20000,viaCF);
+async function proxyText(url,ms,viaCF,onlyFirst){
+ const r=await proxyFetch(url,ms||20000,viaCF,onlyFirst);
  if(!r.ok)throw new Error("proxy "+r.status);
  return r.text();
 }
@@ -4810,7 +4810,7 @@ function ytKnown(id){
 }
 async function ytTimedText(id,want){
  const base="https://www.youtube.com/api/timedtext?v="+encodeURIComponent(id);
- const listXml=await proxyText(base+"&type=list",undefined,true); /* ?v=261: timedtext via Cloudflare */
+ const listXml=await proxyText(base+"&type=list",undefined,true,true); /* ?v=278: timedtext via Cloudflare ONLY — never Vercel */
  const tracks=[...new DOMParser().parseFromString(listXml,"text/xml").querySelectorAll("track")].map(tr=>({lang:tr.getAttribute("lang_code")||"",asr:tr.getAttribute("kind")==="asr"})).filter(x=>x.lang);
  if(!tracks.length)throw new Error("no caption tracks");
  const wl=(want||"").split("-")[0].toLowerCase(),baseL=x=>(x.lang||"").split("-")[0].toLowerCase(),man=tracks.filter(x=>!x.asr),asr=tracks.filter(x=>x.asr);
@@ -4819,13 +4819,13 @@ async function ytTimedText(id,want){
   // زیرنویس ماشینی: یوتیوب متن بهترین ترک موجود را به زبان خواسته‌شده ترجمه می‌کند
   const bt=man[0]||asr[0];
   if(!bt||!wl)throw new Error("no caption in "+(wl||"auto"));
-  const j2=JSON.parse(await proxyText(base+"&lang="+encodeURIComponent(bt.lang)+"&kind="+(bt.asr?"asr":"")+"&tlang="+encodeURIComponent(wl)+"&fmt=json3",undefined,true));
+  const j2=JSON.parse(await proxyText(base+"&lang="+encodeURIComponent(bt.lang)+"&kind="+(bt.asr?"asr":"")+"&tlang="+encodeURIComponent(wl)+"&fmt=json3",undefined,true,true));
   const segs2=(j2.events||[]).filter(ev=>ev.segs).map(ev=>({s:(ev.tStartMs||0)/1000,t:ev.segs.map(s=>s.utf8||"").join("").replace(/\s+/g," ").trim()})).filter(x=>x.t);
   if(!segs2.length)throw new Error("empty caption");
   if(detectLang(segs2.map(x=>x.t).join(" "))!==wl)throw new Error("no caption in "+wl);
   return {segments:segs2,lang:wl,translated:true,title:ytKnown(id).title};
  }
- const j=JSON.parse(await proxyText(base+"&lang="+encodeURIComponent(pick.lang)+"&kind="+(pick.asr?"asr":"")+"&fmt=json3",undefined,true));
+ const j=JSON.parse(await proxyText(base+"&lang="+encodeURIComponent(pick.lang)+"&kind="+(pick.asr?"asr":"")+"&fmt=json3",undefined,true,true));
  const segs=(j.events||[]).filter(ev=>ev.segs).map(ev=>({s:(ev.tStartMs||0)/1000,t:ev.segs.map(s=>s.utf8||"").join("").replace(/\s+/g," ").trim()})).filter(x=>x.t);
  if(!segs.length)throw new Error("empty caption");
  return {segments:segs,lang:pick.lang,title:ytKnown(id).title};
@@ -4969,7 +4969,7 @@ async function importYT(id,want){
   t={id:sid,added:Date.now(),title:"YouTube · "+(kn.title||id),lang:(want&&want!=="auto")?want:(kn.lang||"en"),want:want||"",body:"",video:{id},segs:[]};
   db.texts.push(t);
  }
- const authFail=/401|403|unauthorized/i.test(String((err&&err.message)||""))||/401|403|unauthorized/i.test(String((fbErr&&fbErr.message)||""));t.authFail=authFail;
+ const authFail=/401|unauthorized/i.test(String((err&&err.message)||""))||/401|unauthorized/i.test(String((fbErr&&fbErr.message)||""));t.authFail=authFail;
  db.textId=t.id;save();$("#addPanel").hidden=true;renderReader();$("#text").scrollIntoView({behavior:"smooth"});
   toast(authFail?YT_KEY_MSG:YT_BOT_MSG,"bad");
 }
