@@ -868,6 +868,7 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
    <div class="seg" id="vpSeg"><button data-vl="">اصلی</button><button data-vl="en">EN</button><button data-vl="de">DE</button><button data-vl="fa">فا</button></div>
    <div id="vpTr" class="tr-state" hidden></div>
    <div class="row"><button class="chip on" id="vpFollow">دنبال‌کردن زیرنویس</button><a id="vpOpen" class="chip" target="_blank" rel="noopener" style="text-decoration:none;padding:3px 12px">یوتیوب</a><button class="chip" id="vpGetAudio" hidden>دریافت صوت</button><button class="chip" id="vpCopy">📋 کپی متن</button><button class="chip" id="vpTextTgl" aria-label="بستن/باز کردن متن">📝 متن ▾</button><button class="chip" id="vpClose" aria-label="بستن متن">✕ بستن</button></div>
+   <div class="row" id="vpSegBtns" style="gap:6px;margin-top:8px;align-items:center" hidden><button class="ghost" id="vpPrevSeg">قبلی</button><button class="ghost" id="vpPlayTgl" aria-label="پخش/مکث">⏸️</button><button class="ghost" id="vpNextSeg">بعدی</button></div>
    <p id="vpCurLine" class="sr" style="margin:10px 0 0;padding:10px;border:1px solid var(--lt-border,var(--border));border-radius:10px;font-size:17px;line-height:1.9;min-height:1.9em" dir="auto" hidden></p>
   </div>
   <div class="card" id="ap" hidden>
@@ -1134,7 +1135,7 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
  <div style="text-align:center;padding:8px 0 4px"><img src="icon.svg" alt="poof" style="width:72px;height:72px;border-radius:18px"></div>
  <p style="text-align:center;margin:4px 0 2px"><b>poof</b></p>
  <p class="mute" style="text-align:center;margin:0 0 12px">نسخه ۷۷</p>
- <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۲۶۴</p>
+ <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۲۶۵</p>
  <p style="margin:0 0 10px">با همکاری اصلی هوش مصنوعی موزی و آرین شعرا، با کمک چت‌جی‌پی‌تی و کلود، به‌صورت متن‌باز در گیت‌هاب ساخته شده است.</p>
  <p style="margin:0"><a href="https://github.com/arianshoara2/POOF" target="_blank" rel="noopener">github.com/arianshoara2/POOF</a></p>
 </div></div>
@@ -5078,7 +5079,7 @@ async function setupPlayer(t){
  const lvc=$("#lvCard"),lve=$("#lv");
  if(lvc)lvc.hidden=!(t&&t.local);
  if(lve)lve.hidden=!(t&&t.local&&lve.src);
- const vp=$("#vp");vp.hidden=!(t&&t.video);const _vcl=$("#vpCurLine");if(_vcl){_vcl.hidden=!(t&&t.video&&t.segs&&t.segs.length&&(!t.video.ig||t.audio));if(_vcl.hidden)_vcl.innerHTML="";}
+ const vp=$("#vp");vp.hidden=!(t&&t.video);const _vcl=$("#vpCurLine");if(_vcl){_vcl.hidden=!(t&&t.video&&t.segs&&t.segs.length&&(!t.video.ig||t.audio));if(_vcl.hidden)_vcl.innerHTML="";}const _vsb=$("#vpSegBtns");if(_vsb)_vsb.hidden=!_vcl||_vcl.hidden;
  if(!t||!t.video){if(ytp&&ytp.pauseVideo)try{ytp.pauseVideo()}catch(e){}return}
  const note=$("#vpNote"),web=/^https?:$/.test(location.protocol);
  if(t.video.ig){
@@ -5112,6 +5113,34 @@ async function setupPlayer(t){
 }
 /* جمله‌ی جاری نقطه‌ی پخش، جدا بالای متن کامل (مثل #zbSubLine در بخش فیلم‌ها) */
 function vpSetCur(i){const L=$("#vpCurLine");if(!L||L.hidden)return;const t=curText();if(i<0||!t||!dispSegs(t)[i]){L.innerHTML="";return}const g=dispSegs(t)[i];L.innerHTML=wrapWords(g.t);L.dataset.ctx=g.t;L.dataset.lang=dispLang(t);L.dataset.ts=g.s;L.dataset.src="youtube";}
+/* ?v=265: prev/next sentence + stop on the YouTube current-sentence box, like the films section (zbSubJump / zbPlayTgl) */
+const vpSubJump=dir=>{
+ const t=curText();if(!t||!t.segs||!t.segs.length)return;
+ const segs=dispSegs(t);if(!segs.length)return;
+ let c=null;
+ if(t.local&&localActive()){c=localTime();}
+ else if(t.video&&t.video.ig&&t.audio&&audEl){c=audEl.currentTime;}
+ else if(ytp&&ytp.getCurrentTime){try{c=ytp.getCurrentTime()}catch(e){return}}
+ if(c==null)return;
+ let j=-1;
+ if(dir<0){let i=-1;for(let k=0;k<segs.length;k++){if(segs[k].s<=c)i=k;else break}if(i<0)return;else if(c-segs[i].s<=3&&i>0)j=i-1;else j=i;}
+ else{for(let k=0;k<segs.length;k++){if(segs[k].s>c+.3){j=k;break}}}
+ if(j<0)return;
+ const s=segs[j].s;
+ if(t.local&&localActive()){localSeek(s);return;}
+ if(t.video&&t.video.ig){if(t.audio&&audEl){audEl.currentTime=s;const pr=audEl.play();if(pr&&pr.catch)pr.catch(()=>{});}return;}
+ if(ytp&&ytp.seekTo){try{ytp.seekTo(s,true);ytp.playVideo()}catch(e){}}
+};
+$("#vpPrevSeg").onclick=()=>vpSubJump(-1);
+$("#vpNextSeg").onclick=()=>vpSubJump(1);
+function vpSyncTgl(){const b=$("#vpPlayTgl");if(!b||!ytp||!ytp.getPlayerState)return;let st;try{st=ytp.getPlayerState()}catch(e){return}b.textContent=st===1?"⏸️":"▶️";}
+$("#vpPlayTgl").onclick=()=>{
+ const t=curText(),b=$("#vpPlayTgl");
+ if(t&&t.video&&t.video.ig&&t.audio&&audEl){if(audEl.paused){const pr=audEl.play();if(pr&&pr.catch)pr.catch(()=>{})}else audEl.pause();if(b)b.textContent=audEl.paused?"▶️":"⏸️";return;}
+ if(!ytp||!ytp.getPlayerState)return;
+ let st;try{st=ytp.getPlayerState()}catch(e){return}
+ try{if(st===1){ytp.pauseVideo();if(b)b.textContent="▶️";}else{ytp.playVideo();if(b)b.textContent="⏸️";}}catch(e){}
+};
 setInterval(()=>{
  const t=curText();if(!t||!t.segs||$("#s-read").hidden)return;
  if(t.local&&localActive()){
@@ -5124,6 +5153,7 @@ setInterval(()=>{
  }
  if(!t.video||!t.video.id||!ytp||!ytp.getCurrentTime)return;
  let c;try{c=ytp.getCurrentTime()}catch(e){return}
+ vpSyncTgl();
  let i=-1;for(let k=0;k<t.segs.length;k++){if(t.segs[k].s<=c+.2)i=k;else break}
  if(i===lastCur)return;lastCur=i;vpSetCur(i);
  $$("#text .tline.cur").forEach(x=>x.classList.remove("cur"));
