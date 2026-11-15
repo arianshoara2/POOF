@@ -3983,9 +3983,11 @@ function renderReader(){
   const srcOf=g=>t.pod?("podcast:"+t.id+"@"+Math.floor(g.s)):igv?("ig:"+t.video.ig+"@"+Math.floor(g.s)):t.video?("video:"+t.video.id+"@"+Math.floor(g.s)):("local:"+Math.floor(g.s));
   $("#text").innerHTML=t.video&&t.video.id&&!t.segs.length?`<div class="empty-wrap"><p class="state empty">${t.authFail?YT_KEY_MSG:YT_BOT_MSG}</p></div>`:dispSegs(t).flatMap((g,k)=>{const _gt=g.t||"";const pcs=_gt.length>160?splitSentences(_gt):[_gt];return pcs.map((pc,j)=>`<div class="tline" id="sg${k}${j?"-"+j:""}">${`<button class="ts" data-ts="${g.s}">${mmss(g.s)}</button>`}${sr(pc,dispLang(t),"",srcOf(g))}</div>`);}).join("");
  }else if(t.pod){const ytm=(t.body||"").match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?[^#]*v=|embed\/|shorts\/))([A-Za-z0-9_-]{11})/);$("#text").innerHTML=((t.body||"")?`<p class="mute">توضیحات قسمت — متن گفتگو برای این قسمت موجود نیست.</p>`:"")+((t.body||"")&&ytm?`<p><button class="btn sm" data-pod-yt>▶ دریافت متن گفتگو از یوتیوب</button></p>`:"")+(t.body||"").split(/\n\s*\n/).map(txtParaHTML).join("")||`<p class="state empty">بدون متن — فقط صوت.</p>`;}else if(t.wpBlocks&&t.wpBlocks.length){
-  let rich="";try{rich=wpRichHTML(t)}catch(e){rich=""}
+  /* ?v=281: ترجمه‌ی فعال (فا/EN/DE) → متن ساده‌ی ترجمه‌شده؛ «اصلی» → چیدمان غنی آلمانی */
+  if(t.viewLang&&t.tr&&t.tr[t.viewLang])$("#text").innerHTML=dispBody(t).split(/\n\s*\n/).map(txtParaHTML).join("")||`<div class="empty-wrap"><p class="state empty">این متن محتوایی ندارد.</p></div>`;
+  else{let rich="";try{rich=wpRichHTML(t)}catch(e){rich=""}
   if(rich)$("#text").innerHTML=rich;
-  else $("#text").innerHTML=dispBody(t).split(/\n\s*\n/).map(txtParaHTML).join("")||`<div class="empty-wrap"><p class="state empty">این متن محتوایی ندارد.</p></div>`;
+  else $("#text").innerHTML=dispBody(t).split(/\n\s*\n/).map(txtParaHTML).join("")||`<div class="empty-wrap"><p class="state empty">این متن محتوایی ندارد.</p></div>`;}
  }
  else $("#text").innerHTML=dispBody(t).split(/\n\s*\n/).map(txtParaHTML).join("")||`<div class="empty-wrap"><p class="state empty">این متن محتوایی ندارد.</p></div>`;
  $("#text").classList.toggle("de",dispLang(t)!=="fa");sel=null;W=[];drawSel();renderLib();
@@ -4907,6 +4909,8 @@ const dispSegs=t=>(t&&t.viewLang&&t.segTr&&t.segTr[t.viewLang])||(t&&t.segs)||[]
 const dispBody=t=>{if(t&&t.viewLang&&t.tr&&t.tr[t.viewLang])return t.tr[t.viewLang];return (t&&t.body)||"";};
 const dispLang=t=>(t&&t.viewLang)||(t&&t.lang)||"de";
 const isPlainText=t=>!!(t&&!t.segs&&!t.video&&!t.pod&&!(t.wpBlocks&&t.wpBlocks.length)&&(t.body||"").trim());
+/* ?v=281: ویکی‌پدیا هم قابل ترجمه است — متن ساده‌اش (body) همان استخراج ?v=238 است */
+const isLangText=t=>!!(t&&(isPlainText(t)||(t.wpBlocks&&t.wpBlocks.length&&(t.body||"").trim())));
 /* ?v=263: translation progress — a spinning "translating to X… done/total" line so a slow MT is visible, not a hang */
 let trBusy=false;
 function trShow(el,langName,done,total){const d=$(el);if(!d)return;d.hidden=false;d.innerHTML='<span class="spin"></span><span>در حال ترجمه به '+langName+'…'+(total?' '+done+'/'+total:'')+'</span>';}
@@ -5198,7 +5202,7 @@ $("#lvPick").onclick=()=>$("#lvFile").click();
 $("#lvFile").onchange=e=>{const f=e.target.files[0];e.target.value="";if(f)useLocalVideo(f)};
 async function setupPlayer(t){
  setupAudio(t);
- const _tls=$("#txtLangSeg");if(_tls){const _pl=isPlainText(t);_tls.hidden=!_pl;if(_pl)$$("#txtLangSeg button").forEach(b=>b.classList.toggle("on",(b.dataset.tl||"")===(t.viewLang||"")));}
+ const _tls=$("#txtLangSeg");if(_tls){const _pl=isLangText(t);_tls.hidden=!_pl;if(_pl)$$("#txtLangSeg button").forEach(b=>b.classList.toggle("on",(b.dataset.tl||"")===(t.viewLang||"")));}
  const _ga=$("#vpGetAudio");if(_ga)_ga.hidden=true;
  const _cp=$("#vpCopy");if(_cp)_cp.hidden=!(t&&((t.segs&&t.segs.length)||(t.body||"").trim()));
  const _tt=$("#vpTextTgl");if(_tt){_tt.hidden=!t;_tt.innerHTML="📝 متن ▾";}const _tg=$("#txtTgl");if(_tg){_tg.hidden=!t;if(t)_tg.innerHTML="📝 متن ▾";}
@@ -5367,7 +5371,7 @@ $("#vpSeg").onclick=async e=>{
  toast("در حال دریافت زیرنویس…");
  try{await importYT(t.video.id,b.dataset.vl)}catch(x){toast(friendly(x),"bad")}
 };
-$("#txtLangSeg").onclick=async e=>{const b=e.target.closest("[data-tl]"),t=curText();if(!b||!t||!isPlainText(t))return;await setPlainLang(t,b.dataset.tl||"");};
+$("#txtLangSeg").onclick=async e=>{const b=e.target.closest("[data-tl]"),t=curText();if(!b||!t||!isLangText(t))return;await setPlainLang(t,b.dataset.tl||"");};
 
 /* ===== زبان (سرچ و پخش داخل پووف؛ استفاده‌ی شخصی، توکن فقط روی دستگاه) ===== */
 const ZB_BASE="https://api.zaban.io/api/v1/";
