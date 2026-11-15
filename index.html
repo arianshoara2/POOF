@@ -1135,7 +1135,7 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
  <div style="text-align:center;padding:8px 0 4px"><img src="icon.svg" alt="poof" style="width:72px;height:72px;border-radius:18px"></div>
  <p style="text-align:center;margin:4px 0 2px"><b>poof</b></p>
  <p class="mute" style="text-align:center;margin:0 0 12px">نسخه ۷۷</p>
- <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۲۶۵</p>
+ <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۲۶۶</p>
  <p style="margin:0 0 10px">با همکاری اصلی هوش مصنوعی موزی و آرین شعرا، با کمک چت‌جی‌پی‌تی و کلود، به‌صورت متن‌باز در گیت‌هاب ساخته شده است.</p>
  <p style="margin:0"><a href="https://github.com/arianshoara2/POOF" target="_blank" rel="noopener">github.com/arianshoara2/POOF</a></p>
 </div></div>
@@ -3878,7 +3878,7 @@ function renderReader(){
  if(t.segs){
   const igv=t.video&&t.video.ig;
   const srcOf=g=>t.pod?("podcast:"+t.id+"@"+Math.floor(g.s)):igv?("ig:"+t.video.ig+"@"+Math.floor(g.s)):t.video?("video:"+t.video.id+"@"+Math.floor(g.s)):("local:"+Math.floor(g.s));
-  $("#text").innerHTML=t.video&&t.video.id&&!t.segs.length?`<div class="empty-wrap"><p class="state empty">${YT_BOT_MSG}</p></div>`:dispSegs(t).flatMap((g,k)=>{const pcs=g.t.length>160?splitSentences(g.t):[g.t];return pcs.map((pc,j)=>`<div class="tline" id="sg${k}${j?"-"+j:""}">${`<button class="ts" data-ts="${g.s}">${mmss(g.s)}</button>`}${sr(pc,dispLang(t),"",srcOf(g))}</div>`);}).join("");
+  $("#text").innerHTML=t.video&&t.video.id&&!t.segs.length?`<div class="empty-wrap"><p class="state empty">${YT_BOT_MSG}</p></div>`:dispSegs(t).flatMap((g,k)=>{const _gt=g.t||"";const pcs=_gt.length>160?splitSentences(_gt):[_gt];return pcs.map((pc,j)=>`<div class="tline" id="sg${k}${j?"-"+j:""}">${`<button class="ts" data-ts="${g.s}">${mmss(g.s)}</button>`}${sr(pc,dispLang(t),"",srcOf(g))}</div>`);}).join("");
  }else if(t.pod){const ytm=(t.body||"").match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?[^#]*v=|embed\/|shorts\/))([A-Za-z0-9_-]{11})/);$("#text").innerHTML=((t.body||"")?`<p class="mute">توضیحات قسمت — متن گفتگو برای این قسمت موجود نیست.</p>`:"")+((t.body||"")&&ytm?`<p><button class="btn sm" data-pod-yt>▶ دریافت متن گفتگو از یوتیوب</button></p>`:"")+(t.body||"").split(/\n\s*\n/).map(txtParaHTML).join("")||`<p class="state empty">بدون متن — فقط صوت.</p>`;}else if(t.wpBlocks&&t.wpBlocks.length){
   let rich="";try{rich=wpRichHTML(t)}catch(e){rich=""}
   if(rich)$("#text").innerHTML=rich;
@@ -5112,7 +5112,7 @@ async function setupPlayer(t){
  }catch(e){ytp=null;note.hidden=false;note.textContent="ساخت پخش‌کننده ممکن نشد؛ با دکمه‌ی «یوتیوب» باز کنید.";$("#vpWrap").innerHTML='<div id="vpFrame"></div>';$("#vpWrap").hidden=true;}
 }
 /* جمله‌ی جاری نقطه‌ی پخش، جدا بالای متن کامل (مثل #zbSubLine در بخش فیلم‌ها) */
-function vpSetCur(i){const L=$("#vpCurLine");if(!L||L.hidden)return;const t=curText();if(i<0||!t||!dispSegs(t)[i]){L.innerHTML="";return}const g=dispSegs(t)[i];L.innerHTML=wrapWords(g.t);L.dataset.ctx=g.t;L.dataset.lang=dispLang(t);L.dataset.ts=g.s;L.dataset.src="youtube";}
+function vpSetCur(i){const L=$("#vpCurLine");if(!L||L.hidden)return;const t=curText();if(i<0||!t||!dispSegs(t)[i]){L.innerHTML="";return}const g=dispSegs(t)[i];const _tx=g.t||"";const _pcs=_tx.length>160?splitSentences(_tx):[_tx];L.innerHTML=_pcs.map(p=>wrapWords(p)).join("<br>");L.dataset.ctx=_tx;L.dataset.lang=dispLang(t);L.dataset.ts=g.s;L.dataset.src="youtube";}
 /* ?v=265: prev/next sentence + stop on the YouTube current-sentence box, like the films section (zbSubJump / zbPlayTgl) */
 const vpSubJump=dir=>{
  const t=curText();if(!t||!t.segs||!t.segs.length)return;
