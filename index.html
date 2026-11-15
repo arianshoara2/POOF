@@ -1137,7 +1137,7 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
  <div style="text-align:center;padding:8px 0 4px"><img src="icon.svg" alt="poof" style="width:72px;height:72px;border-radius:18px"></div>
  <p style="text-align:center;margin:4px 0 2px"><b>poof</b></p>
  <p class="mute" style="text-align:center;margin:0 0 12px">نسخه ۷۷</p>
- <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۲۶۹</p>
+ <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۲۷۰</p>
  <p style="margin:0 0 10px">با همکاری اصلی هوش مصنوعی موزی و آرین شعرا، با کمک چت‌جی‌پی‌تی و کلود، به‌صورت متن‌باز در گیت‌هاب ساخته شده است.</p>
  <p style="margin:0"><a href="https://github.com/arianshoara2/POOF" target="_blank" rel="noopener">github.com/arianshoara2/POOF</a></p>
 </div></div>
@@ -3970,13 +3970,19 @@ $("#libFilters").onclick=e=>{const b=e.target.closest("[data-lf]");if(!b)return;
 
 
 /* ===== ترجمه‌ی چندزبانه: فارسی · آلمانی · انگلیسی (گوگل غیررسمی → MyMemory) ===== */
+async function getJSONT(u,ms){const r=await fetchT(u,ms);if(!r.ok)throw new Error(r.status);return r.json()}
+/* ترجمه: مستقیم، بعد از راه ورکر (وقتی مستقیم 429 می‌خورد) — گوگل، بعد MyMemory */
 async function tr(text,from,to){
  const k=`q:${from}>${to}:`+text.toLowerCase();
  if(cache[k])return cache[k];
  let r="";
- try{const j=await getJSON("https://translate.googleapis.com/translate_a/single?client=gtx&dt=t&sl="+from+"&tl="+to+"&q="+encodeURIComponent(text));
-  r=j[0].map(x=>x[0]).join("").trim()}catch(e){}
- if(!r)try{r=(await Providers.mymemory(text,from+"|"+to))[0]||""}catch(e){}
+ const gtx="https://translate.googleapis.com/translate_a/single?client=gtx&dt=t&sl="+from+"&tl="+to+"&q="+encodeURIComponent(text);
+ const mm="https://api.mymemory.translated.net/get?langpair="+from+"|"+to+"&q="+encodeURIComponent(text);
+ const gtxParse=j=>{try{return (j[0]||[]).map(x=>x[0]).join("").trim()}catch(e){return ""}};
+ try{const j=await getJSONT(gtx,8000);r=gtxParse(j)}catch(e){}
+ if(!r)try{r=gtxParse(JSON.parse(await proxyText(gtx,15000)))}catch(e){}
+ if(!r)try{r=(await Promise.race([Providers.mymemory(text,from+"|"+to),new Promise(res=>setTimeout(()=>res([]),8000))]))[0]||""}catch(e){}
+ if(!r)try{const j=JSON.parse(await proxyText(mm,15000));if(Number(j.responseStatus)===200)r=(((j.responseData&&j.responseData.translatedText)||(j.matches&&j.matches[0]&&j.matches[0].translation))||"").trim()}catch(e){}
  if(r){cache[k]=r;saveCache()}
  return r;
 }
@@ -4368,7 +4374,7 @@ document.addEventListener("keydown",e=>{if(e.key==="Escape"){$("#pop").hidden=tr
 
 /* ===== انتخاب با دسته‌ها: از یک کلمه تا هر تعداد (مثل Deucards) ===== */
 let W=[],sel=null;
-const selText=()=>W.slice(sel.a,sel.b+1).map(x=>x.textContent.trim()).join(" ");
+const selText=()=>W.slice(sel.a,sel.b+1).map(x=>(x.dataset.w||x.textContent||"").trim()).join(" ");
 function drawSel(){
  $("#nav").classList.toggle("nav-hidden",!!sel);
  W.forEach((x,i)=>x.classList.toggle("sel",!!sel&&i>=sel.a&&i<=sel.b));
