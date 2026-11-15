@@ -1135,7 +1135,7 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
  <div style="text-align:center;padding:8px 0 4px"><img src="icon.svg" alt="poof" style="width:72px;height:72px;border-radius:18px"></div>
  <p style="text-align:center;margin:4px 0 2px"><b>poof</b></p>
  <p class="mute" style="text-align:center;margin:0 0 12px">نسخه ۷۷</p>
- <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۲۶۶</p>
+ <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۲۶۷</p>
  <p style="margin:0 0 10px">با همکاری اصلی هوش مصنوعی موزی و آرین شعرا، با کمک چت‌جی‌پی‌تی و کلود، به‌صورت متن‌باز در گیت‌هاب ساخته شده است.</p>
  <p style="margin:0"><a href="https://github.com/arianshoara2/POOF" target="_blank" rel="noopener">github.com/arianshoara2/POOF</a></p>
 </div></div>
@@ -4776,7 +4776,7 @@ const isNetErr=e=>!!e&&(e.name==="AbortError"||e instanceof TypeError||/timeout|
 const subLangOK=(lg,want,segs)=>{const w=String(want||"").split("-")[0].toLowerCase();if(!w||w==="auto")return true;const joined=(segs&&segs.length)?segs.map(x=>x.t||"").join(" "):"";if(joined.length>=120)return detectLang(joined)===w;let l=String(lg||"").split("-")[0].toLowerCase();if(!l&&joined)l=detectLang(joined);return l===w};
 /* ===== ترجمه‌ی کل متن (متن خام + اینستاگرام) — مثل تب‌های زبان بخش فیلم‌ها ===== */
 /* ?v=263: long segments read as one wall of text — split them into sentence pieces at render time (storage untouched) */
-function splitSentences(txt){return String(txt||"").split(/(?<=[.!?…])\s+(?=[A-Za-zÄÖÜäöüß\u0600-\u06FF])/).map(p=>p.trim()).filter(Boolean);}
+function splitSentences(txt){const ps=String(txt||"").split(/(?<=[.!?؟…])\s+(?=[A-Za-zÄÖÜäöüß\u0600-\u06FF])/).map(p=>p.trim()).filter(Boolean);return ps.flatMap(p=>{if(p.length<=160)return[p];const ch=p.split(/,\s+(?=[A-Za-zÄÖÜäöüß\u0600-\u06FF])/).map(q=>q.trim()).filter(Boolean).map((q,i,a)=>i<a.length-1?q+",":q);if(ch.length<2)return[p];const out=[];let cur="";for(const c of ch){const add=cur?cur+" "+c:c;if(cur&&add.length>120){out.push(cur);cur=c}else cur=add}if(cur)out.push(cur);return out.length>1?out:[p];});}
 const dispSegs=t=>(t&&t.viewLang&&t.segTr&&t.segTr[t.viewLang])||(t&&t.segs)||[];
 const dispBody=t=>{if(t&&t.viewLang&&t.tr&&t.tr[t.viewLang])return t.tr[t.viewLang];return (t&&t.body)||"";};
 const dispLang=t=>(t&&t.viewLang)||(t&&t.lang)||"de";
