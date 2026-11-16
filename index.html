@@ -1205,7 +1205,7 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
  <div style="text-align:center;padding:8px 0 4px"><img src="icon.svg" alt="poof" style="width:72px;height:72px;border-radius:18px"></div>
  <p style="text-align:center;margin:4px 0 2px"><b>poof</b></p>
  <p class="mute" style="text-align:center;margin:0 0 12px">نسخه ۷۷</p>
- <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۳۰۸</p>
+ <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۳۰۹</p>
  <p style="margin:0 0 10px">با همکاری اصلی هوش مصنوعی موزی و آرین شعرا، با کمک چت‌جی‌پی‌تی و کلود، به‌صورت متن‌باز در گیت‌هاب ساخته شده است.</p>
  <p style="margin:0"><a href="https://github.com/arianshoara2/POOF" target="_blank" rel="noopener">github.com/arianshoara2/POOF</a></p>
 </div></div>
@@ -6297,7 +6297,8 @@ function renderCards(){
  $("#dkDdLbl").textContent=_dact?_dact.name+" ("+_dcnt(_dact)+")":"—";
  const _drow=(v,lbl,cnt,cls)=>`<div class="rvdd-row${cls||""}${db.active===v?" sel":""}" data-v="${v}"><span>${esc(lbl)}</span><span class="cnt">${cnt!=null?"("+cnt+")":""}</span></div>`;
  const _dcoll=!!db.dkEnCollapsed;
- $("#dkDdPanel").innerHTML=_userDecks.map(d=>_drow(d.id,d.name,_dcnt(d))).join("")
+ const _ddcoll=!!db.dkDeCollapsed;
+ $("#dkDdPanel").innerHTML=(_userDecks.length?`<div class="rvdd-row rvdd-head${_ddcoll?" collapsed":""}" data-v="de-head"><span>🇩🇪 آلمانی</span><span class="chev">▾</span></div>`+(_ddcoll?"":_userDecks.map(d=>_drow(d.id,d.name,_dcnt(d)," rvdd-sub")).join("")):"")
   +(_enDecks.length?`<div class="rvdd-row rvdd-head${_dcoll?" collapsed":""}" data-v="en-head"><span>🇬🇧 انگلیسی پایه</span><span class="chev">▾</span></div>`+(_dcoll?"":_enDecks.map(d=>_drow(d.id,d.name,_dcnt(d)," rvdd-sub")).join("")):"");
  const _enSec=$("#enSec");
  if(_enSec){_enSec.hidden=!_enDecks.length;
@@ -6337,6 +6338,7 @@ $("#dkDdPanel").onclick=e=>{
  e.stopPropagation();
  const r=e.target.closest("[data-v]");if(!r)return;
  if(r.dataset.v==="en-head"){db.dkEnCollapsed=!db.dkEnCollapsed;save();renderCards();return}
+ if(r.dataset.v==="de-head"){db.dkDeCollapsed=!db.dkDeCollapsed;save();renderCards();return}
  db.active=r.dataset.v;save();$("#dkDdPanel").hidden=true;$("#dkDdBtn").classList.remove("open");renderCards();
 };
 $("#enGrid").onclick=e=>{const b=e.target.closest("[data-deck]");if(!b)return;db.active=b.dataset.deck;save();renderCards()};
@@ -6360,9 +6362,11 @@ function renderRvDecks(){
  $("#rvDdLbl").textContent=_sel==="all"?"همه‌ی دسته‌ها":(_sd?_sd.name+" ("+_due(_sd)+")":"همه‌ی دسته‌ها");
  const _row=(v,lbl,cnt,cls)=>`<div class="rvdd-row${cls||""}${_sel===v?" sel":""}" data-v="${v}"><span>${esc(lbl)}</span><span class="cnt">${cnt!=null?"("+cnt+")":""}</span></div>`;
  const _en=db.decks.filter(_isEn);
+ const _de=db.decks.filter(d=>!_isEn(d));
  const _col=!!db.rvEnCollapsed;
+ const _dcol=!!db.rvDeCollapsed;
  $("#rvDdPanel").innerHTML=_row("all","همه‌ی دسته‌ها",db.cards.filter(c=>c.due<=Date.now()).length)
-  +db.decks.filter(d=>!_isEn(d)).map(d=>_row(d.id,d.name,_due(d))).join("")
+  +(_de.length?`<div class="rvdd-row rvdd-head${_dcol?" collapsed":""}" data-v="de-head"><span>🇩🇪 آلمانی</span><span class="chev">▾</span></div>`+(_dcol?"":_de.map(d=>_row(d.id,d.name,_due(d)," rvdd-sub")).join("")):"")
   +(_en.length?`<div class="rvdd-row rvdd-head${_col?" collapsed":""}" data-v="en-head"><span>🇬🇧 انگلیسی پایه</span><span class="chev">▾</span></div>`+(_col?"":_en.map(d=>_row(d.id,d.name,_due(d)," rvdd-sub")).join("")):"");
 }
 $("#rvDdBtn").onclick=()=>{const p=$("#rvDdPanel");p.hidden=!p.hidden;$("#rvDdBtn").classList.toggle("open",!p.hidden)};
@@ -6370,6 +6374,7 @@ $("#rvDdPanel").onclick=e=>{
  e.stopPropagation();
  const r=e.target.closest("[data-v]");if(!r)return;
  if(r.dataset.v==="en-head"){db.rvEnCollapsed=!db.rvEnCollapsed;save();renderRvDecks();return}
+ if(r.dataset.v==="de-head"){db.rvDeCollapsed=!db.rvDeCollapsed;save();renderRvDecks();return}
  db.reviewDeck=r.dataset.v;save();$("#rvDdPanel").hidden=true;$("#rvDdBtn").classList.remove("open");startReview();
 };
 document.addEventListener("click",e=>{if(!e.target.closest("#rvDeck")){const p=$("#rvDdPanel");if(p){p.hidden=true;const b=$("#rvDdBtn");if(b)b.classList.remove("open")}}if(!e.target.closest("#deckSel")){const p=$("#dkDdPanel");if(p){p.hidden=true;const b=$("#dkDdBtn");if(b)b.classList.remove("open")}}});
