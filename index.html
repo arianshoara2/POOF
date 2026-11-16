@@ -2231,6 +2231,35 @@ function seedEnStarter19(n){
  const now=Date.now();
  for(const w of EN_STARTER_19)n.cards.push({pos:"",def:"",context:w.ex,contextFa:w.exfa,source:"en-starter-19",created_at:now,ease:2.5,interval:0,reps:0,due:now,front:w.f,back:w.b,lang:"en",deck_id:"en-starter-19",id:uid()});
 }
+const EN_STARTER_20=[
+ {f:"what",b:"چه",ex:"What is this?",exfa:"این چیست؟"},
+ {f:"when",b:"چه وقت",ex:"When do you come home?",exfa:"چه وقت به خانه می‌آیی؟"},
+ {f:"where",b:"کجا",ex:"Where is my book?",exfa:"کتابم کجاست؟"},
+ {f:"who",b:"چه کسی",ex:"Who is that man?",exfa:"آن مرد چه کسی است؟"},
+ {f:"why",b:"چرا",ex:"Why are you sad?",exfa:"چرا ناراحتی؟"},
+ {f:"how",b:"چطور",ex:"How are you today?",exfa:"امروز چطوری؟"},
+ {f:"this",b:"این",ex:"This is my house.",exfa:"این خانه‌ی من است."},
+ {f:"that",b:"آن",ex:"That is a big tree.",exfa:"آن یک درخت بزرگ است."},
+ {f:"all",b:"همه",ex:"All my friends are here.",exfa:"همه‌ی دوستانم اینجا هستند."},
+ {f:"some",b:"بعضی، کمی",ex:"I want some water.",exfa:"کمی آب می‌خواهم."},
+ {f:"very",b:"خیلی",ex:"I am very happy today.",exfa:"امروز خیلی خوشحالم."},
+ {f:"much",b:"زیاد",ex:"I like it very much.",exfa:"خیلی دوستش دارم."},
+ {f:"many",b:"بسیاری",ex:"There are many books here.",exfa:"اینجا کتاب‌های بسیاری هست."},
+ {f:"with",b:"با",ex:"I go with my friend.",exfa:"با دوستم می‌روم."},
+ {f:"have",b:"داشتن",ex:"I have a cat.",exfa:"یک گربه دارم."},
+ {f:"gold",b:"طلا، طلایی",ex:"The ring is gold.",exfa:"انگشتر طلاست."},
+ {f:"silver",b:"نقره، نقره‌ای",ex:"The spoon is silver.",exfa:"قاشق نقره‌ای است."},
+ {f:"son",b:"پسر",ex:"My son is six years old.",exfa:"پسرم شش ساله است."},
+ {f:"daughter",b:"دختر",ex:"My daughter likes music.",exfa:"دخترم موسیقی دوست دارد."},
+ {f:"husband",b:"شوهر",ex:"Her husband is a doctor.",exfa:"شوهرش پزشک است."}
+];
+function seedEnStarter20(n){
+ if(!n||!Array.isArray(n.decks)||!Array.isArray(n.cards))return;
+ if(n.decks.some(x=>x.id==="en-starter-20"))return;
+ n.decks.push({id:"en-starter-20",name:"انگلیسی 🇬🇧 — واژه‌های روزمره ۲۰"});
+ const now=Date.now();
+ for(const w of EN_STARTER_20)n.cards.push({pos:"",def:"",context:w.ex,contextFa:w.exfa,source:"en-starter-20",created_at:now,ease:2.5,interval:0,reps:0,due:now,front:w.f,back:w.b,lang:"en",deck_id:"en-starter-20",id:uid()});
+}
 function seedEnStarter11(n){
  if(!n||!Array.isArray(n.decks)||!Array.isArray(n.cards))return;
  if(n.decks.some(x=>x.id==="en-starter-11"))return;
@@ -5909,7 +5938,7 @@ let tt;function toast(m,k){const t=$("#toast");t.textContent=m;t.className="show
 /* ===== 1) Storage v2 + Migration + Backup ===== */
 const K="poof_v2",KC="poof_dict_cache2",KB="poof_backup";
 const PACK_URL_DE="https://github.com/arianshoara2/POOF/releases/download/dict-de-v1/poof-de-dict.jsonl.gz";
-const fresh=()=>{const d={v:2,decks:[{id:"default",name:"پیش‌فرض"}],cards:[],active:"default",texts:[],textId:"t0",log:{},recent:[],theme:"auto",remind:{on:false,goal:"all",freq:"6h"},proxy:"",aiKey:"",cfWorker:"",zbShelf:[{t:"حیوانات",u:"https://zaban.com/share/movies/1812?language=fa"},{t:"برکینگ بد — قسمت ۱",u:"https://zaban.com/share/series/16/seasons/18/episodes/508?language=fa"}]};seedEnStarter(d);seedEnStarter2(d);seedEnStarter3(d);seedEnStarter4(d);seedEnStarter5(d);seedEnStarter6(d);seedEnStarter7(d);seedEnStarter8(d);seedEnStarter9(d);seedEnStarter10(d);seedEnStarter11(d);seedEnStarter12(d);seedEnStarter13(d);seedEnStarter14(d);seedEnStarter15(d);seedEnStarter16(d);seedEnStarter17(d);seedEnStarter18(d);seedEnStarter19(d);seedWsA11(d);seedWsA12(d);seedWsA21(d);seedWsA22(d);seedWsB11(d);seedWsB12(d);seedLvA1(d);seedLvA2(d);seedLvB1(d);seedLvB2(d);seedLvC1(d);seedIdmIdiom(d);seedIdmProverb(d);seedPhrDaily(d);seedStStarter(d);seedFq500(d);return d};
+const fresh=()=>{const d={v:2,decks:[{id:"default",name:"پیش‌فرض"}],cards:[],active:"default",texts:[],textId:"t0",log:{},recent:[],theme:"auto",remind:{on:false,goal:"all",freq:"6h"},proxy:"",aiKey:"",cfWorker:"",zbShelf:[{t:"حیوانات",u:"https://zaban.com/share/movies/1812?language=fa"},{t:"برکینگ بد — قسمت ۱",u:"https://zaban.com/share/series/16/seasons/18/episodes/508?language=fa"}]};seedEnStarter(d);seedEnStarter2(d);seedEnStarter3(d);seedEnStarter4(d);seedEnStarter5(d);seedEnStarter6(d);seedEnStarter7(d);seedEnStarter8(d);seedEnStarter9(d);seedEnStarter10(d);seedEnStarter11(d);seedEnStarter12(d);seedEnStarter13(d);seedEnStarter14(d);seedEnStarter15(d);seedEnStarter16(d);seedEnStarter17(d);seedEnStarter18(d);seedEnStarter19(d);seedEnStarter20(d);seedWsA11(d);seedWsA12(d);seedWsA21(d);seedWsA22(d);seedWsB11(d);seedWsB12(d);seedLvA1(d);seedLvA2(d);seedLvB1(d);seedLvB2(d);seedLvC1(d);seedIdmIdiom(d);seedIdmProverb(d);seedPhrDaily(d);seedStStarter(d);seedFq500(d);return d};
 function migrate(d){
  if(!d||typeof d!=="object"||!Array.isArray(d.cards)||!Array.isArray(d.decks))return null;
  if(d.v>2)return null;                       // نسخه‌ی آینده: دست نزن
@@ -5944,6 +5973,7 @@ function migrate(d){
  seedEnStarter17(n); /* ?v=302: English starter deck batch 17 for existing users (no-op if already seeded) */
  seedEnStarter18(n); /* ?v=303: English starter deck batch 18 for existing users (no-op if already seeded) */
  seedEnStarter19(n); /* ?v=313: English starter deck batch 19 for existing users (no-op if already seeded) */
+ seedEnStarter20(n); /* ?v=314: English starter deck batch 20 for existing users (no-op if already seeded) */
  seedWsA11(n);seedWsA12(n);seedWsA21(n);seedWsA22(n);seedWsB11(n);seedWsB12(n); /* ?v=310: Wortschatz book decks for existing users (no-op if already seeded) */
  seedLvA1(n);seedLvA2(n);seedLvB1(n);seedLvB2(n);seedLvC1(n);seedIdmIdiom(n);seedIdmProverb(n);seedPhrDaily(n);seedStStarter(n);seedFq500(n); /* ?v=312: full Wortschatz import for existing users (no-op if already seeded) */
  return n;
@@ -6837,37 +6867,23 @@ let _saySeq=0;
 let _gttsCur=null;
 let _richAudioCache={}; /* ?v=274: audio url (or "") per word, for the recording-first speaker */
 // تلفظ: همیشه از سرور — TTS گوگل (?v=268)؛ تک‌کلمه اول صدای ضبط‌شده‌ی ویکی‌واژه (?v=274)
-/* ?v=314: the speakable word for the Wiktionary recording — a single word,
-   or the noun after der/die/das ("der Studiengang" -> "Studiengang").
-   Lets the Leitner speaker play the native recording for noun cards even
-   when the Vercel key is wrong (the recording URL is direct, no key needed);
-   fetchRich itself fails over Vercel(401) -> Cloudflare (aiKey). */
-function richWord(t,l){
-  var s=String(t||"").trim();if(!s)return null;
-  if(!/\s/.test(s))return s;
-  if(l==="de"){var m=s.match(/^(der|die|das)\s+([A-Za-zÄÖÜäöüß][A-Za-zÄÖÜäöüß'’-]*)$/i);if(m)return m[2]}
-  return null;
-}
 function say(t,l,noRich){
   var lang=FA.test(t)?"fa-IR":l==="fa"?"fa-IR":l==="en"?"en-US":"de-DE";
   var seq=++_saySeq;
   try{if(_gttsCur){_gttsCur.pause();if(_gttsCur._blob)URL.revokeObjectURL(_gttsCur._blob);_gttsCur=null}}catch(e){}
   try{if(_rAudio)_rAudio.pause()}catch(e){}
-  if(!noRich&&(l==="de"||l==="en")&&t){
-    var w=richWord(t,l);
-    if(w){
-      var key=l+"|"+w.toLowerCase(),cached=_richAudioCache[key],done=false;
-      if(cached){playRich(cached,w,l,null);return}
-      if(cached===""){playGTTS(t,lang,seq);return}
-      var to=setTimeout(function(){if(!done){done=true;playGTTS(t,lang,seq)}},6000);
-      fetchRich(w,l).then(function(r){
-        var u=r&&r.audio;
-        _richAudioCache[key]=u||"";
-        if(done||seq!==_saySeq)return;done=true;clearTimeout(to);
-        if(u)playRich(u,w,l,null);else playGTTS(t,lang,seq);
-      }).catch(function(){if(done||seq!==_saySeq)return;done=true;clearTimeout(to);playGTTS(t,lang,seq)});
-      return;
-    }
+  if(!noRich&&(l==="de"||l==="en")&&t&&!/\s/.test(String(t).trim())){
+    var w=String(t).trim(),key=l+"|"+w.toLowerCase(),cached=_richAudioCache[key],done=false;
+    if(cached){playRich(cached,w,l,null);return}
+    if(cached===""){playGTTS(t,lang,seq);return}
+    var to=setTimeout(function(){if(!done){done=true;playGTTS(t,lang,seq)}},6000);
+    fetchRich(w,l).then(function(r){
+      var u=r&&r.audio;
+      _richAudioCache[key]=u||"";
+      if(done||seq!==_saySeq)return;done=true;clearTimeout(to);
+      if(u)playRich(u,w,l,null);else playGTTS(t,lang,seq);
+    }).catch(function(){if(done||seq!==_saySeq)return;done=true;clearTimeout(to);playGTTS(t,lang,seq)});
+    return;
   }
   playGTTS(t,lang,seq);
 }
