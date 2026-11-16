@@ -209,6 +209,7 @@ button.ib.pri{background:var(--accent);color:var(--bg);border-color:var(--accent
 .ask-chat-a{font-size:15px;margin:0 0 8px}
 .ask-chat-row{position:sticky;bottom:0;z-index:2;display:flex;gap:8px;margin-top:8px;background:var(--surface);padding:10px 0;border-top:1px solid var(--border)}
 .ask-chat-row input{flex:1}
+#askChatSend{width:38px;height:38px;border-radius:50%;flex:0 0 auto;padding:0;border:none;background:var(--accent);color:var(--bg);font-size:18px;line-height:1}
 .ask-typing{display:inline-flex;gap:5px;align-items:center;padding:8px 0}
 .ask-typing i{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:askBlink 1.2s infinite}
 .ask-typing i:nth-child(2){animation-delay:.2s}
@@ -1168,14 +1169,14 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
  <div id="askChat">
   <div id="askChatLog" class="ask-chat-log"></div>
  </div>
- <div class="ask-chat-row"><input id="askChatIn" placeholder="سؤالت رو بپرس…" dir="auto"><button class="ghost" id="askChatSend" aria-label="بپرس">➤</button></div>
+ <div class="ask-chat-row"><button id="askChatSend" aria-label="بپرس">↑</button><input id="askChatIn" placeholder="سؤالت رو بپرس…" dir="auto"></div>
 </div></div>
 <div id="about" hidden role="dialog" aria-label="درباره poof"><div class="ask-card">
  <div class="ed-top"><b>درباره poof</b><button class="ib" id="aboutClose" aria-label="بستن"><svg class="ic" aria-hidden="true"><use href="#i-close"/></svg></button></div>
  <div style="text-align:center;padding:8px 0 4px"><img src="icon.svg" alt="poof" style="width:72px;height:72px;border-radius:18px"></div>
  <p style="text-align:center;margin:4px 0 2px"><b>poof</b></p>
  <p class="mute" style="text-align:center;margin:0 0 12px">نسخه ۷۷</p>
- <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۲۹۳</p>
+ <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۲۹۴</p>
  <p style="margin:0 0 10px">با همکاری اصلی هوش مصنوعی موزی و آرین شعرا، با کمک چت‌جی‌پی‌تی و کلود، به‌صورت متن‌باز در گیت‌هاب ساخته شده است.</p>
  <p style="margin:0"><a href="https://github.com/arianshoara2/POOF" target="_blank" rel="noopener">github.com/arianshoara2/POOF</a></p>
 </div></div>
@@ -4583,10 +4584,10 @@ async function askChatSend(){
  inp.value="";inp.disabled=true;const btn=$("#askChatSend");if(btn)btn.disabled=true;
  const qEl=document.createElement("div");qEl.className="ask-chat-q";qEl.dir="auto";qEl.textContent=q;log.appendChild(qEl);
  const aEl=document.createElement("div");aEl.className="ask-chat-a";aEl.dir="auto";aEl.innerHTML='<span class="ask-typing" aria-label="پووف داره تایپ می‌کنه"><i></i><i></i><i></i></span>';log.appendChild(aEl);log.scrollTop=log.scrollHeight;
- const key="chat:"+askWord+"|"+q;
+ const hasLatin=/[A-Za-zÄÖÜäöüß]{2,}/.test(q);const a=hasLatin?q.slice(0,100):(q.slice(0,80)+(askWord?"\nکلمه: "+askWord:""));const key="chat:"+a;
  const cached=askCacheGet(key);
  if(cached){aEl.innerHTML=askChatAns(cached);inp.disabled=false;if(btn)btn.disabled=false;return;}
- let u;try{u=workerURL({ask:q.slice(0,80)+(askWord?"\nکلمه: "+askWord:"")})}catch(e){aEl.textContent="ابتدا آدرس Worker را در تب «پیشرفت» تنظیم کنید";inp.disabled=false;if(btn)btn.disabled=false;return;}
+ let u;try{u=workerURL({ask:a})}catch(e){aEl.textContent="ابتدا آدرس Worker را در تب «پیشرفت» تنظیم کنید";inp.disabled=false;if(btn)btn.disabled=false;return;}
  try{const r=await fetchT(u,45000);const j=await r.json().catch(()=>null);if(!r.ok)throw new Error((j&&j.error)||("HTTP "+r.status));const d=j&&j.data;if(!d)throw new Error("empty");askCacheSet(key,d);aEl.innerHTML=askChatAns(d);}
  catch(e){aEl.textContent="پووف نتونست جواب بده 😔 "+friendly(e);}
  inp.disabled=false;if(btn)btn.disabled=false;inp.focus();
