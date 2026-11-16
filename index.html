@@ -203,6 +203,12 @@ button.ib.pri{background:var(--accent);color:var(--bg);border-color:var(--accent
 .ask-ex .s{font-size:15px}.ask-ex .t{color:var(--muted);font-size:14px;margin-top:2px}
 .ask-tip{border:1px dashed var(--accent);border-radius:var(--r-md);padding:10px 12px;font-size:14px;margin:10px 0}
 .ask-load{display:flex;align-items:center;gap:10px;justify-content:center;padding:30px 0;color:var(--muted)}
+.ask-chat{border-top:1px solid var(--border);margin-top:12px;padding-top:10px}
+.ask-chat-log{max-height:180px;overflow-y:auto}
+.ask-chat-q{font-weight:700;margin:8px 0 2px}
+.ask-chat-a{font-size:15px;margin:0 0 8px}
+.ask-chat-row{display:flex;gap:8px;margin-top:8px}
+.ask-chat-row input{flex:1}
 .spin{width:22px;height:22px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:sp 0.8s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
 .tr-state{display:flex;align-items:center;gap:8px;padding:6px 2px;color:var(--muted);font-size:13px}
@@ -1154,13 +1160,17 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
 <div id="ask" hidden role="dialog" aria-label="از پووف بپرس"><div class="ask-card">
  <div class="ed-top"><b>✨ پووف توضیح می‌دهد</b><button class="ib" id="askClose" aria-label="بستن"><svg class="ic" aria-hidden="true"><use href="#i-close"/></svg></button></div>
  <div id="askBody"></div>
+ <div id="askChat">
+  <div id="askChatLog" class="ask-chat-log"></div>
+  <div class="ask-chat-row"><input id="askChatIn" placeholder="سؤالت رو بپرس…" dir="auto"><button class="ghost" id="askChatSend" aria-label="بپرس">➤</button></div>
+ </div>
 </div></div>
 <div id="about" hidden role="dialog" aria-label="درباره poof"><div class="ask-card">
  <div class="ed-top"><b>درباره poof</b><button class="ib" id="aboutClose" aria-label="بستن"><svg class="ic" aria-hidden="true"><use href="#i-close"/></svg></button></div>
  <div style="text-align:center;padding:8px 0 4px"><img src="icon.svg" alt="poof" style="width:72px;height:72px;border-radius:18px"></div>
  <p style="text-align:center;margin:4px 0 2px"><b>poof</b></p>
  <p class="mute" style="text-align:center;margin:0 0 12px">نسخه ۷۷</p>
- <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۲۹۰</p>
+ <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۲۹۱</p>
  <p style="margin:0 0 10px">با همکاری اصلی هوش مصنوعی موزی و آرین شعرا، با کمک چت‌جی‌پی‌تی و کلود، به‌صورت متن‌باز در گیت‌هاب ساخته شده است.</p>
  <p style="margin:0"><a href="https://github.com/arianshoara2/POOF" target="_blank" rel="noopener">github.com/arianshoara2/POOF</a></p>
 </div></div>
@@ -4543,7 +4553,7 @@ function askRender(word,d){
 }
 async function askPOOF(word,ctx){
  word=String(word||"").trim();if(!word)return;
- askWord=word;$("#pop").hidden=true;$("#ask").hidden=false;askRender(word,null);
+ const _prevAsk=askWord;askWord=word;if(_prevAsk!==word){const _cl=$("#askChatLog");if(_cl)_cl.innerHTML="";const _ci=$("#askChatIn");if(_ci)_ci.value="";}$("#pop").hidden=true;$("#ask").hidden=false;askRender(word,null);
  const akey=ctx?word+"|"+String(ctx).slice(0,80):word;
  const cached=askCacheGet(akey);
  if(cached){askRender(word,cached);return}
@@ -4561,6 +4571,23 @@ async function askPOOF(word,ctx){
   $("#askBody").innerHTML=`<p class="mute" style="text-align:center;padding:20px">پووف نتونست جواب بده 😔<br><small>${esc(friendly(e))}</small></p><button class="ghost full" onclick="askPOOF(askWord)">تلاش مجدد</button>`;
  }
 }
+const askChatAns=d=>{const m=(d.meanings||[]).join("؛ ");const t=d.tip||"";return [m,t].filter(Boolean).map(x=>esc(x)).join("<br>")||"پووف نتونست جواب بده 😔";};
+async function askChatSend(){
+ const inp=$("#askChatIn");if(!inp)return;const q=inp.value.trim();if(!q)return;
+ const log=$("#askChatLog");if(!log)return;
+ inp.value="";inp.disabled=true;const btn=$("#askChatSend");if(btn)btn.disabled=true;
+ const qEl=document.createElement("div");qEl.className="ask-chat-q";qEl.dir="auto";qEl.textContent=q;log.appendChild(qEl);
+ const aEl=document.createElement("div");aEl.className="ask-chat-a";aEl.dir="auto";aEl.textContent="…";log.appendChild(aEl);log.scrollTop=log.scrollHeight;
+ const key="chat:"+askWord+"|"+q;
+ const cached=askCacheGet(key);
+ if(cached){aEl.innerHTML=askChatAns(cached);inp.disabled=false;if(btn)btn.disabled=false;return;}
+ let u;try{u=workerURL({ask:q.slice(0,80)+(askWord?"\nکلمه: "+askWord:"")})}catch(e){aEl.textContent="ابتدا آدرس Worker را در تب «پیشرفت» تنظیم کنید";inp.disabled=false;if(btn)btn.disabled=false;return;}
+ try{const r=await fetchT(u,45000);const j=await r.json().catch(()=>null);if(!r.ok)throw new Error((j&&j.error)||("HTTP "+r.status));const d=j&&j.data;if(!d)throw new Error("empty");askCacheSet(key,d);aEl.innerHTML=askChatAns(d);}
+ catch(e){aEl.textContent="پووف نتونست جواب بده 😔 "+friendly(e);}
+ inp.disabled=false;if(btn)btn.disabled=false;inp.focus();
+}
+$("#askChatSend").onclick=askChatSend;
+$("#askChatIn").addEventListener("keydown",e=>{if(e.key==="Enter")askChatSend();});
 $("#askClose").onclick=()=>{$("#ask").hidden=true};
 $("#helpInfo").onclick=()=>{$("#help").hidden=true;$("#about").hidden=false};
 $("#aboutClose").onclick=()=>{$("#about").hidden=true};
