@@ -208,6 +208,9 @@ button.ib.pri{background:var(--accent);color:var(--bg);border-color:var(--accent
 .ask-chat-q{font-weight:700;margin:8px 0 2px}
 .ask-chat-a{font-size:15px;margin:0 0 8px}
 .ask-chat-row{position:sticky;bottom:0;z-index:2;display:flex;gap:8px;margin-top:8px;background:color-mix(in srgb, var(--surface) 82%, transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);padding:10px 0;border-top:1px solid var(--border)}
+#ask .ask-card{display:flex;flex-direction:column;overflow:hidden}
+#ask .ask-scroll{flex:1;min-height:0;overflow-y:auto}
+#ask .ask-chat-row{position:static;flex-shrink:0}
 .ask-chat-row input{flex:1;border-radius:99px;padding:11px 16px}
 #askChatSend{width:38px;height:38px;border-radius:50%;flex:0 0 auto;padding:0;border:none;background:var(--accent);color:var(--bg);font-size:18px;line-height:1}
 .ask-typing{display:inline-flex;gap:5px;align-items:center;padding:8px 0}
@@ -1166,10 +1169,12 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
  <div class="row"><button id="edSave" style="flex:1">ذخیره</button><button class="bad" id="edDel" hidden>حذف</button></div>
 </div></div>
 <div id="ask" hidden role="dialog" aria-label="از پووف بپرس"><div class="ask-card">
+ <div class="ask-scroll">
  <div class="ed-top"><b>✨ پووف توضیح می‌دهد</b><button class="ib" id="askClose" aria-label="بستن"><svg class="ic" aria-hidden="true"><use href="#i-close"/></svg></button></div>
  <div id="askBody"></div>
  <div id="askChat">
   <div id="askChatLog" class="ask-chat-log"></div>
+ </div>
  </div>
  <div class="ask-chat-row"><button id="askChatSend" aria-label="بپرس">↑</button><input id="askChatIn" placeholder="سؤالت رو بپرس…" dir="auto"></div>
 </div></div>
@@ -1178,7 +1183,7 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
  <div style="text-align:center;padding:8px 0 4px"><img src="icon.svg" alt="poof" style="width:72px;height:72px;border-radius:18px"></div>
  <p style="text-align:center;margin:4px 0 2px"><b>poof</b></p>
  <p class="mute" style="text-align:center;margin:0 0 12px">نسخه ۷۷</p>
- <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۲۹۶</p>
+ <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۲۹۷</p>
  <p style="margin:0 0 10px">با همکاری اصلی هوش مصنوعی موزی و آرین شعرا، با کمک چت‌جی‌پی‌تی و کلود، به‌صورت متن‌باز در گیت‌هاب ساخته شده است.</p>
  <p style="margin:0"><a href="https://github.com/arianshoara2/POOF" target="_blank" rel="noopener">github.com/arianshoara2/POOF</a></p>
 </div></div>
@@ -4581,17 +4586,19 @@ async function askPOOF(word,ctx){
 }
 const askChatAns=d=>{const m=(d.meanings||[]).join("؛ ");const t=d.tip||"";return [m,t].filter(Boolean).map(x=>esc(x)).join("<br>")||"پووف نتونست جواب بده 😔";};
 function bidiDir(t){const ar=(t.match(/[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/g)||[]).length;const lat=(t.match(/[A-Za-z\u00C0-\u024F]/g)||[]).length;return ar>=lat?"rtl":"ltr";}
+const _qFill=new Set(["این","آن","اینو","اون","اینا","اونا","یعنی","چی","چیست","چیه","چه","چطور","چرا","چگونه","چجوری","چجور","به","انگلیسی","آلمانی","فارسی","میشه","می‌شه","میشود","می‌شود","فرق","تفاوت","با","و","یا","در","از","که","است","هست","کلمه","واژه","لغت","مثال","جمله","معنی","ترجمه","تلفظ","را","رو","برای","درمورد","درباره","لطفا","لطفاً","بگو","بگین","توضیح","بده","بدید","کجاست","کی","کجا","چند","کدوم","کدام"]);
+function hasNamedWord(q){if(/[A-Za-zÄÖÜäöüß]{2,}/.test(q))return true;const toks=q.replace(/[؟?!.،,;:\(\)\[\]"«»]/g," ").split(/\s+/).filter(Boolean);return toks.some(t=>!_qFill.has(t));}
 async function askChatSend(){
  const inp=$("#askChatIn");if(!inp)return;const q=inp.value.trim();if(!q)return;
  const log=$("#askChatLog");if(!log)return;
  inp.value="";inp.disabled=true;const btn=$("#askChatSend");if(btn)btn.disabled=true;
  const qEl=document.createElement("div");qEl.className="ask-chat-q";qEl.dir=bidiDir(q);qEl.textContent=q;log.appendChild(qEl);
- const aEl=document.createElement("div");aEl.className="ask-chat-a";aEl.dir=bidiDir(q);aEl.innerHTML='<span class="ask-typing" aria-label="پووف داره تایپ می‌کنه"><i></i><i></i><i></i></span>';log.appendChild(aEl);log.scrollTop=log.scrollHeight;
- const hasLatin=/[A-Za-zÄÖÜäöüß]{2,}/.test(q);const a=hasLatin?q.slice(0,100):(q.slice(0,80)+(askWord?"\nکلمه: "+askWord:""));const key="chat:"+a;
+ const aEl=document.createElement("div");aEl.className="ask-chat-a";aEl.dir=bidiDir(q);aEl.innerHTML='<span class="ask-typing" aria-label="پووف داره تایپ می‌کنه"><i></i><i></i><i></i></span>';log.appendChild(aEl);log.scrollTop=log.scrollHeight;const _sc=document.querySelector('#ask .ask-scroll');if(_sc)_sc.scrollTop=_sc.scrollHeight;
+ const a=hasNamedWord(q)?q.slice(0,100):(q.slice(0,80)+(askWord?"\nکلمه: "+askWord:""));const key="chat:"+a;
  const cached=askCacheGet(key);
- if(cached){aEl.innerHTML=askChatAns(cached);aEl.dir=bidiDir(aEl.textContent);inp.disabled=false;if(btn)btn.disabled=false;return;}
+ if(cached){aEl.innerHTML=askChatAns(cached);aEl.dir=bidiDir(aEl.textContent);const _sc=document.querySelector('#ask .ask-scroll');if(_sc)_sc.scrollTop=_sc.scrollHeight;inp.disabled=false;if(btn)btn.disabled=false;return;}
  let u;try{u=workerURL({ask:a})}catch(e){aEl.textContent="ابتدا آدرس Worker را در تب «پیشرفت» تنظیم کنید";inp.disabled=false;if(btn)btn.disabled=false;return;}
- try{const r=await fetchT(u,45000);const j=await r.json().catch(()=>null);if(!r.ok)throw new Error((j&&j.error)||("HTTP "+r.status));const d=j&&j.data;if(!d)throw new Error("empty");askCacheSet(key,d);aEl.innerHTML=askChatAns(d);aEl.dir=bidiDir(aEl.textContent);}
+ try{const r=await fetchT(u,45000);const j=await r.json().catch(()=>null);if(!r.ok)throw new Error((j&&j.error)||("HTTP "+r.status));const d=j&&j.data;if(!d)throw new Error("empty");askCacheSet(key,d);aEl.innerHTML=askChatAns(d);aEl.dir=bidiDir(aEl.textContent);const _sc=document.querySelector('#ask .ask-scroll');if(_sc)_sc.scrollTop=_sc.scrollHeight;}
  catch(e){aEl.textContent="پووف نتونست جواب بده 😔 "+friendly(e);}
  inp.disabled=false;if(btn)btn.disabled=false;inp.focus();
 }
