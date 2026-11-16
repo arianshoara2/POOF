@@ -209,6 +209,11 @@ button.ib.pri{background:var(--accent);color:var(--bg);border-color:var(--accent
 .ask-chat-a{font-size:15px;margin:0 0 8px}
 .ask-chat-row{position:sticky;bottom:0;z-index:2;display:flex;gap:8px;margin-top:8px;background:var(--surface);padding:10px 0;border-top:1px solid var(--border)}
 .ask-chat-row input{flex:1}
+.ask-typing{display:inline-flex;gap:5px;align-items:center;padding:8px 0}
+.ask-typing i{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:askBlink 1.2s infinite}
+.ask-typing i:nth-child(2){animation-delay:.2s}
+.ask-typing i:nth-child(3){animation-delay:.4s}
+@keyframes askBlink{0%,80%,100%{opacity:.3;transform:translateY(0)}40%{opacity:1;transform:translateY(-3px)}}
 .spin{width:22px;height:22px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:sp 0.8s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
 .tr-state{display:flex;align-items:center;gap:8px;padding:6px 2px;color:var(--muted);font-size:13px}
@@ -1170,7 +1175,7 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
  <div style="text-align:center;padding:8px 0 4px"><img src="icon.svg" alt="poof" style="width:72px;height:72px;border-radius:18px"></div>
  <p style="text-align:center;margin:4px 0 2px"><b>poof</b></p>
  <p class="mute" style="text-align:center;margin:0 0 12px">نسخه ۷۷</p>
- <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۲۹۲</p>
+ <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۲۹۳</p>
  <p style="margin:0 0 10px">با همکاری اصلی هوش مصنوعی موزی و آرین شعرا، با کمک چت‌جی‌پی‌تی و کلود، به‌صورت متن‌باز در گیت‌هاب ساخته شده است.</p>
  <p style="margin:0"><a href="https://github.com/arianshoara2/POOF" target="_blank" rel="noopener">github.com/arianshoara2/POOF</a></p>
 </div></div>
@@ -4577,7 +4582,7 @@ async function askChatSend(){
  const log=$("#askChatLog");if(!log)return;
  inp.value="";inp.disabled=true;const btn=$("#askChatSend");if(btn)btn.disabled=true;
  const qEl=document.createElement("div");qEl.className="ask-chat-q";qEl.dir="auto";qEl.textContent=q;log.appendChild(qEl);
- const aEl=document.createElement("div");aEl.className="ask-chat-a";aEl.dir="auto";aEl.textContent="…";log.appendChild(aEl);log.scrollTop=log.scrollHeight;
+ const aEl=document.createElement("div");aEl.className="ask-chat-a";aEl.dir="auto";aEl.innerHTML='<span class="ask-typing" aria-label="پووف داره تایپ می‌کنه"><i></i><i></i><i></i></span>';log.appendChild(aEl);log.scrollTop=log.scrollHeight;
  const key="chat:"+askWord+"|"+q;
  const cached=askCacheGet(key);
  if(cached){aEl.innerHTML=askChatAns(cached);inp.disabled=false;if(btn)btn.disabled=false;return;}
