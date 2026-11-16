@@ -424,6 +424,13 @@ html:not([data-theme=snowy]) #s-review input,html:not([data-theme=snowy]) #s-rev
 #s-cards #list .card::after{content:"";position:absolute;inset:0;z-index:0;background:linear-gradient(160deg,rgba(8,20,33,.62),rgba(8,20,33,.34));pointer-events:none}
 html:not([data-theme=snowy]) #s-cards #list .card::after{background:linear-gradient(160deg,rgba(20,16,12,.66),rgba(20,16,12,.38))}
 #s-cards #list .card-in{position:relative;z-index:1}
+.en-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.en-box{display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 4px;border-radius:14px;border:1px solid var(--border);background:transparent;color:var(--text);font:inherit;cursor:pointer}
+.en-box b{font-size:15px}
+.en-box span{font-size:11.5px;color:var(--muted)}
+.en-box.on{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,transparent)}
+html[data-theme=lilac] .en-box,html[data-theme=peachy] .en-box,html[data-theme=minty] .en-box,html[data-theme=sun] .en-box{border-color:var(--lt-border);color:var(--lt-text)}
+html[data-theme=lilac] .en-box span,html[data-theme=peachy] .en-box span,html[data-theme=minty] .en-box span,html[data-theme=sun] .en-box span{color:var(--lt-muted)}
 /* ===== POOF ?v=102: light clay themes (lilac / peachy / minty) — ADDITIVE ONLY ===== */
 /* Fonts (global, all themes): Nunito 800/900 headings, DM Sans body, Vazirmatn Persian fallback (per-glyph) */
 :root{--sans:'Inter','DM Sans','Vazirmatn',sans-serif}
@@ -956,6 +963,10 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
  <section id="s-cards" class="tab" hidden>
   <h2>کارت‌ها</h2>
   <div class="card row"><select id="deckSel" style="flex:1"></select><button class="ghost" id="newDeck">+ دسته</button><button class="ghost" id="delDeck">حذف دسته</button></div>
+  <div class="card" id="enSec">
+   <div class="row"><b>🇬🇧 انگلیسی پایه</b><span class="mute" id="enSub"></span></div>
+   <div id="enGrid" class="en-grid"></div>
+  </div>
   <input id="search" placeholder="جست‌وجو در کارت‌ها…">
   <details class="card"><summary>+ کارت جدید</summary><br>
    <input id="nF" class="de" placeholder="کلمه (آلمانی)"><input id="nB" placeholder="معنی (فارسی)">
@@ -1144,7 +1155,7 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
  <div style="text-align:center;padding:8px 0 4px"><img src="icon.svg" alt="poof" style="width:72px;height:72px;border-radius:18px"></div>
  <p style="text-align:center;margin:4px 0 2px"><b>poof</b></p>
  <p class="mute" style="text-align:center;margin:0 0 12px">نسخه ۷۷</p>
- <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۲۸۶</p>
+ <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۲۸۷</p>
  <p style="margin:0 0 10px">با همکاری اصلی هوش مصنوعی موزی و آرین شعرا، با کمک چت‌جی‌پی‌تی و کلود، به‌صورت متن‌باز در گیت‌هاب ساخته شده است.</p>
  <p style="margin:0"><a href="https://github.com/arianshoara2/POOF" target="_blank" rel="noopener">github.com/arianshoara2/POOF</a></p>
 </div></div>
@@ -6052,7 +6063,17 @@ function jumpToVideo(c){
  setTimeout(trySeek,500);
 }
 function renderCards(){
- $("#deckSel").innerHTML=db.decks.map(d=>`<option value="${d.id}" ${d.id===db.active?"selected":""}>${esc(d.name)} (${db.cards.filter(c=>c.deck_id===d.id).length})</option>`).join("");
+ const _isEn=d=>d&&typeof d.id==="string"&&(d.id==="en-starter"||d.id.startsWith("en-starter-"));
+ const _userDecks=db.decks.filter(d=>!_isEn(d));
+ const _activeEn=_isEn(db.decks.find(d=>d.id===db.active)||{id:""});
+ $("#deckSel").innerHTML=(_activeEn?`<option value="" disabled selected>— انگلیسی پایه —</option>`:"")+_userDecks.map(d=>`<option value="${d.id}" ${d.id===db.active?"selected":""}>${esc(d.name)} (${db.cards.filter(c=>c.deck_id===d.id).length})</option>`).join("");
+ const _enDecks=db.decks.filter(_isEn);
+ const _enSec=$("#enSec");
+ if(_enSec){_enSec.hidden=!_enDecks.length;
+  if(_enDecks.length){const _tot=_enDecks.reduce((n,d)=>n+db.cards.filter(c=>c.deck_id===d.id).length,0);
+  $("#enSub").textContent=_enDecks.length+" بچ · "+_tot+" کلمه";
+  $("#enGrid").innerHTML=_enDecks.map(d=>{const _n=d.id==="en-starter"?1:parseInt(d.id.split("-").pop(),10);const _c=db.cards.filter(c=>c.deck_id===d.id).length;const _due=db.cards.filter(c=>c.deck_id===d.id&&c.due<=Date.now()).length;const _fa=String(_n).replace(/\d/g,x=>"۰۱۲۳۴۵۶۷۸۹"[x]);return `<button class="en-box${d.id===db.active?" on":""}" data-deck="${d.id}"><b>بچ ${_fa}</b><span>${_c} کلمه${_due?" · "+_due+" آماده":""}</span></button>`}).join("");}}
+ $("#delDeck").style.display=_activeEn?"none":"";
  const q=$("#search").value.trim().toLowerCase();
  const l=db.cards.filter(c=>c.deck_id===db.active&&(!q||(c.front+c.back).toLowerCase().includes(q))).sort((a,b)=>b.created_at-a.created_at);
  $("#list").innerHTML=l.length?l.map(c=>{const em=emojiFor(c.front);const dn=(db.decks.find(d=>d.id===c.deck_id)||{}).name||"";let hh=0;for(const ch of String(c.deck_id||""))hh=(hh*31+ch.charCodeAt(0))>>>0;const dcol=["#e6b96f","#7fd4c1","#e58bb1","#9db8ff","#a8d08d","#d8a0e8"][hh%6];const mst=(c.reps||0)===0?["جدید","#9aa7b4"]:((c.interval||0)>=21?["تسلط‌یافته","#e6b96f"]:((c.interval||0)>=7?["قوی","#7fd4c1"]:["در حال یادگیری","#f0a35e"]));return `<div class="card" data-id="${c.id}">
@@ -6080,6 +6101,7 @@ $("#list").onclick=async e=>{
  if(b.dataset.a==="edit")openEditor(c);
 };
 $("#deckSel").onchange=e=>{db.active=e.target.value;save();renderCards()};
+$("#enGrid").onclick=e=>{const b=e.target.closest("[data-deck]");if(!b)return;db.active=b.dataset.deck;save();renderCards()};
 $("#newDeck").onclick=async()=>{const n=await uiPrompt("نام دسته‌ی جدید:",{okText:"ساختن",placeholder:"مثلاً: افعال بی‌قاعده"});if(!n||!n.trim())return;const d={id:uid(),name:n.trim()};db.decks.push(d);db.active=d.id;save();renderCards()};
 $("#delDeck").onclick=async()=>{
  if(db.active==="default")return toast("دسته‌ی پیش‌فرض حذف نمی‌شود","bad");
