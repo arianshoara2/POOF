@@ -1206,7 +1206,7 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
  <div style="text-align:center;padding:8px 0 4px"><img src="icon.svg" alt="poof" style="width:72px;height:72px;border-radius:18px"></div>
  <p style="text-align:center;margin:4px 0 2px"><b>poof</b></p>
  <p class="mute" style="text-align:center;margin:0 0 12px">نسخه ۷۷</p>
- <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۳۱۳</p>
+ <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۳۱۴</p>
  <p style="margin:0 0 10px">با همکاری اصلی هوش مصنوعی موزی و آرین شعرا، با کمک چت‌جی‌پی‌تی و کلود، به‌صورت متن‌باز در گیت‌هاب ساخته شده است.</p>
  <p style="margin:0"><a href="https://github.com/arianshoara2/POOF" target="_blank" rel="noopener">github.com/arianshoara2/POOF</a></p>
 </div></div>
@@ -6837,23 +6837,37 @@ let _saySeq=0;
 let _gttsCur=null;
 let _richAudioCache={}; /* ?v=274: audio url (or "") per word, for the recording-first speaker */
 // تلفظ: همیشه از سرور — TTS گوگل (?v=268)؛ تک‌کلمه اول صدای ضبط‌شده‌ی ویکی‌واژه (?v=274)
+/* ?v=314: the speakable word for the Wiktionary recording — a single word,
+   or the noun after der/die/das ("der Studiengang" -> "Studiengang").
+   Lets the Leitner speaker play the native recording for noun cards even
+   when the Vercel key is wrong (the recording URL is direct, no key needed);
+   fetchRich itself fails over Vercel(401) -> Cloudflare (aiKey). */
+function richWord(t,l){
+  var s=String(t||"").trim();if(!s)return null;
+  if(!/\s/.test(s))return s;
+  if(l==="de"){var m=s.match(/^(der|die|das)\s+([A-Za-zÄÖÜäöüß][A-Za-zÄÖÜäöüß'’-]*)$/i);if(m)return m[2]}
+  return null;
+}
 function say(t,l,noRich){
   var lang=FA.test(t)?"fa-IR":l==="fa"?"fa-IR":l==="en"?"en-US":"de-DE";
   var seq=++_saySeq;
   try{if(_gttsCur){_gttsCur.pause();if(_gttsCur._blob)URL.revokeObjectURL(_gttsCur._blob);_gttsCur=null}}catch(e){}
   try{if(_rAudio)_rAudio.pause()}catch(e){}
-  if(!noRich&&(l==="de"||l==="en")&&t&&!/\s/.test(String(t).trim())){
-    var w=String(t).trim(),key=l+"|"+w.toLowerCase(),cached=_richAudioCache[key],done=false;
-    if(cached){playRich(cached,w,l,null);return}
-    if(cached===""){playGTTS(t,lang,seq);return}
-    var to=setTimeout(function(){if(!done){done=true;playGTTS(t,lang,seq)}},6000);
-    fetchRich(w,l).then(function(r){
-      var u=r&&r.audio;
-      _richAudioCache[key]=u||"";
-      if(done||seq!==_saySeq)return;done=true;clearTimeout(to);
-      if(u)playRich(u,w,l,null);else playGTTS(t,lang,seq);
-    }).catch(function(){if(done||seq!==_saySeq)return;done=true;clearTimeout(to);playGTTS(t,lang,seq)});
-    return;
+  if(!noRich&&(l==="de"||l==="en")&&t){
+    var w=richWord(t,l);
+    if(w){
+      var key=l+"|"+w.toLowerCase(),cached=_richAudioCache[key],done=false;
+      if(cached){playRich(cached,w,l,null);return}
+      if(cached===""){playGTTS(t,lang,seq);return}
+      var to=setTimeout(function(){if(!done){done=true;playGTTS(t,lang,seq)}},6000);
+      fetchRich(w,l).then(function(r){
+        var u=r&&r.audio;
+        _richAudioCache[key]=u||"";
+        if(done||seq!==_saySeq)return;done=true;clearTimeout(to);
+        if(u)playRich(u,w,l,null);else playGTTS(t,lang,seq);
+      }).catch(function(){if(done||seq!==_saySeq)return;done=true;clearTimeout(to);playGTTS(t,lang,seq)});
+      return;
+    }
   }
   playGTTS(t,lang,seq);
 }
