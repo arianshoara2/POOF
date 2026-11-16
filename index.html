@@ -207,7 +207,7 @@ button.ib.pri{background:var(--accent);color:var(--bg);border-color:var(--accent
 .ask-chat-log{max-height:180px;overflow-y:auto}
 .ask-chat-q{font-weight:700;margin:8px 0 2px}
 .ask-chat-a{font-size:15px;margin:0 0 8px}
-.ask-chat-row{display:flex;gap:8px;margin-top:8px}
+.ask-chat-row{position:sticky;bottom:0;z-index:2;display:flex;gap:8px;margin-top:8px;background:var(--surface);padding:10px 0;border-top:1px solid var(--border)}
 .ask-chat-row input{flex:1}
 .spin{width:22px;height:22px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:sp 0.8s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
@@ -1162,15 +1162,15 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
  <div id="askBody"></div>
  <div id="askChat">
   <div id="askChatLog" class="ask-chat-log"></div>
-  <div class="ask-chat-row"><input id="askChatIn" placeholder="سؤالت رو بپرس…" dir="auto"><button class="ghost" id="askChatSend" aria-label="بپرس">➤</button></div>
  </div>
+ <div class="ask-chat-row"><input id="askChatIn" placeholder="سؤالت رو بپرس…" dir="auto"><button class="ghost" id="askChatSend" aria-label="بپرس">➤</button></div>
 </div></div>
 <div id="about" hidden role="dialog" aria-label="درباره poof"><div class="ask-card">
  <div class="ed-top"><b>درباره poof</b><button class="ib" id="aboutClose" aria-label="بستن"><svg class="ic" aria-hidden="true"><use href="#i-close"/></svg></button></div>
  <div style="text-align:center;padding:8px 0 4px"><img src="icon.svg" alt="poof" style="width:72px;height:72px;border-radius:18px"></div>
  <p style="text-align:center;margin:4px 0 2px"><b>poof</b></p>
  <p class="mute" style="text-align:center;margin:0 0 12px">نسخه ۷۷</p>
- <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۲۹۱</p>
+ <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۲۹۲</p>
  <p style="margin:0 0 10px">با همکاری اصلی هوش مصنوعی موزی و آرین شعرا، با کمک چت‌جی‌پی‌تی و کلود، به‌صورت متن‌باز در گیت‌هاب ساخته شده است.</p>
  <p style="margin:0"><a href="https://github.com/arianshoara2/POOF" target="_blank" rel="noopener">github.com/arianshoara2/POOF</a></p>
 </div></div>
