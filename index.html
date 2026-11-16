@@ -226,7 +226,7 @@ button.ib.pri{background:var(--accent);color:var(--bg);border-color:var(--accent
 #vpSeg{padding:2px;margin-bottom:6px}
 #vpSeg button{padding:2px 6px;font-size:12px;line-height:1.6;min-height:0}
 #vpFollow,#vpOpen,#vpGetAudio,#vpCopy,#vpTextTgl,#vpClose{padding:2px 9px;font-size:12px;line-height:1.6}
-#zbPrevSub,#zbNextSub,#zbCloseVideo{padding:2px 9px;font-size:12px;line-height:1.6;min-height:0}
+#zbPrevSub,#zbNextSub,#zbCloseVideo,#zbGoVocab,#zbGoTop{padding:2px 9px;font-size:12px;line-height:1.6;min-height:0}
 #zbPlayTgl{font-size:14px;padding:2px 8px;min-height:0}
 #zbSubSeg{padding:2px;margin-bottom:0}
 #zbSubSeg button{padding:2px 6px;font-size:12px;line-height:1.6;min-height:0}
@@ -932,7 +932,7 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
      <div class="row" style="gap:4px;margin-top:4px;align-items:center"><button class="ghost" id="zbPrevSub">قبلی</button><button class="ghost" id="zbNextSub">بعدی</button><div class="seg" id="zbSubSeg" style="flex:1"></div></div>
      <p id="zbSubLine" style="margin:6px 0;padding:6px 8px;border:1px solid var(--lt-border,var(--border));border-radius:10px;font-size:16px;line-height:1.7;min-height:1.7em" dir="auto"></p>
     </div>
-    <div class="row" id="zbPlayerBtns" hidden style="justify-content:center;gap:4px;margin:4px 0 2px"><button class="ghost" id="zbPlayTgl" aria-label="پخش/مکث">▶️</button><button class="ghost" id="zbCloseVideo" aria-label="بستن ویدیو">✕ بستن ویدیو</button></div>
+    <div class="row" id="zbPlayerBtns" hidden style="justify-content:center;gap:4px;margin:4px 0 2px"><button class="ghost" id="zbPlayTgl" aria-label="پخش/مکث">▶️</button><button class="ghost" id="zbGoVocab" hidden>📖 جعبه لغت</button><button class="ghost" id="zbGoTop" hidden>↑ اول زیرنویس</button><button class="ghost" id="zbCloseVideo" aria-label="بستن ویدیو">✕ بستن ویدیو</button></div>
      </div>
      <div id="zbSubBar" hidden>
      <div id="zbSubList"></div>
@@ -1155,7 +1155,7 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
  <div style="text-align:center;padding:8px 0 4px"><img src="icon.svg" alt="poof" style="width:72px;height:72px;border-radius:18px"></div>
  <p style="text-align:center;margin:4px 0 2px"><b>poof</b></p>
  <p class="mute" style="text-align:center;margin:0 0 12px">نسخه ۷۷</p>
- <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۲۸۷</p>
+ <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۲۸۸</p>
  <p style="margin:0 0 10px">با همکاری اصلی هوش مصنوعی موزی و آرین شعرا، با کمک چت‌جی‌پی‌تی و کلود، به‌صورت متن‌باز در گیت‌هاب ساخته شده است.</p>
  <p style="margin:0"><a href="https://github.com/arianshoara2/POOF" target="_blank" rel="noopener">github.com/arianshoara2/POOF</a></p>
 </div></div>
@@ -5548,6 +5548,7 @@ function zbCleanup(){
 }
 function zbResetDetail(){
  ["zbPoster","zbPlay","zbDescWrap","zbIpNote","zbSubBar","zbSubBarTop","zbVocab"].forEach(id=>{const el=$("#"+id);if(el)el.hidden=true});
+ const _jv=$("#zbGoVocab");if(_jv)_jv.hidden=true;const _jt=$("#zbGoTop");if(_jt)_jt.hidden=true;
  const v=$("#zbVideo");if(v)v.hidden=true;zbSyncTgl();
  const sn=$("#zbSeriesNav");if(sn){sn.hidden=true;sn.innerHTML=""}
  const sl=$("#zbSubList");if(sl)sl.innerHTML="";
@@ -5566,6 +5567,9 @@ function zbBack(){
 }
 $("#zbBack").onclick=()=>zbBack();
 $("#zbCloseVideo").onclick=()=>zbBack();
+function zbJumpTo(el){if(!el||el.hidden)return;const st=$("#zbSticky");const off=(st?st.getBoundingClientRect().height:0)+8;const y=el.getBoundingClientRect().top+window.scrollY-off;window.scrollTo({top:Math.max(0,y),behavior:"smooth"})}
+$("#zbGoVocab").onclick=()=>{const b=$("#zbVocab");if(!b||b.hidden)return;zbJumpTo(b)};
+$("#zbGoTop").onclick=()=>{const b=$("#zbSubBar");if(!b||b.hidden)return;try{if(b.scrollHeight>b.clientHeight)b.scrollTo({top:0,behavior:"smooth"})}catch(e){}zbJumpTo(b)};
 $("#zbKindSeg").onclick=e=>{const b=e.target.closest("[data-zbk]");if(!b)return;zbKind=b.dataset.zbk;$$("#zbKindSeg button").forEach(x=>x.classList.toggle("on",x===b));if($("#zbQ").value.trim())zbSearch()};
 let zbSearchSeq=0,zbDeb=null;
 async function zbSearch(){
@@ -5688,7 +5692,7 @@ function zbShowSegs(segs,lang){
  zbSubLang=lang||"en";zbSegs=segs;
  const list=$("#zbSubList");
  list.innerHTML=zbSegs.map(x=>`<div class="tline" data-ts="${x.s}" data-ctx="${esc(x.t)}" data-lang="${zbSubLang}" data-src="zaban" style="padding:4px 6px;border-radius:6px" dir="auto">${wrapWords(x.t)}</div>`).join("");
- $("#zbSubBar").hidden=false;const topEl=$("#zbSubBarTop");if(topEl)topEl.hidden=false;$("#zbSubLine").textContent="";
+ $("#zbSubBar").hidden=false;const topEl=$("#zbSubBarTop");if(topEl)topEl.hidden=false;$("#zbSubLine").textContent="";const _jt2=$("#zbGoTop");if(_jt2)_jt2.hidden=false;
  zbCurSub=-1;zbCurLineStale=false;
  zbStartSync();
 }
@@ -5910,7 +5914,7 @@ async function zbRenderHist(){
 }
 
 async function zbLoadVocab(type,id){
- const box=$("#zbVocab");box.hidden=true;box.innerHTML="";
+ const box=$("#zbVocab");box.hidden=true;box.innerHTML="";const _jv0=$("#zbGoVocab");if(_jv0)_jv0.hidden=true;
  try{
   const [w,p]=await Promise.all([
    zbFetch("subtitle/words-world?type="+type+"&id="+id,true).catch(()=>null),
@@ -5921,7 +5925,7 @@ async function zbLoadVocab(type,id){
   let h=`<div class="row" style="margin:0 0 8px;justify-content:space-between"><b>📖 جعبه لغت</b><span class="mute">${words.length+phr.length} مورد</span></div>`;
   if(words.length)h+=words.map(x=>{const wd=x.word||x.title||x.text||x.name||"",mn=x.meaning||x.translation||x.fa||x.persian||x.definition||"";if(!wd)return "";return `<button class="chip zbWord" data-zbw="${esc(wd)}" data-zbmn="${esc(mn)}" style="display:block;width:100%;text-align:start;margin-top:4px;border-radius:8px;padding:6px 10px" dir="auto"><b>${esc(wd)}</b>${mn?`<br><span class="mute">${esc(mn)}</span>`:""}</button>`}).join("");
   if(phr.length)h+=`<div class="mute" style="margin-top:10px">عبارت‌ها</div>`+phr.map(x=>{const wd=x.phrase||x.text||x.word||x.title||"",mn=x.meaning||x.translation||x.fa||x.persian||"";if(!wd)return "";return `<button class="chip zbPhrase" data-zbw="${esc(wd)}" data-zbmn="${esc(mn)}" style="display:block;width:100%;text-align:start;margin-top:4px;border-radius:8px;padding:6px 10px" dir="auto"><b>${esc(wd)}</b>${mn?`<br><span class="mute">${esc(mn)}</span>`:""}</button>`}).join("");
-  box.innerHTML=h;box.hidden=false;
+  box.innerHTML=h;box.hidden=false;const _jv1=$("#zbGoVocab");if(_jv1)_jv1.hidden=false;
   box.querySelectorAll(".zbWord").forEach(b=>b.onclick=()=>{try{const r=b.getBoundingClientRect();sel=null;drawSel();pop.video=null;pop.ts=null;pop.textId=null;showPop({top:r.top,bottom:r.bottom,left:r.left,width:r.width},b.dataset.zbw,b.dataset.zbmn||"","zaban",FA.test(b.dataset.zbw)?"fa":"en")}catch(e){}});
   box.querySelectorAll(".zbPhrase").forEach(b=>b.onclick=()=>{try{const r=b.getBoundingClientRect();sel=null;drawSel();pop.video=null;pop.ts=null;pop.textId=null;showPop({top:r.top,bottom:r.bottom,left:r.left,width:r.width},b.dataset.zbw,b.dataset.zbmn||"","zaban",FA.test(b.dataset.zbw)?"fa":"en")}catch(e){}});
  }catch(e){}
