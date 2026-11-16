@@ -155,7 +155,7 @@ button.ib.pri{background:var(--accent);color:var(--bg);border-color:var(--accent
 .lt-done{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center}
 #ltEntry{position:absolute;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));max-height:62vh;overflow:auto;z-index:5;margin:0}
 .lt-ctx{width:100%;font:italic 18px/1.9 var(--serif)}.lt-fa{font:16px/1.9 var(--sans);font-style:normal}
-#ed{position:fixed;inset:0;z-index:300;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+#ed{position:fixed;inset:0;z-index:325;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
 #ask,#about,#help,#coach{position:fixed;inset:0;z-index:310;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
 #moviePick,#podPick{position:fixed;inset:0;z-index:310;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
 #podPick .pod-scenic{position:absolute;inset:0;z-index:0;background-size:cover;background-position:center;pointer-events:none}
@@ -297,7 +297,7 @@ nav button.on::after{transform:translate(-50%,-50%) translateY(-22px) scale(1);o
 nav button.on .ic{transform:translateY(-22px)}
 @media (prefers-reduced-motion:reduce){nav button .ic,nav button::before,nav button::after{transition:none}nav button.on::before{transform:translate(-50%,-50%)}nav button.on::after{display:none}nav button.on .ic{transform:none}}
 /* ===== popover + toast ===== */
-#pop{position:fixed;z-index:270;width:min(372px,94vw);padding:12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);box-shadow:var(--shadow-pop)}
+#pop{position:fixed;z-index:320;width:min(372px,94vw);padding:12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);box-shadow:var(--shadow-pop)}
 .popB .popLang{width:auto;min-width:30px;height:30px;align-self:center;font-size:11px;font-weight:700;padding:0 6px;border:1px solid var(--border);border-radius:999px;flex:none}
 #popLangMenu{display:flex;gap:6px;margin:0 0 8px}
 #popLangMenu[hidden]{display:none}
@@ -1184,7 +1184,7 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
  <div style="text-align:center;padding:8px 0 4px"><img src="icon.svg" alt="poof" style="width:72px;height:72px;border-radius:18px"></div>
  <p style="text-align:center;margin:4px 0 2px"><b>poof</b></p>
  <p class="mute" style="text-align:center;margin:0 0 12px">نسخه ۷۷</p>
- <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۲۹۹</p>
+ <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۳۰۰</p>
  <p style="margin:0 0 10px">با همکاری اصلی هوش مصنوعی موزی و آرین شعرا، با کمک چت‌جی‌پی‌تی و کلود، به‌صورت متن‌باز در گیت‌هاب ساخته شده است.</p>
  <p style="margin:0"><a href="https://github.com/arianshoara2/POOF" target="_blank" rel="noopener">github.com/arianshoara2/POOF</a></p>
 </div></div>
@@ -4556,7 +4556,7 @@ function askRender(word,d){
   ${sec("فعل جداشدنی",d.separable?`<p dir="auto">${esc(d.separable)}</p>`:"")}
   ${sec("مترادف‌ها",chips(d.synonyms))}
   ${sec("متضادها",chips(d.antonyms))}
-  ${sec("مثال‌های کاربردی",(d.examples||[]).map(e=>`<div class="ask-ex"><div class="s" dir="auto">${esc(e.s||"")}</div><div class="t" dir="auto">${esc(e.t||"")}</div></div>`).join(""))}
+  ${sec("مثال‌های کاربردی",(d.examples||[]).map(e=>`<div class="ask-ex"><div class="s" dir="auto" data-ctx="${esc(e.s||"")}" data-lang="de" data-src="dictionary">${wrapWords(e.s||"")}</div><div class="t" dir="auto">${esc(e.t||"")}</div></div>`).join(""))}
   ${d.tip?`<div class="ask-tip">💡 <b>نکته‌ی پووف:</b> <span dir="auto">${esc(d.tip)}</span></div>`:""}
   <button class="ghost full" id="askSave" style="margin-top:8px">+ ذخیره به‌عنوان کارت</button>`;
  $("#askSave").onclick=()=>{
@@ -4734,6 +4734,7 @@ $("#onbNext").onclick=()=>{
 $("#onbBack").onclick=()=>{if(onb.step>0){onb.step--;onbRender();}};
 $("#onbSkip").onclick=()=>{onbFinish();}; $("#coachGo").onclick=closeCoach;$("#coachSkip").onclick=closeCoach;$("#coachClose").onclick=closeCoach;$("#coach").addEventListener("click",e=>{if(e.target.id==="coach")closeCoach()}); $("#helpCoachBtn").onclick=()=>{$("#help").hidden=true;showCoach()};
 $("#ask").addEventListener("click",e=>{if(e.target.id==="ask")$("#ask").hidden=true});
+$("#ask").addEventListener("click",e=>{const el=e.target.closest(".w");if(el)pick(el,e.shiftKey)});
 $("#cdClose").onclick=()=>{$("#cdetail").hidden=true};
 $("#cdetail").addEventListener("click",e=>{if(e.target.id==="cdetail")$("#cdetail").hidden=true});
 function openCardDetail(c){
@@ -4804,7 +4805,7 @@ function pick(el,shift){
    if(k>=0&&t.segs[k]){igPlayAt(t.segs[k].s);return}
   }
  }
- const root=el.closest("#text")||el.closest(".lt-face,.sr");
+ const root=el.closest("#text")||el.closest(".lt-face,.sr,.ask-ex");
  W=[...root.querySelectorAll(".w")];const i=W.indexOf(el);if(i<0)return;
  if(shift&&sel)setSel(Math.min(sel.a,i),Math.max(sel.b,i),true);else setSel(i,i,true);
 }
