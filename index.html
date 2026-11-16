@@ -452,6 +452,20 @@ html[data-theme=lilac] .en-box span,html[data-theme=peachy] .en-box span,html[da
 #enSec summary .chev{transition:transform .2s;margin-inline-start:auto}
 #enSec[open] summary .chev{transform:rotate(180deg)}
 #enSec:not([open]) #enGrid{display:none}
+.rvdd{position:relative}
+.rvdd-btn{display:flex;align-items:center;gap:8px;width:100%;padding:11px 12px;font-size:16px;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:var(--r-sm);cursor:pointer;text-align:start}
+.rvdd-btn .chev{transition:transform .2s;margin-inline-start:auto}
+.rvdd-btn.open .chev{transform:rotate(180deg)}
+.rvdd-panel{position:absolute;inset-inline:0;top:calc(100% + 4px);z-index:60;max-height:320px;overflow-y:auto;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);box-shadow:var(--shadow-card)}
+.rvdd-row{display:flex;align-items:center;gap:8px;padding:11px 12px;cursor:pointer}
+.rvdd-row:hover{background:var(--hover)}
+.rvdd-row.sel{color:var(--accent);font-weight:700}
+.rvdd-row .cnt{margin-inline-start:auto;color:var(--muted);font-size:14px}
+.rvdd-row.sel .cnt{color:var(--accent)}
+.rvdd-head{font-weight:700;border-top:1px solid var(--border)}
+.rvdd-head .chev{transition:transform .2s;margin-inline-start:auto}
+.rvdd-head.collapsed .chev{transform:rotate(90deg)}
+.rvdd-sub{padding-inline-start:28px}
 /* ===== POOF ?v=102: light clay themes (lilac / peachy / minty) — ADDITIVE ONLY ===== */
 /* Fonts (global, all themes): Nunito 800/900 headings, DM Sans body, Vazirmatn Persian fallback (per-glyph) */
 :root{--sans:'Inter','DM Sans','Vazirmatn',sans-serif}
@@ -511,6 +525,12 @@ html[data-theme=nebula] #nebulaHomeBanner{display:block}
   html[data-theme=lilac] a,html[data-theme=peachy] a,html[data-theme=minty] a,html[data-theme=sun] a{color:var(--lt-link)}
   html[data-theme=lilac] input::placeholder,html[data-theme=lilac] textarea::placeholder,html[data-theme=peachy] input::placeholder,html[data-theme=peachy] textarea::placeholder,html[data-theme=minty] input::placeholder,html[data-theme=minty] textarea::placeholder,html[data-theme=sun] input::placeholder,html[data-theme=sun] textarea::placeholder{color:var(--lt-muted);opacity:1}
   html[data-theme=lilac] input,html[data-theme=lilac] select,html[data-theme=lilac] textarea,html[data-theme=peachy] input,html[data-theme=peachy] select,html[data-theme=peachy] textarea,html[data-theme=minty] input,html[data-theme=minty] select,html[data-theme=minty] textarea,html[data-theme=sun] input,html[data-theme=sun] select,html[data-theme=sun] textarea{background:var(--lt-card);color:var(--lt-text);border-color:var(--lt-border)}
+  html[data-theme=lilac] .rvdd-btn,html[data-theme=peachy] .rvdd-btn,html[data-theme=minty] .rvdd-btn,html[data-theme=sun] .rvdd-btn{background:var(--lt-card);color:var(--lt-text);border-color:var(--lt-border)}
+  html[data-theme=lilac] .rvdd-panel,html[data-theme=peachy] .rvdd-panel,html[data-theme=minty] .rvdd-panel,html[data-theme=sun] .rvdd-panel{background:var(--lt-card);border-color:var(--lt-border);color:var(--lt-text)}
+  html[data-theme=lilac] .rvdd-row .cnt,html[data-theme=peachy] .rvdd-row .cnt,html[data-theme=minty] .rvdd-row .cnt,html[data-theme=sun] .rvdd-row .cnt{color:var(--lt-muted)}
+  html[data-theme=lilac] .rvdd-row.sel,html[data-theme=peachy] .rvdd-row.sel,html[data-theme=minty] .rvdd-row.sel,html[data-theme=sun] .rvdd-row.sel{color:var(--lt-primary)}
+  html[data-theme=lilac] .rvdd-row.sel .cnt,html[data-theme=peachy] .rvdd-row.sel .cnt,html[data-theme=minty] .rvdd-row.sel .cnt,html[data-theme=sun] .rvdd-row.sel .cnt{color:var(--lt-primary)}
+  html[data-theme=lilac] .rvdd-head,html[data-theme=peachy] .rvdd-head,html[data-theme=minty] .rvdd-head,html[data-theme=sun] .rvdd-head{border-top-color:var(--lt-border)}
   html[data-theme=lilac] input:focus,html[data-theme=lilac] select:focus,html[data-theme=lilac] textarea:focus,html[data-theme=peachy] input:focus,html[data-theme=peachy] select:focus,html[data-theme=peachy] textarea:focus,html[data-theme=minty] input:focus,html[data-theme=minty] select:focus,html[data-theme=minty] textarea:focus,html[data-theme=sun] input:focus,html[data-theme=sun] select:focus,html[data-theme=sun] textarea:focus{border-color:var(--lt-link);outline-color:var(--lt-link)}
   html[data-theme=lilac] header,html[data-theme=peachy] header,html[data-theme=minty] header,html[data-theme=sun] header{background:var(--lt-card);border-bottom-color:var(--lt-border)}
   html[data-theme=lilac] header .poof-img-header-bg,html[data-theme=peachy] header .poof-img-header-bg,html[data-theme=minty] header .poof-img-header-bg,html[data-theme=sun] header .poof-img-header-bg{display:none}
@@ -1036,7 +1056,7 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
   <button class="rv-game" onclick="location.href='testdaf.html'"><img class="rv-game-ico" data-pose="read" alt=""><span>TestDaF</span></button>
   </div>
   <div class="card leit"><div class="row"><div style="flex:1"><b>جعبه لایتنر</b><div class="mute" id="boxSub"></div></div><button id="openBox"><svg class="ic" aria-hidden="true"><use href="#i-box"/></svg> باز کردن</button></div><div class="boxes" id="boxes"></div></div>
-  <div class="row" style="margin:10px 0"><span class="mute">دسته‌ی مرور:</span><select id="rvDeck" style="flex:1"></select></div>
+  <div class="row" style="margin:10px 0"><span class="mute">دسته‌ی مرور:</span><div id="rvDeck" class="rvdd" style="flex:1"><button type="button" id="rvDdBtn" class="rvdd-btn"><span id="rvDdLbl"></span><span class="chev">▾</span></button><div id="rvDdPanel" class="rvdd-panel" hidden></div></div></div>
   <div id="rv"></div></section>
 
  <section id="s-me" class="tab" hidden>   <div class="card"><div class="row" style="justify-content:center"><button class="ghost" id="helpBtn">راهنمای استفاده</button><button class="ghost" id="onbReplay">آشنایی دوباره</button></div></div>   <h2>تم</h2>
@@ -1184,7 +1204,7 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
  <div style="text-align:center;padding:8px 0 4px"><img src="icon.svg" alt="poof" style="width:72px;height:72px;border-radius:18px"></div>
  <p style="text-align:center;margin:4px 0 2px"><b>poof</b></p>
  <p class="mute" style="text-align:center;margin:0 0 12px">نسخه ۷۷</p>
- <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۳۰۳</p>
+ <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۳۰۴</p>
  <p style="margin:0 0 10px">با همکاری اصلی هوش مصنوعی موزی و آرین شعرا، با کمک چت‌جی‌پی‌تی و کلود، به‌صورت متن‌باز در گیت‌هاب ساخته شده است.</p>
  <p style="margin:0"><a href="https://github.com/arianshoara2/POOF" target="_blank" rel="noopener">github.com/arianshoara2/POOF</a></p>
 </div></div>
@@ -6321,11 +6341,25 @@ $("#nAdd").onclick=()=>{if(addCard({front:$("#nF").value,back:$("#nB").value,con
 let queue=[],cur=null,shown=false;
 function renderRvDecks(){
  const _isEn=d=>d.id==="en-starter"||d.id.startsWith("en-starter-");
- const _o=d=>`<option value="${d.id}" ${(db.reviewDeck||"all")===d.id?"selected":""}>${esc(d.name)} (${db.cards.filter(c=>c.deck_id===d.id&&c.due<=Date.now()).length})</option>`;
+ const _due=d=>db.cards.filter(c=>c.deck_id===d.id&&c.due<=Date.now()).length;
+ const _sel=db.reviewDeck||"all";
+ const _sd=_sel==="all"?null:db.decks.find(d=>d.id===_sel);
+ $("#rvDdLbl").textContent=_sel==="all"?"همه‌ی دسته‌ها":(_sd?_sd.name+" ("+_due(_sd)+")":"همه‌ی دسته‌ها");
+ const _row=(v,lbl,cnt,cls)=>`<div class="rvdd-row${cls||""}${_sel===v?" sel":""}" data-v="${v}"><span>${esc(lbl)}</span><span class="cnt">${cnt!=null?"("+cnt+")":""}</span></div>`;
  const _en=db.decks.filter(_isEn);
- $("#rvDeck").innerHTML=`<option value="all">همه‌ی دسته‌ها</option>`+db.decks.filter(d=>!_isEn(d)).map(_o).join("")+(_en.length?`<optgroup label="🇬🇧 انگلیسی پایه">${_en.map(_o).join("")}</optgroup>`:"");
+ const _col=!!db.rvEnCollapsed;
+ $("#rvDdPanel").innerHTML=_row("all","همه‌ی دسته‌ها",db.cards.filter(c=>c.due<=Date.now()).length)
+  +db.decks.filter(d=>!_isEn(d)).map(d=>_row(d.id,d.name,_due(d))).join("")
+  +(_en.length?`<div class="rvdd-row rvdd-head${_col?" collapsed":""}" data-v="en-head"><span>🇬🇧 انگلیسی پایه</span><span class="chev">▾</span></div>`+(_col?"":_en.map(d=>_row(d.id,d.name,_due(d)," rvdd-sub")).join("")):"");
 }
-$("#rvDeck").onchange=e=>{db.reviewDeck=e.target.value;save();startReview()};
+$("#rvDdBtn").onclick=()=>{const p=$("#rvDdPanel");p.hidden=!p.hidden;$("#rvDdBtn").classList.toggle("open",!p.hidden)};
+$("#rvDdPanel").onclick=e=>{
+ e.stopPropagation();
+ const r=e.target.closest("[data-v]");if(!r)return;
+ if(r.dataset.v==="en-head"){db.rvEnCollapsed=!db.rvEnCollapsed;save();renderRvDecks();return}
+ db.reviewDeck=r.dataset.v;save();$("#rvDdPanel").hidden=true;$("#rvDdBtn").classList.remove("open");startReview();
+};
+document.addEventListener("click",e=>{if(!e.target.closest("#rvDeck")){const p=$("#rvDdPanel");if(p){p.hidden=true;const b=$("#rvDdBtn");if(b)b.classList.remove("open")}}});
 function startReview(){renderBoxes();renderRvDecks();const rd=db.reviewDeck||"all";queue=db.cards.filter(c=>c.due<=Date.now()&&(rd==="all"||c.deck_id===rd)).sort((a,b)=>a.due-b.due);next()}
 function next(){
  cur=queue.shift();shown=false;const b=$("#rv");
