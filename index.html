@@ -1206,7 +1206,7 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
  <div style="text-align:center;padding:8px 0 4px"><img src="icon.svg" alt="poof" style="width:72px;height:72px;border-radius:18px"></div>
  <p style="text-align:center;margin:4px 0 2px"><b>poof</b></p>
  <p class="mute" style="text-align:center;margin:0 0 12px">نسخه ۷۷</p>
- <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۳۱۲</p>
+ <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۳۱۳</p>
  <p style="margin:0 0 10px">با همکاری اصلی هوش مصنوعی موزی و آرین شعرا، با کمک چت‌جی‌پی‌تی و کلود، به‌صورت متن‌باز در گیت‌هاب ساخته شده است.</p>
  <p style="margin:0"><a href="https://github.com/arianshoara2/POOF" target="_blank" rel="noopener">github.com/arianshoara2/POOF</a></p>
 </div></div>
@@ -2201,6 +2201,35 @@ function seedEnStarter18(n){
  n.decks.push({id:"en-starter-18",name:"انگلیسی 🇬🇧 — واژه‌های روزمره ۱۸"});
  const now=Date.now();
  for(const w of EN_STARTER_18)n.cards.push({pos:"",def:"",context:w.ex,contextFa:w.exfa,source:"en-starter-18",created_at:now,ease:2.5,interval:0,reps:0,due:now,front:w.f,back:w.b,lang:"en",deck_id:"en-starter-18",id:uid()});
+}
+const EN_STARTER_19=[
+ {f:"island",b:"جزیره",ex:"The island is small.",exfa:"جزیره کوچک است."},
+ {f:"ocean",b:"اقیانوس",ex:"The ocean is very big.",exfa:"اقیانوس خیلی بزرگ است."},
+ {f:"desert",b:"بیابان",ex:"The desert is hot and dry.",exfa:"بیابان گرم و خشک است."},
+ {f:"valley",b:"دره",ex:"The valley is green.",exfa:"دره سبز است."},
+ {f:"hill",b:"تپه",ex:"We walk up the hill.",exfa:"ما از تپه بالا می‌رویم."},
+ {f:"cave",b:"غار",ex:"The cave is dark.",exfa:"غار تاریک است."},
+ {f:"waterfall",b:"آبشار",ex:"The waterfall is beautiful.",exfa:"آبشار زیباست."},
+ {f:"rainbow",b:"رنگین‌کمان",ex:"I see a rainbow in the sky.",exfa:"من یک رنگین‌کمان در آسمان می‌بینم."},
+ {f:"earth",b:"زمین",ex:"The earth is round.",exfa:"زمین گرد است."},
+ {f:"air",b:"هوا",ex:"The air is fresh.",exfa:"هوا تازه است."},
+ {f:"leaf",b:"برگ",ex:"A green leaf falls.",exfa:"یک برگ سبز می‌افتد."},
+ {f:"root",b:"ریشه",ex:"The root is under the tree.",exfa:"ریشه زیر درخت است."},
+ {f:"branch",b:"شاخه",ex:"A bird sits on the branch.",exfa:"پرنده‌ای روی شاخه نشسته است."},
+ {f:"seed",b:"دانه",ex:"I plant a seed.",exfa:"من یک دانه می‌کارم."},
+ {f:"vegetable",b:"سبزیجات",ex:"I eat a vegetable every day.",exfa:"من هر روز سبزیجات می‌خورم."},
+ {f:"wolf",b:"گرگ",ex:"The wolf lives in the forest.",exfa:"گرگ در جنگل زندگی می‌کند."},
+ {f:"fox",b:"روباه",ex:"The fox is clever.",exfa:"روباه باهوش است."},
+ {f:"deer",b:"گوزن",ex:"A deer runs in the forest.",exfa:"گوزن در جنگل می‌دود."},
+ {f:"eagle",b:"عقاب",ex:"The eagle flies high.",exfa:"عقاب بالا پرواز می‌کند."},
+ {f:"planet",b:"سیاره",ex:"Mars is a planet.",exfa:"مریخ یک سیاره است."}
+];
+function seedEnStarter19(n){
+ if(!n||!Array.isArray(n.decks)||!Array.isArray(n.cards))return;
+ if(n.decks.some(x=>x.id==="en-starter-19"))return;
+ n.decks.push({id:"en-starter-19",name:"انگلیسی 🇬🇧 — واژه‌های روزمره ۱۹"});
+ const now=Date.now();
+ for(const w of EN_STARTER_19)n.cards.push({pos:"",def:"",context:w.ex,contextFa:w.exfa,source:"en-starter-19",created_at:now,ease:2.5,interval:0,reps:0,due:now,front:w.f,back:w.b,lang:"en",deck_id:"en-starter-19",id:uid()});
 }
 function seedEnStarter11(n){
  if(!n||!Array.isArray(n.decks)||!Array.isArray(n.cards))return;
@@ -5880,7 +5909,7 @@ let tt;function toast(m,k){const t=$("#toast");t.textContent=m;t.className="show
 /* ===== 1) Storage v2 + Migration + Backup ===== */
 const K="poof_v2",KC="poof_dict_cache2",KB="poof_backup";
 const PACK_URL_DE="https://github.com/arianshoara2/POOF/releases/download/dict-de-v1/poof-de-dict.jsonl.gz";
-const fresh=()=>{const d={v:2,decks:[{id:"default",name:"پیش‌فرض"}],cards:[],active:"default",texts:[],textId:"t0",log:{},recent:[],theme:"auto",remind:{on:false,goal:"all",freq:"6h"},proxy:"",aiKey:"",cfWorker:"",zbShelf:[{t:"حیوانات",u:"https://zaban.com/share/movies/1812?language=fa"},{t:"برکینگ بد — قسمت ۱",u:"https://zaban.com/share/series/16/seasons/18/episodes/508?language=fa"}]};seedEnStarter(d);seedEnStarter2(d);seedEnStarter3(d);seedEnStarter4(d);seedEnStarter5(d);seedEnStarter6(d);seedEnStarter7(d);seedEnStarter8(d);seedEnStarter9(d);seedEnStarter10(d);seedEnStarter11(d);seedEnStarter12(d);seedEnStarter13(d);seedEnStarter14(d);seedEnStarter15(d);seedEnStarter16(d);seedEnStarter17(d);seedEnStarter18(d);seedWsA11(d);seedWsA12(d);seedWsA21(d);seedWsA22(d);seedWsB11(d);seedWsB12(d);seedLvA1(d);seedLvA2(d);seedLvB1(d);seedLvB2(d);seedLvC1(d);seedIdmIdiom(d);seedIdmProverb(d);seedPhrDaily(d);seedStStarter(d);seedFq500(d);return d};
+const fresh=()=>{const d={v:2,decks:[{id:"default",name:"پیش‌فرض"}],cards:[],active:"default",texts:[],textId:"t0",log:{},recent:[],theme:"auto",remind:{on:false,goal:"all",freq:"6h"},proxy:"",aiKey:"",cfWorker:"",zbShelf:[{t:"حیوانات",u:"https://zaban.com/share/movies/1812?language=fa"},{t:"برکینگ بد — قسمت ۱",u:"https://zaban.com/share/series/16/seasons/18/episodes/508?language=fa"}]};seedEnStarter(d);seedEnStarter2(d);seedEnStarter3(d);seedEnStarter4(d);seedEnStarter5(d);seedEnStarter6(d);seedEnStarter7(d);seedEnStarter8(d);seedEnStarter9(d);seedEnStarter10(d);seedEnStarter11(d);seedEnStarter12(d);seedEnStarter13(d);seedEnStarter14(d);seedEnStarter15(d);seedEnStarter16(d);seedEnStarter17(d);seedEnStarter18(d);seedEnStarter19(d);seedWsA11(d);seedWsA12(d);seedWsA21(d);seedWsA22(d);seedWsB11(d);seedWsB12(d);seedLvA1(d);seedLvA2(d);seedLvB1(d);seedLvB2(d);seedLvC1(d);seedIdmIdiom(d);seedIdmProverb(d);seedPhrDaily(d);seedStStarter(d);seedFq500(d);return d};
 function migrate(d){
  if(!d||typeof d!=="object"||!Array.isArray(d.cards)||!Array.isArray(d.decks))return null;
  if(d.v>2)return null;                       // نسخه‌ی آینده: دست نزن
@@ -5914,6 +5943,7 @@ function migrate(d){
  seedEnStarter16(n); /* ?v=301: English starter deck batch 16 for existing users (no-op if already seeded) */
  seedEnStarter17(n); /* ?v=302: English starter deck batch 17 for existing users (no-op if already seeded) */
  seedEnStarter18(n); /* ?v=303: English starter deck batch 18 for existing users (no-op if already seeded) */
+ seedEnStarter19(n); /* ?v=313: English starter deck batch 19 for existing users (no-op if already seeded) */
  seedWsA11(n);seedWsA12(n);seedWsA21(n);seedWsA22(n);seedWsB11(n);seedWsB12(n); /* ?v=310: Wortschatz book decks for existing users (no-op if already seeded) */
  seedLvA1(n);seedLvA2(n);seedLvB1(n);seedLvB2(n);seedLvC1(n);seedIdmIdiom(n);seedIdmProverb(n);seedPhrDaily(n);seedStStarter(n);seedFq500(n); /* ?v=312: full Wortschatz import for existing users (no-op if already seeded) */
  return n;
