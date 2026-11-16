@@ -1205,7 +1205,7 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
  <div style="text-align:center;padding:8px 0 4px"><img src="icon.svg" alt="poof" style="width:72px;height:72px;border-radius:18px"></div>
  <p style="text-align:center;margin:4px 0 2px"><b>poof</b></p>
  <p class="mute" style="text-align:center;margin:0 0 12px">نسخه ۷۷</p>
- <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۳۰۹</p>
+ <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۳۱۰</p>
  <p style="margin:0 0 10px">با همکاری اصلی هوش مصنوعی موزی و آرین شعرا، با کمک چت‌جی‌پی‌تی و کلود، به‌صورت متن‌باز در گیت‌هاب ساخته شده است.</p>
  <p style="margin:0"><a href="https://github.com/arianshoara2/POOF" target="_blank" rel="noopener">github.com/arianshoara2/POOF</a></p>
 </div></div>
@@ -2208,6 +2208,260 @@ function seedEnStarter11(n){
  const now=Date.now();
  for(const w of EN_STARTER_11)n.cards.push({pos:"",def:"",context:w.ex,contextFa:w.exfa,source:"en-starter-11",created_at:now,ease:2.5,interval:0,reps:0,due:now,front:w.f,back:w.b,lang:"en",deck_id:"en-starter-11",id:uid()});
 }
+/* ===== ?v=310: Wortschatz book decks — the 6 Inspired Study Units =====
+   (A1.1, A1.2, A2.1, A2.2, B1.1, B1.2 — 32 words each, 192 total,
+   extracted verbatim from wortschatz.html BOOK_UNITS, nothing invented.
+   Front = German word WITH its article for nouns (der/die/das),
+   back = Persian meaning, example + Persian example as context.
+   Seeded once: guarded by the deck id, so it never duplicates and
+   reaches existing users on their next load (via migrate). Cards
+   start due (box 1) and speak with the German voice (lang "de"). */
+const WS_A11 = [
+ {f:"das Notizheft",b:"دفترچهٔ یادداشت",ex:"Ich schreibe das Wort in mein Notizheft.",exfa:"کلمه را در دفترچهٔ یادداشتم می‌نویسم."},
+ {f:"der Kugelschreiber",b:"خودکار",ex:"Mein Kugelschreiber liegt auf dem Tisch.",exfa:"خودکارم روی میز است."},
+ {f:"der Radiergummi",b:"پاک‌کن",ex:"Hast du einen Radiergummi für mich?",exfa:"برای من پاک‌کن داری؟"},
+ {f:"das Lineal",b:"خط‌کش",ex:"Das Lineal ist dreißig Zentimeter lang.",exfa:"طول خط‌کش سی سانتی‌متر است."},
+ {f:"die Kreide",b:"گچ",ex:"Die Lehrerin schreibt mit Kreide.",exfa:"معلم با گچ می‌نویسد."},
+ {f:"die Tafel",b:"تختهٔ کلاس",ex:"Das Wort steht an der Tafel.",exfa:"کلمه روی تخته نوشته شده است."},
+ {f:"das Federmäppchen",b:"جامدادی",ex:"Die Stifte sind im Federmäppchen.",exfa:"مدادها داخل جامدادی‌اند."},
+ {f:"die Schultasche",b:"کیف مدرسه",ex:"Meine Schultasche ist heute schwer.",exfa:"کیف مدرسه‌ام امروز سنگین است."},
+ {f:"der Vorname",b:"نام کوچک",ex:"Mein Vorname ist Sara.",exfa:"نام کوچک من سارا است."},
+ {f:"der Nachname",b:"نام خانوادگی",ex:"Wie schreibt man deinen Nachnamen?",exfa:"نام خانوادگی‌ات را چطور می‌نویسند؟"},
+ {f:"der Heimatort",b:"شهر یا زادگاه اصلی",ex:"Mein Heimatort liegt im Süden.",exfa:"زادگاه من در جنوب قرار دارد."},
+ {f:"die Begrüßung",b:"احوالپرسی",ex:"Zur Begrüßung sage ich „Guten Morgen“.",exfa:"برای سلام کردن می‌گویم «صبح بخیر»."},
+ {f:"die Aussprache",b:"تلفظ",ex:"Die Aussprache dieses Wortes ist schwierig.",exfa:"تلفظ این کلمه سخت است."},
+ {f:"die Vorstellung",b:"معرفی",ex:"Am Anfang gibt es eine kurze Vorstellung.",exfa:"در ابتدا یک معرفی کوتاه انجام می‌شود."},
+ {f:"die Anrede",b:"شیوهٔ خطاب",ex:"Welche Anrede passt in dieser E-Mail?",exfa:"چه نوع خطابی در این ایمیل مناسب است؟"},
+ {f:"die Muttersprache",b:"زبان مادری",ex:"Persisch ist meine Muttersprache.",exfa:"فارسی زبان مادری من است."},
+ {f:"das Erdgeschoss",b:"طبقهٔ همکف",ex:"Die Bibliothek ist im Erdgeschoss.",exfa:"کتابخانه در طبقهٔ همکف است."},
+ {f:"das Stockwerk",b:"طبقهٔ ساختمان",ex:"Unser Kurs ist im dritten Stockwerk.",exfa:"کلاس ما در طبقهٔ سوم است."},
+ {f:"das Treppenhaus",b:"راه‌پلهٔ ساختمان",ex:"Das Treppenhaus ist links.",exfa:"راه‌پله سمت چپ است."},
+ {f:"der Aufzug",b:"آسانسور",ex:"Der Aufzug fährt nach oben.",exfa:"آسانسور به بالا می‌رود."},
+ {f:"der Eingang",b:"ورودی",ex:"Der Eingang ist neben dem Café.",exfa:"ورودی کنار کافه است."},
+ {f:"der Ausgang",b:"خروجی",ex:"Wo ist der nächste Ausgang?",exfa:"نزدیک‌ترین خروجی کجاست؟"},
+ {f:"die Hausnummer",b:"شمارهٔ ساختمان",ex:"Die Hausnummer steht neben der Tür.",exfa:"شمارهٔ ساختمان کنار در است."},
+ {f:"die Straßenkreuzung",b:"تقاطع خیابان",ex:"An der Straßenkreuzung gehen wir rechts.",exfa:"در تقاطع به راست می‌رویم."},
+ {f:"der Wecker",b:"ساعت زنگ‌دار",ex:"Mein Wecker klingelt um sieben.",exfa:"ساعت زنگ‌دارم ساعت هفت زنگ می‌زند."},
+ {f:"die Frühstückspause",b:"وقفهٔ صبحانه",ex:"In der Frühstückspause esse ich ein Brötchen.",exfa:"در استراحت صبحانه یک نان کوچک می‌خورم."},
+ {f:"die Mittagspause",b:"استراحت ظهر",ex:"Unsere Mittagspause dauert dreißig Minuten.",exfa:"استراحت ناهار ما سی دقیقه طول می‌کشد."},
+ {f:"der Feierabend",b:"پایان روز کاری",ex:"Nach Feierabend fahre ich nach Hause.",exfa:"بعد از پایان کار به خانه می‌روم."},
+ {f:"der Werktag",b:"روز کاری",ex:"An Werktagen stehe ich früh auf.",exfa:"در روزهای کاری زود بیدار می‌شوم."},
+ {f:"der Stundenplan",b:"برنامهٔ کلاسی",ex:"Mein Stundenplan hängt an der Wand.",exfa:"برنامهٔ کلاسی‌ام به دیوار آویزان است."},
+ {f:"der Arbeitsbeginn",b:"شروع کار",ex:"Mein Arbeitsbeginn ist um acht Uhr.",exfa:"شروع کار من ساعت هشت است."},
+ {f:"der Pausenraum",b:"اتاق استراحت",ex:"Wir treffen uns im Pausenraum.",exfa:"در اتاق استراحت همدیگر را می‌بینیم."},
+];
+function seedWsA11(n){
+ if(!n||!Array.isArray(n.decks)||!Array.isArray(n.cards))return;
+ if(n.decks.some(x=>x.id==="ws-a11"))return;
+ n.decks.push({id:"ws-a11",name:"مقدماتی اول · A1.1"});
+ const now=Date.now();
+ for(const w of WS_A11)n.cards.push({pos:"",def:"",context:w.ex,contextFa:w.exfa,source:"ws-a11",created_at:now,ease:2.5,interval:0,reps:0,due:now,front:w.f,back:w.b,lang:"de",deck_id:"ws-a11",id:uid()});
+}
+const WS_A12 = [
+ {f:"der Einkaufswagen",b:"چرخ خرید",ex:"Ich hole einen Einkaufswagen.",exfa:"یک چرخ خرید برمی‌دارم."},
+ {f:"der Einkaufszettel",b:"فهرست خرید",ex:"Die Milch steht auf meinem Einkaufszettel.",exfa:"شیر در فهرست خرید من است."},
+ {f:"der Kassenbon",b:"رسید صندوق",ex:"Möchten Sie den Kassenbon?",exfa:"رسید صندوق را می‌خواهید؟"},
+ {f:"das Wechselgeld",b:"باقی پول",ex:"Hier ist Ihr Wechselgeld.",exfa:"این هم باقی پول شما."},
+ {f:"die Pfandflasche",b:"بطری ودیعه‌دار",ex:"Ich bringe die Pfandflaschen zurück.",exfa:"بطری‌های ودیعه‌دار را پس می‌برم."},
+ {f:"das Sonderangebot",b:"تخفیف ویژهٔ فروشگاه",ex:"Der Käse ist heute im Sonderangebot.",exfa:"پنیر امروز تخفیف ویژه دارد."},
+ {f:"die Einkaufstasche",b:"کیسه یا کیف خرید",ex:"Ich habe meine Einkaufstasche vergessen.",exfa:"کیسهٔ خریدم را فراموش کرده‌ام."},
+ {f:"die Rabattaktion",b:"طرح تخفیف",ex:"Diese Rabattaktion gilt bis Samstag.",exfa:"این طرح تخفیف تا شنبه اعتبار دارد."},
+ {f:"das Wohnheim",b:"خوابگاه",ex:"Sie wohnt in einem Studentenwohnheim.",exfa:"او در خوابگاه دانشجویی زندگی می‌کند."},
+ {f:"die Haustür",b:"در ورودی ساختمان",ex:"Bitte mach die Haustür zu.",exfa:"لطفاً در ورودی ساختمان را ببند."},
+ {f:"der Briefkasten",b:"صندوق پست",ex:"Im Briefkasten liegt ein Brief.",exfa:"یک نامه داخل صندوق پست است."},
+ {f:"die Klingel",b:"زنگ در",ex:"Die Klingel funktioniert nicht.",exfa:"زنگ در کار نمی‌کند."},
+ {f:"das Wandregal",b:"قفسهٔ دیواری",ex:"Das Wandregal hängt über dem Schreibtisch.",exfa:"قفسهٔ دیواری بالای میز تحریر است."},
+ {f:"das Spülbecken",b:"سینک ظرف‌شویی",ex:"Das Geschirr steht im Spülbecken.",exfa:"ظرف‌ها در سینک ظرف‌شویی هستند."},
+ {f:"der Lichtschalter",b:"کلید برق",ex:"Der Lichtschalter ist neben der Tür.",exfa:"کلید برق کنار در است."},
+ {f:"der Flur",b:"راهرو",ex:"Die Schuhe stehen im Flur.",exfa:"کفش‌ها در راهرو هستند."},
+ {f:"die Bushaltestelle",b:"ایستگاه اتوبوس",ex:"Die Bushaltestelle ist gleich hier.",exfa:"ایستگاه اتوبوس همین‌جاست."},
+ {f:"der Umstieg",b:"تعویض وسیلهٔ حمل‌ونقل",ex:"Wir haben in Erfurt einen Umstieg.",exfa:"در ارفورت باید خط عوض کنیم."},
+ {f:"die Abfahrtsanzeige",b:"تابلوی زمان حرکت",ex:"Die Abfahrtsanzeige zeigt zehn Minuten Verspätung.",exfa:"تابلو ده دقیقه تأخیر را نشان می‌دهد."},
+ {f:"der Fahrschein",b:"بلیت حمل‌ونقل",ex:"Ich kaufe einen Fahrschein am Automaten.",exfa:"از دستگاه بلیت می‌خرم."},
+ {f:"die Fahrtzeit",b:"مدت سفر با وسیلهٔ نقلیه",ex:"Die Fahrtzeit beträgt zwanzig Minuten.",exfa:"مدت سفر بیست دقیقه است."},
+ {f:"die Fußgängerampel",b:"چراغ عابر پیاده",ex:"Wir warten an der Fußgängerampel.",exfa:"پشت چراغ عابر پیاده منتظر می‌مانیم."},
+ {f:"der Fahrradständer",b:"جایگاه پارک دوچرخه",ex:"Mein Fahrrad steht am Fahrradständer.",exfa:"دوچرخه‌ام در جایگاه پارک دوچرخه است."},
+ {f:"die Fahrtrichtung",b:"جهت حرکت",ex:"Der Bus fährt in die andere Fahrtrichtung.",exfa:"اتوبوس به سمت دیگری می‌رود."},
+ {f:"der Sportverein",b:"باشگاه ورزشی",ex:"Ich bin Mitglied in einem Sportverein.",exfa:"عضو یک باشگاه ورزشی هستم."},
+ {f:"das Hallenbad",b:"استخر سرپوشیده",ex:"Im Winter gehen wir ins Hallenbad.",exfa:"زمستان به استخر سرپوشیده می‌رویم."},
+ {f:"der Eintrittspreis",b:"قیمت ورودی",ex:"Wie hoch ist der Eintrittspreis?",exfa:"قیمت ورودی چقدر است؟"},
+ {f:"die Kinokarte",b:"بلیت سینما",ex:"Zwei Kinokarten, bitte.",exfa:"دو بلیت سینما لطفاً."},
+ {f:"der Spaziergang",b:"پیاده‌روی تفریحی",ex:"Am Abend machen wir einen Spaziergang.",exfa:"عصر پیاده‌روی می‌کنیم."},
+ {f:"der Spielplatz",b:"زمین بازی",ex:"Die Kinder spielen auf dem Spielplatz.",exfa:"بچه‌ها در زمین بازی می‌کنند."},
+ {f:"das Picknick",b:"پیک‌نیک",ex:"Am Sonntag machen wir ein Picknick im Park.",exfa:"یکشنبه در پارک پیک‌نیک می‌کنیم."},
+ {f:"der Lieblingsfilm",b:"فیلم محبوب",ex:"Was ist dein Lieblingsfilm?",exfa:"فیلم موردعلاقه‌ات چیست؟"},
+];
+function seedWsA12(n){
+ if(!n||!Array.isArray(n.decks)||!Array.isArray(n.cards))return;
+ if(n.decks.some(x=>x.id==="ws-a12"))return;
+ n.decks.push({id:"ws-a12",name:"مقدماتی دوم · A1.2"});
+ const now=Date.now();
+ for(const w of WS_A12)n.cards.push({pos:"",def:"",context:w.ex,contextFa:w.exfa,source:"ws-a12",created_at:now,ease:2.5,interval:0,reps:0,due:now,front:w.f,back:w.b,lang:"de",deck_id:"ws-a12",id:uid()});
+}
+const WS_A21 = [
+ {f:"das Wartezimmer",b:"اتاق انتظار",ex:"Im Wartezimmer sitzen viele Menschen.",exfa:"آدم‌های زیادی در اتاق انتظار نشسته‌اند."},
+ {f:"die Krankmeldung",b:"اطلاع یا گواهی بیماری",ex:"Die Krankmeldung schicke ich an meinen Arbeitgeber.",exfa:"گواهی بیماری را برای کارفرمایم می‌فرستم."},
+ {f:"die Rezeptgebühr",b:"هزینهٔ نسخهٔ دارویی",ex:"In der Apotheke fällt eine Rezeptgebühr an.",exfa:"در داروخانه هزینهٔ نسخه دریافت می‌شود."},
+ {f:"die Sprechstunde",b:"ساعت ملاقات پزشک",ex:"Die Sprechstunde beginnt um neun Uhr.",exfa:"ساعت ملاقات پزشک از نه شروع می‌شود."},
+ {f:"die Erkältung",b:"سرماخوردگی",ex:"Wegen einer Erkältung bleibe ich zu Hause.",exfa:"به‌خاطر سرماخوردگی در خانه می‌مانم."},
+ {f:"der Hustenreiz",b:"میل مکرر به سرفه",ex:"Nachts habe ich einen starken Hustenreiz.",exfa:"شب‌ها میل شدیدی به سرفه دارم."},
+ {f:"das Halsweh",b:"گلودرد",ex:"Seit gestern habe ich Halsweh.",exfa:"از دیروز گلودرد دارم."},
+ {f:"der Verband",b:"باند پانسمان",ex:"Die Ärztin legt einen Verband an.",exfa:"پزشک روی زخم باند می‌بندد."},
+ {f:"das Gepäckstück",b:"یک قلم بار",ex:"Jedes Gepäckstück bekommt ein Etikett.",exfa:"هر قطعه بار یک برچسب می‌گیرد."},
+ {f:"die Ausweiskontrolle",b:"کنترل کارت شناسایی",ex:"Vor der Fahrt gibt es eine Ausweiskontrolle.",exfa:"قبل از حرکت کنترل مدرک هویتی انجام می‌شود."},
+ {f:"die Sitzplatzreservierung",b:"رزرو صندلی",ex:"Für den Zug habe ich eine Sitzplatzreservierung.",exfa:"برای قطار صندلی رزرو کرده‌ام."},
+ {f:"die Abfahrtstafel",b:"تابلوی حرکت",ex:"Schau bitte auf die Abfahrtstafel.",exfa:"لطفاً به تابلوی حرکت نگاه کن."},
+ {f:"die Fahrplanänderung",b:"تغییر برنامهٔ حرکت",ex:"Wegen der Baustelle gibt es eine Fahrplanänderung.",exfa:"به‌خاطر تعمیرات مسیر، برنامهٔ حرکت تغییر کرده است."},
+ {f:"die Rückfahrt",b:"سفر برگشت",ex:"Die Rückfahrt dauert etwas länger.",exfa:"راه برگشت کمی بیشتر طول می‌کشد."},
+ {f:"der Zwischenstopp",b:"توقف بین راه",ex:"Wir machen einen kurzen Zwischenstopp.",exfa:"یک توقف کوتاه بین راه داریم."},
+ {f:"der Anschlusszug",b:"قطار اتصال بعدی",ex:"Wir müssen den Anschlusszug erreichen.",exfa:"باید به قطار بعدی برسیم."},
+ {f:"der Schichtplan",b:"برنامهٔ شیفت",ex:"Der Schichtplan hängt im Büro.",exfa:"برنامهٔ شیفت در دفتر نصب شده است."},
+ {f:"die Arbeitskleidung",b:"لباس کار",ex:"Du brauchst saubere Arbeitskleidung.",exfa:"به لباس کار تمیز نیاز داری."},
+ {f:"der Dienstbeginn",b:"شروع شیفت کاری",ex:"Bitte sei vor Dienstbeginn hier.",exfa:"لطفاً قبل از شروع شیفت اینجا باش."},
+ {f:"die Überstunde",b:"ساعت اضافه‌کاری",ex:"Heute mache ich eine Überstunde.",exfa:"امروز یک ساعت اضافه‌کاری دارم."},
+ {f:"die Pausenregelung",b:"مقررات زمان استراحت",ex:"Die Pausenregelung steht im Vertrag.",exfa:"مقررات استراحت در قرارداد آمده است."},
+ {f:"die Teamleitung",b:"سرپرستی گروه",ex:"Die Teamleitung erklärt den Ablauf.",exfa:"سرپرست گروه روند کار را توضیح می‌دهد."},
+ {f:"die Arbeitsanweisung",b:"دستورالعمل کاری",ex:"Lies bitte die Arbeitsanweisung.",exfa:"لطفاً دستورالعمل کاری را بخوان."},
+ {f:"die Übergabe",b:"تحویل کار",ex:"Die Übergabe findet um sechs Uhr statt.",exfa:"تحویل شیفت ساعت شش انجام می‌شود."},
+ {f:"die Terminvereinbarung",b:"هماهنگ‌کردن وقت",ex:"Für die Terminvereinbarung rufe ich an.",exfa:"برای گرفتن وقت تلفن می‌کنم."},
+ {f:"die Erinnerung",b:"یادآوری",ex:"Ich bekomme eine Erinnerung per E-Mail.",exfa:"با ایمیل یادآوری دریافت می‌کنم."},
+ {f:"die Rückrufbitte",b:"درخواست تماس مجدد",ex:"Ich hinterlasse eine Rückrufbitte.",exfa:"درخواست می‌گذارم دوباره تماس بگیرند."},
+ {f:"die Terminverschiebung",b:"جابجایی وقت",ex:"Eine Terminverschiebung ist möglich.",exfa:"تغییر وقت امکان‌پذیر است."},
+ {f:"die Wartezeit",b:"مدت انتظار",ex:"Die Wartezeit beträgt ungefähr zwanzig Minuten.",exfa:"مدت انتظار حدود بیست دقیقه است."},
+ {f:"die Warteliste",b:"فهرست انتظار",ex:"Mein Name steht auf der Warteliste.",exfa:"اسمم در فهرست انتظار است."},
+ {f:"die Bestätigungsmail",b:"ایمیل تأیید",ex:"Die Bestätigungsmail ist angekommen.",exfa:"ایمیل تأیید رسیده است."},
+ {f:"die Ansprechperson",b:"شخص پاسخ‌گو",ex:"Wer ist meine Ansprechperson?",exfa:"مسئول پاسخ‌گویی من کیست؟"},
+];
+function seedWsA21(n){
+ if(!n||!Array.isArray(n.decks)||!Array.isArray(n.cards))return;
+ if(n.decks.some(x=>x.id==="ws-a21"))return;
+ n.decks.push({id:"ws-a21",name:"پایهٔ اول · A2.1"});
+ const now=Date.now();
+ for(const w of WS_A21)n.cards.push({pos:"",def:"",context:w.ex,contextFa:w.exfa,source:"ws-a21",created_at:now,ease:2.5,interval:0,reps:0,due:now,front:w.f,back:w.b,lang:"de",deck_id:"ws-a21",id:uid()});
+}
+const WS_A22 = [
+ {f:"die Betriebskostenabrechnung",b:"صورت‌حساب هزینه‌های جانبی ساختمان",ex:"Die Betriebskostenabrechnung kommt einmal im Jahr.",exfa:"صورت‌حساب هزینه‌های ساختمان سالی یک‌بار می‌رسد."},
+ {f:"die Mietbescheinigung",b:"گواهی اجاره",ex:"Für den Antrag brauche ich eine Mietbescheinigung.",exfa:"برای درخواست به گواهی اجاره نیاز دارم."},
+ {f:"die Wohnungsbesichtigung",b:"بازدید از آپارتمان",ex:"Morgen habe ich eine Wohnungsbesichtigung.",exfa:"فردا برای دیدن یک آپارتمان وقت دارم."},
+ {f:"die Hausordnung",b:"مقررات ساختمان",ex:"In der Hausordnung stehen die Ruhezeiten.",exfa:"ساعت‌های سکوت در مقررات ساختمان آمده‌اند."},
+ {f:"die Wohnungsübergabe",b:"تحویل آپارتمان",ex:"Bei der Wohnungsübergabe prüfen wir die Schlüssel.",exfa:"هنگام تحویل آپارتمان کلیدها را بررسی می‌کنیم."},
+ {f:"die Mietzahlung",b:"پرداخت اجاره",ex:"Die Mietzahlung erfolgt am Monatsanfang.",exfa:"اجاره در ابتدای ماه پرداخت می‌شود."},
+ {f:"der Mietrückstand",b:"اجارهٔ عقب‌افتاده",ex:"Ein Mietrückstand kann Probleme verursachen.",exfa:"اجارهٔ عقب‌افتاده می‌تواند مشکل ایجاد کند."},
+ {f:"die Reparaturmeldung",b:"گزارش نیاز به تعمیر",ex:"Ich schicke dem Hausmeister eine Reparaturmeldung.",exfa:"برای سرایدار گزارش نیاز به تعمیر می‌فرستم."},
+ {f:"das Meldeformular",b:"فرم ثبت نشانی",ex:"Bitte füllen Sie das Meldeformular aus.",exfa:"لطفاً فرم ثبت نشانی را پر کنید."},
+ {f:"die Terminbestätigung",b:"تأیید وقت ملاقات",ex:"Die Terminbestätigung liegt in meinem Postfach.",exfa:"تأیید وقت در صندوق ایمیلم است."},
+ {f:"das Formularfeld",b:"خانهٔ فرم",ex:"Dieses Formularfeld ist noch leer.",exfa:"این خانهٔ فرم هنوز خالی است."},
+ {f:"die Ausländerbehörde",b:"ادارهٔ امور اتباع خارجی",ex:"Ich habe einen Termin bei der Ausländerbehörde.",exfa:"در ادارهٔ اتباع خارجی وقت دارم."},
+ {f:"die Fristverlängerung",b:"تمدید مهلت",ex:"Ich bitte um eine Fristverlängerung.",exfa:"درخواست تمدید مهلت می‌کنم."},
+ {f:"die Geburtsurkunde",b:"گواهی تولد",ex:"Bitte legen Sie Ihre Geburtsurkunde vor.",exfa:"لطفاً گواهی تولد خود را ارائه دهید."},
+ {f:"die Eingangsbestätigung",b:"تأیید دریافت",ex:"Ich warte auf eine Eingangsbestätigung.",exfa:"منتظر تأیید دریافت هستم."},
+ {f:"die Bearbeitungszeit",b:"مدت رسیدگی",ex:"Die Bearbeitungszeit kann mehrere Wochen betragen.",exfa:"رسیدگی ممکن است چند هفته طول بکشد."},
+ {f:"das Vokabelheft",b:"دفتر لغت",ex:"Ich schreibe neue Wörter in mein Vokabelheft.",exfa:"واژه‌های تازه را در دفتر لغتم می‌نویسم."},
+ {f:"die Mitschrift",b:"یادداشت از درس",ex:"Meine Mitschrift ist nicht vollständig.",exfa:"یادداشت کلاسی من کامل نیست."},
+ {f:"das Lernziel",b:"هدف یادگیری",ex:"Mein Lernziel ist klar formuliert.",exfa:"هدف یادگیری‌ام روشن نوشته شده است."},
+ {f:"die Lerngruppe",b:"گروه مطالعه",ex:"Wir treffen uns in der Lerngruppe.",exfa:"در گروه مطالعه همدیگر را می‌بینیم."},
+ {f:"das Übungsblatt",b:"برگهٔ تمرین",ex:"Das Übungsblatt ist für Montag.",exfa:"برگهٔ تمرین برای دوشنبه است."},
+ {f:"der Abgabetermin",b:"مهلت تحویل",ex:"Der Abgabetermin ist am Freitag.",exfa:"آخرین مهلت تحویل جمعه است."},
+ {f:"die Musterlösung",b:"پاسخ نمونه",ex:"Vergleiche deine Antwort mit der Musterlösung.",exfa:"پاسخت را با پاسخ نمونه مقایسه کن."},
+ {f:"die Prüfungsvorbereitung",b:"آمادگی برای امتحان",ex:"Ich beginne heute mit der Prüfungsvorbereitung.",exfa:"از امروز آمادگی برای امتحان را شروع می‌کنم."},
+ {f:"die Verabredung",b:"قرار دوستانه",ex:"Wir haben morgen eine Verabredung.",exfa:"فردا با هم قرار داریم."},
+ {f:"das Missverständnis",b:"سوءتفاهم",ex:"Das war nur ein Missverständnis.",exfa:"آن فقط یک سوءتفاهم بود."},
+ {f:"die Entschuldigung",b:"عذرخواهی",ex:"Ich möchte mich bei dir entschuldigen.",exfa:"می‌خواهم از تو عذرخواهی کنم."},
+ {f:"die Gastfreundschaft",b:"مهمان‌نوازی",ex:"Vielen Dank für deine Gastfreundschaft.",exfa:"خیلی ممنون بابت مهمان‌نوازی‌ات."},
+ {f:"die Nachbarschaftshilfe",b:"کمک همسایه‌ها",ex:"Bei uns gibt es viel Nachbarschaftshilfe.",exfa:"اینجا همسایه‌ها زیاد به هم کمک می‌کنند."},
+ {f:"die Gesprächsrunde",b:"نشست گفت‌وگو",ex:"Am Dienstag gibt es eine offene Gesprächsrunde.",exfa:"سه‌شنبه یک نشست گفت‌وگوی آزاد برگزار می‌شود."},
+ {f:"die Kennenlernrunde",b:"جلسهٔ آشنایی اولیه",ex:"Der Kurs beginnt mit einer Kennenlernrunde.",exfa:"کلاس با یک جلسهٔ آشنایی شروع می‌شود."},
+ {f:"die Rücksichtnahme",b:"ملاحظهٔ دیگران",ex:"Rücksichtnahme ist in einer WG wichtig.",exfa:"ملاحظهٔ دیگران در خانهٔ اشتراکی مهم است."},
+];
+function seedWsA22(n){
+ if(!n||!Array.isArray(n.decks)||!Array.isArray(n.cards))return;
+ if(n.decks.some(x=>x.id==="ws-a22"))return;
+ n.decks.push({id:"ws-a22",name:"پایهٔ دوم · A2.2"});
+ const now=Date.now();
+ for(const w of WS_A22)n.cards.push({pos:"",def:"",context:w.ex,contextFa:w.exfa,source:"ws-a22",created_at:now,ease:2.5,interval:0,reps:0,due:now,front:w.f,back:w.b,lang:"de",deck_id:"ws-a22",id:uid()});
+}
+const WS_B11 = [
+ {f:"das Motivationsschreiben",b:"انگیزه‌نامه",ex:"Das Motivationsschreiben soll kurz und konkret sein.",exfa:"انگیزه‌نامه باید کوتاه و مشخص باشد."},
+ {f:"die Arbeitsprobe",b:"نمونه‌کار",ex:"Ich füge meiner Bewerbung eine Arbeitsprobe bei.",exfa:"یک نمونه‌کار به درخواست شغلم ضمیمه می‌کنم."},
+ {f:"der Qualifikationsnachweis",b:"مدرک اثبات صلاحیت",ex:"Ein Qualifikationsnachweis wird verlangt.",exfa:"مدرکی برای اثبات صلاحیت خواسته شده است."},
+ {f:"die Personalabteilung",b:"بخش منابع انسانی",ex:"Die Personalabteilung meldet sich nächste Woche.",exfa:"بخش منابع انسانی هفتهٔ آینده پاسخ می‌دهد."},
+ {f:"das Bewerbungsgespräch",b:"مصاحبهٔ شغلی",ex:"Mein Bewerbungsgespräch ist am Donnerstag.",exfa:"مصاحبهٔ شغلی من پنجشنبه است."},
+ {f:"die Stellenanzeige",b:"آگهی استخدام",ex:"Die Stellenanzeige steht auf der Website.",exfa:"آگهی استخدام در وب‌سایت است."},
+ {f:"die Berufserfahrung",b:"سابقهٔ کاری",ex:"Für die Stelle ist Berufserfahrung hilfreich.",exfa:"برای این شغل داشتن سابقهٔ کار مفید است."},
+ {f:"die Gehaltsvorstellung",b:"حقوق موردانتظار",ex:"Im Formular wird nach meiner Gehaltsvorstellung gefragt.",exfa:"در فرم دربارهٔ حقوق موردانتظارم پرسیده شده است."},
+ {f:"die Wohngemeinschaft",b:"خانهٔ اشتراکی",ex:"Wir leben in einer Wohngemeinschaft.",exfa:"ما در یک خانهٔ اشتراکی زندگی می‌کنیم."},
+ {f:"der Reinigungsplan",b:"برنامهٔ نظافت",ex:"Der Reinigungsplan hängt in der Küche.",exfa:"برنامهٔ نظافت در آشپزخانه نصب است."},
+ {f:"die Hausgemeinschaft",b:"جمع ساکنان ساختمان",ex:"Die Hausgemeinschaft organisiert ein Treffen.",exfa:"ساکنان ساختمان یک دیدار ترتیب می‌دهند."},
+ {f:"der Putzplan",b:"جدول تقسیم نظافت",ex:"Wir haben einen Putzplan für das Bad.",exfa:"برای حمام جدول نظافت داریم."},
+ {f:"der Hausmeisterdienst",b:"خدمات سرایداری",ex:"Der Hausmeisterdienst kümmert sich um die Heizung.",exfa:"خدمات سرایداری به سیستم گرمایش رسیدگی می‌کند."},
+ {f:"das Nachbarschaftsfest",b:"جشن همسایگی",ex:"Im Sommer feiern wir ein Nachbarschaftsfest.",exfa:"تابستان جشن همسایگی می‌گیریم."},
+ {f:"die Ruhezeit",b:"ساعت سکوت",ex:"Abends halten wir die Ruhezeit ein.",exfa:"شب‌ها ساعت سکوت را رعایت می‌کنیم."},
+ {f:"der Gemeinschaftsraum",b:"سالن مشترک",ex:"Wir nutzen den Gemeinschaftsraum für Treffen.",exfa:"برای گردهمایی‌ها از سالن مشترک استفاده می‌کنیم."},
+ {f:"die Mehrwegflasche",b:"بطری چندبارمصرف",ex:"Ich benutze eine Mehrwegflasche.",exfa:"از بطری چندبارمصرف استفاده می‌کنم."},
+ {f:"das Pfandsystem",b:"سامانهٔ ودیعه",ex:"Das Pfandsystem reduziert Müll.",exfa:"سامانهٔ ودیعه زباله را کمتر می‌کند."},
+ {f:"die Abfallvermeidung",b:"جلوگیری از تولید پسماند",ex:"Abfallvermeidung beginnt beim Einkaufen.",exfa:"کاهش زباله از خرید شروع می‌شود."},
+ {f:"der Stromverbrauch",b:"مصرف برق",ex:"Unser Stromverbrauch ist gesunken.",exfa:"مصرف برق ما کاهش یافته است."},
+ {f:"der Wasserverbrauch",b:"مصرف آب",ex:"Wir möchten den Wasserverbrauch senken.",exfa:"می‌خواهیم مصرف آب را کاهش دهیم."},
+ {f:"die Klimaschutzmaßnahme",b:"اقدام محافظت از اقلیم",ex:"Die Stadt plant neue Klimaschutzmaßnahmen.",exfa:"شهر اقدام‌های تازه‌ای برای حفاظت از اقلیم برنامه‌ریزی می‌کند."},
+ {f:"der Fahrradweg",b:"مسیر دوچرخه",ex:"Ein neuer Fahrradweg führt zum Bahnhof.",exfa:"یک مسیر تازهٔ دوچرخه به ایستگاه می‌رسد."},
+ {f:"das Energiesparen",b:"صرفه‌جویی انرژی",ex:"Beim Energiesparen hilft richtiges Lüften.",exfa:"تهویهٔ درست به صرفه‌جویی انرژی کمک می‌کند."},
+ {f:"das Nachrichtenportal",b:"درگاه خبری",ex:"Ich lese die Meldung auf einem Nachrichtenportal.",exfa:"خبر را در یک درگاه خبری می‌خوانم."},
+ {f:"die Schlagzeile",b:"تیتر خبر",ex:"Die Schlagzeile klingt dramatisch.",exfa:"تیتر خبر اغراق‌آمیز به نظر می‌رسد."},
+ {f:"der Faktencheck",b:"راستی‌آزمایی",ex:"Vor dem Teilen mache ich einen Faktencheck.",exfa:"پیش از بازنشر، صحت خبر را بررسی می‌کنم."},
+ {f:"die Kommentarspalte",b:"بخش نظرات",ex:"In der Kommentarspalte wird viel diskutiert.",exfa:"در بخش نظرات بحث زیادی در جریان است."},
+ {f:"der Medienbericht",b:"گزارش رسانه‌ای",ex:"Der Medienbericht enthält mehrere Interviews.",exfa:"گزارش رسانه‌ای چند مصاحبه دارد."},
+ {f:"die Pressemitteilung",b:"بیانیهٔ مطبوعاتی",ex:"Die Organisation veröffentlicht eine Pressemitteilung.",exfa:"سازمان یک بیانیهٔ مطبوعاتی منتشر می‌کند."},
+ {f:"die Bildschirmzeit",b:"زمان استفاده از صفحه‌نمایش",ex:"Ich möchte meine Bildschirmzeit reduzieren.",exfa:"می‌خواهم زمان استفاده‌ام از صفحه‌نمایش را کم کنم."},
+ {f:"die Datenschutzrichtlinie",b:"سیاست حفاظت از داده",ex:"Die Datenschutzrichtlinie erklärt die Datennutzung.",exfa:"سیاست حریم خصوصی نحوهٔ استفاده از داده‌ها را توضیح می‌دهد."},
+];
+function seedWsB11(n){
+ if(!n||!Array.isArray(n.decks)||!Array.isArray(n.cards))return;
+ if(n.decks.some(x=>x.id==="ws-b11"))return;
+ n.decks.push({id:"ws-b11",name:"میانی اول · B1.1"});
+ const now=Date.now();
+ for(const w of WS_B11)n.cards.push({pos:"",def:"",context:w.ex,contextFa:w.exfa,source:"ws-b11",created_at:now,ease:2.5,interval:0,reps:0,due:now,front:w.f,back:w.b,lang:"de",deck_id:"ws-b11",id:uid()});
+}
+const WS_B12 = [
+ {f:"die Einschreibefrist",b:"مهلت ثبت‌نام",ex:"Die Einschreibefrist endet nächste Woche.",exfa:"مهلت ثبت‌نام هفتهٔ آینده تمام می‌شود."},
+ {f:"das Modulhandbuch",b:"راهنمای درس‌های دانشگاهی",ex:"Im Modulhandbuch stehen die Lernziele.",exfa:"هدف‌های یادگیری در راهنمای درس‌ها آمده‌اند."},
+ {f:"die Seminararbeit",b:"مقالهٔ درسی",ex:"Für das Seminar schreibe ich eine Seminararbeit.",exfa:"برای سمینار یک مقاله می‌نویسم."},
+ {f:"die Seminarleistung",b:"کار ارزیابی‌شدهٔ سمینار",ex:"Die Seminarleistung zählt zur Endnote.",exfa:"ارزیابی سمینار در نمرهٔ پایانی حساب می‌شود."},
+ {f:"die Prüfungsordnung",b:"آیین‌نامهٔ امتحانات",ex:"Die Prüfungsordnung regelt die Wiederholung.",exfa:"آیین‌نامهٔ امتحانات تکرار آزمون را تعیین می‌کند."},
+ {f:"die Studiengangsleitung",b:"مسئولیت مدیریت رشته",ex:"Die Studiengangsleitung beantwortet Fragen zum Studienplan.",exfa:"مسئول رشته به سؤال‌های برنامهٔ درسی پاسخ می‌دهد."},
+ {f:"die Forschungsfrage",b:"پرسش پژوهشی",ex:"Am Anfang formuliere ich eine Forschungsfrage.",exfa:"ابتدا یک پرسش پژوهشی تعریف می‌کنم."},
+ {f:"das Literaturverzeichnis",b:"فهرست منابع",ex:"Das Literaturverzeichnis steht am Ende der Arbeit.",exfa:"فهرست منابع در پایان مقاله است."},
+ {f:"das Gegenargument",b:"استدلال مخالف",ex:"Ein gutes Gegenargument muss begründet sein.",exfa:"یک استدلال مخالف خوب باید دلیل داشته باشد."},
+ {f:"die Sichtweise",b:"زاویهٔ دید",ex:"Ich verstehe deine Sichtweise.",exfa:"دیدگاه تو را می‌فهمم."},
+ {f:"die Gegenthese",b:"فرضیهٔ مخالف",ex:"Die Gegenthese wird ebenfalls diskutiert.",exfa:"فرضیهٔ مخالف نیز بررسی می‌شود."},
+ {f:"die Zustimmung",b:"موافقت",ex:"Sein Vorschlag findet breite Zustimmung.",exfa:"پیشنهادش با موافقت گسترده روبه‌رو می‌شود."},
+ {f:"der Vorbehalt",b:"قید و شرط یا تحفظ",ex:"Ich stimme zu, aber mit einem Vorbehalt.",exfa:"موافقم، اما با یک قید و شرط."},
+ {f:"das Fazit",b:"جمع‌بندی",ex:"Am Ende ziehen wir ein Fazit.",exfa:"در پایان جمع‌بندی می‌کنیم."},
+ {f:"die Überzeugung",b:"باور راسخ",ex:"Sie vertritt ihre Überzeugung ruhig.",exfa:"او با آرامش از باورش دفاع می‌کند."},
+ {f:"die Tatsachenbehauptung",b:"ادعای واقعی قابل‌راستی‌آزمایی",ex:"Eine Tatsachenbehauptung lässt sich überprüfen.",exfa:"می‌توان درستی یک ادعای واقعی را بررسی کرد."},
+ {f:"das Zugriffsrecht",b:"مجوز دسترسی",ex:"Für diesen Ordner fehlt mir das Zugriffsrecht.",exfa:"برای این پوشه دسترسی لازم را ندارم."},
+ {f:"der Dateianhang",b:"پیوست فایل",ex:"Der Dateianhang fehlt in deiner E-Mail.",exfa:"پیوست در ایمیلت نیست."},
+ {f:"die Sicherheitskopie",b:"نسخهٔ پشتیبان",ex:"Bitte erstelle eine Sicherheitskopie der Datei.",exfa:"لطفاً از فایل نسخهٔ پشتیبان تهیه کن."},
+ {f:"die Bildschirmfreigabe",b:"اشتراک‌گذاری صفحه",ex:"Die Bildschirmfreigabe funktioniert jetzt.",exfa:"اشتراک‌گذاری صفحه اکنون کار می‌کند."},
+ {f:"die Bedienoberfläche",b:"رابط کاربری",ex:"Die Bedienoberfläche ist leicht verständlich.",exfa:"کار با رابط کاربری آسان است."},
+ {f:"die Fehlermeldung",b:"پیام خطا",ex:"Nach dem Klick erscheint eine Fehlermeldung.",exfa:"بعد از کلیک یک پیام خطا ظاهر می‌شود."},
+ {f:"die Sicherungsdatei",b:"فایل پشتیبان",ex:"Ich speichere die Sicherungsdatei auf dem Laptop.",exfa:"فایل پشتیبان را روی لپ‌تاپ ذخیره می‌کنم."},
+ {f:"der Zugangscode",b:"کد دسترسی",ex:"Der Zugangscode wird per E-Mail gesendet.",exfa:"کد دسترسی با ایمیل ارسال می‌شود."},
+ {f:"die Ehrenamtsarbeit",b:"کار داوطلبانه",ex:"Durch Ehrenamtsarbeit lerne ich neue Menschen kennen.",exfa:"با کار داوطلبانه آدم‌های تازه‌ای را می‌شناسم."},
+ {f:"die Bürgerinitiative",b:"گروه ابتکار شهروندی",ex:"Eine Bürgerinitiative sammelt Unterschriften.",exfa:"یک گروه شهروندی امضا جمع می‌کند."},
+ {f:"die Mitbestimmung",b:"مشارکت در تصمیم‌گیری",ex:"Mitbestimmung ist im Verein wichtig.",exfa:"مشارکت در تصمیم‌گیری در انجمن مهم است."},
+ {f:"die Gleichstellung",b:"برابری حقوقی و اجتماعی",ex:"Die Organisation setzt sich für Gleichstellung ein.",exfa:"سازمان برای برابری تلاش می‌کند."},
+ {f:"die Teilhabe",b:"مشارکت و برخورداری اجتماعی",ex:"Alle sollen die Möglichkeit zur Teilhabe haben.",exfa:"همه باید امکان مشارکت داشته باشند."},
+ {f:"die Diversität",b:"گوناگونی اجتماعی",ex:"Diversität bereichert unser Team.",exfa:"تنوع، تیم ما را پربارتر می‌کند."},
+ {f:"das Gemeinschaftsgefühl",b:"حس تعلق جمعی",ex:"Gemeinsame Projekte stärken das Gemeinschaftsgefühl.",exfa:"پروژه‌های مشترک حس تعلق جمعی را تقویت می‌کنند."},
+ {f:"das Integrationsangebot",b:"برنامهٔ کمک به ادغام اجتماعی",ex:"Die Stadt bietet neue Integrationsangebote an.",exfa:"شهر برنامه‌های تازه‌ای برای ادغام اجتماعی ارائه می‌دهد."},
+];
+function seedWsB12(n){
+ if(!n||!Array.isArray(n.decks)||!Array.isArray(n.cards))return;
+ if(n.decks.some(x=>x.id==="ws-b12"))return;
+ n.decks.push({id:"ws-b12",name:"میانی دوم · B1.2"});
+ const now=Date.now();
+ for(const w of WS_B12)n.cards.push({pos:"",def:"",context:w.ex,contextFa:w.exfa,source:"ws-b12",created_at:now,ease:2.5,interval:0,reps:0,due:now,front:w.f,back:w.b,lang:"de",deck_id:"ws-b12",id:uid()});
+}
 const ic=n=>`<svg class="ic" aria-hidden="true"><use href="#i-${n}"/></svg>`;
 const SUB={read:"بخوان، انتخاب کن، یاد بگیر",dict:"دیکشنری آلمانی ⇄ فارسی",cards:"واژه‌های شخصی تو",review:"مرور و یادگیری",me:"پیشرفت و تنظیمات"};
 const DAY=864e5, fmt=d=>d.toLocaleDateString("sv-SE");
@@ -2216,7 +2470,7 @@ let tt;function toast(m,k){const t=$("#toast");t.textContent=m;t.className="show
 /* ===== 1) Storage v2 + Migration + Backup ===== */
 const K="poof_v2",KC="poof_dict_cache2",KB="poof_backup";
 const PACK_URL_DE="https://github.com/arianshoara2/POOF/releases/download/dict-de-v1/poof-de-dict.jsonl.gz";
-const fresh=()=>{const d={v:2,decks:[{id:"default",name:"پیش‌فرض"}],cards:[],active:"default",texts:[],textId:"t0",log:{},recent:[],theme:"auto",remind:{on:false,goal:"all",freq:"6h"},proxy:"",aiKey:"",cfWorker:"",zbShelf:[{t:"حیوانات",u:"https://zaban.com/share/movies/1812?language=fa"},{t:"برکینگ بد — قسمت ۱",u:"https://zaban.com/share/series/16/seasons/18/episodes/508?language=fa"}]};seedEnStarter(d);seedEnStarter2(d);seedEnStarter3(d);seedEnStarter4(d);seedEnStarter5(d);seedEnStarter6(d);seedEnStarter7(d);seedEnStarter8(d);seedEnStarter9(d);seedEnStarter10(d);seedEnStarter11(d);seedEnStarter12(d);seedEnStarter13(d);seedEnStarter14(d);seedEnStarter15(d);seedEnStarter16(d);seedEnStarter17(d);seedEnStarter18(d);return d};
+const fresh=()=>{const d={v:2,decks:[{id:"default",name:"پیش‌فرض"}],cards:[],active:"default",texts:[],textId:"t0",log:{},recent:[],theme:"auto",remind:{on:false,goal:"all",freq:"6h"},proxy:"",aiKey:"",cfWorker:"",zbShelf:[{t:"حیوانات",u:"https://zaban.com/share/movies/1812?language=fa"},{t:"برکینگ بد — قسمت ۱",u:"https://zaban.com/share/series/16/seasons/18/episodes/508?language=fa"}]};seedEnStarter(d);seedEnStarter2(d);seedEnStarter3(d);seedEnStarter4(d);seedEnStarter5(d);seedEnStarter6(d);seedEnStarter7(d);seedEnStarter8(d);seedEnStarter9(d);seedEnStarter10(d);seedEnStarter11(d);seedEnStarter12(d);seedEnStarter13(d);seedEnStarter14(d);seedEnStarter15(d);seedEnStarter16(d);seedEnStarter17(d);seedEnStarter18(d);seedWsA11(d);seedWsA12(d);seedWsA21(d);seedWsA22(d);seedWsB11(d);seedWsB12(d);return d};
 function migrate(d){
  if(!d||typeof d!=="object"||!Array.isArray(d.cards)||!Array.isArray(d.decks))return null;
  if(d.v>2)return null;                       // نسخه‌ی آینده: دست نزن
@@ -2250,6 +2504,7 @@ function migrate(d){
  seedEnStarter16(n); /* ?v=301: English starter deck batch 16 for existing users (no-op if already seeded) */
  seedEnStarter17(n); /* ?v=302: English starter deck batch 17 for existing users (no-op if already seeded) */
  seedEnStarter18(n); /* ?v=303: English starter deck batch 18 for existing users (no-op if already seeded) */
+ seedWsA11(n);seedWsA12(n);seedWsA21(n);seedWsA22(n);seedWsB11(n);seedWsB12(n); /* ?v=310: Wortschatz book decks for existing users (no-op if already seeded) */
  return n;
 }
 function load(){
@@ -6296,9 +6551,12 @@ function renderCards(){
  const _dact=db.decks.find(d=>d.id===db.active);
  $("#dkDdLbl").textContent=_dact?_dact.name+" ("+_dcnt(_dact)+")":"—";
  const _drow=(v,lbl,cnt,cls)=>`<div class="rvdd-row${cls||""}${db.active===v?" sel":""}" data-v="${v}"><span>${esc(lbl)}</span><span class="cnt">${cnt!=null?"("+cnt+")":""}</span></div>`;
+ const _isWsD=d=>d&&typeof d.id==="string"&&d.id.startsWith("ws-");
+ const _wsDecks=db.decks.filter(_isWsD);
  const _dcoll=!!db.dkEnCollapsed;
- const _ddcoll=!!db.dkDeCollapsed;
- $("#dkDdPanel").innerHTML=(_userDecks.length?`<div class="rvdd-row rvdd-head${_ddcoll?" collapsed":""}" data-v="de-head"><span>🇩🇪 آلمانی</span><span class="chev">▾</span></div>`+(_ddcoll?"":_userDecks.map(d=>_drow(d.id,d.name,_dcnt(d)," rvdd-sub")).join("")):"")
+ const _wcoll=!!db.dkWsCollapsed;
+ $("#dkDdPanel").innerHTML=_userDecks.filter(d=>!_isWsD(d)).map(d=>_drow(d.id,d.name,_dcnt(d))).join("")
+  +(_wsDecks.length?`<div class="rvdd-row rvdd-head${_wcoll?" collapsed":""}" data-v="ws-head"><span>📚 Wortschatz</span><span class="chev">▾</span></div>`+(_wcoll?"":_wsDecks.map(d=>_drow(d.id,d.name,_dcnt(d)," rvdd-sub")).join("")):"")
   +(_enDecks.length?`<div class="rvdd-row rvdd-head${_dcoll?" collapsed":""}" data-v="en-head"><span>🇬🇧 انگلیسی پایه</span><span class="chev">▾</span></div>`+(_dcoll?"":_enDecks.map(d=>_drow(d.id,d.name,_dcnt(d)," rvdd-sub")).join("")):"");
  const _enSec=$("#enSec");
  if(_enSec){_enSec.hidden=!_enDecks.length;
@@ -6338,7 +6596,7 @@ $("#dkDdPanel").onclick=e=>{
  e.stopPropagation();
  const r=e.target.closest("[data-v]");if(!r)return;
  if(r.dataset.v==="en-head"){db.dkEnCollapsed=!db.dkEnCollapsed;save();renderCards();return}
- if(r.dataset.v==="de-head"){db.dkDeCollapsed=!db.dkDeCollapsed;save();renderCards();return}
+ if(r.dataset.v==="ws-head"){db.dkWsCollapsed=!db.dkWsCollapsed;save();renderCards();return}
  db.active=r.dataset.v;save();$("#dkDdPanel").hidden=true;$("#dkDdBtn").classList.remove("open");renderCards();
 };
 $("#enGrid").onclick=e=>{const b=e.target.closest("[data-deck]");if(!b)return;db.active=b.dataset.deck;save();renderCards()};
@@ -6361,12 +6619,14 @@ function renderRvDecks(){
  const _sd=_sel==="all"?null:db.decks.find(d=>d.id===_sel);
  $("#rvDdLbl").textContent=_sel==="all"?"همه‌ی دسته‌ها":(_sd?_sd.name+" ("+_due(_sd)+")":"همه‌ی دسته‌ها");
  const _row=(v,lbl,cnt,cls)=>`<div class="rvdd-row${cls||""}${_sel===v?" sel":""}" data-v="${v}"><span>${esc(lbl)}</span><span class="cnt">${cnt!=null?"("+cnt+")":""}</span></div>`;
+ const _isWs=d=>d.id.startsWith("ws-");
  const _en=db.decks.filter(_isEn);
- const _de=db.decks.filter(d=>!_isEn(d));
+ const _ws=db.decks.filter(_isWs);
  const _col=!!db.rvEnCollapsed;
- const _dcol=!!db.rvDeCollapsed;
+ const _wcol=!!db.rvWsCollapsed;
  $("#rvDdPanel").innerHTML=_row("all","همه‌ی دسته‌ها",db.cards.filter(c=>c.due<=Date.now()).length)
-  +(_de.length?`<div class="rvdd-row rvdd-head${_dcol?" collapsed":""}" data-v="de-head"><span>🇩🇪 آلمانی</span><span class="chev">▾</span></div>`+(_dcol?"":_de.map(d=>_row(d.id,d.name,_due(d)," rvdd-sub")).join("")):"")
+  +db.decks.filter(d=>!_isEn(d)&&!_isWs(d)).map(d=>_row(d.id,d.name,_due(d))).join("")
+  +(_ws.length?`<div class="rvdd-row rvdd-head${_wcol?" collapsed":""}" data-v="ws-head"><span>📚 Wortschatz</span><span class="chev">▾</span></div>`+(_wcol?"":_ws.map(d=>_row(d.id,d.name,_due(d)," rvdd-sub")).join("")):"")
   +(_en.length?`<div class="rvdd-row rvdd-head${_col?" collapsed":""}" data-v="en-head"><span>🇬🇧 انگلیسی پایه</span><span class="chev">▾</span></div>`+(_col?"":_en.map(d=>_row(d.id,d.name,_due(d)," rvdd-sub")).join("")):"");
 }
 $("#rvDdBtn").onclick=()=>{const p=$("#rvDdPanel");p.hidden=!p.hidden;$("#rvDdBtn").classList.toggle("open",!p.hidden)};
@@ -6374,7 +6634,7 @@ $("#rvDdPanel").onclick=e=>{
  e.stopPropagation();
  const r=e.target.closest("[data-v]");if(!r)return;
  if(r.dataset.v==="en-head"){db.rvEnCollapsed=!db.rvEnCollapsed;save();renderRvDecks();return}
- if(r.dataset.v==="de-head"){db.rvDeCollapsed=!db.rvDeCollapsed;save();renderRvDecks();return}
+ if(r.dataset.v==="ws-head"){db.rvWsCollapsed=!db.rvWsCollapsed;save();renderRvDecks();return}
  db.reviewDeck=r.dataset.v;save();$("#rvDdPanel").hidden=true;$("#rvDdBtn").classList.remove("open");startReview();
 };
 document.addEventListener("click",e=>{if(!e.target.closest("#rvDeck")){const p=$("#rvDdPanel");if(p){p.hidden=true;const b=$("#rvDdBtn");if(b)b.classList.remove("open")}}if(!e.target.closest("#deckSel")){const p=$("#dkDdPanel");if(p){p.hidden=true;const b=$("#dkDdBtn");if(b)b.classList.remove("open")}}});
