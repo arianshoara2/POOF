@@ -207,6 +207,7 @@ button.ib.pri{background:var(--accent);color:var(--bg);border-color:var(--accent
 .ask-chat-log{max-height:180px;overflow-y:auto}
 .ask-chat-q{font-weight:700;margin:8px 0 2px}
 .ask-chat-a{font-size:15px;margin:0 0 8px}
+.ask-w{opacity:0;transition:opacity .22s}
 .ask-chat-row{position:sticky;bottom:0;z-index:2;display:flex;gap:8px;margin-top:8px;background:color-mix(in srgb, var(--surface) 82%, transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);padding:10px 0;border-top:1px solid var(--border)}
 #ask .ask-card{display:flex;flex-direction:column;overflow:hidden}
 #ask .ask-scroll{flex:1;min-height:0;overflow-y:auto}
@@ -1183,7 +1184,7 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
  <div style="text-align:center;padding:8px 0 4px"><img src="icon.svg" alt="poof" style="width:72px;height:72px;border-radius:18px"></div>
  <p style="text-align:center;margin:4px 0 2px"><b>poof</b></p>
  <p class="mute" style="text-align:center;margin:0 0 12px">نسخه ۷۷</p>
- <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۲۹۷</p>
+ <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۲۹۸</p>
  <p style="margin:0 0 10px">با همکاری اصلی هوش مصنوعی موزی و آرین شعرا، با کمک چت‌جی‌پی‌تی و کلود، به‌صورت متن‌باز در گیت‌هاب ساخته شده است.</p>
  <p style="margin:0"><a href="https://github.com/arianshoara2/POOF" target="_blank" rel="noopener">github.com/arianshoara2/POOF</a></p>
 </div></div>
@@ -4588,19 +4589,50 @@ const askChatAns=d=>{const m=(d.meanings||[]).join("؛ ");const t=d.tip||"";retu
 function bidiDir(t){const ar=(t.match(/[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/g)||[]).length;const lat=(t.match(/[A-Za-z\u00C0-\u024F]/g)||[]).length;return ar>=lat?"rtl":"ltr";}
 const _qFill=new Set(["این","آن","اینو","اون","اینا","اونا","یعنی","چی","چیست","چیه","چه","چطور","چرا","چگونه","چجوری","چجور","به","انگلیسی","آلمانی","فارسی","میشه","می‌شه","میشود","می‌شود","فرق","تفاوت","با","و","یا","در","از","که","است","هست","کلمه","واژه","لغت","مثال","جمله","معنی","ترجمه","تلفظ","را","رو","برای","درمورد","درباره","لطفا","لطفاً","بگو","بگین","توضیح","بده","بدید","کجاست","کی","کجا","چند","کدوم","کدام"]);
 function hasNamedWord(q){if(/[A-Za-zÄÖÜäöüß]{2,}/.test(q))return true;const toks=q.replace(/[؟?!.،,;:\(\)\[\]"«»]/g," ").split(/\s+/).filter(Boolean);return toks.some(t=>!_qFill.has(t));}
+let _revealT=null;
+function askReveal(aEl,html){
+ if(_revealT){clearInterval(_revealT);_revealT=null;}
+ document.querySelectorAll('#askChatLog .ask-w').forEach(x=>{x.style.opacity="1";});
+ aEl.innerHTML=html;
+ const spans=[];
+ const walker=document.createTreeWalker(aEl,NodeFilter.SHOW_TEXT);
+ const nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);
+ nodes.forEach(n=>{
+  const frag=document.createDocumentFragment();
+  n.textContent.split(/(\s+)/).forEach(part=>{
+   if(!part)return;
+   if(/^\s+$/.test(part)){frag.appendChild(document.createTextNode(part));}
+   else{const sp=document.createElement("span");sp.className="ask-w";sp.textContent=part;frag.appendChild(sp);spans.push(sp);}
+  });
+  n.parentNode.replaceChild(frag,n);
+ });
+ const follow=()=>{
+  const log=document.querySelector('#askChatLog');
+  if(log&&log.scrollHeight-log.scrollTop-log.clientHeight<160)log.scrollTo({top:log.scrollHeight,behavior:'smooth'});
+  const sc=document.querySelector('#ask .ask-scroll');
+  if(sc&&sc.scrollHeight-sc.scrollTop-sc.clientHeight<160)sc.scrollTo({top:sc.scrollHeight,behavior:'smooth'});
+ };
+ let i=0;
+ const step=()=>{
+  if(i>=spans.length){if(_revealT){clearInterval(_revealT);_revealT=null;}follow();return;}
+  spans[i].style.opacity="1";i++;follow();
+ };
+ _revealT=setInterval(step,35);
+ step();
+}
 async function askChatSend(){
  const inp=$("#askChatIn");if(!inp)return;const q=inp.value.trim();if(!q)return;
  const log=$("#askChatLog");if(!log)return;
- inp.value="";inp.disabled=true;const btn=$("#askChatSend");if(btn)btn.disabled=true;
+ inp.value="";inp.disabled=true;inp.blur();const btn=$("#askChatSend");if(btn)btn.disabled=true;
  const qEl=document.createElement("div");qEl.className="ask-chat-q";qEl.dir=bidiDir(q);qEl.textContent=q;log.appendChild(qEl);
- const aEl=document.createElement("div");aEl.className="ask-chat-a";aEl.dir=bidiDir(q);aEl.innerHTML='<span class="ask-typing" aria-label="پووف داره تایپ می‌کنه"><i></i><i></i><i></i></span>';log.appendChild(aEl);log.scrollTop=log.scrollHeight;const _sc=document.querySelector('#ask .ask-scroll');if(_sc)_sc.scrollTop=_sc.scrollHeight;
+ const aEl=document.createElement("div");aEl.className="ask-chat-a";aEl.dir=bidiDir(q);aEl.innerHTML='<span class="ask-typing" aria-label="پووف داره تایپ می‌کنه"><i></i><i></i><i></i></span>';log.appendChild(aEl);log.scrollTo({top:log.scrollHeight,behavior:'smooth'});const _sc=document.querySelector('#ask .ask-scroll');if(_sc)_sc.scrollTo({top:_sc.scrollHeight,behavior:'smooth'});
  const a=hasNamedWord(q)?q.slice(0,100):(q.slice(0,80)+(askWord?"\nکلمه: "+askWord:""));const key="chat:"+a;
  const cached=askCacheGet(key);
- if(cached){aEl.innerHTML=askChatAns(cached);aEl.dir=bidiDir(aEl.textContent);const _sc=document.querySelector('#ask .ask-scroll');if(_sc)_sc.scrollTop=_sc.scrollHeight;inp.disabled=false;if(btn)btn.disabled=false;return;}
- let u;try{u=workerURL({ask:a})}catch(e){aEl.textContent="ابتدا آدرس Worker را در تب «پیشرفت» تنظیم کنید";inp.disabled=false;if(btn)btn.disabled=false;return;}
- try{const r=await fetchT(u,45000);const j=await r.json().catch(()=>null);if(!r.ok)throw new Error((j&&j.error)||("HTTP "+r.status));const d=j&&j.data;if(!d)throw new Error("empty");askCacheSet(key,d);aEl.innerHTML=askChatAns(d);aEl.dir=bidiDir(aEl.textContent);const _sc=document.querySelector('#ask .ask-scroll');if(_sc)_sc.scrollTop=_sc.scrollHeight;}
+ if(cached){askReveal(aEl,askChatAns(cached));aEl.dir=bidiDir(aEl.textContent);inp.disabled=false;if(btn)btn.disabled=false;inp.blur();return;}
+ let u;try{u=workerURL({ask:a})}catch(e){aEl.textContent="ابتدا آدرس Worker را در تب «پیشرفت» تنظیم کنید";inp.disabled=false;if(btn)btn.disabled=false;inp.blur();return;}
+ try{const r=await fetchT(u,45000);const j=await r.json().catch(()=>null);if(!r.ok)throw new Error((j&&j.error)||("HTTP "+r.status));const d=j&&j.data;if(!d)throw new Error("empty");askCacheSet(key,d);askReveal(aEl,askChatAns(d));aEl.dir=bidiDir(aEl.textContent);}
  catch(e){aEl.textContent="پووف نتونست جواب بده 😔 "+friendly(e);}
- inp.disabled=false;if(btn)btn.disabled=false;inp.focus();
+ inp.disabled=false;if(btn)btn.disabled=false;inp.blur();
 }
 $("#askChatSend").onclick=askChatSend;
 $("#askChatIn").addEventListener("keydown",e=>{if(e.key==="Enter")askChatSend();});
