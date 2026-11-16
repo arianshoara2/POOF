@@ -208,7 +208,7 @@ button.ib.pri{background:var(--accent);color:var(--bg);border-color:var(--accent
 .ask-chat-q{font-weight:700;margin:8px 0 2px}
 .ask-chat-a{font-size:15px;margin:0 0 8px}
 .ask-chat-row{position:sticky;bottom:0;z-index:2;display:flex;gap:8px;margin-top:8px;background:var(--surface);padding:10px 0;border-top:1px solid var(--border)}
-.ask-chat-row input{flex:1}
+.ask-chat-row input{flex:1;border-radius:99px;padding:11px 16px}
 #askChatSend{width:38px;height:38px;border-radius:50%;flex:0 0 auto;padding:0;border:none;background:var(--accent);color:var(--bg);font-size:18px;line-height:1}
 .ask-typing{display:inline-flex;gap:5px;align-items:center;padding:8px 0}
 .ask-typing i{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:askBlink 1.2s infinite}
@@ -576,6 +576,7 @@ html[data-theme=nebula] #nebulaHomeBanner{display:block}
   html[data-theme=lilac] .ask-word,html[data-theme=peachy] .ask-word,html[data-theme=minty] .ask-word,html[data-theme=sun] .ask-word{color:var(--lt-link)}
   html[data-theme=lilac] .ask-sec>h4,html[data-theme=peachy] .ask-sec>h4,html[data-theme=minty] .ask-sec>h4,html[data-theme=sun] .ask-sec>h4{color:var(--lt-muted)}
   html[data-theme=lilac] .ask-ex .t,html[data-theme=peachy] .ask-ex .t,html[data-theme=minty] .ask-ex .t,html[data-theme=sun] .ask-ex .t{color:var(--lt-muted)}
+  html[data-theme=lilac] .ask-ex,html[data-theme=peachy] .ask-ex,html[data-theme=minty] .ask-ex,html[data-theme=sun] .ask-ex{background:var(--lt-pastel);border-color:var(--lt-border)}
   html[data-theme=lilac] .ask-load,html[data-theme=peachy] .ask-load,html[data-theme=minty] .ask-load,html[data-theme=sun] .ask-load{color:var(--lt-muted)}
   html[data-theme=lilac] .ask-chip,html[data-theme=peachy] .ask-chip,html[data-theme=minty] .ask-chip,html[data-theme=sun] .ask-chip{border-color:var(--lt-border)}
   html[data-theme=lilac] .reg-chip,html[data-theme=peachy] .reg-chip,html[data-theme=minty] .reg-chip,html[data-theme=sun] .reg-chip{color:var(--lt-link);border-color:var(--lt-border)}
@@ -593,6 +594,7 @@ html[data-theme=nebula] #nebulaHomeBanner{display:block}
   html[data-theme=lilac] .peek-card,html[data-theme=peachy] .peek-card,html[data-theme=minty] .peek-card,html[data-theme=sun] .peek-card{background:var(--lt-card);border-color:var(--lt-border);color:var(--lt-text);box-shadow:0 18px 40px rgba(var(--lt-shadow),.25)}
   html[data-theme=lilac] .um-sheet,html[data-theme=peachy] .um-sheet,html[data-theme=minty] .um-sheet,html[data-theme=sun] .um-sheet{background:var(--lt-card);border-color:var(--lt-border);color:var(--lt-text);box-shadow:0 18px 40px rgba(var(--lt-shadow),.25)}
   html[data-theme=lilac] .ask-card,html[data-theme=peachy] .ask-card,html[data-theme=minty] .ask-card,html[data-theme=sun] .ask-card{background:var(--lt-card);border-color:var(--lt-border);color:var(--lt-text);box-shadow:0 18px 40px rgba(var(--lt-shadow),.25)}
+  html[data-theme=lilac] .ask-chat-row,html[data-theme=peachy] .ask-chat-row,html[data-theme=minty] .ask-chat-row,html[data-theme=sun] .ask-chat-row{background:var(--lt-card);border-top-color:var(--lt-border)}
   html[data-theme=lilac] .ed-card,html[data-theme=peachy] .ed-card,html[data-theme=minty] .ed-card,html[data-theme=sun] .ed-card{background:var(--lt-card);border-color:var(--lt-border);color:var(--lt-text);box-shadow:0 18px 40px rgba(var(--lt-shadow),.25)}
   html[data-theme=lilac] .um-btn.ghost,html[data-theme=peachy] .um-btn.ghost,html[data-theme=minty] .um-btn.ghost,html[data-theme=sun] .um-btn.ghost{background:transparent;border-color:var(--lt-border);color:var(--lt-text)}
   html[data-theme=lilac] .lt-card,html[data-theme=peachy] .lt-card,html[data-theme=minty] .lt-card,html[data-theme=sun] .lt-card{background:var(--lt-card);border-color:var(--lt-border);color:var(--lt-text);box-shadow:0 10px 24px rgba(var(--lt-shadow),.18)}
@@ -1176,7 +1178,7 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
  <div style="text-align:center;padding:8px 0 4px"><img src="icon.svg" alt="poof" style="width:72px;height:72px;border-radius:18px"></div>
  <p style="text-align:center;margin:4px 0 2px"><b>poof</b></p>
  <p class="mute" style="text-align:center;margin:0 0 12px">نسخه ۷۷</p>
- <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۲۹۴</p>
+ <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۲۹۵</p>
  <p style="margin:0 0 10px">با همکاری اصلی هوش مصنوعی موزی و آرین شعرا، با کمک چت‌جی‌پی‌تی و کلود، به‌صورت متن‌باز در گیت‌هاب ساخته شده است.</p>
  <p style="margin:0"><a href="https://github.com/arianshoara2/POOF" target="_blank" rel="noopener">github.com/arianshoara2/POOF</a></p>
 </div></div>
