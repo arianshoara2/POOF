@@ -1005,7 +1005,7 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
 
  <section id="s-cards" class="tab" hidden>
   <h2>کارت‌ها</h2>
-  <div class="card row"><select id="deckSel" style="flex:1"></select><button class="ghost" id="newDeck">+ دسته</button><button class="ghost" id="delDeck">حذف دسته</button></div>
+  <div class="card row"><div id="deckSel" class="rvdd" style="flex:1"><button type="button" id="dkDdBtn" class="rvdd-btn"><span id="dkDdLbl"></span><span class="chev">▾</span></button><div id="dkDdPanel" class="rvdd-panel" hidden></div></div><button class="ghost" id="newDeck">+ دسته</button><button class="ghost" id="delDeck">حذف دسته</button></div>
   <input id="search" placeholder="جست‌وجو در کارت‌ها…">
   <details class="card"><summary>+ کارت جدید</summary><br>
    <input id="nF" class="de" placeholder="کلمه (آلمانی)"><input id="nB" placeholder="معنی (فارسی)">
@@ -1204,7 +1204,7 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
  <div style="text-align:center;padding:8px 0 4px"><img src="icon.svg" alt="poof" style="width:72px;height:72px;border-radius:18px"></div>
  <p style="text-align:center;margin:4px 0 2px"><b>poof</b></p>
  <p class="mute" style="text-align:center;margin:0 0 12px">نسخه ۷۷</p>
- <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۳۰۴</p>
+ <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۳۰۵</p>
  <p style="margin:0 0 10px">با همکاری اصلی هوش مصنوعی موزی و آرین شعرا، با کمک چت‌جی‌پی‌تی و کلود، به‌صورت متن‌باز در گیت‌هاب ساخته شده است.</p>
  <p style="margin:0"><a href="https://github.com/arianshoara2/POOF" target="_blank" rel="noopener">github.com/arianshoara2/POOF</a></p>
 </div></div>
@@ -6290,8 +6290,14 @@ function renderCards(){
  const _isEn=d=>d&&typeof d.id==="string"&&(d.id==="en-starter"||d.id.startsWith("en-starter-"));
  const _userDecks=db.decks.filter(d=>!_isEn(d));
  const _activeEn=_isEn(db.decks.find(d=>d.id===db.active)||{id:""});
- $("#deckSel").innerHTML=(_activeEn?`<option value="" disabled selected>— انگلیسی پایه —</option>`:"")+_userDecks.map(d=>`<option value="${d.id}" ${d.id===db.active?"selected":""}>${esc(d.name)} (${db.cards.filter(c=>c.deck_id===d.id).length})</option>`).join("");
  const _enDecks=db.decks.filter(_isEn);
+ const _dcnt=d=>db.cards.filter(c=>c.deck_id===d.id).length;
+ const _dact=db.decks.find(d=>d.id===db.active);
+ $("#dkDdLbl").textContent=_dact?_dact.name+" ("+_dcnt(_dact)+")":"—";
+ const _drow=(v,lbl,cnt,cls)=>`<div class="rvdd-row${cls||""}${db.active===v?" sel":""}" data-v="${v}"><span>${esc(lbl)}</span><span class="cnt">${cnt!=null?"("+cnt+")":""}</span></div>`;
+ const _dcoll=!!db.dkEnCollapsed;
+ $("#dkDdPanel").innerHTML=_userDecks.map(d=>_drow(d.id,d.name,_dcnt(d))).join("")
+  +(_enDecks.length?`<div class="rvdd-row rvdd-head${_dcoll?" collapsed":""}" data-v="en-head"><span>🇬🇧 انگلیسی پایه</span><span class="chev">▾</span></div>`+(_dcoll?"":_enDecks.map(d=>_drow(d.id,d.name,_dcnt(d)," rvdd-sub")).join("")):"");
  const _enSec=$("#enSec");
  if(_enSec){_enSec.hidden=!_enDecks.length;
   if(_enDecks.length){const _tot=_enDecks.reduce((n,d)=>n+db.cards.filter(c=>c.deck_id===d.id).length,0);
@@ -6325,7 +6331,13 @@ $("#list").onclick=async e=>{
  if(b.dataset.a==="del"&&await uiConfirm("کارت حذف شود؟",{okText:"حذف",danger:true})){db.cards=db.cards.filter(x=>x!==c);save();renderCards()}
  if(b.dataset.a==="edit")openEditor(c);
 };
-$("#deckSel").onchange=e=>{db.active=e.target.value;save();renderCards()};
+$("#dkDdBtn").onclick=()=>{const p=$("#dkDdPanel");p.hidden=!p.hidden;$("#dkDdBtn").classList.toggle("open",!p.hidden)};
+$("#dkDdPanel").onclick=e=>{
+ e.stopPropagation();
+ const r=e.target.closest("[data-v]");if(!r)return;
+ if(r.dataset.v==="en-head"){db.dkEnCollapsed=!db.dkEnCollapsed;save();renderCards();return}
+ db.active=r.dataset.v;save();$("#dkDdPanel").hidden=true;$("#dkDdBtn").classList.remove("open");renderCards();
+};
 $("#enGrid").onclick=e=>{const b=e.target.closest("[data-deck]");if(!b)return;db.active=b.dataset.deck;save();renderCards()};
 $("#newDeck").onclick=async()=>{const n=await uiPrompt("نام دسته‌ی جدید:",{okText:"ساختن",placeholder:"مثلاً: افعال بی‌قاعده"});if(!n||!n.trim())return;const d={id:uid(),name:n.trim()};db.decks.push(d);db.active=d.id;save();renderCards()};
 $("#delDeck").onclick=async()=>{
@@ -6359,7 +6371,7 @@ $("#rvDdPanel").onclick=e=>{
  if(r.dataset.v==="en-head"){db.rvEnCollapsed=!db.rvEnCollapsed;save();renderRvDecks();return}
  db.reviewDeck=r.dataset.v;save();$("#rvDdPanel").hidden=true;$("#rvDdBtn").classList.remove("open");startReview();
 };
-document.addEventListener("click",e=>{if(!e.target.closest("#rvDeck")){const p=$("#rvDdPanel");if(p){p.hidden=true;const b=$("#rvDdBtn");if(b)b.classList.remove("open")}}});
+document.addEventListener("click",e=>{if(!e.target.closest("#rvDeck")){const p=$("#rvDdPanel");if(p){p.hidden=true;const b=$("#rvDdBtn");if(b)b.classList.remove("open")}}if(!e.target.closest("#deckSel")){const p=$("#dkDdPanel");if(p){p.hidden=true;const b=$("#dkDdBtn");if(b)b.classList.remove("open")}}});
 function startReview(){renderBoxes();renderRvDecks();const rd=db.reviewDeck||"all";queue=db.cards.filter(c=>c.due<=Date.now()&&(rd==="all"||c.deck_id===rd)).sort((a,b)=>a.due-b.due);next()}
 function next(){
  cur=queue.shift();shown=false;const b=$("#rv");
