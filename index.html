@@ -1206,7 +1206,7 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
  <div style="text-align:center;padding:8px 0 4px"><img src="icon.svg" alt="poof" style="width:72px;height:72px;border-radius:18px"></div>
  <p style="text-align:center;margin:4px 0 2px"><b>poof</b></p>
  <p class="mute" style="text-align:center;margin:0 0 12px">نسخه ۷۷</p>
- <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۳۱۵</p>
+ <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۳۱۶</p>
  <p style="margin:0 0 10px">با همکاری اصلی هوش مصنوعی موزی و آرین شعرا، با کمک چت‌جی‌پی‌تی و کلود، به‌صورت متن‌باز در گیت‌هاب ساخته شده است.</p>
  <p style="margin:0"><a href="https://github.com/arianshoara2/POOF" target="_blank" rel="noopener">github.com/arianshoara2/POOF</a></p>
 </div></div>
@@ -10211,9 +10211,11 @@ function renderBoxes(){
  const pc=$("#practiceCard");if(pc&&!pc.dataset.bound){pc.dataset.bound="1";pc.onclick=()=>location.href="practice.html"}
  const sc=$("#schritteCard");if(sc&&!sc.dataset.bound){sc.dataset.bound="1";sc.onclick=()=>location.href="schritte.html"}
  const ps=$("#prSub");if(ps)ps.textContent=db.cards&&db.cards.length?db.cards.length+" کارت":"";
- const due=db.cards.filter(c=>c.due<=Date.now()).length;
- $("#boxSub").textContent=db.cards.length?`${due} کارت آماده‌ی مرور از ${db.cards.length}`:"هنوز کارتی ندارید";
- $("#boxes").innerHTML=[1,2,3,4,5].map(n=>`<div class="bx"><b>${db.cards.filter(c=>boxOf(c)===n).length}</b><span>جعبه ${n}</span></div>`).join("");
+ const rd=db.reviewDeck||"all"; /* ?v=316: the Leitner box follows the selected review deck */
+ const cs=rd==="all"?db.cards:db.cards.filter(c=>c.deck_id===rd);
+ const due=cs.filter(c=>c.due<=Date.now()).length;
+ $("#boxSub").textContent=cs.length?`${due} کارت آماده‌ی مرور از ${cs.length}`:"هنوز کارتی ندارید";
+ $("#boxes").innerHTML=[1,2,3,4,5].map(n=>`<div class="bx"><b>${cs.filter(c=>boxOf(c)===n).length}</b><span>جعبه ${n}</span></div>`).join("");
 }
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 async function openBox(all){
