@@ -1184,7 +1184,7 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
  <div style="text-align:center;padding:8px 0 4px"><img src="icon.svg" alt="poof" style="width:72px;height:72px;border-radius:18px"></div>
  <p style="text-align:center;margin:4px 0 2px"><b>poof</b></p>
  <p class="mute" style="text-align:center;margin:0 0 12px">نسخه ۷۷</p>
- <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۳۰۰</p>
+ <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۳۰۱</p>
  <p style="margin:0 0 10px">با همکاری اصلی هوش مصنوعی موزی و آرین شعرا، با کمک چت‌جی‌پی‌تی و کلود، به‌صورت متن‌باز در گیت‌هاب ساخته شده است.</p>
  <p style="margin:0"><a href="https://github.com/arianshoara2/POOF" target="_blank" rel="noopener">github.com/arianshoara2/POOF</a></p>
 </div></div>
@@ -2093,6 +2093,35 @@ function seedEnStarter15(n){
  const now=Date.now();
  for(const w of EN_STARTER_15)n.cards.push({pos:"",def:"",context:w.ex,contextFa:w.exfa,source:"en-starter-15",created_at:now,ease:2.5,interval:0,reps:0,due:now,front:w.f,back:w.b,lang:"en",deck_id:"en-starter-15",id:uid()});
 }
+const EN_STARTER_16=[
+ {f:"grandmother",b:"مادربزرگ",ex:"My grandmother is kind.",exfa:"مادربزرگم مهربان است."},
+ {f:"grandfather",b:"پدربزرگ",ex:"My grandfather tells stories.",exfa:"پدربزرگم قصه می‌گوید."},
+ {f:"neck",b:"گردن",ex:"My neck hurts.",exfa:"گردنم درد می‌کند."},
+ {f:"toe",b:"انگشت پا",ex:"This is my toe.",exfa:"این انگشت پای من است."},
+ {f:"honey",b:"عسل",ex:"Honey is sweet.",exfa:"عسل شیرین است."},
+ {f:"soup",b:"سوپ",ex:"The soup is hot.",exfa:"سوپ داغ است."},
+ {f:"salad",b:"سالاد",ex:"I eat salad.",exfa:"سالاد می‌خورم."},
+ {f:"pizza",b:"پیتزا",ex:"I like pizza.",exfa:"پیتزا دوست دارم."},
+ {f:"library",b:"کتابخانه",ex:"The library is quiet.",exfa:"کتابخانه ساکت است."},
+ {f:"market",b:"بازار",ex:"We go to the market.",exfa:"به بازار می‌رویم."},
+ {f:"station",b:"ایستگاه",ex:"The station is near.",exfa:"ایستگاه نزدیک است."},
+ {f:"airport",b:"فرودگاه",ex:"The airport is big.",exfa:"فرودگاه بزرگ است."},
+ {f:"cinema",b:"سینما",ex:"We watch a film at the cinema.",exfa:"در سینما فیلم تماشا می‌کنیم."},
+ {f:"office",b:"دفتر کار",ex:"My office is small.",exfa:"دفتر کار من کوچک است."},
+ {f:"boat",b:"قایق",ex:"The boat is on the sea.",exfa:"قایق روی دریاست."},
+ {f:"sea",b:"دریا",ex:"The sea is blue.",exfa:"دریا آبی است."},
+ {f:"bear",b:"خرس",ex:"The bear is big.",exfa:"خرس بزرگ است."},
+ {f:"frog",b:"قورباغه",ex:"The frog jumps.",exfa:"قورباغه می‌پرد."},
+ {f:"butterfly",b:"پروانه",ex:"A butterfly flies.",exfa:"پروانه‌ای پرواز می‌کند."},
+ {f:"call",b:"تماس گرفتن",ex:"Call me, please.",exfa:"لطفاً به من زنگ بزن."}
+];
+function seedEnStarter16(n){
+ if(!n||!Array.isArray(n.decks)||!Array.isArray(n.cards))return;
+ if(n.decks.some(x=>x.id==="en-starter-16"))return;
+ n.decks.push({id:"en-starter-16",name:"انگلیسی 🇬🇧 — واژه‌های روزمره ۱۶"});
+ const now=Date.now();
+ for(const w of EN_STARTER_16)n.cards.push({pos:"",def:"",context:w.ex,contextFa:w.exfa,source:"en-starter-16",created_at:now,ease:2.5,interval:0,reps:0,due:now,front:w.f,back:w.b,lang:"en",deck_id:"en-starter-16",id:uid()});
+}
 function seedEnStarter11(n){
  if(!n||!Array.isArray(n.decks)||!Array.isArray(n.cards))return;
  if(n.decks.some(x=>x.id==="en-starter-11"))return;
@@ -2108,7 +2137,7 @@ let tt;function toast(m,k){const t=$("#toast");t.textContent=m;t.className="show
 /* ===== 1) Storage v2 + Migration + Backup ===== */
 const K="poof_v2",KC="poof_dict_cache2",KB="poof_backup";
 const PACK_URL_DE="https://github.com/arianshoara2/POOF/releases/download/dict-de-v1/poof-de-dict.jsonl.gz";
-const fresh=()=>{const d={v:2,decks:[{id:"default",name:"پیش‌فرض"}],cards:[],active:"default",texts:[],textId:"t0",log:{},recent:[],theme:"auto",remind:{on:false,goal:"all",freq:"6h"},proxy:"",aiKey:"",cfWorker:"",zbShelf:[{t:"حیوانات",u:"https://zaban.com/share/movies/1812?language=fa"},{t:"برکینگ بد — قسمت ۱",u:"https://zaban.com/share/series/16/seasons/18/episodes/508?language=fa"}]};seedEnStarter(d);seedEnStarter2(d);seedEnStarter3(d);seedEnStarter4(d);seedEnStarter5(d);seedEnStarter6(d);seedEnStarter7(d);seedEnStarter8(d);seedEnStarter9(d);seedEnStarter10(d);seedEnStarter11(d);seedEnStarter12(d);seedEnStarter13(d);seedEnStarter14(d);seedEnStarter15(d);return d};
+const fresh=()=>{const d={v:2,decks:[{id:"default",name:"پیش‌فرض"}],cards:[],active:"default",texts:[],textId:"t0",log:{},recent:[],theme:"auto",remind:{on:false,goal:"all",freq:"6h"},proxy:"",aiKey:"",cfWorker:"",zbShelf:[{t:"حیوانات",u:"https://zaban.com/share/movies/1812?language=fa"},{t:"برکینگ بد — قسمت ۱",u:"https://zaban.com/share/series/16/seasons/18/episodes/508?language=fa"}]};seedEnStarter(d);seedEnStarter2(d);seedEnStarter3(d);seedEnStarter4(d);seedEnStarter5(d);seedEnStarter6(d);seedEnStarter7(d);seedEnStarter8(d);seedEnStarter9(d);seedEnStarter10(d);seedEnStarter11(d);seedEnStarter12(d);seedEnStarter13(d);seedEnStarter14(d);seedEnStarter15(d);seedEnStarter16(d);return d};
 function migrate(d){
  if(!d||typeof d!=="object"||!Array.isArray(d.cards)||!Array.isArray(d.decks))return null;
  if(d.v>2)return null;                       // نسخه‌ی آینده: دست نزن
@@ -2139,6 +2168,7 @@ function migrate(d){
  seedEnStarter13(n); /* ?v=283: English starter deck batch 13 for existing users (no-op if already seeded) */
  seedEnStarter14(n); /* ?v=284: English starter deck batch 14 for existing users (no-op if already seeded) */
  seedEnStarter15(n); /* ?v=285: English starter deck batch 15 for existing users (no-op if already seeded) */
+ seedEnStarter16(n); /* ?v=301: English starter deck batch 16 for existing users (no-op if already seeded) */
  return n;
 }
 function load(){
