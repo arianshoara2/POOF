@@ -1160,7 +1160,7 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
  <div style="text-align:center;padding:8px 0 4px"><img src="icon.svg" alt="poof" style="width:72px;height:72px;border-radius:18px"></div>
  <p style="text-align:center;margin:4px 0 2px"><b>poof</b></p>
  <p class="mute" style="text-align:center;margin:0 0 12px">نسخه ۷۷</p>
- <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۲۸۹</p>
+ <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۲۹۰</p>
  <p style="margin:0 0 10px">با همکاری اصلی هوش مصنوعی موزی و آرین شعرا، با کمک چت‌جی‌پی‌تی و کلود، به‌صورت متن‌باز در گیت‌هاب ساخته شده است.</p>
  <p style="margin:0"><a href="https://github.com/arianshoara2/POOF" target="_blank" rel="noopener">github.com/arianshoara2/POOF</a></p>
 </div></div>
@@ -2136,7 +2136,7 @@ let cache={};try{cache=JSON.parse(localStorage.getItem(KC))||{}}catch(e){}
 // ?v=95: ورودی‌های wort که دیکشنری‌شان نشان v=5 ندارد (پارسر قدیمی یا فقط-کارت) را دور بینداز تا با پارسر جدید دوباره گرفته شوند
 try{for(const k of Object.keys(cache)){const w=cache[k]&&cache[k].wort;if(!w)continue;if((!w.dict||w.dict.v!==5)||(w.card&&/^\s*[0-9۰-۹]+([.)]\s*|$)/.test(w.card.meaning||"")))delete cache[k].wort}}catch(e){}
 const saveCache=()=>{try{localStorage.setItem(KC,JSON.stringify(cache))}catch(e){}};
-const norm=w=>w.trim().replace(/^[^\p{L}]+|[^\p{L}]+$/gu,"");
+const norm=w=>w.trim().replace(/^[^\p{L}\p{N}]+|[^\p{L}\p{N}]+$/gu,"");
 const strip=h=>{const d=new DOMParser().parseFromString(h,"text/html");d.body.querySelectorAll("script,style,noscript,template").forEach(x=>x.remove());return d.body.textContent.trim();};
 /* ===== Persian layer (offline, Batch 1: top-250) — dict-fa.jsonl =====
    Loaded lazily on first German lookup; lemma + inflected-form index.
@@ -6015,7 +6015,7 @@ function wpRichHTML(t){
   if(b.k==="h"&&typeof b.t==="string")return `<h3 class="wp-h" dir="auto">${esc(b.t)}</h3>`;
   if(b.k==="p"&&typeof b.t==="string")return `<p dir="auto">${sentSpans(b.t)}</p>`;
   if(b.k==="li"&&typeof b.t==="string")return `<p dir="auto">\u2022 ${sentSpans(b.t)}</p>`;
-  if(b.k==="table"&&Array.isArray(b.rows))return `<div class="wp-scroll"><table class="wp-t" dir="auto">${b.rows.map(r=>Array.isArray(r)?`<tr>${r.map(c=>`<td>${esc(c)}</td>`).join("")}</tr>`:"").join("")}</table></div>`;
+  if(b.k==="table"&&Array.isArray(b.rows))return `<div class="wp-scroll"><table class="wp-t" dir="auto">${b.rows.map(r=>Array.isArray(r)?`<tr>${r.map(c=>`<td>${sentSpans(c)}</td>`).join("")}</tr>`:"").join("")}</table></div>`;
   if(b.k==="img"&&typeof b.src==="string")return `<figure class="wp-f"><img src="${esc(b.src)}" loading="lazy" alt="">${b.cap?`<figcaption>${esc(b.cap)}</figcaption>`:""}</figure>`;
   return "";
  }).join("");
