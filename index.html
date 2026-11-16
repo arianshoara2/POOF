@@ -431,6 +431,11 @@ html:not([data-theme=snowy]) #s-cards #list .card::after{background:linear-gradi
 .en-box.on{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,transparent)}
 html[data-theme=lilac] .en-box,html[data-theme=peachy] .en-box,html[data-theme=minty] .en-box,html[data-theme=sun] .en-box{border-color:var(--lt-border);color:var(--lt-text)}
 html[data-theme=lilac] .en-box span,html[data-theme=peachy] .en-box span,html[data-theme=minty] .en-box span,html[data-theme=sun] .en-box span{color:var(--lt-muted)}
+#enSec summary{cursor:pointer;list-style:none}
+#enSec summary::-webkit-details-marker{display:none}
+#enSec summary .chev{transition:transform .2s;margin-inline-start:auto}
+#enSec[open] summary .chev{transform:rotate(180deg)}
+#enSec:not([open]) #enGrid{display:none}
 /* ===== POOF ?v=102: light clay themes (lilac / peachy / minty) — ADDITIVE ONLY ===== */
 /* Fonts (global, all themes): Nunito 800/900 headings, DM Sans body, Vazirmatn Persian fallback (per-glyph) */
 :root{--sans:'Inter','DM Sans','Vazirmatn',sans-serif}
@@ -963,14 +968,14 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
  <section id="s-cards" class="tab" hidden>
   <h2>کارت‌ها</h2>
   <div class="card row"><select id="deckSel" style="flex:1"></select><button class="ghost" id="newDeck">+ دسته</button><button class="ghost" id="delDeck">حذف دسته</button></div>
-  <div class="card" id="enSec">
-   <div class="row"><b>🇬🇧 انگلیسی پایه</b><span class="mute" id="enSub"></span></div>
-   <div id="enGrid" class="en-grid"></div>
-  </div>
   <input id="search" placeholder="جست‌وجو در کارت‌ها…">
   <details class="card"><summary>+ کارت جدید</summary><br>
    <input id="nF" class="de" placeholder="کلمه (آلمانی)"><input id="nB" placeholder="معنی (فارسی)">
    <input id="nC" class="de" placeholder="جمله‌ی نمونه (اختیاری)"><button id="nAdd">ذخیره</button></details>
+  <details class="card" id="enSec">
+   <summary class="row"><b>🇬🇧 انگلیسی پایه</b><span class="mute" id="enSub"></span><span class="chev">▾</span></summary>
+   <div id="enGrid" class="en-grid"></div>
+  </details>
   <div id="list"></div>
  </section>
 
@@ -1155,7 +1160,7 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
  <div style="text-align:center;padding:8px 0 4px"><img src="icon.svg" alt="poof" style="width:72px;height:72px;border-radius:18px"></div>
  <p style="text-align:center;margin:4px 0 2px"><b>poof</b></p>
  <p class="mute" style="text-align:center;margin:0 0 12px">نسخه ۷۷</p>
- <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۲۸۸</p>
+ <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۲۸۹</p>
  <p style="margin:0 0 10px">با همکاری اصلی هوش مصنوعی موزی و آرین شعرا، با کمک چت‌جی‌پی‌تی و کلود، به‌صورت متن‌باز در گیت‌هاب ساخته شده است.</p>
  <p style="margin:0"><a href="https://github.com/arianshoara2/POOF" target="_blank" rel="noopener">github.com/arianshoara2/POOF</a></p>
 </div></div>
@@ -3868,7 +3873,7 @@ window.addEventListener("popstate",(e)=>{
 });
 
 /* ===== 3) Entry view: sense picker, lemma, listen, add to deck ===== */
-const deckOpts=sel=>db.decks.map(d=>`<option value="${d.id}" ${d.id===sel?"selected":""}>${esc(d.name)}</option>`).join("");
+const deckOpts=sel=>{const _isEn=d=>d.id==="en-starter"||d.id.startsWith("en-starter-");const _o=d=>`<option value="${d.id}" ${d.id===sel?"selected":""}>${esc(d.name)}</option>`;const _en=db.decks.filter(_isEn);return db.decks.filter(d=>!_isEn(d)).map(_o).join("")+(_en.length?`<optgroup label="🇬🇧 انگلیسی پایه">${_en.map(_o).join("")}</optgroup>`:"");};
 async function showEntry(box,raw,ctx,src,lang,preE){
  if(sel){sel=null;drawSel()}
  const t=box._t=(box._t||0)+1;box.hidden=false;
@@ -6066,6 +6071,7 @@ function jumpToVideo(c){
  };
  setTimeout(trySeek,500);
 }
+let _enLastActive=null;
 function renderCards(){
  const _isEn=d=>d&&typeof d.id==="string"&&(d.id==="en-starter"||d.id.startsWith("en-starter-"));
  const _userDecks=db.decks.filter(d=>!_isEn(d));
@@ -6078,6 +6084,7 @@ function renderCards(){
   $("#enSub").textContent=_enDecks.length+" بچ · "+_tot+" کلمه";
   $("#enGrid").innerHTML=_enDecks.map(d=>{const _n=d.id==="en-starter"?1:parseInt(d.id.split("-").pop(),10);const _c=db.cards.filter(c=>c.deck_id===d.id).length;const _due=db.cards.filter(c=>c.deck_id===d.id&&c.due<=Date.now()).length;const _fa=String(_n).replace(/\d/g,x=>"۰۱۲۳۴۵۶۷۸۹"[x]);return `<button class="en-box${d.id===db.active?" on":""}" data-deck="${d.id}"><b>بچ ${_fa}</b><span>${_c} کلمه${_due?" · "+_due+" آماده":""}</span></button>`}).join("");}}
  $("#delDeck").style.display=_activeEn?"none":"";
+ if(db.active!==_enLastActive){_enLastActive=db.active;const _es=$("#enSec");if(_es)_es.open=_activeEn;}
  const q=$("#search").value.trim().toLowerCase();
  const l=db.cards.filter(c=>c.deck_id===db.active&&(!q||(c.front+c.back).toLowerCase().includes(q))).sort((a,b)=>b.created_at-a.created_at);
  $("#list").innerHTML=l.length?l.map(c=>{const em=emojiFor(c.front);const dn=(db.decks.find(d=>d.id===c.deck_id)||{}).name||"";let hh=0;for(const ch of String(c.deck_id||""))hh=(hh*31+ch.charCodeAt(0))>>>0;const dcol=["#e6b96f","#7fd4c1","#e58bb1","#9db8ff","#a8d08d","#d8a0e8"][hh%6];const mst=(c.reps||0)===0?["جدید","#9aa7b4"]:((c.interval||0)>=21?["تسلط‌یافته","#e6b96f"]:((c.interval||0)>=7?["قوی","#7fd4c1"]:["در حال یادگیری","#f0a35e"]));return `<div class="card" data-id="${c.id}">
@@ -6119,7 +6126,10 @@ $("#nAdd").onclick=()=>{if(addCard({front:$("#nF").value,back:$("#nB").value,con
 /* ===== 7) Review: SM-2 lite + keyboard ===== */
 let queue=[],cur=null,shown=false;
 function renderRvDecks(){
- $("#rvDeck").innerHTML=`<option value="all">همه‌ی دسته‌ها</option>`+db.decks.map(d=>`<option value="${d.id}" ${(db.reviewDeck||"all")===d.id?"selected":""}>${esc(d.name)} (${db.cards.filter(c=>c.deck_id===d.id&&c.due<=Date.now()).length})</option>`).join("");
+ const _isEn=d=>d.id==="en-starter"||d.id.startsWith("en-starter-");
+ const _o=d=>`<option value="${d.id}" ${(db.reviewDeck||"all")===d.id?"selected":""}>${esc(d.name)} (${db.cards.filter(c=>c.deck_id===d.id&&c.due<=Date.now()).length})</option>`;
+ const _en=db.decks.filter(_isEn);
+ $("#rvDeck").innerHTML=`<option value="all">همه‌ی دسته‌ها</option>`+db.decks.filter(d=>!_isEn(d)).map(_o).join("")+(_en.length?`<optgroup label="🇬🇧 انگلیسی پایه">${_en.map(_o).join("")}</optgroup>`:"");
 }
 $("#rvDeck").onchange=e=>{db.reviewDeck=e.target.value;save();startReview()};
 function startReview(){renderBoxes();renderRvDecks();const rd=db.reviewDeck||"all";queue=db.cards.filter(c=>c.due<=Date.now()&&(rd==="all"||c.deck_id===rd)).sort((a,b)=>a.due-b.due);next()}
