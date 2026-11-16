@@ -254,16 +254,16 @@ button.ib.pri{background:var(--accent);color:var(--bg);border-color:var(--accent
 }
 /* ===== کتابخانه ===== */
 #lib{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
-.lib-card{display:flex;gap:12px;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:10px 12px;cursor:pointer;transition:border-color .2s,transform .15s}
+.lib-card{display:flex;gap:10px;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:8px 10px;cursor:pointer;transition:border-color .2s,transform .15s}
 .lib-card:active{transform:scale(.99)}
 .lib-card.on{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
-.lib-card img{width:96px;height:54px;object-fit:cover;border-radius:10px;flex:none;background:#000}
-.lib-ic{width:96px;height:54px;flex:none;display:flex;align-items:center;justify-content:center;font-size:28px;background:color-mix(in srgb,var(--accent) 12%,transparent);border-radius:10px}
+.lib-card img{width:48px;height:48px;object-fit:cover;border-radius:10px;flex:none;background:#000}
+.lib-ic{width:48px;height:48px;flex:none;display:flex;align-items:center;justify-content:center;font-size:20px;background:color-mix(in srgb,var(--accent) 12%,transparent);border-radius:10px}
 .lib-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
 .lib-tx b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:15px}
 .lib-tx .mute{font-size:12px}
-.lib-ic .ic{width:26px;height:26px;color:var(--muted)}
-.lib-del{flex:none;width:32px;height:32px;border-radius:50%;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:18px;line-height:1;cursor:pointer}
+.lib-ic .ic{width:20px;height:20px;color:var(--muted)}
+.lib-del{flex:none;width:26px;height:26px;padding:0;border-radius:50%;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:15px;line-height:1;cursor:pointer}
 .lib-del:hover{color:#e5484d;border-color:#e5484d}
 button.ts{padding:2px 9px;font:600 12px var(--sans);background:transparent;color:var(--accent);border:1px solid var(--border);border-radius:999px;flex:none}
 button.ts:hover{background:var(--hover);filter:none}
@@ -1204,7 +1204,7 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
  <div style="text-align:center;padding:8px 0 4px"><img src="icon.svg" alt="poof" style="width:72px;height:72px;border-radius:18px"></div>
  <p style="text-align:center;margin:4px 0 2px"><b>poof</b></p>
  <p class="mute" style="text-align:center;margin:0 0 12px">نسخه ۷۷</p>
- <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۳۰۵</p>
+ <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۳۰۶</p>
  <p style="margin:0 0 10px">با همکاری اصلی هوش مصنوعی موزی و آرین شعرا، با کمک چت‌جی‌پی‌تی و کلود، به‌صورت متن‌باز در گیت‌هاب ساخته شده است.</p>
  <p style="margin:0"><a href="https://github.com/arianshoara2/POOF" target="_blank" rel="noopener">github.com/arianshoara2/POOF</a></p>
 </div></div>
@@ -4345,7 +4345,7 @@ function renderLib(){
  all=all.slice().sort((a,b)=>sort==="az"?(a.title||"").localeCompare(b.title||"","fa"):((b.added||0)-(a.added||0)));
  $("#lib").innerHTML=all.map(t=>{
   const k=kindOf(t),on=t.id===db.textId;
-  const th=k==="yt"?`<img loading="lazy" src="https://i.ytimg.com/vi/${t.video.id}/mqdefault.jpg" alt="">`:k==="pod"&&t.pod.art?`<img loading="lazy" src="${esc(t.pod.art)}" alt="" style="width:54px;height:54px">`:`<div class="lib-ic">${ic(KIND_IC[k])}</div>`;
+  const th=k==="yt"?`<img loading="lazy" src="https://i.ytimg.com/vi/${t.video.id}/mqdefault.jpg" alt="">`:k==="pod"&&t.pod.art?`<img loading="lazy" src="${esc(t.pod.art)}" alt="">`:`<div class="lib-ic">${ic(KIND_IC[k])}</div>`;
   const words=(t.body||"").split(/\s+/).filter(Boolean).length;
   const meta=[KIND_LB[k],LB[t.lang||"de"]||"",t.segs?t.segs.length+" بخش":words?words+" کلمه":null,t.added?new Date(t.added).toLocaleDateString("fa-IR"):null].filter(Boolean).join(" · ");
   const del=db.texts.some(x=>x.id===t.id)?`<button class="lib-del" data-del="${t.id}" aria-label="حذف">×</button>`:"";
