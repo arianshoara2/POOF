@@ -1206,7 +1206,7 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
  <div style="text-align:center;padding:8px 0 4px"><img src="icon.svg" alt="poof" style="width:72px;height:72px;border-radius:18px"></div>
  <p style="text-align:center;margin:4px 0 2px"><b>poof</b></p>
  <p class="mute" style="text-align:center;margin:0 0 12px">نسخه ۷۷</p>
- <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۳۱۶</p>
+ <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۳۱۷</p>
  <p style="margin:0 0 10px">با همکاری اصلی هوش مصنوعی موزی و آرین شعرا، با کمک چت‌جی‌پی‌تی و کلود، به‌صورت متن‌باز در گیت‌هاب ساخته شده است.</p>
  <p style="margin:0"><a href="https://github.com/arianshoara2/POOF" target="_blank" rel="noopener">github.com/arianshoara2/POOF</a></p>
 </div></div>
@@ -10219,7 +10219,8 @@ function renderBoxes(){
 }
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 async function openBox(all){
- const pile=db.cards.filter(c=>all||c.due<=Date.now());
+ const rd=db.reviewDeck||"all"; /* ?v=317: the box session follows the selected review deck */
+ const pile=db.cards.filter(c=>(all||c.due<=Date.now())&&(rd==="all"||c.deck_id===rd));
  if(!pile.length){
   if(!db.cards.length)return toast("ابتدا چند کارت بسازید","bad");
   if(await uiConfirm("کارتی برای امروز نمانده. همه‌ی کارت‌ها مرور شوند؟"))return openBox(true);
