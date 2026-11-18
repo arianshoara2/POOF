@@ -1206,7 +1206,7 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
  <div style="text-align:center;padding:8px 0 4px"><img src="icon.svg" alt="poof" style="width:72px;height:72px;border-radius:18px"></div>
  <p style="text-align:center;margin:4px 0 2px"><b>poof</b></p>
  <p class="mute" style="text-align:center;margin:0 0 12px">نسخه ۷۷</p>
- <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۳۱۸</p>
+ <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۳۱۹</p>
  <p style="margin:0 0 10px">با همکاری اصلی هوش مصنوعی موزی و آرین شعرا، با کمک چت‌جی‌پی‌تی و کلود، به‌صورت متن‌باز در گیت‌هاب ساخته شده است.</p>
  <p style="margin:0"><a href="https://github.com/arianshoara2/POOF" target="_blank" rel="noopener">github.com/arianshoara2/POOF</a></p>
 </div></div>
@@ -8000,7 +8000,12 @@ function renderReader(){
   if(rich)$("#text").innerHTML=rich;
   else $("#text").innerHTML=dispBody(t).split(/\n\s*\n/).map(txtParaHTML).join("")||`<div class="empty-wrap"><p class="state empty">این متن محتوایی ندارد.</p></div>`;}
  }
- else $("#text").innerHTML=dispBody(t).split(/\n\s*\n/).map(txtParaHTML).join("")||`<div class="empty-wrap"><p class="state empty">این متن محتوایی ندارد.</p></div>`;
+ else{let _h=dispBody(t).split(/\n\s*\n/).map(txtParaHTML).join("");
+  if(t.video&&t.video.ig&&!(t.segs&&t.segs.length)){
+   const _busy=_igTrBusy[t.id];
+   _h+=`<div class="empty-wrap"><p class="state empty">${_busy?"در حال دریافت ترانسکریپت…":"ترانسکریپت این ریل دریافت نشد."}</p>${_busy?"":`<p class="mute">${t.trErr||"ممکنه ریل خصوصی یا حذف‌شده باشه، یا اتصال ورکر به اینستاگرام قطع شده باشه."}</p><p><button class="btn sm" data-ig-retry>🔄 تلاش دوباره برای ترانسکریپت</button></p>`}</div>`;
+  }
+  $("#text").innerHTML=_h||`<div class="empty-wrap"><p class="state empty">این متن محتوایی ندارد.</p></div>`;}
  $("#text").classList.toggle("de",dispLang(t)!=="fa");sel=null;W=[];drawSel();renderLib();
  hlApply(t);
  const sl=$("#txtSrc");sl.hidden=!t.wp;
@@ -8051,7 +8056,7 @@ function hlApply(){
 }
 const hlTogEl=$("#hlTog");
 if(hlTogEl)hlTogEl.onclick=()=>{try{localStorage.setItem("poof_hl",hlOn()?"0":"1")}catch(_){ } hlApply()};
-$("#text").onclick=e=>{if(lpSuppress)return;const el=e.target.closest(".w");if(el)pick(el,e.shiftKey)};
+$("#text").onclick=e=>{if(lpSuppress)return;const el=e.target.closest(".w");if(el)pick(el,e.shiftKey)};$("#text").addEventListener("click",e=>{const b=e.target.closest("[data-ig-retry]");if(!b)return;const t=curText();if(t)igTranscriptFor(t);});
 $("#text").onkeydown=e=>{if(e.key==="Enter"||e.key===" "){const el=e.target.closest(".w");if(el){e.preventDefault();pick(el)}}};
 /* ===== کتابخانه‌ی متن‌ها: تاریخچه‌ی تمیز لینک‌ها و متن‌ها ===== */
 const kindOf=t=>t.pod?"pod":t.video&&t.video.id?"yt":t.video&&t.video.ig?"ig":t.wp?"wp":t.url?"web":"txt";
@@ -8887,7 +8892,7 @@ const mmss=s=>{s=Math.floor(s);const h=Math.floor(s/3600),m=Math.floor(s%3600/60
 const curText=()=>allTexts().find(x=>x.id===db.textId);
 const AI_WORKER="https://billowing-dust-f182.arian311380.workers.dev"; /* ?v=258: AI routes (Ask/Whisper) stay on Cloudflare; ?v=261: transcript routes too (fallbacks live there) */
 const AI_ROUTES=new Set(["ask","podtr","igtr"]);
-const CF_ROUTES=new Set(["yt","yta","supa","ytapi"]); /* ?v=261: transcript routes go to Cloudflare — its worker has the Supadata/YT-API keys the Vercel worker lacks */
+const CF_ROUTES=new Set(["yt","yta","supa","ytapi","igsupa"]); /* ?v=261: transcript routes go to Cloudflare — its worker has the Supadata/YT-API keys the Vercel worker lacks */
 const cfBase=()=>(db.cfWorker||AI_WORKER||"").trim(); /* ?v=262: pasted Cloudflare address wins, else the built-in worker */
 function workerURL(params,forceCF){
  const isCF=forceCF||Object.keys(params).some(k=>AI_ROUTES.has(k)||CF_ROUTES.has(k));
@@ -9148,34 +9153,46 @@ function extractArticle(html){
  const body=[...best.querySelectorAll("p,h2,h3")].map(p=>p.textContent.replace(/\s+/g," ").trim()).filter(x=>x.length>25||/^H/.test(x.tagName)).join("\n\n").slice(0,12000);
  return {title,body};
 }
+/* ?v=319: ترانسکریپت اینستا قابل‌تلاش‌مجدد — Supadata اول، ویسپر دوم؛ اگه هر دو
+   نشن، دلیلش روی متن ذخیره می‌شه و دکمه‌ی «تلاش دوباره» توی خواننده میاد. */
+let _igTrBusy={};
+async function igTranscriptFor(t){
+ if(!t||!t.url||_igTrBusy[t.id])return;
+ _igTrBusy[t.id]=true;renderReader();
+ const u=t.url,sc=(t.video&&t.video.ig)||"";
+ try{
+  let ok=false;
+  try{   // Supadata — ترانسکریپت اینستاگرام (هر خرابی به ویسپر می‌افتد)
+   const r1=await fetchT(workerURL({igsupa:u}),120000),j1=await r1.json();
+   if(!r1.ok||j1.error)throw new Error(j1.error||"HTTP "+r1.status);
+   if(j1.segments&&j1.segments.length){
+    t.segs=j1.segments.map(x=>({s:x.s,t:x.t}));t.body=j1.segments.map(x=>x.t).join("\n");
+    if(j1.title&&t.title==="Instagram · "+sc)t.title="Instagram · "+j1.title;
+    save();renderReader();toast("ترانسکریپت آماده شد");ok=true;
+   }else throw new Error("no speech detected");
+  }catch(e){/* خرابی سوپادیتا → ویسپر */}
+  if(!ok){
+   const r2=await fetchT(workerURL({igtr:u}),120000),j2=await r2.json();
+   if(!r2.ok||j2.error)throw new Error(j2.error||"HTTP "+r2.status);
+   if(j2.segments&&j2.segments.length){
+    t.segs=j2.segments.map(x=>({s:x.s,t:x.t}));t.body=j2.segments.map(x=>x.t).join("\n");
+    save();renderReader();toast("ترانسکریپت آماده شد");
+   }else throw new Error("no speech detected");
+  }
+  if(t.body){t.lang=detectLang(t.body);t.trFailed=false;t.trErr="";}
+  save();
+ }catch(e){
+  t.trFailed=true;
+  t.trErr=/instagram blocked|login wall|empty page/i.test(e.message||e)?"اینستاگرام به ورکر وصل نشد — ورود اینستاگرام توی کلادفلر رو تازه کن، بعد «تلاش دوباره» رو بزن.":friendly(e);
+  save();toast(friendly(e),"bad");
+ }
+ delete _igTrBusy[t.id];renderReader();
+}
 async function importIG(u){
  const ig=igScOf(u);if(!ig)throw new Error("لینک اینستاگرام معتبر نیست");
  const sid="ig_"+ig.sc;
  let t=db.texts.find(x=>x.id===sid);
  if(!t){
-  const runTranscript=async()=>{
-   try{
-    let ok=false;
-    try{   // Supadata — ترانسکریپت اینستاگرام (هر خرابی به ویسپر می‌افتد)
-     const r1=await fetchT(workerURL({igsupa:u}),120000),j1=await r1.json();
-     if(!r1.ok||j1.error)throw new Error(j1.error||"HTTP "+r1.status);
-     if(j1.segments&&j1.segments.length){
-      t.segs=j1.segments.map(x=>({s:x.s,t:x.t}));t.body=j1.segments.map(x=>x.t).join("\n");
-      if(j1.title&&t.title==="Instagram · "+ig.sc)t.title="Instagram · "+j1.title;
-      save();renderReader();toast("ترانسکریپت آماده شد");ok=true;
-     }else throw new Error("no speech detected");
-    }catch(e){/* خرابی سوپادیتا → ویسپر */}
-    if(!ok){
-     const r2=await fetchT(workerURL({igtr:u}),120000),j2=await r2.json();
-     if(!r2.ok||j2.error)throw new Error(j2.error||"HTTP "+r2.status);
-     if(j2.segments&&j2.segments.length){
-      t.segs=j2.segments.map(x=>({s:x.s,t:x.t}));t.body=j2.segments.map(x=>x.t).join("\n");
-      save();renderReader();toast("ترانسکریپت آماده شد");
-     }else throw new Error("no speech detected");
-    }
-    if(t.body)t.lang=detectLang(t.body);save();
-   }catch(e){toast(friendly(e),"bad")}
-  };
   let meta=null;
   try{
    const r=await fetchT(workerURL({ig:u})),j=await r.json();
@@ -9186,7 +9203,7 @@ async function importIG(u){
    t={id:sid,added:Date.now(),title:"Instagram · "+ig.sc,lang:"en",body:"",url:u,video:{ig:ig.sc,path:ig.path}};
    db.texts.push(t);db.textId=t.id;save();$("#addPanel").hidden=true;renderReader();
    toast("در حال ترانسکریپت…");
-   await runTranscript();
+   await igTranscriptFor(t);
    return;
   }
   if(meta.kind!=="video"){
@@ -9196,7 +9213,7 @@ async function importIG(u){
    t={id:sid,added:Date.now(),title:"Instagram · "+(meta.title||ig.sc),lang:meta.caption?detectLang(meta.caption):"en",body:meta.caption||"",video:{ig:ig.sc,path:meta.path||ig.path},audio:meta.videoUrl||""};
    db.texts.push(t);db.textId=t.id;save();$("#addPanel").hidden=true;renderReader();
    toast("در حال ترانسکریپت…");
-   await runTranscript();
+   await igTranscriptFor(t);
    return;
   }
  }
