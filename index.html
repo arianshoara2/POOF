@@ -1206,7 +1206,7 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
  <div style="text-align:center;padding:8px 0 4px"><img src="icon.svg" alt="poof" style="width:72px;height:72px;border-radius:18px"></div>
  <p style="text-align:center;margin:4px 0 2px"><b>poof</b></p>
  <p class="mute" style="text-align:center;margin:0 0 12px">نسخه ۷۷</p>
- <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۳۱۹</p>
+ <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۳۲۰</p>
  <p style="margin:0 0 10px">با همکاری اصلی هوش مصنوعی موزی و آرین شعرا، با کمک چت‌جی‌پی‌تی و کلود، به‌صورت متن‌باز در گیت‌هاب ساخته شده است.</p>
  <p style="margin:0"><a href="https://github.com/arianshoara2/POOF" target="_blank" rel="noopener">github.com/arianshoara2/POOF</a></p>
 </div></div>
@@ -8894,8 +8894,8 @@ const AI_WORKER="https://billowing-dust-f182.arian311380.workers.dev"; /* ?v=258
 const AI_ROUTES=new Set(["ask","podtr","igtr"]);
 const CF_ROUTES=new Set(["yt","yta","supa","ytapi","igsupa"]); /* ?v=261: transcript routes go to Cloudflare — its worker has the Supadata/YT-API keys the Vercel worker lacks */
 const cfBase=()=>(db.cfWorker||AI_WORKER||"").trim(); /* ?v=262: pasted Cloudflare address wins, else the built-in worker */
-function workerURL(params,forceCF){
- const isCF=forceCF||Object.keys(params).some(k=>AI_ROUTES.has(k)||CF_ROUTES.has(k));
+function workerURL(params,forceCF,forceVercel){   // ?v=320: forceVercel → ورسل (برای وقتی کلادفلر رد می‌کنه)
+ const isCF=forceVercel?false:(forceCF||Object.keys(params).some(k=>AI_ROUTES.has(k)||CF_ROUTES.has(k)));
  const p=isCF?cfBase():(db.proxy||"").trim();if(!p)throw new Error("noproxy");
  const u=new URL(p.replace("{url}","x"));u.searchParams.delete("url");
  Object.entries(params).forEach(([k,v])=>u.searchParams.set(k,v));
@@ -9105,6 +9105,14 @@ async function importYT(id,want){
    if(!subLangOK(data.lang,want,data.segments)){wrongLang=true;data=null;throw new Error("wrong subtitle language");}
   }catch(e){/* هر خرابی API → افتادن به timedtext */}
   if(!data)try{data=await ytTimedText(id,want)}catch(e){fbErr=e}
+  if(!data)try{   // ?v=320: ورسل — وقتی کلادفلر رد می‌کنه (کلید هوش مصنوعی اشتباه/خالی)، ورسل زیرنویس مستقیم یوتیوب رو با کلید ورسل می‌گیره؛ سهمیه‌ی APIها لازم نیست
+   const r=await fetchT(workerURL({yt:id,lang:want||""},false,true)),j=await r.json();
+   if(!r.ok||j.error)throw new Error(j.error||"HTTP "+r.status);
+   if(!j.segments||!j.segments.length)throw new Error("no transcript");
+   if(!srcSegs){srcSegs=j.segments;srcLang=j.lang||"";}
+   data={segments:j.segments,title:j.title,lang:j.lang,translated:!!j.translated};
+   if(!subLangOK(data.lang,want,data.segments)){wrongLang=true;data=null;throw new Error("wrong subtitle language");}
+  }catch(e){/* ورسل هم نداد → همان خطای قبلی */}
   // ترجمه ماشینی کل زیرنویس (مثل بخش فیلم‌ها — zbLoadGerman): وقتی هیچ مسیری زیرنویس هم‌زبان نداد، بهترین ترک موجود را با tr() ترجمه کن
   if(!data&&want&&want!=="auto"){
    try{
