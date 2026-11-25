@@ -1206,7 +1206,7 @@ html[data-theme="ocean"][data-bgimg="on"] #s-cards #list .card::after{background
  <div style="text-align:center;padding:8px 0 4px"><img src="icon.svg" alt="poof" style="width:72px;height:72px;border-radius:18px"></div>
  <p style="text-align:center;margin:4px 0 2px"><b>poof</b></p>
  <p class="mute" style="text-align:center;margin:0 0 12px">نسخه ۷۷</p>
- <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۳۲۰</p>
+ <p class="mute" style="text-align:center;margin:0 0 12px">ساخت ۳۲۱</p>
  <p style="margin:0 0 10px">با همکاری اصلی هوش مصنوعی موزی و آرین شعرا، با کمک چت‌جی‌پی‌تی و کلود، به‌صورت متن‌باز در گیت‌هاب ساخته شده است.</p>
  <p style="margin:0"><a href="https://github.com/arianshoara2/POOF" target="_blank" rel="noopener">github.com/arianshoara2/POOF</a></p>
 </div></div>
@@ -7992,7 +7992,7 @@ function renderReader(){
  if(t.segs){
   const igv=t.video&&t.video.ig;
   const srcOf=g=>t.pod?("podcast:"+t.id+"@"+Math.floor(g.s)):igv?("ig:"+t.video.ig+"@"+Math.floor(g.s)):t.video?("video:"+t.video.id+"@"+Math.floor(g.s)):("local:"+Math.floor(g.s));
-  $("#text").innerHTML=t.video&&t.video.id&&!t.segs.length?`<div class="empty-wrap"><p class="state empty">${t.authFail?YT_KEY_MSG:YT_BOT_MSG}</p></div>`:dispSegs(t).flatMap((g,k)=>{const _gt=g.t||"";const pcs=_gt.length>160?splitSentences(_gt):[_gt];return pcs.map((pc,j)=>`<div class="tline" id="sg${k}${j?"-"+j:""}">${`<button class="ts" data-ts="${g.s}">${mmss(g.s)}</button>`}${sr(pc,dispLang(t),"",srcOf(g))}</div>`);}).join("");
+  $("#text").innerHTML=t.video&&t.video.id&&!t.segs.length?`<div class="empty-wrap"><p class="state empty">${t.authFail?YT_KEY_MSG:YT_BOT_MSG}</p>${_ytTrBusy[t.video.id]?`<p class="mute">در حال دریافت زیرنویس…</p>`:`<p><button class="btn sm" data-yt-retry>🔄 تلاش دوباره برای زیرنویس</button></p>`}</div>`:dispSegs(t).flatMap((g,k)=>{const _gt=g.t||"";const pcs=_gt.length>160?splitSentences(_gt):[_gt];return pcs.map((pc,j)=>`<div class="tline" id="sg${k}${j?"-"+j:""}">${`<button class="ts" data-ts="${g.s}">${mmss(g.s)}</button>`}${sr(pc,dispLang(t),"",srcOf(g))}</div>`);}).join("");
  }else if(t.pod){const ytm=(t.body||"").match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?[^#]*v=|embed\/|shorts\/))([A-Za-z0-9_-]{11})/);$("#text").innerHTML=((t.body||"")?`<p class="mute">توضیحات قسمت — متن گفتگو برای این قسمت موجود نیست.</p>`:"")+((t.body||"")&&ytm?`<p><button class="btn sm" data-pod-yt>▶ دریافت متن گفتگو از یوتیوب</button></p>`:"")+(t.body||"").split(/\n\s*\n/).map(txtParaHTML).join("")||`<p class="state empty">بدون متن — فقط صوت.</p>`;}else if(t.wpBlocks&&t.wpBlocks.length){
   /* ?v=281: ترجمه‌ی فعال (فا/EN/DE) → متن ساده‌ی ترجمه‌شده؛ «اصلی» → چیدمان غنی آلمانی */
   if(t.viewLang&&t.tr&&t.tr[t.viewLang])$("#text").innerHTML=dispBody(t).split(/\n\s*\n/).map(txtParaHTML).join("")||`<div class="empty-wrap"><p class="state empty">این متن محتوایی ندارد.</p></div>`;
@@ -8057,6 +8057,7 @@ function hlApply(){
 const hlTogEl=$("#hlTog");
 if(hlTogEl)hlTogEl.onclick=()=>{try{localStorage.setItem("poof_hl",hlOn()?"0":"1")}catch(_){ } hlApply()};
 $("#text").onclick=e=>{if(lpSuppress)return;const el=e.target.closest(".w");if(el)pick(el,e.shiftKey)};$("#text").addEventListener("click",e=>{const b=e.target.closest("[data-ig-retry]");if(!b)return;const t=curText();if(t)igTranscriptFor(t);});
+$("#text").addEventListener("click",async e=>{const b=e.target.closest("[data-yt-retry]");if(!b)return;const t=curText();if(!t||!t.video||!t.video.id)return;const id=t.video.id;if(_ytTrBusy[id])return;_ytTrBusy[id]=true;renderReader();try{await importYT(id,t.want||"auto");}catch(err){}delete _ytTrBusy[id];renderReader();});
 $("#text").onkeydown=e=>{if(e.key==="Enter"||e.key===" "){const el=e.target.closest(".w");if(el){e.preventDefault();pick(el)}}};
 /* ===== کتابخانه‌ی متن‌ها: تاریخچه‌ی تمیز لینک‌ها و متن‌ها ===== */
 const kindOf=t=>t.pod?"pod":t.video&&t.video.id?"yt":t.video&&t.video.ig?"ig":t.wp?"wp":t.url?"web":"txt";
@@ -9064,6 +9065,7 @@ async function setIGLang(t,want){
  }catch(e){toast("ترجمه ممکن نشد","bad")}
  finally{trBusy=false;trHide("#vpTr");}
 }
+let _ytTrBusy={};   // ?v=321: تلاش دوباره‌ی زیرنویس یوتیوب (مثل تلاش دوباره‌ی ترانسکریپت اینستا در ?v=319)
 async function importYT(id,want){
  const sid="yt_"+id+"_"+(want||"auto");
  let t=db.texts.find(x=>x.id===sid);
@@ -9267,6 +9269,7 @@ $("#tGet").onclick=async()=>{
 };
 
 /* ===== پخش‌کننده‌ی یوتیوب + دنبال‌کردن زیرنویس ===== */
+function vpTopPad(){const v=$("#vp");if(!v||v.hidden)return 280;const b=v.getBoundingClientRect().bottom;return Math.max(280,b+12);}   // ?v=321: خط فعلی زیرنویس باید زیر پخش‌کننده‌ی چسبان (#vp) بماند، نه زیر آن
 let ytp=null,ytLoad=null,ytpToken=0,follow=true,lastCur=-1,lastPiece=-1;
 function loadYT(){
  if(window.YT&&YT.Player)return Promise.resolve(true);
@@ -9398,7 +9401,7 @@ setInterval(()=>{
   if(i!==lastCur){lastCur=i;lastPiece=p;vpSetCur(i,c);
    $$("#text .tline.cur").forEach(x=>x.classList.remove("cur"));
    const el=$("#sg"+i);if(!el)return;el.classList.add("cur");
-   if(follow&&!sel&&!$("#text").hidden){const r=el.getBoundingClientRect();if(r.top<280||r.bottom>innerHeight-120)scrollBy({top:r.top-300,behavior:"smooth"})}
+   if(follow&&!sel&&!$("#text").hidden){const r=el.getBoundingClientRect();const _tp=vpTopPad();if(r.top<_tp||r.bottom>innerHeight-120)scrollBy({top:r.top-_tp,behavior:"smooth"})}
   }else if(p!==lastPiece){lastPiece=p;vpSetCur(i,c);}
   return;
  }
@@ -9410,7 +9413,7 @@ setInterval(()=>{
  if(i!==lastCur){lastCur=i;lastPiece=p;vpSetCur(i,c);
   $$("#text .tline.cur").forEach(x=>x.classList.remove("cur"));
   const el=$("#sg"+i);if(!el)return;el.classList.add("cur");
-  if(follow&&!sel&&!$("#text").hidden){const r=el.getBoundingClientRect();if(r.top<280||r.bottom>innerHeight-120)scrollBy({top:r.top-300,behavior:"smooth"})}
+  if(follow&&!sel&&!$("#text").hidden){const r=el.getBoundingClientRect();const _tp=vpTopPad();if(r.top<_tp||r.bottom>innerHeight-120)scrollBy({top:r.top-_tp,behavior:"smooth"})}
  }else if(p!==lastPiece){lastPiece=p;vpSetCur(i,c);}
 },500);
 $("#text").addEventListener("click",e=>{
@@ -10609,10 +10612,11 @@ function bulkParseKeys(raw){
   const classify=t=>{
     t=t.replace(/^bearer\s+/i,"");
     let force=null;
-    const lm=t.match(/^(vercel|ورسل|ai|ai-key|cloudflare|کلادفلر)\s*:\s*/i);
-    if(lm){force=/^(ai|ai-key|cloudflare|کلادفلر)$/i.test(lm[1])?"aiKey":"wkey";t=t.slice(lm[0].length).trim();}
+    const lm=t.match(/^(vercel|ورسل|ai|ai-key|cloudflare|کلادفلر|zaban|زبان)\s*:\s*/i);
+    if(lm){const lbl=lm[1].toLowerCase();force=/^(ai|ai-key|cloudflare|کلادفلر)$/i.test(lbl)?"aiKey":(/^(zaban|زبان)$/i.test(lbl)?"zb":"wkey");t=t.slice(lm[0].length).trim();}
     if(/^https?:\/\//i.test(t)){const m=t.match(/https?:\/\/\S+/);const u=m[0].replace(/[.,،؛;]+$/,"");return [/workers\.dev/i.test(u)?"cfWorker":"proxy",u];}
     if(/^\d+\|[A-Za-z0-9_-]+$/.test(t)) return ["zb",t];
+    if(/^ZKN[A-Za-z0-9_-]{20,}$/.test(t)) return ["zb",t];   // ?v=321: توکن زبان بدون پیشوند عددی (ZKN…) — قبلاً به‌اشتباه کلید هوش مصنوعی می‌شد
     if(/^vcp_[A-Za-z0-9_-]+$/i.test(t)||/^vck_[A-Za-z0-9_-]+$/i.test(t)) return ["deployToken",t];
     if(/^[A-Za-z0-9_-]{32,}$/.test(t)) return [force||"wkey",t];
     return null;
@@ -10624,7 +10628,7 @@ function bulkParseKeys(raw){
     if(!found.proxy){const urls=blob.match(/https:\/\/[^\s'"]+/g)||[];const m=urls.find(u=>!/workers\.dev/i.test(u))||urls[0];if(m)found.proxy=m.replace(/[.,،؛;]+$/,"");}
     if(!found.cfWorker){const m=(blob.match(/https:\/\/[^\s'"]+/g)||[]).find(u=>/workers\.dev/i.test(u));if(m)found.cfWorker=m.replace(/[.,،؛;]+$/,"");}
     if(!found.zb){const m=blob.match(/\d+\|[A-Za-z0-9_-]{48}/)||blob.match(/\d+\|[A-Za-z0-9_-]{20,}/);if(m)found.zb=m[0];}
-    if(!found.wkey||!found.aiKey){const rest=blob.replace(/https:\/\/[^\s'"]+/g," ").replace(/\d+\|[A-Za-z0-9_-]+/g," ");const toks=rest.split(/\s+/).filter(x=>/^[A-Za-z0-9_-]{32,}$/.test(x)&&!/^vcp_/i.test(x)&&!/^vck_/i.test(x)).sort((a,b)=>b.length-a.length);if(!found.wkey&&toks.length)found.wkey=toks[0];if(!found.aiKey&&toks.length>1)found.aiKey=toks[1];}
+    if(!found.wkey||!found.aiKey){const rest=blob.replace(/https:\/\/[^\s'"]+/g," ").replace(/\d+\|[A-Za-z0-9_-]+/g," ");const toks=rest.split(/\s+/).filter(x=>/^[A-Za-z0-9_-]{32,}$/.test(x)&&!/^vcp_/i.test(x)&&!/^vck_/i.test(x)&&!/^ZKN/i.test(x)).sort((a,b)=>b.length-a.length);if(!found.wkey&&toks.length)found.wkey=toks[0];if(!found.aiKey&&toks.length>1)found.aiKey=toks[1];}
   }
   return found;
 }
